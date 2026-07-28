@@ -17,7 +17,7 @@ export const DIMENSIONS = [
 ];
 
 const V = (dimension, code, bg, en, order = 0, description = null) =>
-  ({ dimension, code, label: { bg, en }, order, description });
+  ({ key: dimension + ':' + code, dimension, code, label: { bg, en }, order, description });
 
 export const VOCABULARY = [
   // --- fibre -------------------------------------------------------------
@@ -252,7 +252,7 @@ export const VOCABULARY = [
 // be revised — they ship as data precisely so revising them costs nothing.
 // The numbers below are provisional and still to be checked against practice.
 const B = (dimension, code, min, max, unit, bg, en) =>
-  ({ dimension, code, min, max, unit, label: { bg, en } });
+  ({ key: dimension + ':' + code, dimension, code, min, max, unit, label: { bg, en } });
 
 export const BANDS = [
   B('concentration', 'trace',  0,    0.5,  '%', 'следи',  'trace'),

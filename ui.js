@@ -90,7 +90,9 @@ export function pairField(labelText, name, pair = {}, { multiline = false, place
     ? `<textarea data-pair="${name}.${langCode}" rows="3" placeholder="${esc(placeholder)}">${esc(value || '')}</textarea>`
     : `<input type="text" data-pair="${name}.${langCode}" value="${esc(value || '')}" placeholder="${esc(placeholder)}">`;
 
-  const missing = needsTranslation(pair, other);
+  // Only flag a missing translation once there is something to translate.
+  // An empty record is not "untranslated", it is empty.
+  const missing = !!(pair && pair[primary] && needsTranslation(pair, other));
 
   return `
     <div class="field pairfield">

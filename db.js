@@ -2,7 +2,7 @@
 // Migrations only ever ADD. Nothing is renamed or removed, ever.
 
 const DB_NAME = 'bagra';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 // Every top-level entity from §13 gets a store. Nested lists (steps,
 // placements, state events) are embedded in their parent, not stored apart.
@@ -16,8 +16,11 @@ export const STORES = {
   combinations: { keyPath: 'id', indexes: ['confidence', 'updatedAt'] },
   trials:       { keyPath: 'id', indexes: ['date', 'processCode', 'updatedAt'] },
   photos:       { keyPath: 'id', indexes: ['ownerType', 'ownerId'] },
-  vocabulary:   { keyPath: 'code', indexes: ['dimension'] },
-  bands:        { keyPath: 'code', indexes: ['dimension'] },
+  // Key is dimension + code, never code alone: the same code legitimately
+  // appears in several dimensions (`mordant` is a substance category, a recipe
+  // type AND a step type). Keyed on code alone they overwrite one another.
+  vocabulary:   { keyPath: 'key', indexes: ['dimension', 'code'] },
+  bands:        { keyPath: 'key', indexes: ['dimension', 'code'] },
   settings:     { keyPath: 'key' },
 };
 
@@ -32,8 +35,18 @@ export function open() {
       const db = req.result;
       // v1 — initial creation. Later versions append their own blocks below
       // and never touch this one.
-      // Migrations only ever ADD. Creating a store that already exists is
-      // skipped rather than replaced, so no existing data is ever touched.
+      // v3 — vocabulary and bands were keyed on `code` alone, which silently
+      // dropped every term whose code exists in more than one dimension. They
+      // hold only seed data, regenerated on next start, so recreating them
+      // loses nothing the user wrote.
+      if (e.oldVersion < 3) {
+        for (const name of ['vocabulary', 'bands']) {
+          if (db.objectStoreNames.contains(name)) db.deleteObjectStore(name);
+        }
+      }
+
+      // Otherwise migrations only ever ADD. Creating a store that already
+      // exists is skipped rather than replaced, so user data is never touched.
       for (const [name, def] of Object.entries(STORES)) {
         if (db.objectStoreNames.contains(name)) continue;
         const store = db.createObjectStore(name, { keyPath: def.keyPath });

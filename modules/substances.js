@@ -173,7 +173,8 @@ async function renderForm(root, r) {
           ${panel(`
             <h2>${t('substances.identity')}</h2>
             ${field(t('materials.category'), `<select data-f="category">${await options('material_category', r.category, '')}</select>`)}
-            ${pairField(t('materials.name'), 'name', r.name)}
+            ${field(t('materials.name'), `<input type="text" data-f="nameText" value="${esc(text(r.name))}">`,
+              t('substances.nameHint'))}
           `)}
 
           ${panel(`
@@ -227,6 +228,13 @@ function readForm(root) {
   }
   Object.assign(draft, multi);
   readPairs(root, draft);
+
+  // A chemical name is effectively the same in both languages, so it is a
+  // plain field rather than a pair — one less thing to fill in twice.
+  if (draft.nameText !== undefined) {
+    draft.name = { bg: draft.nameText, en: draft.nameText };
+    delete draft.nameText;
+  }
 }
 
 export default {
