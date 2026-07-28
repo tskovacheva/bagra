@@ -1,7 +1,7 @@
 # Багра / Rubia
 
 A record-keeping and **reference** application for natural dyeing and eco printing,
-by [Crafty Place](https://craftyplace.eu).
+by [Crafty Place](https://crafty.place).
 
 Багра in Bulgarian, Rubia in English — after *Rubia tinctorum*, madder, one of the two
 oldest dyes in the world. The app is bilingual, so it carries two names rather than a
