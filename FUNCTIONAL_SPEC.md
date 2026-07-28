@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.7 — bilingual policy relaxed: paired structure, optional second language
+**Status:** v1.8 — plant cultivation, harvest, dosing and temperature blocks
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -209,7 +209,37 @@ is a physical thing on a shelf. A single plant entry may back several material r
 - **Identification note** — what the plant looks like and where it is encountered. A reference the
   user consults while out walking has to help her recognise the plant, not only look it up
 - **Distribution / native range**
-- Extraction method and temperature sensitivity (some colours die above 70 °C)
+
+#### Cultivation — a block the model originally lacked
+The owner grows dye plants rather than only foraging them, and her own guide organises every
+profile around growing as much as around dyeing. Reference material that stops at chemistry is
+useless in the garden, so a plant carries:
+
+- **Agronomy** — light, soil structure, watering, soil pH (madder wants alkaline, limey ground at
+  pH 7–8; getting this wrong means no dye at all, three years later)
+- **Propagation** — from seed, from rhizome division, when to sow
+- **Care and maintenance**
+- **Pests and diseases**, and any invasiveness warning — madder needs its own bed or a deep raised
+  one, which is a planting decision, not a footnote
+- **Years to maturity** — madder roots only begin accumulating dye after two or three years. A
+  reference that omits this invites a wasted season
+
+#### Harvest and processing
+Distinct from *preparation before bundling*, which is an eco print concern. This is what happens
+between the garden and the jar: when to lift or cut, washing, drying time and conditions, cutting
+or crushing, storage.
+
+- **Drying ratio** — drying reduces madder root roughly sixfold. Any recipe written for dry
+  material must be rescaled when fresh material is used, so this is a number the calculators need,
+  not a remark
+
+#### Dosing and temperature — structured, because the calculators read them
+- **% WOF guidance per part and per condition** — madder root at 50–100% WOF dried, 200–300%
+  fresh. One figure per plant would be wrong twice over
+- **Extraction temperature** and **dyeing temperature** as separate ranges (madder: 60–75 °C and
+  60–70 °C)
+- **Hard ceiling** — some dyes are destroyed by boiling. Recorded as `maxTempC` so a trial step
+  above it can be flagged, in the same way as titanium oxalate on the mordant side
 - Seasonality — when to harvest, how the season changes the result
 - Substantivity — does it need a mordant, or is it substantive
 - Lightfastness / washfastness notes
@@ -693,7 +723,20 @@ parts           [ PlantPart ]
 role            [ "dye" | "ecoprint" | "mordant_accumulator" ]
 chemistry       [ { classCode, level, note } ]   // level: trace|moderate|high|dominant
 substantive     boolean | null          // dyes without a mordant?
-tempSensitive   boolean, tempMaxC       // some colours die above ~70 °C
+cultivation     {
+                  light, soilStructure, watering, soilPh,
+                  propagation {bg,en}, care {bg,en}, pests {bg,en},
+                  invasive: boolean, invasiveNote {bg,en},
+                  yearsToMaturity: number | null
+                } | null
+harvest         {
+                  whenNote {bg,en}, processing {bg,en},
+                  dryingRatio: number | null   // fresh weight ÷ dried weight
+                } | null
+dosing          [ { partCode, condition, percentWofMin, percentWofMax } ]
+tempExtractC    { min, max } | null
+tempDyeC        { min, max } | null
+maxTempC        number | null           // hard ceiling; flagged when a step exceeds it
 seasonality     { harvestMonths: [int], note {bg,en} }
 lightfastness   code | null             // poor|moderate|good|excellent|unknown
 washfastness    code | null

@@ -17,7 +17,10 @@ let draft = null;
 async function nextLabel() {
   const n = (await getSetting('fabricLabelCounter', 0)) + 1;
   await setSetting('fabricLabelCounter', n);
-  return 'П-' + String(n).padStart(3, '0');
+  // The prefix is written by hand on a paper tag, so it stays a setting
+  // rather than a translated string — the tag does not change language.
+  const prefix = await getSetting('fabricLabelPrefix', 'П');
+  return prefix + '-' + String(n).padStart(3, '0');
 }
 
 function blank() {
@@ -75,32 +78,32 @@ async function renderList(root) {
       <td>${esc(compNames.join(' + '))}</td>
       <td>${esc(await label('fibre_class', fibreClass(f.composition)))}</td>
       <td>${esc(await label('fabric_structure', f.structure))}</td>
-      <td class="num">${f.weightG ? f.weightG + ' г' : '—'}</td>
+      <td class="num">${f.weightG ? f.weightG + ' ' + t('fabrics.grams') : '—'}</td>
       <td><span class="chip">${esc(await label('fabric_state', currentState(f)))}</span>${
-        cured != null ? `<span class="hint"> · ${cured} дни</span>` : ''}</td>
+        cured != null ? `<span class="hint"> · ${t('common.days', { n: cured })}</span>` : ''}</td>
     </tr>`;
   }));
 
   const table = shown.length ? `
     <table class="grid">
       <thead><tr>
-        <th>Етикет</th><th>Име</th><th>Състав</th><th>Клас</th>
-        <th>Структура</th><th class="num">Тегло</th><th>Кутия</th>
+        <th>${t('fabrics.col.label')}</th><th>${t('fabrics.col.name')}</th><th>${t('fabrics.col.composition')}</th><th>${t('fabrics.col.class')}</th>
+        <th>${t('fabrics.col.structure')}</th><th class="num">${t('fabrics.col.weight')}</th><th>${t('fabrics.col.box')}</th>
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
     </table>`
     : empty(
-        filterState ? 'В тази кутия няма нищо.' : 'Още няма записани тъкани.',
-        'Всеки запис е едно физическо парче — една дреха, един шал, едно руло.');
+        filterState ? t('fabrics.emptyBox') : t('fabrics.empty'),
+        t('fabrics.emptyHint'));
 
   root.innerHTML = page({
     title: t('fabrics.title'),
     sub: t('fabrics.sub'),
-    actions: `<button class="btn primary" data-new>Нова тъкан</button>`,
+    actions: `<button class="btn primary" data-new>${t('fabrics.new')}</button>`,
     body: `
       <div class="boxes">
         <button class="box${filterState === null ? ' active' : ''}" data-box="">
-          <span class="boxname">Всички</span>
+          <span class="boxname">${t('common.all')}</span>
           <span class="boxcount">${fabrics.length}</span>
         </button>
         ${boxes.join('')}
@@ -116,9 +119,9 @@ async function compositionRows(composition) {
     <div class="comprow">
       <select data-comp-fibre="${i}">${await options('fibre', c.fibreCode, '—')}</select>
       <input type="number" min="0" max="100" step="0.5" value="${c.percent ?? ''}"
-             data-comp-pct="${i}" aria-label="процент">
+             data-comp-pct="${i}" aria-label="${t('fabrics.percent')}">
       <span class="pct">%</span>
-      <button class="btn quiet" data-comp-del="${i}" aria-label="премахни">×</button>
+      <button class="btn quiet" data-comp-del="${i}" aria-label="${t('fabrics.removeFibre')}">×</button>
     </div>`));
   return rows.join('');
 }
@@ -129,17 +132,17 @@ async function derivedBlock(composition) {
   const lines = [];
 
   if (cls) {
-    lines.push(note(`Клас влакно: <b>${esc(await label('fibre_class', cls))}</b> · багрилоприемаща част: <b>${receptive}%</b>`));
+    lines.push(note(t('fabrics.derived', { cls: esc(await label('fibre_class', cls)), pct: receptive })));
   }
   for (const w of compositionWarnings(composition)) {
     if (w.code === 'total') {
-      lines.push(note(`Съставът дава <b>${w.total}%</b> вместо 100%.`, 'error'));
+      lines.push(note(t('fabrics.warn.total', { total: w.total }), 'error'));
     }
     if (w.code === 'mixed') {
-      lines.push(note('Смесена целулоза и протеин — двете части приемат мордант и цвят различно. Един мордантен маршрут няма да свърши работа за целия плат.', 'warn'));
+      lines.push(note(t('fabrics.warn.mixed'), 'warn'));
     }
     if (w.code === 'synthetic_major') {
-      lines.push(note(`${w.percent}% синтетика — по-голямата част от плата няма да приеме багрило.`, 'warn'));
+      lines.push(note(t('fabrics.warn.synthetic', { pct: w.percent }), 'warn'));
     }
   }
   return lines.join('');
@@ -149,82 +152,82 @@ async function renderForm(root, record) {
   const isNew = openId === 'new';
 
   const originFields = record.origin === 'reclaimed'
-    ? field('Какво е било', `<input type="text" data-f="originDetail.wasA" value="${esc(record.originDetail?.wasA || '')}" placeholder="стар чаршаф, тениска…">`) +
-      field('Състояние', `<input type="text" data-f="originDetail.condition" value="${esc(record.originDetail?.condition || '')}">`)
-    : field('Доставчик', `<input type="text" data-f="originDetail.supplier" value="${esc(record.originDetail?.supplier || '')}">`) +
-      field('Дата на покупка', `<input type="date" data-f="originDetail.purchaseDate" value="${esc(record.originDetail?.purchaseDate || '')}">`);
+    ? field(t('fabrics.wasA'), `<input type="text" data-f="originDetail.wasA" value="${esc(record.originDetail?.wasA || '')}" placeholder="${t('fabrics.wasAPlaceholder')}">`) +
+      field(t('fabrics.condition'), `<input type="text" data-f="originDetail.condition" value="${esc(record.originDetail?.condition || '')}">`)
+    : field(t('fabrics.supplier'), `<input type="text" data-f="originDetail.supplier" value="${esc(record.originDetail?.supplier || '')}">`) +
+      field(t('fabrics.purchaseDate'), `<input type="date" data-f="originDetail.purchaseDate" value="${esc(record.originDetail?.purchaseDate || '')}">`);
 
   const history = stateHistory(record);
   const historyRows = history.length
     ? (await Promise.all(history.map(async e => `
         <li><b>${esc(await label('fabric_state', e.stateCode))}</b>
         <span class="hint">${fmtDate(e.date)}</span></li>`))).join('')
-    : `<li class="hint">Още няма записани преходи.</li>`;
+    : `<li class="hint">${t('fabrics.noTransitions')}</li>`;
 
   root.innerHTML = page({
-    title: isNew ? 'Нова тъкан' : (record.name || record.label || 'Тъкан'),
-    sub: isNew ? 'Едно парче — една дреха, един шал, едно руло.' : record.label,
-    actions: `<button class="btn quiet" data-back>Назад</button>
-              <button class="btn primary" data-save>Запази</button>`,
+    title: isNew ? t('fabrics.new') : (record.name || record.label || t('fabrics.one')),
+    sub: isNew ? t('fabrics.newSub') : record.label,
+    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+              <button class="btn primary" data-save>${t('common.save')}</button>`,
     body: `
       <div class="cols">
         <div class="col">
           ${panel(`
-            <h2>Идентичност</h2>
-            ${field('Етикет', `<input type="text" data-f="label" class="mono" value="${esc(record.label || '')}">`,
-              'Кодът, който пишеш на етикета с безопасната игла.')}
-            ${field('Име', `<input type="text" data-f="name" value="${esc(record.name || '')}" placeholder="стар чаршаф, копринен шал…">`)}
-            ${field('Произход', `<select data-f="origin">
-                <option value="new"${record.origin === 'new' ? ' selected' : ''}>нов плат</option>
-                <option value="reclaimed"${record.origin === 'reclaimed' ? ' selected' : ''}>стара дреха / втора употреба</option>
+            <h2>${t('fabrics.identity')}</h2>
+            ${field(t('fabrics.label'), `<input type="text" data-f="label" class="mono" value="${esc(record.label || '')}">`,
+              t('fabrics.labelHint'))}
+            ${field(t('fabrics.name'), `<input type="text" data-f="name" value="${esc(record.name || '')}" placeholder="${t('fabrics.namePlaceholder')}">`)}
+            ${field(t('fabrics.origin'), `<select data-f="origin">
+                <option value="new"${record.origin === 'new' ? ' selected' : ''}>${t('fabrics.origin.new')}</option>
+                <option value="reclaimed"${record.origin === 'reclaimed' ? ' selected' : ''}>${t('fabrics.origin.reclaimed')}</option>
               </select>`)}
             ${originFields}
-            ${field('Форма', `<select data-f="form">${await options('fabric_form', record.form)}</select>`)}
-            ${field('Структура', `<select data-f="structure">${await options('fabric_structure', record.structure)}</select>`)}
-            ${field('Основен цвят', `<select data-f="baseColour">
-                <option value="natural"${record.baseColour === 'natural' ? ' selected' : ''}>суров</option>
-                <option value="bleached"${record.baseColour === 'bleached' ? ' selected' : ''}>избелен</option>
-                <option value="predyed"${record.baseColour === 'predyed' ? ' selected' : ''}>вече боядисан</option>
-                <option value="dyed_by_me"${record.baseColour === 'dyed_by_me' ? ' selected' : ''}>боядисан от мен</option>
+            ${field(t('fabrics.form'), `<select data-f="form">${await options('fabric_form', record.form)}</select>`)}
+            ${field(t('fabrics.structure'), `<select data-f="structure">${await options('fabric_structure', record.structure)}</select>`)}
+            ${field(t('fabrics.baseColour'), `<select data-f="baseColour">
+                <option value="natural"${record.baseColour === 'natural' ? ' selected' : ''}>${t('fabrics.colour.natural')}</option>
+                <option value="bleached"${record.baseColour === 'bleached' ? ' selected' : ''}>${t('fabrics.colour.bleached')}</option>
+                <option value="predyed"${record.baseColour === 'predyed' ? ' selected' : ''}>${t('fabrics.colour.predyed')}</option>
+                <option value="dyed_by_me"${record.baseColour === 'dyed_by_me' ? ' selected' : ''}>${t('fabrics.colour.dyed_by_me')}</option>
               </select>`)}
           `)}
 
           ${panel(`
-            <h2>Състав</h2>
+            <h2>${t('fabrics.composition')}</h2>
             <div class="complist">${await compositionRows(record.composition || [])}</div>
-            <button class="btn quiet" data-comp-add>+ влакно</button>
+            <button class="btn quiet" data-comp-add>${t('fabrics.addFibre')}</button>
             <div class="derived">${await derivedBlock(record.composition || [])}</div>
           `)}
         </div>
 
         <div class="col">
           ${panel(`
-            <h2>Мярка</h2>
-            ${field('Тегло (г)', `<input type="number" step="1" min="0" data-f="weightG" value="${record.weightG ?? ''}">`,
-              'Нужно е за всяко изчисление в % WOF.')}
-            ${field('Размери', `<input type="text" data-f="dimensions" value="${esc(record.dimensions || '')}" placeholder="40×180 см, размер M">`)}
-            ${field('Плътност (г/м²)', `<input type="number" step="1" min="0" data-f="weightGsm" value="${record.weightGsm ?? ''}">`)}
-            ${field('Количество', `<input type="number" step="0.1" min="0" data-f="quantity.value" value="${record.quantity?.value ?? 1}">`)}
+            <h2>${t('fabrics.measure')}</h2>
+            ${field(t('fabrics.weightG'), `<input type="number" step="1" min="0" data-f="weightG" value="${record.weightG ?? ''}">`,
+              t('fabrics.weightHint'))}
+            ${field(t('fabrics.dimensions'), `<input type="text" data-f="dimensions" value="${esc(record.dimensions || '')}" placeholder="${t('fabrics.dimensionsPlaceholder')}">`)}
+            ${field(t('fabrics.gsm'), `<input type="number" step="1" min="0" data-f="weightGsm" value="${record.weightGsm ?? ''}">`)}
+            ${field(t('fabrics.quantity'), `<input type="number" step="0.1" min="0" data-f="quantity.value" value="${record.quantity?.value ?? 1}">`)}
           `)}
 
           ${panel(`
-            <h2>Кутия и история</h2>
+            <h2>${t('fabrics.boxHistory')}</h2>
             ${isNew
-              ? field('Начално състояние', `<select data-f="state">${await options('fabric_state', record.state, '')}</select>`,
-                  'В коя кутия влиза сега.')
-              : `<p class="note">Сега е в кутия <b>${esc(await label('fabric_state', currentState(record)))}</b>.</p>
+              ? field(t('fabrics.initialState'), `<select data-f="state">${await options('fabric_state', record.state, '')}</select>`,
+                  t('fabrics.initialStateHint'))
+              : `<p class="note">${t('fabrics.nowIn', { state: esc(await label('fabric_state', currentState(record))) })}</p>
                  <ul class="history">${historyRows}</ul>
                  <div class="addstate">
-                   ${field('Нов преход', `<select data-newstate>${await options('fabric_state', '', 'избери…')}</select>`)}
-                   ${field('Дата', `<input type="date" data-newstate-date value="${today()}">`)}
-                   <button class="btn" data-add-state>Запиши прехода</button>
+                   ${field(t('fabrics.newTransition'), `<select data-newstate>${await options('fabric_state', '', t('common.choose'))}</select>`)}
+                   ${field(t('common.date'), `<input type="date" data-newstate-date value="${today()}">`)}
+                   <button class="btn" data-add-state>${t('fabrics.addTransition')}</button>
                  </div>`}
           `)}
 
           ${panel(`
-            <h2>Бележки</h2>
-            ${field('', `<textarea data-f="notes" rows="4" placeholder="как се свива, как приема цвят…">${esc(record.notes || '')}</textarea>`)}
-            ${!isNew ? `<button class="btn danger quiet" data-delete>Изтрий тъканта</button>` : ''}
+            <h2>${t('common.notes')}</h2>
+            ${field('', `<textarea data-f="notes" rows="4" placeholder="${t('fabrics.notesPlaceholder')}">${esc(record.notes || '')}</textarea>`)}
+            ${!isNew ? `<button class="btn danger quiet" data-delete>${t('fabrics.delete')}</button>` : ''}
           `)}
         </div>
       </div>`,
@@ -321,14 +324,14 @@ export default {
         readForm(root);
         const total = compositionTotal(draft.composition);
         if (draft.composition.length && Math.round(total) !== 100 &&
-            !confirm(`Съставът дава ${total}% вместо 100%. Да запазя ли така?`)) return;
+            !confirm(t('fabrics.confirmTotal', { total }))) return;
         await put('fabrics', draft);
         openId = null; draft = null;
         return this.render(root);
       }
 
       if (e.target.closest('[data-delete]')) {
-        if (!confirm('Да изтрия ли тази тъкан?')) return;
+        if (!confirm(t('fabrics.confirmDelete'))) return;
         await remove('fabrics', draft.id);
         openId = null; draft = null;
         return this.render(root);
