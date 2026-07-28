@@ -145,12 +145,19 @@ async function propertiesBlock(r) {
       ${pairField(t('materials.effect'), 'effectNotes', r.effectNotes, { multiline: true })}`;
   }
 
-  return `<p class="hint">—</p>`;
+  // Auxiliaries have no category-specific properties. An empty panel is a
+  // sign the code drew something before checking there was anything to draw.
+  return '';
 }
+
+// Formula, hydration and molar mass only mean something for a defined
+// compound. A tannin extract or a dried root is a mixture, not a molecule.
+const HAS_CHEMISTRY = ['mordant', 'modifier', 'auxiliary'];
 
 async function renderForm(root, r) {
   const isNew = openId === 'new';
   const stock = isNew ? [] : await byIndex('stock', 'substanceId', r.id);
+  const props = await propertiesBlock(r);
 
   const handling = ['gloves', 'mask', 'ventilation'].map(h => `
     <label class="check"><input type="checkbox" data-multi="handling" value="${h}"
@@ -177,18 +184,18 @@ async function renderForm(root, r) {
               t('substances.nameHint'))}
           `)}
 
-          ${panel(`
+          ${props ? panel(`
             <h2>${t('substances.properties')}</h2>
-            ${await propertiesBlock(r)}
-          `)}
+            ${props}
+          `) : ''}
 
-          ${panel(`
+          ${HAS_CHEMISTRY.includes(r.category) ? panel(`
             <h2>${t('substances.chemistry')}</h2>
             <p class="note">${t('substances.chemistryHint')}</p>
             ${field(t('materials.formula'), `<input type="text" class="mono" data-f="formula" value="${esc(r.formula || '')}" placeholder="Al₂(SO₄)₃">`)}
             ${field(t('materials.hydration'), `<input type="text" data-f="hydrationState" value="${esc(r.hydrationState || '')}">`, t('materials.hydrationHint'))}
             ${field(t('materials.molarMass'), `<input type="number" step="0.01" min="0" data-f="molarMass" value="${r.molarMass ?? ''}">`)}
-          `)}
+          `) : ''}
         </div>
 
         <div class="col">
