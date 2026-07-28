@@ -53,8 +53,8 @@ const DICT = {
     'nav.tools': 'Инструменти',
     'nav.packs': 'Пакети',
 
-    'dash.title': 'Начало',
-    'dash.sub': 'Какво има в кутиите, какво предстои, какво липсва в справочника.',
+    'dashboard.title': 'Начало',
+    'dashboard.sub': 'Какво има в кутиите, какво предстои, какво липсва в справочника.',
 
     'reference.title': 'Справочник',
     'reference.sub': 'Попълни само това, което знаеш — частичните съвпадения също се показват.',
@@ -96,8 +96,8 @@ const DICT = {
     'nav.tools': 'Tools',
     'nav.packs': 'Packs',
 
-    'dash.title': 'Home',
-    'dash.sub': "What is in the boxes, what is next, what the reference is missing.",
+    'dashboard.title': 'Home',
+    'dashboard.sub': "What is in the boxes, what is next, what the reference is missing.",
 
     'reference.title': 'Reference',
     'reference.sub': 'Fill in only what you know — partial matches are shown too.',
