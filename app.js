@@ -14,6 +14,7 @@ import reference  from './modules/reference.js';
 import plants     from './modules/plants.js';
 import fabrics    from './modules/fabrics.js';
 import materials  from './modules/materials.js';
+import substances from './modules/substances.js';
 import recipes    from './modules/recipes.js';
 import techniques from './modules/techniques.js';
 import trials     from './modules/trials.js';
@@ -21,7 +22,7 @@ import tools      from './modules/tools.js';
 import packs      from './modules/packs.js';
 
 const MODULES = {
-  dashboard, reference, plants, fabrics, materials,
+  dashboard, reference, plants, fabrics, substances, materials,
   recipes, techniques, trials, tools, packs,
 };
 
@@ -32,6 +33,7 @@ const NAV = [
   { id: 'reference',  icon: 'i-reference' },
   { id: 'plants',     icon: 'i-plant' },
   { id: 'fabrics',    icon: 'i-fabric' },
+  { id: 'substances', icon: 'i-tools' },
   { id: 'materials',  icon: 'i-packs' },
   { id: 'recipes',    icon: 'i-recipe' },
   { id: 'techniques', icon: 'i-technique' },

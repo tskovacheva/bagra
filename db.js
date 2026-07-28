@@ -2,13 +2,14 @@
 // Migrations only ever ADD. Nothing is renamed or removed, ever.
 
 const DB_NAME = 'bagra';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 // Every top-level entity from §13 gets a store. Nested lists (steps,
 // placements, state events) are embedded in their parent, not stored apart.
 export const STORES = {
   fabrics:      { keyPath: 'id', indexes: ['state', 'origin', 'updatedAt'] },
-  materials:    { keyPath: 'id', indexes: ['category', 'updatedAt'] },
+  substances:   { keyPath: 'id', indexes: ['category', 'updatedAt'] },
+  stock:        { keyPath: 'id', indexes: ['substanceId', 'updatedAt'] },
   plants:       { keyPath: 'id', indexes: ['nameBotanical', 'updatedAt'] },
   recipes:      { keyPath: 'id', indexes: ['type', 'lineageId', 'updatedAt'] },
   techniques:   { keyPath: 'id', indexes: ['category'] },
@@ -31,12 +32,13 @@ export function open() {
       const db = req.result;
       // v1 — initial creation. Later versions append their own blocks below
       // and never touch this one.
-      if (e.oldVersion < 1) {
-        for (const [name, def] of Object.entries(STORES)) {
-          const store = db.createObjectStore(name, { keyPath: def.keyPath });
-          for (const idx of def.indexes || []) {
-            store.createIndex(idx, idx, { unique: false });
-          }
+      // Migrations only ever ADD. Creating a store that already exists is
+      // skipped rather than replaced, so no existing data is ever touched.
+      for (const [name, def] of Object.entries(STORES)) {
+        if (db.objectStoreNames.contains(name)) continue;
+        const store = db.createObjectStore(name, { keyPath: def.keyPath });
+        for (const idx of def.indexes || []) {
+          store.createIndex(idx, idx, { unique: false });
         }
       }
     };
