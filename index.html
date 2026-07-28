@@ -118,6 +118,92 @@ h1{font-size:23px;font-weight:600;margin:0 0 3px;letter-spacing:.01em}
   .bottomnav button[aria-current="page"]{color:var(--indigo)}
 }
 
+
+/* ---------- page furniture ---------- */
+.pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.pagehead h1{margin:0}
+.pagehead .sub{margin:3px 0 0}
+.pageactions{display:flex;gap:8px}
+
+h2{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+
+.btn{
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:6px;padding:7px 13px;cursor:pointer;font-size:14px;
+}
+.btn:hover{border-color:var(--muted)}
+.btn:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
+.btn.primary{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.btn.quiet{background:none;border-color:transparent;color:var(--muted)}
+.btn.quiet:hover{background:var(--ground);color:var(--ink)}
+.btn.danger{color:var(--madder)}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px}
+@media (max-width:900px){.cols{grid-template-columns:1fr}}
+
+.panel{margin-bottom:0}
+.panel.flush{padding:0;overflow:hidden}
+
+/* ---------- forms ---------- */
+.field{display:block;margin-bottom:13px}
+.fieldlabel{display:block;font-size:12.5px;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=number],input[type=date],select,textarea{
+  width:100%;padding:7px 9px;font:inherit;font-size:14px;color:var(--ink);
+  background:var(--ground);border:1px solid var(--line);border-radius:6px;
+}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-offset:-1px;border-color:var(--indigo)}
+textarea{resize:vertical}
+.hint{font-size:12px;color:var(--muted)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- composition rows ---------- */
+.comprow{display:grid;grid-template-columns:1fr 86px auto auto;gap:7px;align-items:center;margin-bottom:7px}
+.comprow .pct{color:var(--muted);font-size:13px}
+.derived{margin-top:12px}
+.note{font-size:13px;color:var(--muted);background:var(--ground);border-radius:6px;padding:8px 10px;margin:0 0 7px}
+.note.warn{border-left:3px solid var(--weld)}
+.note.error{border-left:3px solid var(--madder);color:var(--ink)}
+
+/* ---------- boxes (the fabric state inventory) ---------- */
+.boxes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.box{
+  display:flex;align-items:baseline;gap:8px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:var(--radius);padding:8px 13px;
+}
+.box:hover{border-color:var(--muted)}
+.box.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+.boxname{font-size:13.5px}
+.boxcount{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.box.active .boxcount{color:rgba(255,255,255,.75)}
+
+/* ---------- tables ---------- */
+.grid{width:100%;border-collapse:collapse;font-size:14px}
+.grid th{
+  text-align:left;font-weight:500;font-size:12px;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--muted);
+  padding:11px 14px;border-bottom:1px solid var(--line);
+}
+.grid td{padding:11px 14px;border-bottom:1px solid var(--line)}
+.grid tbody tr:last-child td{border-bottom:0}
+.grid tbody tr{cursor:pointer}
+.grid tbody tr:hover{background:var(--ground)}
+.grid .num{text-align:right;font-variant-numeric:tabular-nums}
+
+.chip{
+  display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;
+  background:var(--ground);border:1px solid var(--line);color:var(--muted);
+}
+
+.history{list-style:none;margin:0 0 14px;padding:0;font-size:13.5px}
+.history li{padding:6px 0;border-bottom:1px solid var(--line)}
+.history li:last-child{border-bottom:0}
+.addstate{border-top:1px solid var(--line);padding-top:12px}
+
+.emptystate{padding:40px 20px;text-align:center;color:var(--muted)}
+.emptystate p{margin:0 0 6px}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
