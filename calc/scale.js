@@ -153,7 +153,26 @@ export function scaleChain(chain, recipesById, context) {
         order: step.order,
         recipe,
         note: step.note,
-        scaled: recipe ? scaleRecipe(recipe, context) : null,
+        // Each step carries its OWN choices: the same chain built with
+        // myrobalan and with gallnut are two different chains, because they
+        // give two different results. The choice is part of the plan, not a
+        // preference applied at the moment of scaling.
+        scaled: recipe ? scaleRecipe(recipe, { ...context, choices: step.choices || null }) : null,
       };
     });
+}
+
+/** Recipes that must follow, gathered across every step, in order, deduplicated. */
+export function chainFollowOns(scaledSteps, recipesById) {
+  const seen = new Set();
+  const out = [];
+  for (const st of scaledSteps) {
+    for (const id of st.recipe?.requiredFollowOn || []) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      const rec = recipesById.get(id);
+      if (rec) out.push(rec);
+    }
+  }
+  return out;
 }
