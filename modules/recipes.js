@@ -11,7 +11,6 @@ import {
   pairField, readPairs,
 } from '../ui.js';
 import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
-import { aluminiumAcetate, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
 import chains from './chains.js';
 
 const TYPES = ['scour', 'tannin', 'mordant', 'dye', 'ecoprint', 'blanket', 'pigment', 'paste'];
@@ -51,9 +50,6 @@ function blank() {
     phTarget: null,
     blanketKind: '', blanketConcentration: null, blanketFresh: true, blanketUses: 0,
     requiredFollowOn: [],
-    producesSubstanceId: '',
-    calculatorKey: '',
-    targetG: null,
     notes: { bg: '', en: '' },
     sourceRef: null,
     distributable: false,
@@ -181,49 +177,7 @@ function stepRows(r) {
     </div>`).join('') || `<p class="hint">—</p>`;
 }
 
-// A preparation recipe is not scaled against cloth. It is scaled against how
-// much of the substance it makes is needed — a figure that, inside a chain,
-// arrives from the step that will consume it.
-async function calculatorBlock(r, substances) {
-  const alSources = substances.filter(isAluminiumSource);
-  const naSources = substances.filter(isSodiumSource);
-  const byId = new Map(substances.map(sx => [sx.id, sx]));
-
-  const chosenAl = (r.ingredients || []).flatMap(i => i.options || [])
-    .map(o => byId.get(o.substanceId)).find(isAluminiumSource) || alSources[0];
-  const chosenNa = (r.ingredients || []).flatMap(i => i.options || [])
-    .map(o => byId.get(o.substanceId)).find(isSodiumSource) || naSources[0];
-
-  const result = aluminiumAcetate({
-    targetG: r.targetG || 0,
-    aluminiumSubstance: chosenAl,
-    sodiumSubstance: chosenNa,
-    vinegarPercent: r.vinegarPercent || 9,
-  });
-
-  return `
-    ${field(t('recipes.targetG'), `<input type="number" step="0.5" min="0" data-f="targetG" value="${r.targetG ?? ''}">`, t('recipes.targetHint'))}
-    ${result ? `
-      <div class="calcresults">
-        <div class="calcout"><span class="calclabel">${esc(text(chosenAl.name))}</span>
-          <span class="calcvalue">${result.aluminiumSource.grams} <small>${t('tools.grams')}</small></span></div>
-        <div class="calcout"><span class="calclabel">${esc(text(chosenNa.name))}</span>
-          <span class="calcvalue">${result.sodiumSource.grams} <small>${t('tools.grams')}</small></span></div>
-        ${result.acid ? `<div class="calcout"><span class="calclabel">${t('tools.vinegar')} ${result.acid.vinegarPercent}%</span>
-          <span class="calcvalue">${result.acid.vinegarMl} <small>${t('tools.ml')}</small></span></div>` : ''}
-      </div>
-      <div class="btnrow">
-        <button class="btn" data-transfer>${t('recipes.transfer')}</button>
-      </div>
-      <p class="hint">${t('recipes.transferHint')}</p>
-      ${!result.acid ? `<p class="note">${t('tools.noAcid')}</p>` : ''}
-      <p class="hint">${t('tools.verify')}</p>`
-    : `<p class="hint">${t('tools.noSubstances')}</p>`}`;
-}
-
 async function scaleBlock(r, substances) {
-  if (r.calculatorKey === 'alum_acetate') return calculatorBlock(r, substances);
-
   const scaled = scaleRecipe(r, { ...scaleCtx, choices: scaleChoices });
   const followText = (r.requiredFollowOn || []).length
     ? (await all('recipes'))
@@ -335,19 +289,6 @@ async function renderForm(root, r) {
             ${field(t('recipes.restMinutes'), `<input type="number" step="10" min="0" data-f="restMinutes" value="${r.restMinutes ?? ''}">`, t('recipes.restHint'))}
             ${field(t('recipes.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${r.liquorRatio ?? ''}">`)}
             ${field(t('recipes.phTarget'), `<input type="number" step="0.1" min="0" max="14" data-f="phTarget" value="${r.phTarget ?? ''}">`)}
-          `)}
-
-          ${panel(`
-            <h2>${t('recipes.produces')}</h2>
-            <p class="note">${t('recipes.producesHint')}</p>
-            ${field(t('recipes.produces'), `<select data-f="producesSubstanceId">
-                <option value="">—</option>
-                ${substances.map(sx => `<option value="${sx.id}"${sx.id === r.producesSubstanceId ? ' selected' : ''}>${esc(text(sx.name))}</option>`).join('')}
-              </select>`)}
-            ${field(t('recipes.calculator'), `<select data-f="calculatorKey">
-                <option value="">${t('recipes.calc.none')}</option>
-                <option value="alum_acetate"${r.calculatorKey === 'alum_acetate' ? ' selected' : ''}>${t('recipes.calc.alum_acetate')}</option>
-              </select>`)}
           `)}
 
           ${panel(`
@@ -558,38 +499,6 @@ export default {
         return renderForm(root, draft);
       }
 
-      // Writes the computed grams back onto the ingredients as exact amounts,
-      // so the recipe can be read and followed without the calculator.
-      if (e.target.closest('[data-transfer]')) {
-        readForm(root);
-        const substances = await all('substances');
-        const byId = new Map(substances.map(sx => [sx.id, sx]));
-        const alSources = substances.filter(isAluminiumSource);
-        const naSources = substances.filter(isSodiumSource);
-        const chosenAl = (draft.ingredients || []).flatMap(i => i.options || [])
-          .map(o => byId.get(o.substanceId)).find(isAluminiumSource) || alSources[0];
-        const chosenNa = (draft.ingredients || []).flatMap(i => i.options || [])
-          .map(o => byId.get(o.substanceId)).find(isSodiumSource) || naSources[0];
-        const result = aluminiumAcetate({
-          targetG: draft.targetG || 0,
-          aluminiumSubstance: chosenAl, sodiumSubstance: chosenNa,
-          vinegarPercent: draft.vinegarPercent || 9,
-        });
-        if (!result) return;
-
-        for (const ing of draft.ingredients || []) {
-          for (const o of ing.options || []) {
-            const sub = byId.get(o.substanceId);
-            if (!sub) continue;
-            if (sub.id === chosenAl?.id) { o.qtyMin = result.aluminiumSource.grams; o.qtyMax = null; ing.basis = 'absolute'; }
-            if (sub.id === chosenNa?.id) { o.qtyMin = result.sodiumSource.grams; o.qtyMax = null; ing.basis = 'absolute'; }
-            if (result.acid && ing.roleCode === 'acid_source') { o.qtyMin = result.acid.vinegarMl; o.qtyMax = null; ing.basis = 'absolute'; ing.unit = 'ml'; }
-          }
-        }
-        alert(t('recipes.transferred'));
-        return renderForm(root, draft);
-      }
-
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('recipes', draft);
@@ -617,13 +526,6 @@ export default {
     };
 
     root.oninput = async (e) => {
-      if (e.target.matches('[data-f="targetG"]')) {
-        readForm(root);
-        const substances = await all('substances');
-        const box = root.querySelector('.scaleblock');
-        if (box) box.innerHTML = await scaleBlock(draft, substances);
-        return;
-      }
       if (e.target.dataset.scale) {
         scaleCtx[e.target.dataset.scale] = e.target.type === 'number' ? Number(e.target.value) : e.target.value;
         readForm(root);
@@ -653,10 +555,6 @@ export default {
         const box = root.querySelector('.scaleblock');
         if (box) box.innerHTML = await scaleBlock(draft, substances);
         return;
-      }
-      if (e.target.matches('[data-f="calculatorKey"]')) {
-        readForm(root);
-        return renderForm(root, draft);
       }
       if (e.target.matches('[data-f="type"]') || (e.target.dataset.ing || '').endsWith('.basis') || (e.target.dataset.ing || '').endsWith('.roleCode')) {
         readForm(root);
