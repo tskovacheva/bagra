@@ -5,7 +5,7 @@
 // recipe here; only the aluminium acetate stoichiometry earns its own code.
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
-import { t, text } from '../i18n.js';
+import { t, text, getLang } from '../i18n.js';
 import {
   page, panel, field, options, label, esc, empty, note,
   pairField, readPairs,
@@ -171,12 +171,26 @@ async function ingredientRows(r, substances) {
 }
 
 function stepRows(r) {
-  return (r.steps || []).map((st, i) => `
+  const primary = getLang();
+  const other = primary === 'bg' ? 'en' : 'bg';
+
+  return (r.steps || []).map((st, i) => {
+    const pair = (typeof st.text === 'string') ? { bg: st.text, en: '' } : (st.text || {});
+    const missing = !!(pair[primary] && !pair[other]);
+    return `
     <div class="steprow">
       <span class="stepnum">${i + 1}</span>
-      <textarea data-step="${i}.text" rows="2" placeholder="${t('recipes.stepText')}">${esc(st.text?.bg || st.text || '')}</textarea>
+      <div class="stepbody">
+        <textarea data-step="${i}.${primary}" rows="2" placeholder="${t('recipes.stepText')}">${esc(pair[primary] || '')}</textarea>
+        <details class="pairalt"${missing ? '' : ' open'}>
+          <summary>${esc(t('i18n.otherLang', { lang: other.toUpperCase() }))}${
+            missing ? ` <span class="untranslated">${esc(t('i18n.missingShort'))}</span>` : ''}</summary>
+          <textarea data-step="${i}.${other}" rows="2">${esc(pair[other] || '')}</textarea>
+        </details>
+      </div>
       <button class="btn quiet" data-step-del="${i}" aria-label="×">×</button>
-    </div>`).join('') || `<p class="hint">—</p>`;
+    </div>`;
+  }).join('') || `<p class="hint">—</p>`;
 }
 
 async function scaleBlock(r, substances) {
@@ -409,9 +423,12 @@ function readForm(root) {
 
   const steps = [];
   for (const el of root.querySelectorAll('[data-step]')) {
-    const [i] = el.dataset.step.split('.');
+    const [i, langCode] = el.dataset.step.split('.');
     const idx = Number(i);
-    steps[idx] = { id: draft.steps?.[idx]?.id || uid(), order: idx, text: { bg: el.value, en: draft.steps?.[idx]?.text?.en || '' } };
+    steps[idx] = steps[idx] || {
+      id: draft.steps?.[idx]?.id || uid(), order: idx, text: {},
+    };
+    steps[idx].text[langCode] = el.value;
   }
   draft.steps = steps.filter(Boolean);
 
@@ -429,16 +446,22 @@ export default {
   sub: () => t('recipes.sub'),
 
   async render(root) {
+    // The tab switch lives in the shared header and must keep working whichever
+    // module last drew the page. Registered as a real listener rather than via
+    // root.onclick, which every module overwrites when it renders.
+    if (!root.__tabHandler) {
+      root.__tabHandler = (e) => {
+        const tab = e.target.closest('[data-mode]');
+        if (!tab) return;
+        e.stopPropagation();
+        mode = tab.dataset.mode;
+        this.render(root);
+      };
+      root.addEventListener('click', root.__tabHandler, true);
+    }
+
     if (mode === 'chains') {
       await chains.render(root, host);
-      // The tab switch lives in the shared header, so it must keep working
-      // whichever module drew the page.
-      const prev = root.onclick;
-      root.onclick = async (e) => {
-        const tab = e.target.closest('[data-mode]');
-        if (tab) { mode = tab.dataset.mode; return this.render(root); }
-        return prev?.(e);
-      };
       return;
     }
 
@@ -453,9 +476,6 @@ export default {
     }
 
     root.onclick = async (e) => {
-      const tab = e.target.closest('[data-mode]');
-      if (tab) { mode = tab.dataset.mode; return this.render(root); }
-
       const ty = e.target.closest('[data-type]');
       if (ty) { filterType = ty.dataset.type || null; return this.render(root); }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }

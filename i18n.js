@@ -344,7 +344,7 @@ const DICT = {
 
 
     'tools.pick': 'Кой калкулатор',
-    'tools.when.alum': 'Преди мордантиране на целулозни тъкани, когато си приготвяш ацетата сама.',
+    'tools.when.alum': 'Преди мордантиране на целулозни тъкани, когато си приготвяш сам ацетат.',
     'tools.when.reverse': 'Имаш определено количество вещество и питаш за колко плат стига — или колко да купиш за плат, който вече имаш.',
     'tools.when.wof': 'При всяка рецепта, изразена в проценти от теглото на тъканта.',
     'tools.when.solution': 'При одеяла и последващи бани — желязо, мед, модификатори.',
@@ -511,7 +511,7 @@ const DICT = {
     'chains.stepNote': 'Бележка към стъпката',
     'chains.up': '↑',
     'chains.down': '↓',
-    'chains.plan': 'Планът за това тегло',
+    'chains.plan': 'План за конкретно тегло плат',
     'chains.planHint': 'Всичко, което трябва да се премери, наред.',
     'chains.thenAll': 'След цялата подготовка: {what}',
     'chains.col.steps': 'Стъпки',
@@ -1019,7 +1019,7 @@ const DICT = {
     'chains.stepNote': 'Note for this step',
     'chains.up': '↑',
     'chains.down': '↓',
-    'chains.plan': 'The plan for this weight',
+    'chains.plan': 'Plan for a specific weight of cloth',
     'chains.planHint': 'Everything to be weighed, in order.',
     'chains.thenAll': 'After the whole preparation: {what}',
     'chains.col.steps': 'Steps',

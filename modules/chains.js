@@ -140,19 +140,11 @@ async function planBlock(c, recipes, substances) {
         ? ing.scaledAmount
         : `${ing.scaledMin ?? '—'}–${ing.scaledMax ?? '—'}`;
 
-      // When a role can be filled several ways, the choice belongs next to the
-      // number it changes — in the plan as well as in the step list, since the
-      // plan is what gets read at the bench.
-      const picker = (ing.options?.length > 1)
-        ? `<select data-chainchoice="${i}.${ing.id}">${ing.options.map(o => {
-            const os = subById.get(o.substanceId);
-            return `<option value="${o.id}"${o.id === ing.option?.id ? ' selected' : ''}>${
-              esc(os ? text(os.name) : '—')}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`;
-          }).join('')}</select>`
-        : '';
-
-      return `<div class="calcout calcpick">
-        <span class="calclabel">${picker || esc(nameStr)}</span>
+      // The choice lives in ONE place — the step list. A second picker here
+      // would be a second source of truth for the same decision, and the two
+      // drifted apart the moment one of them was changed.
+      return `<div class="calcout">
+        <span class="calclabel">${esc(nameStr)}</span>
         <span class="calcvalue">${amount} <small>${esc(ing.scaledUnit || '')}</small></span>
       </div>`;
     }));
@@ -342,7 +334,10 @@ export default {
           ? Number(e.target.value) : e.target.value;
         return refreshPlan();
       }
-      if (e.target.dataset.chainchoice) return refreshPlan();
+      if (e.target.dataset.chainchoice) {
+        readForm(root);
+        return renderForm(root, draft, host);
+      }
     };
 
     root.oninput = async (e) => {
