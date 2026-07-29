@@ -21,6 +21,10 @@ function blank() {
     formula: '',
     hydrationState: '',
     molarMass: null,
+    alPerUnit: null,
+    naPerUnit: null,
+    needsAcid: false,
+    maxPercentWof: null,
     notes: { bg: '', en: '' },
 
     plantId: '', defaultPartCode: '', dyeClass: '',
@@ -116,6 +120,7 @@ async function propertiesBlock(r) {
     return `
       ${field(t('materials.mordantType'), `<select data-f="mordantTypeCode">${await options('mordant_type', r.mordantTypeCode)}</select>`)}
       ${field(t('materials.standardWof'), `<input type="number" step="0.1" min="0" data-f="standardPercentWof" value="${r.standardPercentWof ?? ''}">`)}
+      ${field(t('substances.maxWof'), `<input type="number" step="0.1" min="0" data-f="maxPercentWof" value="${r.maxPercentWof ?? ''}">`, t('substances.maxWofHint'))}
       ${field(t('materials.suitableFor'), `<div class="checks">${fibres}</div>`)}
       ${field(t('materials.colourEffect'), `<select data-f="colourEffect">${await options('colour_effect', r.colourEffect)}</select>`)}`;
   }
@@ -195,6 +200,10 @@ async function renderForm(root, r) {
             ${field(t('materials.formula'), `<input type="text" class="mono" data-f="formula" value="${esc(r.formula || '')}" placeholder="Al₂(SO₄)₃">`)}
             ${field(t('materials.hydration'), `<input type="text" data-f="hydrationState" value="${esc(r.hydrationState || '')}">`, t('materials.hydrationHint'))}
             ${field(t('materials.molarMass'), `<input type="number" step="0.01" min="0" data-f="molarMass" value="${r.molarMass ?? ''}">`)}
+            ${field(t('substances.alPerUnit'), `<input type="number" step="1" min="0" data-f="alPerUnit" value="${r.alPerUnit ?? ''}">`, t('substances.alPerUnitHint'))}
+            ${field(t('substances.naPerUnit'), `<input type="number" step="1" min="0" data-f="naPerUnit" value="${r.naPerUnit ?? ''}">`, t('substances.naPerUnitHint'))}
+            <label class="check"><input type="checkbox" data-f-bool="needsAcid" ${r.needsAcid ? 'checked' : ''}>
+              ${t('substances.needsAcid')}</label>
           `) : ''}
         </div>
 
@@ -223,6 +232,7 @@ async function renderForm(root, r) {
 }
 
 function readForm(root) {
+  for (const el of root.querySelectorAll('[data-f-bool]')) draft[el.dataset.fBool] = el.checked;
   for (const el of root.querySelectorAll('[data-f]')) {
     const key = el.dataset.f;
     let value = el.value;

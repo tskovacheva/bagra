@@ -90,6 +90,33 @@ async function route() {
 
 // Vocabularies and bands ship as seed data (§13.10). Seeding only ever adds:
 // a term already present is left alone, so the user's edits survive.
+// The reference library ships as JSON, not as code (§14.2), so the initial
+// load is simply the import of a base pack — one mechanism, not two.
+async function seedSubstances() {
+  if (await count('substances') > 0) return;
+  try {
+    const res = await fetch('seed/substances.json');
+    const pack = await res.json();
+    for (const row of pack.substances) {
+      const { code, ...rest } = row;
+      await put('substances', {
+        id: 'seed:' + code,
+        origin: 'seed',
+        packId: pack.packId,
+        packVersion: pack.packVersion,
+        editedByUser: false,
+        editedFields: [],
+        createdAt: new Date().toISOString(),
+        suitableFibreClasses: [],
+        handling: [],
+        ...rest,
+      });
+    }
+  } catch (err) {
+    console.warn('seed/substances.json not loaded:', err);
+  }
+}
+
 async function seedIfEmpty() {
   if (await count('vocabulary') === 0) {
     for (const v of VOCABULARY) await put('vocabulary', { ...v, origin: 'seed' });
@@ -113,6 +140,7 @@ window.addEventListener('hashchange', route);
   await open();
   await initLang();
   await seedIfEmpty();
+  await seedSubstances();
   await route();
 
   if ('serviceWorker' in navigator) {

@@ -12,31 +12,19 @@
 
 import { round } from './basic.js';
 
-const M = {
-  aluminium_acetate: 204.11,   // Al(CH₃COO)₃
-  sodium_carbonate: 105.99,    // Na₂CO₃, soda ash
-  sodium_bicarbonate: 84.01,   // NaHCO₃
-  sodium_acetate: 82.03,       // CH₃COONa, anhydrous
-  sodium_acetate_tri: 136.08,  // CH₃COONa·3H₂O
-  acetic_acid: 60.05,          // CH₃COOH
-};
+const ACETIC_ACID_M = 60.05;          // CH₃COOH
+const ALUMINIUM_ACETATE_M = 204.11;   // Al(CH₃COO)₃
 
-// Aluminium sources, with how many aluminium atoms each formula unit carries.
-export const ALUMINIUM_SOURCES = {
-  alum_potassium_12:   { molarMass: 474.39, alPerUnit: 1, label: 'KAl(SO₄)₂·12H₂O' },
-  alum_ammonium_12:    { molarMass: 453.33, alPerUnit: 1, label: 'NH₄Al(SO₄)₂·12H₂O' },
-  al_sulfate_18:       { molarMass: 666.42, alPerUnit: 2, label: 'Al₂(SO₄)₃·18H₂O' },
-  al_sulfate_16:       { molarMass: 630.39, alPerUnit: 2, label: 'Al₂(SO₄)₃·16H₂O' },
-  al_sulfate_14:       { molarMass: 594.36, alPerUnit: 2, label: 'Al₂(SO₄)₃·14H₂O' },
-  al_sulfate_anhydr:   { molarMass: 342.15, alPerUnit: 2, label: 'Al₂(SO₄)₃' },
-};
+// Substances are NOT defined here. Formulas, molar masses and hydration states
+// live in the Substances module, seeded from seed/substances.json — keeping a
+// second copy in the calculator would guarantee the two drift apart.
+//
+// A substance qualifies as an aluminium source when it declares `alPerUnit`
+// (how many aluminium atoms one formula unit carries), and as a sodium source
+// when it declares `naPerUnit`.
 
-export const SODIUM_SOURCES = {
-  soda_ash:            { molarMass: M.sodium_carbonate,   naPerUnit: 2, needsAcid: true,  label: 'Na₂CO₃' },
-  bicarbonate:         { molarMass: M.sodium_bicarbonate, naPerUnit: 1, needsAcid: true,  label: 'NaHCO₃' },
-  sodium_acetate:      { molarMass: M.sodium_acetate,     naPerUnit: 1, needsAcid: false, label: 'CH₃COONa' },
-  sodium_acetate_tri:  { molarMass: M.sodium_acetate_tri, naPerUnit: 1, needsAcid: false, label: 'CH₃COONa·3H₂O' },
-};
+export const isAluminiumSource = (sub) => !!(sub?.alPerUnit && sub?.molarMass);
+export const isSodiumSource    = (sub) => !!(sub?.naPerUnit && sub?.molarMass);
 
 /**
  * How much of everything, to end up with a target amount of aluminium acetate.
@@ -56,48 +44,47 @@ export const SODIUM_SOURCES = {
 export function aluminiumAcetate({
   fabricWeightG,
   percentWof,
-  aluminiumSource = 'al_sulfate_18',
-  sodiumSource = 'soda_ash',
+  aluminiumSubstance,
+  sodiumSubstance,
   vinegarPercent = 9,
   receptiveFraction = 100,
 }) {
-  const alSrc = ALUMINIUM_SOURCES[aluminiumSource];
-  const naSrc = SODIUM_SOURCES[sodiumSource];
-  if (!alSrc || !naSrc || !fabricWeightG || !percentWof) return null;
+  if (!isAluminiumSource(aluminiumSubstance) || !isSodiumSource(sodiumSubstance)) return null;
+  if (!fabricWeightG || !percentWof) return null;
 
   const effectiveWeight = fabricWeightG * (receptiveFraction / 100);
 
   // Target, stated as finished product (§5.1 — basisRefersTo).
   const targetG = effectiveWeight * (percentWof / 100);
-  const molesAcetate = targetG / M.aluminium_acetate;   // = moles of aluminium
-  const molesAlSource = molesAcetate / alSrc.alPerUnit;
-  const aluminiumG = molesAlSource * alSrc.molarMass;
+  const molesAcetate = targetG / ALUMINIUM_ACETATE_M;   // = moles of aluminium
+  const molesAlSource = molesAcetate / aluminiumSubstance.alPerUnit;
+  const aluminiumG = molesAlSource * aluminiumSubstance.molarMass;
 
   // Three acetate groups per aluminium.
   const acetateEquivalents = molesAcetate * 3;
 
-  // The sodium source supplies sodium; a carbonate needs acid to become acetate.
-  const molesNaSource = acetateEquivalents / naSrc.naPerUnit;
-  const sodiumG = molesNaSource * naSrc.molarMass;
+  const molesNaSource = acetateEquivalents / sodiumSubstance.naPerUnit;
+  const sodiumG = molesNaSource * sodiumSubstance.molarMass;
 
-  let aceticAcidG = null;
-  let vinegarMl = null;
-  if (naSrc.needsAcid) {
-    aceticAcidG = acetateEquivalents * M.acetic_acid;
-    // Vinegar is roughly the density of water at these strengths.
-    vinegarMl = aceticAcidG / (vinegarPercent / 100);
+  let acid = null;
+  if (sodiumSubstance.needsAcid) {
+    const aceticAcidG = acetateEquivalents * ACETIC_ACID_M;
+    acid = {
+      aceticAcidG: round(aceticAcidG),
+      // Vinegar is close enough to the density of water at these strengths.
+      vinegarMl: round(aceticAcidG / (vinegarPercent / 100)),
+      vinegarPercent,
+    };
   }
 
   return {
     targetAluminiumAcetateG: round(targetG),
-    aluminiumSource: { key: aluminiumSource, label: alSrc.label, grams: round(aluminiumG) },
-    sodiumSource:    { key: sodiumSource, label: naSrc.label, grams: round(sodiumG) },
-    acid: naSrc.needsAcid
-      ? { aceticAcidG: round(aceticAcidG), vinegarMl: round(vinegarMl), vinegarPercent }
-      : null,
+    aluminiumSource: { id: aluminiumSubstance.id, formula: aluminiumSubstance.formula, grams: round(aluminiumG) },
+    sodiumSource: { id: sodiumSubstance.id, formula: sodiumSubstance.formula, grams: round(sodiumG) },
+    acid,
     // Choosing sodium acetate removes the acid line entirely: the conversion
     // has already happened. A recipe is a set of roles, not a fixed list.
-    notes: naSrc.needsAcid ? [] : ['acid_not_needed'],
+    notes: sodiumSubstance.needsAcid ? [] : ['acid_not_needed'],
   };
 }
 
@@ -111,22 +98,20 @@ export function fromAvailable({
   limitingRole,
   availableG,
   percentWof,
-  aluminiumSource = 'al_sulfate_18',
-  sodiumSource = 'soda_ash',
+  aluminiumSubstance,
+  sodiumSubstance,
   vinegarPercent = 9,
 }) {
   if (!availableG || !percentWof) return null;
 
-  // Compute the recipe for an arbitrary reference weight, then scale linearly.
+  // Compute against an arbitrary reference weight, then scale linearly.
   const reference = 1000;
   const base = aluminiumAcetate({
-    fabricWeightG: reference, percentWof, aluminiumSource, sodiumSource, vinegarPercent,
+    fabricWeightG: reference, percentWof, aluminiumSubstance, sodiumSubstance, vinegarPercent,
   });
   if (!base) return null;
 
-  const per = limitingRole === 'sodium'
-    ? base.sodiumSource.grams
-    : base.aluminiumSource.grams;
+  const per = limitingRole === 'sodium' ? base.sodiumSource.grams : base.aluminiumSource.grams;
   if (!per) return null;
 
   const maxFabricG = (availableG / per) * reference;
@@ -134,7 +119,7 @@ export function fromAvailable({
   return {
     maxFabricG: round(maxFabricG),
     recipe: aluminiumAcetate({
-      fabricWeightG: maxFabricG, percentWof, aluminiumSource, sodiumSource, vinegarPercent,
+      fabricWeightG: maxFabricG, percentWof, aluminiumSubstance, sodiumSubstance, vinegarPercent,
     }),
   };
 }

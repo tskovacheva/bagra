@@ -7,11 +7,19 @@
 import { t } from '../i18n.js';
 import { page, panel, field, esc } from '../ui.js';
 import { wofGrams, solutionGrams, bathLitres, freshFromDried } from '../calc/basic.js';
-import { aluminiumAcetate, fromAvailable, ALUMINIUM_SOURCES, SODIUM_SOURCES } from '../calc/alum-acetate.js';
+import { aluminiumAcetate, fromAvailable, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
+import { all } from '../db.js';
+import { text } from '../i18n.js';
 
 // Inputs persist while the module is open, so changing one field does not
 // clear the rest.
-const CALCS = ['alum', 'reverse', 'wof', 'solution', 'bath', 'drying'];
+// Everyday conversions first; the purchase-planning one last, since it is
+// consulted rarely and belongs to stock rather than to a dye session.
+const CALCS = ['alum', 'wof', 'solution', 'bath', 'drying', 'reverse'];
+
+// Substances come from the Substances module — the calculator keeps no table
+// of its own, or the two would drift apart.
+let substances = [];
 let active = 'alum';
 
 const state = {
@@ -21,7 +29,7 @@ const state = {
   dry: { dried: 50, ratio: 6 },
   alum: {
     weight: 500, percent: 6,
-    alSource: 'al_sulfate_18', naSource: 'soda_ash', vinegar: 9,
+    alSource: '', naSource: '', vinegar: 9,
   },
   rev: { available: 200, limiting: 'aluminium' },
 };
@@ -35,37 +43,45 @@ const out = (labelText, value, unit = '') => value == null ? '' : `
     <span class="calcvalue">${esc(value)} <small>${esc(unit)}</small></span>
   </div>`;
 
-function selectOf(path, map, selected) {
+function substanceSelect(path, list, selected) {
+  if (!list.length) return `<select data-calc="${path}" disabled><option>${esc(t('tools.noSubstances'))}</option></select>`;
   return `<select data-calc="${path}">${
-    Object.entries(map).map(([k, v]) =>
-      `<option value="${k}"${k === selected ? ' selected' : ''}>${esc(v.label)}</option>`).join('')
+    list.map(sx => `<option value="${sx.id}"${sx.id === selected ? ' selected' : ''}>${
+      esc(text(sx.name))}${sx.formula ? ' · ' + esc(sx.formula) : ''}</option>`).join('')
   }</select>`;
 }
 
 function render(root) {
   const w = state.wof, s = state.sol, b = state.bath, d = state.dry, a = state.alum, r = state.rev;
 
+  const alSources = substances.filter(isAluminiumSource);
+  const naSources = substances.filter(isSodiumSource);
+  const alSub = alSources.find(x => x.id === a.alSource) || alSources[0];
+  const naSub = naSources.find(x => x.id === a.naSource) || naSources[0];
+
   const alum = aluminiumAcetate({
     fabricWeightG: a.weight, percentWof: a.percent,
-    aluminiumSource: a.alSource, sodiumSource: a.naSource, vinegarPercent: a.vinegar,
+    aluminiumSubstance: alSub, sodiumSubstance: naSub, vinegarPercent: a.vinegar,
   });
 
   const reverse = fromAvailable({
     limitingRole: r.limiting, availableG: r.available, percentWof: a.percent,
-    aluminiumSource: a.alSource, sodiumSource: a.naSource, vinegarPercent: a.vinegar,
+    aluminiumSubstance: alSub, sodiumSubstance: naSub, vinegarPercent: a.vinegar,
   });
+
+  const nameOf = (sub) => sub ? text(sub.name) + (sub.formula ? ' · ' + sub.formula : '') : '—';
 
   const bodies = {
     alum: `
       ${field(t('tools.fabricWeight'), num('alum.weight', a.weight))}
       ${field(t('tools.targetWof'), num('alum.percent', a.percent, '0.5'), t('tools.targetWofHint'))}
-      ${field(t('tools.alSource'), selectOf('alum.alSource', ALUMINIUM_SOURCES, a.alSource))}
-      ${field(t('tools.naSource'), selectOf('alum.naSource', SODIUM_SOURCES, a.naSource))}
+      ${field(t('tools.alSource'), substanceSelect('alum.alSource', alSources, alSub?.id))}
+      ${field(t('tools.naSource'), substanceSelect('alum.naSource', naSources, naSub?.id))}
       ${alum?.acid ? field(t('tools.vinegarPercent'), num('alum.vinegar', a.vinegar, '0.5')) : ''}
       ${alum ? `
         <div class="calcresults">
-          ${out(t('tools.needed') + ' — ' + alum.aluminiumSource.label, alum.aluminiumSource.grams, t('tools.grams'))}
-          ${out(t('tools.needed') + ' — ' + alum.sodiumSource.label, alum.sodiumSource.grams, t('tools.grams'))}
+          ${out(nameOf(alSub), alum.aluminiumSource.grams, t('tools.grams'))}
+          ${out(nameOf(naSub), alum.sodiumSource.grams, t('tools.grams'))}
           ${alum.acid ? out(t('tools.vinegar') + ' ' + alum.acid.vinegarPercent + '%', alum.acid.vinegarMl, t('tools.ml')) : ''}
           ${alum.acid ? out(t('tools.aceticAcid'), alum.acid.aceticAcidG, t('tools.grams')) : ''}
           ${out('Al(CH₃COO)₃', alum.targetAluminiumAcetateG, t('tools.grams'))}
@@ -83,8 +99,8 @@ function render(root) {
       ${field(t('tools.targetWof'), num('alum.percent', a.percent, '0.5'))}
       ${reverse ? `<div class="calcresults">
         ${out(t('tools.maxFabric'), reverse.maxFabricG, t('tools.grams'))}
-        ${out(t('tools.needed') + ' — ' + reverse.recipe.aluminiumSource.label, reverse.recipe.aluminiumSource.grams, t('tools.grams'))}
-        ${out(t('tools.needed') + ' — ' + reverse.recipe.sodiumSource.label, reverse.recipe.sodiumSource.grams, t('tools.grams'))}
+        ${out(nameOf(alSub), reverse.recipe.aluminiumSource.grams, t('tools.grams'))}
+        ${out(nameOf(naSub), reverse.recipe.sodiumSource.grams, t('tools.grams'))}
       </div>` : ''}`,
 
     wof: `
@@ -153,6 +169,7 @@ export default {
   sub: () => t('tools.sub'),
 
   async render(root) {
+    substances = await all('substances');
     render(root);
 
     // Recompute on every keystroke: a calculator that needs a button pressed
