@@ -426,6 +426,35 @@ const DICT = {
     'recipes.warn.maxTemp': '{name}: {value}°C надхвърля тавана от {limit}°C.',
     'recipes.warn.fibre': '{name} не е подходящо за влакната, за които е рецептата.',
 
+
+    'recipes.alternatives': 'Възможни вещества',
+    'recipes.alternativesHint': 'Едно място в рецептата, запълнено с различни вещества. Изборът сменя количеството, не рецептата.',
+    'recipes.addAlternative': '+ вещество',
+    'recipes.qtyMin': 'От',
+    'recipes.qtyMax': 'До',
+    'recipes.qtyRangeHint': 'Ако количеството е точно, попълни само първото поле.',
+    'recipes.optionNote': 'Какво дава',
+    'recipes.optionNotePlaceholder': 'безцветен, жълт, червено-кафяв…',
+    'recipes.choose': 'Кое вещество ползваш',
+    'recipes.heldMinutes': 'Активно време (мин)',
+    'recipes.heldHint': 'Докато се поддържа температурата.',
+    'recipes.restMinutes': 'Кисне след изключване (мин)',
+    'recipes.restHint': 'Банята изстива през това време. Отделно число, защото често именно то прави резултата.',
+
+
+    'recipes.addFollowOn': '+ добави рецепта',
+    'recipes.thenDo': 'След това задължително: {what}',
+
+    'tools.exhaust': 'Остатъчна баня',
+    'tools.short.exhaust': 'Остатъчна баня',
+    'tools.when.exhaust': 'След първото багрене, когато в тенджерата още има пигмент.',
+    'tools.firstWeight': 'Тегло на първия плат (г)',
+    'tools.remainingStrength': 'Остатъчна сила (%)',
+    'tools.remainingStrengthHint': 'Около 50% е обичайното предположение. Кратко и хладко първо багрене оставя повече.',
+    'tools.sameShade': 'Същият нюанс върху плат до',
+    'tools.sameWeight': 'Или същият грамаж, но с наситеност',
+    'tools.exhaustCaveat': 'Това е правило на палеца, не изчисление. Истинската стойност зависи от това колко изчерпана е първата баня.',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -817,6 +846,35 @@ const DICT = {
     'recipes.warn.maxWof': '{name}: {value}% exceeds the {limit}% ceiling.',
     'recipes.warn.maxTemp': '{name}: {value}°C exceeds the {limit}°C ceiling.',
     'recipes.warn.fibre': '{name} is not suitable for the fibres this recipe is for.',
+
+
+    'recipes.alternatives': 'Substances that can fill this',
+    'recipes.alternativesHint': 'One place in the recipe, filled by different substances. The choice changes the quantity, not the recipe.',
+    'recipes.addAlternative': '+ substance',
+    'recipes.qtyMin': 'From',
+    'recipes.qtyMax': 'To',
+    'recipes.qtyRangeHint': 'If the quantity is exact, fill only the first field.',
+    'recipes.optionNote': 'What it gives',
+    'recipes.optionNotePlaceholder': 'colourless, yellow, red-brown…',
+    'recipes.choose': 'Which one you are using',
+    'recipes.heldMinutes': 'Held (min)',
+    'recipes.heldHint': 'While the temperature is maintained.',
+    'recipes.restMinutes': 'Steeped after switching off (min)',
+    'recipes.restHint': 'The bath cools during this time. A separate figure, because it is often what makes the result.',
+
+
+    'recipes.addFollowOn': '+ add recipe',
+    'recipes.thenDo': 'Required afterwards: {what}',
+
+    'tools.exhaust': 'Exhaust bath',
+    'tools.short.exhaust': 'Exhaust bath',
+    'tools.when.exhaust': 'After the first dyeing, when pigment is still left in the pot.',
+    'tools.firstWeight': 'Weight of the first cloth (g)',
+    'tools.remainingStrength': 'Remaining strength (%)',
+    'tools.remainingStrengthHint': 'Around 50% is the usual assumption. A short, cool first dyeing leaves more behind.',
+    'tools.sameShade': 'Same shade on cloth up to',
+    'tools.sameWeight': 'Or the same weight, at strength',
+    'tools.exhaustCaveat': 'A rule of thumb, not a computation. The real figure depends on how exhausted the first bath was.',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',
