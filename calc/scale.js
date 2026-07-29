@@ -52,12 +52,20 @@ export function scaleRecipe(recipe, {
   receptiveFraction = 100,
   liquorRatio = null,
   choices = null,        // { [ingredientId]: optionId } — which alternative is used
+  bathLitres = null,     // used when the recipe is scaled by volume, not by cloth
 } = {}) {
   if (!recipe) return { ingredients: [], bathLitres: null, dropped: [] };
 
   const effectiveWeight = (weightG || 0) * (receptiveFraction / 100);
+
+  // Some recipes are not scaled against cloth at all. A chalk finishing bath
+  // is a standing solution — 10 g per litre, five litres of it — and the cloth
+  // simply goes in. Treating volume as derived from weight distorts these.
+  const byVolume = recipe.scaleBy === 'volume';
   const ratio = liquorRatio ?? recipe.liquorRatio ?? null;
-  const litres = ratio ? (weightG / 1000) * ratio : null;
+  const litres = byVolume
+    ? (bathLitres ?? recipe.defaultLitres ?? null)
+    : (ratio ? (weightG / 1000) * ratio : null);
 
   const ingredients = [];
   const dropped = [];

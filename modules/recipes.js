@@ -31,7 +31,7 @@ const host = {
 let filterType = null;
 let openId = null;
 let draft = null;
-let scaleCtx = { weightG: 250, fibreClass: 'cellulose' };
+let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null };
 let scaleChoices = {};
 
 function blank() {
@@ -43,6 +43,8 @@ function blank() {
     appliesTo: ['cellulose'],
     ingredients: [],
     steps: [],
+    scaleBy: 'weight',
+    defaultLitres: null,
     liquorRatio: null,
     tempC: null,
     heldMinutes: null,
@@ -178,7 +180,11 @@ function stepRows(r) {
 }
 
 async function scaleBlock(r, substances) {
-  const scaled = scaleRecipe(r, { ...scaleCtx, choices: scaleChoices });
+  const byVolume = r.scaleBy === 'volume';
+  const scaled = scaleRecipe(r, {
+    ...scaleCtx, choices: scaleChoices,
+    bathLitres: byVolume ? (scaleCtx.bathLitres ?? r.defaultLitres) : null,
+  });
   const followText = (r.requiredFollowOn || []).length
     ? (await all('recipes'))
         .filter(x => (r.requiredFollowOn || []).includes(x.id))
@@ -221,8 +227,10 @@ async function scaleBlock(r, substances) {
   }))).join('');
 
   return `
-    ${field(t('recipes.forWeight'), `<input type="number" step="1" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}">`)}
-    ${field(t('recipes.forFibre'), `<select data-scale="fibreClass">${await options('fibre_class', scaleCtx.fibreClass, '')}</select>`)}
+    ${byVolume
+      ? field(t('recipes.forLitres'), `<input type="number" step="0.5" min="0" data-scale="bathLitres" value="${scaleCtx.bathLitres ?? r.defaultLitres ?? ''}">`)
+      : field(t('recipes.forWeight'), `<input type="number" step="1" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}">`) +
+        field(t('recipes.forFibre'), `<select data-scale="fibreClass">${await options('fibre_class', scaleCtx.fibreClass, '')}</select>`)}
     ${r.type === 'blanket' ? note(t('recipes.blanketBasisWarn'), 'warn') : ''}
     <div class="calcresults">
       ${lines.join('')}
@@ -287,7 +295,13 @@ async function renderForm(root, r) {
             ${field(t('recipes.tempC'), `<input type="number" step="1" data-f="tempC" value="${r.tempC ?? ''}">`)}
             ${field(t('recipes.heldMinutes'), `<input type="number" step="5" min="0" data-f="heldMinutes" value="${r.heldMinutes ?? ''}">`, t('recipes.heldHint'))}
             ${field(t('recipes.restMinutes'), `<input type="number" step="10" min="0" data-f="restMinutes" value="${r.restMinutes ?? ''}">`, t('recipes.restHint'))}
-            ${field(t('recipes.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${r.liquorRatio ?? ''}">`)}
+            ${field(t('recipes.scaleBy'), `<select data-f="scaleBy">
+                <option value="weight"${r.scaleBy !== 'volume' ? ' selected' : ''}>${t('recipes.scaleBy.weight')}</option>
+                <option value="volume"${r.scaleBy === 'volume' ? ' selected' : ''}>${t('recipes.scaleBy.volume')}</option>
+              </select>`, t('recipes.scaleByHint'))}
+            ${r.scaleBy === 'volume'
+              ? field(t('recipes.defaultLitres'), `<input type="number" step="0.5" min="0" data-f="defaultLitres" value="${r.defaultLitres ?? ''}">`)
+              : field(t('recipes.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${r.liquorRatio ?? ''}">`)}
             ${field(t('recipes.phTarget'), `<input type="number" step="0.1" min="0" max="14" data-f="phTarget" value="${r.phTarget ?? ''}">`)}
           `)}
 
@@ -555,6 +569,10 @@ export default {
         const box = root.querySelector('.scaleblock');
         if (box) box.innerHTML = await scaleBlock(draft, substances);
         return;
+      }
+      if (e.target.matches('[data-f="scaleBy"]')) {
+        readForm(root);
+        return renderForm(root, draft);
       }
       if (e.target.matches('[data-f="type"]') || (e.target.dataset.ing || '').endsWith('.basis') || (e.target.dataset.ing || '').endsWith('.roleCode')) {
         readForm(root);
