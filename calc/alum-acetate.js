@@ -44,18 +44,23 @@ export const isSodiumSource    = (sub) => !!(sub?.naPerUnit && sub?.molarMass);
 export function aluminiumAcetate({
   fabricWeightG,
   percentWof,
+  targetG: targetOverride = null,   // grams of finished acetate, when known directly
   aluminiumSubstance,
   sodiumSubstance,
   vinegarPercent = 9,
   receptiveFraction = 100,
 }) {
   if (!isAluminiumSource(aluminiumSubstance) || !isSodiumSource(sodiumSubstance)) return null;
-  if (!fabricWeightG || !percentWof) return null;
+  if (targetOverride == null && (!fabricWeightG || !percentWof)) return null;
 
-  const effectiveWeight = fabricWeightG * (receptiveFraction / 100);
+  const effectiveWeight = (fabricWeightG || 0) * (receptiveFraction / 100);
 
-  // Target, stated as finished product (§5.1 — basisRefersTo).
-  const targetG = effectiveWeight * (percentWof / 100);
+  // Target, stated as finished product (§5.1 — basisRefersTo). In a chain the
+  // figure comes from whatever step will consume it, rather than from a
+  // percentage: the preparation exists to serve the mordanting that follows.
+  const targetG = targetOverride != null
+    ? targetOverride
+    : effectiveWeight * (percentWof / 100);
   const molesAcetate = targetG / ALUMINIUM_ACETATE_M;   // = moles of aluminium
   const molesAlSource = molesAcetate / aluminiumSubstance.alPerUnit;
   const aluminiumG = molesAlSource * aluminiumSubstance.molarMass;

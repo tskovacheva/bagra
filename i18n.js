@@ -514,6 +514,20 @@ const DICT = {
     'chains.makeTrial': 'Създай тест от веригата',
     'chains.makeTrialSoon': 'Ще заработи, когато има модул Тестове.',
 
+
+    'recipes.produces': 'Произвежда вещество',
+    'recipes.producesHint': 'Рецептата не се прилага върху плат, а прави вещество, което после се използва. Приготвянето и мордантирането са два процеса.',
+    'recipes.calculator': 'Смята се с калкулатор',
+    'recipes.calc.none': 'обикновено мащабиране по тегло',
+    'recipes.calc.alum_acetate': 'алуминиев ацетат (стехиометрия)',
+    'recipes.targetG': 'Колко готово вещество ти трябва (г)',
+    'recipes.targetHint': 'Във верига това число идва само — от стъпката, която го употребява.',
+    'recipes.transfer': 'Пренеси в съставките',
+    'recipes.transferHint': 'Записва изчислените грамове като точни количества в рецептата.',
+    'recipes.transferred': 'Количествата са пренесени в съставките.',
+    'recipes.producedBy': 'Приготвя се от: {what}',
+    'chains.producedFor': 'Количеството идва от стъпка {n}.',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -993,6 +1007,20 @@ const DICT = {
     'chains.noRecipes': 'Enter at least two recipes first.',
     'chains.makeTrial': 'Create a trial from this chain',
     'chains.makeTrialSoon': 'Will work once the Trials module exists.',
+
+
+    'recipes.produces': 'Produces a substance',
+    'recipes.producesHint': 'The recipe is not applied to cloth; it makes a substance that is used later. Preparing and mordanting are two processes.',
+    'recipes.calculator': 'Calculated by',
+    'recipes.calc.none': 'ordinary scaling by weight',
+    'recipes.calc.alum_acetate': 'aluminium acetate (stoichiometry)',
+    'recipes.targetG': 'How much finished substance is needed (g)',
+    'recipes.targetHint': 'In a chain this figure arrives on its own — from the step that consumes it.',
+    'recipes.transfer': 'Transfer into ingredients',
+    'recipes.transferHint': 'Writes the computed grams into the recipe as exact quantities.',
+    'recipes.transferred': 'Quantities transferred into the ingredients.',
+    'recipes.producedBy': 'Prepared from: {what}',
+    'chains.producedFor': 'The amount comes from step {n}.',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

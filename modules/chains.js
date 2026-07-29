@@ -12,6 +12,7 @@ import { all, get, put, remove, newRecord, uid } from '../db.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, note, pairField, readPairs } from '../ui.js';
 import { scaleChain, chainFollowOns } from '../calc/scale.js';
+import { aluminiumAcetate, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
 
 const FIBRE_CLASSES = ['cellulose', 'protein'];
 
@@ -124,8 +125,51 @@ async function planBlock(c, recipes, substances) {
   const steps = scaleChain(c, byId, ctx);
   const follows = chainFollowOns(steps, byId);
 
+  // A preparation step makes something a later step consumes. Its quantities
+  // therefore come from that consumption, not from a percentage of the cloth —
+  // which is the whole reason the two are separate recipes.
+  const demand = new Map();
+  for (const st of steps) {
+    for (const ing of st.scaled?.ingredients || []) {
+      const id = ing.option?.substanceId;
+      if (!id) continue;
+      const g = ing.scaledMax ?? ing.scaledMin ?? ing.scaledAmount;
+      if (g != null) demand.set(id, (demand.get(id) || 0) + g);
+    }
+  }
+
   const blocks = await Promise.all(steps.map(async (st, i) => {
     if (!st.recipe) return '';
+
+    if (st.recipe.calculatorKey === 'alum_acetate' && st.recipe.producesSubstanceId) {
+      const needed = demand.get(st.recipe.producesSubstanceId) || st.recipe.targetG || 0;
+      const alSub = substances.filter(isAluminiumSource)[0];
+      const naSub = substances.filter(isSodiumSource)[0];
+      const res = aluminiumAcetate({
+        targetG: needed, aluminiumSubstance: alSub, sodiumSubstance: naSub,
+        vinegarPercent: st.recipe.vinegarPercent || 9,
+      });
+      const consumerIndex = steps.findIndex(x =>
+        (x.scaled?.ingredients || []).some(ing => ing.option?.substanceId === st.recipe.producesSubstanceId));
+      return `
+        <div class="planstep">
+          <div class="chainhead">
+            <span class="stepnum">${i + 1}</span>
+            <b>${esc(text(st.recipe.name))}</b>
+            <span class="spacer"></span>
+            <span class="hint">${needed ? needed.toFixed(1) + ' ' + t('tools.grams') : ''}</span>
+          </div>
+          ${res ? `
+            <div class="calcout"><span class="calclabel">${esc(text(alSub.name))}</span>
+              <span class="calcvalue">${res.aluminiumSource.grams} <small>${t('tools.grams')}</small></span></div>
+            <div class="calcout"><span class="calclabel">${esc(text(naSub.name))}</span>
+              <span class="calcvalue">${res.sodiumSource.grams} <small>${t('tools.grams')}</small></span></div>
+            ${res.acid ? `<div class="calcout"><span class="calclabel">${t('tools.vinegar')} ${res.acid.vinegarPercent}%</span>
+              <span class="calcvalue">${res.acid.vinegarMl} <small>${t('tools.ml')}</small></span></div>` : ''}`
+          : `<p class="hint">—</p>`}
+          ${consumerIndex > -1 ? `<p class="hint">${t('chains.producedFor', { n: consumerIndex + 1 })}</p>` : ''}
+        </div>`;
+    }
     const lines = await Promise.all((st.scaled?.ingredients || []).map(async ing => {
       const sub = subById.get(ing.option?.substanceId);
       const nameStr = sub ? text(sub.name) : (await label('ingredient_role', ing.roleCode)) || '—';
