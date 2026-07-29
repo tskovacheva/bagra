@@ -11,6 +11,9 @@ import { aluminiumAcetate, fromAvailable, ALUMINIUM_SOURCES, SODIUM_SOURCES } fr
 
 // Inputs persist while the module is open, so changing one field does not
 // clear the rest.
+const CALCS = ['alum', 'reverse', 'wof', 'solution', 'bath', 'drying'];
+let active = 'alum';
+
 const state = {
   wof: { weight: 250, percent: 15, receptive: 100 },
   sol: { litres: 5, percent: 1 },
@@ -52,90 +55,87 @@ function render(root) {
     aluminiumSource: a.alSource, sodiumSource: a.naSource, vinegarPercent: a.vinegar,
   });
 
+  const bodies = {
+    alum: `
+      ${field(t('tools.fabricWeight'), num('alum.weight', a.weight))}
+      ${field(t('tools.targetWof'), num('alum.percent', a.percent, '0.5'), t('tools.targetWofHint'))}
+      ${field(t('tools.alSource'), selectOf('alum.alSource', ALUMINIUM_SOURCES, a.alSource))}
+      ${field(t('tools.naSource'), selectOf('alum.naSource', SODIUM_SOURCES, a.naSource))}
+      ${alum?.acid ? field(t('tools.vinegarPercent'), num('alum.vinegar', a.vinegar, '0.5')) : ''}
+      ${alum ? `
+        <div class="calcresults">
+          ${out(t('tools.needed') + ' — ' + alum.aluminiumSource.label, alum.aluminiumSource.grams, t('tools.grams'))}
+          ${out(t('tools.needed') + ' — ' + alum.sodiumSource.label, alum.sodiumSource.grams, t('tools.grams'))}
+          ${alum.acid ? out(t('tools.vinegar') + ' ' + alum.acid.vinegarPercent + '%', alum.acid.vinegarMl, t('tools.ml')) : ''}
+          ${alum.acid ? out(t('tools.aceticAcid'), alum.acid.aceticAcidG, t('tools.grams')) : ''}
+          ${out('Al(CH₃COO)₃', alum.targetAluminiumAcetateG, t('tools.grams'))}
+        </div>
+        ${!alum.acid ? `<p class="note">${t('tools.noAcid')}</p>` : ''}
+        <p class="note warn">${t('tools.finishing')}</p>
+        <p class="hint">${t('tools.verify')}</p>` : ''}`,
+
+    reverse: `
+      ${field(t('tools.available'), num('rev.available', r.available))}
+      ${field(t('tools.limiting'), `<select data-calc="rev.limiting">
+        <option value="aluminium"${r.limiting === 'aluminium' ? ' selected' : ''}>${t('tools.limiting.aluminium')}</option>
+        <option value="sodium"${r.limiting === 'sodium' ? ' selected' : ''}>${t('tools.limiting.sodium')}</option>
+      </select>`)}
+      ${field(t('tools.targetWof'), num('alum.percent', a.percent, '0.5'))}
+      ${reverse ? `<div class="calcresults">
+        ${out(t('tools.maxFabric'), reverse.maxFabricG, t('tools.grams'))}
+        ${out(t('tools.needed') + ' — ' + reverse.recipe.aluminiumSource.label, reverse.recipe.aluminiumSource.grams, t('tools.grams'))}
+        ${out(t('tools.needed') + ' — ' + reverse.recipe.sodiumSource.label, reverse.recipe.sodiumSource.grams, t('tools.grams'))}
+      </div>` : ''}`,
+
+    wof: `
+      ${field(t('tools.fabricWeight'), num('wof.weight', w.weight))}
+      ${field(t('tools.percent'), num('wof.percent', w.percent, '0.5'))}
+      ${field(t('tools.receptive'), num('wof.receptive', w.receptive), t('tools.receptiveHint'))}
+      <div class="calcresults">
+        ${out(t('tools.result'), wofGrams(w.weight, w.percent, w.receptive), t('tools.grams'))}
+      </div>`,
+
+    solution: `
+      <p class="note">${t('tools.solutionHint')}</p>
+      ${field(t('tools.water'), num('sol.litres', s.litres, '0.5'))}
+      ${field(t('tools.strength'), num('sol.percent', s.percent, '0.1'))}
+      <div class="calcresults">
+        ${out(t('tools.result'), solutionGrams(s.litres, s.percent), t('tools.grams'))}
+      </div>`,
+
+    bath: `
+      ${field(t('tools.fabricWeight'), num('bath.weight', b.weight))}
+      ${field(t('tools.liquorRatio'), num('bath.ratio', b.ratio))}
+      <div class="calcresults">
+        ${out(t('tools.result'), bathLitres(b.weight, b.ratio), t('tools.litres'))}
+      </div>`,
+
+    drying: `
+      ${field(t('tools.driedAmount'), num('dry.dried', d.dried))}
+      ${field(t('tools.dryingRatio'), num('dry.ratio', d.ratio, '0.5'))}
+      <div class="calcresults">
+        ${out(t('tools.freshNeeded'), freshFromDried(d.dried, d.ratio), t('tools.grams'))}
+      </div>`,
+  };
+
+  const titles = { alum: 'tools.alum', reverse: 'tools.reverse', wof: 'tools.wof',
+                   solution: 'tools.solution', bath: 'tools.bath', drying: 'tools.drying' };
+
   root.innerHTML = page({
     title: t('tools.title'),
     sub: t('tools.sub'),
     body: `
-      <div class="cols">
-        <div class="col">
-          ${panel(`
-            <h2>${t('tools.alum')}</h2>
-            <p class="note">${t('tools.alumHint')}</p>
-            ${field(t('tools.fabricWeight'), num('alum.weight', a.weight))}
-            ${field(t('tools.targetWof'), num('alum.percent', a.percent, '0.5'), t('tools.targetWofHint'))}
-            ${field(t('tools.alSource'), selectOf('alum.alSource', ALUMINIUM_SOURCES, a.alSource))}
-            ${field(t('tools.naSource'), selectOf('alum.naSource', SODIUM_SOURCES, a.naSource))}
-            ${alum?.acid ? field(t('tools.vinegarPercent'), num('alum.vinegar', a.vinegar, '0.5')) : ''}
-
-            ${alum ? `
-              <div class="calcresults">
-                ${out(t('tools.needed') + ' — ' + alum.aluminiumSource.label, alum.aluminiumSource.grams, t('tools.grams'))}
-                ${out(t('tools.needed') + ' — ' + alum.sodiumSource.label, alum.sodiumSource.grams, t('tools.grams'))}
-                ${alum.acid ? out(t('tools.vinegar') + ' ' + alum.acid.vinegarPercent + '%', alum.acid.vinegarMl, t('tools.ml')) : ''}
-                ${alum.acid ? out(t('tools.aceticAcid'), alum.acid.aceticAcidG, t('tools.grams')) : ''}
-                ${out('Al(CH₃COO)₃', alum.targetAluminiumAcetateG, t('tools.grams'))}
-              </div>
-              ${!alum.acid ? `<p class="note">${t('tools.noAcid')}</p>` : ''}
-              <p class="note warn">${t('tools.finishing')}</p>
-              <p class="hint">${t('tools.verify')}</p>` : ''}
-          `)}
-
-          ${panel(`
-            <h2>${t('tools.reverse')}</h2>
-            <p class="note">${t('tools.reverseHint')}</p>
-            ${field(t('tools.available'), num('rev.available', r.available))}
-            ${field(t('tools.limiting'), `<select data-calc="rev.limiting">
-              <option value="aluminium"${r.limiting === 'aluminium' ? ' selected' : ''}>${t('tools.limiting.aluminium')}</option>
-              <option value="sodium"${r.limiting === 'sodium' ? ' selected' : ''}>${t('tools.limiting.sodium')}</option>
-            </select>`)}
-            ${reverse ? `<div class="calcresults">
-              ${out(t('tools.maxFabric'), reverse.maxFabricG, t('tools.grams'))}
-            </div>` : ''}
-          `)}
-        </div>
-
-        <div class="col">
-          ${panel(`
-            <h2>${t('tools.wof')}</h2>
-            <p class="note">${t('tools.wofHint')}</p>
-            ${field(t('tools.fabricWeight'), num('wof.weight', w.weight))}
-            ${field(t('tools.percent'), num('wof.percent', w.percent, '0.5'))}
-            ${field(t('tools.receptive'), num('wof.receptive', w.receptive), t('tools.receptiveHint'))}
-            <div class="calcresults">
-              ${out(t('tools.result'), wofGrams(w.weight, w.percent, w.receptive), t('tools.grams'))}
-            </div>
-          `)}
-
-          ${panel(`
-            <h2>${t('tools.solution')}</h2>
-            <p class="note">${t('tools.solutionHint')}</p>
-            ${field(t('tools.water'), num('sol.litres', s.litres, '0.5'))}
-            ${field(t('tools.strength'), num('sol.percent', s.percent, '0.1'))}
-            <div class="calcresults">
-              ${out(t('tools.result'), solutionGrams(s.litres, s.percent), t('tools.grams'))}
-            </div>
-          `)}
-
-          ${panel(`
-            <h2>${t('tools.bath')}</h2>
-            <p class="note">${t('tools.bathHint')}</p>
-            ${field(t('tools.fabricWeight'), num('bath.weight', b.weight))}
-            ${field(t('tools.liquorRatio'), num('bath.ratio', b.ratio))}
-            <div class="calcresults">
-              ${out(t('tools.result'), bathLitres(b.weight, b.ratio), t('tools.litres'))}
-            </div>
-          `)}
-
-          ${panel(`
-            <h2>${t('tools.drying')}</h2>
-            <p class="note">${t('tools.dryingHint')}</p>
-            ${field(t('tools.driedAmount'), num('dry.dried', d.dried))}
-            ${field(t('tools.dryingRatio'), num('dry.ratio', d.ratio, '0.5'))}
-            <div class="calcresults">
-              ${out(t('tools.freshNeeded'), freshFromDried(d.dried, d.ratio), t('tools.grams'))}
-            </div>
-          `)}
-        </div>
+      <div class="boxes">
+        ${CALCS.map(c => `<button class="box${c === active ? ' active' : ''}" data-calc-pick="${c}">
+          <span class="boxname">${esc(t('tools.short.' + c))}</span>
+        </button>`).join('')}
+      </div>
+      <div class="calcpane">
+        ${panel(`
+          <h2>${t(titles[active])}</h2>
+          <p class="calcwhen">${t('tools.when.' + active)}</p>
+          ${bodies[active]}
+        `)}
       </div>`,
   });
 }
@@ -157,6 +157,13 @@ export default {
 
     // Recompute on every keystroke: a calculator that needs a button pressed
     // is a calculator that gets used once and then done on paper again.
+    root.onclick = (e) => {
+      const pick = e.target.closest('[data-calc-pick]');
+      if (!pick) return;
+      active = pick.dataset.calcPick;
+      render(root);
+    };
+
     root.oninput = (e) => {
       if (!e.target.dataset.calc) return;
       const active = e.target.dataset.calc;

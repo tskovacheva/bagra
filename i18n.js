@@ -328,6 +328,21 @@ const DICT = {
     'tools.limiting.sodium': 'натриев източник',
     'tools.maxFabric': 'Стига за тъкан до',
 
+
+    'tools.pick': 'Кой калкулатор',
+    'tools.when.alum': 'Преди мордантиране на целулозни тъкани, когато си приготвяш ацетата сама.',
+    'tools.when.reverse': 'Когато шкафът определя партидата — имаш толкова стипца и питаш за колко плат стига.',
+    'tools.when.wof': 'При всяка рецепта, изразена в проценти от теглото на тъканта.',
+    'tools.when.solution': 'При одеяла и последващи бани — желязо, мед, модификатори.',
+    'tools.when.bath': 'Преди да напълниш тенджерата, за да знаеш колко вода е нужна.',
+    'tools.when.drying': 'Когато рецептата е за сух материал, а ти береш свеж — или обратното.',
+    'tools.short.alum': 'Алуминиев ацетат',
+    'tools.short.reverse': 'Обратно смятане',
+    'tools.short.wof': '% WOF',
+    'tools.short.solution': 'Разтвор',
+    'tools.short.bath': 'Обем баня',
+    'tools.short.drying': 'Свежо / сушено',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -621,6 +636,21 @@ const DICT = {
     'tools.limiting.aluminium': 'aluminium source',
     'tools.limiting.sodium': 'sodium source',
     'tools.maxFabric': 'Enough for cloth up to',
+
+
+    'tools.pick': 'Which calculator',
+    'tools.when.alum': 'Before mordanting cellulose, when preparing the acetate yourself.',
+    'tools.when.reverse': 'When the cupboard sets the batch — you have this much alum, how much cloth does it cover?',
+    'tools.when.wof': 'For any recipe expressed as a percentage of the weight of goods.',
+    'tools.when.solution': 'For blankets and afterbaths — iron, copper, modifiers.',
+    'tools.when.bath': 'Before filling the pot, to know how much water is needed.',
+    'tools.when.drying': 'When the recipe is written for dried material and you have fresh — or the reverse.',
+    'tools.short.alum': 'Aluminium acetate',
+    'tools.short.reverse': 'Reverse',
+    'tools.short.wof': '% WOF',
+    'tools.short.solution': 'Solution',
+    'tools.short.bath': 'Bath volume',
+    'tools.short.drying': 'Fresh / dried',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

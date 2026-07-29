@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.8 — plant cultivation, harvest, dosing and temperature blocks
+**Status:** v1.10 — conditional ingredients, recipe chains, damage ceilings
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -294,7 +294,40 @@ This has three consequences:
    pass — doses by concentration in g/L, because there is no repeat dip to build up mordant. Same
    recipe, two methods, two bases. `RecipeMethod` = `{ code, basis, defaults, note {bg,en} }`.
 
-### 5.2 Required follow-on steps
+### 5.2 Conditional ingredients
+
+An ingredient may apply only to certain fibres. Cream of tartar is required when mordanting wool
+with alum and pointless on cotton; a recipe that lists it unconditionally is wrong half the time,
+and one that omits it is wrong the other half.
+
+`RecipeIngredient` therefore carries `whenFibreClass: [code] | null`. When a recipe is scaled
+against a specific fabric, ingredients whose condition does not match are dropped from the result
+rather than shown greyed out — the output should be the list to weigh, not a list to filter mentally.
+
+### 5.3 Recipe chains — the preparation sequence
+
+Cellulose needs three separate processes before it can be dyed: scour, tannin, mordant. Each is its
+own recipe, but they are always run as a sequence against **one** weight of goods, and doing the
+arithmetic three times by hand is where errors enter.
+
+A **Chain** is an ordered list of recipe references scaled together from a single weight:
+
+```
+Chain
+  id, name {bg,en}, appliesTo [fibreClassCode]
+  steps [ { order, recipeId, note } ]
+  sourceRef, distributable
+```
+
+Entering one weight yields the full shopping list for the whole preparation, in order, with each
+recipe's own ingredients scaled and conditional ones resolved against that fabric. This is the
+"wizard" idea, but modelled as data rather than as a hard-coded screen — new chains can be added
+without touching code, and a chain is itself shippable in a reference pack.
+
+`requiredFollowOn` (§5.4) remains distinct: a chain is a plan the user assembles, a follow-on is a
+step the recipe cannot be correct without.
+
+### 5.4 Required follow-on steps
 
 Some recipes are incomplete without a step that is not optional and not part of the main
 procedure — an aluminium acetate mordant requires a chalk or bran finishing bath afterwards, which
@@ -543,6 +576,29 @@ before it can be used, and doing that on paper each time is where errors enter.
   forward must also scale backward from whichever ingredient is the constraint
 - **Dye-to-fibre ratio calculator**
 - **Bath volume** — water needed for a given weight of goods at a chosen liquor ratio
+- **Exhaust bath** — after the first dyeing the bath still holds pigment. A rule of thumb rather
+  than a computation: roughly half the strength remains, so either a lighter shade on the same
+  weight or a full shade on less. Presented as an estimate with its uncertainty stated, since the
+  real figure depends on how thoroughly the first bath was exhausted
+
+### 9.1 Where the boundary runs — calculator or recipe?
+
+A **calculator** is a conversion with no author: % WOF, solution strength, bath volume, fresh-to-dried.
+Nobody wrote these; they are arithmetic, and hard-coding them is right.
+
+A **recipe** is a procedure with proportions that someone wrote: scouring cellulose at 2% soda ash,
+a tannin bath at 7–10%, Michel Garcia's 1-2-3 indigo vat, a carrier blanket at 1–2% iron. These
+look like calculators but are not: they have authorship, versions, sources, and steps. They belong
+in Recipes and are served by **one** generic scaling engine, not by fifteen bespoke screens.
+
+The aluminium acetate preparation is the deliberate exception. It is not proportions scaled by
+weight but stoichiometry with substitution — changing the aluminium source changes the quantities
+of the others — so it earns dedicated code.
+
+**The blanket trap deserves naming:** a carrier blanket's iron solution is calculated against the
+weight of *the blanket*, not of the art cloth. Same arithmetic, different weight of goods, and
+getting it wrong is a common and expensive mistake. Blanket recipes therefore state their basis
+explicitly rather than inheriting the trial's weight.
 - Reference guides and glossary
 - Backup: export / import, with a staleness reminder (the Глина lesson)
 - Version info
@@ -695,6 +751,14 @@ EU, a substantial extraction from a structured collection even when its elements
 recipes lifted from one book displaces the book; that is the test, and it applies regardless of how
 carefully each one is reworded.
 
+**Where these fields belong.** Only on records that carry *authored text*: recipes, plant
+descriptions, and the expected-outcome prose of combinations. Not on substances. That aluminium
+sulfate is Al₂(SO₄)₃·18H₂O, or that titanium oxalate must not exceed 70 °C, is a fact off the
+label — measured, not written, owned by nobody, and repeated identically in every supplier
+catalogue. Asking for attribution there is noise that slows entry without protecting anyone.
+Stock records carry neither field: a jar bought from a supplier is not knowledge and never
+travels in a pack.
+
 Practically: reference material derived from a single published source defaults to
 `distributable: false`. It becomes true when the procedure has been rewritten from the user's own
 practice, when it is common knowledge attested across several independent sources, or when the
@@ -784,25 +848,59 @@ State codes: `unwashed → scoured → tanned → mordanted → dyed → finishe
 `state` is derived from the latest event, following the Глина single-owner rule: when state events
 exist they own the state; otherwise the field set at creation does.
 
-### 13.4 Material
+### 13.4 Substance and Stock — two entities, not one
 
-Everything else on the shelf. One entity, five categories.
+The original model made "material" a single record, and the interface built from it was confusing
+for a reason that was structural rather than cosmetic: one record was trying to be two things.
+
+**Substance** — what aluminium acetate *is*. Formula, hydration state, standard % WOF, which fibre
+classes it suits, temperature ceiling, safety and disposal. This is reference knowledge: true
+whether or not a jar is on the shelf, identical for every practitioner, and shipped in seed packs.
+
+**Stock** — *this jar*. Which supplier, bought when, how much is left, what concentration this
+particular bottle of vinegar is. Personal, never distributed, meaningless as reference.
+
+The separation matters beyond tidiness: **a recipe points at a substance, never at a jar**, so a
+recipe does not break when the jar runs out. And a seed pack can ship substances without
+pretending the recipient owns anything.
 
 ```
-id
-category        "dyestuff" | "tannin" | "mordant" | "modifier" | "auxiliary"
-name            { bg, en }
-supplier, acquiredDate, notes, photos
-stock           { value, unit }
+Substance
+  id, category, name {bg,en}
+  formula, hydrationState, molarMass
+  notes {bg,en}
+  — dyestuff: plantId, defaultPartCode, dyeClass
+  — tannin:   tanninTypeCode, plantId, colourCast
+  — mordant:  mordantTypeCode, standardPercentWof, suitableFibreClasses[],
+              colourEffect, maxTempC, handling[], disposalNote, safetyNote
+  — modifier: phDirection, typicalUse {bg,en}, effectNotes {bg,en}
+
+Stock
+  id, substanceId
+  form              // extract | dried | fresh | powder | liquid | crystal
+  supplier, acquiredDate, harvestDate
+  quantity { value, unit }, remaining { value, unit }
+  concentrationPercent      // this bottle: vinegar 5% vs 25%
+  batchNote, notes
 ```
+
+Entering something for the first time costs two records; buying it again costs one, because the
+substance already exists.
 
 Category-specific fields:
 
 - **dyestuff** — `plantId`, `form` (extract | dried | fresh), `partCode`, `harvestDate`,
   `concentration` (for extracts), `manufacturer`
 - **tannin** — `tanninTypeCode` (gallo | ellagi | condensed), `plantId | null`, `colourCast`
-- **mordant** — `mordantTypeCode`, `standardPercentWof`, `suitableFibreClasses [code]`,
+- **mordant** — `mordantTypeCode`, `standardPercentWof`, `maxPercentWof`,
+  `suitableFibreClasses [code]`,
   `colourEffect` (brightening | saddening | darkening | warming), `maxTempC`, `handlingCode`
+
+  `maxPercentWof` is a **damage ceiling**, not a preference. Iron above roughly 2% WOF embrittles
+  fibre: the cloth looks right when it comes out of the pot and tears a year later. The app flags a
+  recipe or trial step that exceeds it, in the same way it flags a temperature above `maxTempC`.
+  This is why the arithmetic behind iron does not need its own calculator — it is ordinary % WOF —
+  while the limit very much needs to live in the data.
   (gloves | mask | ventilation), `disposalNote {bg,en}`, `safetyNote {bg,en}`
 
   The vocabulary must include **titanium oxalate** alongside iron, alum and aluminium acetate — it
