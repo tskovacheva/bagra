@@ -130,6 +130,11 @@ export const VOCABULARY = [
   V('mordant_type', 'copper',          'мед',               'copper', 6),
   V('mordant_type', 'symplocos',       'симплокос',         'symplocos', 7),
 
+  V('unit', 'g',  'г',  'g', 1),
+  V('unit', 'kg', 'кг', 'kg', 2),
+  V('unit', 'ml', 'мл', 'ml', 3),
+  V('unit', 'l',  'л',  'L', 4),
+
   V('tannin_type', 'gallo',    'галотанин',   'gallotannin', 1),
   V('tannin_type', 'ellagi',   'елаготанин',  'ellagitannin', 2),
   V('tannin_type', 'condensed','кондензиран', 'condensed', 3),
