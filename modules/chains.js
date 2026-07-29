@@ -113,6 +113,13 @@ async function stepRows(c, recipes, substances) {
           <button class="btn quiet" data-chain-del="${i}" aria-label="×">×</button>
         </div>
         ${pickers ? `<div class="chainpicks">${pickers}</div>` : ''}
+        ${recipe?.scaleBy === 'volume' ? `
+          <label class="chainpick">
+            <span class="pickhint">${t('recipes.forLitres')}</span>
+            <input type="number" step="0.5" min="0" data-chainlitres="${i}"
+                   value="${st.litres ?? recipe.defaultLitres ?? ''}">
+          </label>` : ''}
+        ${!(recipe?.ingredients || []).length ? `<p class="hint">${t('chains.noQuantities')}</p>` : ''}
         <input type="text" data-chainnote="${i}" value="${esc(st.note || '')}" placeholder="${t('chains.stepNote')}">
       </div>`;
   }))).join('') || `<p class="hint">—</p>`;
@@ -132,8 +139,20 @@ async function planBlock(c, recipes, substances) {
       const amount = ing.scaledAmount != null
         ? ing.scaledAmount
         : `${ing.scaledMin ?? '—'}–${ing.scaledMax ?? '—'}`;
-      return `<div class="calcout">
-        <span class="calclabel">${esc(nameStr)}</span>
+
+      // When a role can be filled several ways, the choice belongs next to the
+      // number it changes — in the plan as well as in the step list, since the
+      // plan is what gets read at the bench.
+      const picker = (ing.options?.length > 1)
+        ? `<select data-chainchoice="${i}.${ing.id}">${ing.options.map(o => {
+            const os = subById.get(o.substanceId);
+            return `<option value="${o.id}"${o.id === ing.option?.id ? ' selected' : ''}>${
+              esc(os ? text(os.name) : '—')}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`;
+          }).join('')}</select>`
+        : '';
+
+      return `<div class="calcout calcpick">
+        <span class="calclabel">${picker || esc(nameStr)}</span>
         <span class="calcvalue">${amount} <small>${esc(ing.scaledUnit || '')}</small></span>
       </div>`;
     }));
@@ -231,6 +250,10 @@ function readForm(root) {
     const i = Number(el.dataset.chainnote);
     if (draft.steps[i]) draft.steps[i].note = el.value;
   }
+  for (const el of root.querySelectorAll('[data-chainlitres]')) {
+    const i = Number(el.dataset.chainlitres);
+    if (draft.steps[i]) draft.steps[i].litres = el.value === '' ? null : Number(el.value);
+  }
   for (const el of root.querySelectorAll('[data-chainchoice]')) {
     const [i, ingId] = el.dataset.chainchoice.split('.');
     const step = draft.steps[Number(i)];
@@ -327,6 +350,7 @@ export default {
         ctx[e.target.dataset.chainscale] = Number(e.target.value);
         return refreshPlan();
       }
+      if (e.target.dataset.chainlitres) return refreshPlan();
     };
   },
 };

@@ -165,7 +165,14 @@ export function scaleChain(chain, recipesById, context) {
         // myrobalan and with gallnut are two different chains, because they
         // give two different results. The choice is part of the plan, not a
         // preference applied at the moment of scaling.
-        scaled: recipe ? scaleRecipe(recipe, { ...context, choices: step.choices || null }) : null,
+        // A volume-scaled step carries its own litres: the chalk bath is five
+        // litres whether the cloth is 200 g or 400 g, so it cannot inherit a
+        // figure derived from the weight of goods.
+        scaled: recipe ? scaleRecipe(recipe, {
+          ...context,
+          choices: step.choices || null,
+          bathLitres: step.litres ?? recipe.defaultLitres ?? null,
+        }) : null,
       };
     });
 }

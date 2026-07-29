@@ -518,6 +518,7 @@ const DICT = {
     'chains.delete': 'Изтрий веригата',
     'chains.confirmDelete': 'Да изтрия ли тази верига?',
     'chains.noRecipes': 'Първо въведи поне две рецепти.',
+    'chains.noQuantities': 'Тази рецепта няма пропорции — количествата се смятат отделно.',
     'chains.makeTrial': 'Създай тест от веригата',
     'chains.makeTrialSoon': 'Ще заработи, когато има модул Тестове.',
 
@@ -1025,6 +1026,7 @@ const DICT = {
     'chains.delete': 'Delete chain',
     'chains.confirmDelete': 'Delete this chain?',
     'chains.noRecipes': 'Enter at least two recipes first.',
+    'chains.noQuantities': 'This recipe has no proportions — the quantities are worked out separately.',
     'chains.makeTrial': 'Create a trial from this chain',
     'chains.makeTrialSoon': 'Will work once the Trials module exists.',
 
