@@ -70,3 +70,27 @@ export function round(n, places = 1) {
   const f = 10 ** places;
   return Math.round(n * f) / f;
 }
+
+
+/**
+ * Exhaust bath — what is left in the pot after the first dyeing.
+ *
+ * This is a rule of thumb, not a computation, and the app says so. Roughly
+ * half the strength remains after a well-exhausted first bath, but the real
+ * figure depends on how thoroughly the first one was used up: a short, cool
+ * first dyeing leaves far more behind than a long, hot one.
+ *
+ * @param {number} firstWeightG  weight of goods dyed in the first bath
+ * @param {number} [remainingStrength=50]  percent of the original strength
+ * @returns {{ sameShadeWeightG:number, sameWeightStrength:number, remainingStrength:number }}
+ */
+export function exhaustBath(firstWeightG, remainingStrength = 50) {
+  if (!firstWeightG) return null;
+  return {
+    // Either a full shade on proportionally less cloth…
+    sameShadeWeightG: round(firstWeightG * (remainingStrength / 100)),
+    // …or the same weight of cloth at a correspondingly lighter shade.
+    sameWeightStrength: round(remainingStrength),
+    remainingStrength,
+  };
+}

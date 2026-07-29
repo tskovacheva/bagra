@@ -6,7 +6,7 @@
 
 import { t } from '../i18n.js';
 import { page, panel, field, esc } from '../ui.js';
-import { wofGrams, solutionGrams, bathLitres, freshFromDried } from '../calc/basic.js';
+import { wofGrams, solutionGrams, bathLitres, freshFromDried, exhaustBath } from '../calc/basic.js';
 import { aluminiumAcetate, fromAvailable, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
 import { all } from '../db.js';
 import { text } from '../i18n.js';
@@ -15,7 +15,7 @@ import { text } from '../i18n.js';
 // clear the rest.
 // Everyday conversions first; the purchase-planning one last, since it is
 // consulted rarely and belongs to stock rather than to a dye session.
-const CALCS = ['alum', 'wof', 'solution', 'bath', 'drying', 'reverse'];
+const CALCS = ['alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
 
 // Substances come from the Substances module — the calculator keeps no table
 // of its own, or the two would drift apart.
@@ -31,6 +31,7 @@ const state = {
     weight: 500, percent: 6,
     alSource: '', naSource: '', vinegar: 9,
   },
+  exhaust: { firstWeight: 250, strength: 50 },
   rev: { available: 200, limiting: 'aluminium' },
 };
 
@@ -53,6 +54,8 @@ function substanceSelect(path, list, selected) {
 
 function render(root) {
   const w = state.wof, s = state.sol, b = state.bath, d = state.dry, a = state.alum, r = state.rev;
+  const x = state.exhaust;
+  const exhaust = exhaustBath(x.firstWeight, x.strength);
 
   const alSources = substances.filter(isAluminiumSource);
   const naSources = substances.filter(isSodiumSource);
@@ -126,6 +129,15 @@ function render(root) {
         ${out(t('tools.result'), bathLitres(b.weight, b.ratio), t('tools.litres'))}
       </div>`,
 
+    exhaust: `
+      ${field(t('tools.firstWeight'), num('exhaust.firstWeight', x.firstWeight))}
+      ${field(t('tools.remainingStrength'), num('exhaust.strength', x.strength, '5'), t('tools.remainingStrengthHint'))}
+      ${exhaust ? `<div class="calcresults">
+        ${out(t('tools.sameShade'), exhaust.sameShadeWeightG, t('tools.grams'))}
+        ${out(t('tools.sameWeight'), exhaust.sameWeightStrength, '%')}
+      </div>
+      <p class="hint">${t('tools.exhaustCaveat')}</p>` : ''}`,
+
     drying: `
       ${field(t('tools.driedAmount'), num('dry.dried', d.dried))}
       ${field(t('tools.dryingRatio'), num('dry.ratio', d.ratio, '0.5'))}
@@ -135,7 +147,8 @@ function render(root) {
   };
 
   const titles = { alum: 'tools.alum', reverse: 'tools.reverse', wof: 'tools.wof',
-                   solution: 'tools.solution', bath: 'tools.bath', drying: 'tools.drying' };
+                   solution: 'tools.solution', bath: 'tools.bath', drying: 'tools.drying',
+                   exhaust: 'tools.exhaust' };
 
   root.innerHTML = page({
     title: t('tools.title'),
