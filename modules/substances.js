@@ -46,6 +46,36 @@ async function detailOf(x) {
   }
 }
 
+// Adds seeded substances that are not present, and touches nothing else.
+// A record the user has edited, or deliberately deleted and rewritten, keeps
+// its own id — so re-running this can never overwrite her work. The reverse
+// is the real risk this guards against: a base library quietly going missing
+// after a deploy, with no way to get it back short of wiping the database.
+async function mergeSeed() {
+  let added = 0;
+  try {
+    const res = await fetch('seed/substances.json');
+    const pack = await res.json();
+    const existing = new Set((await all('substances')).map(x => x.id));
+    for (const row of pack.substances) {
+      const id = 'seed:' + row.code;
+      if (existing.has(id)) continue;
+      const { code, ...rest } = row;
+      await put('substances', {
+        id, origin: 'seed', packId: pack.packId, packVersion: pack.packVersion,
+        editedByUser: false, editedFields: [],
+        createdAt: new Date().toISOString(),
+        suitableFibreClasses: [], handling: [],
+        ...rest,
+      });
+      added++;
+    }
+  } catch (err) {
+    console.warn('seed merge failed:', err);
+  }
+  return added;
+}
+
 async function renderList(root) {
   const list = await all('substances');
   const stock = await all('stock');
@@ -91,7 +121,8 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('substances.title'),
     sub: t('substances.sub'),
-    actions: `<button class="btn primary" data-new>${t('substances.new')}</button>`,
+    actions: `<button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
+              <button class="btn primary" data-new>${t('substances.new')}</button>`,
     body: `
       <div class="boxes">
         <button class="box${filterCat === null ? ' active' : ''}" data-cat="">
@@ -146,7 +177,6 @@ async function propertiesBlock(r) {
           <option value="acid"${r.phDirection === 'acid' ? ' selected' : ''}>${t('materials.ph.acid')}</option>
           <option value="alkaline"${r.phDirection === 'alkaline' ? ' selected' : ''}>${t('materials.ph.alkaline')}</option>
         </select>`)}
-      ${pairField(t('materials.typicalUse'), 'typicalUse', r.typicalUse, { multiline: true })}
       ${pairField(t('materials.effect'), 'effectNotes', r.effectNotes, { multiline: true })}`;
   }
 
@@ -185,8 +215,8 @@ async function renderForm(root, r) {
           ${panel(`
             <h2>${t('substances.identity')}</h2>
             ${field(t('materials.category'), `<select data-f="category">${await options('material_category', r.category, '')}</select>`)}
-            ${field(t('materials.name'), `<input type="text" data-f="nameText" value="${esc(text(r.name))}">`,
-              t('substances.nameHint'))}
+            ${pairField(t('materials.name'), 'name', r.name)}
+            ${pairField(t('substances.purpose'), 'typicalUse', r.typicalUse, { multiline: true, placeholder: t('substances.purposePlaceholder') })}
           `)}
 
           ${props ? panel(`
@@ -197,7 +227,7 @@ async function renderForm(root, r) {
           ${HAS_CHEMISTRY.includes(r.category) ? panel(`
             <h2>${t('substances.chemistry')}</h2>
             <p class="note">${t('substances.chemistryHint')}</p>
-            ${field(t('materials.formula'), `<input type="text" class="mono" data-f="formula" value="${esc(r.formula || '')}" placeholder="Al₂(SO₄)₃">`)}
+            ${field(t('materials.formula'), `<input type="text" class="mono" data-f="formula" value="${esc(r.formula || '')}" placeholder="">`)}
             ${field(t('materials.hydration'), `<input type="text" data-f="hydrationState" value="${esc(r.hydrationState || '')}">`, t('materials.hydrationHint'))}
             ${field(t('materials.molarMass'), `<input type="number" step="0.01" min="0" data-f="molarMass" value="${r.molarMass ?? ''}">`)}
             ${field(t('substances.alPerUnit'), `<input type="number" step="1" min="0" data-f="alPerUnit" value="${r.alPerUnit ?? ''}">`, t('substances.alPerUnitHint'))}
@@ -245,13 +275,6 @@ function readForm(root) {
   }
   Object.assign(draft, multi);
   readPairs(root, draft);
-
-  // A chemical name is effectively the same in both languages, so it is a
-  // plain field rather than a pair — one less thing to fill in twice.
-  if (draft.nameText !== undefined) {
-    draft.name = { bg: draft.nameText, en: draft.nameText };
-    delete draft.nameText;
-  }
 }
 
 export default {
@@ -273,6 +296,11 @@ export default {
     root.onclick = async (e) => {
       const cat = e.target.closest('[data-cat]');
       if (cat) { filterCat = cat.dataset.cat || null; return this.render(root); }
+      if (e.target.closest('[data-reseed]')) {
+        const added = await mergeSeed();
+        alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
+        return this.render(root);
+      }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
       const row = e.target.closest('[data-open]');
       if (row) { draft = null; openId = row.dataset.open; return this.render(root); }

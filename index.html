@@ -230,6 +230,10 @@ textarea{resize:vertical}
 /* ---------- calculators ---------- */
 .calcpane{max-width:520px}
 .calcwhen{font-size:13.5px;color:var(--muted);margin:-6px 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.btnrow{display:flex;gap:8px;margin:12px 0}
+.rule{border:0;border-top:1px solid var(--line);margin:18px 0}
+.subhead{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+label.btn{cursor:pointer}
 .calcresults{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
 .calcout{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:5px 0}
 .calclabel{font-size:13px;color:var(--muted)}
@@ -243,6 +247,9 @@ textarea{resize:vertical}
 .ingdetail{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .optblock{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .optlabel{display:block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.orsep{display:flex;align-items:center;gap:8px;margin:2px 0 6px}
+.orsep::before,.orsep::after{content:"";flex:1;height:1px;background:var(--line)}
+.orsep span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .optrow{display:grid;grid-template-columns:1.4fr 70px 70px 1.2fr auto;gap:6px;margin-bottom:6px}
 .optrow input,.optrow select{font-size:13px;padding:5px 7px}
 .followrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}

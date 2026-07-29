@@ -298,6 +298,15 @@
       }
     },
     {
+      "code": "synthrapol",
+      "category": "auxiliary",
+      "name": { "bg": "Синтрапол", "en": "Synthrapol" },
+      "typicalUse": {
+        "bg": "Неутрален препарат за очистване на целулоза и коприна преди мордантиране. Отмива фабричните апретури, които иначе пречат на равномерното поемане на цвят.",
+        "en": "A neutral detergent for scouring cellulose and silk before mordanting. It removes mill finishes that would otherwise prevent even uptake of colour."
+      }
+    },
+    {
       "code": "neutral_soap",
       "category": "auxiliary",
       "name": { "bg": "Неутрален сапун", "en": "Neutral soap" },

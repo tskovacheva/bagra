@@ -117,6 +117,7 @@ async function ingredientRows(r, substances) {
   const rows = await Promise.all((r.ingredients || []).map(async (ing, i) => {
     const opts = ing.options?.length ? ing.options : [];
     const optRows = opts.map((o, j) => `
+      ${j > 0 ? `<div class="orsep"><span>${t('recipes.or')}</span></div>` : ''}
       <div class="optrow">
         <select data-opt="${i}.${j}.substanceId">${subOptions(o.substanceId)}</select>
         <input type="number" step="0.1" min="0" data-opt="${i}.${j}.qtyMin" value="${o.qtyMin ?? ''}" placeholder="${t('recipes.qtyMin')}" aria-label="${t('recipes.qtyMin')}">
@@ -143,8 +144,9 @@ async function ingredientRows(r, substances) {
         </select>
       </div>
       <div class="optblock">
-        <span class="optlabel">${t('recipes.alternatives')}</span>
+        <span class="optlabel">${opts.length > 1 ? t('recipes.alternatives') : t('recipes.substance')}</span>
         ${optRows || `<p class="hint">—</p>`}
+        ${opts.length === 1 ? `<p class="hint">${t('recipes.oneSubstance')}</p>` : ''}
         <button class="btn quiet" data-opt-add="${i}">${t('recipes.addAlternative')}</button>
       </div>
     </div>`;
