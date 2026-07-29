@@ -8,18 +8,23 @@ import { t } from '../i18n.js';
 import { page, panel, field, esc } from '../ui.js';
 import { wofGrams, solutionGrams, bathLitres, freshFromDried, exhaustBath } from '../calc/basic.js';
 import { aluminiumAcetate, fromAvailable, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
-import { all } from '../db.js';
+import { all, count } from '../db.js';
+import { downloadBackup, importBackup, readFile, backupState, ensurePersistence } from '../backup.js';
 import { text } from '../i18n.js';
 
 // Inputs persist while the module is open, so changing one field does not
 // clear the rest.
 // Everyday conversions first; the purchase-planning one last, since it is
 // consulted rarely and belongs to stock rather than to a dye session.
-const CALCS = ['alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
+const CALCS = ['backup', 'alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
 
 // Substances come from the Substances module — the calculator keeps no table
 // of its own, or the two would drift apart.
 let substances = [];
+let storage = { persisted: false, usage: null, supported: false };
+let bstate = { never: true, changes: 0, days: null };
+let counts = {};
+let importMode = 'merge';
 let active = 'alum';
 
 const state = {
@@ -138,6 +143,36 @@ function render(root) {
       </div>
       <p class="hint">${t('tools.exhaustCaveat')}</p>` : ''}`,
 
+    backup: `
+      <div class="calcresults" style="margin-top:0;border-top:0;padding-top:0">
+        <p class="note ${bstate.never || (bstate.days ?? 0) > 14 ? 'warn' : ''}">
+          ${bstate.never ? t('backup.never')
+            : (bstate.days === 0 ? t('backup.lastToday') : t('backup.last', { n: bstate.days }))}
+          ${bstate.changes ? ' ' + t('backup.changes', { n: bstate.changes }) : ' ' + t('backup.noChanges')}
+        </p>
+        <p class="hint">${t('backup.counts', { list: Object.entries(counts).filter(([, n]) => n)
+          .map(([k, n]) => `${t('nav.' + (k === 'stock' ? 'materials' : k)) || k}: ${n}`).join(' · ') || '—' })}</p>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" data-backup-export>${t('backup.export')}</button>
+      </div>
+      <hr class="rule">
+      ${field(t('backup.mode'), `<select data-backup-mode>
+        <option value="merge"${importMode === 'merge' ? ' selected' : ''}>${t('backup.mode.merge')}</option>
+        <option value="replace"${importMode === 'replace' ? ' selected' : ''}>${t('backup.mode.replace')}</option>
+      </select>`)}
+      <div class="btnrow">
+        <label class="btn" for="backupfile">${t('backup.import')}</label>
+        <input type="file" id="backupfile" accept="application/json" hidden>
+      </div>
+      <hr class="rule">
+      <h3 class="subhead">${t('backup.storage')}</h3>
+      <p class="note ${storage.persisted ? '' : 'warn'}">
+        ${storage.persisted ? t('backup.persisted') : t('backup.notPersisted')}
+      </p>
+      <p class="hint">${t('backup.incognito')}</p>
+      ${storage.usage != null ? `<p class="hint">${t('backup.usage', { used: (storage.usage / 1048576).toFixed(1) + ' MB' })}</p>` : ''}`,
+
     drying: `
       ${field(t('tools.driedAmount'), num('dry.dried', d.dried))}
       ${field(t('tools.dryingRatio'), num('dry.ratio', d.ratio, '0.5'))}
@@ -148,7 +183,7 @@ function render(root) {
 
   const titles = { alum: 'tools.alum', reverse: 'tools.reverse', wof: 'tools.wof',
                    solution: 'tools.solution', bath: 'tools.bath', drying: 'tools.drying',
-                   exhaust: 'tools.exhaust' };
+                   exhaust: 'tools.exhaust', backup: 'backup.title' };
 
   root.innerHTML = page({
     title: t('tools.title'),
@@ -156,13 +191,13 @@ function render(root) {
     body: `
       <div class="boxes">
         ${CALCS.map(c => `<button class="box${c === active ? ' active' : ''}" data-calc-pick="${c}">
-          <span class="boxname">${esc(t('tools.short.' + c))}</span>
+          <span class="boxname">${esc(c === 'backup' ? t('backup.short') : t('tools.short.' + c))}</span>
         </button>`).join('')}
       </div>
       <div class="calcpane">
         ${panel(`
           <h2>${t(titles[active])}</h2>
-          <p class="calcwhen">${t('tools.when.' + active)}</p>
+          <p class="calcwhen">${active === 'backup' ? t('backup.when') : t('tools.when.' + active)}</p>
           ${bodies[active]}
         `)}
       </div>`,
@@ -183,15 +218,42 @@ export default {
 
   async render(root) {
     substances = await all('substances');
+    storage = await ensurePersistence();
+    bstate = await backupState();
+    counts = {
+      fabrics: await count('fabrics'), substances: await count('substances'),
+      stock: await count('stock'), recipes: await count('recipes'),
+      plants: await count('plants'), trials: await count('trials'),
+    };
     render(root);
 
     // Recompute on every keystroke: a calculator that needs a button pressed
     // is a calculator that gets used once and then done on paper again.
-    root.onclick = (e) => {
+    root.onclick = async (e) => {
       const pick = e.target.closest('[data-calc-pick]');
-      if (!pick) return;
-      active = pick.dataset.calcPick;
-      render(root);
+      if (pick) { active = pick.dataset.calcPick; return render(root); }
+
+      if (e.target.closest('[data-backup-export]')) {
+        await downloadBackup();
+        bstate = await backupState();
+        render(root);
+        alert(t('backup.done'));
+      }
+    };
+
+    const fileInput = root.querySelector('#backupfile');
+    if (fileInput) fileInput.onchange = async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      try {
+        const payload = await readFile(file);
+        if (importMode === 'replace' && !confirm(t('backup.confirmReplace'))) return;
+        const report = await importBackup(payload, importMode);
+        alert(t('backup.imported', report));
+        location.reload();
+      } catch (err) {
+        alert(t('backup.badFile') + ' ' + (err?.message || ''));
+      }
     };
 
     root.oninput = (e) => {
@@ -205,6 +267,7 @@ export default {
     };
 
     root.onchange = (e) => {
+      if (e.target.matches('[data-backup-mode]')) { importMode = e.target.value; return; }
       if (!e.target.dataset.calc || e.target.tagName !== 'SELECT') return;
       apply(e.target);
       render(root);

@@ -184,7 +184,8 @@ async function scaleBlock(r, substances) {
     // When a role can be filled several ways, the choice belongs here, next to
     // the number it changes — not buried in the recipe definition above.
     const picker = (ing.options?.length > 1)
-      ? `<select data-choice="${ing.id}">${ing.options.map(o => {
+      ? `<span class="pickhint">${t('recipes.choose')}</span>
+         <select data-choice="${ing.id}">${ing.options.map(o => {
           const os = byId.get(o.substanceId);
           return `<option value="${o.id}"${o.id === ing.option?.id ? ' selected' : ''}>${
             esc(os ? text(os.name) : '—')}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`;

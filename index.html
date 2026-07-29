@@ -254,7 +254,20 @@ label.btn{cursor:pointer}
 .optrow input,.optrow select{font-size:13px;padding:5px 7px}
 .followrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}
 .followrow:last-child{border-bottom:0}
-.calcpick select{font-size:13px;padding:4px 6px;max-width:230px}
+.calcpick{align-items:center}
+.calcpick select{
+  font-size:13px;padding:5px 26px 5px 8px;max-width:230px;
+  background:var(--surface);border:1px solid var(--indigo);border-radius:6px;
+  color:var(--ink);cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--indigo) 50%),
+                   linear-gradient(135deg,var(--indigo) 50%,transparent 50%);
+  background-position:calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size:5px 5px, 5px 5px;
+  background-repeat:no-repeat;
+}
+.calcpick select:hover{background-color:var(--ground)}
+.pickhint{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
 .ingdetail input,.ingdetail select{font-size:13px;padding:5px 7px}
 
 .steprow{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:start;margin-bottom:8px}
