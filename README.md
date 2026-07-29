@@ -65,13 +65,30 @@ db.js                 IndexedDB, schema, migrations
 i18n.js               dictionary and language switching
 vocab.js              controlled vocabularies and band definitions
 ui.js                 shared rendering helpers
+backup.js             export, import, storage persistence
 fabric-logic.js       composition arithmetic and state lifecycle
 modules/*.js          one file per module
-calc/                 calculators — pure functions
-seed/*.json           the reference library, shipped as packs
+calc/basic.js         % WOF, solutions, bath volume, drying, exhaust
+calc/scale.js         generic recipe scaling — roles, ranges, conditionals
+calc/alum-acetate.js  stoichiometry with substitution
+seed/substances.json  the base substance library
 sw.js                 service worker
 check.sh              verifies the service worker cache list is complete
 ```
+
+## Protecting the data
+
+Everything lives in IndexedDB in the browser. It survives deployments — code and data are
+separate — but two things will destroy it, and both are avoidable:
+
+1. **Private/incognito windows store nothing.** Anything entered there is gone when the window
+   closes. Use a normal window and `Ctrl+Shift+R` to bypass the cache instead.
+2. **Clearing site data** wipes the database. Necessary occasionally during development; make a
+   backup first.
+
+Tools → Backup downloads everything as a dated JSON file, and shows how many edits have happened
+since the last one. The app also asks the browser for persistent storage so the database is not
+evicted when space runs short.
 
 ## Running it locally
 

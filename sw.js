@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v0.16.0';
+const CACHE = 'bagra-v0.17.0';
 
 const FILES = [
   './',
@@ -24,6 +24,7 @@ const FILES = [
   './modules/materials.js',
   './modules/substances.js',
   './modules/recipes.js',
+  './modules/chains.js',
   './modules/techniques.js',
   './modules/trials.js',
   './modules/tools.js',

@@ -15,11 +15,43 @@ import { round } from './basic.js';
  * @param {number} [context.liquorRatio]    overrides the recipe's own
  * @returns {{ ingredients: Array, bathLitres: number|null, dropped: Array }}
  */
+// Quantities are ranges far more often than single figures: 8–10% tannin,
+// 12–15% alum on wool, 50–100% dried madder. A model that stores one number
+// forces the user to throw away half of what the source actually said.
+function quantityRange(option, ing) {
+  const min = option?.qtyMin ?? ing.quantityMin ?? ing.quantity ?? null;
+  const max = option?.qtyMax ?? ing.quantityMax ?? min;
+  return [Number(min), Number(max ?? min)];
+}
+
+function convert(quantity, basis, ctx) {
+  if (quantity == null || Number.isNaN(quantity)) return null;
+  switch (basis) {
+    case 'percent_wof':
+      return ctx.effectiveWeight * (quantity / 100);
+    case 'grams_per_litre':
+      return ctx.litres != null ? ctx.litres * quantity : null;
+    case 'percent_of_bath':
+      return ctx.litres != null ? ctx.litres * 1000 * (quantity / 100) : null;
+    case 'ratio_to_dyestuff': {
+      const dye = (ctx.recipe.ingredients || []).find(x => x.roleCode === 'dyestuff');
+      if (!dye) return null;
+      const dyeRange = quantityRange(dye.options?.[0], dye);
+      const dyeAmount = ctx.effectiveWeight * (dyeRange[0] / 100);
+      return dyeAmount * quantity;
+    }
+    case 'absolute':
+    default:
+      return quantity;
+  }
+}
+
 export function scaleRecipe(recipe, {
   weightG,
   fibreClass = null,
   receptiveFraction = 100,
   liquorRatio = null,
+  choices = null,        // { [ingredientId]: optionId } — which alternative is used
 } = {}) {
   if (!recipe) return { ingredients: [], bathLitres: null, dropped: [] };
 
@@ -39,39 +71,30 @@ export function scaleRecipe(recipe, {
       continue;
     }
 
-    let amount = null;
-    let unit = ing.unit || 'g';
+    // An ingredient is a ROLE with one or more substances that can fill it.
+    // "Tannin bath" is one recipe: gallnut at 8–10%, myrobalan at 20%, cutch
+    // at 20%. Which one is chosen changes the quantity, not the recipe.
+    const options = ing.options?.length ? ing.options : [{}];
+    const chosenId = choices?.[ing.id];
+    const option = options.find(o => o.id === chosenId) || options[0];
 
-    switch (ing.basis) {
-      case 'percent_wof':
-        amount = effectiveWeight * (Number(ing.quantity) / 100);
-        unit = 'g';
-        break;
-      case 'grams_per_litre':
-        amount = litres != null ? litres * Number(ing.quantity) : null;
-        unit = 'g';
-        break;
-      case 'percent_of_bath':
-        amount = litres != null ? litres * 1000 * (Number(ing.quantity) / 100) : null;
-        unit = 'g';
-        break;
-      case 'ratio_to_dyestuff': {
-        const dye = (recipe.ingredients || []).find(x => x.roleCode === 'dyestuff');
-        const dyeAmount = dye ? effectiveWeight * (Number(dye.quantity) / 100) : null;
-        amount = dyeAmount != null ? dyeAmount * Number(ing.quantity) : null;
-        break;
-      }
-      case 'absolute':
-      default:
-        amount = Number(ing.quantity);
-    }
+    const range = quantityRange(option, ing);
+    const scaled = range.map(q => convert(q, ing.basis, {
+      effectiveWeight, litres, recipe, fibreClass, choices,
+    }));
 
     ingredients.push({
       ...ing,
-      scaledAmount: round(amount, 2),
-      scaledUnit: unit,
-      // Percentages are ambiguous without this: 5–8% of finished aluminium
-      // acetate and 15–20% of raw alum describe the same practice (§5.1).
+      option,
+      options,
+      quantityMin: range[0],
+      quantityMax: range[1],
+      scaledMin: round(scaled[0], 2),
+      scaledMax: round(scaled[1], 2),
+      // A single figure when the range has collapsed, so callers that only
+      // want one number do not have to decide which end to show.
+      scaledAmount: scaled[0] === scaled[1] ? round(scaled[0], 2) : null,
+      scaledUnit: ing.basis === 'absolute' ? (ing.unit || 'g') : 'g',
       basisRefersTo: ing.basisRefersTo || null,
     });
   }
@@ -88,14 +111,15 @@ export function recipeWarnings(recipe, scaled, substancesById = new Map()) {
   const out = [];
 
   for (const ing of scaled.ingredients) {
-    const sub = ing.substanceId ? substancesById.get(ing.substanceId) : null;
+    const substanceId = ing.option?.substanceId || ing.substanceId;
+    const sub = substanceId ? substancesById.get(substanceId) : null;
     if (!sub) continue;
 
     if (sub.maxPercentWof != null && ing.basis === 'percent_wof' &&
-        Number(ing.quantity) > sub.maxPercentWof) {
+        Number(ing.quantityMax ?? ing.quantityMin) > sub.maxPercentWof) {
       out.push({
         kind: 'error', code: 'over_max_wof', ingredient: ing,
-        limit: sub.maxPercentWof, value: Number(ing.quantity),
+        limit: sub.maxPercentWof, value: Number(ing.quantityMax ?? ing.quantityMin),
       });
     }
 
@@ -129,7 +153,26 @@ export function scaleChain(chain, recipesById, context) {
         order: step.order,
         recipe,
         note: step.note,
-        scaled: recipe ? scaleRecipe(recipe, context) : null,
+        // Each step carries its OWN choices: the same chain built with
+        // myrobalan and with gallnut are two different chains, because they
+        // give two different results. The choice is part of the plan, not a
+        // preference applied at the moment of scaling.
+        scaled: recipe ? scaleRecipe(recipe, { ...context, choices: step.choices || null }) : null,
       };
     });
+}
+
+/** Recipes that must follow, gathered across every step, in order, deduplicated. */
+export function chainFollowOns(scaledSteps, recipesById) {
+  const seen = new Set();
+  const out = [];
+  for (const st of scaledSteps) {
+    for (const id of st.recipe?.requiredFollowOn || []) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+      const rec = recipesById.get(id);
+      if (rec) out.push(rec);
+    }
+  }
+  return out;
 }

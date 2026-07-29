@@ -11,9 +11,22 @@ import {
   pairField, readPairs,
 } from '../ui.js';
 import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
+import chains from './chains.js';
 
 const TYPES = ['scour', 'tannin', 'mordant', 'dye', 'ecoprint', 'blanket', 'pigment', 'paste'];
 const FIBRE_CLASSES = ['cellulose', 'protein'];
+
+// Recipes and chains share one nav entry: a chain is a plan made of recipes,
+// and an eleventh item in the sidebar would cost more than it explains.
+let mode = 'recipes';
+
+const host = {
+  tabs: () => `
+    <div class="tabswitch">
+      <button class="tab${mode === 'recipes' ? ' active' : ''}" data-mode="recipes">${t('chains.recipesTab')}</button>
+      <button class="tab${mode === 'chains' ? ' active' : ''}" data-mode="chains">${t('chains.tab')}</button>
+    </div>`,
+};
 
 let filterType = null;
 let openId = null;
@@ -89,7 +102,7 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('recipes.title'),
     sub: t('recipes.sub'),
-    actions: `<button class="btn primary" data-new>${t('recipes.new')}</button>`,
+    actions: `${host.tabs()}<button class="btn primary" data-new>${t('recipes.new')}</button>`,
     body: `
       <div class="boxes">
         <button class="box${filterType === null ? ' active' : ''}" data-type="">
@@ -402,6 +415,19 @@ export default {
   sub: () => t('recipes.sub'),
 
   async render(root) {
+    if (mode === 'chains') {
+      await chains.render(root, host);
+      // The tab switch lives in the shared header, so it must keep working
+      // whichever module drew the page.
+      const prev = root.onclick;
+      root.onclick = async (e) => {
+        const tab = e.target.closest('[data-mode]');
+        if (tab) { mode = tab.dataset.mode; return this.render(root); }
+        return prev?.(e);
+      };
+      return;
+    }
+
     if (openId) {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('recipes', openId));
@@ -413,6 +439,9 @@ export default {
     }
 
     root.onclick = async (e) => {
+      const tab = e.target.closest('[data-mode]');
+      if (tab) { mode = tab.dataset.mode; return this.render(root); }
+
       const ty = e.target.closest('[data-type]');
       if (ty) { filterType = ty.dataset.type || null; return this.render(root); }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }

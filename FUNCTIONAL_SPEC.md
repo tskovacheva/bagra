@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.10 — conditional ingredients, recipe chains, damage ceilings
+**Status:** v1.11 — interchangeable role options, quantity ranges, split durations
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -271,10 +271,32 @@ A recipe is a **procedure with proportions**, reusable across trials. Recipe typ
    records whether it is freshly prepared or carried over, and how many uses it has had
 
 ### Shared fields
-Name, type, ingredients (references to Materials, with quantity/%), steps, temperature, duration,
+Name, type, ingredients (roles filled by substances, with quantity ranges), steps, temperature,
 applicable fibre classes, source (own / book / course — with attribution), notes.
 
+**Duration is two figures, not one.** `heldMinutes` is the time at temperature; `restMinutes` the
+time steeping after the heat is switched off. A tannin bath heated to 60–70 °C and then left to
+cool for one to two hours is not a ninety-minute bath, and collapsing the two loses the part that
+most often decides the result. The same split already exists on trial steps (§8.3).
+
 ### 5.1 Ingredient roles and substitution
+
+**A role may be filled by interchangeable substances, each with its own quantity.** A tannin bath
+is one recipe, not three: gallnut at 8–10% WOF gives a colourless ground, myrobalan at 20% a yellow
+one, cutch at 20% a red-brown one. Modelled as a list of options on the ingredient, the advice
+"substitute sumac if you want a neutral ground" stops being a note the user must read and apply
+mentally, and becomes a choice in the interface — and, later, the difference between two distinct
+combinations in the reference (§7).
+
+`RecipeIngredient.options: [ { id, substanceId, qtyMin, qtyMax, note {bg,en} } ]`
+
+**Quantities are ranges.** Sources give ranges far more often than single figures — 8–10% tannin,
+12–15% alum on wool, 50–100% dried madder root. A field holding one number forces the user to throw
+away half of what the source said. A single figure is the degenerate case where min equals max.
+
+**Two substances used together are two ingredients, not two options.** The distinction must be
+unmistakable in the interface: options replace one another, ingredients accumulate.
+
 
 Real recipes are written against roles, not against specific products. "Aluminium source" may be
 potassium alum, ammonium alum, or aluminium sulfate in any of four hydration states — and the
