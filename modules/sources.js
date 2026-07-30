@@ -102,6 +102,13 @@ export default {
   title: () => t('sources.title'),
   sub: () => t('sources.sub'),
 
+  // Choosing a module in the navigation means "take me to this module", not
+  // "show me whatever I last had open in it". Called by the router on entry.
+  reset() {
+    openId = null;
+    draft = null;
+  },
+
   async render(root) {
     if (openId) {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {

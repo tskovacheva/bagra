@@ -63,11 +63,52 @@ locally optimal.
 The aluminium acetate calculator keeps **no table of its own**. Formulas and molar masses are read
 from Substances; a second copy would guarantee the two drift apart.
 
-## Stage 4 — Plants · *next*
+## Stage 4 — Plants · **done** (library still filling)
 
-The reference library's backbone. Fixed chemistry vocabulary with levels; compositional role
-(shape printer / filler / resist); preferred leaf surface; preparation before bundling;
-steaming tendency; identification note for use while out walking.
+The reference library's backbone, and the module the whole app exists for.
+
+Built as **a few structured fields plus free sections**: structured where the reference needs to be
+queried — chemistry classes and levels, dosing per part and per condition, extraction and dyeing
+temperatures, water ratio, drying ratio, fastness, harvest months, compositional role — and
+book-like sections for everything that is prose. Ten fixed textareas per plant would have made
+entry a chore.
+
+Also: a colour range with swatches and conditions; a reference photograph, resized on the way in;
+fastness as a visible scale rather than a dropdown; the eight profile headings offered as a nudge,
+never as a schema.
+
+**Seeded with 41 Bulgarian dye plants** generated from the owner's own guide — the plants table for
+all of them, the full eight-section profiles for the seven garden plants, and dosing, temperatures
+and recipes for the fourteen that have recipes in sections III and IV.
+
+Seven anthocyanin plants are marked as fugitive with an explanation. A reference earns its keep by
+saying *this one does not work, and here is why* as much as by saying what does.
+
+**Pack sync with a preview** (§10) is implemented here: added, changed and edited records shown in
+groups with checkboxes, the ones she has edited unticked by default, nothing written until she says
+so, and personal fields — photographs, hand-filled doses — never touched by an update.
+
+### Library coverage, honestly
+
+Structure is done; content is not. Of 41 plants:
+
+| Field | Covered |
+|---|---|
+| Latin name, parts, chemistry classes | 39–41 |
+| Lightfastness | 28 |
+| Recipe text | 14 |
+| Dosing % WOF, dyeing temperature | 12 |
+| Washfastness, availability | 7 |
+| Extraction temperature | 6 |
+| Water ratio | 1 |
+| English names, family, chemistry *levels*, drying ratio, harvest months, colour range, compositional role, substantive/adjective | 0 |
+
+The empty columns are not oversights — the guide does not contain them, and inventing them would
+be worse than leaving them blank. Filling them is a research task in its own right, best done
+plant by plant against several sources, and it improves the guide as much as the app.
+
+Most complete today: birch, coreopsis, St John's wort, apple, weld, rosemary, tagetes.
+Emptiest: safflower, cornelian cherry, medlar, plum, buckthorn, willow, tomato, nettle.
 
 ## Stage 5 — Recipes · **done** (chains outstanding)
 
@@ -98,7 +139,7 @@ Brought forward deliberately: data entered now is worth protecting now.
 - `navigator.storage.persist()` requested, so the browser will not evict the database
 - A clear warning that **nothing persists in a private window** — the lesson learned the hard way
 
-## Stage 6 — Techniques · *planned*
+## Stage 6 — Techniques · *next*
 
 Small module, mostly seeded vocabulary. Quick.
 
@@ -130,8 +171,10 @@ Order of compilation:
 1. Vocabularies and band definitions (done, provisional numbers)
 2. Mordants and tannins with real chemical identity (done — `seed/substances.json`)
 3. Standard recipes — scour, tannin, mordant, aluminium acetate (in progress, entered by hand)
-4. Plants, beginning with what grows at Crafty Place and what is foraged locally
-5. Combinations, drawn from the plant × mordant tables in the source guides
+4. Plants — 41 seeded from the guide; structure complete, many fields still empty (see Stage 4)
+5. **Gap-filling research** — the columns at zero above, plant by plant, against several sources.
+   The output improves the printed guide as much as the app, so the two can be written together
+6. Combinations, drawn from the plant × mordant tables in the source guides
 
 Every entry: written in the app's own words, source credited, `distributable` set deliberately.
 

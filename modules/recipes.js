@@ -441,6 +441,15 @@ export default {
   title: () => t('recipes.title'),
   sub: () => t('recipes.sub'),
 
+  // Choosing a module in the navigation means "take me to this module", not
+  // "show me whatever I last had open in it". Called by the router on entry.
+  reset() {
+    openId = null;
+    draft = null;
+    mode = 'recipes';
+    chains.reset?.();
+  },
+
   async render(root) {
     // The tab switch lives in the shared header and must keep working whichever
     // module last drew the page. Registered as a real listener rather than via

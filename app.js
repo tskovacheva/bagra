@@ -78,17 +78,20 @@ function renderNav() {
   }).join('');
 }
 
-async function renderView() {
+async function renderView(fresh = false) {
   const id = currentRoute();
   const view = $('#view');
+  // Entering a module from the navigation starts at its list; a plain redraw
+  // (language switch, hash change within the module) leaves state alone.
+  if (fresh) MODULES[id].reset?.();
   await MODULES[id].render(view);
   view.focus({ preventScroll: true });
   document.title = `${t('nav.' + id)} · ${t('app.name')}`;
 }
 
-async function route() {
+async function route(fresh = false) {
   renderNav();
-  await renderView();
+  await renderView(fresh);
 }
 
 // Vocabularies and bands ship as seed data (§13.10). Seeding only ever adds:
@@ -106,13 +109,20 @@ async function seedIfEmpty() {
 
 document.addEventListener('click', async (e) => {
   const go = e.target.closest('[data-go]');
-  if (go) { location.hash = '#/' + go.dataset.go; return; }
+  if (go) {
+    const target = '#/' + go.dataset.go;
+    // Setting an unchanged hash fires no event, so the click would do nothing —
+    // which is exactly what happened when returning to a module from a detail.
+    if (location.hash === target) await route(true);
+    else location.hash = target;
+    return;
+  }
 
   const lang = e.target.closest('[data-lang]');
   if (lang) { await setLang(lang.dataset.lang); await route(); }
 });
 
-window.addEventListener('hashchange', route);
+window.addEventListener('hashchange', () => route(true));
 
 (async function start() {
   await open();
