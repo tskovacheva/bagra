@@ -5,7 +5,7 @@
 // no purchase date — those belong to Stock.
 
 import { all, get, put, remove, newRecord, byIndex } from '../db.js';
-import { seedPack } from '../app.js';
+import { loadPack } from '../seed.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs } from '../ui.js';
 
@@ -48,8 +48,7 @@ async function detailOf(x) {
 }
 
 async function mergeSeed() {
-  return seedPack('seed/substances.json', 'substances', 'substances',
-    { suitableFibreClasses: [], handling: [] });
+  return loadPack('substances');
 }
 
 async function renderList(root) {
@@ -273,8 +272,12 @@ export default {
       const cat = e.target.closest('[data-cat]');
       if (cat) { filterCat = cat.dataset.cat || null; return this.render(root); }
       if (e.target.closest('[data-reseed]')) {
-        const added = await mergeSeed();
-        alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
+        try {
+          const added = await mergeSeed();
+          alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
+        } catch (err) {
+          alert('seed/substances.json: ' + err.message);
+        }
         return this.render(root);
       }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }

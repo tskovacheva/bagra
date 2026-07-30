@@ -6,7 +6,7 @@
 // a book-like list of sections lets each plant say what it has to say.
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
-import { seedPack } from '../app.js';
+import { loadPack } from '../seed.js';
 import { t, text, getLang } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented } from '../ui.js';
 
@@ -433,9 +433,12 @@ export default {
       const role = e.target.closest('[data-role]');
       if (role) { filterRole = role.dataset.role || null; return this.render(root); }
       if (e.target.closest('[data-reseed]')) {
-        const added = await seedPack('seed/plants.json', 'plants', 'plants',
-          { harvestMonths: [], colours: [], photoData: null });
-        alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
+        try {
+          const added = await loadPack('plants');
+          alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
+        } catch (err) {
+          alert('seed/plants.json: ' + err.message);
+        }
         return this.render(root);
       }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }

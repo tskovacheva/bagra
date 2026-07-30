@@ -8,6 +8,7 @@
 import { open, all, put, count, getSetting } from './db.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { VOCABULARY, BANDS } from './vocab.js';
+import { loadPack } from './seed.js';
 
 import dashboard  from './modules/dashboard.js';
 import reference  from './modules/reference.js';
@@ -94,39 +95,6 @@ async function route() {
 // a term already present is left alone, so the user's edits survive.
 // The reference library ships as JSON, not as code (§14.2), so the initial
 // load is simply the import of a base pack — one mechanism, not two.
-// Adds seeded records that are absent, and touches nothing else. Safe to run
-// at any time: a record the user edited keeps its own id, so re-running can
-// never overwrite her work. Guards against the opposite risk too — a base
-// library quietly going missing with no way back short of wiping the database.
-export async function seedPack(file, store, listKey, defaults = {}) {
-  let added = 0;
-  try {
-    const res = await fetch(file);
-    const pack = await res.json();
-    const existing = new Set((await all(store)).map(r => r.id));
-    for (const row of pack[listKey]) {
-      const id = 'seed:' + row.code;
-      if (existing.has(id)) continue;
-      const { code, ...rest } = row;
-      await put(store, {
-        id,
-        origin: 'seed',
-        packId: pack.packId,
-        packVersion: pack.packVersion,
-        editedByUser: false,
-        editedFields: [],
-        createdAt: new Date().toISOString(),
-        ...defaults,
-        ...rest,
-      });
-      added++;
-    }
-  } catch (err) {
-    console.warn(file + ' not loaded:', err);
-  }
-  return added;
-}
-
 async function seedIfEmpty() {
   if (await count('vocabulary') === 0) {
     for (const v of VOCABULARY) await put('vocabulary', { ...v, origin: 'seed' });
@@ -150,13 +118,10 @@ window.addEventListener('hashchange', route);
   await open();
   await initLang();
   await seedIfEmpty();
-  if (await count('substances') === 0) {
-    await seedPack('seed/substances.json', 'substances', 'substances',
-      { suitableFibreClasses: [], handling: [] });
-  }
-  if (await count('plants') === 0) {
-    await seedPack('seed/plants.json', 'plants', 'plants',
-      { harvestMonths: [], colours: [], photoData: null });
+  // Failing to seed must not take the whole app down with it.
+  for (const name of ['substances', 'plants']) {
+    try { await loadPack(name); }
+    catch (err) { console.warn('seed failed:', name, err); }
   }
   await route();
 
