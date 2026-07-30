@@ -238,11 +238,6 @@
        "condition": "dried",
        "min": 150,
        "max": 250
-      },
-      {
-       "condition": "dried",
-       "min": 200,
-       "max": 300
       }
      ]
     },
@@ -255,11 +250,6 @@
        "condition": "dried",
        "min": 150,
        "max": 250
-      },
-      {
-       "condition": "dried",
-       "min": 200,
-       "max": 300
       }
      ]
     }
@@ -268,11 +258,33 @@
     {
      "hex": "#8C7B6B",
      "name": {
-      "bg": "дава",
+      "bg": "жълто, слънчево жълто, зеленкаво-жълто",
       "en": ""
      },
      "conditions": {
-      "bg": "Варете 1 час",
+      "bg": "от листа",
+      "en": ""
+     }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "топло кремаво, бежово, светло охра",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "от кора",
+      "en": ""
+     }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "маслинено зелено, кафеникаво-зелено",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "железен сулфат",
       "en": ""
      }
     },
@@ -341,9 +353,13 @@
      }
     }
    ],
-   "tempDyeC": {
+   "tempExtractC": {
     "min": 85,
     "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 85
    }
   },
   {
@@ -687,16 +703,50 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 50,
+       "max": 100
+      }
+     ]
     },
     {
      "partCode": "bark",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 50,
+       "max": 100
+      }
+     ]
     }
    ],
    "colours": [
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "златисто → зеленикаво-жълто",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "листа – дават жълто",
+      "en": ""
+     }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "маслинено зелено, сиво-зелено, кафяво-черно",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "железен сулфат",
+      "en": ""
+     }
+    },
     {
      "hex": "#8C7B6B",
      "name": {
@@ -751,9 +801,13 @@
      }
     }
    ],
-   "tempDyeC": {
+   "tempExtractC": {
     "min": 85,
     "max": 90
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 85
    }
   },
   {
@@ -1165,6 +1219,28 @@
       "bg": "жълто",
       "en": ""
      }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "оранжево-кафеникаво",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "при определени условия",
+      "en": ""
+     }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "маслинено зелено / кафяво",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "железен модификатор",
+      "en": ""
+     }
     }
    ],
    "sections": [
@@ -1209,9 +1285,13 @@
      }
     }
    ],
-   "tempDyeC": {
+   "tempExtractC": {
     "min": 85,
     "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 85
    }
   },
   {
@@ -1238,7 +1318,13 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 200,
+       "max": 500
+      }
+     ]
     }
    ],
    "colours": [
@@ -1375,19 +1461,37 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 100,
+       "max": 200
+      }
+     ]
     },
     {
      "partCode": "leaf",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 100,
+       "max": 200
+      }
+     ]
     },
     {
      "partCode": "bark",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 100,
+       "max": 200
+      }
+     ]
     }
    ],
    "colours": [
@@ -1572,11 +1676,6 @@
        "condition": "dried",
        "min": 50,
        "max": 80
-      },
-      {
-       "condition": "dried",
-       "min": 80,
-       "max": 120
       }
      ]
     },
@@ -1589,11 +1688,6 @@
        "condition": "dried",
        "min": 50,
        "max": 80
-      },
-      {
-       "condition": "dried",
-       "min": 80,
-       "max": 120
       }
      ]
     },
@@ -1606,16 +1700,23 @@
        "condition": "dried",
        "min": 50,
        "max": 80
-      },
-      {
-       "condition": "dried",
-       "min": 80,
-       "max": 120
       }
      ]
     }
    ],
-   "colours": [],
+   "colours": [
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "по-жълти тонове; кората → по-бежови и земни",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "💡 Листата",
+      "en": ""
+     }
+    }
+   ],
    "sections": [
     {
      "title": {
@@ -1659,12 +1760,12 @@
     }
    ],
    "tempExtractC": {
-    "min": 90,
-    "max": 95
-   },
-   "tempDyeC": {
     "min": 85,
     "max": 90
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 85
    }
   },
   {
@@ -2102,17 +2203,6 @@
     {
      "hex": "#8C7B6B",
      "name": {
-      "bg": "дава по-топли, ръждиви тонове.",
-      "en": ""
-     },
-     "conditions": {
-      "bg": "Прецедете",
-      "en": ""
-     }
-    },
-    {
-     "hex": "#8C7B6B",
-     "name": {
       "bg": "силно сива или пушечно-кафява палитра",
       "en": ""
      },
@@ -2536,9 +2626,13 @@
      }
     }
    ],
-   "tempDyeC": {
+   "tempExtractC": {
     "min": 85,
     "max": 90
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 85
    }
   },
   {
@@ -2565,20 +2659,32 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 100,
+       "max": null
+      }
+     ]
     },
     {
      "partCode": "whole",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 100,
+       "max": null
+      }
+     ]
     }
    ],
    "colours": [
     {
      "hex": "#8C7B6B",
      "name": {
-      "bg": "винаги тествайте първо върху мостра.",
+      "bg": "винаги тествайте първо върху мостра",
       "en": ""
      },
      "conditions": {
@@ -2632,7 +2738,8 @@
    "tempDyeC": {
     "min": 85,
     "max": 90
-   }
+   },
+   "liquorRatio": 10
   },
   {
    "code": "rubia_peregrina",
@@ -2714,7 +2821,13 @@
      "partCode": "root",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 50,
+       "max": 100
+      }
+     ]
     }
    ],
    "colours": [
@@ -3275,7 +3388,13 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "",
+       "min": 50,
+       "max": 80
+      }
+     ]
     }
    ],
    "colours": [
@@ -3342,6 +3461,28 @@
      },
      "conditions": {
       "bg": "Тагетес + 10% стипца",
+      "en": ""
+     }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "мъхест нюанс",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "Жълт кантарион + желязо",
+      "en": ""
+     }
+    },
+    {
+     "hex": "#8C7B6B",
+     "name": {
+      "bg": "по-интензивно оранжево",
+      "en": ""
+     },
+     "conditions": {
+      "bg": "Алкално pH",
       "en": ""
      }
     }

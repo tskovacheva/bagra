@@ -60,6 +60,7 @@ function blank() {
     tempExtractC: { min: null, max: null },
     tempDyeC: { min: null, max: null },
     dryingRatio: null,
+    liquorRatio: null,
     steamNote: '',
     harvestMonths: [],
     yearsToMaturity: null,
@@ -160,6 +161,7 @@ async function partRows(p) {
     const dosing = (pt.dosing || []).map((d, j) => `
       <div class="dosingrow">
         <select data-dose="${i}.${j}.condition">
+          <option value=""${!d.condition ? ' selected' : ''}>${t('plants.anyCondition')}</option>
           <option value="dried"${d.condition === 'dried' ? ' selected' : ''}>${t('materials.form.dried')}</option>
           <option value="fresh"${d.condition === 'fresh' ? ' selected' : ''}>${t('materials.form.fresh')}</option>
         </select>
@@ -302,6 +304,7 @@ async function renderForm(root, p) {
               </div>`)}
             </div>
             ${field(t('plants.dryingRatio'), `<input type="number" step="0.5" min="0" data-f="dryingRatio" value="${p.dryingRatio ?? ''}">`, t('plants.dryingRatioHint'))}
+            ${field(t('plants.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${p.liquorRatio ?? ''}">`, t('plants.liquorRatioHint'))}
             ${field(t('plants.steamNote'), `<input type="text" data-f="steamNote" value="${esc(p.steamNote || '')}">`)}
             ${field(t('plants.harvestMonths'), `<div class="months">${monthChecks}</div>`)}
             ${field(t('plants.yearsToMaturity'), `<input type="number" step="1" min="0" data-f="yearsToMaturity" value="${p.yearsToMaturity ?? ''}">`, t('plants.yearsHint'))}

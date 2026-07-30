@@ -604,6 +604,9 @@ const DICT = {
     'plants.dosing': 'Доза (% WOF)',
     'plants.dosingHint': 'Различна е за свежо и сушено — сушеното е по-концентрирано.',
     'plants.condition': 'Състояние',
+    'plants.anyCondition': 'без значение',
+    'plants.liquorRatio': 'Съотношение вода (1 : N)',
+    'plants.liquorRatioHint': 'Колко части вода на част растителен материал. Обичайно 1:10.',
 
     'plants.working': 'Работа с него',
     'plants.tempExtract': 'Извличане (°C)',
@@ -1214,6 +1217,9 @@ const DICT = {
     'plants.dosing': 'Dose (% WOF)',
     'plants.dosingHint': 'Different fresh and dried — dried is more concentrated.',
     'plants.condition': 'Condition',
+    'plants.anyCondition': 'either',
+    'plants.liquorRatio': 'Water ratio (1 : N)',
+    'plants.liquorRatioHint': 'Parts of water per part of plant material. Usually 1:10.',
 
     'plants.working': 'Working with it',
     'plants.tempExtract': 'Extraction (°C)',
