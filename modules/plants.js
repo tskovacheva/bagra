@@ -6,6 +6,7 @@
 // a book-like list of sections lets each plant say what it has to say.
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
+import { seedPack } from '../app.js';
 import { t, text, getLang } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented } from '../ui.js';
 
@@ -126,7 +127,8 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('plants.title'),
     sub: t('plants.sub'),
-    actions: `<button class="btn primary" data-new>${t('plants.new')}</button>`,
+    actions: `<button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
+              <button class="btn primary" data-new>${t('plants.new')}</button>`,
     body: `
       <div class="boxes">
         <button class="box${filterRole === null ? ' active' : ''}" data-role="">
@@ -430,6 +432,12 @@ export default {
     root.onclick = async (e) => {
       const role = e.target.closest('[data-role]');
       if (role) { filterRole = role.dataset.role || null; return this.render(root); }
+      if (e.target.closest('[data-reseed]')) {
+        const added = await seedPack('seed/plants.json', 'plants', 'plants',
+          { harvestMonths: [], colours: [], photoData: null });
+        alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
+        return this.render(root);
+      }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
       const row = e.target.closest('[data-open]');
       if (row) { draft = null; openId = row.dataset.open; return this.render(root); }

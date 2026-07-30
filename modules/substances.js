@@ -5,6 +5,7 @@
 // no purchase date — those belong to Stock.
 
 import { all, get, put, remove, newRecord, byIndex } from '../db.js';
+import { seedPack } from '../app.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs } from '../ui.js';
 
@@ -46,34 +47,9 @@ async function detailOf(x) {
   }
 }
 
-// Adds seeded substances that are not present, and touches nothing else.
-// A record the user has edited, or deliberately deleted and rewritten, keeps
-// its own id — so re-running this can never overwrite her work. The reverse
-// is the real risk this guards against: a base library quietly going missing
-// after a deploy, with no way to get it back short of wiping the database.
 async function mergeSeed() {
-  let added = 0;
-  try {
-    const res = await fetch('seed/substances.json');
-    const pack = await res.json();
-    const existing = new Set((await all('substances')).map(x => x.id));
-    for (const row of pack.substances) {
-      const id = 'seed:' + row.code;
-      if (existing.has(id)) continue;
-      const { code, ...rest } = row;
-      await put('substances', {
-        id, origin: 'seed', packId: pack.packId, packVersion: pack.packVersion,
-        editedByUser: false, editedFields: [],
-        createdAt: new Date().toISOString(),
-        suitableFibreClasses: [], handling: [],
-        ...rest,
-      });
-      added++;
-    }
-  } catch (err) {
-    console.warn('seed merge failed:', err);
-  }
-  return added;
+  return seedPack('seed/substances.json', 'substances', 'substances',
+    { suitableFibreClasses: [], handling: [] });
 }
 
 async function renderList(root) {
