@@ -648,10 +648,20 @@ const DICT = {
     'plants.fastnessScale': 'неизв. · слаба · умерена · добра · отлична',
 
 
-    'seed.refresh': 'Обнови базовите',
-    'seed.refreshConfirm': 'Базовите записи ще се обновят от библиотеката. Записите, които си променяла, остават непокътнати. Да продължа ли?',
-    'seed.refreshDone': 'Добавени: {added}. Обновени: {updated}. Запазени твои: {kept}.',
-    'seed.refreshKept': 'Не са пипани, защото си ги променяла:',
+
+
+    'seed.sync': 'Обнови от библиотеката',
+    'seed.previewTitle': 'Обновяване от библиотеката',
+    'seed.previewSub': 'Нищо не се записва, докато не избереш. Твоите промени са защитени по подразбиране.',
+    'seed.groupAdded': 'Нови',
+    'seed.groupChanged': 'Ще се обновят',
+    'seed.groupEdited': 'Променяни от теб',
+    'seed.editedHint': 'Отметни само ако искаш твоята версия да бъде заменена от библиотечната.',
+    'seed.toggleAll': 'всички',
+    'seed.unchanged': 'Без промяна: {n}.',
+    'seed.upToDate': 'Всичко е актуално. Без промяна: {n}.',
+    'seed.apply': 'Приложи ({n})',
+    'seed.applied': 'Обновени са {n} записа.',
 
     'lang.bg': 'БГ',
     'lang.en': 'EN',
@@ -1267,10 +1277,20 @@ const DICT = {
     'plants.fastnessScale': 'unknown · poor · moderate · good · excellent',
 
 
-    'seed.refresh': 'Update base records',
-    'seed.refreshConfirm': 'Seeded records will be updated from the library. Anything you have edited is left untouched. Continue?',
-    'seed.refreshDone': 'Added: {added}. Updated: {updated}. Yours kept: {kept}.',
-    'seed.refreshKept': 'Left alone because you edited them:',
+
+
+    'seed.sync': 'Update from library',
+    'seed.previewTitle': 'Update from the library',
+    'seed.previewSub': 'Nothing is written until you choose. Your own edits are protected by default.',
+    'seed.groupAdded': 'New',
+    'seed.groupChanged': 'Will be updated',
+    'seed.groupEdited': 'Edited by you',
+    'seed.editedHint': 'Tick only if you want your version replaced by the library one.',
+    'seed.toggleAll': 'all',
+    'seed.unchanged': 'Unchanged: {n}.',
+    'seed.upToDate': 'Everything is current. Unchanged: {n}.',
+    'seed.apply': 'Apply ({n})',
+    'seed.applied': '{n} records updated.',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

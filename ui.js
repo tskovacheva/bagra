@@ -131,3 +131,31 @@ export async function segmented(dimension, name, selected, { allowEmpty = true }
     : '';
   return `<div class="segrow">${none}${cells}</div>`;
 }
+
+
+// A modal used for decisions that must not be taken blindly — chiefly the
+// preview before a reference pack overwrites anything.
+export function dialog({ title, body, confirmLabel, cancelLabel }) {
+  return new Promise(resolve => {
+    const el = document.createElement('div');
+    el.className = 'modalback';
+    el.innerHTML = `
+      <div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+        <h2>${esc(title)}</h2>
+        <div class="modalbody">${body}</div>
+        <div class="modalfoot">
+          <button class="btn quiet" data-cancel>${esc(cancelLabel)}</button>
+          <button class="btn primary" data-ok>${esc(confirmLabel)}</button>
+        </div>
+      </div>`;
+    const close = (value) => { el.remove(); document.removeEventListener('keydown', onKey); resolve(value); };
+    const onKey = (e) => { if (e.key === 'Escape') close(false); };
+    el.addEventListener('click', (e) => {
+      if (e.target === el || e.target.closest('[data-cancel]')) close(false);
+      if (e.target.closest('[data-ok]')) close(true);
+    });
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(el);
+    el.querySelector('[data-ok]').focus();
+  });
+}

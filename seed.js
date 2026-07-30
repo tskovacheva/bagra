@@ -31,6 +31,7 @@ export async function seedPack(file, store, listKey, defaults = {}) {
     if (existing.has(id)) continue;
     const { code, ...rest } = row;
     await put(store, {
+      ...defaults,
       id,
       origin: 'seed',
       packId: pack.packId,
@@ -38,7 +39,6 @@ export async function seedPack(file, store, listKey, defaults = {}) {
       editedByUser: false,
       editedFields: [],
       createdAt: new Date().toISOString(),
-      ...defaults,
       ...rest,
     });
     added++;
@@ -74,44 +74,6 @@ export function loadPack(name) {
  * @returns {Promise<{added:number, updated:number, kept:string[]}>}
  *          `kept` names the edited records that were deliberately not touched.
  */
-export async function refreshPack(name) {
-  const { file, store, listKey, defaults } = PACKS[name];
-
-  const res = await fetch(file);
-  if (!res.ok) throw new Error(`${file}: ${res.status}`);
-  const pack = await res.json();
-
-  let added = 0, updated = 0;
-  const kept = [];
-
-  for (const row of pack[listKey]) {
-    const id = 'seed:' + row.code;
-    const existing = await get(store, id);
-    const { code, ...rest } = row;
-
-    if (existing?.editedByUser) {
-      kept.push(nameOf(existing));
-      continue;
-    }
-
-    await put(store, {
-      ...(existing || {}),
-      id,
-      origin: 'seed',
-      packId: pack.packId,
-      packVersion: pack.packVersion,
-      editedByUser: false,
-      editedFields: [],
-      createdAt: existing?.createdAt || new Date().toISOString(),
-      ...defaults,
-      ...rest,
-    });
-    existing ? updated++ : added++;
-  }
-
-  return { added, updated, kept };
-}
-
 function nameOf(record) {
   const n = record.nameCommon || record.name;
   if (!n) return record.id;
@@ -125,4 +87,103 @@ function nameOf(record) {
 export function markEdited(record) {
   if (record.origin === 'seed') record.editedByUser = true;
   return record;
+}
+
+
+// ---------------------------------------------------------------- diffing
+
+const IGNORED = new Set([
+  'id', 'origin', 'packId', 'packVersion', 'editedByUser', 'editedFields',
+  'createdAt', 'updatedAt', 'distributable',
+]);
+
+const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+
+/**
+ * What a pack update would actually do, worked out before anything is written.
+ *
+ * §10 asks for a merge with a preview rather than a silent apply, and this is
+ * that: three lists the user can look at and choose from. Nothing here touches
+ * the database.
+ */
+
+
+/**
+ * What a pack would do, before anything is written (§10).
+ *
+ * Three groups, because they deserve different defaults: records that do not
+ * exist yet, seeded records the pack would revise, and seeded records the user
+ * has edited — which are offered but left unticked, since protecting her work
+ * is the safer default.
+ */
+export async function diffPack(name) {
+  const { file, store, listKey, defaults } = PACKS[name];
+
+  const res = await fetch(file);
+  if (!res.ok) throw new Error(`${file}: ${res.status}`);
+  const pack = await res.json();
+
+  const diff = { store, pack, defaults, added: [], changed: [], edited: [], unchanged: [] };
+
+  for (const row of pack[listKey]) {
+    const id = 'seed:' + row.code;
+    const existing = await get(store, id);
+    const { code, ...incoming } = row;
+
+    if (!existing) {
+      diff.added.push({ id, name: nameOf(incoming), row: incoming, isNew: true });
+      continue;
+    }
+
+    const fields = Object.entries(incoming)
+      .filter(([k, v]) => JSON.stringify(existing[k]) !== JSON.stringify(v))
+      .map(([k]) => k);
+
+    if (!fields.length) { diff.unchanged.push(id); continue; }
+
+    const entry = { id, name: nameOf(existing), fields, row: incoming };
+    (existing.editedByUser ? diff.edited : diff.changed).push(entry);
+  }
+
+  return diff;
+}
+
+/**
+ * Writes the chosen entries.
+ *
+ * Only the fields the pack actually carries are touched. Anything personal
+ * living alongside them — a photograph, a hand-filled dose, a note — survives.
+ * An earlier version applied the store's defaults over the existing record and
+ * quietly erased photographs; hence defaults are used for new records only.
+ */
+export async function applyDiff(store, entries, pack) {
+  const defaults = Object.values(PACKS).find(p => p.store === store)?.defaults || {};
+  let n = 0;
+
+  for (const entry of entries) {
+    const existing = await get(store, entry.id);
+
+    if (!existing) {
+      await put(store, {
+        ...defaults,
+        id: entry.id,
+        origin: 'seed',
+        packId: pack.packId,
+        packVersion: pack.packVersion,
+        editedByUser: false,
+        editedFields: [],
+        createdAt: new Date().toISOString(),
+        ...entry.row,
+      });
+    } else {
+      await put(store, {
+        ...existing,
+        packId: pack.packId,
+        packVersion: pack.packVersion,
+        ...entry.row,
+      });
+    }
+    n++;
+  }
+  return n;
 }
