@@ -327,6 +327,23 @@ label.btn{cursor:pointer}
 }
 .colourrow input[type=text]{font-size:13px;padding:5px 7px}
 
+.confrow{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}
+.conf{cursor:pointer;line-height:0}
+.conf input{position:absolute;opacity:0;width:0}
+.conf span{
+  display:inline-block;width:9px;height:9px;border-radius:50%;
+  border:1px solid var(--line);background:transparent;
+}
+.conf-established span{border-color:#5C7A54}
+.conf-practice span{border-color:var(--weld)}
+.conf-unverified span{border-color:var(--madder)}
+.conf input:checked + span{background:currentColor}
+.conf-established input:checked + span{background:#5C7A54}
+.conf-practice input:checked + span{background:var(--weld)}
+.conf-unverified input:checked + span{background:var(--madder)}
+.conf-none input:checked + span{background:var(--line)}
+.conf input:focus-visible + span{outline:2px solid var(--indigo);outline-offset:2px}
+
 .segrow{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface);flex-wrap:wrap}
 .seg{cursor:pointer}
 .seg input{position:absolute;opacity:0;width:0}

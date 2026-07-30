@@ -75,7 +75,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "allium_cepa",
@@ -136,7 +139,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "alnus_glutinosa",
@@ -203,7 +209,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "betula_pendula",
@@ -292,6 +301,11 @@
    "tempDyeC": {
     "min": 75,
     "max": 85
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "lightfastness": "practice"
    }
   },
   {
@@ -363,7 +377,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "coreopsis_tinctoria",
@@ -488,6 +503,10 @@
    "tempDyeC": {
     "min": 80,
     "max": 85
+   },
+   "confidence": {
+    "tempDyeC": "practice",
+    "lightfastness": "practice"
    }
   },
   {
@@ -599,7 +618,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "cotinus_coggygria",
@@ -684,6 +706,10 @@
    "tempDyeC": {
     "min": 75,
     "max": 85
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice"
    }
   },
   {
@@ -755,7 +781,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "cornus_sanguinea",
@@ -826,7 +855,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "crataegus_monogyna",
@@ -891,7 +921,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "geranium_macrorrhizum",
@@ -956,7 +989,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "hibiscus_sabdariffa",
@@ -1033,7 +1069,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "hypericum_perforatum",
@@ -1122,6 +1161,11 @@
    "tempDyeC": {
     "min": 75,
     "max": 85
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "lightfastness": "practice"
    }
   },
   {
@@ -1249,7 +1293,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "juglans_regia",
@@ -1336,7 +1383,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "lavandula_angustifolia",
@@ -1407,7 +1457,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "malus_domestica",
@@ -1502,6 +1555,11 @@
    "tempDyeC": {
     "min": 75,
     "max": 85
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "lightfastness": "practice"
    }
   },
   {
@@ -1569,7 +1627,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "origanum_vulgare",
@@ -1636,7 +1695,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "pelargonium_zonale",
@@ -1711,7 +1773,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "prunus_domestica",
@@ -1776,7 +1841,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "punica_granatum",
@@ -1794,7 +1860,7 @@
    "washfastness": "",
    "parts": [
     {
-     "partCode": "bark",
+     "partCode": "hull",
      "facing": "",
      "chemistry": [
       {
@@ -1841,7 +1907,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "quercus_robur",
@@ -1930,6 +1999,10 @@
    "tempDyeC": {
     "min": 75,
     "max": 85
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice"
    }
   },
   {
@@ -2067,6 +2140,12 @@
    "tempDyeC": {
     "min": 85,
     "max": 90
+   },
+   "softMaxTempC": 90,
+   "confidence": {
+    "softMaxTempC": "practice",
+    "tempDyeC": "practice",
+    "lightfastness": "practice"
    }
   },
   {
@@ -2142,7 +2221,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "rhus_coriaria",
@@ -2227,6 +2307,10 @@
    "tempDyeC": {
     "min": 75,
     "max": 85
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice"
    }
   },
   {
@@ -2309,7 +2393,12 @@
     "min": 85,
     "max": 90
    },
-   "liquorRatio": 10
+   "liquorRatio": 10,
+   "confidence": {
+    "tempDyeC": "practice",
+    "liquorRatio": "practice",
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "rubia_peregrina",
@@ -2370,7 +2459,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "rubia_tinctorum",
@@ -2496,6 +2588,11 @@
    "tempDyeC": {
     "min": 70,
     "max": 75
+   },
+   "softMaxTempC": 80,
+   "confidence": {
+    "softMaxTempC": "practice",
+    "tempDyeC": "practice"
    }
   },
   {
@@ -2567,7 +2664,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "rubus_idaeus",
@@ -2638,7 +2738,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "rumex_spp",
@@ -2713,7 +2816,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "sambucus_nigra",
@@ -2784,7 +2890,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "salix_alba",
@@ -2849,7 +2958,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "solanum_lycopersicum",
@@ -2916,7 +3026,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "tagetes_erecta",
@@ -3051,6 +3162,10 @@
    "tempDyeC": {
     "min": 70,
     "max": 80
+   },
+   "confidence": {
+    "tempDyeC": "practice",
+    "lightfastness": "practice"
    }
   },
   {
@@ -3118,7 +3233,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "tilia_cordata",
@@ -3189,7 +3307,10 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {
+    "lightfastness": "practice"
+   }
   },
   {
    "code": "urtica_dioica",
@@ -3260,7 +3381,8 @@
       "en": ""
      }
     }
-   ]
+   ],
+   "confidence": {}
   },
   {
    "code": "persicaria_tinctoria",
@@ -3373,6 +3495,9 @@
    "tempDyeC": {
     "min": 45,
     "max": 50
+   },
+   "confidence": {
+    "tempDyeC": "practice"
    }
   }
  ]

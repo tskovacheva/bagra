@@ -159,3 +159,41 @@ export function dialog({ title, body, confirmLabel, cancelLabel }) {
     el.querySelector('[data-ok]').focus();
   });
 }
+
+
+/**
+ * A field with a confidence marker attached to the claim it holds.
+ *
+ * Three dots rather than words: at a glance one sees which numbers are solid
+ * and which are somebody's guess, without the marker competing with the value.
+ */
+export async function confField(labelText, control, path, current, hint = '') {
+  const list = await terms('claim_confidence');
+  const dots = list.map(v => `
+    <label class="conf conf-${v.code}" title="${esc(text(v.label))}">
+      <input type="radio" name="conf.${path}" data-conf="${path}" value="${v.code}"${v.code === current ? ' checked' : ''}>
+      <span></span>
+    </label>`).join('');
+  const none = `<label class="conf conf-none" title="—">
+      <input type="radio" name="conf.${path}" data-conf="${path}" value=""${!current ? ' checked' : ''}>
+      <span></span></label>`;
+
+  return `
+    <label class="field">
+      <span class="fieldlabel">
+        ${esc(labelText)}
+        <span class="confrow">${none}${dots}</span>
+      </span>
+      ${control}
+      ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}
+    </label>`;
+}
+
+/** Reads every confidence marker back into a { path: code } map. */
+export function readConfidence(root) {
+  const out = {};
+  for (const el of root.querySelectorAll('[data-conf]')) {
+    if (el.checked && el.value) out[el.dataset.conf] = el.value;
+  }
+  return out;
+}

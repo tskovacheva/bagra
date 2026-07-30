@@ -9,7 +9,7 @@ import { all, get, put, remove, newRecord, uid } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text, getLang } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented, confField, readConfidence } from '../ui.js';
 
 const MONTHS_BG = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
@@ -60,6 +60,8 @@ function blank() {
     parts: [],
     tempExtractC: { min: null, max: null },
     tempDyeC: { min: null, max: null },
+    softMaxTempC: null,
+    confidence: {},
     dryingRatio: null,
     liquorRatio: null,
     steamNote: '',
@@ -271,7 +273,7 @@ async function renderForm(root, p) {
             ${field(t('plants.nameBotanical'), `<input type="text" data-f="nameBotanical" value="${esc(p.nameBotanical || '')}" placeholder="Rubia tinctorum">`)}
             ${field(t('plants.family'), `<input type="text" data-f="family" value="${esc(p.family || '')}">`)}
             ${field(t('plants.role'), `<div class="checks">${roleChecks}</div>`)}
-            ${field(t('plants.compositional'), `<div class="checks">${compChecks}</div>`, t('plants.compositionalHint'))}
+            ${await confField(t('plants.compositional'), `<div class="checks">${compChecks}</div>`, 'compositionalRole', p.confidence?.compositionalRole, t('plants.compositionalHint'))}
             ${field(t('plants.dyeClass'), `<select data-f="dyeClass">${await options('dye_class', p.dyeClass)}</select>`, t('plants.dyeClassHint'))}
             ${field(t('plants.availability'), `<select data-f="availability">${await options('availability', p.availability)}</select>`)}
           `)}
@@ -294,23 +296,28 @@ async function renderForm(root, p) {
         <div class="col">
           ${panel(`
             <h2>${t('plants.working')}</h2>
+            <p class="hint">${t('plants.confidenceHint')}</p>
             <div class="rangerow">
-              ${field(t('plants.tempExtract'), `<div class="two">
+              ${await confField(t('plants.tempExtract'), `<div class="two">
                 <input type="number" step="5" data-f="tempExtractC.min" value="${p.tempExtractC?.min ?? ''}" placeholder="${t('recipes.qtyMin')}">
                 <input type="number" step="5" data-f="tempExtractC.max" value="${p.tempExtractC?.max ?? ''}" placeholder="${t('recipes.qtyMax')}">
-              </div>`)}
-              ${field(t('plants.tempDye'), `<div class="two">
+              </div>`, 'tempExtractC', p.confidence?.tempExtractC)}
+              ${await confField(t('plants.tempDye'), `<div class="two">
                 <input type="number" step="5" data-f="tempDyeC.min" value="${p.tempDyeC?.min ?? ''}" placeholder="${t('recipes.qtyMin')}">
                 <input type="number" step="5" data-f="tempDyeC.max" value="${p.tempDyeC?.max ?? ''}" placeholder="${t('recipes.qtyMax')}">
-              </div>`)}
+              </div>`, 'tempDyeC', p.confidence?.tempDyeC)}
             </div>
-            ${field(t('plants.dryingRatio'), `<input type="number" step="0.5" min="0" data-f="dryingRatio" value="${p.dryingRatio ?? ''}">`, t('plants.dryingRatioHint'))}
-            ${field(t('plants.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${p.liquorRatio ?? ''}">`, t('plants.liquorRatioHint'))}
+            ${await confField(t('plants.softMaxTemp'), `<input type="number" step="5" data-f="softMaxTempC" value="${p.softMaxTempC ?? ''}">`,
+              'softMaxTempC', p.confidence?.softMaxTempC, t('plants.softMaxTempHint'))}
+            ${await confField(t('plants.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${p.liquorRatio ?? ''}">`,
+              'liquorRatio', p.confidence?.liquorRatio, t('plants.liquorRatioHint'))}
+            ${await confField(t('plants.dryingRatio'), `<input type="number" step="0.5" min="0" data-f="dryingRatio" value="${p.dryingRatio ?? ''}">`,
+              'dryingRatio', p.confidence?.dryingRatio, t('plants.dryingRatioHint'))}
             ${field(t('plants.steamNote'), `<input type="text" data-f="steamNote" value="${esc(p.steamNote || '')}">`)}
             ${field(t('plants.harvestMonths'), `<div class="months">${monthChecks}</div>`)}
             ${field(t('plants.yearsToMaturity'), `<input type="number" step="1" min="0" data-f="yearsToMaturity" value="${p.yearsToMaturity ?? ''}">`, t('plants.yearsHint'))}
-            ${field(t('plants.lightfastness'), await segmented('fastness', 'lightfastness', p.lightfastness, { allowEmpty: false }))}
-            ${field(t('plants.washfastness'), await segmented('fastness', 'washfastness', p.washfastness, { allowEmpty: false }))}
+            ${await confField(t('plants.lightfastness'), await segmented('fastness', 'lightfastness', p.lightfastness, { allowEmpty: false }), 'lightfastness', p.confidence?.lightfastness)}
+            ${await confField(t('plants.washfastness'), await segmented('fastness', 'washfastness', p.washfastness, { allowEmpty: false }), 'washfastness', p.confidence?.washfastness)}
             <label class="check"><input type="checkbox" data-f-bool="invasive" ${p.invasive ? 'checked' : ''}>
               ${t('plants.invasive')}</label>
             ${pairField(t('plants.toxicity'), 'toxicity', p.toxicity, { multiline: true })}
@@ -407,6 +414,7 @@ function readForm(root) {
   draft.sections = sections.filter(Boolean);
 
   readPairs(root, draft);
+  draft.confidence = readConfidence(root);
 }
 
 export default {

@@ -239,6 +239,13 @@ export const VOCABULARY = [
   V('season', 'winter', 'зима',   'winter', 4),
 
   // --- combinations & trials --------------------------------------------
+  // Confidence belongs to a single claim, not to a whole record: a plant's
+  // dyeing temperature can be well established while its preferred leaf
+  // surface is a guess, and one label over both would flatten the difference.
+  V('claim_confidence', 'established', 'добре установено',   'well established', 1),
+  V('claim_confidence', 'practice',    'практика',           'practitioner advice', 2),
+  V('claim_confidence', 'unverified',  'нуждае се от тест',  'needs testing', 3),
+
   V('confidence', 'unverified',   'непроверено',      'unverified', 1),
   V('confidence', 'literature',   'от литература',    'literature only', 2),
   V('confidence', 'confirmed',    'потвърдено',       'confirmed by trials', 3),

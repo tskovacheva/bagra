@@ -683,6 +683,12 @@ const DICT = {
     'techniques.delete': 'Изтрий техниката',
     'techniques.confirmDelete': 'Да изтрия ли тази техника?',
 
+
+    'plants.softMaxTemp': 'Препоръчително не над (°C)',
+    'plants.softMaxTempHint': 'Мек таван — приложението предупреждава, но не забранява. Брошът над 80° кафенее.',
+    'plants.confidence': 'Надеждност',
+    'plants.confidenceHint': 'Точките до всяко поле казват колко сигурно е твърдението: добре установено, практика, или нуждае се от тест.',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -1331,6 +1337,12 @@ const DICT = {
     'techniques.learnedFrom': 'Where I learned it',
     'techniques.delete': 'Delete technique',
     'techniques.confirmDelete': 'Delete this technique?',
+
+
+    'plants.softMaxTemp': 'Preferably not above (°C)',
+    'plants.softMaxTempHint': 'A soft ceiling — the app warns rather than forbids. Madder browns above 80°.',
+    'plants.confidence': 'Confidence',
+    'plants.confidenceHint': 'The dots beside a field say how firm the claim is: well established, practitioner advice, or needs testing.',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',
