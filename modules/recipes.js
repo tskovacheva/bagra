@@ -53,8 +53,8 @@ function blank() {
     blanketKind: '', blanketConcentration: null, blanketFresh: true, blanketUses: 0,
     requiredFollowOn: [],
     notes: { bg: '', en: '' },
-    sourceRef: null,
-    distributable: false,
+    learnedFrom: '',
+    distributable: true,
   });
 }
 
@@ -82,7 +82,7 @@ async function renderList(root) {
       <td>${esc(await label('recipe_type', r.type))}</td>
       <td>${esc(fibres.join(', '))}</td>
       <td class="num">${(r.ingredients || []).length}</td>
-      <td>${esc(r.sourceRef?.author || r.sourceRef?.text || '—')}</td>
+      <td>${esc(r.learnedFrom || '—')}</td>
       <td class="num">${r.version || 1}</td>
     </tr>`;
   }));
@@ -94,7 +94,7 @@ async function renderList(root) {
         <th>${t('recipes.col.type')}</th>
         <th>${t('recipes.col.appliesTo')}</th>
         <th class="num">${t('recipes.col.ingredients')}</th>
-        <th>${t('recipes.col.source')}</th>
+        <th>${t('recipes.learnedFrom')}</th>
         <th class="num">${t('recipes.col.version')}</th>
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
@@ -359,13 +359,10 @@ async function renderForm(root, r) {
 
           ${panel(`
             <h2>${t('recipes.origin')}</h2>
-            <p class="note">${t('recipes.sourceHint')}</p>
-            ${field(t('recipes.sourceAuthor'), `<input type="text" data-f="srcAuthor" value="${esc(r.sourceRef?.author || '')}">`)}
-            ${field(t('recipes.sourceText'), `<input type="text" data-f="srcText" value="${esc(r.sourceRef?.text || '')}">`)}
-            ${field(t('recipes.sourceUrl'), `<input type="text" data-f="srcUrl" value="${esc(r.sourceRef?.url || '')}">`)}
-            <label class="check"><input type="checkbox" data-f-bool="distributable" ${r.distributable ? 'checked' : ''}>
-              ${t('recipes.distributable')}</label>
-            <p class="hint">${t('recipes.distributableHint')}</p>
+            ${field(t('recipes.learnedFrom'), `<input type="text" data-f="learnedFrom" value="${esc(r.learnedFrom || '')}">`, t('recipes.learnedFromHint'))}
+            <label class="check"><input type="checkbox" data-f-bool="notDistributable" ${r.distributable === false ? 'checked' : ''}>
+              ${t('recipes.notDistributable')}</label>
+            <p class="hint">${t('recipes.notDistributableHint')}</p>
           `)}
 
           ${panel(`
@@ -434,10 +431,9 @@ function readForm(root) {
 
   readPairs(root, draft);
 
-  draft.sourceRef = (draft.srcText || draft.srcAuthor || draft.srcUrl)
-    ? { text: draft.srcText || '', author: draft.srcAuthor || '', url: draft.srcUrl || '' }
-    : null;
-  delete draft.srcText; delete draft.srcAuthor; delete draft.srcUrl;
+  // Redistributable by default; the checkbox is an opt-out (§13.1).
+  draft.distributable = !draft.notDistributable;
+  delete draft.notDistributable;
 }
 
 export default {

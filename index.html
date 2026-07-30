@@ -298,6 +298,38 @@ label.btn{cursor:pointer}
   .optrow{grid-template-columns:1fr 1fr}
 }
 
+
+/* ---------- plants ---------- */
+.chemrow{display:grid;grid-template-columns:1.4fr 1fr auto;gap:6px;margin-bottom:6px}
+.dosingrow{display:grid;grid-template-columns:1.2fr 70px 70px auto auto;gap:6px;align-items:center;margin-bottom:6px}
+.chemrow select,.dosingrow input,.dosingrow select{font-size:13px;padding:5px 7px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rangerow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.rangerow{grid-template-columns:1fr}}
+
+.months{display:flex;flex-wrap:wrap;gap:4px}
+.month{cursor:pointer}
+.month input{position:absolute;opacity:0;width:0}
+.month span{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:32px;padding:4px 6px;font-size:11.5px;
+  border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);
+}
+.month input:checked + span{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.month input:focus-visible + span{outline:2px solid var(--indigo);outline-offset:1px}
+
+.colourrow{display:grid;grid-template-columns:44px 1fr 1.6fr auto;gap:7px;align-items:center;margin-bottom:7px}
+.colourrow input[type=color]{
+  width:44px;height:32px;padding:2px;border:1px solid var(--line);
+  border-radius:6px;background:var(--surface);cursor:pointer;
+}
+.colourrow input[type=text]{font-size:13px;padding:5px 7px}
+
+.sectionrow{border:1px solid var(--line);border-radius:var(--radius);padding:11px;margin-bottom:10px;background:var(--ground)}
+.sectitle{font-weight:600;flex:1}
+.sectionrow textarea{margin-top:7px}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>

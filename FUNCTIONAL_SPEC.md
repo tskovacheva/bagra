@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.11 — interchangeable role options, quantity ranges, split durations
+**Status:** v1.12 — attribution moved to a library-level Sources section
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -761,30 +761,35 @@ sourceRef:     { text, author, url } | null   // attribution for seeded knowledg
 distributable: boolean                       // may this record travel in a published pack?
 ```
 
-**`distributable` separates the personal library from the published one.** A record entered from a
-copyrighted book — a recipe from Boutrup and Ellis, a plant profile from India Flint — is entirely
-legitimate for the owner's own use, and equally legitimate to keep in her own installation. It is
-not automatically hers to redistribute. The flag lets one library serve both purposes: everything
-is available locally, and only records marked distributable are written into a published pack.
+**Attribution belongs to the library, not to every record.** The original model put a source and a
+`distributable` flag on each entry, defaulting to *not* redistributable. That was wrong on the
+facts. Proportions and sequences are not authored works: "6% aluminium acetate, then a chalk bath"
+is a fact, independently arrived at by many people. Boutrup and Ellis did not invent it — they
+systematised it and cite their own sources. Chandra Rice learned it from them. The next
+practitioner learns it from her. Nobody in that chain owns the recipe, and treating each link as
+an owner misrepresents how the craft actually transmits knowledge.
 
-The distinction is not between fact and text. Individual facts are free — that aluminium acetate is
-applied at 5–8% WOF is a fact, not an expression. What is protected is the expression, and, in the
-EU, a substantial extraction from a structured collection even when its elements are facts. Fifty
-recipes lifted from one book displaces the book; that is the test, and it applies regardless of how
-carefully each one is reworded.
+What *is* protected is **text** — particular wording, order of exposition, and the selection and
+arrangement of a whole collection. Fifty recipes transcribed from one book is a problem even
+though each one alone is a fact. Recipes written in the app's own words are not.
 
-**Where these fields belong.** Only on records that carry *authored text*: recipes, plant
-descriptions, and the expected-outcome prose of combinations. Not on substances. That aluminium
-sulfate is Al₂(SO₄)₃·18H₂O, or that titanium oxalate must not exceed 70 °C, is a fact off the
-label — measured, not written, owned by nobody, and repeated identically in every supplier
-catalogue. Asking for attribution there is noise that slows entry without protecting anyone.
-Stock records carry neither field: a jar bought from a supplier is not knowledge and never
-travels in a pack.
+The model therefore becomes:
 
-Practically: reference material derived from a single published source defaults to
-`distributable: false`. It becomes true when the procedure has been rewritten from the user's own
-practice, when it is common knowledge attested across several independent sources, or when the
-author has given permission.
+1. **A general Sources section** — books, courses, people and sites the library rests on, listed
+   with thanks and links. This is the honest form of credit, and the right scale for it.
+2. **A free-text `learnedFrom` on the record** — "from Boutrup's book", "from a course with
+   Chandra", "from Maria at the market", or blank. No author field, no URL, no obligation. This
+   matches reality: usually one does not know the origin, and when one does it is a chain of
+   retellings rather than an authorship.
+3. **Redistributable by default.** `distributable` inverts to an opt-*out*, marked only where there
+   is a real reason.
+
+Two cases still warrant asking rather than assuming, and both are courtesy and accuracy more than
+law: **whole transcribed text**, and a **named authored system** — Michel Garcia's 1-2-3 vat is his
+specific achievement and carries his name.
+
+Practically: a record is opted out of distribution when it reproduces someone's wording verbatim,
+or when it is a named system whose author has not been asked.
 
 `editedFields` is what makes §10's merge policy possible: an incoming pack may update any field the
 user has not touched, and must flag the rest as a conflict rather than overwrite it.

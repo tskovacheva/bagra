@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v0.25.0';
+const CACHE = 'bagra-v0.27.0';
 
 const FILES = [
   './',
@@ -33,6 +33,7 @@ const FILES = [
   './seed/substances.json',
   './calc/alum-acetate.js',
   './modules/packs.js',
+  './modules/sources.js',
 ];
 
 self.addEventListener('install', (e) => {

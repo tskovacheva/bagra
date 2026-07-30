@@ -20,10 +20,11 @@ import techniques from './modules/techniques.js';
 import trials     from './modules/trials.js';
 import tools      from './modules/tools.js';
 import packs      from './modules/packs.js';
+import sources    from './modules/sources.js';
 
 const MODULES = {
   dashboard, reference, plants, fabrics, substances, materials,
-  recipes, techniques, trials, tools, packs,
+  recipes, techniques, trials, tools, packs, sources,
 };
 
 // Sidebar carries everything; the phone bar carries the five that matter in
@@ -39,6 +40,7 @@ const NAV = [
   { id: 'techniques', icon: 'i-technique' },
   { id: 'trials',     icon: 'i-trial' },
   { id: 'tools',      icon: 'i-tools' },
+  { id: 'sources',    icon: 'i-recipe' },
   { id: 'packs',      icon: 'i-packs' },
 ];
 
