@@ -326,6 +326,20 @@ label.btn{cursor:pointer}
 }
 .colourrow input[type=text]{font-size:13px;padding:5px 7px}
 
+.segrow{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface);flex-wrap:wrap}
+.seg{cursor:pointer}
+.seg input{position:absolute;opacity:0;width:0}
+.seg span{display:inline-block;padding:6px 11px;font-size:12.5px;color:var(--muted);border-right:1px solid var(--line)}
+.seg:last-child span{border-right:0}
+.seg input:checked + span{background:var(--indigo);color:#fff}
+.seg input:focus-visible + span{outline:2px solid var(--indigo);outline-offset:-2px}
+
+.photobox{margin-bottom:14px}
+.plantphoto{display:block;max-width:200px;border-radius:var(--radius);border:1px solid var(--line);margin-bottom:7px}
+.withthumb{display:flex;align-items:center;gap:9px}
+.thumb{width:30px;height:30px;object-fit:cover;border-radius:5px;border:1px solid var(--line)}
+.thumb.empty{background:var(--ground);display:inline-block}
+
 .sectionrow{border:1px solid var(--line);border-radius:var(--radius);padding:11px;margin-bottom:10px;background:var(--ground)}
 .sectitle{font-weight:600;flex:1}
 .sectionrow textarea{margin-top:7px}

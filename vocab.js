@@ -105,9 +105,9 @@ export const VOCABULARY = [
   V('compositional_role', 'filler',        'фон и текстура','texture filler', 2),
   V('compositional_role', 'resist',        'резист',        'resist', 3),
 
-  V('availability', 'grows_here',       'расте тук',   'grows here', 1),
-  V('availability', 'forageable_local', 'намира се',   'forageable locally', 2),
-  V('availability', 'purchased',        'купува се',   'purchased', 3),
+  V('availability', 'grows_here',       'отглеждам го',        'I grow it', 1),
+  V('availability', 'forageable_local', 'бере се в природата', 'foraged locally', 2),
+  V('availability', 'purchased',        'купува се',           'bought', 3),
 
   V('fastness', 'unknown',   'неизвестно', 'unknown', 0),
   V('fastness', 'poor',      'слаба',      'poor', 1),

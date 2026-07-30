@@ -115,3 +115,19 @@ export function readPairs(root, target) {
     target[name][langCode] = el.value.trim();
   }
 }
+
+
+// A short ordered vocabulary reads better as a row of buttons than as a
+// dropdown: the whole scale is visible at once, and choosing is one click.
+export async function segmented(dimension, name, selected, { allowEmpty = true } = {}) {
+  const list = await terms(dimension);
+  const cells = list.map(v => `
+    <label class="seg">
+      <input type="radio" name="${name}" data-f="${name}" value="${v.code}"${v.code === selected ? ' checked' : ''}>
+      <span>${esc(text(v.label))}</span>
+    </label>`).join('');
+  const none = allowEmpty
+    ? `<label class="seg"><input type="radio" name="${name}" data-f="${name}" value=""${!selected ? ' checked' : ''}><span>—</span></label>`
+    : '';
+  return `<div class="segrow">${none}${cells}</div>`;
+}

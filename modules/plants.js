@@ -7,7 +7,7 @@
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, pairField, readPairs } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented } from '../ui.js';
 
 const MONTHS_BG = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
@@ -28,19 +28,36 @@ let openId = null;
 let draft = null;
 let filterRole = null;
 
+function shrink(file, maxSide) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('bad image')); };
+    img.src = url;
+  });
+}
+
 function blank() {
   return newRecord({
     nameCommon: { bg: '', en: '' },
     nameBotanical: '',
     family: '',
     role: [],
-    compositionalRole: '',
+    compositionalRole: [],
     dyeClass: '',
     availability: '',
     parts: [],
     tempExtractC: { min: null, max: null },
     tempDyeC: { min: null, max: null },
-    maxTempC: null,
     dryingRatio: null,
     steamNote: '',
     harvestMonths: [],
@@ -51,8 +68,7 @@ function blank() {
     toxicity: { bg: '', en: '' },
     colours: [],
     sections: [],
-    learnedFrom: '',
-    photos: [],
+    photoData: null,
   });
 }
 
@@ -83,7 +99,8 @@ async function renderList(root) {
     const parts = (await Promise.all((p.parts || []).map(pt => label('plant_part', pt.partCode)))).join(', ');
     const roleNames = (await Promise.all((p.role || []).map(r => label('plant_role', r)))).join(', ');
     return `<tr data-open="${p.id}">
-      <td>${esc(text(p.nameCommon) || '—')}</td>
+      <td class="withthumb">${p.photoData ? `<img class="thumb" src="${p.photoData}" alt="">` : `<span class="thumb empty"></span>`}
+        ${esc(text(p.nameCommon) || '—')}</td>
       <td><i>${esc(p.nameBotanical || '')}</i></td>
       <td>${esc(roleNames)}</td>
       <td>${esc(parts)}</td>
@@ -208,6 +225,11 @@ function sectionRows(p) {
 async function renderForm(root, p) {
   const isNew = openId === 'new';
 
+  const compChecks = (await Promise.all(['shape_printer', 'filler', 'resist'].map(async c => `
+    <label class="check"><input type="checkbox" data-multi="compositionalRole" value="${c}"
+      ${(p.compositionalRole || []).includes(c) ? 'checked' : ''}>
+      ${esc(await label('compositional_role', c))}</label>`))).join('');
+
   const roleChecks = (await Promise.all(['dye', 'ecoprint', 'mordant_accumulator'].map(async r => `
     <label class="check"><input type="checkbox" data-multi="role" value="${r}"
       ${(p.role || []).includes(r) ? 'checked' : ''}>
@@ -227,11 +249,19 @@ async function renderForm(root, p) {
         <div class="col">
           ${panel(`
             <h2>${t('plants.identity')}</h2>
+            <div class="photobox">
+              ${p.photoData
+                ? `<img class="plantphoto" src="${p.photoData}" alt="">
+                   <button class="btn quiet" data-photo-del>${t('plants.removePhoto')}</button>`
+                : `<label class="btn quiet" for="plantphoto">${t('plants.addPhoto')}</label>`}
+              <input type="file" id="plantphoto" accept="image/*" hidden>
+              <p class="hint">${t('plants.photoHint')}</p>
+            </div>
             ${pairField(t('plants.nameCommon'), 'nameCommon', p.nameCommon)}
             ${field(t('plants.nameBotanical'), `<input type="text" data-f="nameBotanical" value="${esc(p.nameBotanical || '')}" placeholder="Rubia tinctorum">`)}
             ${field(t('plants.family'), `<input type="text" data-f="family" value="${esc(p.family || '')}">`)}
             ${field(t('plants.role'), `<div class="checks">${roleChecks}</div>`)}
-            ${field(t('plants.compositional'), `<select data-f="compositionalRole">${await options('compositional_role', p.compositionalRole)}</select>`, t('plants.compositionalHint'))}
+            ${field(t('plants.compositional'), `<div class="checks">${compChecks}</div>`, t('plants.compositionalHint'))}
             ${field(t('plants.dyeClass'), `<select data-f="dyeClass">${await options('dye_class', p.dyeClass)}</select>`, t('plants.dyeClassHint'))}
             ${field(t('plants.availability'), `<select data-f="availability">${await options('availability', p.availability)}</select>`)}
           `)}
@@ -264,13 +294,12 @@ async function renderForm(root, p) {
                 <input type="number" step="5" data-f="tempDyeC.max" value="${p.tempDyeC?.max ?? ''}" placeholder="${t('recipes.qtyMax')}">
               </div>`)}
             </div>
-            ${field(t('plants.maxTemp'), `<input type="number" step="5" data-f="maxTempC" value="${p.maxTempC ?? ''}">`, t('plants.maxTempHint'))}
             ${field(t('plants.dryingRatio'), `<input type="number" step="0.5" min="0" data-f="dryingRatio" value="${p.dryingRatio ?? ''}">`, t('plants.dryingRatioHint'))}
             ${field(t('plants.steamNote'), `<input type="text" data-f="steamNote" value="${esc(p.steamNote || '')}">`)}
             ${field(t('plants.harvestMonths'), `<div class="months">${monthChecks}</div>`)}
             ${field(t('plants.yearsToMaturity'), `<input type="number" step="1" min="0" data-f="yearsToMaturity" value="${p.yearsToMaturity ?? ''}">`, t('plants.yearsHint'))}
-            ${field(t('plants.lightfastness'), `<select data-f="lightfastness">${await options('fastness', p.lightfastness)}</select>`)}
-            ${field(t('plants.washfastness'), `<select data-f="washfastness">${await options('fastness', p.washfastness)}</select>`)}
+            ${field(t('plants.lightfastness'), await segmented('fastness', 'lightfastness', p.lightfastness, { allowEmpty: false }))}
+            ${field(t('plants.washfastness'), await segmented('fastness', 'washfastness', p.washfastness, { allowEmpty: false }))}
             <label class="check"><input type="checkbox" data-f-bool="invasive" ${p.invasive ? 'checked' : ''}>
               ${t('plants.invasive')}</label>
             ${pairField(t('plants.toxicity'), 'toxicity', p.toxicity, { multiline: true })}
@@ -289,11 +318,7 @@ async function renderForm(root, p) {
             </div>
           `)}
 
-          ${panel(`
-            <h2>${t('recipes.origin')}</h2>
-            ${field(t('plants.learnedFrom'), `<input type="text" data-f="learnedFrom" value="${esc(p.learnedFrom || '')}">`, t('recipes.learnedFromHint'))}
-            ${!isNew ? `<button class="btn danger quiet" data-delete>${t('plants.delete')}</button>` : ''}
-          `)}
+          ${!isNew ? panel(`<button class="btn danger quiet" data-delete>${t('plants.delete')}</button>`) : ''}
         </div>
       </div>`,
   });
@@ -317,6 +342,10 @@ function readForm(root) {
 
   draft.role = [];
   for (const el of root.querySelectorAll('[data-multi="role"]')) if (el.checked) draft.role.push(el.value);
+  draft.compositionalRole = [];
+  for (const el of root.querySelectorAll('[data-multi="compositionalRole"]')) {
+    if (el.checked) draft.compositionalRole.push(el.value);
+  }
 
   draft.harvestMonths = [];
   for (const el of root.querySelectorAll('[data-month]')) if (el.checked) draft.harvestMonths.push(Number(el.value));
@@ -386,6 +415,17 @@ export default {
     }
 
     const redraw = () => renderForm(root, draft);
+
+    // Stored inline on the record, resized first: a reference photo needs to be
+    // recognisable, not archival, and full-size images would bloat the backup.
+    const fileInput = root.querySelector('#plantphoto');
+    if (fileInput) fileInput.onchange = async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      readForm(root);
+      draft.photoData = await shrink(file, 480);
+      redraw();
+    };
 
     root.onclick = async (e) => {
       const role = e.target.closest('[data-role]');
@@ -458,6 +498,12 @@ export default {
         readForm(root);
         const i = Number(sdown.dataset.sectionDown);
         if (i < draft.sections.length - 1) [draft.sections[i + 1], draft.sections[i]] = [draft.sections[i], draft.sections[i + 1]];
+        return redraw();
+      }
+
+      if (e.target.closest('[data-photo-del]')) {
+        readForm(root);
+        draft.photoData = null;
         return redraw();
       }
 
