@@ -92,11 +92,16 @@ async function renderList(root) {
     .sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
 
   const rows = await Promise.all(shown.map(async p => {
-    const chem = (p.parts || []).flatMap(pt => pt.chemistry || []);
-    const top = (await Promise.all(chem
-      .filter(c => ['high', 'dominant'].includes(c.level))
-      .slice(0, 3)
-      .map(c => label('chemistry_class', c.classCode)))).join(', ');
+    // Levels are mostly unknown, so filtering by them showed nothing. What is
+    // worth seeing at a glance is which classes are present at all.
+    const seen = new Set();
+    const chem = (p.parts || []).flatMap(pt => pt.chemistry || [])
+      .filter(c => c.classCode && !seen.has(c.classCode) && seen.add(c.classCode));
+    const top = (await Promise.all(chem.slice(0, 3)
+      .map(async c => {
+        const name = await label('chemistry_class', c.classCode);
+        return c.level ? `${name} (${await label('chemistry_level', c.level)})` : name;
+      }))).join(', ');
     const parts = (await Promise.all((p.parts || []).map(pt => label('plant_part', pt.partCode)))).join(', ');
     const roleNames = (await Promise.all((p.role || []).map(r => label('plant_role', r)))).join(', ');
     return `<tr data-open="${p.id}">

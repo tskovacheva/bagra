@@ -2,7 +2,7 @@
 // Migrations only ever ADD. Nothing is renamed or removed, ever.
 
 const DB_NAME = 'bagra';
-const DB_VERSION = 5;
+const DB_VERSION = 6;
 
 // Every top-level entity from §13 gets a store. Nested lists (steps,
 // placements, state events) are embedded in their parent, not stored apart.
@@ -41,7 +41,9 @@ export function open() {
       // dropped every term whose code exists in more than one dimension. They
       // hold only seed data, regenerated on next start, so recreating them
       // loses nothing the user wrote.
-      if (e.oldVersion < 3) {
+      // v6 — vocabulary labels revised. The store holds only seed data,
+      // regenerated on the next start, so recreating it loses nothing.
+      if (e.oldVersion < 6) {
         for (const name of ['vocabulary', 'bands']) {
           if (db.objectStoreNames.contains(name)) db.deleteObjectStore(name);
         }

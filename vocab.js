@@ -105,9 +105,11 @@ export const VOCABULARY = [
   V('compositional_role', 'filler',        'фон и текстура','texture filler', 2),
   V('compositional_role', 'resist',        'резист',        'resist', 3),
 
-  V('availability', 'grows_here',       'отглеждам го',        'I grow it', 1),
-  V('availability', 'forageable_local', 'бере се в природата', 'foraged locally', 2),
-  V('availability', 'purchased',        'купува се',           'bought', 3),
+  // What matters to a dyer is whether the plant is within reach, not where the
+  // money went: growing it, finding it locally, or having it shipped in.
+  V('availability', 'grows_here',       'сам го отглеждам', 'I grow it', 1),
+  V('availability', 'forageable_local', 'расте локално',    'grows locally', 2),
+  V('availability', 'purchased',        'внася се',         'imported', 3),
 
   V('fastness', 'unknown',   'неизвестно', 'unknown', 0),
   V('fastness', 'poor',      'слаба',      'poor', 1),
