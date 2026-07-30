@@ -1,0 +1,200 @@
+{
+  "packId": "bagra-techniques",
+  "packVersion": "0.1.0",
+  "description": {
+    "bg": "Техники за резист, шибори, печат, вързване и последваща обработка.",
+    "en": "Techniques for resist, shibori, printing, bundling and post-treatment."
+  },
+  "techniques": [
+    {
+      "code": "itajime",
+      "name": { "bg": "Итаджиме", "en": "Itajime" },
+      "category": "shibori",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Платът се сгъва като хармоника и се затиска между две дъсчици или плексигласови форми, захванати с щипки. Затиснатото остава светло. Дава геометрични повторения — решетки, ромбове, кръгове според формата на притисканията.",
+        "en": "The cloth is folded like a fan and clamped between two blocks or acrylic shapes. Whatever is pressed stays pale. Gives geometric repeats — grids, diamonds, circles, following the shape of the clamps."
+      }
+    },
+    {
+      "code": "arashi",
+      "name": { "bg": "Араши", "en": "Arashi" },
+      "category": "shibori",
+      "appliesTo": ["immersion"],
+      "description": {
+        "bg": "Платът се навива диагонално около тръба, стяга се с връв и се сбира на хармоника. Дава наклонени, дъждовни линии — името значи „буря“.",
+        "en": "The cloth is wound diagonally around a pole, bound with thread and compressed along it. Gives slanting, rain-like lines — the name means storm."
+      }
+    },
+    {
+      "code": "nui",
+      "name": { "bg": "Нуи шибори", "en": "Nui shibori" },
+      "category": "shibori",
+      "appliesTo": ["immersion"],
+      "description": {
+        "bg": "Шие се с едър бод по начертан рисунък, после нишката се стяга силно и се завързва. Дава мек, пунктиран контур — най-подходящо за фигурални мотиви.",
+        "en": "Stitched with a long running stitch along a drawn design, then pulled tight and knotted. Gives a soft dotted outline — the best method for figurative motifs."
+      }
+    },
+    {
+      "code": "kanoko",
+      "name": { "bg": "Каноко", "en": "Kanoko" },
+      "category": "shibori",
+      "appliesTo": ["immersion"],
+      "description": {
+        "bg": "Малки участъци от плата се прищипват и се увиват с връв или ластик. Дава пръстени и кръгчета, разпръснати по площта.",
+        "en": "Small points of cloth are pinched and bound with thread or elastic. Gives rings and circles scattered across the surface."
+      }
+    },
+    {
+      "code": "wax_resist",
+      "name": { "bg": "Восъчен резист", "en": "Wax resist" },
+      "category": "resist",
+      "appliesTo": ["immersion"],
+      "description": {
+        "bg": "Разтопен восък се нанася с четка или канче и запечатва влакното. Държи студени и хладки бани; при гореща баня се разтопява, затова не е за багрила, които искат кипене. Отстранява се с ютия през хартия и после с гореща вода и сапун.",
+        "en": "Molten wax is applied with a brush or tjanting and seals the fibre. Holds in cold and warm baths; it melts in a hot one, so it is not for dyes that need simmering. Removed by ironing through paper, then hot water and soap."
+      }
+    },
+    {
+      "code": "paste_resist",
+      "name": { "bg": "Пастов резист", "en": "Paste resist" },
+      "category": "resist",
+      "appliesTo": ["immersion", "paste"],
+      "description": {
+        "bg": "Гъста паста от брашно, оризово нишесте или глина се нанася през шаблон и се оставя да изсъхне. Издържа топли бани по-добре от восъка и се отмива с вода. Пукнатините в изсъхналата паста дават характерни жилки.",
+        "en": "A thick paste of flour, rice starch or clay is applied through a stencil and left to dry. It survives warm baths better than wax and washes off with water. Cracks in the dried paste give its characteristic veining."
+      }
+    },
+    {
+      "code": "clamp_resist",
+      "name": { "bg": "Механичен резист", "en": "Clamp resist" },
+      "category": "resist",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Притискане с щипки, конци, ластици, копчета или камъчета. Най-простият резист — не иска нищо освен натиск и не се налага да се отстранява.",
+        "en": "Pressure from clamps, thread, elastic, buttons or pebbles. The simplest resist — it needs nothing but pressure and nothing to remove afterwards."
+      }
+    },
+    {
+      "code": "bundle_roll",
+      "name": { "bg": "Навиване на руло", "en": "Rolled bundle" },
+      "category": "bundling",
+      "appliesTo": ["ecoprint"],
+      "description": {
+        "bg": "Растенията се подреждат върху плата, той се навива около тръба или пръчка и се стяга плътно с връв. Плътността на навиването решава контраста: хлабав вързоп дава размити отпечатъци.",
+        "en": "Plants are laid on the cloth, which is rolled around a pipe or stick and bound tightly. How tight it is decides the contrast: a loose bundle gives blurred prints."
+      }
+    },
+    {
+      "code": "bundle_fold",
+      "name": { "bg": "Сгъване на пакет", "en": "Folded bundle" },
+      "category": "bundling",
+      "appliesTo": ["ecoprint"],
+      "description": {
+        "bg": "Платът се сгъва на квадрат или триъгълник с растения между слоевете и се затиска между дъсчици. Дава симетрични, огледални отпечатъци — едно листо се появява няколко пъти.",
+        "en": "The cloth is folded into a square or triangle with plants between the layers and clamped between blocks. Gives symmetrical, mirrored prints — one leaf appears several times."
+      }
+    },
+    {
+      "code": "barrier_layer",
+      "name": { "bg": "Бариера", "en": "Barrier layer" },
+      "category": "bundling",
+      "appliesTo": ["ecoprint"],
+      "description": {
+        "bg": "Найлон, фолио или стар плат между слоевете, за да не се отпечатват един върху друг. Дали слоевете са разделени или нарочно пропускат, е решение по дизайна, не подробност.",
+        "en": "Plastic, foil or an old cloth between layers so they do not print through onto one another. Whether the layers are separated or deliberately allowed to bleed is a design decision, not a detail."
+      }
+    },
+    {
+      "code": "block_print",
+      "name": { "bg": "Печат с калъп", "en": "Block printing" },
+      "category": "printing",
+      "appliesTo": ["paste"],
+      "description": {
+        "bg": "Резбован калъп от дърво или линолеум се натапя в сгъстено багрило и се притиска върху плата. Иска паста, не течна баня — течното багрило се разлива.",
+        "en": "A carved wooden or lino block is charged with thickened dye and pressed onto the cloth. It needs a paste, not a liquid bath — thin dye simply spreads."
+      }
+    },
+    {
+      "code": "screen_print",
+      "name": { "bg": "Ситопечат", "en": "Screen printing" },
+      "category": "printing",
+      "appliesTo": ["paste"],
+      "description": {
+        "bg": "Багрилна паста се притиска през мрежа с шаблон. Дава точни повторения и е най-подходящо за серия еднакви парчета.",
+        "en": "Dye paste is pushed through a stencilled mesh. Gives exact repeats and suits a series of matching pieces."
+      }
+    },
+    {
+      "code": "stencil",
+      "name": { "bg": "Шаблон", "en": "Stencil" },
+      "category": "printing",
+      "appliesTo": ["paste"],
+      "description": {
+        "bg": "Изрязана форма от хартия или фолио, през която се нанася паста или резист. Най-бързият начин за повтаряем мотив.",
+        "en": "A shape cut from paper or film through which paste or resist is applied. The quickest route to a repeatable motif."
+      }
+    },
+    {
+      "code": "iron_dip",
+      "name": { "bg": "Желязна баня", "en": "Iron afterbath" },
+      "category": "post_treatment",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Кратко потапяне в слаб разтвор на железен сулфат след багренето — 1–3 минути стигат. Потъмнява и „натъжава“ цвета: жълтото става маслинено, кафявото — сиво-черно. Над 2% WOF желязото прави влакното чупливо, затова банята е слаба и кратка.",
+        "en": "A brief dip in a weak ferrous sulfate solution after dyeing — one to three minutes is enough. It darkens and saddens the colour: yellow turns olive, brown turns grey-black. Above 2% WOF iron embrittles the fibre, so the bath is weak and short."
+      }
+    },
+    {
+      "code": "alkaline_dip",
+      "name": { "bg": "Алкална баня", "en": "Alkaline modifier" },
+      "category": "post_treatment",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Потапяне в слаб разтвор на сода. Измества цвета към по-топло и по-ярко при мареновите и антрахиноновите багрила; при антоцианите го превръща в синьо-зелено, но нетрайно.",
+        "en": "A dip in a weak soda solution. Shifts madder and anthraquinone dyes warmer and brighter; turns anthocyanins blue-green, though not durably."
+      }
+    },
+    {
+      "code": "acid_dip",
+      "name": { "bg": "Кисела баня", "en": "Acid modifier" },
+      "category": "post_treatment",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Потапяне в разтвор на оцет или лимонена киселина. Изсветлява и избистря жълтите тонове; при някои багрила връща цвят, „угаснал“ от алкална вода.",
+        "en": "A dip in vinegar or citric acid. Lightens and clears yellows; with some dyes it brings back colour dulled by alkaline water."
+      }
+    },
+    {
+      "code": "overdye",
+      "name": { "bg": "Наслагване", "en": "Overdyeing" },
+      "category": "post_treatment",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Второ багрене върху вече набагрен плат. Жълто под синьо дава зелено, което почти никое растение не дава направо. Редът има значение — по-светлото отива първо.",
+        "en": "A second dyeing over an already dyed cloth. Yellow under blue gives the green that almost no plant gives directly. Order matters — the lighter colour goes first."
+      }
+    },
+    {
+      "code": "curing",
+      "name": { "bg": "Отлежаване", "en": "Curing" },
+      "category": "post_treatment",
+      "appliesTo": ["immersion", "ecoprint", "paste"],
+      "description": {
+        "bg": "Изсъхналото парче се оставя няколко дни до няколко седмици преди първото пране. Връзката багрило–влакно продължава да се затвърждава и цветът се измива по-малко.",
+        "en": "The dried piece is left for days or weeks before its first wash. The dye-fibre bond goes on setting, and less colour is lost."
+      }
+    },
+    {
+      "code": "soaping",
+      "name": { "bg": "Сапунисване", "en": "Soaping" },
+      "category": "post_treatment",
+      "appliesTo": ["immersion", "ecoprint"],
+      "description": {
+        "bg": "Изпиране с неутрален сапун след отлежаването. Отмива несвързаното багрило — цветът изглежда по-слаб, но това, което остава, е трайното. По-добре сега, отколкото върху нечия дреха.",
+        "en": "A wash with neutral soap after curing. It removes unbonded dye — the colour looks weaker, but what remains is what lasts. Better now than on someone's garment."
+      }
+    }
+  ]
+}

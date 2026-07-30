@@ -51,6 +51,10 @@ export const PACKS = {
     file: 'seed/substances.json', store: 'substances', listKey: 'substances',
     defaults: { suitableFibreClasses: [], handling: [] },
   },
+  techniques: {
+    file: 'seed/techniques.json', store: 'techniques', listKey: 'techniques',
+    defaults: { appliesTo: [], learnedFrom: '', distributable: true },
+  },
   plants: {
     file: 'seed/plants.json', store: 'plants', listKey: 'plants',
     defaults: { harvestMonths: [], colours: [], photoData: null },
