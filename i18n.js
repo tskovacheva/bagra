@@ -647,6 +647,12 @@ const DICT = {
     'plants.removePhoto': 'Махни снимката',
     'plants.fastnessScale': 'неизв. · слаба · умерена · добра · отлична',
 
+
+    'seed.refresh': 'Обнови базовите',
+    'seed.refreshConfirm': 'Базовите записи ще се обновят от библиотеката. Записите, които си променяла, остават непокътнати. Да продължа ли?',
+    'seed.refreshDone': 'Добавени: {added}. Обновени: {updated}. Запазени твои: {kept}.',
+    'seed.refreshKept': 'Не са пипани, защото си ги променяла:',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -1259,6 +1265,12 @@ const DICT = {
     'plants.addPhoto': 'Choose a photo',
     'plants.removePhoto': 'Remove photo',
     'plants.fastnessScale': 'unknown · poor · moderate · good · excellent',
+
+
+    'seed.refresh': 'Update base records',
+    'seed.refreshConfirm': 'Seeded records will be updated from the library. Anything you have edited is left untouched. Continue?',
+    'seed.refreshDone': 'Added: {added}. Updated: {updated}. Yours kept: {kept}.',
+    'seed.refreshKept': 'Left alone because you edited them:',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

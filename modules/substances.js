@@ -5,7 +5,7 @@
 // no purchase date — those belong to Stock.
 
 import { all, get, put, remove, newRecord, byIndex } from '../db.js';
-import { loadPack } from '../seed.js';
+import { loadPack, refreshPack, markEdited } from '../seed.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs } from '../ui.js';
 
@@ -96,7 +96,8 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('substances.title'),
     sub: t('substances.sub'),
-    actions: `<button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
+    actions: `<button class="btn quiet" data-refresh>${t('seed.refresh')}</button>
+              <button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
               <button class="btn primary" data-new>${t('substances.new')}</button>`,
     body: `
       <div class="boxes">
@@ -271,6 +272,15 @@ export default {
     root.onclick = async (e) => {
       const cat = e.target.closest('[data-cat]');
       if (cat) { filterCat = cat.dataset.cat || null; return this.render(root); }
+      if (e.target.closest('[data-refresh]')) {
+        if (!confirm(t('seed.refreshConfirm'))) return;
+        try {
+          const r = await refreshPack('substances');
+          alert(t('seed.refreshDone', { added: r.added, updated: r.updated, kept: r.kept.length })
+            + (r.kept.length ? '\n\n' + t('seed.refreshKept') + '\n· ' + r.kept.join('\n· ') : ''));
+        } catch (err) { alert('seed/substances.json: ' + err.message); }
+        return this.render(root);
+      }
       if (e.target.closest('[data-reseed]')) {
         try {
           const added = await mergeSeed();
@@ -286,7 +296,7 @@ export default {
       if (e.target.closest('[data-back]')) { openId = null; draft = null; return this.render(root); }
       if (e.target.closest('[data-save]')) {
         readForm(root);
-        await put('substances', draft);
+        await put('substances', markEdited(draft));
         openId = null; draft = null;
         return this.render(root);
       }

@@ -6,7 +6,7 @@
 // a book-like list of sections lets each plant say what it has to say.
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
-import { loadPack } from '../seed.js';
+import { loadPack, refreshPack, markEdited } from '../seed.js';
 import { t, text, getLang } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented } from '../ui.js';
 
@@ -133,7 +133,8 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('plants.title'),
     sub: t('plants.sub'),
-    actions: `<button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
+    actions: `<button class="btn quiet" data-refresh>${t('seed.refresh')}</button>
+              <button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
               <button class="btn primary" data-new>${t('plants.new')}</button>`,
     body: `
       <div class="boxes">
@@ -440,6 +441,15 @@ export default {
     root.onclick = async (e) => {
       const role = e.target.closest('[data-role]');
       if (role) { filterRole = role.dataset.role || null; return this.render(root); }
+      if (e.target.closest('[data-refresh]')) {
+        if (!confirm(t('seed.refreshConfirm'))) return;
+        try {
+          const r = await refreshPack('plants');
+          alert(t('seed.refreshDone', { added: r.added, updated: r.updated, kept: r.kept.length })
+            + (r.kept.length ? '\n\n' + t('seed.refreshKept') + '\n· ' + r.kept.join('\n· ') : ''));
+        } catch (err) { alert('seed/plants.json: ' + err.message); }
+        return this.render(root);
+      }
       if (e.target.closest('[data-reseed]')) {
         try {
           const added = await loadPack('plants');
@@ -528,7 +538,7 @@ export default {
 
       if (e.target.closest('[data-save]')) {
         readForm(root);
-        await put('plants', draft);
+        await put('plants', markEdited(draft));
         openId = null; draft = null;
         return this.render(root);
       }
