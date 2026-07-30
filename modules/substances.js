@@ -5,7 +5,8 @@
 // no purchase date — those belong to Stock.
 
 import { all, get, put, remove, newRecord, byIndex } from '../db.js';
-import { loadPack, refreshPack, markEdited } from '../seed.js';
+import { markEdited } from '../seed.js';
+import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs } from '../ui.js';
 
@@ -45,10 +46,6 @@ async function detailOf(x) {
     case 'modifier': return x.phDirection ? t('materials.ph.' + x.phDirection) : '';
     default:         return '';
   }
-}
-
-async function mergeSeed() {
-  return loadPack('substances');
 }
 
 async function renderList(root) {
@@ -96,8 +93,7 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('substances.title'),
     sub: t('substances.sub'),
-    actions: `<button class="btn quiet" data-refresh>${t('seed.refresh')}</button>
-              <button class="btn quiet" data-reseed>${t('substances.reseed')}</button>
+    actions: `<button class="btn quiet" data-sync>${t('seed.sync')}</button>
               <button class="btn primary" data-new>${t('substances.new')}</button>`,
     body: `
       <div class="boxes">
@@ -270,26 +266,16 @@ export default {
     }
 
     root.onclick = async (e) => {
+      if (e.target.closest('[data-sync]')) {
+        try {
+          await seedUI.open('substances');
+          return seedUI.render(root, () => this.render(root));
+        } catch (err) { alert(err.message); }
+        return;
+      }
+
       const cat = e.target.closest('[data-cat]');
       if (cat) { filterCat = cat.dataset.cat || null; return this.render(root); }
-      if (e.target.closest('[data-refresh]')) {
-        if (!confirm(t('seed.refreshConfirm'))) return;
-        try {
-          const r = await refreshPack('substances');
-          alert(t('seed.refreshDone', { added: r.added, updated: r.updated, kept: r.kept.length })
-            + (r.kept.length ? '\n\n' + t('seed.refreshKept') + '\n· ' + r.kept.join('\n· ') : ''));
-        } catch (err) { alert('seed/substances.json: ' + err.message); }
-        return this.render(root);
-      }
-      if (e.target.closest('[data-reseed]')) {
-        try {
-          const added = await mergeSeed();
-          alert(added === 0 ? t('substances.reseedNone') : t('substances.reseedDone', { n: added }));
-        } catch (err) {
-          alert('seed/substances.json: ' + err.message);
-        }
-        return this.render(root);
-      }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
       const row = e.target.closest('[data-open]');
       if (row) { draft = null; openId = row.dataset.open; return this.render(root); }
