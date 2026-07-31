@@ -406,6 +406,14 @@
       {
        "classCode": "quinone",
        "level": ""
+      },
+      {
+       "classCode": "chalcone",
+       "level": "high"
+      },
+      {
+       "classCode": "aurone",
+       "level": "high"
       }
      ],
      "dosing": [
@@ -1916,9 +1924,9 @@
    "code": "quercus_robur",
    "nameCommon": {
     "bg": "дъб",
-    "en": ""
+    "en": "English oak"
    },
-   "nameBotanical": "Quercus robur / spp.",
+   "nameBotanical": "Quercus robur",
    "role": [
     "dye"
    ],
@@ -3033,9 +3041,9 @@
    "code": "tagetes_erecta",
    "nameCommon": {
     "bg": "тагетис",
-    "en": ""
+    "en": "African marigold"
    },
-   "nameBotanical": "Tagetes erecta / patula",
+   "nameBotanical": "Tagetes erecta",
    "role": [
     "dye"
    ],
