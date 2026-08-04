@@ -2593,7 +2593,7 @@
     "bg": "зърнастец",
     "en": ""
    },
-   "nameBotanical": "Rhamnus cathartica / spp.",
+   "nameBotanical": "Rhamnus cathartica",
    "role": [
     "dye"
    ],
@@ -2630,6 +2630,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Кой зърнастец",
+      "en": "Which buckthorn"
+     },
+     "body": {
+      "bg": "Това е местният зърнастец. Историческото жълто („персийски зърнастец“) идва от Rhamnus tinctoria — отделен запис в библиотеката.",
+      "en": "This is the local buckthorn. The historical yellow known as Persian berries comes from Rhamnus tinctoria — a separate record in this library."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -4219,6 +4229,492 @@
    "toxicity": {
     "bg": "Нисък риск; прахът от сухите люспи може да дразни.",
     "en": ""
+   }
+  },
+  {
+   "code": "anthemis_tinctoria",
+   "nameCommon": {
+    "bg": "багрилна лайка",
+    "en": "Dyer's chamomile"
+   },
+   "nameBotanical": "Cota tinctoria (syn. Anthemis tinctoria)",
+   "family": "Asteraceae",
+   "role": [
+    "dye",
+    "ecoprint"
+   ],
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "dyeClass": "adjective",
+   "availability": "grows_here",
+   "lightfastness": "good",
+   "washfastness": "good",
+   "tempExtractC": {
+    "min": 80,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 70,
+    "max": 80
+   },
+   "softMaxTempC": 90,
+   "parts": [
+    {
+     "partCode": "flower",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "flavonoid",
+       "level": "dominant"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 150,
+       "max": 300
+      }
+     ]
+    }
+   ],
+   "sections": [
+    {
+     "title": {
+      "bg": "Бележка",
+      "en": "Note"
+     },
+     "body": {
+      "bg": "Многогодишна, вирее и в България, макар да не е в местната таблица. Дава чисто топло жълто с алум и маслинено с желязо. Цъфти дълго и се бере на няколко пъти през лятото.",
+      "en": "Perennial and hardy here, though absent from the local table. Gives a clean warm yellow with alum and olive with iron. It flowers over a long season and is picked several times."
+     }
+    }
+   ],
+   "harvestMonths": [],
+   "colours": [],
+   "toxicity": {
+    "bg": "",
+    "en": ""
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "compositionalRole": "unverified",
+    "dosing": "practice"
+   }
+  },
+  {
+   "code": "rhamnus_tinctoria",
+   "nameCommon": {
+    "bg": "персийски зърнастец",
+    "en": "Persian berries"
+   },
+   "nameBotanical": "Rhamnus tinctoria / saxatilis",
+   "family": "Rhamnaceae",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [],
+   "dyeClass": "adjective",
+   "availability": "purchased",
+   "lightfastness": "good",
+   "washfastness": "moderate",
+   "tempExtractC": {
+    "min": 80,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 70,
+    "max": 80
+   },
+   "softMaxTempC": 90,
+   "parts": [
+    {
+     "partCode": "fruit",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "flavonoid",
+       "level": "dominant"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 80
+      }
+     ]
+    }
+   ],
+   "sections": [
+    {
+     "title": {
+      "bg": "Не се бърка с местния зърнастец",
+      "en": "Not the local buckthorn"
+     },
+     "body": {
+      "bg": "Историческото жълто идва от незрелите плодове на този вид, не от Rhamnus cathartica, който расте у нас. Двата са различни багрилни материали, макар да са от един род.",
+      "en": "The historical yellow comes from the unripe berries of this species, not from Rhamnus cathartica which grows here. They are different dye materials despite the shared genus."
+     }
+    }
+   ],
+   "harvestMonths": [],
+   "colours": [],
+   "toxicity": {
+    "bg": "",
+    "en": ""
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   }
+  },
+  {
+   "code": "paubrasilia_echinata",
+   "nameCommon": {
+    "bg": "бразилско дърво",
+    "en": "Brazilwood"
+   },
+   "nameBotanical": "Paubrasilia echinata / Caesalpinia sappan",
+   "family": "Fabaceae",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [],
+   "dyeClass": "adjective",
+   "availability": "purchased",
+   "lightfastness": "poor",
+   "washfastness": "moderate",
+   "tempExtractC": {
+    "min": 70,
+    "max": 85
+   },
+   "tempDyeC": {
+    "min": 60,
+    "max": 75
+   },
+   "softMaxTempC": 85,
+   "parts": [
+    {
+     "partCode": "bark",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "quinone",
+       "level": "dominant"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 20,
+       "max": 50
+      }
+     ]
+    }
+   ],
+   "sections": [
+    {
+     "title": {
+      "bg": "Устойчивост",
+      "en": "Fastness"
+     },
+     "body": {
+      "bg": "Дава разкошно розово до пурпурно, но избелява осезаемо на светлина. Историческо багрило с известна слава и известна слабост — красиво за изложба, ненадеждно за дреха.",
+      "en": "Gives a sumptuous pink to purple that fades noticeably in light. A historical dye with both a reputation and a known weakness — lovely for display, unreliable on a garment."
+     }
+    },
+    {
+     "title": {
+      "bg": "Произход",
+      "en": "Sourcing"
+     },
+     "body": {
+      "bg": "Paubrasilia echinata е застрашен вид под защитата на CITES. Сапановото дърво (Caesalpinia sappan) е азиатският му заместител и се доставя устойчиво — то е практическият избор днес.",
+      "en": "Paubrasilia echinata is endangered and CITES-listed. Sappanwood (Caesalpinia sappan) is its Asian counterpart and is sustainably supplied — it is the practical choice today."
+     }
+    }
+   ],
+   "harvestMonths": [],
+   "colours": [],
+   "toxicity": {
+    "bg": "",
+    "en": ""
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   }
+  },
+  {
+   "code": "senegalia_catechu",
+   "nameCommon": {
+    "bg": "кач",
+    "en": "Cutch"
+   },
+   "nameBotanical": "Senegalia catechu (syn. Acacia catechu)",
+   "family": "Fabaceae",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [],
+   "dyeClass": "substantive",
+   "availability": "purchased",
+   "lightfastness": "excellent",
+   "washfastness": "excellent",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "parts": [
+    {
+     "partCode": "bark",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "dominant"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 15,
+       "max": 30
+      }
+     ]
+    }
+   ],
+   "sections": [
+    {
+     "title": {
+      "bg": "Работа с него",
+      "en": "Working with it"
+     },
+     "body": {
+      "bg": "Един от най-трайните растителни кафяви цветове. Хваща без мордант заради високото съдържание на кондензирани танини, а с желязо отива към много тъмно кафяво и почти черно. Продава се като екстракт на бучки или прах.",
+      "en": "One of the most durable plant browns. It holds without a mordant thanks to its condensed tannins, and with iron goes to a very dark brown or near black. Sold as a lump or powdered extract."
+     }
+    }
+   ],
+   "harvestMonths": [],
+   "colours": [],
+   "toxicity": {
+    "bg": "",
+    "en": ""
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   }
+  },
+  {
+   "code": "castanea_sativa",
+   "nameCommon": {
+    "bg": "кестен",
+    "en": "Chestnut"
+   },
+   "nameBotanical": "Castanea sativa",
+   "family": "Fagaceae",
+   "role": [
+    "dye",
+    "ecoprint"
+   ],
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "dyeClass": "substantive",
+   "availability": "forageable_local",
+   "lightfastness": "good",
+   "washfastness": "good",
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "parts": [
+    {
+     "partCode": "leaf",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_ellagi",
+       "level": "high"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 150,
+       "max": 250
+      }
+     ]
+    },
+    {
+     "partCode": "bark",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_ellagi",
+       "level": "dominant"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    },
+    {
+     "partCode": "hull",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_ellagi",
+       "level": "high"
+      }
+     ],
+     "dosing": []
+    }
+   ],
+   "sections": [
+    {
+     "title": {
+      "bg": "Танин и еко принт",
+      "en": "Tannin and eco print"
+     },
+     "body": {
+      "bg": "Богат на елаготанини — служи и като таниново третиране преди мордантиране, и като багрило. Листата печатат ясно и реагират силно на желязо, което ги прави удобни за еко принт. Расте и у нас.",
+      "en": "Rich in ellagitannins — it serves both as a tannin pre-treatment and as a dye. The leaves print clearly and react strongly to iron, which makes them useful in eco printing. It grows here too."
+     }
+    }
+   ],
+   "harvestMonths": [],
+   "colours": [],
+   "toxicity": {
+    "bg": "",
+    "en": ""
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "compositionalRole": "unverified",
+    "dosing": "practice"
+   }
+  },
+  {
+   "code": "lawsonia_inermis",
+   "nameCommon": {
+    "bg": "къна",
+    "en": "Henna"
+   },
+   "nameBotanical": "Lawsonia inermis",
+   "family": "Lythraceae",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [],
+   "dyeClass": "substantive",
+   "availability": "purchased",
+   "lightfastness": "good",
+   "washfastness": "moderate",
+   "tempExtractC": {
+    "min": 60,
+    "max": 75
+   },
+   "tempDyeC": {
+    "min": 50,
+    "max": 70
+   },
+   "softMaxTempC": 75,
+   "parts": [
+    {
+     "partCode": "leaf",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "quinone",
+       "level": "dominant"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      }
+     ]
+    }
+   ],
+   "sections": [
+    {
+     "title": {
+      "bg": "Върху кои влакна",
+      "en": "Which fibres"
+     },
+     "body": {
+      "bg": "Лаусонът се свързва с кератина и затова къната работи много по-добре върху вълна и коприна, отколкото върху памук. Дава оранжево до ръждиво-кафяво; кисела среда усилва извличането. Не иска висока температура.",
+      "en": "Lawsone binds to keratin, so henna works far better on wool and silk than on cotton. It gives orange to rust-brown; acidity aids extraction. It does not want high heat."
+     }
+    }
+   ],
+   "harvestMonths": [],
+   "colours": [],
+   "toxicity": {
+    "bg": "",
+    "en": ""
+   },
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
    }
   }
  ]
