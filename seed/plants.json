@@ -83,17 +83,19 @@
   {
    "code": "allium_cepa",
    "nameCommon": {
-    "bg": "кромид лук",
-    "en": ""
+    "bg": "кромид лук — жълти люспи",
+    "en": "Onion — yellow skins"
    },
    "nameBotanical": "Allium cepa",
    "role": [
     "dye"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "purchased",
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "hull",
@@ -101,10 +103,16 @@
      "chemistry": [
       {
        "classCode": "flavonoid",
-       "level": ""
+       "level": "dominant"
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      }
+     ]
     }
    ],
    "colours": [],
@@ -138,26 +146,59 @@
       "bg": "Флавоноиди (кверцетин)",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://jtcps.journals.ekb.eg/article_255680_0fdd7d1b91baf28ace2f3c2babc56c33.pdf ; https://pmc.ncbi.nlm.nih.gov/articles/PMC9933475/ ; https://pubs.acs.org/doi/10.1021/acsomega.5c05183",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Amaryllidaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; прахът от сухите люспи може да дразни.",
+    "en": ""
    }
   },
   {
    "code": "alnus_glutinosa",
    "nameCommon": {
     "bg": "елша",
-    "en": ""
+    "en": "Black alder"
    },
    "nameBotanical": "Alnus glutinosa",
    "role": [
-    "dye"
+    "dye",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "forageable_local",
    "lightfastness": "excellent",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "bark",
@@ -168,17 +209,39 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 100,
+       "max": 200
+      }
+     ]
     },
     {
      "partCode": "fruit",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 100,
+       "max": 200
+      }
+     ]
     }
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Части",
+      "en": "Parts"
+     },
+     "body": {
+      "bg": "Плодната част са дървесните „шишарки“ — женските съплодия, които остават по клоните през зимата. Държат се отделно от кората.",
+      "en": "The fruiting part is the woody cone — the female infructescence that stays on the branches through winter. Kept apart from the bark."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -208,26 +271,59 @@
       "bg": "Танини",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.mdpi.com/2571-9408/8/5/150 ; https://pmc.ncbi.nlm.nih.gov/articles/PMC10096798/",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Betulaceae",
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 100,
+   "toxicity": {
+    "bg": "Нисък до среден риск; концентрираните танини могат да дразнят.",
+    "en": ""
    }
   },
   {
    "code": "betula_pendula",
    "nameCommon": {
     "bg": "бреза",
-    "en": ""
+    "en": "Silver birch"
    },
    "nameBotanical": "Betula pendula",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "forageable_local",
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "leaf",
@@ -242,13 +338,35 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 80
+      },
+      {
+       "condition": "fresh",
+       "min": 150,
+       "max": 250
+      }
+     ]
     },
     {
      "partCode": "bark",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 100,
+       "max": 150
+      },
+      {
+       "condition": "fresh",
+       "min": 200,
+       "max": 300
+      }
+     ]
     }
    ],
    "colours": [],
@@ -292,6 +410,16 @@
       "bg": "*пролетно чисто светложълто, много деликатно и свежо*\n\nот **листа** → жълто, слънчево жълто, зеленкаво-жълто\n\nот **кора** → топло кремаво, бежово, светло охра\n\nс железен сулфат → **маслинено зелено**, **кафеникаво-зелено**\n\n**Използвана част**\n\nПресни млади листа или \n\n**Съотношение**\n\nЛиста - 150–250% WOF свежи листа или 50-80% WOF сухи\n\nКора – 200-300% WOF свежа кора или 100-150% WOF суха\n\n**Процес**\n\nКора:\n\n**С листа:**\n\n- Накълцайте листата.\n\n- Покрийте с вода в съотношение **1:10**.\n\n- Загрейте до **85–95°C** (почти кипене) за **45–60 мин**.\n\n- Оставете да престои **2–12 часа** (престоят усилва цвета).\n\n- Потопете мокрия плат в багрилната баня.\n\n- Загрейте до 75–85°C и поддържайте 45–60 мин.** **\n\n**С кора:**\n\n- Използвайте избелена/паднала кора (не пресни кораби от живо дърво!).\n\n- Накиснете 12–24 часа.\n\n- Варете 1 час → дава **бежово–охра**.\n\n- Потопете мокрия плат в багрилната баня.\n\n- Загрейте до 75–85°C и поддържайте 45–60 мин\n\n**Модификации**\n\n- **Желязо → студено зелено**\n\n- **Алкално → ярко лимонено жълто**",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10096798/ ; https://pubs.rsc.org/en/content/articlelanding/2004/cs/b305697j ; https://pubs.acs.org/doi/full/10.1021/jf00035a032",
+      "en": ""
+     }
     }
    ],
    "tempExtractC": {
@@ -305,22 +433,34 @@
    "confidence": {
     "tempExtractC": "practice",
     "tempDyeC": "practice",
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Betulaceae",
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; кора се събира само от паднали/подрязани клони.",
+    "en": ""
    }
   },
   {
    "code": "carthamus_tinctorius",
    "nameCommon": {
     "bg": "шафранка",
-    "en": ""
+    "en": "Safflower"
    },
    "nameBotanical": "Carthamus tinctorius",
    "role": [
     "dye"
    ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
    "washfastness": "",
    "parts": [
     {
@@ -347,6 +487,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Две багрила",
+      "en": "Two dyes"
+     },
+     "body": {
+      "bg": "Венчелистчетата носят две различни багрила. Жълтото е водоразтворимо и се измива със студена вода — то е първото, което излиза. Червеното (картамин) остава и се извлича алкално, после се утаява с киселина. Затова няма общ процент: това са две отделни рецепти.",
+      "en": "The petals carry two different dyes. The yellow is water-soluble and washes out in cold water — it comes off first. The red (carthamin) remains, is extracted in alkali and then precipitated with acid. Hence no shared percentage: these are two separate recipes."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -376,9 +526,27 @@
       "bg": "Картамини, флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.sciencedirect.com/science/article/abs/pii/S1296207418307039 ; https://www.morana-rtd.com/e-preservationscience/2013/Laursen-16-12-2012.pdf ; https://cameo.mfa.org/wiki/Safflower_%28Carthamus_tinctorius%29_LC",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "compositionalRole": "unverified",
+    "lightfastness": "practice"
+   },
+   "family": "Asteraceae",
+   "toxicity": {
+    "bg": "Нисък риск при текстилна работа; алкалните разтвори изискват защита.",
+    "en": ""
+   }
   },
   {
    "code": "coreopsis_tinctoria",
@@ -549,16 +717,19 @@
    "code": "cosmos_sulphureus",
    "nameCommon": {
     "bg": "космос",
-    "en": ""
+    "en": "Sulphur cosmos / Orange cosmos"
    },
    "nameBotanical": "Cosmos sulphureus / bipinnatus",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
-   "compositionalRole": [],
+   "compositionalRole": [
+    "shape_printer"
+   ],
    "availability": "grows_here",
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "flower",
@@ -569,7 +740,18 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
     }
    ],
    "colours": [],
@@ -653,26 +835,60 @@
       "bg": "Cosmos sulphureus дава уютна гама от топли тонове:\n- слънчево жълто\n- златисто\n- меко оранжево\n- прасковени нюанси\nС железен сулфат може да се получат зеленикави и маслени (оливкови) тонове.\nБагрилото е устойчиво върху вълна и коприна, по-слабо върху памук.",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.farmandfolk.com/blog/2024/1/7/natural-dye-cultivation-series-sulfur-cosmos ; https://www.journalijdr.com/sites/default/files/issue-pdf/9307_0.pdf ; https://localcolordyes.com/2012/09/16/orange-cosmos-cosmos-sulphureus/",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Asteraceae",
+   "tempExtractC": {
+    "min": 70,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 70,
+    "max": 85
+   },
+   "softMaxTempC": 90,
+   "toxicity": {
+    "bg": "Нисък риск при нормална работа.",
+    "en": ""
    }
   },
   {
    "code": "cotinus_coggygria",
    "nameCommon": {
     "bg": "смрадлика",
-    "en": ""
+    "en": "Smoke tree / Young fustic"
    },
    "nameBotanical": "Cotinus coggygria",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
-   "washfastness": "",
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "good",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "leaf",
@@ -733,6 +949,16 @@
       "bg": "*Cotinus coggygria е силно ****таниново**** растение. За багрене се използват най-вече:*\n\n- ***листа**** – дават ****жълто → златисто → зеленикаво-жълто***\n\n- ***кора и млади клонки**** – дават ****охра, топло кафяво, ръждиво***\n\n- *с ****железен сулфат**** → ****маслинено зелено, сиво-зелено, кафяво-черно***\n\n**Използвана част**\n\nЛиста или млади клонки.\n\n**Съотношение**\n\n50–100% WOF\n\n**П****роцес**\n\n**От листа (жълти тонове)**\n\n- Накълцайте листата.\n\n- Покрийте с вода в съотношение **1:10**.\n\n- Загрейте до **85–90°C** и дръжте **45–60 мин**.\n\n- Оставете да престои **1-3**** часа** (по дългият престой усилва цвета).\n\n- Поставете мокрия плат в багрилната течност.\n\n- Загрейте до 75–85°C и поддържайте 45–60 мин.\n\n**От кора и клонки (кафяви / охра тонове)**\n\n- Накиснете за 12–24 часа\n\n- Покрийте с вода в съотношение **1:10**.\n\n- Загрейте до **85–90°C** и дръжте **1-1.5 часа**. \n\n- Поставете предварително намокрения плат в багрилната баня\n\n- Загрейте до 75–85°C за 45–60 мин\n\n**Модификации**\n\n**По-ярко жълто**\n\n- Предимно листа\n\n- Малко оцет (понижава pH)\n\n**Охра / кафяво**\n\n- Добавяне на кора и млади клонки\n\n- По-висока температура и дълго време\n\n**Маслинено зелено / сиво-зелено**\n\n- 1% железен сулфат, 1–3 мин\n\nОтлична основа за „overdye“ със синьо → богати зелени цветове",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12941689/ ; https://www.sciencedirect.com/science/article/abs/pii/S0926669024002619",
+      "en": ""
+     }
     }
    ],
    "tempExtractC": {
@@ -745,7 +971,17 @@
    },
    "confidence": {
     "tempExtractC": "practice",
-    "tempDyeC": "practice"
+    "tempDyeC": "practice",
+    "compositionalRole": "unverified",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Anacardiaceae",
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Сокът може да дразни чувствителна кожа; ръкавици.",
+    "en": ""
    }
   },
   {
@@ -1114,16 +1350,19 @@
    "code": "hypericum_perforatum",
    "nameCommon": {
     "bg": "жълт кантарион",
-    "en": ""
+    "en": "St John's wort"
    },
    "nameBotanical": "Hypericum perforatum",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "forageable_local",
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "flower",
@@ -1188,6 +1427,16 @@
       "bg": "* ****жълто → златисто жълто****,*\n\n* ****жълто-кафяво****,*\n\n*при определени условия → ****оранжево-кафеникаво***\n\n*с железен модификатор → ****маслинено зелено / кафяво***\n\n(известен с багрене още през Средновековието)\n\n**Използвана част**\n\nЦветни връхчета.\n\n**Съотношение**\n\n50-80% WOF сухо растение или 150-250% WOF пресни връхни части\n\n**Процес**\n\n- Сложете растението в съд и залейте с вода (1:10).\n\n- Загрейте до почти кипене (85–95°C) и дръжте 45–60 мин.\n\n- Желателно е да престои няколко часа или през нощта — кантарионът отдава багрилата си бавно.\n\n- Потопете мокрия, мордентиран плат в багрилната баня.\n\n- Загрейте до 75–85°C и поддържайте 45–60 мин.\n\n**Модификации**\n\n**За чисто жълто:**\n\n- Използвайте само връхните цветни части.\n\n- Ниско pH (добавете 1–2 с.л. оцет).\n\n**За маслинено зелено / кафяво:**\n\n- Кратко потапяне в 1–2% железен сулфат (само 1–3 мин).",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.tandfonline.com/doi/full/10.1080/15440478.2025.2565659 ; https://link.springer.com/article/10.1007/s12221-025-00936-x ; https://kathryndavey.com/st-johns-wort-natural-dye/",
+      "en": ""
+     }
     }
    ],
    "tempExtractC": {
@@ -1201,7 +1450,16 @@
    "confidence": {
     "tempExtractC": "practice",
     "tempDyeC": "practice",
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "softMaxTempC": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Hypericaceae",
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Фотосенсибилизиращо растение при вътрешен прием; при работа — ръкавици и избягване на продължителен контакт със сок.",
+    "en": ""
    }
   },
   {
@@ -2409,16 +2667,20 @@
    "code": "rhus_coriaria",
    "nameCommon": {
     "bg": "руй",
-    "en": ""
+    "en": "Sicilian sumac"
    },
    "nameBotanical": "Rhus coriaria",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
-   "washfastness": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "purchased",
+   "lightfastness": "good",
+   "washfastness": "excellent",
    "parts": [
     {
      "partCode": "fruit",
@@ -2429,13 +2691,25 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 20,
+       "max": 100
+      }
+     ]
     },
     {
      "partCode": "leaf",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 10,
+       "max": 20
+      }
+     ]
     }
    ],
    "colours": [],
@@ -2479,6 +2753,16 @@
       "bg": "*бледо жълто → маслинено; високо таниново съдържание*\n\n**Използвана част**\n\nЛиста, плодчета (червеникави).\n\n**Съотношение**\n\n50–80 WOF сухи листа или 150–250 WOF пресни листа\n*или*\n\n30–50 WOF плодчета сумак\n\n**Процес**\n\n**С листа:**\n\n- Накълцайте листата.\n\n- Покрийте с вода в съотношение **1:10**.\n\n- Загрейте до **85–90°C** и дръжте **45–60 мин**.\n\n- Оставете да престои **2–12 часа** (по дългият престой усилва цвета).\n\n- Поставете мокрия плат в багрилната течност.\n\n- Загрейте до 75–85°C и поддържайте 45–60 мин..\n\n**С плодчета:**\n\n- Леко ги стрийте, за да освободят киселинността.\n\n- Залейте с вода и загрейте до **80°C** за **30–45 мин**.\n\n- Поставете мокрия плат в багрилната течност.\n\n- Загрейте до 75–85°C и поддържайте 45–60 мин..\n*Плодовете дават по-топъл, златист оттенък*\n\n**Модификации**\n\n**По-жълто:**\n\n- Само листа\n\n- Ниско pH → добавете 1–2 с.л. оцет\n\n**Златисто / медено:**\n\n- Плодове сумак\n\n- Дълъг престой на багрилната баня\n\n**Маслинено зелено / сиво-зелено:**\n\n- Потапяне в 1% железен сулфат за 1–3 мин",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.nature.com/articles/s41598-024-62528-8 ; https://naturaldyes.ca/sumac",
+      "en": ""
+     }
     }
    ],
    "tempExtractC": {
@@ -2491,7 +2775,18 @@
    },
    "confidence": {
     "tempExtractC": "practice",
-    "tempDyeC": "practice"
+    "tempDyeC": "practice",
+    "compositionalRole": "unverified",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Anacardiaceae",
+   "softMaxTempC": 90,
+   "toxicity": {
+    "bg": "Прахът може да дразни; да не се бърка с токсикодендрони/отровен сумак.",
+    "en": ""
    }
   },
   {
@@ -3057,16 +3352,19 @@
    "code": "salix_alba",
    "nameCommon": {
     "bg": "върба",
-    "en": ""
+    "en": "White willow"
    },
    "nameBotanical": "Salix alba / spp.",
    "role": [
-    "dye"
+    "dye",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
-   "washfastness": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "forageable_local",
+   "lightfastness": "good",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "bark",
@@ -3115,9 +3413,40 @@
       "bg": "Танини, флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.sciencedirect.com/science/article/pii/S2666086521001296 ; https://www.researchgate.net/publication/337841543_Biomordanting_willow_bark_dye_on_cellulosic_materials",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Salicaceae",
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Кората съдържа салицилати; ръкавици при чувствителност/алергия към салицилати.",
+    "en": ""
+   }
   },
   {
    "code": "solanum_lycopersicum",
@@ -3508,16 +3837,20 @@
    "code": "urtica_dioica",
    "nameCommon": {
     "bg": "коприва",
-    "en": ""
+    "en": "Stinging nettle"
    },
    "nameBotanical": "Urtica dioica",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
-   "washfastness": "",
+   "compositionalRole": [
+    "filler",
+    "resist"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "leaf",
@@ -3572,9 +3905,40 @@
       "bg": "Хлорофил, флавоноиди, танини",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://hero.epa.gov/reference/2957798/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC9921046/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC9871565/",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Urticaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Жилещи власинки; ръкавици и дълги ръкави при свеж материал.",
+    "en": ""
+   }
   },
   {
    "code": "persicaria_tinctoria",
@@ -3778,6 +4142,82 @@
    "softMaxTempC": 90,
    "toxicity": {
     "bg": "Среден риск: съдържа туйон и не е за вътрешна употреба; ръкавици при чувствителна кожа, без кухненски съдове.",
+    "en": ""
+   }
+  },
+  {
+   "code": "allium_cepa_red",
+   "nameCommon": {
+    "bg": "кромид лук — червени люспи",
+    "en": "Onion — red skins"
+   },
+   "nameBotanical": "Allium cepa",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "purchased",
+   "lightfastness": "poor",
+   "washfastness": "poor",
+   "parts": [
+    {
+     "partCode": "hull",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "anthocyanin",
+       "level": "high"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "Защо отделно от жълтия",
+      "en": "Why separate from yellow"
+     },
+     "body": {
+      "bg": "Червените люспи носят антоциани, жълтите — кверцетин. Това не са два нюанса на едно багрило, а различни съединения с различно поведение: жълтото дава трайна охра до кафяво, червеното дава сиво-виолетово, което избелява. Затова са два записа.",
+      "en": "Red skins carry anthocyanins, yellow ones quercetin. These are not two shades of one dye but different compounds behaving differently: yellow gives a durable ochre to brown, red a grey-violet that fades. Hence two records."
+     }
+    }
+   ],
+   "confidence": {
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Amaryllidaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; прахът от сухите люспи може да дразни.",
     "en": ""
    }
   }
