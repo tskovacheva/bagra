@@ -189,22 +189,35 @@ export const VOCABULARY = [
   // --- process -----------------------------------------------------------
   V('process', 'immersion', 'потапящо багрене', 'immersion dyeing', 1),
   V('process', 'ecoprint',  'еко принт',        'eco print', 2),
-  V('process', 'paste',     'печат с паста',    'paste print', 3),
+  // Paste printing needs a thickener, a screen and a fixing step this app does
+  // not yet model, so offering it would promise more than it delivers.
+  V('process', 'paste',     'печат с паста (скоро)', 'paste print (not yet)', 3),
 
   // The seven enhancements, layered rather than exclusive (§8.0).
-  V('enhancement', 'cloth_mordant',      'мордантиран плат',        'cloth pre-mordanted', 1),
-  V('enhancement', 'botanical_mordant',  'мордантирани растения',   'botanicals pre-mordanted', 2),
-  V('enhancement', 'predye_substantive', 'предварително субстантивно','pre-dyed, substantive', 3),
-  V('enhancement', 'blanket_substantive','субстантивно одеяло',     'substantive carrier blanket', 4),
-  V('enhancement', 'predye_adjective',   'предварително адективно', 'pre-dyed, adjective', 5),
-  V('enhancement', 'blanket_adjective',  'адективно одеяло',        'adjective carrier blanket', 6),
-  V('enhancement', 'ph_modifier',        'pH модификатор',          'pH modifier', 7),
+  // Named after what one does, not after the chemistry behind it. "Adjective
+  // carrier blanket" is precise and unusable at the bench; "blanket soaked in
+  // a dye" is the same fact in words that describe an action.
+  V('enhancement', 'cloth_mordant',      'платът е мордантиран',        'cloth was mordanted', 1),
+  V('enhancement', 'botanical_mordant',  'листата са потопени в мордант','leaves dipped in mordant', 2),
+  V('enhancement', 'predye_substantive', 'платът е предварително набагрен','cloth was pre-dyed', 3),
+  V('enhancement', 'blanket_mordant',    'одеяло, топено в мордант',    'blanket soaked in mordant', 4),
+  V('enhancement', 'blanket_dye',        'одеяло, топено в багрило',    'blanket soaked in dye', 5),
+  V('enhancement', 'ph_modifier',        'добавен pH модификатор',      'a pH modifier was added', 6),
 
   V('bundle_role', 'printing_cloth',  'печатащ плат',  'printing cloth', 1),
   V('bundle_role', 'receiving_cloth', 'приемащ плат',  'receiving cloth', 2),
   V('bundle_role', 'carrier_blanket', 'одеяло',        'carrier blanket', 3),
   V('bundle_role', 'barrier',         'бариера',       'barrier', 4),
 
+  // Physical actions belong in the sequence alongside the chemistry: laying
+  // the cloth on foil, arranging leaves and laying the blanket are steps, not
+  // a separate list beside them. Keeping them apart broke the order in which
+  // the work is actually done and remembered.
+  V('step_type', 'prep_chain',    'подготовка (верига)',   'preparation (chain)', 0.5),
+  V('step_type', 'lay_base',      'разстилане върху основа','laying on a base', 0.6),
+  V('step_type', 'arrange',       'нареждане на растения', 'arranging the plants', 0.7),
+  V('step_type', 'lay_blanket',   'застилане с одеяло',    'laying the blanket', 0.8),
+  V('step_type', 'bundle',        'вързване / навиване',   'bundling', 0.9),
   V('step_type', 'scour',         'изпиране',        'scour', 1),
   V('step_type', 'tannin',        'танин',           'tannin', 2),
   V('step_type', 'mordant',       'мордант',         'mordant', 3),

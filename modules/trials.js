@@ -11,8 +11,7 @@ import { page, panel, field, options, label, esc, empty, note, fmtDate, today } 
 import { shrinkResult, shrinkThumb } from '../photo.js';
 
 const ENHANCEMENTS = ['cloth_mordant', 'botanical_mordant', 'predye_substantive',
-                      'blanket_substantive', 'predye_adjective', 'blanket_adjective', 'ph_modifier'];
-const LAYER_ROLES = ['printing_cloth', 'receiving_cloth', 'carrier_blanket', 'barrier'];
+                      'blanket_mordant', 'blanket_dye', 'ph_modifier'];
 
 let view = 'gallery';
 let openId = null;
@@ -20,7 +19,7 @@ let draft = null;
 let filter = { plantId: '', processCode: '' };
 
 // Loaded once per render so the nested lists can name what they point at.
-let plants = [], plantsById = new Map(), recipes = [], substances = [], combinations = [];
+let plants = [], plantsById = new Map(), recipes = [], substances = [], combinations = [], chains = [];
 
 function blank() {
   return newRecord({
@@ -32,7 +31,6 @@ function blank() {
     weightOfGoodsG: null,
     techniqueIds: [],
     water: { sourceCode: '', note: '' },
-    layers: [],
     steps: [],
     placements: [],
     assessment: '',
@@ -123,8 +121,14 @@ async function renderList(root) {
 
 async function stepRows(r) {
   return (await Promise.all((r.steps || []).map(async (st, i) => {
-    const recipeOptions = `<option value="">${t('trials.improvised')}</option>` + recipes.map(x =>
-      `<option value="${x.id}"${x.id === st.recipeId ? ' selected' : ''}>${esc(text(x.name))}</option>`).join('');
+    // One selector for both, because from the bench they are the same question:
+    // "what did I follow here?" A chain is simply a recipe with several parts.
+    const current = st.chainId ? 'c:' + st.chainId : (st.recipeId ? 'r:' + st.recipeId : '');
+    const recipeOptions = `<option value="">${t('trials.improvised')}</option>` +
+      (chains.length ? `<optgroup label="${esc(t('chains.tab'))}">` + chains.map(x =>
+        `<option value="c:${x.id}"${current === 'c:' + x.id ? ' selected' : ''}>${esc(text(x.name))}</option>`).join('') + '</optgroup>' : '') +
+      `<optgroup label="${esc(t('chains.recipesTab'))}">` + recipes.map(x =>
+        `<option value="r:${x.id}"${current === 'r:' + x.id ? ' selected' : ''}>${esc(text(x.name))}</option>`).join('') + '</optgroup>';
 
     const m = st.mediumMod;
     const substanceOptions = `<option value="">—</option>` + substances.map(x =>
@@ -135,10 +139,16 @@ async function stepRows(r) {
         <div class="chainhead">
           <span class="stepnum">${i + 1}</span>
           <select data-step="${i}.typeCode">${await options('step_type', st.typeCode, t('trials.stepType'))}</select>
-          <select data-step="${i}.recipeId">${recipeOptions}</select>
+          <select data-step="${i}.source">${recipeOptions}</select>
           <span class="spacer"></span>
           <button class="btn quiet" data-step-del="${i}" aria-label="×">×</button>
         </div>
+
+        ${['lay_base', 'lay_blanket', 'arrange', 'bundle'].includes(st.typeCode) ? `
+          <div class="mediumrow">
+            <select data-step="${i}.roleCode">${await options('bundle_role', st.roleCode, t('trials.layerRole'))}</select>
+            <input type="text" data-step="${i}.what" value="${esc(st.what || '')}" placeholder="${t('trials.layerWhat')}">
+          </div>` : ''}
 
         <div class="steptimes">
           <label class="inlinefield"><span>${t('trials.temp')}</span>
@@ -253,13 +263,6 @@ async function renderForm(root, r) {
       ${(r.techniqueIds || []).includes(x.id) ? 'checked' : ''}>
       ${esc(text(x.name))}</label>`).join('') || `<p class="hint">—</p>`;
 
-  const layerRows = (await Promise.all((r.layers || []).map(async (ly, i) => `
-    <div class="mediumrow">
-      <select data-layer="${i}.roleCode">${await options('bundle_role', ly.roleCode, t('trials.layerRole'))}</select>
-      <input type="text" data-layer="${i}.note" value="${esc(ly.note || '')}" placeholder="${t('trials.layerWhat')}">
-      <button class="btn quiet" data-layer-del="${i}" aria-label="×">×</button>
-    </div>`))).join('') || `<p class="hint">—</p>`;
-
   const photos = (r.resultPhotos || []).map((src, i) => `
     <div class="resultphoto"><img src="${src}" alt="">
       <button class="btn quiet" data-photo-del="${i}">×</button></div>`).join('');
@@ -277,6 +280,7 @@ async function renderForm(root, r) {
             ${field(t('trials.title2'), `<input type="text" data-f="title" value="${esc(r.title || '')}" placeholder="${t('trials.titlePlaceholder')}">`)}
             ${field(t('trials.date'), `<input type="date" data-f="date" value="${esc(r.date || '')}">`)}
             ${field(t('trials.process'), `<select data-f="processCode">${await options('process', r.processCode, '')}</select>`)}
+            ${r.processCode === 'paste' ? note(t('trials.pasteNotYet'), 'warn') : ''}
             ${field(t('trials.enhancements'), `<div class="checks">${enh}</div>`, t('trials.enhancementsHint'))}
           `)}
 
@@ -284,16 +288,13 @@ async function renderForm(root, r) {
             <h2>${t('trials.fabrics')}</h2>
             <div class="checks column">${fabricChecks}</div>
             ${field(t('trials.weightOfGoods'), `<input type="number" step="1" min="0" data-f="weightOfGoodsG" value="${r.weightOfGoodsG ?? ''}">`, t('trials.weightHint'))}
-            ${field(t('trials.waterSource'), `<select data-f="water.sourceCode">${await options('water_source', r.water?.sourceCode)}</select>`)}
-            ${field(t('trials.waterNote'), `<input type="text" data-f="water.note" value="${esc(r.water?.note || '')}">`)}
           `)}
 
-          ${isEcoPrint(r) ? panel(`
-            <h2>${t('trials.layers')}</h2>
-            <p class="note">${t('trials.layersHint')}</p>
-            ${layerRows}
-            <button class="btn quiet" data-layer-add>${t('trials.addLayer')}</button>
-          `) : ''}
+          ${panel(`
+            <h2>${t('trials.water')}</h2>
+            ${field(t('trials.waterSource'), `<select data-f="water.sourceCode">${await options('water_source', r.water?.sourceCode)}</select>`, t('trials.waterHint'))}
+            ${field(t('trials.waterNote'), `<input type="text" data-f="water.note" value="${esc(r.water?.note || '')}" placeholder="${t('trials.waterPlaceholder')}">`)}
+          `)}
 
           ${panel(`
             <h2>${t('trials.techniques')}</h2>
@@ -368,10 +369,15 @@ function readForm(root) {
     return out.filter(Boolean);
   };
 
-  draft.layers = readList('layer', draft.layers);
   draft.placements = readList('place', draft.placements);
 
   const steps = readList('step', draft.steps);
+  for (const st of steps) {
+    if (st.source === undefined) continue;
+    st.chainId = st.source.startsWith('c:') ? st.source.slice(2) : '';
+    st.recipeId = st.source.startsWith('r:') ? st.source.slice(2) : '';
+    delete st.source;
+  }
   for (const el of root.querySelectorAll('[data-medium]')) {
     const [i, key] = el.dataset.medium.split('.');
     const idx = Number(i);
@@ -403,6 +409,7 @@ export default {
     plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
     plantsById = new Map(plants.map(p => [p.id, p]));
     recipes = await all('recipes');
+    chains = await all('chains');
     substances = await all('substances');
     combinations = await all('combinations');
 
@@ -442,7 +449,8 @@ export default {
 
       if (e.target.closest('[data-step-add]')) {
         readForm(root);
-        draft.steps.push({ id: uid(), order: draft.steps.length, typeCode: '', recipeId: '',
+        draft.steps.push({ id: uid(), order: draft.steps.length, typeCode: '',
+                           recipeId: '', chainId: '', roleCode: '', what: '',
                            tempC: null, heldMinutes: null, restMinutes: null, mediumMod: null, note: '' });
         return redraw();
       }
@@ -458,14 +466,6 @@ export default {
       }
       const mdel = e.target.closest('[data-medium-del]');
       if (mdel) { readForm(root); draft.steps[Number(mdel.dataset.mediumDel)].mediumMod = null; return redraw(); }
-
-      if (e.target.closest('[data-layer-add]')) {
-        readForm(root);
-        draft.layers.push({ id: uid(), roleCode: '', note: '' });
-        return redraw();
-      }
-      const ldel = e.target.closest('[data-layer-del]');
-      if (ldel) { readForm(root); draft.layers.splice(Number(ldel.dataset.layerDel), 1); return redraw(); }
 
       const phdel = e.target.closest('[data-photo-del]');
       if (phdel) { readForm(root); draft.resultPhotos.splice(Number(phdel.dataset.photoDel), 1); return redraw(); }
@@ -505,6 +505,7 @@ export default {
 
       // Switching process changes which fields apply, so the form is redrawn.
       if (e.target.matches('[data-f="processCode"]')) { readForm(root); return redraw(); }
+      if ((e.target.dataset.step || '').endsWith('.typeCode')) { readForm(root); return redraw(); }
     };
   },
 };

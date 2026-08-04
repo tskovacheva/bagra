@@ -119,10 +119,17 @@ async function renderList(root) {
 
 // ---------------------------------------------------------------- form view
 
-async function ingredientRows(r, substances) {
-  const subOptions = (selected) =>
-    `<option value="">—</option>` + substances.map(sx =>
-      `<option value="${sx.id}"${sx.id === selected ? ' selected' : ''}>${esc(text(sx.name))}</option>`).join('');
+async function ingredientRows(r, substances, plants) {
+  const sourceOptions = (o) => {
+    const current = o.plantId ? 'p:' + o.plantId : (o.substanceId ? 's:' + o.substanceId : '');
+    return `<option value="">—</option>` +
+      `<optgroup label="${esc(t('recipes.fromPlants'))}">` + plants.map(p =>
+        `<option value="p:${p.id}"${current === 'p:' + p.id ? ' selected' : ''}>${esc(text(p.nameCommon))}</option>`).join('') +
+      `</optgroup>` +
+      `<optgroup label="${esc(t('recipes.fromSubstances'))}">` + substances.map(sx =>
+        `<option value="s:${sx.id}"${current === 's:' + sx.id ? ' selected' : ''}>${esc(text(sx.name))}</option>`).join('') +
+      `</optgroup>`;
+  };
 
   // basisRefersTo exists for one specific ambiguity — preparing a compound,
   // where a percentage may mean the finished product or the raw salt. Showing
@@ -131,15 +138,16 @@ async function ingredientRows(r, substances) {
 
   const rows = await Promise.all((r.ingredients || []).map(async (ing, i) => {
     const opts = ing.options?.length ? ing.options : [];
-    const optRows = opts.map((o, j) => `
+    const optRows = (await Promise.all(opts.map(async (o, j) => `
       ${j > 0 ? `<div class="orsep"><span>${t('recipes.or')}</span></div>` : ''}
       <div class="optrow">
-        <select data-opt="${i}.${j}.substanceId">${subOptions(o.substanceId)}</select>
+        <select data-opt="${i}.${j}.source">${sourceOptions(o)}</select>
+        ${o.plantId ? `<select data-opt="${i}.${j}.partCode">${await options('plant_part', o.partCode, t('recipes.wholePlant'))}</select>` : ''}
         <input type="number" step="0.1" min="0" data-opt="${i}.${j}.qtyMin" value="${o.qtyMin ?? ''}" placeholder="${t('recipes.qtyMin')}" aria-label="${t('recipes.qtyMin')}">
         <input type="number" step="0.1" min="0" data-opt="${i}.${j}.qtyMax" value="${o.qtyMax ?? ''}" placeholder="${t('recipes.qtyMax')}" aria-label="${t('recipes.qtyMax')}">
         <input type="text" data-opt="${i}.${j}.note" value="${esc(o.note?.bg || '')}" placeholder="${t('recipes.optionNotePlaceholder')}" aria-label="${t('recipes.optionNote')}">
         <button class="btn quiet" data-opt-del="${i}.${j}" aria-label="×">×</button>
-      </div>`).join('');
+      </div>`))).join('');
 
     return `
     <div class="ingrow">
@@ -207,9 +215,19 @@ async function scaleBlock(r, substances) {
   const byId = new Map(substances.map(sx => [sx.id, sx]));
   const warnings = recipeWarnings(r, scaled, byId);
 
+  const plantsById = new Map((await all('plants')).map(p => [p.id, p]));
+  const nameOfOption = async (o, roleCode) => {
+    if (o?.plantId) {
+      const p = plantsById.get(o.plantId);
+      const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
+      return (p ? text(p.nameCommon) : '—') + part;
+    }
+    const sub = byId.get(o?.substanceId);
+    return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
+  };
+
   const lines = await Promise.all(scaled.ingredients.map(async ing => {
-    const sub = byId.get(ing.option?.substanceId);
-    const nameStr = sub ? text(sub.name) : (await label('ingredient_role', ing.roleCode)) || '—';
+    const nameStr = await nameOfOption(ing.option, ing.roleCode);
     const amount = ing.scaledAmount != null
       ? ing.scaledAmount
       : `${ing.scaledMin ?? '—'}–${ing.scaledMax ?? '—'}`;
@@ -218,11 +236,9 @@ async function scaleBlock(r, substances) {
     // the number it changes — not buried in the recipe definition above.
     const picker = (ing.options?.length > 1)
       ? `<span class="pickhint">${t('recipes.choose')}</span>
-         <select data-choice="${ing.id}">${ing.options.map(o => {
-          const os = byId.get(o.substanceId);
-          return `<option value="${o.id}"${o.id === ing.option?.id ? ' selected' : ''}>${
-            esc(os ? text(os.name) : '—')}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`;
-        }).join('')}</select>`
+         <select data-choice="${ing.id}">${(await Promise.all(ing.options.map(async o =>
+            `<option value="${o.id}"${o.id === ing.option?.id ? ' selected' : ''}>${
+              esc(await nameOfOption(o, ing.roleCode))}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`))).join('')}</select>`
       : '';
 
     return `<div class="calcout calcpick">
@@ -232,8 +248,7 @@ async function scaleBlock(r, substances) {
   }));
 
   const warnHtml = (await Promise.all(warnings.map(async w => {
-    const sub = byId.get(w.ingredient.option?.substanceId || w.ingredient.substanceId);
-    const nameStr = sub ? text(sub.name) : '—';
+    const nameStr = await nameOfOption(w.ingredient.option, w.ingredient.roleCode);
     if (w.code === 'over_max_wof')  return note(t('recipes.warn.maxWof',  { name: esc(nameStr), value: w.value, limit: w.limit }), 'error');
     if (w.code === 'over_max_temp') return note(t('recipes.warn.maxTemp', { name: esc(nameStr), value: w.value, limit: w.limit }), 'error');
     if (w.code === 'fibre_mismatch') return note(t('recipes.warn.fibre',  { name: esc(nameStr) }), 'warn');
@@ -274,6 +289,8 @@ async function renderForm(root, r) {
   const allRecipes = await all('recipes');
   const substances = (await all('substances'))
     .sort((a, b) => text(a.name).localeCompare(text(b.name)));
+  const plantList = (await all('plants'))
+    .sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
 
   const fibreChecks = (await Promise.all(FIBRE_CLASSES.map(async c => `
     <label class="check"><input type="checkbox" data-multi="appliesTo" value="${c}"
@@ -299,7 +316,7 @@ async function renderForm(root, r) {
           ${panel(`
             <h2>${t('recipes.ingredients')}</h2>
             <p class="note">${t('recipes.ingredientsHint')}</p>
-            <div class="inglist">${await ingredientRows(r, substances)}</div>
+            <div class="inglist">${await ingredientRows(r, substances, plantList)}</div>
             <button class="btn quiet" data-ing-add>${t('recipes.addIngredient')}</button>
             <p class="hint">${t('recipes.alternativesHint')} ${t('recipes.qtyRangeHint')}</p>
           `)}
@@ -413,6 +430,13 @@ function readForm(root) {
     let value = el.value;
     if (el.type === 'number') value = value === '' ? null : Number(value);
     if (key === 'note') value = { bg: value, en: draft.ingredients?.[idx]?.options?.[jdx]?.note?.en || '' };
+    if (key === 'source') {
+      const opt = ings[idx].options[jdx];
+      opt.plantId = value.startsWith('p:') ? value.slice(2) : '';
+      opt.substanceId = value.startsWith('s:') ? value.slice(2) : '';
+      if (!opt.plantId) opt.partCode = '';
+      continue;
+    }
     ings[idx].options[jdx][key] = value;
   }
   draft.ingredients = ings.filter(Boolean);
@@ -493,7 +517,8 @@ export default {
         draft.ingredients.push({
           id: uid(), roleCode: '', basis: 'percent_wof', basisRefersTo: null,
           whenFibreClass: null, unit: 'g',
-          options: [{ id: uid(), substanceId: '', qtyMin: null, qtyMax: null, note: { bg: '', en: '' } }],
+          options: [{ id: uid(), substanceId: '', plantId: '', partCode: '',
+                      qtyMin: null, qtyMax: null, note: { bg: '', en: '' } }],
         });
         return renderForm(root, draft);
       }
@@ -515,7 +540,8 @@ export default {
         readForm(root);
         const idx = Number(oadd.dataset.optAdd);
         draft.ingredients[idx].options = draft.ingredients[idx].options || [];
-        draft.ingredients[idx].options.push({ id: uid(), substanceId: '', qtyMin: null, qtyMax: null, note: { bg: '', en: '' } });
+        draft.ingredients[idx].options.push({ id: uid(), substanceId: '', plantId: '', partCode: '',
+                                              qtyMin: null, qtyMax: null, note: { bg: '', en: '' } });
         return renderForm(root, draft);
       }
       const odel = e.target.closest('[data-opt-del]');
