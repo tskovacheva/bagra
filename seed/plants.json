@@ -386,7 +386,7 @@
     "bg": "кориопсис",
     "en": "Dyer's coreopsis"
    },
-   "nameBotanical": "Coreopsis tinctoria / spp.",
+   "nameBotanical": "Coreopsis tinctoria",
    "role": [
     "dye",
     "ecoprint"
@@ -523,8 +523,8 @@
     }
    ],
    "tempDyeC": {
-    "min": 80,
-    "max": 85
+    "min": 70,
+    "max": 80
    },
    "confidence": {
     "tempDyeC": "practice",
@@ -536,7 +536,7 @@
    },
    "family": "Asteraceae",
    "tempExtractC": {
-    "min": 60,
+    "min": 80,
     "max": 85
    },
    "softMaxTempC": 90,
@@ -1228,13 +1228,7 @@
        "level": ""
       }
      ],
-     "dosing": [
-      {
-       "condition": "",
-       "min": 200,
-       "max": 500
-      }
-     ]
+     "dosing": []
     }
    ],
    "colours": [],
@@ -2055,6 +2049,21 @@
    "washfastness": "excellent",
    "parts": [
     {
+     "partCode": "leaf",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_ellagi",
+       "level": "high"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": []
+    },
+    {
      "partCode": "fruit",
      "facing": "",
      "chemistry": [
@@ -2298,8 +2307,8 @@
     }
    ],
    "tempDyeC": {
-    "min": 85,
-    "max": 90
+    "min": 80,
+    "max": 85
    },
    "softMaxTempC": 90,
    "confidence": {
@@ -2312,7 +2321,7 @@
    },
    "family": "Resedaceae",
    "tempExtractC": {
-    "min": 80,
+    "min": 85,
     "max": 90
    },
    "toxicity": {
@@ -2573,70 +2582,6 @@
    }
   },
   {
-   "code": "rubia_peregrina",
-   "nameCommon": {
-    "bg": "див брош",
-    "en": ""
-   },
-   "nameBotanical": "Rubia peregrina",
-   "role": [
-    "dye"
-   ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "poor",
-   "washfastness": "",
-   "parts": [
-    {
-     "partCode": "root",
-     "facing": "",
-     "chemistry": [
-      {
-       "classCode": "quinone",
-       "level": ""
-      }
-     ],
-     "dosing": []
-    }
-   ],
-   "colours": [],
-   "sections": [
-    {
-     "title": {
-      "bg": "Багрилни качества",
-      "en": "Dye qualities"
-     },
-     "body": {
-      "bg": "Червено, керемидено; по-слабо от културния брош.",
-      "en": ""
-     }
-    },
-    {
-     "title": {
-      "bg": "Използвани части",
-      "en": "Parts used"
-     },
-     "body": {
-      "bg": "Корени",
-      "en": ""
-     }
-    },
-    {
-     "title": {
-      "bg": "Багрилна съставка",
-      "en": "Dye constituent"
-     },
-     "body": {
-      "bg": "Антрахинони",
-      "en": ""
-     }
-    }
-   ],
-   "confidence": {
-    "lightfastness": "practice"
-   }
-  },
-  {
    "code": "rubia_tinctorum",
    "nameCommon": {
     "bg": "бояджийски брош",
@@ -2673,6 +2618,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Температура",
+      "en": "Temperature"
+     },
+     "body": {
+      "bg": "Бавно до 70–75 °C и не повече. По-високата температура убива червеното и измества цвета към кафяво, затова банята не бива да кипи.",
+      "en": "Slowly to 70–75 °C and no higher. Above that the red is killed and the colour shifts brown, so the bath must not boil."
+     }
+    },
     {
      "title": {
       "bg": "Идентификация и основна информация",
@@ -2790,7 +2745,7 @@
    },
    "family": "Rubiaceae",
    "tempExtractC": {
-    "min": 60,
+    "min": 70,
     "max": 75
    },
    "toxicity": {

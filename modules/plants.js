@@ -558,6 +558,11 @@ export default {
     };
 
     root.onchange = async (e) => {
+      if (e.target.dataset.conf) {
+        readForm(root);
+        return redraw();
+      }
+
       // Offering the shape of a profile is a nudge, not a schema: every
       // heading is editable and none is required.
       if (e.target.matches('[data-section-suggest]') && e.target.value !== '') {

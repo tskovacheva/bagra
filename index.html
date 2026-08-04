@@ -327,22 +327,36 @@ label.btn{cursor:pointer}
 }
 .colourrow input[type=text]{font-size:13px;padding:5px 7px}
 
-.confrow{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}
-.conf{cursor:pointer;line-height:0}
-.conf input{position:absolute;opacity:0;width:0}
-.conf span{
-  display:inline-block;width:9px;height:9px;border-radius:50%;
-  border:1px solid var(--line);background:transparent;
+.conffield{margin-bottom:16px}
+.confrow{
+  display:flex;flex-wrap:wrap;align-items:center;gap:5px;
+  margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);
 }
-.conf-established span{border-color:#5C7A54}
-.conf-practice span{border-color:var(--weld)}
-.conf-unverified span{border-color:var(--madder)}
-.conf input:checked + span{background:currentColor}
-.conf-established input:checked + span{background:#5C7A54}
-.conf-practice input:checked + span{background:var(--weld)}
-.conf-unverified input:checked + span{background:var(--madder)}
-.conf-none input:checked + span{background:var(--line)}
-.conf input:focus-visible + span{outline:2px solid var(--indigo);outline-offset:2px}
+.conflabel{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-right:3px}
+.conf{
+  display:inline-flex;align-items:center;gap:5px;cursor:pointer;
+  padding:3px 8px;border:1px solid var(--line);border-radius:20px;
+  font-size:12px;color:var(--muted);background:var(--surface);
+}
+.conf:hover{border-color:var(--muted)}
+.conf input{position:absolute;opacity:0;width:0}
+.confdot{width:8px;height:8px;border-radius:50%;border:1px solid currentColor;flex:0 0 8px}
+.conftext{display:none}
+.conf.picked .conftext{display:inline}
+.conf.picked{border-width:1.5px;font-weight:500}
+
+.conf-literature{color:#5C7A54}
+.conf-literature.picked{background:#EDF1E8;border-color:#5C7A54;color:#3F5638}
+.conf-own_trial{color:var(--indigo)}
+.conf-own_trial.picked{background:#E8ECF3;border-color:var(--indigo);color:var(--indigo)}
+.conf-practice{color:#9A7D1E}
+.conf-practice.picked{background:#F7F1DC;border-color:var(--weld);color:#7A6318}
+.conf-unverified{color:var(--madder)}
+.conf-unverified.picked{background:#F6E7E6;border-color:var(--madder);color:var(--madder)}
+.conf-none{color:var(--muted)}
+.conf-none.picked{background:var(--ground);border-color:var(--muted)}
+.conf.picked .confdot{background:currentColor}
+.conf input:focus-visible ~ .confdot{outline:2px solid var(--indigo);outline-offset:2px}
 
 .segrow{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface);flex-wrap:wrap}
 .seg{cursor:pointer}

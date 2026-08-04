@@ -169,24 +169,29 @@ export function dialog({ title, body, confirmLabel, cancelLabel }) {
  */
 export async function confField(labelText, control, path, current, hint = '') {
   const list = await terms('claim_confidence');
-  const dots = list.map(v => `
-    <label class="conf conf-${v.code}" title="${esc(text(v.label))}">
-      <input type="radio" name="conf.${path}" data-conf="${path}" value="${v.code}"${v.code === current ? ' checked' : ''}>
-      <span></span>
+
+  // Dots alone proved invisible: the marker went unnoticed until pointed out,
+  // which defeats its purpose. The chosen level now reads as a word; the
+  // alternatives stay as dots so the row does not compete with the value.
+  const chosen = list.find(v => v.code === current);
+
+  const options = [{ code: '', label: { bg: '—', en: '—' } }, ...list].map(v => `
+    <label class="conf conf-${v.code || 'none'}${v.code === (current || '') ? ' picked' : ''}">
+      <input type="radio" name="conf.${path}" data-conf="${path}" value="${v.code}"${v.code === (current || '') ? ' checked' : ''}>
+      <span class="confdot"></span>
+      <span class="conftext">${esc(text(v.label))}</span>
     </label>`).join('');
-  const none = `<label class="conf conf-none" title="—">
-      <input type="radio" name="conf.${path}" data-conf="${path}" value=""${!current ? ' checked' : ''}>
-      <span></span></label>`;
 
   return `
-    <label class="field">
-      <span class="fieldlabel">
-        ${esc(labelText)}
-        <span class="confrow">${none}${dots}</span>
-      </span>
+    <div class="field conffield">
+      <span class="fieldlabel">${esc(labelText)}</span>
       ${control}
+      <div class="confrow" role="radiogroup" aria-label="${esc(t('plants.confidence'))}">
+        <span class="conflabel">${esc(t('plants.confidence'))}:</span>
+        ${options}
+      </div>
       ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}
-    </label>`;
+    </div>`;
 }
 
 /** Reads every confidence marker back into a { path: code } map. */
