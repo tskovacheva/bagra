@@ -406,19 +406,19 @@ label.btn{cursor:pointer}
 .sectionrow textarea{margin-top:7px}
 
 .gap{height:16px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:9px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:9px}
 .tile{
-  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
-  padding:13px 12px;border:1px solid var(--line);border-radius:var(--radius);
-  background:var(--ground);cursor:pointer;text-align:left;color:var(--ink);position:relative;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 13px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--ground);cursor:pointer;text-align:left;color:var(--ink);
 }
 .tile:hover{border-color:var(--muted)}
 .tile svg{width:19px;height:19px;stroke:var(--muted);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .tile:hover svg{stroke:var(--indigo)}
-.tilename{font-size:13px;line-height:1.25}
+.tilename{font-size:13.5px;line-height:1.25;flex:1;min-width:0}
 .tilecount{
-  position:absolute;top:11px;right:12px;
-  font-size:15px;font-weight:600;color:var(--indigo);font-variant-numeric:tabular-nums;
+  font-size:15px;font-weight:600;color:var(--indigo);
+  font-variant-numeric:tabular-nums;margin-left:auto;
 }
 .tile:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
 
@@ -436,19 +436,19 @@ label.btn{cursor:pointer}
 .updatebar .btn.quiet{color:rgba(255,255,255,.75);padding:5px 8px}
 .updatebar .btn.quiet:hover{background:rgba(255,255,255,.12);color:#fff}
 @media (max-width:820px){.gap{height:16px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:9px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:9px}
 .tile{
-  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
-  padding:13px 12px;border:1px solid var(--line);border-radius:var(--radius);
-  background:var(--ground);cursor:pointer;text-align:left;color:var(--ink);position:relative;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 13px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--ground);cursor:pointer;text-align:left;color:var(--ink);
 }
 .tile:hover{border-color:var(--muted)}
 .tile svg{width:19px;height:19px;stroke:var(--muted);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .tile:hover svg{stroke:var(--indigo)}
-.tilename{font-size:13px;line-height:1.25}
+.tilename{font-size:13.5px;line-height:1.25;flex:1;min-width:0}
 .tilecount{
-  position:absolute;top:11px;right:12px;
-  font-size:15px;font-weight:600;color:var(--indigo);font-variant-numeric:tabular-nums;
+  font-size:15px;font-weight:600;color:var(--indigo);
+  font-variant-numeric:tabular-nums;margin-left:auto;
 }
 .tile:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
 

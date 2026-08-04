@@ -25,7 +25,8 @@ const TILES = [
   { id: 'packs',      icon: 'i-packs',     store: null },
 ];
 
-const icon = (id) => `<svg aria-hidden="true"><use href="#${id}"></use></svg>`;
+const icon = (id) => `<svg width="19" height="19" fill="none" stroke="currentColor"
+  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#${id}"></use></svg>`;
 
 export default {
   id: 'dashboard',
@@ -85,18 +86,29 @@ export default {
       body: `
         ${alerts.length ? panel(`<h2>${t('dash.attention')}</h2>${alerts.join('')}`) + '<div class="gap"></div>' : ''}
 
-        ${panel(`
-          <h2>${t('dash.modules')}</h2>
-          <div class="tiles">${tiles}</div>
-        `)}
+        <div class="cols">
+          <div class="col">
+            ${panel(`
+              <h2>${t('dash.modules')}</h2>
+              <div class="tiles">${tiles}</div>
+            `)}
+          </div>
 
-        <div class="gap"></div>
+          <div class="col">
+            ${panel(`
+              <h2>${t('dash.boxes')}</h2>
+              ${boxes ? `<div class="boxes">${boxes}</div>` : `<p class="hint">${t('dash.noFabrics')}</p>`}
+            `)}
 
-        ${panel(`
-          <h2>${t('dash.boxes')}</h2>
-          ${boxes ? `<div class="boxes">${boxes}</div>` : `<p class="hint">${t('dash.noFabrics')}</p>`}
-          ${unverified ? `<p class="hint" style="margin-top:14px">${t('dash.needsTesting', { n: unverified })} — ${t('dash.needsTestingHint')}</p>` : ''}
-        `)}`,
+            ${unverified ? panel(`
+              <h2>${t('ref.confidence')}</h2>
+              <div class="calcout">
+                <span class="calclabel">${t('dash.needsTesting', { n: unverified })}</span>
+              </div>
+              <p class="hint">${t('dash.needsTestingHint')}</p>
+            `) : ''}
+          </div>
+        </div>`,
     });
   },
 };

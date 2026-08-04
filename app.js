@@ -53,7 +53,8 @@ const PHONE_NAV = ['dashboard', 'reference', 'plants', 'recipes'];
 
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const icon = (id) => `<svg aria-hidden="true"><use href="#${id}"></use></svg>`;
+const icon = (id) => `<svg width="18" height="18" fill="none" stroke="currentColor"
+  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#${id}"></use></svg>`;
 
 function currentRoute() {
   const id = location.hash.replace(/^#\/?/, '') || 'dashboard';
