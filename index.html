@@ -404,6 +404,28 @@ label.btn{cursor:pointer}
 .sectitle{font-weight:600;flex:1}
 .sectionrow textarea{margin-top:7px}
 
+.moresheet{
+  position:fixed;inset:0;background:rgba(42,39,36,.4);
+  display:flex;align-items:flex-end;z-index:50;
+}
+.morepanel{
+  background:var(--surface);width:100%;
+  border-top-left-radius:16px;border-top-right-radius:16px;
+  padding:18px 14px calc(18px + env(safe-area-inset-bottom));
+  max-height:82vh;overflow:auto;
+}
+.morehead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.morehead h2{margin:0}
+.moregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.moreitem{
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  padding:14px 6px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--ground);cursor:pointer;font-size:12px;color:var(--ink);text-align:center;
+}
+.moreitem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.moreitem[aria-current="page"]{border-color:var(--indigo);color:var(--indigo)}
+.morelang{display:flex;gap:6px;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -420,6 +442,7 @@ label.btn{cursor:pointer}
     <symbol id="i-trial" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><circle cx="9" cy="10.5" r="1.6"/><path d="M3.5 16 9 12l4 3 3-2.2 4.5 3.4"/></symbol>
     <symbol id="i-technique" viewBox="0 0 24 24"><path d="M4 18c4-1.5 4-8.5 8-8.5S16 18 20 16.5"/><path d="M4 11c4-1.5 4 1 8 1s4-4.5 8-6"/></symbol>
     <symbol id="i-tools" viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="M8 8h8"/><path d="M8 12h2.5M13.5 12H16M8 16h2.5M13.5 16H16"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></symbol>
     <symbol id="i-packs" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9Z"/><path d="m4 7.5 8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
   </defs>
 </svg>
@@ -429,6 +452,7 @@ label.btn{cursor:pointer}
   <div class="main"><main class="view" id="view" tabindex="-1"></main></div>
 </div>
 <nav class="bottomnav" id="bottomnav" aria-label="Основна навигация"></nav>
+<div class="moresheet" id="moresheet" hidden></div>
 
 <script type="module" src="app.js"></script>
 </body>

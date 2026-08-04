@@ -43,6 +43,8 @@ const DICT = {
     'app.tagline': 'by Crafty Place',
     'app.version': 'Версия',
 
+    'nav.more': 'Още',
+    'common.close': 'Затвори',
     'nav.dashboard': 'Начало',
     'nav.reference': 'Справочник',
     'nav.plants': 'Растения',
@@ -753,6 +755,8 @@ const DICT = {
     'app.tagline': 'by Crafty Place',
     'app.version': 'Version',
 
+    'nav.more': 'More',
+    'common.close': 'Close',
     'nav.dashboard': 'Home',
     'nav.reference': 'Reference',
     'nav.plants': 'Plants',

@@ -46,7 +46,10 @@ const NAV = [
   { id: 'packs',      icon: 'i-packs' },
 ];
 
-const PHONE_NAV = ['dashboard', 'reference', 'trials', 'plants', 'recipes'];
+// Four modules earn a permanent place on a phone; the rest are one tap away
+// behind "more". A bar of five fixed entries left seven modules — the backup
+// among them — unreachable on the device most likely to be lost or replaced.
+const PHONE_NAV = ['dashboard', 'reference', 'plants', 'recipes'];
 
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -74,11 +77,14 @@ function renderNav() {
        <span class="version" title="${esc(t('app.version'))}">v${VERSION}</span>
      </div>`;
 
+  const inSheet = !PHONE_NAV.includes(active);
   $('#bottomnav').innerHTML = PHONE_NAV.map(id => {
     const n = NAV.find(x => x.id === id);
     return `<button data-go="${id}" ${id === active ? 'aria-current="page"' : ''}>
       ${icon(n.icon)}<span>${t('nav.' + id)}</span></button>`;
-  }).join('');
+  }).join('') +
+    `<button data-more ${inSheet ? 'aria-current="page"' : ''}>
+      ${icon('i-more')}<span>${t('nav.more')}</span></button>`;
 }
 
 async function renderView(fresh = false) {
@@ -91,6 +97,31 @@ async function renderView(fresh = false) {
   view.focus({ preventScroll: true });
   document.title = `${t('nav.' + id)} · ${t('app.name')}`;
 }
+
+function renderSheet() {
+  const active = currentRoute();
+  const sheet = $('#moresheet');
+  sheet.innerHTML = `
+    <div class="morepanel" role="dialog" aria-modal="true" aria-label="${esc(t('nav.more'))}">
+      <div class="morehead">
+        <h2>${t('nav.more')}</h2>
+        <button class="btn quiet" data-closemore>${t('common.close')}</button>
+      </div>
+      <div class="moregrid">
+        ${NAV.map(n => `<button class="moreitem" data-go="${n.id}"
+            ${n.id === active ? 'aria-current="page"' : ''}>
+            ${icon(n.icon)}<span>${t('nav.' + n.id)}</span></button>`).join('')}
+      </div>
+      <div class="morelang">
+        <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
+        <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
+        <span class="version">v${VERSION}</span>
+      </div>
+    </div>`;
+}
+
+function openSheet() { renderSheet(); $('#moresheet').hidden = false; }
+function closeSheet() { $('#moresheet').hidden = true; }
 
 async function route(fresh = false) {
   renderNav();
@@ -111,8 +142,12 @@ async function seedIfEmpty() {
 }
 
 document.addEventListener('click', async (e) => {
+  if (e.target.closest('[data-more]')) { openSheet(); return; }
+  if (e.target.closest('[data-closemore]') || e.target.id === 'moresheet') { closeSheet(); return; }
+
   const go = e.target.closest('[data-go]');
   if (go) {
+    closeSheet();
     const target = '#/' + go.dataset.go;
     // Setting an unchanged hash fires no event, so the click would do nothing —
     // which is exactly what happened when returning to a module from a detail.
@@ -122,10 +157,15 @@ document.addEventListener('click', async (e) => {
   }
 
   const lang = e.target.closest('[data-lang]');
-  if (lang) { await setLang(lang.dataset.lang); await route(); }
+  if (lang) {
+    await setLang(lang.dataset.lang);
+    if (!$('#moresheet').hidden) renderSheet();
+    await route();
+  }
 });
 
 window.addEventListener('hashchange', () => route(true));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 
 (async function start() {
   await open();
