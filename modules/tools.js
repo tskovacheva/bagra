@@ -163,9 +163,10 @@ function render(root) {
         <option value="replace"${importMode === 'replace' ? ' selected' : ''}>${t('backup.mode.replace')}</option>
       </select>`)}
       <div class="btnrow">
-        <label class="btn" for="backupfile">${t('backup.import')}</label>
+        <label class="btn" for="backupfile" tabindex="0">${t('backup.import')}</label>
         <input type="file" id="backupfile" accept="application/json" hidden>
       </div>
+      <p class="hint">${t('backup.importHint')}</p>
       <hr class="rule">
       <h3 class="subhead">${t('app.version')}</h3>
       <div class="calcout">
@@ -266,32 +267,28 @@ export default {
       }
     };
 
-    const fileInput = root.querySelector('#backupfile');
-    if (fileInput) fileInput.onchange = async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      try {
-        const payload = await readFile(file);
-        if (importMode === 'replace' && !confirm(t('backup.confirmReplace'))) return;
-        const report = await importBackup(payload, importMode);
-        alert(t('backup.imported', report));
-        location.reload();
-      } catch (err) {
-        alert(t('backup.badFile') + ' ' + (err?.message || ''));
+    root.onchange = async (e) => {
+      // Delegated rather than bound to the element: choosing a calculator
+      // redraws the panel, and a handler attached to the old input goes with it.
+      if (e.target.matches('#backupfile')) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        try {
+          const payload = await readFile(file);
+          if (importMode === 'replace' && !confirm(t('backup.confirmReplace'))) {
+            e.target.value = '';
+            return;
+          }
+          const report = await importBackup(payload, importMode);
+          alert(t('backup.imported', report));
+          location.reload();
+        } catch (err) {
+          alert(t('backup.badFile') + ' ' + (err?.message || ''));
+          e.target.value = '';
+        }
+        return;
       }
-    };
 
-    root.oninput = (e) => {
-      if (!e.target.dataset.calc) return;
-      const active = e.target.dataset.calc;
-      const pos = e.target.selectionStart;
-      apply(e.target);
-      render(root);
-      const again = root.querySelector(`[data-calc="${active}"]`);
-      if (again) { again.focus(); try { again.setSelectionRange(pos, pos); } catch {} }
-    };
-
-    root.onchange = (e) => {
       if (e.target.matches('[data-backup-mode]')) { importMode = e.target.value; return; }
       if (!e.target.dataset.calc || e.target.tagName !== 'SELECT') return;
       apply(e.target);
