@@ -10,14 +10,14 @@
    "code": "alcea_rosea",
    "nameCommon": {
     "bg": "ружa",
-    "en": ""
+    "en": "Hollyhock"
    },
    "nameBotanical": "Alcea rosea",
    "role": [
     "dye"
    ],
    "compositionalRole": [],
-   "availability": "",
+   "availability": "grows_here",
    "lightfastness": "poor",
    "washfastness": "poor",
    "parts": [
@@ -74,10 +74,27 @@
       "bg": "Антоциани",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.sciencedirect.com/science/article/abs/pii/S0926669024019216 ; https://www.sciencedirect.com/science/chapter/edited-volume/abs/pii/B978008102659500029X",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "softMaxTempC": "practice"
+   },
+   "family": "Malvaceae",
+   "softMaxTempC": 70,
+   "toxicity": {
+    "bg": "Нисък риск при нормална работа.",
+    "en": ""
    }
   },
   {
@@ -988,14 +1005,15 @@
    "code": "cornus_mas",
    "nameCommon": {
     "bg": "дрян",
-    "en": ""
+    "en": "Cornelian cherry"
    },
    "nameBotanical": "Cornus mas",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
    "compositionalRole": [],
-   "availability": "",
+   "availability": "grows_here",
    "lightfastness": "good",
    "washfastness": "",
    "parts": [
@@ -1023,6 +1041,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Плодовете отделно",
+      "en": "Fruit kept apart"
+     },
+     "body": {
+      "bg": "Листата и кората носят танини и дават жълто-кафяви трайни тонове. Плодовете са антоцианинови — цветът в тенджерата е примамлив, но върху плат не се задържа. Затова двете не се дозират заедно.",
+      "en": "Leaves and bark carry tannins and give durable yellow-browns. The fruit is anthocyanin — the colour in the pot is tempting but does not hold on cloth. Hence the two are not dosed together."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -1052,26 +1080,54 @@
       "bg": "Танини, флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.iris.sssup.it/retrieve/dd9e0b31-be6f-709e-e053-3705fe0a83fd/Pawlowska%20et%20alii.pdf ; https://pmc.ncbi.nlm.nih.gov/articles/PMC6121078/",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice"
+   },
+   "family": "Cornaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; да не се смесват хранителни и багрилни съдове.",
+    "en": ""
    }
   },
   {
    "code": "cornus_sanguinea",
    "nameCommon": {
     "bg": "черен дрян",
-    "en": ""
+    "en": "Common dogwood"
    },
    "nameBotanical": "Cornus sanguinea",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
    "compositionalRole": [],
-   "availability": "",
+   "availability": "forageable_local",
    "lightfastness": "",
-   "washfastness": "",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "leaf",
@@ -1097,6 +1153,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Плодовете отделно",
+      "en": "Fruit kept apart"
+     },
+     "body": {
+      "bg": "Листата и кората носят танини и дават жълто-кафяви трайни тонове. Плодовете са антоцианинови — цветът в тенджерата е примамлив, но върху плат не се задържа. Затова двете не се дозират заедно.",
+      "en": "Leaves and bark carry tannins and give durable yellow-browns. The fruit is anthocyanin — the colour in the pot is tempting but does not hold on cloth. Hence the two are not dosed together."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -1126,24 +1192,54 @@
       "bg": "Танини, антоциани",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://wendyfe.wordpress.com/tag/natural-dyes/ ; обща фитохимична справка в ръководството",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Cornaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Плодовете не се приемат като безопасен хранителен материал; ръкавици при концентрирани екстракти.",
+    "en": ""
+   }
   },
   {
    "code": "crataegus_monogyna",
    "nameCommon": {
     "bg": "глог",
-    "en": ""
+    "en": "Common hawthorn"
    },
    "nameBotanical": "Crataegus monogyna / laevigata",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
    "compositionalRole": [],
-   "availability": "",
+   "availability": "forageable_local",
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "bark",
@@ -1158,7 +1254,13 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      }
+     ]
     }
    ],
    "colours": [],
@@ -1192,24 +1294,57 @@
       "bg": "Танини, флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12844126/ ; https://kathryndavey.com/natural-dyeing-with-hawthorn/",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Rosaceae",
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Тръните са механичен риск; ръкавици при събиране.",
+    "en": ""
    }
   },
   {
    "code": "geranium_macrorrhizum",
    "nameCommon": {
     "bg": "здравец",
-    "en": ""
+    "en": "Bigroot geranium"
    },
    "nameBotanical": "Geranium macrorrhizum",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "grows_here",
    "lightfastness": "excellent",
    "washfastness": "",
    "parts": [
@@ -1227,10 +1362,35 @@
       }
      ],
      "dosing": []
+    },
+    {
+     "partCode": "leaf",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "moderate"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": []
     }
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Части",
+      "en": "Parts"
+     },
+     "body": {
+      "bg": "Листата и коренищата се държат отделно — коренището е по-таниново, листата дават по-меки тонове. И двете чакат тестова серия за дози.",
+      "en": "Leaves and rhizomes are kept apart — the rhizome is more tannic, the leaves give softer tones. Both await a test series for dosing."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -1260,10 +1420,38 @@
       "bg": "Кондензирани танини",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://wendyfe.wordpress.com/tag/dyeing-with-geranium-leaves/ ; текущото ръководство на Crafty Place",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice"
+   },
+   "family": "Geraniaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; етеричните масла могат да дразнят чувствителна кожа.",
+    "en": ""
    }
   },
   {
@@ -1802,16 +1990,20 @@
    "code": "malus_domestica",
    "nameCommon": {
     "bg": "ябълка",
-    "en": ""
+    "en": "Apple"
    },
    "nameBotanical": "Malus domestica",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "grows_here",
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "fruit",
@@ -1832,13 +2024,25 @@
      "partCode": "leaf",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 80
+      }
+     ]
     },
     {
      "partCode": "bark",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 80,
+       "max": 120
+      }
+     ]
     }
    ],
    "colours": [],
@@ -1882,6 +2086,16 @@
       "bg": "*светло жълто, жълто-зеленикаво, билково жълто*\n\n*кремаво, охра, светло кафяво, бежово*\n\n*маслинено зелено, сиво-зелено, топло кафяво*\n\n**Използвана част**\n\nЛиста и кора, пресни или сушени.\n\n**Съотношение**\n\n50-80% WOF сухи листа\n\n80-120% WOF суха кора\n\n**Процес**\n\n**С листа**\n\n- Покрийте листата с вода (съотношение ~1:10).\n\n- Загрейте до **85–90°C за 45–60 мин**.\n\n- Оставете да престои **1–3 часа**, по желание **през нощта**.\n\n- Поставете мокрия (мордентиран) плат в прецедената баня.\n\n- Загрейте до 75–85°C за 45–60 мин.\n\n**С кора**\n\n- Накиснете 12–24 часа (много помага!).\n\n- Варете **1–1.5 часа** на 90–95°C.\n\n- Оставете да престои няколко часа / нощ.\n\n- Поставете мокрия (мордентиран) плат в прецедената баня.\n\n- Загрейте до 75–85°C за 45–60 мин.\n\n💡 *Листата → по-жълти тонове; кората → по-бежови и земни.*\n\n**Модификации**\n\n- Кратко потапяне в **1% железен сулфат** (1–3 мин) за маслинено жълто",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.farmandfolk.com/blog/2025/8/26/natural-dyeing-with-apple-leaves-and-bark ; https://dawnsdressdiary.wordpress.com/2018/10/24/natural-dyeing-with-apple-tree-bark/",
+      "en": ""
+     }
     }
    ],
    "tempExtractC": {
@@ -1895,22 +2109,35 @@
    "confidence": {
     "tempExtractC": "practice",
     "tempDyeC": "practice",
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Rosaceae",
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Кора се събира само от резитба; семките на плодовете не са багрилна суровина.",
+    "en": ""
    }
   },
   {
    "code": "mespilus_germanica",
    "nameCommon": {
     "bg": "мушмула",
-    "en": ""
+    "en": "Medlar"
    },
    "nameBotanical": "Mespilus germanica",
    "role": [
-    "dye"
+    "dye",
+    "mordant_accumulator"
    ],
-   "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
    "washfastness": "",
    "parts": [
     {
@@ -1962,24 +2189,56 @@
       "bg": "Танини",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://appleoakfibreworks.com/blogs/news/%F0%9F%8C%BF-european-alternatives-to-kakishibu-exploring-local-tannin-rich-fruits ; https://patents.google.com/patent/RU2586137C2/en ; https://pmc.ncbi.nlm.nih.gov/articles/PMC10997830/",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice"
+   },
+   "family": "Rosaceae",
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при текстилна работа; не се използват съдове за храна.",
+    "en": ""
+   }
   },
   {
    "code": "origanum_vulgare",
    "nameCommon": {
     "bg": "риган",
-    "en": ""
+    "en": "Oregano"
    },
    "nameBotanical": "Origanum vulgare",
    "role": [
     "dye"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "flower",
@@ -2001,6 +2260,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -2030,10 +2299,39 @@
       "bg": "Феноли, флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pubmed.ncbi.nlm.nih.gov/31267860/ ; https://pubmed.ncbi.nlm.nih.gov/27915173/ ; https://pubmed.ncbi.nlm.nih.gov/40733065/",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "washfastness": "practice"
+   },
+   "family": "Lamiaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при нормална текстилна работа; концентрираното етерично масло не се приравнява на билковата отвара.",
+    "en": ""
    }
   },
   {
@@ -2118,16 +2416,17 @@
    "code": "prunus_domestica",
    "nameCommon": {
     "bg": "синя слива",
-    "en": ""
+    "en": "European plum"
    },
    "nameBotanical": "Prunus domestica",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
    "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
-   "washfastness": "",
+   "availability": "grows_here",
+   "lightfastness": "good",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "bark",
@@ -2142,7 +2441,13 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      }
+     ]
     }
    ],
    "colours": [],
@@ -2176,9 +2481,40 @@
       "bg": "Танини, флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10096798/ ; https://www.snapdragonlife.com/news/blog/natural-dyes--dyeing-wool-with-plum-bark/ ; https://www.floraundfarbe.de/english/farben-mit-apfel-kirsche-pflaume/",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "practice"
+   },
+   "family": "Rosaceae",
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Prunus кора/листа съдържат цианогенни гликозиди; не се вдишват пари, добра вентилация и без хранителни съдове.",
+    "en": ""
+   }
   },
   {
    "code": "punica_granatum",
@@ -2591,15 +2927,16 @@
    "code": "rhamnus_cathartica",
    "nameCommon": {
     "bg": "зърнастец",
-    "en": ""
+    "en": "Common buckthorn"
    },
    "nameBotanical": "Rhamnus cathartica",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
    "compositionalRole": [],
-   "availability": "",
-   "lightfastness": "",
+   "availability": "forageable_local",
+   "lightfastness": "good",
    "washfastness": "",
    "parts": [
     {
@@ -2630,6 +2967,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "Плодовете отделно",
+      "en": "Fruit kept apart"
+     },
+     "body": {
+      "bg": "Листата и кората носят танини и дават жълто-кафяви трайни тонове. Плодовете са антоцианинови — цветът в тенджерата е примамлив, но върху плат не се задържа. Затова двете не се дозират заедно.",
+      "en": "Leaves and bark carry tannins and give durable yellow-browns. The fruit is anthocyanin — the colour in the pot is tempting but does not hold on cloth. Hence the two are not dosed together."
+     }
+    },
     {
      "title": {
       "bg": "Кой зърнастец",
@@ -2669,9 +3016,33 @@
       "bg": "Антрахинони, флавоноиди, танини",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.sciencedirect.com/science/article/pii/S014372082600077X ; https://spinoffmagazine.com/dyeing-with-buckthorn/ ; https://www.madebybarb.com/2021/11/21/eco-printing-with-buckthorn-berry-dye/",
+      "en": ""
+     }
     }
    ],
-   "confidence": {}
+   "confidence": {
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice"
+   },
+   "family": "Rhamnaceae",
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Плодовете и кората са слабителни/токсични при прием; ръкавици, добра вентилация, отделни съдове.",
+    "en": ""
+   }
   },
   {
    "code": "rhus_coriaria",
@@ -3703,16 +4074,18 @@
    "code": "thymus_vulgaris",
    "nameCommon": {
     "bg": "мащерка",
-    "en": ""
+    "en": "Common thyme"
    },
    "nameBotanical": "Thymus vulgaris / spp.",
    "role": [
     "dye"
    ],
-   "compositionalRole": [],
-   "availability": "",
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "flower",
@@ -3734,6 +4107,16 @@
    ],
    "colours": [],
    "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
     {
      "title": {
       "bg": "Багрилни качества",
@@ -3763,26 +4146,56 @@
       "bg": "Флавоноиди",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8538811/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC8467395/",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "washfastness": "practice"
+   },
+   "family": "Lamiaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; етеричното масло може да дразни кожата.",
+    "en": ""
    }
   },
   {
    "code": "tilia_cordata",
    "nameCommon": {
     "bg": "липа",
-    "en": ""
+    "en": "Small-leaved lime / Linden"
    },
    "nameBotanical": "Tilia cordata",
    "role": [
-    "dye"
+    "dye",
+    "ecoprint"
    ],
    "compositionalRole": [],
-   "availability": "",
+   "availability": "forageable_local",
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "leaf",
@@ -3797,13 +4210,25 @@
        "level": ""
       }
      ],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
     },
     {
      "partCode": "bark",
      "facing": "",
      "chemistry": [],
-     "dosing": []
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      }
+     ]
     }
    ],
    "colours": [],
@@ -3837,10 +4262,39 @@
       "bg": "Флавоноиди, танини",
       "en": ""
      }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.instagram.com/p/BkyGxbJl4Rf/ ; обща фитохимична рамка в ръководството",
+      "en": ""
+     }
     }
    ],
    "confidence": {
-    "lightfastness": "practice"
+    "lightfastness": "practice",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Malvaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск; кора само от паднали или подрязани клони.",
+    "en": ""
    }
   },
   {
@@ -4715,6 +5169,670 @@
     "lightfastness": "practice",
     "washfastness": "practice",
     "dosing": "practice"
+   }
+  },
+  {
+   "code": "salvia_rosmarinus",
+   "nameCommon": {
+    "bg": "Розмарин",
+    "en": "Rosemary"
+   },
+   "nameBotanical": "Salvia rosmarinus",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
+   "washfastness": "moderate",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pubmed.ncbi.nlm.nih.gov/40621022/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC8512194/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Lamiaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при работа с растителен материал; етеричното масло може да дразни.",
+    "en": ""
+   }
+  },
+  {
+   "code": "achillea_millefolium",
+   "nameCommon": {
+    "bg": "Бял равнец",
+    "en": "Yarrow"
+   },
+   "nameBotanical": "Achillea millefolium",
+   "role": [
+    "ecoprint",
+    "dye"
+   ],
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
+   "washfastness": "moderate",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9801515/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC9100705/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Asteraceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Възможни кожни реакции при чувствителност към Asteraceae; ръкавици при продължителен контакт.",
+    "en": ""
+   }
+  },
+  {
+   "code": "salvia_officinalis",
+   "nameCommon": {
+    "bg": "Градински чай",
+    "en": "Common sage"
+   },
+   "nameBotanical": "Salvia officinalis",
+   "role": [
+    "ecoprint",
+    "dye"
+   ],
+   "compositionalRole": [],
+   "availability": "grows_here",
+   "lightfastness": "",
+   "washfastness": "moderate",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8954814/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC4003706/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Lamiaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Листната отвара е нискорискова за външна работа; концентрираното етерично масло и високият туйон изискват отделна предпазливост.",
+    "en": ""
+   }
+  },
+  {
+   "code": "mentha_spp",
+   "nameCommon": {
+    "bg": "Мента",
+    "en": "Mint"
+   },
+   "nameBotanical": "Mentha spp.",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "",
+   "washfastness": "moderate",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10377728/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC9393079/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Lamiaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при листен материал; концентрираните масла могат да дразнят.",
+    "en": ""
+   }
+  },
+  {
+   "code": "melissa_officinalis",
+   "nameCommon": {
+    "bg": "Маточина",
+    "en": "Lemon balm"
+   },
+   "nameBotanical": "Melissa officinalis",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "",
+   "washfastness": "moderate",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5871149/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC8998938/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Lamiaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при нормална текстилна работа.",
+    "en": ""
+   }
+  },
+  {
+   "code": "calendula_officinalis",
+   "nameCommon": {
+    "bg": "Невен",
+    "en": "Pot marigold"
+   },
+   "nameBotanical": "Calendula officinalis",
+   "role": [
+    "ecoprint",
+    "dye"
+   ],
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
+   "washfastness": "good",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 30,
+       "max": 100
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "За тези числа",
+      "en": "About these figures"
+     },
+     "body": {
+      "bg": "Диапазоните са общи за ароматните билки и не идват от конкретен изпитан източник. Служат за начало на собствена серия, не като установена практика — затова са маркирани като „нуждае се от тест“.",
+      "en": "These ranges are generic to aromatic herbs and do not come from a tested source. They are a starting point for your own series rather than established practice — hence the \"needs testing\" marker."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pubmed.ncbi.nlm.nih.gov/17654539/ ; https://pubmed.ncbi.nlm.nih.gov/36281409/ ; https://pmc.ncbi.nlm.nih.gov/articles/PMC7567291/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "unverified",
+    "tempDyeC": "unverified",
+    "softMaxTempC": "unverified",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "dosing": "unverified"
+   },
+   "family": "Asteraceae",
+   "tempExtractC": {
+    "min": 70,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 70,
+    "max": 85
+   },
+   "softMaxTempC": 90,
+   "toxicity": {
+    "bg": "Нисък риск; възможна чувствителност към Asteraceae.",
+    "en": ""
+   }
+  },
+  {
+   "code": "eucalyptus_spp",
+   "nameCommon": {
+    "bg": "Евкалипт",
+    "en": "Eucalyptus"
+   },
+   "nameBotanical": "Eucalyptus spp.",
+   "role": [
+    "ecoprint",
+    "dye",
+    "mordant_accumulator"
+   ],
+   "compositionalRole": [
+    "shape_printer"
+   ],
+   "availability": "purchased",
+   "lightfastness": "excellent",
+   "washfastness": "excellent",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 150
+      },
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 300
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "Видът решава всичко",
+      "en": "The species decides everything"
+     },
+     "body": {
+      "bg": "Родът е огромен и багрилното поведение се различава коренно между видовете: cinerea дава оранжево до червено, nicholii — по-меки тонове, други почти нищо. Профилът тук е родов и служи само за ориентир. Записвай вида при всеки тест — без него резултатът не е повторим.\n\nЛистата обикновено искат накисване от няколко часа до едно денонощие преди вързване, а парата — по-дълго от обичайното.",
+      "en": "The genus is vast and dye behaviour differs sharply between species: cinerea gives orange to red, nicholii softer tones, others almost nothing. This profile is generic and serves only as an orientation. Record the species with every trial — without it the result is not repeatable.\n\nLeaves usually want soaking from a few hours to a day before bundling, and longer steaming than usual."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://pubmed.ncbi.nlm.nih.gov/40476822/ ; https://pubmed.ncbi.nlm.nih.gov/39034377/ ; https://pubmed.ncbi.nlm.nih.gov/36645587/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "practice",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Myrtaceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 100
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 95
+   },
+   "softMaxTempC": 100,
+   "toxicity": {
+    "bg": "Етеричните масла и концентрираните екстракти могат да дразнят; добра вентилация и отделни съдове.",
+    "en": ""
+   }
+  },
+  {
+   "code": "persea_americana",
+   "nameCommon": {
+    "bg": "Авокадо",
+    "en": "Avocado"
+   },
+   "nameBotanical": "Persea americana",
+   "role": [
+    "dye"
+   ],
+   "compositionalRole": [
+    "filler"
+   ],
+   "availability": "purchased",
+   "lightfastness": "moderate",
+   "washfastness": "good",
+   "parts": [
+    {
+     "partCode": "",
+     "facing": "",
+     "chemistry": [],
+     "dosing": [
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 200
+      },
+      {
+       "condition": "fresh",
+       "min": 50,
+       "max": 200
+      }
+     ]
+    },
+    {
+     "partCode": "hull",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "high"
+      }
+     ],
+     "dosing": []
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "Розовото идва бавно",
+      "en": "The pink comes slowly"
+     },
+     "body": {
+      "bg": "Костилките и корите дават розово до праскова, но не веднага: цветът се развива при дълго, меко загряване и излиза по-силен в леко алкална вода. Кипенето го изтегля към кафяво. Костилките се нарязват на едро, докато са свежи — след като изсъхнат, стават много твърди.",
+      "en": "Stones and skins give pink to peach, but not at once: the colour develops with long, gentle heat and comes out stronger in slightly alkaline water. Boiling pulls it towards brown. Cut the stones up while fresh — once dried they become very hard."
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "https://www.sciencedirect.com/science/article/pii/S2214785320376104 ; https://www.mdpi.com/2073-4360/15/10/2244 ; https://botanicalcolors.com/how-to-dye-with-avocado-pits/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "compositionalRole": "unverified",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "lightfastness": "practice",
+    "washfastness": "practice"
+   },
+   "family": "Lauraceae",
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 70,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при работа с измити костилки; не се използват съдове за храна.",
+    "en": ""
    }
   }
  ]
