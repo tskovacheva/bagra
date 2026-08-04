@@ -55,6 +55,10 @@ export const PACKS = {
     file: 'seed/techniques.json', store: 'techniques', listKey: 'techniques',
     defaults: { appliesTo: [], learnedFrom: '', distributable: true },
   },
+  combinations: {
+    file: 'seed/combinations.json', store: 'combinations', listKey: 'combinations',
+    defaults: { influences: [], learnedFrom: '' },
+  },
   plants: {
     file: 'seed/plants.json', store: 'plants', listKey: 'plants',
     defaults: { harvestMonths: [], colours: [], photoData: null },

@@ -358,6 +358,18 @@ label.btn{cursor:pointer}
 .conf.picked .confdot{background:currentColor}
 .conf input:focus-visible ~ .confdot{outline:2px solid var(--indigo);outline-offset:2px}
 
+.refcard{
+  display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+  padding:11px;border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:9px;background:var(--ground);
+}
+.refcard:hover{border-color:var(--muted)}
+.refswatch{width:46px;height:46px;border-radius:6px;flex:0 0 46px;border:1px solid var(--line)}
+.refbody{min-width:0;flex:1}
+.refhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.chip.exact{border-color:var(--indigo);color:var(--indigo)}
+.differs{color:var(--madder)}
+
 .segrow{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface);flex-wrap:wrap}
 .seg{cursor:pointer}
 .seg input{position:absolute;opacity:0;width:0}

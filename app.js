@@ -129,7 +129,7 @@ window.addEventListener('hashchange', () => route(true));
   await initLang();
   await seedIfEmpty();
   // Failing to seed must not take the whole app down with it.
-  for (const name of ['substances', 'plants', 'techniques']) {
+  for (const name of ['substances', 'plants', 'techniques', 'combinations']) {
     try { await loadPack(name); }
     catch (err) { console.warn('seed failed:', name, err); }
   }
