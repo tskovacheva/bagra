@@ -4,7 +4,7 @@
 // explicit basis. One generic scaling engine serves every proportional
 // recipe here; only the aluminium acetate stoichiometry earns its own code.
 
-import { all, get, put, remove, newRecord, uid } from '../db.js';
+import { all, get, put, remove, newRecord, uid, getSetting, setSetting } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
 import {
   page, panel, field, options, label, esc, empty, note,
@@ -33,6 +33,10 @@ let openId = null;
 let draft = null;
 let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null };
 let scaleChoices = {};
+let returnTo = null;
+
+const returnBar = () => returnTo
+  ? `<button class="btn" data-returnto>← ${esc(returnTo.label)}</button>` : '';
 
 function blank() {
   return newRecord({
@@ -104,7 +108,7 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('recipes.title'),
     sub: t('recipes.sub'),
-    actions: `${host.tabs()}<button class="btn primary" data-new>${t('recipes.new')}</button>`,
+    actions: `${returnBar()}${host.tabs()}<button class="btn primary" data-new>${t('recipes.new')}</button>`,
     body: `
       <div class="boxes">
         <button class="box${filterType === null ? ' active' : ''}" data-type="">
@@ -142,7 +146,13 @@ async function ingredientRows(r, substances, plants) {
       ${j > 0 ? `<div class="orsep"><span>${t('recipes.or')}</span></div>` : ''}
       <div class="optrow">
         <select data-opt="${i}.${j}.source">${sourceOptions(o)}</select>
-        ${o.plantId ? `<select data-opt="${i}.${j}.partCode">${await options('plant_part', o.partCode, t('recipes.wholePlant'))}</select>` : ''}
+        ${o.plantId ? `<select data-opt="${i}.${j}.partCode">${await options('plant_part', o.partCode, t('recipes.wholePlant'))}</select>
+           <select data-opt="${i}.${j}.condition">
+             <option value="dried"${o.condition === 'dried' ? ' selected' : ''}>${t('materials.form.dried')}</option>
+             <option value="fresh"${o.condition === 'fresh' ? ' selected' : ''}>${t('materials.form.fresh')}</option>
+             <option value="extract"${o.condition === 'extract' ? ' selected' : ''}>${t('materials.form.extract')}</option>
+           </select>
+           <button class="btn quiet" data-fromlib="${i}.${j}" title="${esc(t('recipes.fromLibrary'))}">${t('recipes.fromLibraryShort')}</button>` : ''}
         <input type="number" step="0.1" min="0" data-opt="${i}.${j}.qtyMin" value="${o.qtyMin ?? ''}" placeholder="${t('recipes.qtyMin')}" aria-label="${t('recipes.qtyMin')}">
         <input type="number" step="0.1" min="0" data-opt="${i}.${j}.qtyMax" value="${o.qtyMax ?? ''}" placeholder="${t('recipes.qtyMax')}" aria-label="${t('recipes.qtyMax')}">
         <input type="text" data-opt="${i}.${j}.note" value="${esc(o.note?.bg || '')}" placeholder="${t('recipes.optionNotePlaceholder')}" aria-label="${t('recipes.optionNote')}">
@@ -220,7 +230,8 @@ async function scaleBlock(r, substances) {
     if (o?.plantId) {
       const p = plantsById.get(o.plantId);
       const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
-      return (p ? text(p.nameCommon) : '—') + part;
+      const form = o.condition ? ', ' + t('materials.form.' + o.condition) : '';
+      return (p ? text(p.nameCommon) : '—') + part + form;
     }
     const sub = byId.get(o?.substanceId);
     return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
@@ -505,6 +516,13 @@ export default {
     }
 
     root.onclick = async (e) => {
+      if (e.target.closest('[data-returnto]')) {
+        const target = returnTo;
+        await setSetting('returnTo', null);
+        location.hash = '#/' + (target?.module || 'trials');
+        return;
+      }
+
       const ty = e.target.closest('[data-type]');
       if (ty) { filterType = ty.dataset.type || null; return this.render(root); }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
@@ -517,7 +535,7 @@ export default {
         draft.ingredients.push({
           id: uid(), roleCode: '', basis: 'percent_wof', basisRefersTo: null,
           whenFibreClass: null, unit: 'g',
-          options: [{ id: uid(), substanceId: '', plantId: '', partCode: '',
+          options: [{ id: uid(), substanceId: '', plantId: '', partCode: '', condition: 'dried',
                       qtyMin: null, qtyMax: null, note: { bg: '', en: '' } }],
         });
         return renderForm(root, draft);
@@ -535,13 +553,38 @@ export default {
         return renderForm(root, draft);
       }
 
+      // The plant record already holds a dose for this part and condition, and
+      // the extraction and dyeing temperatures. Retyping them by hand is how
+      // the recipe and the reference drift apart.
+      const fromlib = e.target.closest('[data-fromlib]');
+      if (fromlib) {
+        readForm(root);
+        const [i, j] = fromlib.dataset.fromlib.split('.').map(Number);
+        const opt = draft.ingredients[i].options[j];
+        const plant = (await all('plants')).find(p => p.id === opt.plantId);
+        if (!plant) return;
+
+        const part = (plant.parts || []).find(x => x.partCode === opt.partCode) || plant.parts?.[0];
+        const dose = (part?.dosing || []).find(d => d.condition === opt.condition)
+                  || (part?.dosing || []).find(d => !d.condition)
+                  || (part?.dosing || [])[0];
+        if (dose) { opt.qtyMin = dose.min; opt.qtyMax = dose.max; draft.ingredients[i].basis = 'percent_wof'; }
+
+        if (plant.tempDyeC && draft.tempC == null) draft.tempC = plant.tempDyeC.min;
+        if (plant.liquorRatio && draft.liquorRatio == null) draft.liquorRatio = plant.liquorRatio;
+
+        if (!dose) alert(t('recipes.noLibraryDose'));
+        return renderForm(root, draft);
+      }
+
       const oadd = e.target.closest('[data-opt-add]');
       if (oadd) {
         readForm(root);
         const idx = Number(oadd.dataset.optAdd);
         draft.ingredients[idx].options = draft.ingredients[idx].options || [];
         draft.ingredients[idx].options.push({ id: uid(), substanceId: '', plantId: '', partCode: '',
-                                              qtyMin: null, qtyMax: null, note: { bg: '', en: '' } });
+                                              condition: 'dried', qtyMin: null, qtyMax: null,
+                                              note: { bg: '', en: '' } });
         return renderForm(root, draft);
       }
       const odel = e.target.closest('[data-opt-del]');
@@ -568,6 +611,12 @@ export default {
         readForm(root);
         await put('recipes', draft);
         openId = null; draft = null;
+        if (returnTo) {
+          const target = returnTo;
+          await setSetting('returnTo', null);
+          location.hash = '#/' + target.module;
+          return;
+        }
         return this.render(root);
       }
 
@@ -620,6 +669,10 @@ export default {
         const box = root.querySelector('.scaleblock');
         if (box) box.innerHTML = await scaleBlock(draft, substances);
         return;
+      }
+      if ((e.target.dataset.opt || '').endsWith('.source')) {
+        readForm(root);
+        return renderForm(root, draft);
       }
       if (e.target.matches('[data-f="scaleBy"]')) {
         readForm(root);

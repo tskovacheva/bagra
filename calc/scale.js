@@ -19,9 +19,17 @@ import { round } from './basic.js';
 // 12–15% alum on wool, 50–100% dried madder. A model that stores one number
 // forces the user to throw away half of what the source actually said.
 function quantityRange(option, ing) {
-  const min = option?.qtyMin ?? ing.quantityMin ?? ing.quantity ?? null;
-  const max = option?.qtyMax ?? ing.quantityMax ?? min;
-  return [Number(min), Number(max ?? min)];
+  let min = option?.qtyMin ?? ing.quantityMin ?? ing.quantity ?? null;
+  let max = option?.qtyMax ?? ing.quantityMax ?? null;
+
+  // Filling only the upper bound used to yield a range starting at zero, which
+  // reads as a real claim — "somewhere between nothing and 165 g". A single
+  // figure, whichever box it landed in, is an exact quantity.
+  if (min == null && max != null) min = max;
+  if (max == null) max = min;
+  if (min == null) return [null, null];
+
+  return [Number(min), Number(max)];
 }
 
 function convert(quantity, basis, ctx) {
@@ -87,9 +95,9 @@ export function scaleRecipe(recipe, {
     const option = options.find(o => o.id === chosenId) || options[0];
 
     const range = quantityRange(option, ing);
-    const scaled = range.map(q => convert(q, ing.basis, {
+    const scaled = range.map(q => (q == null ? null : convert(q, ing.basis, {
       effectiveWeight, litres, recipe, fibreClass, choices,
-    }));
+    })));
 
     ingredients.push({
       ...ing,

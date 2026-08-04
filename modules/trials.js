@@ -5,7 +5,7 @@
 // actually done and for how long, and placements, which attribute a result to
 // one plant rather than to a whole bundle.
 
-import { all, get, put, remove, newRecord, uid } from '../db.js';
+import { all, get, put, remove, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, esc, empty, note, fmtDate, today } from '../ui.js';
 import { shrinkResult, shrinkThumb } from '../photo.js';
@@ -140,6 +140,7 @@ async function stepRows(r) {
           <span class="stepnum">${i + 1}</span>
           <select data-step="${i}.typeCode">${await options('step_type', st.typeCode, t('trials.stepType'))}</select>
           <select data-step="${i}.source">${recipeOptions}</select>
+          <button class="btn quiet" data-newrecipe="${i}" title="${esc(t('trials.newRecipe'))}">+</button>
           <span class="spacer"></span>
           <button class="btn quiet" data-step-del="${i}" aria-label="×">×</button>
         </div>
@@ -446,6 +447,19 @@ export default {
       if (pdel) { readForm(root); draft.placements.splice(Number(pdel.dataset.placeDel), 1); return redraw(); }
       const ppdel = e.target.closest('[data-place-photo-del]');
       if (ppdel) { readForm(root); draft.placements[Number(ppdel.dataset.placePhotoDel)].photo = null; return redraw(); }
+
+      // Leaving to write a recipe must not cost the trial. It is saved first,
+      // and where to come back to is remembered, so the detour is a detour and
+      // not a decision between recording the work and recording the method.
+      const nr = e.target.closest('[data-newrecipe]');
+      if (nr) {
+        readForm(root);
+        await put('trials', draft);
+        await setSetting('returnTo', { module: 'trials', id: draft.id, label: draft.title || t('trials.one') });
+        openId = null; draft = null;
+        location.hash = '#/recipes';
+        return;
+      }
 
       if (e.target.closest('[data-step-add]')) {
         readForm(root);
