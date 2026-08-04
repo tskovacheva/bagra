@@ -730,6 +730,20 @@ const DICT = {
     'ref.col.conditions': 'Условия',
     'ref.col.colour': 'Резултат',
 
+
+    'ref.exactSection': 'Отговаря на въпроса',
+    'ref.nearSection': 'Близки варианти',
+    'ref.nearHint': 'Различават се само по едно от зададените условия.',
+    'ref.noExact': 'Няма запис точно за този набор.',
+    'ref.startHint': 'Избери поне едно условие вляво. Или започни от растение:',
+    'ref.moreConditions': 'Още условия',
+    'ref.band': 'Концентрация',
+    'ref.unspecified': 'не е записано',
+    'ref.unspecifiedHint': 'Празно поле в записа значи „неизвестно“, не „неутрално“.',
+    'ref.count': '{n} записа',
+    'ref.samePlant': 'същото растение, други условия',
+    'ref.sameConditions': 'същите условия, друго растение',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -1425,6 +1439,20 @@ const DICT = {
     'ref.col.source': 'Dye',
     'ref.col.conditions': 'Conditions',
     'ref.col.colour': 'Outcome',
+
+
+    'ref.exactSection': 'Answers the question',
+    'ref.nearSection': 'Close variants',
+    'ref.nearHint': 'These differ in only one of the conditions you set.',
+    'ref.noExact': 'Nothing recorded for exactly this set.',
+    'ref.startHint': 'Choose at least one condition on the left. Or start from a plant:',
+    'ref.moreConditions': 'More conditions',
+    'ref.band': 'Concentration',
+    'ref.unspecified': 'not recorded',
+    'ref.unspecifiedHint': 'An empty field in a record means unknown, not neutral.',
+    'ref.count': '{n} records',
+    'ref.samePlant': 'same plant, other conditions',
+    'ref.sameConditions': 'same conditions, another plant',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

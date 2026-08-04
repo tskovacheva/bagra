@@ -16,7 +16,9 @@ let openId = null;
 let draft = null;
 
 // Empty means "not specified", which widens rather than narrows.
-let query = { plantId: '', partCode: '', fibreClass: '', mordantCode: '', processCode: '', phCode: '' };
+let query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
+              mordantCode: '', mordantBand: '', phCode: '' };
+let showMore = false;
 
 const host = {
   tabs: () => `
@@ -49,33 +51,55 @@ function blank() {
 // ------------------------------------------------------------------ matching
 
 /**
- * How well a record answers a query.
+ * Compare a record against the query.
  *
- * Only the criteria the user actually filled in are compared, so an unanswered
- * field never counts against a record. A record that agrees on everything asked
- * is exact; one that agrees on most is worth showing with its differences named,
- * because "the same but with iron" is often exactly what one needs to see.
+ * Only criteria the user actually filled in are compared: an empty field
+ * widens the search rather than narrowing it. A record answers the question
+ * when it agrees with EVERYTHING asked — that is what a filter with optional
+ * fields means, and it is what the specification describes. An earlier version
+ * scored one point per agreement and showed anything with a single hit, which
+ * made a eucalyptus record surface under a search for oak merely because both
+ * were on cotton. Useful sometimes, but not an answer.
  */
-function score(record, q) {
+function compare(record, q) {
   const k = record.key || {};
-  const pairs = [
-    ['plantId',     k.dyeSource?.plantId,  q.plantId,     t('ref.plant')],
-    ['partCode',    k.dyeSource?.partCode, q.partCode,    t('ref.part')],
-    ['fibreClass',  k.fibreClass,          q.fibreClass,  t('ref.fibre')],
-    ['mordantCode', k.mordantCode,         q.mordantCode, t('ref.mordant')],
-    ['processCode', k.processCode,         q.processCode, t('ref.process')],
-    ['phCode',      k.medium?.phCode || 'neutral', q.phCode, t('ref.ph')],
+
+  // An unrecorded medium is unknown, NOT neutral. Treating a blank as a
+  // confirmed neutral bath manufactures knowledge the source never had.
+  const recordedPh = k.medium?.phCode ?? null;
+
+  const criteria = [
+    ['plantId',     k.dyeSource?.plantId ?? null,  q.plantId,     t('ref.plant'),   3],
+    ['partCode',    k.dyeSource?.partCode ?? null, q.partCode,    t('ref.part'),    3],
+    ['processCode', k.processCode ?? null,         q.processCode, t('ref.process'), 2],
+    ['fibreClass',  k.fibreClass ?? null,          q.fibreClass,  t('ref.fibre'),   2],
+    ['mordantCode', k.mordantCode ?? null,         q.mordantCode, t('ref.mordant'), 1],
+    ['mordantBand', k.mordantBand ?? null,         q.mordantBand, t('ref.band'),    1],
+    ['phCode',      recordedPh,                    q.phCode,      t('ref.ph'),      1],
   ];
 
-  let asked = 0, hit = 0;
   const differs = [];
-  for (const [, actual, wanted, labelText] of pairs) {
+  let asked = 0;
+  let plantMatches = false;
+
+  for (const [name, actual, wanted, labelText, weight] of criteria) {
     if (!wanted) continue;
     asked++;
-    if (actual === wanted) hit++;
-    else differs.push(labelText);
+    if (actual === wanted) {
+      if (name === 'plantId') plantMatches = true;
+    } else {
+      differs.push({ name, labelText, weight });
+    }
   }
-  return { asked, hit, differs, exact: asked > 0 && hit === asked };
+
+  return {
+    asked,
+    differs,
+    exact: asked > 0 && differs.length === 0,
+    // One difference is a neighbour worth seeing; two is a different question.
+    near: differs.length === 1,
+    plantMatches,
+  };
 }
 
 async function conditionLine(record) {
@@ -101,10 +125,10 @@ async function sourceLine(record, plantsById) {
 
 async function resultCard(record, plantsById, match) {
   const e = record.expected || {};
-  const badge = !match ? ''
-    : match.exact
-      ? `<span class="chip exact">${t('ref.exact')}</span>`
-      : `<span class="chip">${t('ref.partial', { n: match.hit, total: match.asked })}</span>`;
+  const k = record.key || {};
+  const badge = (match && !match.exact && match.differs.length)
+    ? `<span class="chip">${match.plantMatches ? t('ref.samePlant') : t('ref.sameConditions')}</span>`
+    : '';
 
   return `
     <div class="refcard" data-open="${record.id}">
@@ -117,7 +141,8 @@ async function resultCard(record, plantsById, match) {
         <div class="hint">${esc(await sourceLine(record, plantsById))} — ${esc(await conditionLine(record))}</div>
         ${text(e.variation) ? `<div class="hint">${esc(text(e.variation))}</div>` : ''}
         ${match && !match.exact && match.differs.length
-          ? `<div class="hint differs">${t('ref.differsIn', { what: esc(match.differs.join(', ')) })}</div>` : ''}
+          ? `<div class="hint differs">${t('ref.differsIn', { what: esc(match.differs.map(x => x.labelText).join(', ')) })}</div>` : ''}
+        ${!k.medium ? `<div class="hint">${t('ref.ph')}: ${t('ref.unspecified')}</div>` : ''}
       </div>
     </div>`;
 }
@@ -129,15 +154,61 @@ async function renderSearch(root) {
   const plantsById = new Map(plants.map(p => [p.id, p]));
   const records = await all('combinations');
 
-  const scored = records
-    .map(r => ({ r, m: score(r, query) }))
-    .filter(x => x.m.asked === 0 || x.m.hit > 0)
-    .sort((a, b) => (b.m.hit - a.m.hit) || (a.m.differs.length - b.m.differs.length));
+  const asked = Object.values(query).some(Boolean);
+  const results = records.map(r => ({ r, m: compare(r, query) }));
 
-  const cards = await Promise.all(scored.slice(0, 60).map(x => resultCard(x.r, plantsById, x.m.asked ? x.m : null)));
+  const exact = results.filter(x => x.m.exact);
+  const near = results
+    .filter(x => x.m.near)
+    // A neighbour that keeps the plant answers "what else can this give?";
+    // one that keeps the conditions answers "what else behaves like this?".
+    // The first is nearly always the more useful, so it leads.
+    .sort((a, b) => (b.m.plantMatches - a.m.plantMatches) || (a.m.differs[0].weight - b.m.differs[0].weight));
+
+  const exactCards = await Promise.all(exact.slice(0, 40).map(x => resultCard(x.r, plantsById, x.m)));
+  const nearCards = await Promise.all(near.slice(0, 12).map(x => resultCard(x.r, plantsById, x.m)));
+
+  // Which parts to offer depends on the plant: avocado has stones and skins,
+  // not roots and bark, and offering the whole vocabulary invites dead queries.
+  let partCodes = null;
+  if (query.plantId) {
+    const plant = plantsById.get(query.plantId);
+    const fromPlant = (plant?.parts || []).map(x => x.partCode).filter(Boolean);
+    const fromRecords = records
+      .filter(r => r.key?.dyeSource?.plantId === query.plantId)
+      .map(r => r.key.dyeSource.partCode).filter(Boolean);
+    partCodes = [...new Set([...fromPlant, ...fromRecords])];
+  }
+
+  const partOptions = partCodes
+    ? `<option value="">${t('ref.any')}</option>` + (await Promise.all(partCodes.map(async c =>
+        `<option value="${c}"${c === query.partCode ? ' selected' : ''}>${esc(await label('plant_part', c))}</option>`))).join('')
+    : await options('plant_part', query.partCode, t('ref.any'));
 
   const plantOptions = `<option value="">${t('ref.any')}</option>` + plants.map(p =>
     `<option value="${p.id}"${p.id === query.plantId ? ' selected' : ''}>${esc(text(p.nameCommon))}</option>`).join('');
+
+  // Plants that actually have records, as a way in from a blank screen.
+  const counts = {};
+  for (const r of records) {
+    const id = r.key?.dyeSource?.plantId;
+    if (id) counts[id] = (counts[id] || 0) + 1;
+  }
+  const quick = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1]).slice(0, 10)
+    .map(([id, n]) => `<button class="box" data-quick="${id}">
+      <span class="boxname">${esc(text(plantsById.get(id)?.nameCommon) || '—')}</span>
+      <span class="boxcount">${n}</span></button>`).join('');
+
+  const resultsPane = !asked
+    ? `<p class="note">${t('ref.startHint')}</p><div class="boxes">${quick}</div>`
+    : `
+      <h2>${t('ref.exactSection')} — ${t('ref.count', { n: exact.length })}</h2>
+      ${exactCards.length ? exactCards.join('') : note(t('ref.noExact'), 'warn')}
+      ${nearCards.length ? `
+        <h2 class="nearhead">${t('ref.nearSection')}</h2>
+        <p class="hint">${t('ref.nearHint')}</p>
+        ${nearCards.join('')}` : ''}`;
 
   root.innerHTML = page({
     title: t('reference.title'),
@@ -150,24 +221,27 @@ async function renderSearch(root) {
             <h2>${t('ref.ask')}</h2>
             <p class="note">${t('ref.askHint')}</p>
             ${field(t('ref.plant'), `<select data-q="plantId">${plantOptions}</select>`)}
-            ${field(t('ref.part'), `<select data-q="partCode">${await options('plant_part', query.partCode, t('ref.any'))}</select>`)}
+            ${field(t('ref.part'), `<select data-q="partCode"${partCodes && !partCodes.length ? ' disabled' : ''}>${partOptions}</select>`)}
             ${field(t('ref.fibre'), `<select data-q="fibreClass">${await options('fibre_class', query.fibreClass, t('ref.any'))}</select>`)}
-            ${field(t('ref.mordant'), `<select data-q="mordantCode">
-              <option value="">${t('ref.any')}</option>
-              <option value="none"${query.mordantCode === 'none' ? ' selected' : ''}>${t('ref.none')}</option>
-              ${(await options('mordant_type', query.mordantCode, '')).replace(/^<option value="">.*?<\/option>/, '')}
-            </select>`)}
             ${field(t('ref.process'), `<select data-q="processCode">${await options('process', query.processCode, t('ref.any'))}</select>`)}
-            ${field(t('ref.ph'), `<select data-q="phCode">${await options('ph', query.phCode, t('ref.any'))}</select>`)}
-            <button class="btn quiet" data-clear>${t('ref.clear')}</button>
+
+            <details class="pairalt"${showMore ? ' open' : ''}>
+              <summary data-more>${t('ref.moreConditions')}</summary>
+              ${field(t('ref.mordant'), `<select data-q="mordantCode">
+                <option value="">${t('ref.any')}</option>
+                <option value="none"${query.mordantCode === 'none' ? ' selected' : ''}>${t('ref.none')}</option>
+                ${(await options('mordant_type', query.mordantCode, '')).replace(/^<option value="">.*?<\/option>/, '')}
+              </select>`)}
+              ${field(t('ref.band'), `<select data-q="mordantBand">${await options('concentration', query.mordantBand, t('ref.any'))}</select>`)}
+              ${field(t('ref.ph'), `<select data-q="phCode">${await options('ph', query.phCode, t('ref.any'))}</select>`, t('ref.unspecifiedHint'))}
+            </details>
+
+            ${asked ? `<button class="btn quiet" data-clear>${t('ref.clear')}</button>` : ''}
           `)}
         </div>
 
         <div class="col">
-          ${panel(`
-            <h2>${t('ref.results', { n: scored.length })}</h2>
-            ${cards.length ? cards.join('') : empty(t('ref.noResults'), t('ref.noResultsHint'))}
-          `)}
+          ${panel(resultsPane)}
         </div>
       </div>`,
   });
@@ -334,9 +408,15 @@ export default {
 
     root.onclick = async (e) => {
       if (e.target.closest('[data-clear]')) {
-        query = { plantId: '', partCode: '', fibreClass: '', mordantCode: '', processCode: '', phCode: '' };
+        query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
+                  mordantCode: '', mordantBand: '', phCode: '' };
         return this.render(root);
       }
+      const quick = e.target.closest('[data-quick]');
+      if (quick) { query.plantId = quick.dataset.quick; return this.render(root); }
+
+      if (e.target.closest('[data-more]')) { showMore = !showMore; return; }
+
       if (e.target.closest('[data-sync]')) {
         try {
           await seedUI.open('combinations');
@@ -368,6 +448,7 @@ export default {
     root.onchange = async (e) => {
       if (e.target.dataset.q) {
         query[e.target.dataset.q] = e.target.value;
+        if (e.target.dataset.q === 'plantId') query.partCode = '';
         return this.render(root);
       }
     };
