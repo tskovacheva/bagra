@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v0.52.0';   // keep in step with version.js
+const CACHE = 'bagra-v0.53.0';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -47,8 +47,15 @@ const FILES = [
   './modules/sources.js',
 ];
 
+// The new worker deliberately does NOT take over by itself. It waits until the
+// page says so, which lets the app offer a visible "new version — reload"
+// rather than swapping code under someone mid-form.
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+});
+
+self.addEventListener('message', (e) => {
+  if (e.data === 'skip-waiting') self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {

@@ -123,7 +123,11 @@ Static files on GitHub Pages. Before every deploy:
 sh check.sh          # every module must be listed in sw.js
 ```
 
-Then bump `VERSION` in `version.js` and `CACHE` in `sw.js` to match. A module missing from that list is a module that silently stops
+Then bump `VERSION` in `version.js` and `CACHE` in `sw.js` to match.
+
+Installed copies do not need to be closed and reopened: the app checks for a new worker whenever
+it becomes visible, when the network returns, and every fifteen minutes, and offers a *new version
+— update* bar rather than swapping code mid-edit. Tools → Backup also has a manual check. A module missing from that list is a module that silently stops
 updating — the one mistake this architecture invites.
 
 ## Documents

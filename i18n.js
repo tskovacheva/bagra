@@ -746,6 +746,14 @@ const DICT = {
     'ref.samePlant': 'същото растение, други условия',
     'ref.sameConditions': 'същите условия, друго растение',
 
+
+    'update.available': 'Има нова версия',
+    'update.reload': 'Обнови',
+    'update.check': 'Провери за нова версия',
+    'update.checking': 'Проверявам…',
+    'update.upToDate': 'Това е последната версия ({v}).',
+    'update.found': 'Намерена е нова версия. Натисни „Обнови“ долу.',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -1457,6 +1465,14 @@ const DICT = {
     'ref.count': '{n} records',
     'ref.samePlant': 'same plant, other conditions',
     'ref.sameConditions': 'same conditions, another plant',
+
+
+    'update.available': 'A new version is available',
+    'update.reload': 'Update',
+    'update.check': 'Check for a new version',
+    'update.checking': 'Checking…',
+    'update.upToDate': 'This is the latest version ({v}).',
+    'update.found': 'A new version was found. Press Update below.',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

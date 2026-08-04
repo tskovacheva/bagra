@@ -142,6 +142,16 @@ async function seedIfEmpty() {
 }
 
 document.addEventListener('click', async (e) => {
+  if (e.target.closest('[data-doupdate]')) {
+    if (waitingWorker) waitingWorker.postMessage('skip-waiting');
+    else location.reload();
+    return;
+  }
+  if (e.target.closest('[data-dismissupdate]')) {
+    document.getElementById('updatebar')?.remove();
+    return;
+  }
+
   if (e.target.closest('[data-more]')) { openSheet(); return; }
   if (e.target.closest('[data-closemore]') || e.target.id === 'moresheet') { closeSheet(); return; }
 
@@ -167,6 +177,66 @@ document.addEventListener('click', async (e) => {
 window.addEventListener('hashchange', () => route(true));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 
+// ---------------------------------------------------------------- updates
+//
+// Waiting for a browser to notice a new version on its own is the difference
+// between a deploy and a deploy that anyone sees. An installed PWA in
+// particular may not reload for days. So: check often, and when something new
+// is ready, say so and let the person choose the moment.
+
+let waitingWorker = null;
+
+function showUpdateBar() {
+  if (document.getElementById('updatebar')) return;
+  const bar = document.createElement('div');
+  bar.id = 'updatebar';
+  bar.className = 'updatebar';
+  bar.innerHTML = `
+    <span>${esc(t('update.available'))}</span>
+    <button class="btn primary" data-doupdate>${esc(t('update.reload'))}</button>
+    <button class="btn quiet" data-dismissupdate aria-label="${esc(t('common.close'))}">×</button>`;
+  document.body.appendChild(bar);
+}
+
+async function registerWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    // updateViaCache:'none' keeps the browser from serving a stale sw.js,
+    // which would hide every later change behind an HTTP cache.
+    const reg = await navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
+
+    if (reg.waiting && navigator.serviceWorker.controller) {
+      waitingWorker = reg.waiting;
+      showUpdateBar();
+    }
+
+    reg.addEventListener('updatefound', () => {
+      const fresh = reg.installing;
+      if (!fresh) return;
+      fresh.addEventListener('statechange', () => {
+        // A controller already present means this is an update, not a first install.
+        if (fresh.state === 'installed' && navigator.serviceWorker.controller) {
+          waitingWorker = fresh;
+          showUpdateBar();
+        }
+      });
+    });
+
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloading) return;
+      reloading = true;
+      location.reload();
+    });
+
+    const check = () => reg.update().catch(() => {});
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
+    window.addEventListener('online', check);
+    setInterval(check, 15 * 60 * 1000);
+    window.bagraCheckUpdate = check;
+  } catch { /* offline, or no worker support; the app runs regardless */ }
+}
+
 (async function start() {
   await open();
   await initLang();
@@ -178,7 +248,5 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet
   }
   await route();
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
+  registerWorker();
 })();

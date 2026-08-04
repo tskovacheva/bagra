@@ -10,6 +10,7 @@ import { wofGrams, solutionGrams, bathLitres, freshFromDried, exhaustBath } from
 import { aluminiumAcetate, fromAvailable, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
 import { all, count } from '../db.js';
 import { downloadBackup, importBackup, readFile, backupState, ensurePersistence } from '../backup.js';
+import { VERSION } from '../version.js';
 import { text } from '../i18n.js';
 
 // Inputs persist while the module is open, so changing one field does not
@@ -166,6 +167,15 @@ function render(root) {
         <input type="file" id="backupfile" accept="application/json" hidden>
       </div>
       <hr class="rule">
+      <h3 class="subhead">${t('app.version')}</h3>
+      <div class="calcout">
+        <span class="calclabel">${t('app.version')}</span>
+        <span class="calcvalue">v${VERSION}</span>
+      </div>
+      <div class="btnrow">
+        <button class="btn" data-checkupdate>${t('update.check')}</button>
+      </div>
+      <hr class="rule">
       <h3 class="subhead">${t('backup.storage')}</h3>
       <p class="note ${storage.persisted ? '' : 'warn'}">
         ${storage.persisted ? t('backup.persisted') : t('backup.notPersisted')}
@@ -232,6 +242,21 @@ export default {
     root.onclick = async (e) => {
       const pick = e.target.closest('[data-calc-pick]');
       if (pick) { active = pick.dataset.calcPick; return render(root); }
+
+      if (e.target.closest('[data-checkupdate]')) {
+        const btn = e.target.closest('[data-checkupdate]');
+        btn.disabled = true;
+        btn.textContent = t('update.checking');
+        try { await window.bagraCheckUpdate?.(); } catch {}
+        // The worker needs a moment to fetch and compare before its state settles.
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.textContent = t('update.check');
+          alert(document.getElementById('updatebar')
+            ? t('update.found') : t('update.upToDate', { v: VERSION }));
+        }, 1800);
+        return;
+      }
 
       if (e.target.closest('[data-backup-export]')) {
         await downloadBackup();
