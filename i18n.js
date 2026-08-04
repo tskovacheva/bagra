@@ -754,6 +754,19 @@ const DICT = {
     'update.upToDate': 'Това е последната версия ({v}).',
     'update.found': 'Намерена е нова версия. Натисни „Обнови“ долу.',
 
+
+    'dash.attention': 'Внимание',
+    'dash.modules': 'Модули',
+    'dash.boxes': 'Кутии с тъкани',
+    'dash.backupNever': 'Още няма правен архив. Всичко въведено живее само в този браузър.',
+    'dash.backupOld': 'Последният архив е отпреди {n} дни, а оттогава има {c} промени.',
+    'dash.backupOk': 'Архивът е отпреди {n} дни.',
+    'dash.goBackup': 'Направи архив',
+    'dash.emptyLibrary': 'Библиотеката е празна. Отвори Растения и натисни „Обнови от библиотеката“.',
+    'dash.noFabrics': 'Още няма записани тъкани.',
+    'dash.needsTesting': '{n} твърдения чакат проверка',
+    'dash.needsTestingHint': 'Справочникът стъпва на компилация. Твоите тестове го правят твой.',
+
     'lang.bg': 'БГ',
     'lang.en': 'EN',
   },
@@ -1473,6 +1486,19 @@ const DICT = {
     'update.checking': 'Checking…',
     'update.upToDate': 'This is the latest version ({v}).',
     'update.found': 'A new version was found. Press Update below.',
+
+
+    'dash.attention': 'Attention',
+    'dash.modules': 'Modules',
+    'dash.boxes': 'Fabric boxes',
+    'dash.backupNever': 'No backup has been made. Everything entered lives only in this browser.',
+    'dash.backupOld': 'The last backup was {n} days ago, with {c} changes since.',
+    'dash.backupOk': 'Backed up {n} days ago.',
+    'dash.goBackup': 'Make a backup',
+    'dash.emptyLibrary': 'The library is empty. Open Plants and press Update from the library.',
+    'dash.noFabrics': 'No fabrics recorded yet.',
+    'dash.needsTesting': '{n} claims await testing',
+    'dash.needsTestingHint': 'The reference rests on a compilation. Your own trials make it yours.',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',
