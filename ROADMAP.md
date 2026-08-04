@@ -205,11 +205,24 @@ beneath the expected outcome, with divergence visible. That waits on Stage 8.
 - `manifest.json` complete, so the app installs to a phone home screen or a desktop dock
 - `version.js` as the single place a release number is written; shown in the sidebar
 
-## Stage 8 — Trials · *next*
+## Stage 8 — Trials · **done** (reverse link pending)
 
-The largest screen, built last. Steps with held and rest times kept separate; medium
-modification as a structured field including *where*; bundle layers with roles; placements
-with per-plant photographs, photo-first for eco print.
+The largest screen, built last because it composes records from every other module.
+
+- **Gallery first** — a photo grid filterable by plant and process, with a list view for when the
+  question is chronological rather than visual
+- **Placements lead the form**, and each opens with its photograph. The real order of work is:
+  open the bundle, photograph it, then say what it was
+- Placement fields follow the process: leaf surface, print quality and local treatment appear for
+  eco print and vanish for immersion dyeing
+- **Steps carry both durations** — held at temperature, and resting after the heat goes off — and
+  a structured medium modification that records *where* the vinegar went
+- Bundle layers with roles, the barrier among them
+- A step without a recipe is allowed; improvised ones are the interesting ones
+- Each placement resolves to a reference record at save time and says so, or says there is none
+
+**Still to build:** the reverse view — a combination showing the owner's own placements beneath the
+expected outcome, with divergence visible. The data is there; only the view is missing.
 
 ## Stage 9 — Packs and backup · *planned*
 

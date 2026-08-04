@@ -125,6 +125,19 @@ sh check.sh          # every module must be listed in sw.js
 
 Then bump `VERSION` in `version.js` and `CACHE` in `sw.js` to match.
 
+### What the number means
+
+`0.MINOR.PATCH` — the middle digit is the minor version.
+
+- **Patch** — a fix, a wording change, a styling correction, **and any change to seed data**. New
+  plants or corrected temperatures do not change what the app can do.
+- **Minor** — a new module or a genuinely new capability: the reference engine, trials, the update
+  flow.
+- **1.0** — when the last planned module ships and the app is complete as specified.
+
+The minor ran to 55 because early releases bumped it for seed-data updates as well. A version
+number that increments for everything communicates nothing; from 0.55 onward the rule above holds.
+
 Installed copies do not need to be closed and reopened: the app checks for a new worker whenever
 it becomes visible, when the network returns, and every fifteen minutes, and offers a *new version
 — update* bar rather than swapping code mid-edit. Tools → Backup also has a manual check. A module missing from that list is a module that silently stops
