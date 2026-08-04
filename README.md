@@ -37,6 +37,8 @@ your water, your fabrics and your local plants.
 | F | Trials | Activity log and gallery |
 | G | Tools | Calculators, backup, packs |
 
+Reference and Combinations are one module: the search *is* the reference engine.
+
 ## Principles
 
 - **Offline-first.** IndexedDB is the only source of truth. No account, no server, no sync.
@@ -55,6 +57,13 @@ your water, your fabrics and your local plants.
 - **Derived, not duplicated.** No stored back-references; related lists are computed on open.
 - **Backward compatible.** Migrations only ever add.
 
+## Installing it
+
+Багра is a PWA. Open the link in a browser and use *Install app* (desktop) or *Add to Home Screen*
+(phone) and it runs in its own window, offline, with its own icon.
+
+Everything stays on the device. There is no account and no server to sync with.
+
 ## Architecture
 
 Native ES modules, no build step. What is edited is what runs — no compilation, no
@@ -67,13 +76,17 @@ db.js                 IndexedDB, schema, migrations
 i18n.js               dictionary and language switching
 vocab.js              controlled vocabularies and band definitions
 ui.js                 shared rendering helpers
+version.js            the single place a release number is written
 backup.js             export, import, storage persistence
 fabric-logic.js       composition arithmetic and state lifecycle
 modules/*.js          one file per module
 calc/basic.js         % WOF, solutions, bath volume, drying, exhaust
 calc/scale.js         generic recipe scaling — roles, ranges, conditionals
 calc/alum-acetate.js  stoichiometry with substitution
-seed/substances.json  the base substance library
+seed.js               loading and merging reference packs
+seed-ui.js            the merge preview
+seed/*.json           substances, plants, techniques, combinations
+icons/                app icons
 sw.js                 service worker
 check.sh              verifies the service worker cache list is complete
 ```
@@ -110,7 +123,7 @@ Static files on GitHub Pages. Before every deploy:
 sh check.sh          # every module must be listed in sw.js
 ```
 
-Then bump `CACHE` in `sw.js`. A module missing from that list is a module that silently stops
+Then bump `VERSION` in `version.js` and `CACHE` in `sw.js` to match. A module missing from that list is a module that silently stops
 updating — the one mistake this architecture invites.
 
 ## Documents

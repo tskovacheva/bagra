@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v0.50.0';
+const CACHE = 'bagra-v0.50.0';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -19,6 +19,12 @@ const FILES = [
   './seed-ui.js',
   './fabric-logic.js',
   './manifest.json',
+  './version.js',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-192-maskable.png',
+  './icons/icon-512-maskable.png',
+  './icons/favicon-64.png',
   './modules/dashboard.js',
   './modules/reference.js',
   './modules/plants.js',

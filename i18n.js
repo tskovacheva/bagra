@@ -41,6 +41,7 @@ const DICT = {
   bg: {
     'app.name': 'Багра',
     'app.tagline': 'by Crafty Place',
+    'app.version': 'Версия',
 
     'nav.dashboard': 'Начало',
     'nav.reference': 'Справочник',
@@ -736,6 +737,7 @@ const DICT = {
   en: {
     'app.name': 'Rubia',
     'app.tagline': 'by Crafty Place',
+    'app.version': 'Version',
 
     'nav.dashboard': 'Home',
     'nav.reference': 'Reference',

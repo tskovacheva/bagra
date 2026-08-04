@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.12 — attribution moved to a library-level Sources section
+**Status:** v1.13 — reference engine built; versioning and PWA install
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -452,6 +452,19 @@ recur once dismissed for that input set.
 
 The reverse direction is automatic: a placement matching an existing combination is linked without
 asking.
+
+### Reference and search are one module
+Combinations have no navigation entry of their own. They live inside **Reference**, as two tabs:
+the search and the records behind it. The distinction the user cares about is *asking* versus
+*curating*, not *engine* versus *store*, and an eleventh sidebar item would have cost more than it
+explained.
+
+### Partial matching is the default, not a fallback
+Only the criteria actually filled in are compared; an unanswered field never counts against a
+record. Results rank by agreement, exact matches are badged, and partial ones **name what differs**.
+This last part is the useful one: shown "oak on cotton with alum", the neighbouring record "the same
+but with iron" is frequently the answer being looked for, and hiding it would make the reference
+narrower than the practice it describes.
 
 ### Multi-plant bundles — resolved
 A single eco print bundle usually carries several plants at once. Such a trial links to several
@@ -1163,6 +1176,18 @@ a preview, and never overwrites a field listed in the local record's `editedFiel
    printing; the placement's identity is the plant, its condition and its position.
 3. **A placement points straight at a `Plant`**; condition is recorded on the placement, and
    `materialId` is optional for stocked items.
+
+---
+
+## 13a. Versioning and installation
+
+**One place holds the release number.** `version.js` exports `VERSION`; the sidebar shows it and the
+service worker cache name is kept in step with it. Two numbers that can drift apart is one number
+too many — a stale cache is invisible until it is expensive.
+
+**Багра installs as a PWA.** Icons in the app palette, a complete manifest, standalone display. On a
+phone this matters more than it sounds: the studio and the garden are exactly where a browser tab
+is inconvenient, and where the app must work without a signal.
 
 ---
 

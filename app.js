@@ -9,6 +9,7 @@ import { open, all, put, count, getSetting } from './db.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { VOCABULARY, BANDS } from './vocab.js';
 import { loadPack } from './seed.js';
+import { VERSION } from './version.js';
 
 import dashboard  from './modules/dashboard.js';
 import reference  from './modules/reference.js';
@@ -48,6 +49,7 @@ const NAV = [
 const PHONE_NAV = ['dashboard', 'reference', 'trials', 'plants', 'recipes'];
 
 const $ = (sel) => document.querySelector(sel);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon = (id) => `<svg aria-hidden="true"><use href="#${id}"></use></svg>`;
 
 function currentRoute() {
@@ -69,6 +71,7 @@ function renderNav() {
      <div class="langrow">
        <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
        <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
+       <span class="version" title="${esc(t('app.version'))}">v${VERSION}</span>
      </div>`;
 
   $('#bottomnav').innerHTML = PHONE_NAV.map(id => {

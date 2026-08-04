@@ -88,9 +88,41 @@ saying *this one does not work, and here is why* as much as by saying what does.
 groups with checkboxes, the ones she has edited unticked by default, nothing written until she says
 so, and personal fields — photographs, hand-filled doses — never touched by an update.
 
-### Library coverage, honestly
+### Library coverage
 
-Structure is done; content is not. Of 41 plants:
+Four workbooks of research later, the library holds **48 plants** — the Bulgarian table, the seven
+garden profiles, and the standard trade dyes an eco printer meets anywhere: dyer's chamomile,
+Persian berries, brazilwood, cutch, chestnut, henna, eucalyptus, avocado.
+
+Eight purely anthocyanin plants were removed rather than kept as warnings. The library is for
+knowledge worth having, not a catalogue of everything green.
+
+| Field | Covered |
+|---|---|
+| Role, parts, chemistry classes | 46–48 |
+| Lightfastness | 51 |
+| Washfastness, English names, family, availability | 47–48 |
+| Dyeing temperature, soft ceiling | 44–45 |
+| Toxicity, sources | 40–41 |
+| Dosing (by part) | 29 |
+| Compositional role | 33 |
+| Chemistry *levels* | 12 |
+| Substantive/adjective | 6 |
+| Drying ratio, harvest months, years to maturity, colour range, preferred leaf surface, photos | 0 |
+
+**The six at zero will not come from reading.** A drying ratio needs a scale — weigh fresh, dry,
+weigh again. A preferred leaf surface needs one leaf placed both ways in one bundle. They are empty
+because no source can supply them honestly.
+
+**The real gap is eco print.** Twenty-five plants are marked for it and *none* records which leaf
+surface prints better; eighteen have a compositional role marked *needs testing*. Here the reference
+still does not answer the question it exists for.
+
+**And a number worth stating plainly:** of some 280 marked claims, none is from literature and none
+from an own trial. The whole library is a compilation — useful, unverified. Ten real bundles,
+recorded, would turn more amber dots to indigo than another workbook would.
+
+### Earlier snapshot, of 41 plants:
 
 | Field | Covered |
 |---|---|
@@ -139,16 +171,41 @@ Brought forward deliberately: data entered now is worth protecting now.
 - `navigator.storage.persist()` requested, so the browser will not evict the database
 - A clear warning that **nothing persists in a private window** — the lesson learned the hard way
 
-## Stage 6 — Techniques · *next*
+## Stage 6 — Techniques · **done**
 
-Small module, mostly seeded vocabulary. Quick.
+Twenty seeded techniques across five categories: four shibori, three resists, three bundling
+methods including the barrier layer, three printing methods, and six post-treatments. Each carries
+not just a description but the trap: why an iron afterbath is weak and short, why wax fails in a
+hot bath, why soaping now is better than soaping on someone's garment.
 
-## Stage 7 — Combinations · *planned*
+Fresh-leaf indigo is here rather than among the recipes, because it is not a reduction vat and
+saying so plainly saves a wasted harvest.
 
-The reference engine. Forward, reverse and partial matching. Band-based keys. Confidence
-markers. Suggestions from accumulated placements — offered, never computed.
+## Stage 7 — Combinations · **done** (trial links pending)
 
-## Stage 8 — Trials · *planned*
+The reference engine, living inside the Reference module with two tabs: *Search* and *Records*.
+
+**Partial matching is the whole point.** Fill in any subset — plant, part, fibre, mordant, process,
+medium — and empty fields widen rather than narrow. Results rank by how many criteria agree; exact
+matches carry a badge, partial ones name what differs. Seeing "the same but with iron" beside the
+exact answer is usually more useful than the exact answer alone.
+
+**Seeded with 31 combinations transferred by hand** from the owner's guide: oak in five variants,
+birch in four, madder's four shades, plus smoke bush, walnut, St John's wort, yarrow, tagetes,
+indigo and sumac. Transferred by hand deliberately — an automated pass over the guide's arrow
+notation produced nonsense, and a reference holding nonsense is worse than one holding nothing.
+
+**Still to build:** the link to trials. A combination should show the owner's own placements
+beneath the expected outcome, with divergence visible. That waits on Stage 8.
+
+## Stage 7a — PWA and versioning · **done**
+
+- Icons drawn in the app palette — a printed leaf in madder on unbleached linen, in plain and
+  maskable variants
+- `manifest.json` complete, so the app installs to a phone home screen or a desktop dock
+- `version.js` as the single place a release number is written; shown in the sidebar
+
+## Stage 8 — Trials · *next*
 
 The largest screen, built last. Steps with held and rest times kept separate; medium
 modification as a structured field including *where*; bundle layers with roles; placements
@@ -168,7 +225,8 @@ weeks of work, a reference library of hundreds of entries is months. If it does 
 early, the result is a finished app with an empty heart.
 
 Order of compilation:
-1. Vocabularies and band definitions (done, provisional numbers)
+1. Vocabularies and band definitions (done; **band numbers still provisional** — they decide which
+   results merge into one reference record and want checking before trials accumulate)
 2. Mordants and tannins with real chemical identity (done — `seed/substances.json`)
 3. Standard recipes — scour, tannin, mordant, aluminium acetate (in progress, entered by hand)
 4. Plants — 41 seeded from the guide; structure complete, many fields still empty (see Stage 4)
@@ -190,8 +248,7 @@ Every entry: written in the app's own words, source credited, `distributable` se
 2. **Band numbers are provisional.** The values in `vocab.js` are a first guess and need
    checking against practice before combinations start accumulating — they decide which results
    merge into one reference record.
-3. **PWA icons** are not yet made; `manifest.json` carries an empty icon list.
-4. **The aluminium acetate stoichiometry has not been checked against an independent source.**
+3. **The aluminium acetate stoichiometry has not been checked against an independent source.**
    It is written out openly in `calc/alum-acetate.js` for exactly that purpose. Compare against
    Chandra Rice's calculator before trusting it with a large batch.
 
