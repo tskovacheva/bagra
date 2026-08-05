@@ -12,6 +12,8 @@ import {
 let filterState = null;   // null = all boxes
 let openId = null;        // null = list, 'new' = blank form, id = that record
 let draft = null;
+// Reading is the default; the form opens only when asked for.
+let editing = false;
 
 // The code written on the pinned paper tag. Short enough to write by hand;
 // everything else lives in the app.
@@ -346,6 +348,8 @@ export default {
   reset() {
     openId = null;
     draft = null;
+    editing = false;
+    filterState = null;
   },
 
   async render(root) {

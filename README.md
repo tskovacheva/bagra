@@ -88,7 +88,8 @@ seed-ui.js            the merge preview
 seed/*.json           substances, plants, techniques, combinations
 icons/                app icons
 sw.js                 service worker
-check.sh              verifies the service worker cache list is complete
+check.sh              pre-deploy checks
+check-scope.js        catches variables assigned but never declared
 ```
 
 ## Protecting the data
@@ -120,8 +121,13 @@ Then open `http://localhost:8000`.
 Static files on GitHub Pages. Before every deploy:
 
 ```sh
-sh check.sh          # every module must be listed in sw.js
+sh check.sh
 ```
+
+It checks two things that only fail after deployment: that every module is
+listed in the service worker cache, and that no variable is assigned without
+being declared. The second throws only when the line runs — usually on a click —
+and the symptom is a screen that quietly stops responding.
 
 Then bump `VERSION` in `version.js` and `CACHE` in `sw.js` to match.
 
