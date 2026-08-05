@@ -461,7 +461,7 @@ const DICT = {
     'recipes.choose': 'Кое вещество ползваш',
     'recipes.heldMinutes': 'Активно време (мин)',
     'recipes.heldHint': 'Докато се поддържа температурата.',
-    'recipes.restMinutes': 'Кисне след изключване (мин)',
+    'recipes.restMinutes': 'Киснене след спиране (мин)',
     'recipes.restHint': 'Банята изстива през това време. Отделно число, защото често именно то прави резултата.',
 
 
@@ -811,7 +811,7 @@ const DICT = {
     'trials.newRecipe': 'Създай нова рецепта и се върни тук',
     'trials.improvised': 'без рецепта',
     'trials.held': 'Активно (мин)',
-    'trials.rest': 'Почивка (мин)',
+    'trials.rest': 'Киснене след спиране (мин)',
     'trials.restHint': 'Колко е стояло след изключване на топлината.',
     'trials.temp': '°C',
     'trials.medium': 'Добавено към средата',
@@ -858,6 +858,19 @@ const DICT = {
     'trials.filterPlant': 'Растение',
     'trials.filterProcess': 'Процес',
     'trials.all': 'всички',
+
+
+    'common.edit': 'Редактирай',
+    'common.done': 'Готово',
+    'read.useNow': 'За работа сега',
+    'read.noData': 'Още няма попълнени данни. Натисни „Редактирай“.',
+    'plants.readDose': 'Доза',
+    'plants.readTemp': 'Температура',
+    'plants.readExpect': 'Очаквай',
+    'plants.readCareful': 'Внимавай',
+    'plants.growing': 'В градината',
+    'plants.chemistrySection': 'Химия',
+    'plants.filled': '{n} попълнени',
 
     'lang.bg': 'БГ',
     'lang.en': 'EN',
@@ -1683,6 +1696,19 @@ const DICT = {
     'trials.filterPlant': 'Plant',
     'trials.filterProcess': 'Process',
     'trials.all': 'all',
+
+
+    'common.edit': 'Edit',
+    'common.done': 'Done',
+    'read.useNow': 'To use now',
+    'read.noData': 'Nothing filled in yet. Press Edit.',
+    'plants.readDose': 'Dose',
+    'plants.readTemp': 'Temperature',
+    'plants.readExpect': 'Expect',
+    'plants.readCareful': 'Take care',
+    'plants.growing': 'In the garden',
+    'plants.chemistrySection': 'Chemistry',
+    'plants.filled': '{n} filled',
 
     'lang.bg': 'BG',
     'lang.en': 'EN',

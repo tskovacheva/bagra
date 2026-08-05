@@ -9,7 +9,8 @@ import { all, get, put, remove, newRecord, uid } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text, getLang } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented, confField, readConfidence } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented,
+         confField, readConfidence, fact, facts, prose, readBlock } from '../ui.js';
 
 const MONTHS_BG = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
@@ -29,6 +30,7 @@ const SUGGESTED = [
 let openId = null;
 let draft = null;
 let filterRole = null;
+let editing = false;
 
 function shrink(file, maxSide) {
   return new Promise((resolve, reject) => {
@@ -234,6 +236,97 @@ function sectionRows(p) {
   }).join('') || `<p class="hint">—</p>`;
 }
 
+// What one wants standing in front of the bed or the pot, in the order one
+// wants it: which part, how much, how hot, what to expect, what not to do.
+async function useNowCard(p) {
+  const rows = [];
+
+  for (const part of p.parts || []) {
+    const partName = await label('plant_part', part.partCode);
+    for (const d of part.dosing || []) {
+      const cond = d.condition ? await label('placement_condition', d.condition) : '';
+      const amount = d.max && d.max !== d.min ? `${d.min}–${d.max}%` : `${d.min}%`;
+      rows.push(fact(`${partName}${cond ? ', ' + cond : ''}`, `<b>${amount}</b> WOF`));
+    }
+  }
+
+  const t1 = p.tempExtractC, t2 = p.tempDyeC;
+  if (t1) rows.push(fact(t('plants.tempExtract'), `<b>${t1.min}–${t1.max} °C</b>`));
+  if (t2) rows.push(fact(t('plants.tempDye'), `<b>${t2.min}–${t2.max} °C</b>`));
+  if (p.softMaxTempC) rows.push(fact(t('plants.softMaxTemp'), `<b>${p.softMaxTempC} °C</b>`));
+  if (p.liquorRatio) rows.push(fact(t('plants.liquorRatio'), `1 : ${p.liquorRatio}`));
+  if (p.dryingRatio) rows.push(fact(t('plants.dryingRatio'), `× ${p.dryingRatio}`));
+  if (p.steamNote) rows.push(fact(t('plants.steamNote'), esc(p.steamNote)));
+
+  return facts(rows);
+}
+
+async function renderRead(root, p) {
+  const roles = (await Promise.all((p.role || []).map(x => label('plant_role', x)))).join(', ');
+  const comp = (await Promise.all((p.compositionalRole || []).map(x => label('compositional_role', x)))).join(', ');
+
+  const chem = (await Promise.all((p.parts || []).map(async part => {
+    const items = (await Promise.all((part.chemistry || []).map(async c =>
+      `${await label('chemistry_class', c.classCode)}${c.level ? ` (${await label('chemistry_level', c.level)})` : ''}`))).join(', ');
+    return items ? fact(await label('plant_part', part.partCode), esc(items)) : '';
+  }))).join('');
+
+  const colours = (p.colours || []).map(c => `
+    <div class="refcard" style="cursor:default">
+      <div class="refswatch" style="background:${esc(c.hex || '#8C7B6B')}"></div>
+      <div class="refbody">
+        <b>${esc(text(c.name) || '—')}</b>
+        ${text(c.conditions) ? `<div class="hint">${esc(text(c.conditions))}</div>` : ''}
+      </div>
+    </div>`).join('');
+
+  const months = (p.harvestMonths || []).map(i => MONTHS_BG[i - 1]).join(' · ');
+
+  const sections = (p.sections || []).map(sec =>
+    readBlock(text(sec.title), prose(sec.body))).join('');
+
+  const useNow = await useNowCard(p);
+
+  root.innerHTML = page({
+    title: text(p.nameCommon) || t('plants.one'),
+    sub: p.nameBotanical,
+    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+              <button class="btn primary" data-edit>${t('common.edit')}</button>`,
+    body: `
+      <div class="headline">
+        ${p.photoData ? `<img src="${p.photoData}" alt="">` : ''}
+        <div class="headlinebody">
+          <h2>${esc(text(p.nameCommon) || '—')}</h2>
+          <div class="latin">${esc(p.nameBotanical || '')}${p.family ? ' · ' + esc(p.family) : ''}</div>
+          ${facts([
+            fact(t('plants.role'), esc(roles)),
+            fact(t('plants.compositional'), esc(comp)),
+            fact(t('plants.availability'), esc(await label('availability', p.availability))),
+            fact(t('plants.dyeClass'), esc(await label('dye_class', p.dyeClass))),
+          ])}
+        </div>
+      </div>
+
+      ${useNow ? panel(`<h2>${t('read.useNow')}</h2>${useNow}`) : ''}
+
+      <div class="cols">
+        <div class="col">
+          ${readBlock(t('plants.colours'), colours)}
+          ${readBlock(t('plants.chemistrySection'), chem)}
+          ${readBlock(t('plants.growing'), facts([
+            fact(t('plants.harvestMonths'), esc(months)),
+            fact(t('plants.yearsToMaturity'), p.yearsToMaturity),
+            fact(t('plants.lightfastness'), esc(await label('fastness', p.lightfastness))),
+            fact(t('plants.washfastness'), esc(await label('fastness', p.washfastness))),
+            p.invasive ? fact(t('plants.invasive'), '⚠') : '',
+          ]))}
+          ${readBlock(t('plants.readCareful'), prose(p.toxicity))}
+        </div>
+        <div class="col">${sections || (useNow ? '' : `<p class="hint">${t('read.noData')}</p>`)}</div>
+      </div>`,
+  });
+}
+
 async function renderForm(root, p) {
   const isNew = openId === 'new';
 
@@ -426,6 +519,7 @@ export default {
   // "show me whatever I last had open in it". Called by the router on entry.
   reset() {
     seedUI.close();
+    editing = false;
     openId = null;
     draft = null;
     filterRole = null;
@@ -436,7 +530,8 @@ export default {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('plants', openId));
       }
-      await renderForm(root, draft);
+      if (editing || openId === 'new') await renderForm(root, draft);
+      else await renderRead(root, draft);
     } else {
       draft = null;
       await renderList(root);
@@ -466,10 +561,17 @@ export default {
 
       const role = e.target.closest('[data-role]');
       if (role) { filterRole = role.dataset.role || null; return this.render(root); }
-      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
+      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
+      if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
       const row = e.target.closest('[data-open]');
-      if (row) { draft = null; openId = row.dataset.open; return this.render(root); }
-      if (e.target.closest('[data-back]')) { openId = null; draft = null; return this.render(root); }
+      if (row) { draft = null; openId = row.dataset.open; editing = false; return this.render(root); }
+      if (e.target.closest('[data-back]')) {
+        // Back from the editor returns to reading the same record, not to the
+        // list: one usually edits a field, checks how it reads, edits again.
+        if (editing && openId !== 'new') { editing = false; return this.render(root); }
+        openId = null; draft = null; editing = false;
+        return this.render(root);
+      }
 
       if (e.target.closest('[data-part-add]')) {
         readForm(root);
@@ -546,7 +648,7 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('plants', markEdited(draft));
-        openId = null; draft = null;
+        editing = false;
         return this.render(root);
       }
       if (e.target.closest('[data-delete]')) {

@@ -7,7 +7,8 @@
 
 import { all, get, put, remove, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, note, fmtDate, today } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, note, fmtDate, today,
+         fact, facts, readBlock, foldable } from '../ui.js';
 import { shrinkResult, shrinkThumb } from '../photo.js';
 
 const ENHANCEMENTS = ['cloth_mordant', 'botanical_mordant', 'predye_substantive',
@@ -16,6 +17,7 @@ const ENHANCEMENTS = ['cloth_mordant', 'botanical_mordant', 'predye_substantive'
 let view = 'gallery';
 let openId = null;
 let draft = null;
+let editing = false;
 let filter = { plantId: '', processCode: '' };
 
 // Loaded once per render so the nested lists can name what they point at.
@@ -241,6 +243,105 @@ async function placementRows(r) {
   }))).join('') || `<p class="hint">${t('trials.photoFirst')}</p>`;
 }
 
+// ------------------------------------------------------------- read view
+//
+// A finished trial is read far more often than it is written, and what one
+// wants from it is a story: these plants, on this cloth, through these steps,
+// with this result. The editing form answers a different question.
+
+async function renderRead(root, r) {
+  const fabrics = await all('fabrics');
+  const fabricNames = (r.fabricIds || [])
+    .map(id => fabrics.find(f => f.id === id))
+    .filter(Boolean).map(f => `${f.label ? f.label + ' · ' : ''}${f.name || '—'}`);
+
+  const enh = (await Promise.all((r.enhancements || []).map(x => label('enhancement', x)))).join(', ');
+
+  const photos = (r.resultPhotos || []).map(src =>
+    `<div class="resultphoto"><img src="${src}" alt=""></div>`).join('');
+
+  const placements = (await Promise.all((r.placements || []).map(async pl => {
+    const plant = plantsById.get(pl.plantId);
+    const bits = [
+      pl.partCode ? await label('plant_part', pl.partCode) : '',
+      pl.condition ? await label('placement_condition', pl.condition) : '',
+      pl.facing ? await label('facing', pl.facing) : '',
+      pl.printQuality ? await label('print_quality', pl.printQuality) : '',
+      pl.localTreatment || '',
+    ].filter(Boolean).join(' · ');
+    const combo = pl.combinationId ? combinations.find(c => c.id === pl.combinationId) : null;
+    return `
+      <div class="placement" style="background:var(--surface)">
+        ${pl.photo ? `<div class="placephoto"><img src="${pl.photo}" alt=""></div>` : ''}
+        <div class="placebody">
+          <b>${esc(text(plant?.nameCommon) || '—')}</b>
+          ${bits ? `<div class="hint">${esc(bits)}</div>` : ''}
+          ${pl.resultColour ? `<div class="factvalue">${esc(pl.resultColour)}</div>` : ''}
+          ${pl.observation ? `<div class="prose"><p>${esc(pl.observation)}</p></div>` : ''}
+          ${combo ? `<div class="hint matched">${t('trials.matched')}: ${esc(text(combo.expected?.colourText))}</div>` : ''}
+        </div>
+      </div>`;
+  }))).join('');
+
+  const steps = (await Promise.all((r.steps || []).map(async (st, i) => {
+    const recipe = st.recipeId ? recipes.find(x => x.id === st.recipeId) : null;
+    const chain = st.chainId ? chains.find(x => x.id === st.chainId) : null;
+    const m = st.mediumMod;
+    const times = [
+      st.tempC != null ? `${st.tempC} °C` : '',
+      st.heldMinutes ? `${st.heldMinutes} ${t('common.min')}` : '',
+      st.restMinutes ? `+ ${st.restMinutes} ${t('common.min')}` : '',
+    ].filter(Boolean).join(' · ');
+    const sub = substances.find(x => x.id === m?.materialId);
+    return `
+      <div class="planstep">
+        <div class="chainhead">
+          <span class="stepnum">${i + 1}</span>
+          <b>${esc(await label('step_type', st.typeCode) || '—')}</b>
+          ${chain || recipe ? `<span class="hint">${esc(text((chain || recipe).name))}</span>` : ''}
+          <span class="spacer"></span>
+          <span class="hint">${esc(times)}</span>
+        </div>
+        ${st.what ? `<div class="hint">${esc(st.what)}</div>` : ''}
+        ${m ? `<div class="hint">${esc(await label('medium_where', m.whereCode))}: ${
+          esc(text(sub?.name) || '—')} ${esc(m.amount || '')}${m.phMeasured ? ` · pH ${m.phMeasured}` : ''}${
+          m.intent ? ` — ${esc(m.intent)}` : ''}</div>` : ''}
+        ${st.note ? `<div class="hint">${esc(st.note)}</div>` : ''}
+      </div>`;
+  }))).join('');
+
+  root.innerHTML = page({
+    title: r.title || t('trials.one'),
+    sub: fmtDate(r.date),
+    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+              <button class="btn primary" data-edit>${t('common.edit')}</button>`,
+    body: `
+      ${photos ? `<div class="resultphotos big">${photos}</div>` : ''}
+
+      ${panel(facts([
+        fact(t('trials.process'), esc(await label('process', r.processCode))),
+        fact(t('trials.enhancements'), esc(enh)),
+        fact(t('trials.fabrics'), esc(fabricNames.join(', '))),
+        fact(t('trials.weightOfGoods'), r.weightOfGoodsG ? `${r.weightOfGoodsG} г` : ''),
+        fact(t('trials.water'), esc([await label('water_source', r.water?.sourceCode), r.water?.note].filter(Boolean).join(' · '))),
+        fact(t('trials.assessment'), esc(await label('assessment', r.assessment))),
+      ]))}
+
+      <div class="gap"></div>
+
+      <div class="cols">
+        <div class="col">
+          ${readBlock(t('trials.placements'), placements)}
+        </div>
+        <div class="col">
+          ${readBlock(t('trials.steps'), steps)}
+          ${readBlock(t('trials.assessmentWhy'), r.assessmentWhy ? `<div class="prose"><p>${esc(r.assessmentWhy)}</p></div>` : '')}
+          ${readBlock(t('common.notes'), r.notes ? `<div class="prose"><p>${esc(r.notes)}</p></div>` : '')}
+        </div>
+      </div>`,
+  });
+}
+
 // ---------------------------------------------------------------- the form
 
 async function renderForm(root, r) {
@@ -282,25 +383,27 @@ async function renderForm(root, r) {
             ${field(t('trials.date'), `<input type="date" data-f="date" value="${esc(r.date || '')}">`)}
             ${field(t('trials.process'), `<select data-f="processCode">${await options('process', r.processCode, '')}</select>`)}
             ${r.processCode === 'paste' ? note(t('trials.pasteNotYet'), 'warn') : ''}
-            ${field(t('trials.enhancements'), `<div class="checks">${enh}</div>`, t('trials.enhancementsHint'))}
           `)}
 
+          ${foldable(t('trials.enhancements'), `<div class="checks">${enh}</div><p class="hint">${t('trials.enhancementsHint')}</p>`,
+            { badge: (r.enhancements || []).length ? t('plants.filled', { n: (r.enhancements || []).length }) : '' })}
+
           ${panel(`
-            <h2>${t('trials.fabrics')}</h2>
+          `)}
+
+          ${foldable(t('trials.fabrics'), `
             <div class="checks column">${fabricChecks}</div>
             ${field(t('trials.weightOfGoods'), `<input type="number" step="1" min="0" data-f="weightOfGoodsG" value="${r.weightOfGoodsG ?? ''}">`, t('trials.weightHint'))}
-          `)}
+          `, { open: !!isNew, badge: (r.fabricIds || []).length ? t('plants.filled', { n: (r.fabricIds || []).length }) : '' })}
 
-          ${panel(`
-            <h2>${t('trials.water')}</h2>
-            ${field(t('trials.waterSource'), `<select data-f="water.sourceCode">${await options('water_source', r.water?.sourceCode)}</select>`, t('trials.waterHint'))}
+          ${foldable(t('trials.water'), `
+            ${field(t('trials.waterSource'), `<select data-f="water.sourceCode">${await options('water_source', r.water?.sourceCode)}</select>`)}
             ${field(t('trials.waterNote'), `<input type="text" data-f="water.note" value="${esc(r.water?.note || '')}" placeholder="${t('trials.waterPlaceholder')}">`)}
-          `)}
+            <p class="hint">${t('trials.waterHint')}</p>
+          `, { badge: r.water?.sourceCode ? esc(await label('water_source', r.water.sourceCode)) : '' })}
 
-          ${panel(`
-            <h2>${t('trials.techniques')}</h2>
-            <div class="checks">${techChecks}</div>
-          `)}
+          ${foldable(t('trials.techniques'), `<div class="checks">${techChecks}</div>`,
+            { badge: (r.techniqueIds || []).length ? t('plants.filled', { n: (r.techniqueIds || []).length }) : '' })}
         </div>
 
         <div class="col">
@@ -404,7 +507,7 @@ export default {
   title: () => t('trials.title'),
   sub: () => t('trials.sub'),
 
-  reset() { openId = null; draft = null; view = 'gallery'; filter = { plantId: '', processCode: '' }; },
+  reset() { openId = null; draft = null; editing = false; view = 'gallery'; filter = { plantId: '', processCode: '' }; },
 
   async render(root) {
     plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
@@ -418,7 +521,8 @@ export default {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('trials', openId));
       }
-      await renderForm(root, draft);
+      if (editing || openId === 'new') await renderForm(root, draft);
+      else await renderRead(root, draft);
     } else {
       draft = null;
       await renderList(root);
@@ -431,10 +535,15 @@ export default {
 
       const v = e.target.closest('[data-view]');
       if (v) { view = v.dataset.view; return this.render(root); }
-      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
+      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
+      if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
       const row = e.target.closest('[data-open]');
-      if (row) { draft = null; openId = row.dataset.open; return this.render(root); }
-      if (e.target.closest('[data-back]')) { openId = null; draft = null; return this.render(root); }
+      if (row) { draft = null; openId = row.dataset.open; editing = false; return this.render(root); }
+      if (e.target.closest('[data-back]')) {
+        if (editing && openId !== 'new') { editing = false; return this.render(root); }
+        openId = null; draft = null; editing = false;
+        return this.render(root);
+      }
 
       if (e.target.closest('[data-place-add]')) {
         readForm(root);
@@ -487,7 +596,7 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('trials', draft);
-        openId = null; draft = null;
+        editing = false;
         return this.render(root);
       }
       if (e.target.closest('[data-delete]')) {

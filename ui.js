@@ -202,3 +202,55 @@ export function readConfidence(root) {
   }
   return out;
 }
+
+
+// ---------------------------------------------------------------- read mode
+//
+// Most records are written once and read many times. A plant profile is edited
+// on the evening it is researched and consulted every time one walks past the
+// bed. Opening it as a form makes administering the record look like the main
+// thing one does with it, and buries the four or five facts actually wanted at
+// the bench among fifty controls.
+
+/** One fact. Renders nothing at all when there is nothing to say. */
+export function fact(labelText, value, hint = '') {
+  if (value == null || value === '' || (Array.isArray(value) && !value.length)) return '';
+  const shown = Array.isArray(value) ? value.filter(Boolean).join(', ') : value;
+  if (!shown) return '';
+  return `
+    <div class="fact">
+      <span class="factlabel">${esc(labelText)}</span>
+      <span class="factvalue">${shown}</span>
+      ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}
+    </div>`;
+}
+
+export const facts = (rows) => {
+  const inner = rows.filter(Boolean).join('');
+  return inner ? `<div class="factgrid">${inner}</div>` : '';
+};
+
+/** A prose block from a { bg, en } pair, with paragraphs preserved. */
+export function prose(pair) {
+  const body = text(pair);
+  if (!body) return '';
+  return `<div class="prose">${body.split('\n').filter(Boolean)
+    .map(line => `<p>${esc(line)}</p>`).join('')}</div>`;
+}
+
+/** A section that only appears when it has content. */
+export const readBlock = (title, inner) =>
+  inner ? panel(`${title ? `<h2>${esc(title)}</h2>` : ''}${inner}`) : '';
+
+/**
+ * A group in an editing form that can be folded away.
+ *
+ * The summary carries a hint of what is inside, so collapsing does not mean
+ * hiding: a section reading "3 filled" is still answering a question from the
+ * outside.
+ */
+export const foldable = (title, inner, { open = false, badge = '' } = {}) => `
+  <details class="fold"${open ? ' open' : ''}>
+    <summary><span class="foldtitle">${esc(title)}</span>${badge ? `<span class="foldbadge">${esc(badge)}</span>` : ''}</summary>
+    <div class="foldbody">${inner}</div>
+  </details>`;

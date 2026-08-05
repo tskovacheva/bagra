@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.13 — reference engine built; versioning and PWA install
+**Status:** v1.14 — trials built; corrections from real studio use
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -1176,6 +1176,51 @@ a preview, and never overwrites a field listed in the local record's `editedFiel
    printing; the placement's identity is the plant, its condition and its position.
 3. **A placement points straight at a `Plant`**; condition is recorded on the placement, and
    `materialId` is optional for stocked items.
+
+---
+
+## 13b. What real use changed
+
+Four sessions of the owner working with the app in the studio produced corrections that no amount
+of specification would have found. They are recorded here because each one marks a place where the
+model was built around the theory rather than around the hand.
+
+**A recipe ingredient may be a plant.** The original model had ingredients point at substances
+only, which made an entire category — dyeing with a plant — impossible to write down. "Madder
+root at 50% WOF" has no substance to reference. Ingredient options now carry `plantId`, `partCode`
+and `condition` (dried / fresh / extract), because the same plant at three different forms takes
+three different percentages, and suppliers sell all three.
+
+**Figures are pulled from the library, not retyped.** A plant record already holds dosing per part
+and condition, extraction and dyeing temperatures, and a liquor ratio. Copying them into a recipe by
+hand is how the recipe and the reference drift apart, so the recipe form takes them directly.
+
+**A trial is one sequence, not a sequence beside a list.** Bundle layers began as their own section,
+parallel to the steps. In practice, laying the cloth on foil, arranging the leaves and laying the
+blanket *are* steps, in order, among the chemistry. The separate list broke the order in which the
+work is done and remembered. Layers folded into steps, with new step types for the physical actions
+and a role on each.
+
+**A step may follow a chain.** Preparation is usually scour → tannin → mordant, already modelled as
+a chain (§5.3). The trial's step selector offers chains and recipes together, because from the bench
+they answer one question: what did I follow here.
+
+**Writing a recipe must not cost the trial.** A step can open a blank recipe: the trial is saved
+first, where to return is remembered, and saving the recipe comes straight back. Otherwise the
+choice is between recording the work and recording the method, and one of them loses.
+
+**Vocabulary named after action, not theory.** The seven enhancements were named after the
+chemistry — "adjective carrier blanket" is precise and unusable at the bench. They now read as what
+one does: *blanket soaked in dye*, *leaves dipped in mordant*. Substantive and adjective remain, but
+on the plant record where they are a property of the dye, not on the screen describing an afternoon.
+
+**Unmodelled things say so.** Paste printing needs a thickener, a stencil and a fixing step none of
+which exist here. Offered silently it promises more than it delivers, so it carries a plain warning
+instead.
+
+**A single figure is not a range.** Filling only the upper bound produced "0–165 g", which reads as
+a claim about a lower bound nobody made. Whichever box a lone number lands in, it is an exact
+quantity.
 
 ---
 
