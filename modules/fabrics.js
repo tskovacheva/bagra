@@ -2,7 +2,8 @@
 
 import { all, get, put, remove, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, note, today, fmtDate } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
+         fact, facts, readBlock } from '../ui.js';
 import {
   compositionTotal, dyeReceptiveFraction, fibreClass, compositionWarnings,
   currentState, stateHistory, daysSinceMordanted, STATE_ORDER,
@@ -109,6 +110,77 @@ async function renderList(root) {
         ${boxes.join('')}
       </div>
       ${panel(table, 'flush')}`,
+  });
+}
+
+// ---------------------------------------------------------------- read view
+//
+// A fabric record is consulted far more than it is written: which box is it in,
+// what is it made of, how long since it was mordanted, what has already been
+// done to it. Its history is the point, so it reads as a biography rather than
+// as a list of fields.
+
+async function renderRead(root, r) {
+  const compNames = (await Promise.all((r.composition || []).map(async c =>
+    `${c.percent}% ${await label('fibre', c.fibreCode)}`))).join(' + ');
+  const cls = fibreClass(r.composition);
+  const cured = daysSinceMordanted(r);
+
+  const history = stateHistory(r);
+  const timeline = history.length
+    ? (await Promise.all(history.map(async e => `
+        <li class="tl">
+          <span class="tldot"></span>
+          <div>
+            <b>${esc(await label('fabric_state', e.stateCode))}</b>
+            <span class="hint"> ${fmtDate(e.date)}</span>
+            ${e.note ? `<div class="hint">${esc(e.note)}</div>` : ''}
+          </div>
+        </li>`))).join('')
+    : '';
+
+  const trials = (await all('trials')).filter(x => (x.fabricIds || []).includes(r.id));
+  const trialList = trials.length
+    ? `<ul class="history">${trials.map(x =>
+        `<li><b>${esc(x.title || t('trials.one'))}</b> <span class="hint">${fmtDate(x.date)}</span></li>`).join('')}</ul>`
+    : `<p class="hint">${t('fabrics.notUsed')}</p>`;
+
+  root.innerHTML = page({
+    title: r.name || r.label || t('fabrics.one'),
+    sub: r.label,
+    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+              <button class="btn primary" data-edit>${t('common.edit')}</button>`,
+    body: `
+      <div class="headline">
+        <div class="headlinebody">
+          <h2>${esc(r.name || '—')} <span class="chip">${esc(await label('fabric_state', currentState(r)))}</span></h2>
+          <div class="latin">${esc(r.label || '')}</div>
+          ${cured != null ? `<p class="hint">${t('fabrics.curedFor', { n: cured })}</p>` : ''}
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          ${readBlock(t('fabrics.readIdentity'), facts([
+            fact(t('fabrics.readComposition'), `<b>${esc(compNames)}</b>`),
+            fact(t('fabrics.col.class'), esc(await label('fibre_class', cls))),
+            fact(t('fabrics.structure'), esc(await label('fabric_structure', r.structure))),
+            fact(t('fabrics.form'), esc(await label('fabric_form', r.form))),
+            fact(t('fabrics.weightG'), r.weightG ? `<b>${r.weightG} г</b>` : ''),
+            fact(t('fabrics.dimensions'), esc(r.dimensions || '')),
+            fact(t('fabrics.gsm'), r.weightGsm ? `${r.weightGsm} г/м²` : ''),
+            fact(t('fabrics.origin'), esc(r.origin === 'reclaimed'
+              ? [t('fabrics.origin.reclaimed'), r.originDetail?.wasA, r.originDetail?.condition].filter(Boolean).join(' · ')
+              : [t('fabrics.origin.new'), r.originDetail?.supplier].filter(Boolean).join(' · '))),
+          ]))}
+          ${readBlock(t('common.notes'), r.notes ? `<div class="prose"><p>${esc(r.notes)}</p></div>` : '')}
+        </div>
+
+        <div class="col">
+          ${readBlock(t('fabrics.biography'), timeline ? `<ul class="timeline">${timeline}</ul>` : '')}
+          ${readBlock(t('fabrics.usedIn'), trialList)}
+        </div>
+      </div>`,
   });
 }
 
@@ -282,7 +354,8 @@ export default {
         draft = openId === 'new' ? blank() : structuredClone(await get('fabrics', openId));
         if (openId === 'new' && !draft.label) draft.label = await nextLabel();
       }
-      await renderForm(root, draft);
+      if (editing || openId === 'new') await renderForm(root, draft);
+      else await renderRead(root, draft);
     } else {
       draft = null;
       await renderList(root);
@@ -292,12 +365,17 @@ export default {
       const box = e.target.closest('[data-box]');
       if (box) { filterState = box.dataset.box || null; return this.render(root); }
 
-      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
+      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
+      if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
 
       const row = e.target.closest('[data-open]');
-      if (row) { draft = null; openId = row.dataset.open; return this.render(root); }
+      if (row) { draft = null; openId = row.dataset.open; editing = false; return this.render(root); }
 
-      if (e.target.closest('[data-back]')) { openId = null; draft = null; return this.render(root); }
+      if (e.target.closest('[data-back]')) {
+        if (editing && openId !== 'new') { editing = false; return this.render(root); }
+        openId = null; draft = null; editing = false;
+        return this.render(root);
+      }
 
       if (e.target.closest('[data-comp-add]')) {
         readForm(root);
@@ -333,7 +411,7 @@ export default {
         if (draft.composition.length && Math.round(total) !== 100 &&
             !confirm(t('fabrics.confirmTotal', { total }))) return;
         await put('fabrics', draft);
-        openId = null; draft = null;
+        editing = false;
         return this.render(root);
       }
 

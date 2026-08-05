@@ -9,11 +9,13 @@ import { all, get, put, remove, newRecord } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, note, pairField, readPairs } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, note, pairField, readPairs,
+         fact, facts, prose, readBlock, fmtDate } from '../ui.js';
 
 let mode = 'search';
 let openId = null;
 let draft = null;
+let editing = false;
 
 // Empty means "not specified", which widens rather than narrows.
 let query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
@@ -123,9 +125,12 @@ async function sourceLine(record, plantsById) {
   return part ? `${name}, ${part}` : name;
 }
 
+let placementCounts = new Map();
+
 async function resultCard(record, plantsById, match) {
   const e = record.expected || {};
   const k = record.key || {};
+  const mine = placementCounts.get(record.id) || 0;
   const badge = (match && !match.exact && match.differs.length)
     ? `<span class="chip">${match.plantMatches ? t('ref.samePlant') : t('ref.sameConditions')}</span>`
     : '';
@@ -143,6 +148,7 @@ async function resultCard(record, plantsById, match) {
         ${match && !match.exact && match.differs.length
           ? `<div class="hint differs">${t('ref.differsIn', { what: esc(match.differs.map(x => x.labelText).join(', ')) })}</div>` : ''}
         ${!k.medium ? `<div class="hint">${t('ref.ph')}: ${t('ref.unspecified')}</div>` : ''}
+        ${mine ? `<div class="hint matched">${t('ref.confirmedBy', { n: mine })}</div>` : ''}
       </div>
     </div>`;
 }
@@ -153,6 +159,15 @@ async function renderSearch(root) {
   const plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
   const plantsById = new Map(plants.map(p => [p.id, p]));
   const records = await all('combinations');
+
+  // Counted once here rather than per card: the answer is the same for every
+  // card on the screen and the trials list is read only once.
+  placementCounts = new Map();
+  for (const tr of await all('trials')) {
+    for (const pl of tr.placements || []) {
+      if (pl.combinationId) placementCounts.set(pl.combinationId, (placementCounts.get(pl.combinationId) || 0) + 1);
+    }
+  }
 
   const asked = Object.values(query).some(Boolean);
   const results = records.map(r => ({ r, m: compare(r, query) }));
@@ -284,6 +299,87 @@ async function renderList(root) {
   });
 }
 
+// ---------------------------------------------------------------- read view
+//
+// This is where the app's whole premise becomes visible: general knowledge with
+// the owner's own results beneath it. A combination that says "grey-brown" and
+// then shows four of her placements, two agreeing and two not, is worth more
+// than either half alone.
+
+/** Every placement in every trial whose inputs match this combination. */
+async function placementsFor(record) {
+  const trials = await all('trials');
+  const out = [];
+  for (const tr of trials) {
+    for (const pl of tr.placements || []) {
+      if (pl.combinationId === record.id) out.push({ trial: tr, placement: pl });
+    }
+  }
+  return out.sort((a, b) => (b.trial.date || '').localeCompare(a.trial.date || ''));
+}
+
+async function renderRead(root, r) {
+  const plants = await all('plants');
+  const plantsById = new Map(plants.map(p => [p.id, p]));
+  const k = r.key || {};
+  const e = r.expected || {};
+
+  const mine = await placementsFor(r);
+
+  const cards = (await Promise.all(mine.map(async ({ trial, placement }) => `
+    <div class="placement" style="background:var(--surface)">
+      ${placement.photo ? `<div class="placephoto"><img src="${placement.photo}" alt=""></div>` : ''}
+      <div class="placebody">
+        <div class="refhead">
+          <b>${esc(placement.resultColour || '—')}</b>
+          <span class="hint">${fmtDate(trial.date)}</span>
+        </div>
+        <div class="hint">${esc(trial.title || t('trials.one'))}</div>
+        ${placement.observation ? `<div class="prose"><p>${esc(placement.observation)}</p></div>` : ''}
+      </div>
+    </div>`))).join('');
+
+  root.innerHTML = page({
+    title: text(e.colourText) || t('ref.one'),
+    sub: await sourceLine(r, plantsById),
+    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+              <button class="btn primary" data-edit>${t('common.edit')}</button>`,
+    body: `
+      <div class="headline">
+        <div class="refswatch" style="background:${esc(e.swatchHex || '#8C7B6B')};width:96px;height:96px;flex:0 0 96px"></div>
+        <div class="headlinebody">
+          <h2>${esc(text(e.colourText) || '—')}</h2>
+          <div class="latin">${esc(await conditionLine(r))}</div>
+          ${text(e.variation) ? `<p class="hint">${esc(text(e.variation))}</p>` : ''}
+          ${mine.length ? `<p class="hint matched">${t('ref.confirmedBy', { n: mine.length })}</p>` : ''}
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          ${readBlock(t('ref.expected'), facts([
+            fact(t('ref.plant'), esc(await sourceLine(r, plantsById))),
+            fact(t('ref.fibre'), esc(await label('fibre_class', k.fibreClass))),
+            fact(t('ref.mordant'), esc(k.mordantCode === 'none' ? t('ref.none') : await label('mordant_type', k.mordantCode))),
+            fact(t('ref.band'), esc(await label('concentration', k.mordantBand))),
+            fact(t('ref.process'), esc(await label('process', k.processCode))),
+            fact(t('ref.ph'), k.medium?.phCode ? esc(await label('ph', k.medium.phCode)) : t('ref.unspecified')),
+            fact(t('ref.confidence'), esc(await label('claim_confidence', r.confidence))),
+            fact(t('recipes.learnedFrom'), esc(r.learnedFrom || '')),
+          ]) + prose(r.notes))}
+        </div>
+
+        <div class="col">
+          ${panel(`
+            <h2>${t('ref.myPlacements')}</h2>
+            <p class="note">${t('ref.myPlacementsHint')}</p>
+            ${cards || `<p class="hint">${t('ref.noPlacements')}</p>`}
+          `)}
+        </div>
+      </div>`,
+  });
+}
+
 // ---------------------------------------------------------------- form view
 
 async function renderForm(root, r) {
@@ -375,6 +471,7 @@ export default {
     seedUI.close();
     openId = null;
     draft = null;
+    editing = false;
     mode = 'search';
   },
 
@@ -397,7 +494,8 @@ export default {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('combinations', openId));
       }
-      await renderForm(root, draft);
+      if (editing || openId === 'new') await renderForm(root, draft);
+      else await renderRead(root, draft);
     } else if (mode === 'records') {
       draft = null;
       await renderList(root);
@@ -424,17 +522,22 @@ export default {
         } catch (err) { alert(err.message); }
         return;
       }
-      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
+      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
+      if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
 
       const card = e.target.closest('[data-open]');
-      if (card) { draft = null; openId = card.dataset.open; return this.render(root); }
+      if (card) { draft = null; openId = card.dataset.open; editing = false; return this.render(root); }
 
-      if (e.target.closest('[data-back]')) { openId = null; draft = null; return this.render(root); }
+      if (e.target.closest('[data-back]')) {
+        if (editing && openId !== 'new') { editing = false; return this.render(root); }
+        openId = null; draft = null; editing = false;
+        return this.render(root);
+      }
 
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('combinations', markEdited(draft));
-        openId = null; draft = null;
+        editing = false;
         return this.render(root);
       }
       if (e.target.closest('[data-delete]')) {
