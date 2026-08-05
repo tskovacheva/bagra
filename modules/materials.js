@@ -45,12 +45,16 @@ async function renderList(root) {
   const rows = shown.map(sx => {
     const sub = byId[sx.substanceId];
     const left = sx.remaining?.value ?? sx.quantity?.value;
+    // A jar three-quarters gone is worth noticing before the session, not
+    // during it. Fifteen percent is arbitrary but has to be some number.
+    const low = sx.quantity?.value && left != null && left <= sx.quantity.value * 0.15;
     return `<tr data-open="${sx.id}">
       <td>${esc(sub ? text(sub.name) : '—')}</td>
       <td>${esc(t('stock.form.' + sx.form))}</td>
       <td>${esc(sx.supplier || '—')}</td>
       <td>${fmtDate(sx.acquiredDate)}</td>
-      <td class="num">${left != null ? esc(left + ' ' + (sx.quantity?.unit || '')) : '—'}</td>
+      <td class="num${low ? ' low' : ''}">${left != null ? esc(left + ' ' + (sx.quantity?.unit || '')) : '—'}${
+        low ? `<span class="lowtag">${t('stock.low')}</span>` : ''}</td>
       <td class="num">${sx.concentrationPercent != null ? sx.concentrationPercent + '%' : '—'}</td>
     </tr>`;
   }).join('');

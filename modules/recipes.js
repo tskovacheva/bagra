@@ -8,7 +8,7 @@ import { all, get, put, remove, newRecord, uid, getSetting, setSetting } from '.
 import { t, text, getLang } from '../i18n.js';
 import {
   page, panel, field, options, label, esc, empty, note,
-  pairField, readPairs,
+  pairField, readPairs, fact, facts, prose, readBlock,
 } from '../ui.js';
 import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
 import chains from './chains.js';
@@ -34,6 +34,7 @@ let draft = null;
 let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null };
 let scaleChoices = {};
 let returnTo = null;
+let editing = false;
 
 const returnBar = () => returnTo
   ? `<button class="btn" data-returnto>← ${esc(returnTo.label)}</button>` : '';
@@ -295,6 +296,99 @@ function followOnRows(r, allRecipes) {
   }).join('');
 }
 
+// A recipe is followed standing over a pot, and the question at each moment is
+// "what do I put in now, how much, how hot, for how long". Two parallel panels
+// — steps on one side, quantities on the other — force that answer to be
+// assembled from two places every time.
+async function renderRead(root, r) {
+  const substances = await all('substances');
+  const plantsById = new Map((await all('plants')).map(p => [p.id, p]));
+  const byId = new Map(substances.map(x => [x.id, x]));
+  const allRecipes = await all('recipes');
+
+  const scaled = scaleRecipe(r, {
+    ...scaleCtx, choices: scaleChoices,
+    bathLitres: r.scaleBy === 'volume' ? (scaleCtx.bathLitres ?? r.defaultLitres) : null,
+  });
+
+  const nameOf = async (o, roleCode) => {
+    if (o?.plantId) {
+      const p = plantsById.get(o.plantId);
+      const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
+      const form = o.condition ? ', ' + t('materials.form.' + o.condition) : '';
+      return (p ? text(p.nameCommon) : '—') + part + form;
+    }
+    const sub = byId.get(o?.substanceId);
+    return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
+  };
+
+  const amounts = (await Promise.all(scaled.ingredients.map(async ing => {
+    const amount = ing.scaledAmount != null
+      ? ing.scaledAmount
+      : (ing.scaledMin != null ? `${ing.scaledMin}–${ing.scaledMax}` : '—');
+    return `
+      <div class="weighline">
+        <span class="weighname">${esc(await nameOf(ing.option, ing.roleCode))}</span>
+        <span class="weighamount">${amount} <small>${esc(ing.scaledUnit || '')}</small></span>
+      </div>`;
+  }))).join('');
+
+  const conditions = [
+    r.tempC != null ? `${r.tempC} °C` : '',
+    r.heldMinutes ? `${r.heldMinutes} ${t('common.min')}` : '',
+    r.restMinutes ? `+ ${r.restMinutes} ${t('common.min')}` : '',
+    scaled.bathLitres != null ? `${scaled.bathLitres} ${t('tools.litres')}` : '',
+  ].filter(Boolean).join(' · ');
+
+  const steps = (r.steps || []).map((st, i) => `
+    <li class="workstep">
+      <span class="stepnum">${i + 1}</span>
+      <div class="prose"><p>${esc(text(st.text) || '—')}</p></div>
+    </li>`).join('');
+
+  const follow = (r.requiredFollowOn || [])
+    .map(id => allRecipes.find(x => x.id === id)).filter(Boolean)
+    .map(x => esc(text(x.name))).join(', ');
+
+  root.innerHTML = page({
+    title: text(r.name) || t('recipes.one'),
+    sub: `${await label('recipe_type', r.type)} · ${t('recipes.version', { n: r.version || 1 })}`,
+    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+              <button class="btn primary" data-edit>${t('common.edit')}</button>`,
+    body: `
+      ${panel(`
+        <h2>${t('recipes.workView')}</h2>
+        <p class="note">${t('recipes.workHint')}</p>
+        <div class="workhead">
+          ${r.scaleBy === 'volume'
+            ? `<label class="inlinefield"><span>${t('recipes.forLitres')}</span>
+                 <input type="number" step="0.5" min="0" data-scale="bathLitres" value="${scaleCtx.bathLitres ?? r.defaultLitres ?? ''}"></label>`
+            : `<label class="inlinefield"><span>${t('recipes.forWeight')}</span>
+                 <input type="number" step="10" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}"></label>
+               <label class="inlinefield"><span>${t('recipes.forFibre')}</span>
+                 <select data-scale="fibreClass">${await options('fibre_class', scaleCtx.fibreClass, '')}</select></label>`}
+        </div>
+
+        <div class="weighbox">
+          <span class="weightitle">${t('recipes.weigh')}</span>
+          ${amounts || `<p class="hint">—</p>`}
+        </div>
+
+        ${conditions ? `<p class="conditions">${esc(conditions)}</p>` : ''}
+        ${steps ? `<ol class="worksteps">${steps}</ol>` : ''}
+        ${follow ? note(`${t('recipes.thenFollow')} <b>${follow}</b>`, 'warn') : ''}
+      `)}
+
+      <div class="gap"></div>
+
+      ${readBlock('', facts([
+        fact(t('recipes.appliesTo'), (await Promise.all((r.appliesTo || []).map(c => label('fibre_class', c)))).join(', ')),
+        fact(t('recipes.learnedFrom'), esc(r.learnedFrom || '')),
+        r.distributable === false ? fact(t('recipes.notDistributable'), '✓') : '',
+      ]) + prose(r.notes))}`,
+  });
+}
+
 async function renderForm(root, r) {
   const isNew = openId === 'new';
   const allRecipes = await all('recipes');
@@ -481,6 +575,7 @@ export default {
   reset() {
     openId = null;
     draft = null;
+    editing = false;
     mode = 'recipes';
     chains.reset?.();
   },
@@ -509,7 +604,8 @@ export default {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('recipes', openId));
       }
-      await renderForm(root, draft);
+      if (editing || openId === 'new') await renderForm(root, draft);
+      else await renderRead(root, draft);
     } else {
       draft = null;
       await renderList(root);
@@ -525,10 +621,15 @@ export default {
 
       const ty = e.target.closest('[data-type]');
       if (ty) { filterType = ty.dataset.type || null; return this.render(root); }
-      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; return this.render(root); }
+      if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
+      if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
       const row = e.target.closest('[data-open]');
-      if (row) { draft = null; openId = row.dataset.open; return this.render(root); }
-      if (e.target.closest('[data-back]')) { openId = null; draft = null; return this.render(root); }
+      if (row) { draft = null; openId = row.dataset.open; editing = false; return this.render(root); }
+      if (e.target.closest('[data-back]')) {
+        if (editing && openId !== 'new') { editing = false; return this.render(root); }
+        openId = null; draft = null; editing = false;
+        return this.render(root);
+      }
 
       if (e.target.closest('[data-ing-add]')) {
         readForm(root);
@@ -610,8 +711,9 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('recipes', draft);
-        openId = null; draft = null;
+        editing = false;
         if (returnTo) {
+          openId = null; draft = null;
           const target = returnTo;
           await setSetting('returnTo', null);
           location.hash = '#/' + target.module;

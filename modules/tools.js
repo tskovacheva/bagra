@@ -17,7 +17,7 @@ import { text } from '../i18n.js';
 // clear the rest.
 // Everyday conversions first; the purchase-planning one last, since it is
 // consulted rarely and belongs to stock rather than to a dye session.
-const CALCS = ['backup', 'alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
+const CALCS = ['backup', 'timer', 'alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
 
 // Substances come from the Substances module — the calculator keeps no table
 // of its own, or the two would drift apart.
@@ -26,6 +26,18 @@ let storage = { persisted: false, usage: null, supported: false };
 let bstate = { never: true, changes: 0, days: null };
 let counts = {};
 let importMode = 'merge';
+
+// Kept outside the render so switching tabs does not silently cancel a steam
+// that is already running.
+const timer = { minutes: 60, endsAt: null, tick: null };
+
+function timerLeft() {
+  if (!timer.endsAt) return null;
+  return Math.max(0, Math.round((timer.endsAt - Date.now()) / 1000));
+}
+
+const mmss = (secs) =>
+  `${String(Math.floor(secs / 60)).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`;
 let active = 'alum';
 
 const state = {
@@ -144,6 +156,23 @@ function render(root) {
       </div>
       <p class="hint">${t('tools.exhaustCaveat')}</p>` : ''}`,
 
+    timer: `
+      <div class="timerface${timer.endsAt ? ' running' : ''}">
+        ${timer.endsAt ? mmss(timerLeft()) : mmss((timer.minutes || 0) * 60)}
+      </div>
+      ${field(t('tools.timerMinutes'), num('timer.minutes', timer.minutes))}
+      <div class="btnrow">
+        ${timer.endsAt
+          ? `<button class="btn" data-timer-stop>${t('tools.timerStop')}</button>`
+          : `<button class="btn primary" data-timer-start>${t('tools.timerStart')}</button>`}
+        <button class="btn quiet" data-timer-reset>${t('tools.timerReset')}</button>
+      </div>
+      <p class="hint">${t('tools.timerPresets')}</p>
+      <div class="boxes">
+        ${[15, 30, 45, 60, 90, 120].map(m =>
+          `<button class="box" data-timer-preset="${m}"><span class="boxname">${m} ${t('common.min')}</span></button>`).join('')}
+      </div>`,
+
     backup: `
       <div class="calcresults" style="margin-top:0;border-top:0;padding-top:0">
         <p class="note ${bstate.never || (bstate.days ?? 0) > 14 ? 'warn' : ''}">
@@ -194,7 +223,7 @@ function render(root) {
 
   const titles = { alum: 'tools.alum', reverse: 'tools.reverse', wof: 'tools.wof',
                    solution: 'tools.solution', bath: 'tools.bath', drying: 'tools.drying',
-                   exhaust: 'tools.exhaust', backup: 'backup.title' };
+                   exhaust: 'tools.exhaust', backup: 'backup.title', timer: 'tools.timer' };
 
   root.innerHTML = page({
     title: t('tools.title'),
@@ -222,6 +251,22 @@ function apply(el) {
     : el.value;
 }
 
+function startTicking(root) {
+  clearInterval(timer.tick);
+  timer.tick = setInterval(() => {
+    const face = root.querySelector('.timerface');
+    const left = timerLeft();
+    if (left == null) return;
+    if (face) face.textContent = mmss(left);
+    if (left === 0) {
+      clearInterval(timer.tick); timer.tick = null;
+      timer.endsAt = null;
+      alert(t('tools.timerDone'));
+      render(root);
+    }
+  }, 1000);
+}
+
 export default {
   id: 'tools',
   title: () => t('tools.title'),
@@ -243,6 +288,24 @@ export default {
     root.onclick = async (e) => {
       const pick = e.target.closest('[data-calc-pick]');
       if (pick) { active = pick.dataset.calcPick; return render(root); }
+
+      const preset = e.target.closest('[data-timer-preset]');
+      if (preset) {
+        timer.minutes = Number(preset.dataset.timerPreset);
+        timer.endsAt = Date.now() + timer.minutes * 60000;
+        startTicking(root);
+        return render(root);
+      }
+      if (e.target.closest('[data-timer-start]')) {
+        timer.endsAt = Date.now() + (timer.minutes || 0) * 60000;
+        startTicking(root);
+        return render(root);
+      }
+      if (e.target.closest('[data-timer-stop]') || e.target.closest('[data-timer-reset]')) {
+        timer.endsAt = null;
+        clearInterval(timer.tick); timer.tick = null;
+        return render(root);
+      }
 
       if (e.target.closest('[data-checkupdate]')) {
         const btn = e.target.closest('[data-checkupdate]');

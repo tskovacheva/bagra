@@ -408,6 +408,31 @@ label.btn{cursor:pointer}
 
 .gap{height:16px}
 
+/* ---------- working view ---------- */
+.workhead{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.weighbox{background:var(--ground);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+.weightitle{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.weighline{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0;border-bottom:1px solid var(--line)}
+.weighline:last-child{border-bottom:0}
+.weighname{font-size:14px}
+.weighamount{font-size:22px;font-weight:600;color:var(--indigo);font-variant-numeric:tabular-nums;white-space:nowrap}
+.weighamount small{font-size:13px;font-weight:400;color:var(--muted)}
+.conditions{font-size:14px;color:var(--muted);margin:0 0 14px}
+.worksteps{list-style:none;margin:0;padding:0}
+.workstep{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.workstep .stepnum{margin-top:1px;flex:0 0 22px}
+
+.grid td.low{color:var(--madder)}
+.lowtag{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase}
+
+.timerface{
+  font-size:52px;font-weight:600;color:var(--indigo);
+  font-variant-numeric:tabular-nums;text-align:center;
+  padding:18px 0;margin-bottom:8px;
+  background:var(--ground);border-radius:var(--radius);
+}
+.timerface.running{color:var(--madder)}
+
 /* ---------- read mode ---------- */
 .factgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px 20px}
 .fact{padding:7px 0;border-bottom:1px solid var(--line)}
@@ -528,6 +553,31 @@ label.btn{cursor:pointer}
 .updatebar .btn.quiet{color:rgba(255,255,255,.75);padding:5px 8px}
 .updatebar .btn.quiet:hover{background:rgba(255,255,255,.12);color:#fff}
 @media (max-width:820px){.gap{height:16px}
+
+/* ---------- working view ---------- */
+.workhead{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.weighbox{background:var(--ground);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+.weightitle{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.weighline{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0;border-bottom:1px solid var(--line)}
+.weighline:last-child{border-bottom:0}
+.weighname{font-size:14px}
+.weighamount{font-size:22px;font-weight:600;color:var(--indigo);font-variant-numeric:tabular-nums;white-space:nowrap}
+.weighamount small{font-size:13px;font-weight:400;color:var(--muted)}
+.conditions{font-size:14px;color:var(--muted);margin:0 0 14px}
+.worksteps{list-style:none;margin:0;padding:0}
+.workstep{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.workstep .stepnum{margin-top:1px;flex:0 0 22px}
+
+.grid td.low{color:var(--madder)}
+.lowtag{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase}
+
+.timerface{
+  font-size:52px;font-weight:600;color:var(--indigo);
+  font-variant-numeric:tabular-nums;text-align:center;
+  padding:18px 0;margin-bottom:8px;
+  background:var(--ground);border-radius:var(--radius);
+}
+.timerface.running{color:var(--madder)}
 
 /* ---------- read mode ---------- */
 .factgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px 20px}
