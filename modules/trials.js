@@ -37,6 +37,8 @@ function blank() {
     placements: [],
     assessment: '',
     assessmentWhy: '',
+    repeat: '',
+    nextTime: '',
     resultPhotos: [],
     notes: '',
   });
@@ -316,7 +318,17 @@ async function renderRead(root, r) {
     actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
               <button class="btn primary" data-edit>${t('common.edit')}</button>`,
     body: `
-      ${photos ? `<div class="resultphotos big">${photos}</div>` : ''}
+      <div class="headline">
+        ${photos ? `<div class="resultphotos big" style="flex:1;margin:0">${photos}</div>` : ''}
+        <div class="headlinebody">
+          <h2>${esc(await label('assessment', r.assessment) || t('trials.headlineResult'))}</h2>
+          ${r.assessmentWhy ? `<div class="prose"><p>${esc(r.assessmentWhy)}</p></div>` : ''}
+          ${facts([
+            fact(t('trials.repeat'), esc(await label('repeat', r.repeat))),
+            fact(t('trials.nextTime'), esc(r.nextTime || '')),
+          ])}
+        </div>
+      </div>
 
       ${panel(facts([
         fact(t('trials.process'), esc(await label('process', r.processCode))),
@@ -324,7 +336,6 @@ async function renderRead(root, r) {
         fact(t('trials.fabrics'), esc(fabricNames.join(', '))),
         fact(t('trials.weightOfGoods'), r.weightOfGoodsG ? `${r.weightOfGoodsG} г` : ''),
         fact(t('trials.water'), esc([await label('water_source', r.water?.sourceCode), r.water?.note].filter(Boolean).join(' · '))),
-        fact(t('trials.assessment'), esc(await label('assessment', r.assessment))),
       ]))}
 
       <div class="gap"></div>
@@ -335,7 +346,6 @@ async function renderRead(root, r) {
         </div>
         <div class="col">
           ${readBlock(t('trials.steps'), steps)}
-          ${readBlock(t('trials.assessmentWhy'), r.assessmentWhy ? `<div class="prose"><p>${esc(r.assessmentWhy)}</p></div>` : '')}
           ${readBlock(t('common.notes'), r.notes ? `<div class="prose"><p>${esc(r.notes)}</p></div>` : '')}
         </div>
       </div>`,
@@ -422,14 +432,18 @@ async function renderForm(root, r) {
           `)}
 
           ${panel(`
-            <h2>${t('trials.result')}</h2>
+            <h2>${t('trials.pieceResult')}</h2>
             <div class="resultphotos">${photos}</div>
             <div class="btnrow">
               <label class="btn quiet" for="resultphoto">${t('trials.addPhoto')}</label>
               <input type="file" id="resultphoto" accept="image/*" multiple hidden>
             </div>
-            ${field(t('trials.assessment'), `<select data-f="assessment">${await options('assessment', r.assessment)}</select>`)}
+            ${field(t('trials.assessment'), `<select data-f="assessment">${await options('assessment', r.assessment)}</select>`, t('trials.pieceResultHint'))}
             ${field(t('trials.assessmentWhy'), `<textarea data-f="assessmentWhy" rows="3">${esc(r.assessmentWhy || '')}</textarea>`)}
+            ${field(t('trials.repeat'), `<select data-f="repeat">${await options('repeat', r.repeat)}</select>`)}
+            ${r.repeat === 'changes' || r.nextTime
+              ? field(t('trials.nextTime'), `<textarea data-f="nextTime" rows="2" placeholder="${t('trials.nextTimePlaceholder')}">${esc(r.nextTime || '')}</textarea>`)
+              : ''}
             ${field(t('trials.notes'), `<textarea data-f="notes" rows="3">${esc(r.notes || '')}</textarea>`)}
             ${!isNew ? `<button class="btn danger quiet" data-delete>${t('trials.delete')}</button>` : ''}
           `)}
@@ -596,6 +610,7 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('trials', draft);
+        openId = draft.id;
         editing = false;
         return this.render(root);
       }
@@ -627,7 +642,9 @@ export default {
       }
 
       // Switching process changes which fields apply, so the form is redrawn.
-      if (e.target.matches('[data-f="processCode"]')) { readForm(root); return redraw(); }
+      if (e.target.matches('[data-f="processCode"]') || e.target.matches('[data-f="repeat"]')) {
+        readForm(root); return redraw();
+      }
       if ((e.target.dataset.step || '').endsWith('.typeCode')) { readForm(root); return redraw(); }
     };
   },

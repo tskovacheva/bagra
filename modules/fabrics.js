@@ -287,14 +287,6 @@ async function renderForm(root, record) {
               <input type="file" id="fabricphoto" accept="image/*" hidden>
               <p class="hint">${t('fabrics.photoHint')}</p>
             </div>
-            <div class="photobox">
-              ${record.photoData
-                ? `<img class="plantphoto" src="${record.photoData}" alt="">
-                   <button class="btn quiet" data-photo-del>${t('fabrics.removePhoto')}</button>`
-                : `<label class="btn quiet" for="fabricphoto">${t('fabrics.addPhoto')}</label>`}
-              <input type="file" id="fabricphoto" accept="image/*" hidden>
-              <p class="hint">${t('fabrics.photoHint')}</p>
-            </div>
             ${field(t('fabrics.label'), `<input type="text" data-f="label" class="mono" value="${esc(record.label || '')}">`,
               t('fabrics.labelHint'))}
             ${field(t('fabrics.name'), `<input type="text" data-f="name" value="${esc(record.name || '')}" placeholder="${t('fabrics.namePlaceholder')}">`)}
@@ -488,12 +480,6 @@ export default {
         return this.render(root);
       }
 
-      if (e.target.closest('[data-photo-del]')) {
-        readForm(root);
-        draft.photoData = null;
-        return renderForm(root, draft);
-      }
-
       // Ten identical scarves stay one record until one of them stops being
       // identical. Splitting a piece off — rather than creating ten records up
       // front — matches when the divergence actually happens.
@@ -531,6 +517,11 @@ export default {
         delete draft.count;
 
         if (openId === 'new' && count > 1) {
+          // Ten separate records ARE the ten pieces, so each holds one. Copying
+          // the entered quantity onto every copy made all ten look like batches
+          // of ten, and the split panel appeared on each — two mechanisms for
+          // one idea, contradicting each other.
+          draft.quantity = { ...(draft.quantity || {}), value: 1 };
           const labels = [draft.label];
           await put('fabrics', draft);
           for (let i = 1; i < count; i++) {

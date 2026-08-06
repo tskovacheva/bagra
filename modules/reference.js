@@ -537,6 +537,7 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('combinations', markEdited(draft));
+        openId = draft.id;
         editing = false;
         return this.render(root);
       }

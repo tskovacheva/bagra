@@ -711,6 +711,7 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('recipes', draft);
+        openId = draft.id;
         editing = false;
         if (returnTo) {
           openId = null; draft = null;

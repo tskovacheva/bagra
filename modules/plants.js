@@ -648,6 +648,7 @@ export default {
       if (e.target.closest('[data-save]')) {
         readForm(root);
         await put('plants', markEdited(draft));
+        openId = draft.id;
         editing = false;
         return this.render(root);
       }

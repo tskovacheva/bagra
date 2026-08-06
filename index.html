@@ -271,8 +271,16 @@ label.btn{cursor:pointer}
 .orsep{display:flex;align-items:center;gap:8px;margin:2px 0 6px}
 .orsep::before,.orsep::after{content:"";flex:1;height:1px;background:var(--line)}
 .orsep span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.optrow{display:grid;grid-template-columns:1.3fr auto auto auto 66px 66px 1fr auto;gap:6px;margin-bottom:6px;align-items:center}
+.optrow{
+  display:grid;gap:6px;margin-bottom:8px;align-items:center;
+  grid-template-columns:minmax(150px,1.6fr) auto auto auto 62px 62px minmax(90px,1fr) auto;
+}
 .optrow > *{min-width:0}
+.optrow > select:first-child{font-weight:500}
+@media (max-width:1100px){
+  .optrow{grid-template-columns:1fr 1fr 1fr auto}
+  .optrow > select:first-child{grid-column:1 / -2}
+}
 .optrow input,.optrow select{font-size:13px;padding:5px 7px}
 .followrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}
 .followrow:last-child{border-bottom:0}

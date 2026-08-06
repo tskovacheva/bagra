@@ -270,6 +270,14 @@ export const VOCABULARY = [
   V('confidence', 'confirmed',    'потвърдено',       'confirmed by trials', 3),
   V('confidence', 'contradicted', 'опровергано',      'contradicted by trials', 4),
 
+  // "Successful" and "worth doing again" are different questions: a technically
+  // clean result can be dull, and a failed piece can reveal an effect worth
+  // chasing. Both belong on a trial.
+  V('repeat', 'yes',     'да, без промени', 'yes, unchanged', 1),
+  V('repeat', 'changes', 'да, с промени',   'yes, with changes', 2),
+  V('repeat', 'no',      'не',              'no', 3),
+  V('repeat', 'unsure',  'още не знам',     'not sure yet', 4),
+
   V('assessment', 'success', 'успех',    'success', 1),
   V('assessment', 'partial', 'частично', 'partial', 2),
   V('assessment', 'failure', 'неуспех',  'failure', 3),
