@@ -3,7 +3,6 @@
 import { all, get, put, remove, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t } from '../i18n.js';
 import { shrinkThumb } from '../photo.js';
-import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
          fact, facts, readBlock } from '../ui.js';
 import {

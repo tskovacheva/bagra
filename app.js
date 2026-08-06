@@ -49,6 +49,9 @@ const NAV = [
 // Four modules earn a permanent place on a phone; the rest are one tap away
 // behind "more". A bar of five fixed entries left seven modules — the backup
 // among them — unreachable on the device most likely to be lost or replaced.
+// Exported so the pre-deploy boot check can visit every module.
+export const MODULE_IDS = Object.keys(MODULES);
+
 const PHONE_NAV = ['dashboard', 'reference', 'plants', 'recipes'];
 
 const $ = (sel) => document.querySelector(sel);

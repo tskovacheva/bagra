@@ -422,6 +422,18 @@ label.btn{cursor:pointer}
 .workstep{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
 .workstep .stepnum{margin-top:1px;flex:0 0 22px}
 
+.grid td.pick,.grid th.pick{width:34px;padding-right:0}
+.grid td.pick input{width:auto;margin:0}
+.bulkbar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--indigo);color:#fff;border-radius:var(--radius);
+  padding:10px 14px;margin-bottom:12px;font-size:13.5px;
+}
+.bulkbar select{width:auto;min-width:150px;background:var(--surface);border-color:var(--surface)}
+.bulkbar .btn.primary{background:var(--surface);border-color:var(--surface);color:var(--indigo)}
+.bulkbar .btn.quiet{color:rgba(255,255,255,.8)}
+.bulkbar .btn.quiet:hover{background:rgba(255,255,255,.12);color:#fff}
+
 .grid td.low{color:var(--madder)}
 .lowtag{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase}
 
@@ -577,6 +589,7 @@ label.btn{cursor:pointer}
 .worksteps{list-style:none;margin:0;padding:0}
 .workstep{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
 .workstep .stepnum{margin-top:1px;flex:0 0 22px}
+
 
 .grid td.low{color:var(--madder)}
 .lowtag{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase}
