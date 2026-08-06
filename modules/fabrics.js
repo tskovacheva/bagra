@@ -2,6 +2,8 @@
 
 import { all, get, put, remove, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t } from '../i18n.js';
+import { shrinkThumb } from '../photo.js';
+import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
          fact, facts, readBlock } from '../ui.js';
 import {
@@ -14,6 +16,8 @@ let openId = null;        // null = list, 'new' = blank form, id = that record
 let draft = null;
 // Reading is the default; the form opens only when asked for.
 let editing = false;
+let selected = new Set();
+let bulkState = '';
 
 // The code written on the pinned paper tag. Short enough to write by hand;
 // everything else lives in the app.
@@ -43,7 +47,8 @@ function blank() {
     state: 'unwashed',
     stateEvents: [],
     notes: '',
-    photos: [],
+    photoData: null,
+    count: 1,
   });
 }
 
@@ -76,7 +81,9 @@ async function renderList(root) {
       `${c.percent}% ${await label('fibre', c.fibreCode)}`));
     const cured = daysSinceMordanted(f);
     return `<tr data-open="${f.id}">
-      <td class="mono">${esc(f.label || '')}</td>
+      <td class="pick"><input type="checkbox" data-pick="${f.id}"${selected.has(f.id) ? ' checked' : ''}></td>
+      <td class="withthumb">${f.photoData ? `<img class="thumb" src="${f.photoData}" alt="">` : ''}
+        <span class="mono">${esc(f.label || '')}</span></td>
       <td>${esc(f.name || '—')}</td>
       <td>${esc(compNames.join(' + '))}</td>
       <td>${esc(await label('fibre_class', fibreClass(f.composition)))}</td>
@@ -90,7 +97,7 @@ async function renderList(root) {
   const table = shown.length ? `
     <table class="grid">
       <thead><tr>
-        <th>${t('fabrics.col.label')}</th><th>${t('fabrics.col.name')}</th><th>${t('fabrics.col.composition')}</th><th>${t('fabrics.col.class')}</th>
+        <th class="pick"></th><th>${t('fabrics.col.label')}</th><th>${t('fabrics.col.name')}</th><th>${t('fabrics.col.composition')}</th><th>${t('fabrics.col.class')}</th>
         <th>${t('fabrics.col.structure')}</th><th class="num">${t('fabrics.col.weight')}</th><th>${t('fabrics.col.box')}</th>
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
@@ -111,6 +118,13 @@ async function renderList(root) {
         </button>
         ${boxes.join('')}
       </div>
+      ${selected.size ? `
+        <div class="bulkbar">
+          <span>${t('fabrics.selected', { n: selected.size })}</span>
+          <select data-bulkstate>${await options('fabric_state', bulkState, t('fabrics.bulkState'))}</select>
+          <button class="btn primary" data-bulk-apply ${bulkState ? '' : 'disabled'}>${t('fabrics.bulkApply')}</button>
+          <button class="btn quiet" data-bulk-clear>${t('fabrics.clearSelection')}</button>
+        </div>` : ''}
       ${panel(table, 'flush')}`,
   });
 }
@@ -123,6 +137,9 @@ async function renderList(root) {
 // as a list of fields.
 
 async function renderRead(root, r) {
+  const qty = Number(r.quantity?.value) || 1;
+  const children = (await all('fabrics')).filter(x => x.fromBatchId === r.id);
+  const parent = r.fromBatchId ? await get('fabrics', r.fromBatchId) : null;
   const compNames = (await Promise.all((r.composition || []).map(async c =>
     `${c.percent}% ${await label('fibre', c.fibreCode)}`))).join(' + ');
   const cls = fibreClass(r.composition);
@@ -154,10 +171,13 @@ async function renderRead(root, r) {
               <button class="btn primary" data-edit>${t('common.edit')}</button>`,
     body: `
       <div class="headline">
+        ${r.photoData ? `<img src="${r.photoData}" alt="">` : ''}
         <div class="headlinebody">
           <h2>${esc(r.name || '—')} <span class="chip">${esc(await label('fabric_state', currentState(r)))}</span></h2>
           <div class="latin">${esc(r.label || '')}</div>
           ${cured != null ? `<p class="hint">${t('fabrics.curedFor', { n: cured })}</p>` : ''}
+          ${qty > 1 ? `<p class="hint">${t('fabrics.pieces', { n: qty })}</p>` : ''}
+          ${parent ? `<p class="hint" data-open="${parent.id}" style="cursor:pointer">${t('fabrics.fromBatch', { label: esc(parent.label) })}</p>` : ''}
         </div>
       </div>
 
@@ -181,6 +201,18 @@ async function renderRead(root, r) {
         <div class="col">
           ${readBlock(t('fabrics.biography'), timeline ? `<ul class="timeline">${timeline}</ul>` : '')}
           ${readBlock(t('fabrics.usedIn'), trialList)}
+
+          ${qty > 1 ? panel(`
+            <h2>${t('fabrics.batch')} — ${t('fabrics.pieces', { n: qty })}</h2>
+            <p class="note">${t('fabrics.splitHint')}</p>
+            <div class="mediumrow">
+              <input type="number" min="1" max="${qty - 1}" value="1" data-splitcount>
+              <button class="btn" data-split>${t('fabrics.splitDo')}</button>
+            </div>
+          `) : ''}
+
+          ${children.length ? readBlock(t('fabrics.splitOff'), `<ul class="history">${children.map(c =>
+            `<li data-open="${c.id}" style="cursor:pointer"><b>${esc(c.label)}</b> <span class="hint">${esc(c.name || '')}</span></li>`).join('')}</ul>`) : ''}
         </div>
       </div>`,
   });
@@ -248,6 +280,22 @@ async function renderForm(root, record) {
         <div class="col">
           ${panel(`
             <h2>${t('fabrics.identity')}</h2>
+            <div class="photobox">
+              ${record.photoData
+                ? `<img class="plantphoto" src="${record.photoData}" alt="">
+                   <button class="btn quiet" data-photo-del>${t('fabrics.removePhoto')}</button>`
+                : `<label class="btn quiet" for="fabricphoto">${t('fabrics.addPhoto')}</label>`}
+              <input type="file" id="fabricphoto" accept="image/*" hidden>
+              <p class="hint">${t('fabrics.photoHint')}</p>
+            </div>
+            <div class="photobox">
+              ${record.photoData
+                ? `<img class="plantphoto" src="${record.photoData}" alt="">
+                   <button class="btn quiet" data-photo-del>${t('fabrics.removePhoto')}</button>`
+                : `<label class="btn quiet" for="fabricphoto">${t('fabrics.addPhoto')}</label>`}
+              <input type="file" id="fabricphoto" accept="image/*" hidden>
+              <p class="hint">${t('fabrics.photoHint')}</p>
+            </div>
             ${field(t('fabrics.label'), `<input type="text" data-f="label" class="mono" value="${esc(record.label || '')}">`,
               t('fabrics.labelHint'))}
             ${field(t('fabrics.name'), `<input type="text" data-f="name" value="${esc(record.name || '')}" placeholder="${t('fabrics.namePlaceholder')}">`)}
@@ -282,6 +330,7 @@ async function renderForm(root, record) {
             ${field(t('fabrics.dimensions'), `<input type="text" data-f="dimensions" value="${esc(record.dimensions || '')}" placeholder="${t('fabrics.dimensionsPlaceholder')}">`)}
             ${field(t('fabrics.gsm'), `<input type="number" step="1" min="0" data-f="weightGsm" value="${record.weightGsm ?? ''}">`)}
             ${field(t('fabrics.quantity'), `<input type="number" step="0.1" min="0" data-f="quantity.value" value="${record.quantity?.value ?? 1}">`)}
+            ${isNew ? field(t('fabrics.count'), `<input type="number" step="1" min="1" max="50" data-f="count" value="${record.count ?? 1}">`, t('fabrics.countHint')) : ''}
           `)}
 
           ${panel(`
@@ -350,6 +399,8 @@ export default {
     draft = null;
     editing = false;
     filterState = null;
+    selected.clear();
+    bulkState = '';
   },
 
   async render(root) {
@@ -409,12 +460,97 @@ export default {
         return renderForm(root, draft);
       }
 
+      if (e.target.closest('[data-photo-del]')) {
+        readForm(root);
+        draft.photoData = null;
+        return renderForm(root, draft);
+      }
+
+      if (e.target.closest('[data-bulk-clear]')) { selected.clear(); return this.render(root); }
+
+      // Fifteen pieces into one mordant bath is one action, not fifteen. Doing
+      // it record by record is where the habit of recording dies.
+      if (e.target.closest('[data-bulk-apply]')) {
+        if (!bulkState) return;
+        const stamp = today();
+        for (const id of selected) {
+          const f = await get('fabrics', id);
+          if (!f) continue;
+          f.stateEvents = f.stateEvents || [];
+          f.stateEvents.push({
+            id: uid(), date: stamp, stateCode: bulkState,
+            recipeId: null, trialId: null, note: '',
+            createdAt: new Date().toISOString(),
+          });
+          await put('fabrics', f);
+        }
+        alert(t('fabrics.bulkDone', { n: selected.size }));
+        selected.clear(); bulkState = '';
+        return this.render(root);
+      }
+
+      if (e.target.closest('[data-photo-del]')) {
+        readForm(root);
+        draft.photoData = null;
+        return renderForm(root, draft);
+      }
+
+      // Ten identical scarves stay one record until one of them stops being
+      // identical. Splitting a piece off — rather than creating ten records up
+      // front — matches when the divergence actually happens.
+      if (e.target.closest('[data-split]')) {
+        const n = Math.max(1, Math.min(
+          (Number(draft.quantity?.value) || 1) - 1,
+          Number(root.querySelector('[data-splitcount]')?.value) || 1));
+
+        for (let i = 0; i < n; i++) {
+          const piece = structuredClone(draft);
+          piece.id = uid();
+          piece.label = await nextLabel();
+          piece.quantity = { value: 1, unit: draft.quantity?.unit || 'pcs' };
+          piece.fromBatchId = draft.id;
+          piece.stateEvents = [];
+          piece.createdAt = new Date().toISOString();
+          await put('fabrics', piece);
+        }
+
+        draft.quantity = { ...draft.quantity, value: (Number(draft.quantity?.value) || 1) - n };
+        await put('fabrics', draft);
+        alert(t('fabrics.splitDone', { n, left: draft.quantity.value }));
+        return this.render(root);
+      }
+
       if (e.target.closest('[data-save]')) {
         readForm(root);
         const total = compositionTotal(draft.composition);
         if (draft.composition.length && Math.round(total) !== 100 &&
             !confirm(t('fabrics.confirmTotal', { total }))) return;
+        // Ten identical scarves really are ten pieces: each gets washed,
+        // mordanted and used on its own schedule. What was missing was not a
+        // quantity field but a way to create them in one go.
+        const count = Math.max(1, Math.min(50, Number(draft.count) || 1));
+        delete draft.count;
+
+        if (openId === 'new' && count > 1) {
+          const labels = [draft.label];
+          await put('fabrics', draft);
+          for (let i = 1; i < count; i++) {
+            const copy = structuredClone(draft);
+            copy.id = uid();
+            copy.label = await nextLabel();
+            copy.createdAt = new Date().toISOString();
+            labels.push(copy.label);
+            await put('fabrics', copy);
+          }
+          alert(t('fabrics.created', { n: count, from: labels[0], to: labels[labels.length - 1] }));
+          openId = null; draft = null; editing = false;
+          return this.render(root);
+        }
+
         await put('fabrics', draft);
+        // Saving returns to reading the record, not to the form it was just
+        // written in — otherwise a new piece leaves one staring at empty fields.
+        openId = draft.id;
         editing = false;
         return this.render(root);
       }
@@ -427,16 +563,30 @@ export default {
       }
     };
 
-    root.oninput = async (e) => {
-      if (e.target.matches('[data-comp-pct]')) await refreshDerived(root);
-    };
-
     root.onchange = async (e) => {
+      const pick = e.target.closest('[data-pick]');
+      if (pick) {
+        pick.checked ? selected.add(pick.dataset.pick) : selected.delete(pick.dataset.pick);
+        return this.render(root);
+      }
+      if (e.target.matches('[data-bulkstate]')) { bulkState = e.target.value; return this.render(root); }
+
+      if (e.target.id === 'fabricphoto' && e.target.files?.[0]) {
+        readForm(root);
+        draft.photoData = await shrinkThumb(e.target.files[0]);
+        return renderForm(root, draft);
+      }
+
       if (e.target.matches('[data-f="origin"]')) {
         readForm(root);
         return renderForm(root, draft);
       }
       if (e.target.matches('[data-comp-fibre]')) await refreshDerived(root);
     };
+
+    root.oninput = async (e) => {
+      if (e.target.matches('[data-comp-pct]')) await refreshDerived(root);
+    };
+
   },
 };
