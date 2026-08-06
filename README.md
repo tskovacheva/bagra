@@ -39,6 +39,21 @@ your water, your fabrics and your local plants.
 
 Reference and Combinations are one module: the search *is* the reference engine.
 
+## Four modes, kept apart
+
+The app does four different things, and the interface says which one it is doing. Running them
+together was the single biggest usability problem it has had.
+
+| | |
+|---|---|
+| **Finding an answer** | Reference — partial search, with your own results beneath the expected one |
+| **Following a procedure** | A recipe's working view: quantities in large figures beside the step |
+| **Recording what happened** | A trial, leading with the result |
+| **Editing library knowledge** | Behind an *Edit* button, never the default |
+
+Records open for reading. The form is one click away, and Back from it returns to reading the same
+record — one usually corrects a field and wants to see how it reads.
+
 ## Principles
 
 - **Offline-first.** IndexedDB is the only source of truth. No account, no server, no sync.
@@ -55,6 +70,12 @@ Reference and Combinations are one module: the search *is* the reference engine.
   app's own words with the source named. Records default to `distributable: false` — legitimate
   to hold locally, not automatically ours to redistribute.
 - **Derived, not duplicated.** No stored back-references; related lists are computed on open.
+- **Empty means unknown, not zero.** A blank pH is not a confirmed neutral bath; a lone quantity is
+  an exact figure, not a range starting at nothing. This craft has too many unmeasured variables to
+  let the app invent precision it does not have.
+- **Confidence travels with the claim.** Every figure can be marked *from literature*, *my own
+  trial*, *practitioner advice* or *needs testing* — per field, because a plant's dyeing temperature
+  can be well established while its preferred leaf surface is a guess.
 - **Backward compatible.** Migrations only ever add.
 
 ## Installing it
@@ -80,6 +101,7 @@ version.js            the single place a release number is written
 backup.js             export, import, storage persistence
 fabric-logic.js       composition arithmetic and state lifecycle
 modules/*.js          one file per module
+photo.js              resizing images on the way in
 calc/basic.js         % WOF, solutions, bath volume, drying, exhaust
 calc/scale.js         generic recipe scaling — roles, ranges, conditionals
 calc/alum-acetate.js  stoichiometry with substitution

@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.14 — trials built; corrections from real studio use
+**Status:** v1.15 — read modes; four modes separated; empty means unknown
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -1179,6 +1179,18 @@ a preview, and never overwrites a field listed in the local record's `editedFiel
 
 ---
 
+## 13a. Versioning and installation
+
+**One place holds the release number.** `version.js` exports `VERSION`; the sidebar shows it and the
+service worker cache name is kept in step with it. Two numbers that can drift apart is one number
+too many — a stale cache is invisible until it is expensive.
+
+**Багра installs as a PWA.** Icons in the app palette, a complete manifest, standalone display. On a
+phone this matters more than it sounds: the studio and the garden are exactly where a browser tab
+is inconvenient, and where the app must work without a signal.
+
+---
+
 ## 13b. What real use changed
 
 Four sessions of the owner working with the app in the studio produced corrections that no amount
@@ -1224,15 +1236,70 @@ quantity.
 
 ---
 
-## 13a. Versioning and installation
+## 13c. Four modes, and why they must be kept apart
 
-**One place holds the release number.** `version.js` exports `VERSION`; the sidebar shows it and the
-service worker cache name is kept in step with it. Two numbers that can drift apart is one number
-too many — a stale cache is invisible until it is expensive.
+Three independent reviews of the working app — two by other models, one by the owner — arrived at
+the same diagnosis, which is worth recording as a principle rather than as a fix: **the interface
+had become a screen-by-screen translation of the data model.** Every record opened as a form, so
+administering the record looked like the main thing one does with it.
 
-**Багра installs as a PWA.** Icons in the app palette, a complete manifest, standalone display. On a
-phone this matters more than it sounds: the studio and the garden are exactly where a browser tab
-is inconvenient, and where the app must work without a signal.
+The app does four things, and they want different shapes:
+
+| Mode | Shape |
+|---|---|
+| Finding an answer | Reference search: few inputs, ranked results, own results beneath the expected |
+| Following a procedure | One column, quantity beside the step, legible from a metre away |
+| Recording what happened | Result first, then conditions, then process |
+| Editing library knowledge | A form — behind a button, never the default |
+
+**Read mode is the default on every record with substance**: plants, recipes, fabrics, trials,
+combinations. Back from the editor returns to reading the *same* record rather than to the list,
+because one usually corrects a field and wants to see how it now reads.
+
+Consequences worth stating:
+
+- **A plant leads with what is wanted at the bench** — part, dose, temperature, ceiling — not with
+  its taxonomy. It is edited once and consulted a hundred times.
+- **A recipe's working view** puts the quantity beside the step that uses it. Two parallel panels
+  force the answer to be assembled from two places at every step over a hot pot.
+- **A fabric reads as a biography**: composition, then a dated timeline of its states, then the
+  trials it went through. Its history is the point.
+- **A trial leads with the result.** The photograph and the outcome are why one opens a finished
+  trial; the process is why one keeps it.
+- **A combination shows the owner's placements beneath the expected outcome.** This is the premise
+  of the whole application made visible, and everything else exists to make it possible.
+
+### Naming follows the work, not the model
+
+`Placements` is a correct name inside the model and an opaque one on screen; it reads as a
+coordinate. The section is called *Plants and prints*. The same applies throughout: an enhancement
+is described as *blanket soaked in dye*, not as an *adjective carrier blanket*.
+
+### Succeeded and worth repeating are different questions
+
+A technically clean result can be dull; a failed piece can reveal an effect worth chasing. A trial
+therefore carries both an assessment and a separate *would I do this again* — unchanged, with
+changes, no, not sure yet — and, when changed, what would change.
+
+---
+
+## 13d. Empty means unknown
+
+The craft has too many unmeasured variables for the app to invent precision. The plant variety is
+often unknown, the water hardness approximate, the temperature not watched throughout, the blanket
+carried over from a previous bundle at an unknowable strength, the cloth an old sheet of unknown
+origin, and the quantity of leaves "one full layer" rather than 83 grams.
+
+Three rules follow, each of which was violated once and corrected:
+
+1. **A blank is not a value.** An unrecorded pH is not a confirmed neutral bath. Treating it as one
+   manufactured knowledge no source had, and made records match searches they had no business
+   matching.
+2. **A lone figure is not a range.** Filling only an upper bound produced "0–165 g", which asserts
+   a lower bound nobody stated. Whichever box a single number lands in, it is exact.
+3. **Confidence is per claim, not per record.** A plant's dyeing temperature can be well established
+   while its preferred leaf surface is a guess. One marker over both would flatten exactly the
+   distinction that matters.
 
 ---
 

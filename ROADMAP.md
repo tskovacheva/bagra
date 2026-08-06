@@ -224,12 +224,75 @@ The largest screen, built last because it composes records from every other modu
 **Still to build:** the reverse view — a combination showing the owner's own placements beneath the
 expected outcome, with divergence visible. The data is there; only the view is missing.
 
-## Stage 9 — Packs and backup · *planned*
+## Stage 9 — Read modes and studio use · **done**
 
-Personal backup (round-trip, replaces) and reference packs (merge with preview, user edits
-win). Export of a user-authored pack, respecting `distributable`.
+After the first sessions of real work, three audits — two from other models, one from the owner —
+agreed on the same diagnosis: the interface had become a screen-by-screen translation of the data
+model. Everything opened as a form, which made *administering the record* look like the main thing
+one does with it.
+
+The correction was structural rather than cosmetic. Four modes were being run together and are now
+separated: **finding an answer**, **following a procedure**, **recording what happened**, and
+**editing library knowledge**.
+
+- **Read mode on five modules** — plants, recipes, fabrics, trials, combinations. A record opens
+  for reading; the form is behind an *Edit* button, and Back from the editor returns to reading the
+  same record rather than to the list.
+- **Plants lead with a "To use now" card**: which part, how much, how hot, what the ceiling is —
+  the answers wanted standing in front of the bed, not fifty controls.
+- **Recipes have a working view**: one column, quantities in large figures beside the step that
+  uses them, readable from a metre away over a scale.
+- **Fabrics read as a biography** — composition, then a dated timeline of every state change, then
+  the trials the piece went through.
+- **Combinations show the owner's own placements** beneath the expected outcome, with photographs.
+  This closes the promise made in the very first conversation: general knowledge on top, personal
+  experience beneath, divergence visible. Search results carry the count too.
+- **Trials lead with the result** — photograph, assessment, whether it is worth repeating — because
+  that is why one opens a finished trial. Secondary sections fold away, their summaries showing
+  what is inside so collapsing is not hiding.
+
+Smaller things from the same audits: a timer, a running-low signal on stock, plants as recipe
+ingredients, chains selectable as a trial step, writing a recipe from within a trial without losing
+the trial, "would I do this again" separate from "did it succeed", and vocabulary renamed from the
+theory to the action — *blanket soaked in dye* rather than *adjective carrier blanket*.
+
+## Stage 10 — Packs · *next*
+
+Import with merge preview is done (§10, used by substances, plants, techniques and combinations).
+What remains is **export**: writing a user-authored pack of records marked `distributable`, so
+knowledge can be shared without sharing private work.
+
+That is the last module. After it the app is complete as specified, which is what 1.0 means here.
 
 ---
+
+## Still outstanding, by weight
+
+Accepted from the audits and not yet built:
+
+**Protecting unsaved work.** With forms this long, one stray click costs an afternoon. Agreed and
+still missing — the heaviest item on this list.
+
+**Ceiling warnings inside a trial.** Recipes check the iron and temperature limits; trials do not.
+The app is therefore silent at the exact moment the iron is being poured.
+
+**Stock visible on the substance.** The split between what a substance *is* and which jar is on the
+shelf is right, but the substance record shows only a thin list, so "do I have it, and how much"
+still goes unanswered.
+
+**Reverse search** — "I want this colour on this cloth, how do I get it". In the specification from
+the first day, and a genuine gap: it is one of the two directions the reference exists for.
+
+**Bulk actions.** Twenty pieces go into one alum bath; opening twenty records to record it is how
+people stop recording.
+
+**Four small ones:** repeat a trial as a variant, a photograph's context (wet or dry, before or
+after washing, daylight or lamp), a follow-up observation after the first wash and after a season,
+and a thumbnail strip on trial photographs.
+
+**Considered and deferred:** extraction as its own reusable object — one extraction serves several
+baths and several trials, and recording it as a step loses that. The strongest idea in the last
+round of feedback, and worth a proper design rather than a quick field.
 
 ## Parallel workstream — the seed library
 
