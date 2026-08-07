@@ -14,7 +14,7 @@ export const DIMENSIONS = [
   'process', 'enhancement', 'bundle_role', 'step_type', 'medium_where',
   'placement_condition', 'facing', 'print_quality', 'confidence',
   'technique_category', 'assessment', 'water_source', 'season',
-  'trial_status',
+  'trial_status', 'trial_stage',
 ];
 
 const V = (dimension, code, bg, en, order = 0, description = null) =>
@@ -219,6 +219,15 @@ export const VOCABULARY = [
   V('step_type', 'arrange',       'нареждане на растения', 'arranging the plants', 0.7),
   V('step_type', 'lay_blanket',   'застилане с одеяло',    'laying the blanket', 0.8),
   V('step_type', 'bundle',        'вързване / навиване',   'bundling', 0.9),
+  // Decoration: resist and shibori were never expressible. `bundle` above is
+  // the eco-print bundle and is a different act from binding for shibori.
+  // Removing a resist is its own step because it usually happens much later —
+  // after the dye bath, sometimes after the rinse.
+  V('step_type', 'shibori_bind',  'сгъване / стягане',  'folding & binding', 1.1),
+  V('step_type', 'apply_resist',  'нанасяне на резист', 'applying resist', 1.2),
+  V('step_type', 'print_paste',   'печат с паста',      'paste printing', 1.3),
+  V('step_type', 'remove_resist', 'махане на резиста',  'removing resist', 1.4),
+
   V('step_type', 'scour',         'изпиране',        'scour', 1),
   V('step_type', 'tannin',        'танин',           'tannin', 2),
   V('step_type', 'mordant',       'мордант',         'mordant', 3),
@@ -285,6 +294,20 @@ export const VOCABULARY = [
   V('trial_status', 'planned',     'замислен',   'planned', 1),
   V('trial_status', 'in_progress', 'в ход',      'in progress', 2),
   V('trial_status', 'complete',    'завършен',   'complete', 3),
+
+  // The shape of a working day (§8.0b). Six markers, of which only the middle
+  // four hold steps: raw cloth is the fabric record and finished is the trial's
+  // own status, both of which already exist and must not be entered twice.
+  //
+  // A stage is a LABEL on a step, not a slot. Colouring before a print and
+  // again afterwards is two runs of the same stage, and the timeline shows
+  // what happened rather than a template.
+  V('trial_stage', 'raw',      'сурова тъкан',            'raw cloth', 1),
+  V('trial_stage', 'prep',     'предварителна обработка', 'preparation', 2),
+  V('trial_stage', 'decorate', 'декорация',               'decoration', 3),
+  V('trial_stage', 'colour',   'багрене и принт',         'colouring and printing', 4),
+  V('trial_stage', 'after',    'последваща обработка',    'after-treatment', 5),
+  V('trial_stage', 'done',     'готово',                  'finished', 6),
 
   V('assessment', 'success', 'успех',    'success', 1),
   V('assessment', 'partial', 'частично', 'partial', 2),

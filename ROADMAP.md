@@ -271,9 +271,10 @@ Order of work, because the parts depend on one another:
 1. ~~**Trial status**~~ — **done**. `planned → in_progress → complete` and `intent` on the header.
    Records written before it existed read as complete and are never written back to; a trial with
    a verdict but no status is *offered* completion on save, never given it silently.
-2. **Stages** — `stageCode` on the step, and the entry screen rebuilt as a progress line of named
-   stages rather than a list of typed steps. The data underneath does not move. *(Next. Blocked on
-   naming the five stages — they go into `vocab.js` and will be read every time.)*
+2. ~~**Stages**~~ — **done in 0.66.0**. Six named stages, of which four hold steps; raw cloth and
+   finished are read from the fabric and from the trial's status rather than entered again. A stage
+   may recur, so steps group into consecutive runs and the progress line is generated from what
+   happened. Four new step types for decoration, and a technique on the decoration step. §8.0b.
 3. ~~**Photographs on steps**~~ — **done in 0.65.0**. A strip on every step, offered and never
    required, plus `planPhotos` on the trial for a diagram attached whole. The middle of the process
    now has somewhere to live; the fabric's story no longer has a hole between the placement and the

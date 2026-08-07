@@ -407,5 +407,84 @@ const dirty = await import('./dirty.js');
   dirty.markClean?.();
 }
 
+
+// ---- 5. Stages group the steps, and a stage may recur ---------------------
+{
+  const trials = (await import('./modules/trials.js')).default
+    || await import('./modules/trials.js');
+
+  // Dyeing, then a print, then dyeing again: two passes through colouring.
+  // Collapsing them into one group would rewrite the order of the work.
+  const woven = db.newRecord({
+    status: 'in_progress', date: '2026-08-07', title: 'два пъти багрене',
+    processCode: 'ecoprint', placements: [], resultPhotos: [], planPhotos: [],
+    steps: [
+      { id: 'a', order: 0, stageCode: 'prep',     typeCode: 'mordant',      photos: [] },
+      { id: 'b', order: 1, stageCode: 'colour',   typeCode: 'dye',          photos: [] },
+      { id: 'c', order: 2, stageCode: 'decorate', typeCode: 'print_paste',  photos: [] },
+      { id: 'd', order: 3, stageCode: 'colour',   typeCode: 'dye',          photos: [] },
+      { id: 'e', order: 4, stageCode: 'after',    typeCode: 'rinse',        photos: [] },
+    ],
+  });
+  await db.put('trials', woven);
+
+  trials.reset?.();
+  await trials.render(root);
+  const row = [...root.querySelectorAll('[data-open]')]
+    .find(el => el.textContent.includes('два пъти'));
+  if (!row) fail('stages', new Error('the woven trial is not in the list'));
+  else {
+    await click(row);
+    // The read view groups the same way, and must name the technique it used.
+    const readHeads = [...root.querySelectorAll('.stagehead b')].map(el => el.textContent.trim());
+    if (readHeads.length !== 5)
+      fail('stages', new Error(`the read view shows ${readHeads.length} runs, not five`));
+    else console.log('  stages: the read view groups the same way');
+
+    await click(root.querySelector('[data-edit]'));
+
+    const heads = [...root.querySelectorAll('.stagehead b')].map(el => el.textContent.trim());
+    // Five runs, not four stages: colouring is entered, left for the print,
+    // and entered again. That second visit is the thing being protected.
+    if (heads.length !== 5)
+      fail('stages', new Error(`expected five runs, got ${heads.length}: ${heads.join(' | ')}`));
+    else if (heads[1] !== heads[3])
+      fail('stages', new Error(`colouring should appear twice, got: ${heads.join(' | ')}`));
+    else console.log(`  stages: ${heads.join(' › ')}`);
+
+    // Every step must still be on screen exactly once after grouping.
+    const rows = root.querySelectorAll('.stagegroup .ingrow').length;
+    if (rows !== 5) fail('stages', new Error(`five steps went in, ${rows} came out`));
+    else console.log('  stages: every step is shown exactly once');
+
+    // Adding to a stage inserts into that run, not at the end of the trial.
+    const addToFirst = root.querySelector('.stagegroup [data-step-add]');
+    await click(addToFirst);
+    const after = root.querySelectorAll('.stagegroup .ingrow').length;
+    if (after !== 6) fail('stages', new Error('adding a step to a stage did nothing'));
+    else {
+      const nowHeads = [...root.querySelectorAll('.stagehead b')].map(el => el.textContent.trim());
+      if (nowHeads.length !== 5)
+        fail('stages', new Error(`the new step broke the grouping: ${nowHeads.join(' | ')}`));
+      else console.log('  stages: a step added to a stage stays inside it');
+    }
+  }
+  dirty.markClean?.();
+
+  // A record written before stages existed must group sensibly and, crucially,
+  // must not be rewritten on disk by having been looked at.
+  {
+    const legacy = (await db.all('trials')).find(x => x.steps?.some(st => !st.stageCode));
+    if (legacy) {
+      trials.reset?.();
+      await trials.render(root);
+      const again = await db.get('trials', legacy.id);
+      if (again.steps.some(st => st.stageCode))
+        fail('stages', new Error('a stage was written back to a record that never had one'));
+      else console.log('  stages: legacy steps are grouped by inference, not by migration');
+    }
+  }
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);

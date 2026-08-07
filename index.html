@@ -560,6 +560,32 @@ label.btn{cursor:pointer}
 .placemain select,.placemain input{font-size:13px;padding:5px 7px}
 .matched{color:var(--indigo)}
 
+/* The progress line. Generated from the steps that exist, so a stage worked
+   twice appears twice — the line shows the work, not a template. */
+.stageline{
+  display:flex;align-items:center;flex-wrap:wrap;gap:4px;
+  padding:10px 12px;margin-bottom:12px;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;
+}
+.stagemark{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text);white-space:nowrap}
+.stagemark.fixed{color:var(--muted)}
+.stagedot{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:19px;height:19px;border-radius:50%;font-size:11px;
+  background:var(--indigo);color:#fff;flex:none;
+}
+.stagemark.fixed .stagedot{background:none;border:1px dashed var(--line)}
+.stagearrow{color:var(--line);font-size:15px}
+
+.stagegroup{border:1px solid var(--line);border-radius:8px;margin-bottom:12px;overflow:hidden}
+.stagehead{
+  display:flex;align-items:center;gap:8px;padding:7px 11px;
+  background:var(--surface);border-bottom:1px solid var(--line);font-size:14px;
+}
+.stagegroup .ingrow{border:0;border-bottom:1px solid var(--line);border-radius:0;margin:0}
+.stagegroup .ingrow:last-child{border-bottom:0}
+.stagestarters{display:flex;flex-wrap:wrap;gap:6px}
+
 /* Photographs on a step and on a plan. Smaller than the result grid: they are
    evidence of how the work went, glanced at rather than studied. */
 .stepphotos{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}

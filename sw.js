@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v0.65.0';   // keep in step with version.js
+const CACHE = 'bagra-v0.66.0';   // keep in step with version.js
 
 const FILES = [
   './',

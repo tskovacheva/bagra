@@ -21,7 +21,7 @@ let editing = false;
 let filter = { plantId: '', processCode: '', status: '' };
 
 // Loaded once per render so the nested lists can name what they point at.
-let plants = [], plantsById = new Map(), recipes = [], substances = [], combinations = [], chains = [];
+let plants = [], plantsById = new Map(), recipes = [], substances = [], combinations = [], chains = [], techniques = [];
 
 function blank() {
   return newRecord({
@@ -55,6 +55,39 @@ const isEcoPrint = (r) => (r.processCode || '').startsWith('ecoprint');
 // entered after the fact. Read, never written back — a migration that guesses
 // would be a migration that lies.
 const statusOf = (r) => r.status || 'complete';
+
+// Which stage a step belongs to when it does not say. Read, never written
+// back: a record made before stages existed is not wrong, it simply predates
+// the question, and a migration that guessed would turn a guess into a fact.
+const STAGE_OF_TYPE = {
+  prep_chain: 'prep', scour: 'prep', tannin: 'prep', mordant: 'prep',
+
+  shibori_bind: 'decorate', apply_resist: 'decorate', print_paste: 'decorate',
+
+  lay_base: 'colour', arrange: 'colour', lay_blanket: 'colour', bundle: 'colour',
+  dye: 'colour', bundle_steam: 'colour', bundle_boil: 'colour',
+
+  remove_resist: 'after', post_iron: 'after', post_modifier: 'after',
+  soap: 'after', rinse: 'after', dry: 'after', cure: 'after',
+};
+
+const WORK_STAGES = ['prep', 'decorate', 'colour', 'after'];
+
+const stageOf = (st) => st.stageCode || STAGE_OF_TYPE[st.typeCode] || 'colour';
+
+// Steps grouped into consecutive runs of the same stage. Runs, not unique
+// stages: dyeing before a print and again after it is two passes through
+// colouring, and collapsing them would rewrite the order of the work.
+function stageRuns(steps = []) {
+  const runs = [];
+  steps.forEach((st, i) => {
+    const code = stageOf(st);
+    const last = runs[runs.length - 1];
+    if (last && last.code === code) last.items.push({ st, i });
+    else runs.push({ code, items: [{ st, i }] });
+  });
+  return runs;
+}
 
 const statusChip = async (r) =>
   `<span class="statuschip ${statusOf(r)}">${esc(await label('trial_status', statusOf(r)))}</span>`;
@@ -164,9 +197,47 @@ function photoStrip(list, { addId, addAttr, delAttr, delValue = (j) => j, multip
     </div>`;
 }
 
-async function stepRows(r) {
-  return (await Promise.all((r.steps || []).map(async (st, i) => {
-    // One selector for both, because from the bench they are the same question:
+// The steps of one stage, and the progress line above them. The line is
+// generated from what is there, never from a template: it shows the work as
+// it went, repeats and all (§8.0b).
+async function stageGroups(r) {
+  const runs = stageRuns(r.steps);
+
+  const line = (await Promise.all([
+    { code: 'raw', fixed: true },
+    ...runs.map(run => ({ code: run.code })),
+    { code: 'done', fixed: true },
+  ].map(async (m, n) => `
+    <div class="stagemark${m.fixed ? ' fixed' : ''}">
+      <span class="stagedot">${m.fixed ? '' : n}</span>
+      <span>${esc(await label('trial_stage', m.code))}</span>
+    </div>`))).join('<span class="stagearrow">›</span>');
+
+  const groups = (await Promise.all(runs.map(async (run) => `
+    <div class="stagegroup">
+      <div class="stagehead">
+        <b>${esc(await label('trial_stage', run.code))}</b>
+        <span class="spacer"></span>
+        <button class="btn quiet" data-step-add="${run.code}"
+          data-after="${run.items[run.items.length - 1].i}">+ ${t('trials.addStep')}</button>
+      </div>
+      ${(await Promise.all(run.items.map(({ st, i }) => stepRow(r, st, i)))).join('')}
+    </div>`))).join('');
+
+  // Somewhere to begin when there is nothing yet: one button per working
+  // stage, so the first step is chosen by what is being done, not by type.
+  const starters = (await Promise.all(WORK_STAGES.map(async code =>
+    `<button class="btn quiet" data-step-add="${code}">+ ${esc(await label('trial_stage', code))}</button>`
+  ))).join('');
+
+  return `
+    <div class="stageline">${line}</div>
+    ${groups || `<p class="hint">${t('trials.noStepsYet')}</p>`}
+    <div class="stagestarters">${starters}</div>`;
+}
+
+async function stepRow(r, st, i) {
+  // One selector for both, because from the bench they are the same question:
     // "what did I follow here?" A chain is simply a recipe with several parts.
     const current = st.chainId ? 'c:' + st.chainId : (st.recipeId ? 'r:' + st.recipeId : '');
     const recipeOptions = `<option value="">${t('trials.improvised')}</option>` +
@@ -184,11 +255,22 @@ async function stepRows(r) {
         <div class="chainhead">
           <span class="stepnum">${i + 1}</span>
           <select data-step="${i}.typeCode">${await options('step_type', st.typeCode, t('trials.stepType'))}</select>
+          <select data-step="${i}.stageCode" title="${esc(t('trials.stage'))}">${
+            await options('trial_stage', stageOf(st))}</select>
           <select data-step="${i}.source">${recipeOptions}</select>
           <button class="btn quiet" data-newrecipe="${i}" title="${esc(t('trials.newRecipe'))}">+</button>
           <span class="spacer"></span>
           <button class="btn quiet" data-step-del="${i}" aria-label="×">×</button>
         </div>
+
+        ${stageOf(st) === 'decorate' ? `
+          <div class="mediumrow">
+            <select data-step="${i}.techniqueId">
+              <option value="">${t('trials.noTechnique')}</option>
+              ${techniques.map(x => `<option value="${x.id}"${
+                x.id === st.techniqueId ? ' selected' : ''}>${esc(text(x.name))}</option>`).join('')}
+            </select>
+          </div>` : ''}
 
         ${['lay_base', 'lay_blanket', 'arrange', 'bundle'].includes(st.typeCode) ? `
           <div class="mediumrow">
@@ -228,7 +310,6 @@ async function stepRows(r) {
           delValue: (j) => `${i}.${j}`,
         })}
       </div>`;
-  }))).join('') || `<p class="hint">—</p>`;
 }
 
 // -------------------------------------------------------------- placements
@@ -333,7 +414,7 @@ async function renderRead(root, r) {
       </div>`;
   }))).join('');
 
-  const steps = (await Promise.all((r.steps || []).map(async (st, i) => {
+  const stepCard = async (st, i) => {
     const recipe = st.recipeId ? recipes.find(x => x.id === st.recipeId) : null;
     const chain = st.chainId ? chains.find(x => x.id === st.chainId) : null;
     const m = st.mediumMod;
@@ -361,7 +442,21 @@ async function renderRead(root, r) {
           st.photos.map(src => `<div class="stepphoto"><img src="${src}" alt=""></div>`).join('')
         }</div>` : ''}
       </div>`;
-  }))).join('');
+  };
+
+  // Read back the same way it was entered: stages in the order they happened,
+  // a repeated stage shown as the two visits it was (§8.0b).
+  const steps = (await Promise.all(stageRuns(r.steps).map(async (run) => `
+    <div class="stagegroup">
+      <div class="stagehead">
+        <b>${esc(await label('trial_stage', run.code))}</b>
+        ${run.items.some(({ st }) => st.techniqueId)
+          ? `<span class="hint">${esc(run.items.map(({ st }) =>
+              text(techniques.find(x => x.id === st.techniqueId)?.name)).filter(Boolean).join(' · '))}</span>`
+          : ''}
+      </div>
+      ${(await Promise.all(run.items.map(({ st, i }) => stepCard(st, i)))).join('')}
+    </div>`))).join('');
 
   const unfinished = statusOf(r) !== 'complete';
 
@@ -420,7 +515,6 @@ async function renderRead(root, r) {
 async function renderForm(root, r) {
   const isNew = openId === 'new';
   const fabrics = await all('fabrics');
-  const techniques = await all('techniques');
 
   const enh = (await Promise.all(ENHANCEMENTS.map(async c => `
     <label class="check"><input type="checkbox" data-multi="enhancements" value="${c}"
@@ -502,9 +596,9 @@ async function renderForm(root, r) {
 
           ${panel(`
             <h2>${t('trials.steps')}</h2>
+            <p class="note">${t('trials.stagesHint')}</p>
             <p class="note">${t('trials.stepsHint')} ${t('trials.mediumHint')}</p>
-            ${await stepRows(r)}
-            <button class="btn quiet" data-step-add>${t('trials.addStep')}</button>
+            ${await stageGroups(r)}
           `)}
 
           ${panel(`
@@ -607,6 +701,7 @@ export default {
     plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
     plantsById = new Map(plants.map(p => [p.id, p]));
     recipes = await all('recipes');
+    techniques = await all('techniques');
     chains = await all('chains');
     substances = await all('substances');
     combinations = await all('combinations');
@@ -664,16 +759,29 @@ export default {
         return;
       }
 
-      if (e.target.closest('[data-step-add]')) {
+      const addStep = e.target.closest('[data-step-add]');
+      if (addStep) {
         readForm(root);
-        draft.steps.push({ id: uid(), order: draft.steps.length, typeCode: '',
-                           recipeId: '', chainId: '', roleCode: '', what: '',
-                           tempC: null, heldMinutes: null, restMinutes: null, mediumMod: null,
-                           photos: [], note: '' });
+        const fresh = { id: uid(), typeCode: '', stageCode: addStep.dataset.stepAdd || 'prep',
+                        techniqueId: '', recipeId: '', chainId: '', roleCode: '', what: '',
+                        tempC: null, heldMinutes: null, restMinutes: null, mediumMod: null,
+                        photos: [], note: '' };
+        // Inserted at the end of the run it was added from, not at the end of
+        // the trial — otherwise adding a second mordanting step would land it
+        // after the drying, and the order of the steps IS the order of the work.
+        const after = addStep.dataset.after;
+        if (after === undefined) draft.steps.push(fresh);
+        else draft.steps.splice(Number(after) + 1, 0, fresh);
+        draft.steps.forEach((st, n) => { st.order = n; });
         return redraw();
       }
       const sdel = e.target.closest('[data-step-del]');
-      if (sdel) { readForm(root); draft.steps.splice(Number(sdel.dataset.stepDel), 1); return redraw(); }
+      if (sdel) {
+        readForm(root);
+        draft.steps.splice(Number(sdel.dataset.stepDel), 1);
+        draft.steps.forEach((st, n) => { st.order = n; });
+        return redraw();
+      }
 
       const madd = e.target.closest('[data-medium-add]');
       if (madd) {
@@ -764,7 +872,10 @@ export default {
 
       // Switching process changes which fields apply, so the form is redrawn.
       if (e.target.matches('[data-f="processCode"]') || e.target.matches('[data-f="repeat"]')
-          || e.target.matches('[data-f="status"]')) {
+          || e.target.matches('[data-f="status"]')
+          // A stage change regroups the steps; a type change can reveal the
+          // layer row. Both need the form drawn again.
+          || /\.(stageCode|typeCode)$/.test(e.target.dataset.step || '')) {
         readForm(root); return redraw();
       }
       if ((e.target.dataset.step || '').endsWith('.typeCode')) { readForm(root); return redraw(); }

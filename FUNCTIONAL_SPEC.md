@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.19 — photographs at every step; protecting unsaved work; favourites
+**Status:** v1.20 — named stages, and a stage that may recur
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -529,14 +529,42 @@ her discretion.
 
 ### 8.0b Stages, not step types
 
-Entry is organised as a small sequence of **named stages** — raw cloth, preparation, dyeing or eco
-print, after-treatment, final result — shown as a progress line with each stage opening as a card.
-The structured data underneath is unchanged: stages hold the same `TrialStep` records, the same
-placements, the same medium modification. What changes is that the user is offered the shape of a
-working day rather than a taxonomy of bath types.
+Entry is organised by **named stage** rather than by bath chemistry. The six, settled with the
+owner:
 
-`stageCode` is a grouping on the step, not a new entity. Steps stay ordered and typed as before; a
-stage is how they are gathered on screen.
+| code | Bulgarian | what it holds |
+|---|---|---|
+| `raw` | сурова тъкан | *nothing — see below* |
+| `prep` | предварителна обработка | scouring, tannin, mordanting, the chalk bath |
+| `decorate` | декорация | shibori, resist, paste printing |
+| `colour` | багрене и принт | dye baths, eco print, steaming, boiling |
+| `after` | последваща обработка | iron bath, modifiers, soaping, rinsing, drying |
+| `done` | готово | *nothing — see below* |
+
+**Two of the six hold no steps, deliberately.** Raw cloth is the fabric record, which already exists
+and already carries a photograph; finished is `status: complete` plus `resultPhotos`. Making either
+a container would mean entering the same thing twice, which is the failure §8.0a exists to prevent.
+They appear on the progress line as endpoints, read from the fabric and from the trial's own status.
+
+**A stage is a label on a step, and it may recur.** This came from the owner and it is the part that
+matters: dyeing before a print and again after it is *two passes* through colouring, not one stage
+visited twice. So the screen groups steps into **consecutive runs** of the same stage, never into
+one card per distinct stage — collapsing them would rewrite the order of the work. The progress line
+is generated from the runs that exist. It is a record, not a template, and a trial with three
+colouring passes shows three.
+
+**Decoration needed step types that did not exist:** folding and binding, applying resist, paste
+printing, and removing resist. Removing a resist is its own step because it usually happens much
+later — after the dye bath, sometimes after the rinse. The existing `bundle` type is the eco-print
+bundle and is a different act from binding for shibori.
+
+**A decoration step points at a technique** from the Techniques module. The reference question is
+"what does shibori on this cloth with this plant give", and that cannot be answered if the technique
+is only recorded once at the level of the whole trial.
+
+**Steps written before stages existed are grouped by inference from their type**, read at display
+time and never written back. A record made before the question was asked is not wrong; a migration
+that guessed would turn a guess into a fact.
 
 **A photograph is offered at every stage and required at none.** Photo-first entry is right for
 opening a bundle, where seeing precedes describing, and wrong at the scale, where there is nothing
