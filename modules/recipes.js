@@ -588,6 +588,10 @@ export default {
     draft = null;
     editing = false;
     mode = 'recipes';
+    filterType = null;
+    // Leaving the module and coming back must not leave the favourites filter
+    // silently on: the list would look short for no visible reason.
+    favOnly = false;
     chains.reset?.();
   },
 

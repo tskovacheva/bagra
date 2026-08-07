@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.24 — rose and hazel; a shell is not a hull
+**Status:** v1.23 — what a plant can give, in the list
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -1557,43 +1557,6 @@ cleared by `reset()`, so leaving a module and returning left the list filtered
 with nothing on screen to say why. Fixed in plants, recipes and combinations.
 Any state a module keeps between renders belongs in its `reset()`, and the test
 for it is whether the list can look short for a reason the person cannot see.
-
----
-
-## 13h. Two plants, and what adding them exposed
-
-Rose (*Rosa spp.*) and hazel (*Corylus avellana*), the first additions to the
-seeded library since it shipped. Hazel is the more valuable of the two: it is
-locally foraged and works as a dye bath, as an eco print and as a tannin
-source, which is the shape of plant a reference should show strongly.
-
-Three things the research notes assumed that the model does not have, recorded
-because the next addition will meet them again:
-
-**There is no `tannin_mordant` role.** The library already marks oak, sumac and
-pomegranate as `mordant_accumulator`, so hazel follows them. The label reads
-"accumulator", which is not quite right for a tannin plant — an accumulator
-takes up aluminium — but consistency across the library matters more than one
-imprecise word. Worth renaming if the vocabulary is ever tidied.
-
-**`shell` was missing and has been added.** A hazelnut's green husk and its hard
-shell are worked separately and give different things, so folding the shell into
-`hull` would have lost a real distinction. Shells are also a genuine
-waste-stream dye material.
-
-**`availability` holds one code, not a list**, and there is no `aliases` field.
-"Лешник" therefore lives in the name — `леска (лешник)` — following the
-library's own convention, as in "кромид лук — жълти люспи". A field for a single
-record would not have earned its place in the export.
-
-**Colours were left empty, deliberately.** All 50 plants have an empty `colours`
-array and their colour ranges live in the profile prose. Inventing hex values
-for the two new ones would have lit up swatches (§13g) for colours nobody has
-seen, and a reference that asserts what it has not observed is worth less than
-one that says nothing.
-
-The pack version moves to 0.2.0. `seedPack` adds absent records on every start,
-so both plants reach an existing database rather than only a fresh install.
 
 ---
 

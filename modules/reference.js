@@ -494,6 +494,7 @@ export default {
     draft = null;
     editing = false;
     mode = 'search';
+    favOnly = false;
   },
 
   async render(root) {

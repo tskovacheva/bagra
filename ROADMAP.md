@@ -299,13 +299,6 @@ Two smaller ones ride along because they are cheap and were asked for in the sam
 Deliberately *not* built: planned-versus-actual figures. Agreed and recorded in §8.0a — one figure
 per field, corrected in place.
 
-## Library additions
-
-- **Rose and hazel** — added in 0.70.0, plants pack 0.2.0. §13h.
-- Gaps the owner notices go here as they come up. Adding a plant is cheap; what
-  is not cheap is discovering mid-way that a part code or a role does not exist,
-  so §13h lists the three that were missing this time.
-
 ## From the owner's review of the prototype
 
 Recorded here so they are not lost between stages. Numbering follows her notes.

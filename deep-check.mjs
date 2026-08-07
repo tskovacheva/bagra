@@ -656,5 +656,52 @@ const dirty = await import('./dirty.js');
   }
 }
 
+
+// ---- 8. A plant shows what colours it can give ----------------------------
+{
+  const { plantSwatches } = await import('./modules/plants.js');
+
+  const plant = { id: 'seed:test', colours: [{ hex: '#AA0000', name: { bg: 'червено' } }] };
+  const combos = [
+    { key: { dyeSource: { plantId: 'seed:test' } },
+      expected: { swatchHex: '#00AA00', colourText: { bg: 'зелено' } } },
+    { key: { dyeSource: { plantId: 'seed:other' } },
+      expected: { swatchHex: '#0000AA', colourText: { bg: 'синьо' } } },
+    // The same colour reached twice is one swatch, not two identical squares.
+    { key: { dyeSource: { plantId: 'seed:test' } },
+      expected: { swatchHex: '#aa0000', colourText: { bg: 'пак червено' } } },
+  ];
+
+  const sw = plantSwatches(plant, combos);
+  if (sw.map(x => x.hex).join(',') !== '#AA0000,#00AA00')
+    fail('swatches', new Error(`wrong set: ${sw.map(x => x.hex).join(',')}`));
+  else console.log('  swatches: own palette first, combinations after, no duplicates');
+
+  if (!sw[0].caption) fail('swatches', new Error('a swatch carries no caption to hover'));
+  else console.log('  swatches: each carries a caption');
+
+  if (plantSwatches({ id: 'x' }, []).length)
+    fail('swatches', new Error('a plant with nothing known invents a colour'));
+  else console.log('  swatches: nothing known shows nothing');
+
+  const many = Array.from({ length: 20 }, (_, n) => ({
+    key: { dyeSource: { plantId: 'seed:test' } },
+    expected: { swatchHex: `#0000${String(n).padStart(2, '0')}` },
+  }));
+  if (plantSwatches(plant, many).length > 6)
+    fail('swatches', new Error('the row is not capped and will break the column'));
+  else console.log('  swatches: capped so the column cannot run away');
+
+  // And the seeded library must actually light up, or the column ships empty.
+  const plants = (await import('./modules/plants.js')).default
+    || await import('./modules/plants.js');
+  plants.reset?.();
+  await plants.render(root);
+  const lit = root.querySelectorAll('.miniswatch').length;
+  const rows = root.querySelectorAll('tbody tr').length;
+  if (!lit) fail('swatches', new Error('not one plant in the seeded library shows a colour'));
+  else console.log(`  swatches: ${lit} swatches across ${rows} seeded plants`);
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);

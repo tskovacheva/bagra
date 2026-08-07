@@ -645,6 +645,7 @@ const DICT = {
     'plants.invasive': 'Може да стане инвазивно',
     'plants.toxicity': 'Внимание',
 
+    'plants.col.gives': 'Дава',
     'plants.colours': 'Цветови обхват',
     'plants.coloursHint': 'Какво може да даде това багрило при различни условия. Конкретните комбинации с тъкан и мордант идват в Справочника.',
     'plants.addColour': '+ цвят',
@@ -1590,6 +1591,7 @@ const DICT = {
     'plants.invasive': 'Can become invasive',
     'plants.toxicity': 'Caution',
 
+    'plants.col.gives': 'Gives',
     'plants.colours': 'Colour range',
     'plants.coloursHint': 'What this dye can give under different conditions. Specific combinations with cloth and mordant belong in the Reference.',
     'plants.addColour': '+ colour',

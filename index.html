@@ -560,6 +560,15 @@ label.btn{cursor:pointer}
 .placemain select,.placemain input{font-size:13px;padding:5px 7px}
 .matched{color:var(--indigo)}
 
+/* What a plant can give, in the list. For someone who dyes this is the most
+   important column on the screen, so it sits second — right after the name. */
+.swatchrow{display:inline-flex;gap:3px;align-items:center}
+.miniswatch{
+  width:15px;height:15px;border-radius:3px;display:inline-block;
+  border:1px solid rgba(0,0,0,.12);flex:none;
+}
+td.swatchcell,th.swatchcell{white-space:nowrap;width:1%}
+
 /* A piece's whole life in pictures, in the order it happened (§8.0c). Scrolls
    sideways rather than wrapping: the sequence is the point, and a grid that
    reflows breaks the reading of it. */

@@ -84,6 +84,10 @@ function blank() {
 
 async function renderList(root) {
   const plants = await all('plants');
+  // Loaded once for the whole table rather than per row: the swatches are
+  // derived, and deriving them 48 times from 48 separate reads would be the
+  // kind of thing that makes a list feel slow on a phone.
+  const combinations = await all('combinations');
 
   const favCount = plants.filter(p => p.favorite).length;
   const roles = ['dye', 'ecoprint', 'mordant_accumulator'];
@@ -117,6 +121,13 @@ async function renderList(root) {
       <td class="favcell">${favStar(p)}</td>
       <td class="withthumb">${p.photoData ? `<img class="thumb" src="${p.photoData}" alt="">` : `<span class="thumb empty"></span>`}
         ${esc(text(p.nameCommon) || '—')}</td>
+      <td class="swatchcell">${(() => {
+        const sw = plantSwatches(p, combinations);
+        return sw.length
+          ? `<span class="swatchrow">${sw.map(x =>
+              `<span class="miniswatch" style="background:${esc(x.hex)}" title="${esc(x.caption || '')}"></span>`).join('')}</span>`
+          : '';
+      })()}</td>
       <td><i>${esc(p.nameBotanical || '')}</i></td>
       <td>${esc(roleNames)}</td>
       <td>${esc(parts)}</td>
@@ -130,6 +141,7 @@ async function renderList(root) {
       <thead><tr>
         <th class="favcell"></th>
         <th>${t('plants.col.name')}</th>
+        <th>${t('plants.col.gives')}</th>
         <th>${t('plants.col.botanical')}</th>
         <th>${t('plants.col.role')}</th>
         <th>${t('plants.col.parts')}</th>
@@ -207,6 +219,37 @@ async function partRows(p) {
         </div>
       </div>`;
   }))).join('') || `<p class="hint">—</p>`;
+}
+
+// What colours a plant can give, for the list. The owner said it plainly: for
+// someone who dyes, this is the most important thing on the screen — and until
+// now it was in the database and not on it, because the list column held
+// chemistry classes instead.
+//
+// Two sources, in this order. A plant's own `colours` are the owner's palette,
+// written by hand. Combinations are the reference knowledge — a combination IS
+// an expected colour — so they fill in everything not yet written by hand, and
+// keep filling in as the library grows. Derived at display time, never stored:
+// there are no back-references in the data (§13.1).
+export function plantSwatches(plant, combinations = [], max = 6) {
+  const out = [];
+  const seen = new Set();
+
+  const add = (hex, caption) => {
+    if (!hex) return;
+    const key = hex.toLowerCase();
+    if (seen.has(key) || out.length >= max) return;
+    seen.add(key);
+    out.push({ hex, caption });
+  };
+
+  for (const c of plant.colours || []) add(c.hex, text(c.name) || text(c.conditions));
+
+  for (const c of combinations) {
+    if (c.key?.dyeSource?.plantId !== plant.id) continue;
+    add(c.expected?.swatchHex, text(c.expected?.colourText));
+  }
+  return out;
 }
 
 function colourRows(p) {
@@ -536,6 +579,9 @@ export default {
     openId = null;
     draft = null;
     filterRole = null;
+    // Leaving the module and coming back must not leave the favourites filter
+    // silently on: the list would look short for no visible reason.
+    favOnly = false;
   },
 
   async render(root) {
