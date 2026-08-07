@@ -299,6 +299,29 @@ Two smaller ones ride along because they are cheap and were asked for in the sam
 Deliberately *not* built: planned-versus-actual figures. Agreed and recorded in §8.0a — one figure
 per field, corrected in place.
 
+## Library additions
+
+- **Rose and hazel** — added in 0.70.0, plants pack 0.2.0. §13h.
+- Gaps the owner notices go here as they come up. Adding a plant is cheap; what
+  is not cheap is discovering mid-way that a part code or a role does not exist,
+  so §13h lists the three that were missing this time.
+
+## From the owner's review of the prototype
+
+Recorded here so they are not lost between stages. Numbering follows her notes.
+
+- ~~**3.1 colour swatches in the plant list**~~ — **done in 0.69.0**. §13g.
+- **3.4 icons on the calculators** — not built. The calculator picker is nine
+  text buttons; the app has real SVG icons in the navigation but `tools.js` uses
+  none. Wants a scale, a drop, a thermometer, a clock drawn in the palette —
+  more drawing than code.
+- **3.2 a photograph on a recipe** — deferred by the owner: not missed now,
+  worth having if the app is released publicly.
+- **3.5 swatch library and inspiration** — left open; the owner is not sure it
+  is needed.
+- **Reverse colour lookup** — now the obvious next step, since the swatches are
+  in the list: ask for a colour range and get the plants that reach it.
+
 ## Stage 11 — Packs · *after*
 
 Import with merge preview is done (§10, used by substances, plants, techniques and combinations).

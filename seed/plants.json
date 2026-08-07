@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.1.0",
+ "packVersion": "0.2.0",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -5207,6 +5207,331 @@
    "softMaxTempC": 95,
    "toxicity": {
     "bg": "Нисък риск при работа с измити костилки; не се използват съдове за храна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "rosa_spp",
+   "nameCommon": {
+    "bg": "роза",
+    "en": "Rose"
+   },
+   "nameBotanical": "Rosa spp.",
+   "family": "Rosaceae",
+   "role": [
+    "dye",
+    "ecoprint"
+   ],
+   "compositionalRole": [
+    "shape_printer",
+    "filler"
+   ],
+   "availability": "grows_here",
+   "lightfastness": "moderate",
+   "washfastness": "moderate",
+   "parts": [
+    {
+     "partCode": "leaf",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_gallo",
+       "level": "moderate"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": []
+    },
+    {
+     "partCode": "flower",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "anthocyanin",
+       "level": "high"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 300
+      }
+     ]
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "Багрилни качества",
+      "en": "Dye qualities"
+     },
+     "body": {
+      "bg": "Две различни багрилни поведения в едно растение.\n\nЛиста: жълто-зелено, бежово, тан, маслинено, сиво-кафяво; с желязо — сиво, антрацитно, тъмнокафяво.\n\nВенчелистчета: бледорозово, пудрено, розово, лилаво-розово; силно зависими от pH и по-малко предвидими.\n\nЦветът на венчелистчето не предсказва цвета върху текстила.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Използвани части",
+      "en": "Parts used"
+     },
+     "body": {
+      "bg": "Листа — основният материал за еко принт. Венчелистчета — за багрилна баня, с по-ниска трайност.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Багрилна съставка",
+      "en": "Dye constituent"
+     },
+     "body": {
+      "bg": "Листа: галотанини и флавоноиди. Венчелистчета: антоциани, чувствителни към pH, светлина и температура — затова устойчивостта е дадена умерена, а не по-висока.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Еко принт",
+      "en": "Eco print"
+     },
+     "body": {
+      "bg": "Листата са по-надеждният материал; подходящи като оформящо растение. Отпечатъкът върви от светло жълто-зелено и бежово до тъмно сиво-кафяво при железен модификатор. Венчелистчетата оставят цветни петна и форми, но по-нетрайни.\n\nFacing не е зададено умишлено — варира според вида, зрелостта и процеса, и е точно поле, което собствените тестове да изяснят.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Дозиране",
+      "en": "Dosing"
+     },
+     "body": {
+      "bg": "За венчелистчета 100–300% WOF свежи, като начална практика. За листата дозата е нарочно оставена празна до отделно проучване.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "Общ родов профил Rosa spp., защото различните градински видове и хибриди се използват сходно. Извличане на антоцианиново багрило от розови венчелистчета върху вълна: https://www.mdpi.com/2079-6412/13/3/623",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "family": "literature",
+    "chemistry": "literature",
+    "lightfastness": "practice",
+    "washfastness": "practice",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "compositionalRole": "practice",
+    "dosing": "practice"
+   },
+   "tempExtractC": {
+    "min": 60,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 60,
+    "max": 85
+   },
+   "softMaxTempC": 90,
+   "toxicity": {
+    "bg": "Нисък риск при обичайна текстилна работа. При градински или купени рози да се има предвид възможно третиране с пестициди и фунгициди.",
+    "en": ""
+   }
+  },
+  {
+   "code": "corylus_avellana",
+   "nameCommon": {
+    "bg": "леска (лешник)",
+    "en": "Common hazel"
+   },
+   "nameBotanical": "Corylus avellana",
+   "family": "Betulaceae",
+   "role": [
+    "dye",
+    "ecoprint",
+    "mordant_accumulator"
+   ],
+   "compositionalRole": [
+    "shape_printer",
+    "filler"
+   ],
+   "availability": "forageable_local",
+   "lightfastness": "good",
+   "washfastness": "good",
+   "parts": [
+    {
+     "partCode": "leaf",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "high"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
+     "dosing": [
+      {
+       "condition": "fresh",
+       "min": 100,
+       "max": 200
+      },
+      {
+       "condition": "dried",
+       "min": 50,
+       "max": 100
+      }
+     ]
+    },
+    {
+     "partCode": "hull",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "high"
+      }
+     ],
+     "dosing": []
+    },
+    {
+     "partCode": "shell",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "high"
+      }
+     ],
+     "dosing": []
+    },
+    {
+     "partCode": "bark",
+     "facing": "",
+     "chemistry": [
+      {
+       "classCode": "tannin_cond",
+       "level": "high"
+      }
+     ],
+     "dosing": []
+    }
+   ],
+   "colours": [],
+   "sections": [
+    {
+     "title": {
+      "bg": "Багрилни качества",
+      "en": "Dye qualities"
+     },
+     "body": {
+      "bg": "Листа: жълто, жълто-зелено, маслинено, бежово, тан; с желязо — сиво-зелено, сиво-кафяво до тъмно.\n\nПлодова обвивка: жълто-кафяво, охра, тан; с желязо — по-тъмна кафяво-сива гама.\n\nИма практическа документация за зелени тонове върху памук от листа на червенолистна леска, включително без метален мордант — съвместимо с високото съдържание на танини, но е опит на практикуващ, не обещание за всеки сорт.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Използвани части",
+      "en": "Parts used"
+     },
+     "body": {
+      "bg": "Листа — основната част, най-важни и за багрене, и за еко принт.\n\nПлодова обвивка — танинов материал.\n\nЧерупки — реален отпадъчен багрилен материал; държат се отделно от листата, не се смесват.\n\nКора — също танинова, но нарочно последна: няма смисъл справочникът да насърчава белене на живи клони.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Багрилна съставка",
+      "en": "Dye constituent"
+     },
+     "body": {
+      "bg": "Кондензирани танини (проантоцианидини) и флавоноиди.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Като източник на танин",
+      "en": "As a tannin source"
+     },
+     "body": {
+      "bg": "Танинът е в листата, обвивката, черупките и кората — не в растението изобщо. Дозата винаги се отнася към конкретната част, не към леската като цяло.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Еко принт",
+      "en": "Eco print"
+     },
+     "body": {
+      "bg": "Листът има отчетлива форма, силно жилкуване, достатъчно фенолни и танинови съединения и добра реакция с желязо — оформящо растение.\n\nFacing не е зададено умишлено; това е поле, което собствените тестове да изяснят.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Дозиране",
+      "en": "Dosing"
+     },
+     "body": {
+      "bg": "Листа: 100–200% WOF свежи, 50–100% сушени, като работна практика. За обвивка, черупки и кора дозите са нарочно празни до отделна проверка.",
+      "en": ""
+     }
+    },
+    {
+     "title": {
+      "bg": "Източници",
+      "en": "Sources"
+     },
+     "body": {
+      "bg": "Corylus avellana като багрилно растение — листа и плодова обвивка, жълти и зелени тонове: https://www.academia.edu/12909133 . Текстилни изследвания върху близкия Corylus colurna — листа, обвивка и черупка върху вълна, памук и вискоза с алуминиеви, железни и медни морданти: https://www.researchgate.net/publication/264618125 . Фитохимия на Corylus avellana — флавоноиди и кондензирани танини: https://www.mdpi.com/2076-3921/8/10/460 . Зелено върху памук без мордант от листа на червенолистна леска: https://www.sewhistorically.com/how-to-dye-cotton-green-with-red-hazelnut-leaves-no-mordant/",
+      "en": ""
+     }
+    }
+   ],
+   "confidence": {
+    "family": "literature",
+    "chemistry": "literature",
+    "role": "literature",
+    "lightfastness": "practice",
+    "washfastness": "literature",
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice",
+    "compositionalRole": "practice",
+    "dosing": "practice"
+   },
+   "tempExtractC": {
+    "min": 80,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "toxicity": {
+    "bg": "Нисък риск при нормална текстилна работа. Листата, кората и плодните обвивки са богати на танини; концентрираните екстракти могат да дразнят кожата.",
     "en": ""
    }
   }

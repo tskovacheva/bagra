@@ -78,6 +78,10 @@ export const VOCABULARY = [
   V('plant_part', 'flower', 'цвят',     'flower', 4),
   V('plant_part', 'fruit',  'плод',     'fruit', 5),
   V('plant_part', 'hull',   'обвивка',  'hull', 6),
+  // A hazelnut's green husk and its hard shell are different materials and
+  // are worked separately, so folding the shell into `hull` would lose a
+  // real distinction. Shells are also a genuine waste-stream dye material.
+  V('plant_part', 'shell',  'черупка',  'shell', 6.5),
   V('plant_part', 'gall',   'шикалка',  'gall', 7),
   V('plant_part', 'whole',  'цяло',     'whole plant', 8),
 
