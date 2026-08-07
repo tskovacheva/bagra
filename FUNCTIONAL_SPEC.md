@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.23 — what a plant can give, in the list
+**Status:** v1.26 — the plant profile, specified (not yet built)
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -618,6 +618,84 @@ attachable as exactly that: an image on the trial, with no structured field aski
 it. What genuinely belongs in structured form is only the part that will later be searched: the
 layers and their roles, which `BundleLayer` (§8.1) already holds, the barrier among them. The drawing
 carries the rest, and carries it better than any form would.
+
+### 8.0e The working flow — five screens
+
+Agreed with the owner and **not yet built**. No schema change: everything below
+is a rearrangement of fields that already exist.
+
+The diagnosis first, because it explains the shape. The trial form is six panels
+side by side — title, water, techniques, placements, steps, result — one per
+corner of the `Trial` record. The stages added in 0.66.0 live *inside* the steps
+panel, so the story is a subsection of a form. This inverts that: the story is
+the screen, and the form's other corners become context folded above it.
+
+**1 · My work.** The Trials module, reframed. Unfinished entries read as *how far
+along* — a row with progress. Finished ones read as *what came out* — a card led
+by a photograph and swatches. One list, two rhythms, because the question asked
+of the two is not the same. Fabrics stays the wardrobe: what I own and what state
+it is in. My work is what is happening.
+
+**2 · New work.** One screen, one question: what are you working on? Mordanted
+pieces sort to the top under *ready to work*, because mordanted cloth is what is
+actually waiting. Choosing goes straight into the trial — no intermediate form.
+A new cloth can be added inline with name, composition and weight only; the tag
+number is reserved on save as everywhere else. Intent is written afterwards, at
+the top of the trial, if at all.
+
+**3 · The active trial.** A single column: header, progress line, then the stages
+open as cards. Three things move and nothing is added — placements become an
+action inside *colouring and printing* rather than a separate panel (the data
+stays in `trial.placements`); water, process and enhancements fold into a
+collapsed *about this work* strip, because they are context and not work; and
+every stage carries its own **+ add action**, which knows the stage it inserts
+into.
+
+**4 · Finishing.** Its own screen rather than a field at the bottom of a form:
+photographs, the colour that came out, how it went and why, *would I do this
+again*, and the cloth's change of state. All five already exist — `resultPhotos`,
+`assessment`, `assessmentWhy`, `repeat`, `stateEvents` — gathered in one place
+and put as questions.
+
+**5 · Reviewing finished work.** The result is the screen: a large photograph,
+the verdict, the swatches, whether it would be repeated. The process folds
+underneath and opens as the same stepped story, read-only.
+
+#### Chains are inserted expanded
+
+Choosing a ready sequence of three inserts **three steps**, each carrying its
+`recipeId` and the `chainId` of the sequence that brought it. Both fields already
+exist on the step, so this costs no schema change.
+
+The reason is what follows the insert: with one indivisible step the owner cannot
+tick only the first two as done, cannot photograph the tannin separately from the
+acetate, and cannot correct the temperature of one of them. Those three things
+are the whole of working through a process.
+
+There is a quieter reason. A trial records what *happened*, not what was
+prescribed. A chain held as a single `chainId` would silently rewrite the history
+of old work whenever the chain itself was edited. Expanded steps are a snapshot
+and do not move.
+
+What is lost is that the three no longer look like one thing, which a faint
+*from "cellulose preparation"* above the group recovers — without the word
+"chain" appearing anywhere. The owner should not have to hold that concept.
+
+**One exception:** confirm before inserting into a trial already marked complete.
+Adding three actions to finished work is almost always a mistake.
+
+#### Two placements in one trial: a known limitation
+
+Dyeing, then printing, then dyeing again with a *different* arrangement of leaves
+cannot be recorded distinctly: `placements` is one flat list on the trial with no
+link to a step. The owner reports this is rare, so it stays. Written down so it
+is not rediscovered: if it ever becomes common the fix is a `stepId` on the
+placement, not a new object.
+
+#### Renaming Trials to "My work"
+
+Agreed, deferred. It touches navigation, the module id, the route and a page of
+strings, and there is no reason to do it in the same change as the flow.
 
 ### 8.1 Bundle construction
 
@@ -1557,6 +1635,110 @@ cleared by `reset()`, so leaving a module and returning left the list filtered
 with nothing on screen to say why. Fixed in plants, recipes and combinations.
 Any state a module keeps between renders belongs in its `reset()`, and the test
 for it is whether the list can look short for a reason the person cannot see.
+
+---
+
+## 13h. Two plants, and what adding them exposed
+
+Rose (*Rosa spp.*) and hazel (*Corylus avellana*), the first additions to the
+seeded library since it shipped. Hazel is the more valuable of the two: it is
+locally foraged and works as a dye bath, as an eco print and as a tannin
+source, which is the shape of plant a reference should show strongly.
+
+Three things the research notes assumed that the model does not have, recorded
+because the next addition will meet them again:
+
+**There is no `tannin_mordant` role.** The library already marks oak, sumac and
+pomegranate as `mordant_accumulator`, so hazel follows them. The label reads
+"accumulator", which is not quite right for a tannin plant — an accumulator
+takes up aluminium — but consistency across the library matters more than one
+imprecise word. Worth renaming if the vocabulary is ever tidied.
+
+**`shell` was missing and has been added.** A hazelnut's green husk and its hard
+shell are worked separately and give different things, so folding the shell into
+`hull` would have lost a real distinction. Shells are also a genuine
+waste-stream dye material.
+
+**`availability` holds one code, not a list**, and there is no `aliases` field.
+"Лешник" therefore lives in the name — `леска (лешник)` — following the
+library's own convention, as in "кромид лук — жълти люспи". A field for a single
+record would not have earned its place in the export.
+
+**Colours were left empty, deliberately.** All 50 plants have an empty `colours`
+array and their colour ranges live in the profile prose. Inventing hex values
+for the two new ones would have lit up swatches (§13g) for colours nobody has
+seen, and a reference that asserts what it has not observed is worth less than
+one that says nothing.
+
+The pack version moves to 0.2.0. `seedPack` adds absent records on every start,
+so both plants reach an existing database rather than only a fresh install.
+
+---
+
+## 13i. The plant profile — list and detail
+
+Agreed with the owner and **not yet built**. No schema change; the form is not
+touched in this round.
+
+### The fault to fix first
+
+`renderRead()` builds its colour section from `p.colours` alone, while the list
+built in 0.69.0 uses `plantSwatches(p, combinations)`. The two disagree, and
+because almost no seeded plant has its own `colours`, the disagreement is
+visible on the most common path: the list shows four swatches for oak, the
+record is opened, and the colour section is empty.
+
+This was introduced with the swatch column and is the smallest and most valuable
+change here — **the detail must derive from the same two sources as the list**.
+In the detail there is room to show the combination's context alongside each
+swatch, which the list has no space for.
+
+### The list is too much of a table
+
+Eight columns: star, plant, gives, botanical name, role, parts, chemistry,
+availability. That is a spreadsheet, and the question actually being asked of
+this screen is narrower — *I have oak, walnut, rose and eucalyptus; which do I
+use?*
+
+Reduced to four blocks: **plant · what it gives · what for · part used**.
+Chemistry moves to the detail. Availability becomes a filter or a small mark,
+not a standing column — it matters when sourcing, not when choosing.
+
+Swatches get larger: five or six chips rather than the current 15px squares,
+naming the colour on hover or tap. Conditions stay out of the list; they belong
+to the detail.
+
+### The detail should answer four questions in order
+
+*What is this? What does it give me? How do I use it? What else should I know?*
+
+The present order is title, photograph, taxonomy, "for work now", then two equal
+columns holding colours, chemistry, growing, cautions and the free text
+sections. Technically tidy, and it tells no story — two equal columns leave the
+reading order undefined, which is most of the scattered feeling.
+
+One vertical hierarchy instead:
+
+1. **Identity** — name, botanical name, photograph, role chips
+2. **What it gives** — the derived swatches, each with its context (part,
+   mordant, process). The first real block, not a panel in a column.
+3. **How it is used** — for dyeing: part, fresh and dried WOF, extraction and
+   dye temperatures. For eco print: print quality, facing, preparation, steam.
+   All of this is already structured on the record; it is only presented as
+   procedure rather than as fields.
+4. **Why it works** — the chemistry, after the result and the use, not before.
+5. **Gathering and growing** — season, harvest, propagation.
+6. **More about the plant** — the free text sections, kept together rather than
+   distributed between two columns automatically.
+
+Blocks may hold two columns internally on a wide screen. The page itself has one
+column, because the order is the meaning.
+
+### Scope
+
+Deliberately small: lighten the list, enlarge the swatches, move *what it gives*
+to the top of the detail, derive it from both sources, and order the detail
+vertically. The edit form is not touched. This is not a rewrite of the module.
 
 ---
 

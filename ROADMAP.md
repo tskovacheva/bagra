@@ -299,6 +299,13 @@ Two smaller ones ride along because they are cheap and were asked for in the sam
 Deliberately *not* built: planned-versus-actual figures. Agreed and recorded in §8.0a — one figure
 per field, corrected in place.
 
+## Library additions
+
+- **Rose and hazel** — added in 0.70.0, plants pack 0.2.0. §13h.
+- Gaps the owner notices go here as they come up. Adding a plant is cheap; what
+  is not cheap is discovering mid-way that a part code or a role does not exist,
+  so §13h lists the three that were missing this time.
+
 ## From the owner's review of the prototype
 
 Recorded here so they are not lost between stages. Numbering follows her notes.
@@ -315,7 +322,34 @@ Recorded here so they are not lost between stages. Numbering follows her notes.
 - **Reverse colour lookup** — now the obvious next step, since the swatches are
   in the list: ask for a colour range and get the plants that reach it.
 
-## Stage 11 — Packs · *after*
+## The plant profile · *small, and ready to do*
+
+Specified in §13i. Six changes, no schema change, the edit form untouched.
+
+Worth doing before or alongside Stage 11 because it is small and because it
+carries a real fault: the detail view reads colours from `p.colours` only while
+the list derives them from combinations too, so opening a plant loses the
+information the list just showed. That fault arrived with the swatch column in
+0.69.0.
+
+## Stage 11 — The working flow · *next*
+
+Specified in §8.0e; five screens, agreed with the owner and not yet built. No
+schema change — a rearrangement of fields that already exist.
+
+1. **My work** — the trials list in two rhythms: unfinished by progress,
+   finished by result.
+2. **New work** — one screen, one question, mordanted cloth first, inline new
+   fabric, straight into the trial.
+3. **The active trial** — one column; placements move inside colouring, context
+   folds into a strip, every stage gets its own add-action sheet.
+4. **Finishing** — its own screen, five questions, all existing fields.
+5. **Reviewing** — result first, process folded underneath.
+
+Chains insert expanded (§8.0e). Renaming the module to "My work" is agreed but
+deliberately not part of this change.
+
+## Stage 12 — Packs · *after*
 
 Import with merge preview is done (§10, used by substances, plants, techniques and combinations).
 What remains is **export**: writing a user-authored pack of records marked `distributable`, so
