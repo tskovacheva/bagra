@@ -10,6 +10,7 @@ import { initLang, setLang, getLang, t } from './i18n.js';
 import { VOCABULARY, BANDS } from './vocab.js';
 import { loadPack } from './seed.js';
 import { VERSION } from './version.js';
+import * as dirty from './dirty.js';
 
 import dashboard  from './modules/dashboard.js';
 import reference  from './modules/reference.js';
@@ -178,7 +179,23 @@ document.addEventListener('click', async (e) => {
   }
 });
 
-window.addEventListener('hashchange', () => route(true));
+// The browser's back button changes the hash without a click, so the guard
+// cannot intercept it — by the time this fires the address has already moved.
+// Refusing means putting it back, which fires hashchange again; `restoring`
+// keeps that second pass from asking a second time.
+let lastHash = location.hash;
+let restoring = false;
+
+window.addEventListener('hashchange', () => {
+  if (restoring) { restoring = false; lastHash = location.hash; return; }
+  if (!dirty.allowRouteChange()) {
+    restoring = true;
+    location.hash = lastHash;
+    return;
+  }
+  lastHash = location.hash;
+  route(true);
+});
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 
 // ---------------------------------------------------------------- updates
@@ -250,6 +267,7 @@ async function registerWorker() {
     try { await loadPack(name); }
     catch (err) { console.warn('seed failed:', name, err); }
   }
+  dirty.install(() => confirm(t('common.discardUnsaved')));
   await route();
 
   registerWorker();

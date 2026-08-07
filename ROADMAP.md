@@ -274,7 +274,7 @@ Order of work, because the parts depend on one another:
 2. **Stages** — `stageCode` on the step, and the entry screen rebuilt as a progress line of named
    stages rather than a list of typed steps. The data underneath does not move.
 3. **Photographs on steps**, offered at every stage and required at none, plus `planPhotos` for
-   attached diagrams.
+   attached diagrams. *(Next.)*
 4. **One chronological photo strip** on the fabric, replacing the three separate blocks.
 5. **The cloth as the entry point** — *continue this story* from the fabric record.
 
@@ -301,8 +301,9 @@ That is the last module. After it the app is complete as specified, which is wha
 
 Accepted from the audits and not yet built:
 
-**Protecting unsaved work.** With forms this long, one stray click costs an afternoon. Agreed and
-still missing — the heaviest item on this list.
+~~**Protecting unsaved work.**~~ — **done in 0.64.0**. One guard over the whole application rather
+than a rule each module follows; §13f. It covers the sidebar, Back, opening another record, the
+browser's back button and closing the tab, and stays silent on filters and tabs.
 
 **Ceiling warnings inside a trial.** Recipes check the iron and temperature limits; trials do not.
 The app is therefore silent at the exact moment the iron is being poured.

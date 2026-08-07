@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.17 — the story of a piece; favourites; two silent faults recorded
+**Status:** v1.18 — protecting unsaved work; the story of a piece; favourites
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -1418,6 +1418,44 @@ presses the star, and asserts the two rules above as behaviour rather than as
 diffs. It dispatches real events: calling `root.onclick` directly skips handlers
 registered with `addEventListener`, and a harness that does so reports green on
 a screen that does not work.
+
+---
+
+## 13f. Protecting unsaved work
+
+The heaviest item to come out of real use: forms here are long, and one stray
+click on the sidebar discards an afternoon. The protection is **one guard over
+the whole application**, not a rule each module follows, because a rule the
+eleventh module has to remember is a rule the eleventh module will forget.
+
+**How it knows a form is open: a Save button is on screen.** The first attempt
+matched the data attributes `readForm` uses — `[data-f]`, `[data-comp]` and the
+rest — and was quietly wrong, because the real attributes are `data-comp-pct`,
+`data-place-photo`, `data-step-del`, and CSS matches a prefix of an attribute's
+*value*, never of its name. About half the fields went unwatched, and the half
+it missed were the nested ones: composition rows, placements, steps. The long
+parts. The parts worth protecting. A Save button is the better signal — present
+exactly when a form is, and unable to fall out of step with the markup.
+
+**What counts as leaving:** the sidebar, the phone bar, Back, opening another
+record, starting a new one, and the browser's own back button. A list filter or
+a tab does not count; a list is not on screen while a form is. This distinction
+matters more than it sounds: a guard that asks on ordinary clicks is worse than
+no guard, because it gets dismissed reflexively and then goes unread on the day
+it matters.
+
+**Saving clears the state only when the form is observed to have gone.** Modules
+save asynchronously and then re-render into the read view, so the click itself
+proves nothing. Clearing on the click and undoing it on a timer was tried and is
+a race: whichever way it is tuned, one answer is sometimes wrong, and the wrong
+answer is silently discarded work. A save can also be *refused* mid-way — a
+composition that does not total 100 — and the person is then still in the form
+with the same unsaved work, which must stay protected.
+
+**The browser's back button is refused by putting the address back**, since by
+the time `hashchange` fires the navigation has already happened. `beforeunload`
+covers closing the tab and reloading; the browser shows its own wording there
+and ignores ours, which is fine — what matters is that it asks.
 
 ---
 

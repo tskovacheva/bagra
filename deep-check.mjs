@@ -75,6 +75,7 @@ for (const store of ['plants','recipes','combinations']) {
 // direct call silently skips them — which is exactly how a harness ends up
 // reporting green on a broken screen.
 const click = async (el) => {
+  if (!el) throw new Error('nothing to click — the expected control is not on screen');
   el.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
   await new Promise(r => setTimeout(r, 30));
 };
@@ -87,7 +88,7 @@ for (const [name, path] of Object.entries(mods)) {
   const m = await import(path);
   const mod = m.default || m;
   try {
-    if (mod.enter) await mod.enter();
+    mod.reset?.();
     await mod.render(root);
     // Reference opens on the search tab; the record list is the other one.
     if (name === 'reference') {
@@ -136,7 +137,7 @@ for (const [name, path] of Object.entries(mods)) {
     if (starred && chip) {
       await click(chip);
       console.log(`  ${name}: favourites filter ok`);
-      if (mod.enter) await mod.enter();
+      mod.reset?.();
     }
   } catch (err) { fail(name, err); }
 }
@@ -148,7 +149,7 @@ for (const [name, path] of Object.entries(mods)) {
   const fabrics = (await import('./modules/fabrics.js')).default
     || await import('./modules/fabrics.js');
   const before = await db.getSetting('fabricLabelCounter', 0);
-  if (fabrics.enter) await fabrics.enter();
+  fabrics.reset?.();
   await fabrics.render(root);
   for (let i = 0; i < 3; i++) {
     const nu = root.querySelector('[data-new]');
@@ -161,7 +162,7 @@ for (const [name, path] of Object.entries(mods)) {
   else console.log(`  label: three opens, no save — counter still ${after}`);
 
   // And a save must take exactly one.
-  if (fabrics.enter) await fabrics.enter();
+  fabrics.reset?.();
   await fabrics.render(root);
   await click(root.querySelector('[data-new]'));
   const save = root.querySelector('[data-save]');
@@ -184,7 +185,7 @@ for (const [name, path] of Object.entries(mods)) {
   const old = rows.find(r => r.status === undefined);
   if (!old) fail('status', new Error('the legacy record lost its missing status'));
   else {
-    if (trials.enter) await trials.enter();
+    trials.reset?.();
     await trials.render(root);
     const html = root.innerHTML;
     if (!html.includes('замислен') && !html.includes('в ход'))
@@ -193,6 +194,124 @@ for (const [name, path] of Object.entries(mods)) {
     if (old.status !== undefined)
       fail('status', new Error('a migration wrote a guessed status back to disk'));
     else console.log('  status: nothing written back to the legacy record');
+  }
+}
+
+
+// ---- 3. Unsaved work is not thrown away on a stray click -----------------
+{
+  const dirty = await import('./dirty.js');
+  const plants = (await import('./modules/plants.js')).default
+    || await import('./modules/plants.js');
+
+  // Rebuild the guard with a refusal we control, so both answers are tested.
+  let answer = false, asked = 0;
+  dirty.install(() => { asked++; return answer; });
+
+  plants.reset?.();
+  await plants.render(root);
+  await click(root.querySelector('[data-open]'));
+  await click(root.querySelector('[data-edit]'));
+
+  const input = root.querySelector('[data-f]');
+  if (!input) fail('guard', new Error('no editable field in the plant form'));
+  else {
+    if (dirty.isDirty()) fail('guard', new Error('marked unsaved before anything was typed'));
+
+    input.value = (input.value || '') + ' x';
+    input.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+    if (!dirty.isDirty()) fail('guard', new Error('typing did not mark the work unsaved'));
+    else console.log('  guard: typing marks the work unsaved');
+
+    // Refused: the click must not reach the module, so the form stays.
+    answer = false;
+    const before = asked;
+    await click(root.querySelector('[data-back]'));
+    if (asked !== before + 1) fail('guard', new Error('leaving did not ask'));
+    else if (!root.querySelector('[data-save]'))
+      fail('guard', new Error('Back went through after being refused — work lost'));
+    else console.log('  guard: Back refused, the form is still open');
+
+    // Accepted: it goes through, and the state resets.
+    answer = true;
+    await click(root.querySelector('[data-back]'));
+    if (dirty.isDirty()) fail('guard', new Error('still marked unsaved after discarding'));
+    else console.log('  guard: Back accepted, the state resets');
+  }
+
+  // Saving clears it, and a save is not confused with a navigation.
+  plants.reset?.();
+  await plants.render(root);
+  await click(root.querySelector('[data-open]'));
+  await click(root.querySelector('[data-edit]'));
+  const f = root.querySelector('[data-f]');
+  f.value = (f.value || '') + ' y';
+  f.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+  const save = root.querySelector('[data-save]');
+  if (save) {
+    const askedBefore = asked;
+    await click(save);
+    await new Promise(r => setTimeout(r, 250));
+    if (asked !== askedBefore) fail('guard', new Error('saving was treated as leaving'));
+    else if (dirty.isDirty()) {
+      console.log('   debug: save still present?', !!document.querySelector('[data-save]'),
+                  '| edit present?', !!document.querySelector('[data-edit]'),
+                  '| edit-attrs in view:', root.querySelectorAll('[data-f],[data-multi],[data-opt]').length);
+      fail('guard', new Error('still marked unsaved after saving'));
+    }
+    else console.log('  guard: saving clears it without asking');
+  }
+  dirty.markClean();
+
+  // And it must stay out of the way when nothing is unsaved. A guard that
+  // asks on an ordinary click is worse than no guard: it gets dismissed
+  // reflexively, and then it is not read on the day it matters.
+  {
+    const quiet = asked;
+    plants.reset?.();
+    await plants.render(root);
+    await click(root.querySelector('[data-open]'));
+    await click(root.querySelector('[data-back]'));
+    if (asked !== quiet) fail('guard', new Error('asked when there was nothing unsaved'));
+    else console.log('  guard: silent when nothing is unsaved');
+  }
+
+  // A save that is refused mid-way leaves the person in the form with the
+  // same unsaved work. This is the case the clearing logic exists for, and
+  // getting it wrong means the app calls the work saved when it is not.
+  {
+    const fabrics = (await import('./modules/fabrics.js')).default
+      || await import('./modules/fabrics.js');
+    global.confirm = () => false;              // decline "the composition is not 100%"
+    fabrics.reset?.();
+    await fabrics.render(root);
+    await click(root.querySelector('[data-new]'));
+    const pct = root.querySelector('[data-comp-pct]');
+    if (pct) {
+      pct.value = '60';                        // deliberately not 100
+      pct.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+      await click(root.querySelector('[data-save]'));
+      await new Promise(r => setTimeout(r, 800));
+      if (!root.querySelector('[data-save]'))
+        console.log('  (the form closed; this build does not refuse the save)');
+      else if (!dirty.isDirty())
+        fail('guard', new Error('a refused save was counted as saved — work now unprotected'));
+      else console.log('  guard: a refused save leaves the work marked unsaved');
+    }
+    global.confirm = () => true;
+  }
+
+  // A filter is not a way out of a form, and must not be treated as one.
+  {
+    plants.reset?.();
+    await plants.render(root);
+    const chip = root.querySelector('[data-role]');
+    if (chip) {
+      const quiet = asked;
+      await click(chip);
+      if (asked !== quiet) fail('guard', new Error('a list filter was treated as leaving'));
+      else console.log('  guard: filters are not navigations');
+    }
   }
 }
 
