@@ -20,6 +20,11 @@ let draft = null;
 let editing = false;
 let filter = { plantId: '', processCode: '', status: '' };
 
+// Which cloth a new trial was started from, taken from the address and used
+// once. The trial reads the piece's own name and weight rather than opening by
+// asking what the cloth already knows.
+let handoff = null;
+
 // Loaded once per render so the nested lists can name what they point at.
 let plants = [], plantsById = new Map(), recipes = [], substances = [], combinations = [], chains = [], techniques = [];
 
@@ -695,7 +700,17 @@ export default {
   title: () => t('trials.title'),
   sub: () => t('trials.sub'),
 
-  reset() { openId = null; draft = null; editing = false; view = 'gallery'; filter = { plantId: '', processCode: '' }; },
+  reset() { openId = null; draft = null; editing = false; view = 'gallery';
+            filter = { plantId: '', processCode: '', status: '' }; },
+
+  // Opened by the router when the address names a record (§8.0c). Straight
+  // into the form, because the cloth said "continue", not "show me".
+  open(arg, fromFabricId = null) {
+    openId = arg;
+    editing = true;
+    draft = null;
+    handoff = arg === 'new' ? fromFabricId : null;
+  },
 
   async render(root) {
     plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
@@ -708,7 +723,22 @@ export default {
 
     if (openId) {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
-        draft = openId === 'new' ? blank() : structuredClone(await get('trials', openId));
+        const found = openId === 'new' ? blank() : await get('trials', openId);
+        // A link to a record that has since been deleted, or a mistyped
+        // address. Falling back to the gallery is the whole recovery: a blank
+        // screen with nothing on it is the worst outcome this app has.
+        if (!found) { openId = null; editing = false; draft = null; return this.render(root); }
+        draft = structuredClone(found);
+        if (openId === 'new' && handoff) {
+          const cloth = await get('fabrics', handoff);
+          if (cloth) {
+            draft.fabricIds = [cloth.id];
+            draft.title = cloth.name || cloth.label || '';
+            if (cloth.weightG) draft.weightOfGoodsG = cloth.weightG;
+            draft.status = 'in_progress';  // the cloth is in hand; this is not a daydream
+          }
+          handoff = null;
+        }
       }
       if (editing || openId === 'new') await renderForm(root, draft);
       else await renderRead(root, draft);

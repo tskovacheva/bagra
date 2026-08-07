@@ -548,5 +548,113 @@ const dirty = await import('./dirty.js');
   }
 }
 
+
+// ---- 7. The cloth starts and continues its own story ----------------------
+{
+  const fabrics = (await import('./modules/fabrics.js')).default
+    || await import('./modules/fabrics.js');
+  const trials = (await import('./modules/trials.js')).default
+    || await import('./modules/trials.js');
+
+  const cloth = db.newRecord({ label: 'П-950', name: 'гащеризон', weightG: 420,
+                               composition: [{ fibreCode: 'cotton', percent: 100 }] });
+  await db.put('fabrics', cloth);
+
+  const openCloth = async () => {
+    fabrics.reset?.();
+    await fabrics.render(root);
+    const row = [...root.querySelectorAll('[data-open]')]
+      .find(el => el.textContent.includes('гащеризон'));
+    if (!row) throw new Error('the cloth is not in the list');
+    await click(row);
+  };
+
+  // A cloth with no trials offers to start one.
+  await openCloth();
+  const start = root.querySelector('[data-startstory]');
+  if (!start) fail('handoff', new Error('an unused cloth does not offer to start'));
+  else {
+    await click(start);
+    if (!location.hash.startsWith('#/trials/new/'))
+      fail('handoff', new Error(`went to ${location.hash} instead of a new trial`));
+    else console.log('  handoff: an unused cloth offers to start one');
+
+    // What the cloth knows must arrive with it, not be asked for again.
+    // The address is the only channel: '#/trials/new/<fabricId>'.
+    const [, , , fromId] = location.hash.split('/');
+    trials.reset?.();
+    trials.open('new', fromId);
+    await trials.render(root);
+    const title = root.querySelector('[data-f="title"]');
+    const weight = root.querySelector('[data-f="weightOfGoodsG"]');
+    const ticked = [...root.querySelectorAll('[data-multi="fabricIds"]')].filter(el => el.checked);
+    if (title?.value !== 'гащеризон')
+      fail('handoff', new Error(`the title did not travel: "${title?.value}"`));
+    else if (String(weight?.value) !== '420')
+      fail('handoff', new Error(`the weight did not travel: "${weight?.value}"`));
+    else if (ticked.length !== 1)
+      fail('handoff', new Error(`${ticked.length} pieces ticked, expected one`));
+    else console.log('  handoff: name, weight and the piece itself arrive with it');
+
+    // Saving it makes it this cloth's unfinished trial.
+    await click(root.querySelector('[data-save]'));
+    await new Promise(r => setTimeout(r, 300));
+  }
+  dirty.markClean?.();
+
+  // Now the same cloth offers to CONTINUE rather than to start again.
+  await openCloth();
+  const cont = root.querySelector('[data-continue]');
+  if (!cont) fail('handoff', new Error('a cloth with unfinished work still offers to start afresh'));
+  else {
+    const id = cont.dataset.continue;
+    await click(cont);
+    if (location.hash !== '#/trials/' + id)
+      fail('handoff', new Error(`continue went to ${location.hash}`));
+    else console.log('  handoff: unfinished work is continued, not duplicated');
+
+    // And the router must land in the form, not in the gallery.
+    trials.reset?.();
+    trials.open(id);
+    await trials.render(root);
+    if (!root.querySelector('[data-save]'))
+      fail('handoff', new Error('continuing landed somewhere other than the form'));
+    else console.log('  handoff: continuing opens the form itself');
+  }
+  dirty.markClean?.();
+
+  // A hash naming a record that no longer exists must not blank the screen.
+  trials.reset?.();
+  trials.open('no-such-trial');
+  try {
+    await trials.render(root);
+    if (root.innerHTML.length < 40) fail('handoff', new Error('a stale link renders nothing'));
+    else console.log('  handoff: a stale link still renders something');
+  } catch (err) { fail('handoff: stale link', err); }
+  dirty.markClean?.();
+
+  // The router itself, not just the modules: setting the address must land in
+  // the right module with the right record open. This is the part the modules
+  // cannot test between themselves.
+  {
+    const live = (await db.all('trials')).find(x => (x.status || 'complete') !== 'complete');
+    if (live) {
+      // Start from elsewhere: assigning an unchanged hash fires no event, and
+      // the point here is to prove the ROUTER opens the record.
+      location.hash = '#/dashboard';
+      await new Promise(r => setTimeout(r, 200));
+      location.hash = '#/trials/' + live.id;
+      await new Promise(r => setTimeout(r, 400));
+      const view = document.getElementById('view');
+      if (!view.querySelector('[data-save]'))
+        fail('handoff', new Error('the address did not open the trial form'));
+      else console.log('  handoff: the address alone opens the right record');
+      dirty.markClean?.();
+      location.hash = '#/dashboard';
+      await new Promise(r => setTimeout(r, 200));
+    }
+  }
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);

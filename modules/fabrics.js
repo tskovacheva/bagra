@@ -4,7 +4,7 @@ import { all, get, put, remove, newRecord, getSetting, setSetting, uid } from '.
 import { t } from '../i18n.js';
 import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
-         fact, facts, readBlock } from '../ui.js';
+         fact, facts, readBlock, navigate } from '../ui.js';
 import {
   compositionTotal, dyeReceptiveFraction, fibreClass, compositionWarnings,
   currentState, stateHistory, daysSinceMordanted, STATE_ORDER, photoTimeline,
@@ -175,7 +175,12 @@ async function renderRead(root, r) {
   const trials = (await all('trials')).filter(x => (x.fabricIds || []).includes(r.id));
   const trialList = trials.length
     ? `<ul class="history">${trials.map(x =>
-        `<li><b>${esc(x.title || t('trials.one'))}</b> <span class="hint">${fmtDate(x.date)}</span></li>`).join('')}</ul>`
+        `<li data-trial="${x.id}" style="cursor:pointer">
+           <b>${esc(x.title || t('trials.one'))}</b>
+           <span class="hint">${fmtDate(x.date)}</span>
+           ${(x.status || 'complete') !== 'complete'
+             ? `<span class="statuschip ${x.status}">${esc(t('trials.notFinished'))}</span>` : ''}
+         </li>`).join('')}</ul>`
     : `<p class="hint">${t('fabrics.notUsed')}</p>`;
 
   // The whole life of the piece in pictures, in the order it happened. Not
@@ -195,11 +200,22 @@ async function renderRead(root, r) {
         </figure>`))).join('')}
     </div>` : '';
 
+  // The cloth is the entry point (§8.0c). The natural question is "what is
+  // happening with this garment", not "which trial was that" — so the piece
+  // offers to continue its own story rather than sending the person to a
+  // module to find it. An unfinished trial is continued; otherwise a new one
+  // is started from what the cloth already knows about itself.
+  const open = trials.find(x => (x.status || 'complete') !== 'complete');
+  const continueBtn = open
+    ? `<button class="btn primary" data-continue="${open.id}">${t('fabrics.continueStory')}</button>`
+    : `<button class="btn primary" data-startstory>${t('fabrics.startStory')}</button>`;
+
   root.innerHTML = page({
     title: r.name || r.label || t('fabrics.one'),
     sub: r.label,
     actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
-              <button class="btn primary" data-edit>${t('common.edit')}</button>`,
+              <button class="btn quiet" data-edit>${t('common.edit')}</button>
+              ${continueBtn}`,
     body: `
       <div class="headline">
         ${r.photoData ? `<img src="${r.photoData}" alt="">` : ''}
@@ -450,6 +466,20 @@ export default {
 
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
       if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
+
+      // Handing off to the trial. Everything needed travels in the address —
+      // no hidden channel — so the back button, a reload and a bookmark all
+      // behave, and the new trial can read the cloth's own name and weight
+      // rather than opening by asking what it already knows.
+      const cont = e.target.closest('[data-trial], [data-continue]');
+      if (cont) {
+        navigate('#/trials/' + (cont.dataset.continue || cont.dataset.trial));
+        return;
+      }
+      if (e.target.closest('[data-startstory]')) {
+        navigate('#/trials/new/' + draft.id);
+        return;
+      }
 
       const row = e.target.closest('[data-open]');
       if (row) { draft = null; openId = row.dataset.open; editing = false; return this.render(root); }

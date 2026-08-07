@@ -60,10 +60,16 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&
 const icon = (id) => `<svg width="18" height="18" fill="none" stroke="currentColor"
   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#${id}"></use></svg>`;
 
-function currentRoute() {
-  const id = location.hash.replace(/^#\/?/, '') || 'dashboard';
-  return MODULES[id] ? id : 'dashboard';
+// A route may name a record: `#/trials/<id>`, or `#/trials/new`. This is how
+// one module hands off to another — the cloth saying "continue this story"
+// (§8.0c) — and it goes through the address rather than through a shared
+// variable so that the back button, a reload and a bookmark all still work.
+function parseRoute() {
+  const [id, ...args] = location.hash.replace(/^#\/?/, '').split('/');
+  return MODULES[id] ? { id, args } : { id: 'dashboard', args: [] };
 }
+
+function currentRoute() { return parseRoute().id; }
 
 function renderNav() {
   const active = currentRoute();
@@ -93,11 +99,14 @@ function renderNav() {
 }
 
 async function renderView(fresh = false) {
-  const id = currentRoute();
+  const { id, args } = parseRoute();
   const view = $('#view');
   // Entering a module from the navigation starts at its list; a plain redraw
   // (language switch, hash change within the module) leaves state alone.
   if (fresh) MODULES[id].reset?.();
+  // A named record is honoured after the reset, never before it — the reset
+  // is what clears whatever the module was showing last.
+  if (args.length) MODULES[id].open?.(...args);
   await MODULES[id].render(view);
   view.focus({ preventScroll: true });
   document.title = `${t('nav.' + id)} · ${t('app.name')}`;

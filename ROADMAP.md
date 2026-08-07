@@ -256,12 +256,17 @@ ingredients, chains selectable as a trial step, writing a recipe from within a t
 the trial, "would I do this again" separate from "did it succeed", and vocabulary renamed from the
 theory to the action — *blanket soaked in dye* rather than *adjective carrier blanket*.
 
-## Stage 10 — The story of a piece · **in progress**
+## Stage 10 — The story of a piece · **complete (0.68.0)**
 
-Steps 1 and 2 below are **done** and shipped in 0.63.0, together with the two
-small ones. What was learned doing them is in §13e — two silent faults, one of
-which had been recording plant fastness wrongly, and a second boot check that
-opens records rather than stopping at the list.
+All five steps are done, across 0.63.0 to 0.68.0. The stage began as a note in
+a feedback document — that the interface still followed the data model rather
+than the way an artist works — and ends with a record that runs from an
+intention to a finished piece without asking for anything twice.
+
+What was learned along the way is in §13e and §13f: three silent faults, one of
+which had been recording plant fastness wrongly for as long as the segmented
+control existed, and a deep render harness that opens records instead of
+stopping at the list.
 
 The largest remaining piece of work, and the one that came out of real use rather than out of the
 model. Specified in §8.0a–d; the reasoning is there and is not repeated here.
@@ -282,8 +287,8 @@ Order of work, because the parts depend on one another:
    stays readable.
 4. ~~**One chronological photo strip**~~ — **done in 0.67.0**. Five sources gathered into one
    sequence on the fabric record, sorted by date and then by rank within the day. §8.0c.
-5. **The cloth as the entry point** — *continue this story* from the fabric record. *(Next, and the
-   last of Stage 10.)*
+5. ~~**The cloth as the entry point**~~ — **done in 0.68.0**. One button that continues unfinished
+   work or starts new, decided by the cloth; the handoff travels in the address. §8.0c.
 
 Two smaller ones ride along because they are cheap and were asked for in the same round:
 

@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.21 — a piece's life in one strip of photographs
+**Status:** v1.22 — the cloth as the entry point; Stage 10 complete
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -577,6 +577,24 @@ The natural question is "what is happening with this garment", not "which trial 
 record therefore offers **continue this story** directly, and a trial can be started from the cloth
 without first choosing a module. The Trials gallery remains, for the times the question is visual or
 chronological rather than about one piece.
+
+**One button, two meanings, decided by the cloth.** If a trial on this piece is unfinished, the
+button continues it; otherwise it starts a new one. This is what stops the app accumulating three
+half-written trials on the same garment, which is what a plain "new trial" button would have done.
+
+**The handoff travels in the address**, as `#/trials/<id>` or `#/trials/new/<fabricId>`. A hidden
+channel was written first — the values stashed in `sessionStorage` — and replaced, because the
+address costs nothing extra and makes the back button, a reload and a bookmark all behave. The new
+trial then reads the cloth's own name and weight from the record rather than opening by asking what
+it already knows.
+
+**A route naming a record that no longer exists falls back to the gallery.** Deleting a trial and
+then following an old link used to render nothing at all, and a blank screen with nothing on it to
+explain itself is the worst outcome this application has.
+
+**Assigning an unchanged hash fires no event**, so `navigate()` in `ui.js` dispatches the change
+itself in that case. Without it, asking a piece to open a record it is already showing does nothing
+at all, silently.
 
 **One chronological photo strip.** Photographs about a single cloth are scattered across five
 places: the fabric's own shot, a plan diagram, the placements, the steps, and the finished result.

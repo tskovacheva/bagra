@@ -242,6 +242,16 @@ export function prose(pair) {
 // A star, not a heart: the same mark on a plant, a recipe and a combination,
 // and one that reads at list size. `data-fav` carries the id so a list row and
 // a read header can share one handler.
+// Going to another module's record. Assigning an unchanged hash fires no
+// event, so the navigation would silently do nothing — which is exactly what
+// happens when a piece already at `#/trials/<id>` is asked to open it again.
+// Lives here rather than in app.js because modules import ui.js, and importing
+// app.js back would be a cycle.
+export function navigate(hash) {
+  if (location.hash === hash) window.dispatchEvent(new Event('hashchange'));
+  else location.hash = hash;
+}
+
 export const favStar = (record, big = false) => `
   <button class="fav${record?.favorite ? ' on' : ''}${big ? ' big' : ''}"
           data-fav="${record?.id || ''}"
