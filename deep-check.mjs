@@ -486,5 +486,67 @@ const dirty = await import('./dirty.js');
   }
 }
 
+
+// ---- 6. A piece's photographs read as one sequence ------------------------
+{
+  const { photoTimeline } = await import('./fabric-logic.js');
+
+  const cloth = { id: 'f1', label: 'П-900', createdAt: '2026-05-01T00:00:00Z',
+                  photoData: 'RAW', composition: [] };
+  const trial = {
+    id: 't1', date: '2026-05-14', title: 'гащеризон', fabricIds: ['f1'],
+    planPhotos: ['PLAN'],
+    placements: [{ photo: 'LEAVES' }],
+    steps: [
+      { id: 's1', stageCode: 'colour', typeCode: 'bundle', photos: ['ROLL'] },
+      { id: 's2', stageCode: 'after',  typeCode: 'rinse',  photos: ['RINSE'] },
+    ],
+    resultPhotos: ['DONE'],
+  };
+
+  const order = photoTimeline(cloth, [trial]).map(p => p.src);
+  const want = ['RAW', 'PLAN', 'LEAVES', 'ROLL', 'RINSE', 'DONE'];
+  if (order.join(',') !== want.join(','))
+    fail('strip', new Error(`out of order: ${order.join(' → ')}`));
+  else console.log(`  strip: ${order.join(' → ')}`);
+
+  // The middle is the whole point: before and after alone was the old shape.
+  const middle = photoTimeline(cloth, [trial]).filter(p => p.kind === 'step');
+  if (middle.length !== 2) fail('strip', new Error('the middle of the process is missing'));
+  else if (!middle[0].stageCode)
+    fail('strip', new Error('a step photograph does not say which stage it came from'));
+  else console.log('  strip: step photographs carry their stage');
+
+  // An earlier trial must sort before a later one whatever order it is passed in.
+  const earlier = { ...trial, id: 't0', date: '2026-05-02', planPhotos: ['EARLY'],
+                    placements: [], steps: [], resultPhotos: [] };
+  const mixed = photoTimeline(cloth, [trial, earlier]).map(p => p.src);
+  if (mixed[1] !== 'EARLY')
+    fail('strip', new Error(`sorted by the order trials were passed, not by date: ${mixed.join(' → ')}`));
+  else console.log('  strip: ordered by date, not by how the trials came in');
+
+  // And it must actually reach the screen.
+  const fabrics = (await import('./modules/fabrics.js')).default
+    || await import('./modules/fabrics.js');
+  // newRecord spreads the fields over its own id, so an explicit `id: undefined`
+  // would blank the key rather than leave it alone.
+  const { id: _cid, ...clothFields } = cloth;
+  await db.put('fabrics', db.newRecord({ ...clothFields, name: 'тест лента' }));
+  const saved = (await db.all('fabrics')).find(x => x.name === 'тест лента');
+  const { id: _tid, ...trialFields } = trial;
+  await db.put('trials', db.newRecord({ ...trialFields, fabricIds: [saved.id] }));
+  fabrics.reset?.();
+  await fabrics.render(root);
+  const row = [...root.querySelectorAll('[data-open]')]
+    .find(el => el.textContent.includes('тест лента'));
+  if (!row) fail('strip', new Error('the test cloth is not in the list'));
+  else {
+    await click(row);
+    const shown = root.querySelectorAll('.lifeshot img').length;
+    if (shown !== 6) fail('strip', new Error(`six photographs, ${shown} on screen`));
+    else console.log('  strip: all six render in the biography');
+  }
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);

@@ -7,7 +7,7 @@ import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
          fact, facts, readBlock } from '../ui.js';
 import {
   compositionTotal, dyeReceptiveFraction, fibreClass, compositionWarnings,
-  currentState, stateHistory, daysSinceMordanted, STATE_ORDER,
+  currentState, stateHistory, daysSinceMordanted, STATE_ORDER, photoTimeline,
 } from '../fabric-logic.js';
 
 let filterState = null;   // null = all boxes
@@ -178,6 +178,23 @@ async function renderRead(root, r) {
         `<li><b>${esc(x.title || t('trials.one'))}</b> <span class="hint">${fmtDate(x.date)}</span></li>`).join('')}</ul>`
     : `<p class="hint">${t('fabrics.notUsed')}</p>`;
 
+  // The whole life of the piece in pictures, in the order it happened. Not
+  // three blocks that can show a before and an after but never a middle.
+  const shots = photoTimeline(r, trials);
+  const strip = shots.length > 1 ? `
+    <div class="lifestrip">
+      ${(await Promise.all(shots.map(async (p) => `
+        <figure class="lifeshot">
+          <img src="${p.src}" alt="">
+          <figcaption>
+            <span>${esc(p.stageCode
+              ? await label('trial_stage', p.stageCode)
+              : t('fabrics.shot.' + p.kind))}</span>
+            <span class="hint">${fmtDate(p.date)}</span>
+          </figcaption>
+        </figure>`))).join('')}
+    </div>` : '';
+
   root.innerHTML = page({
     title: r.name || r.label || t('fabrics.one'),
     sub: r.label,
@@ -213,6 +230,7 @@ async function renderRead(root, r) {
         </div>
 
         <div class="col">
+          ${strip ? readBlock(t('fabrics.lifeInPhotos'), strip) : ''}
           ${readBlock(t('fabrics.biography'), timeline ? `<ul class="timeline">${timeline}</ul>` : '')}
           ${readBlock(t('fabrics.usedIn'), trialList)}
 

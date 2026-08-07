@@ -560,6 +560,18 @@ label.btn{cursor:pointer}
 .placemain select,.placemain input{font-size:13px;padding:5px 7px}
 .matched{color:var(--indigo)}
 
+/* A piece's whole life in pictures, in the order it happened (§8.0c). Scrolls
+   sideways rather than wrapping: the sequence is the point, and a grid that
+   reflows breaks the reading of it. */
+.lifestrip{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.lifeshot{margin:0;flex:none;width:132px}
+.lifeshot img{
+  width:132px;height:132px;object-fit:cover;display:block;
+  border-radius:6px;border:1px solid var(--line);
+}
+.lifeshot figcaption{display:flex;flex-direction:column;gap:1px;margin-top:5px;font-size:12px}
+.lifeshot figcaption .hint{font-size:11px}
+
 /* The progress line. Generated from the steps that exist, so a stage worked
    twice appears twice — the line shows the work, not a template. */
 .stageline{

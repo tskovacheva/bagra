@@ -87,3 +87,50 @@ export function daysSinceMordanted(fabric) {
   const ms = Date.now() - new Date(ev.date).getTime();
   return Math.floor(ms / 86400000);
 }
+
+// The story of a piece in photographs (§8.0c).
+//
+// Photographs about one cloth are scattered across five places: the fabric's
+// own shot, a plan diagram, the placements, the steps, and the finished
+// result. Shown as separate blocks — which is how they were shown — they can
+// state a before and an after but never a middle, and the middle is where eco
+// print actually happens.
+//
+// Pure and DOM-free: it returns what to show and in what order, and leaves the
+// wording to the view. `kind` and `stageCode` are codes, not labels.
+export function photoTimeline(fabric, trials = []) {
+  const items = [];
+
+  if (fabric.photoData) {
+    items.push({
+      src: fabric.photoData,
+      date: fabric.createdAt ? String(fabric.createdAt).slice(0, 10) : '',
+      kind: 'fabric', rank: 0,
+    });
+  }
+
+  for (const tr of trials) {
+    const on = tr.date || '';
+    const push = (src, kind, rank, extra = {}) =>
+      src && items.push({ src, date: extra.date || on, kind, rank,
+                          trialId: tr.id, trialTitle: tr.title, ...extra });
+
+    for (const src of tr.planPhotos || []) push(src, 'plan', 1);
+    for (const pl of tr.placements || []) push(pl.photo, 'placement', 2);
+
+    (tr.steps || []).forEach((st, i) => {
+      for (const src of st.photos || []) {
+        push(src, 'step', 10 + i, { date: st.date || on, stageCode: st.stageCode });
+      }
+    });
+
+    for (const src of tr.resultPhotos || []) push(src, 'result', 9000);
+  }
+
+  // By date first, because that is the order they were taken in. Rank breaks
+  // ties within a day, which is most of them: a trial's plan, placements,
+  // steps and result usually share one date, and only rank keeps the roll
+  // from appearing before the leaves were laid out.
+  return items.sort((a, b) =>
+    (a.date || '').localeCompare(b.date || '') || a.rank - b.rank);
+}

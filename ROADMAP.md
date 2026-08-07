@@ -280,8 +280,10 @@ Order of work, because the parts depend on one another:
    now has somewhere to live; the fabric's story no longer has a hole between the placement and the
    result. Step photographs are stored at 800px, plan diagrams at the result size so writing on them
    stays readable.
-4. **One chronological photo strip** on the fabric, replacing the three separate blocks.
-5. **The cloth as the entry point** — *continue this story* from the fabric record.
+4. ~~**One chronological photo strip**~~ — **done in 0.67.0**. Five sources gathered into one
+   sequence on the fabric record, sorted by date and then by rank within the day. §8.0c.
+5. **The cloth as the entry point** — *continue this story* from the fabric record. *(Next, and the
+   last of Stage 10.)*
 
 Two smaller ones ride along because they are cheap and were asked for in the same round:
 

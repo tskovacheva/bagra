@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.20 — named stages, and a stage that may recur
+**Status:** v1.21 — a piece's life in one strip of photographs
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -578,10 +578,20 @@ record therefore offers **continue this story** directly, and a trial can be sta
 without first choosing a module. The Trials gallery remains, for the times the question is visual or
 chronological rather than about one piece.
 
-**One chronological photo strip.** Photographs currently live at three levels — the fabric, the
-placements, the finished result — and are shown in three separate blocks, which is the one shape
-that cannot express "before and after". They are gathered into a single strip ordered by date, so
-the piece reads as it was lived: raw cloth, leaves laid out, rolled, opened, dried.
+**One chronological photo strip.** Photographs about a single cloth are scattered across five
+places: the fabric's own shot, a plan diagram, the placements, the steps, and the finished result.
+Shown as separate blocks — which is how they were shown — they can state a before and an after but
+never a middle, and the middle is where eco print happens. They are gathered into one strip so the
+piece reads as it was lived: raw cloth, diagram, leaves laid out, rolled, rinsed, done.
+
+**Sorted by date, then by rank within the day.** The rank is what does the real work: a trial's
+plan, placements, steps and result almost always share one date, so date alone would leave the order
+to chance and the roll could appear before the leaves were laid out. Plan first, then placements,
+then steps in their own order, then the result.
+
+`photoTimeline(fabric, trials)` lives in `fabric-logic.js` and is pure: it returns codes for what
+each photograph is and leaves every word to the view. A step's photograph carries its `stageCode`,
+so the strip names the stage rather than saying only "step".
 
 ### 8.0d Plans that are drawings
 
