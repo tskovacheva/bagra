@@ -6,6 +6,7 @@
 // the way in, they stay recognisable and the database stays portable.
 
 const MAX_RESULT = 1280;   // a finished piece, worth looking at closely
+const MAX_STEP = 800;      // a moment in the process — the sandwich, the roll
 const MAX_THUMB = 480;     // a placement or a reference shot
 
 export function shrink(file, maxSide = MAX_RESULT, quality = 0.82) {
@@ -30,6 +31,13 @@ export function shrink(file, maxSide = MAX_RESULT, quality = 0.82) {
 }
 
 export const shrinkResult = (file) => shrink(file, MAX_RESULT);
+
+// A step photograph shows an arrangement rather than a colour — how the layers
+// went together, how tightly it was rolled. It has to be legible, not exact,
+// and a trial can carry a dozen, so it sits between the two other sizes. A
+// diagram brought in as a plan uses the result size instead: it has writing on
+// it, and writing at 800px is writing that cannot be read.
+export const shrinkStep = (file) => shrink(file, MAX_STEP);
 export const shrinkThumb = (file) => shrink(file, MAX_THUMB);
 
 /** Rough size of a data URL in kilobytes, for anything that wants to warn. */

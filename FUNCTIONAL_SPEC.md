@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.18 — protecting unsaved work; the story of a piece; favourites
+**Status:** v1.19 — photographs at every step; protecting unsaved work; favourites
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -1154,6 +1154,21 @@ notes           string
 
 **There is no `plannedTempC` or `plannedMinutes`, deliberately.** See §8.0a: one figure per field,
 corrected in place. The intended value is not kept.
+
+**Three photograph sizes, because they are looked at differently.** A finished
+piece is studied for colour and keeps 1280px. A step photograph shows an
+arrangement — how the layers stacked, how tightly it was rolled — and 800px is
+legible without making the backup unusable when a trial carries a dozen. A
+placement stays at 480px. A plan diagram (§8.0d) uses the *result* size despite
+being neither: it has writing on it, and writing at 800px is writing that cannot
+be read.
+
+**A trap worth naming, since it has now been hit twice.** `data-step-photo` is a
+different attribute from `data-step`, and `[data-step]` does not match it — CSS
+matches a prefix of an attribute's *value*, never of its name. Here that is what
+is wanted, and `readForm` correctly leaves photo inputs alone. In §13f the same
+rule silently defeated the unsaved-work guard. Any code that finds fields by
+attribute name has to be checked against the real markup, not the pattern.
 ```
 
 `MediumModification` = `{ whereCode (dye_bath|mordant_bath|steam_water|rinse|afterbath),

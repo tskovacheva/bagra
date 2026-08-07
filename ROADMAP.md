@@ -272,9 +272,13 @@ Order of work, because the parts depend on one another:
    Records written before it existed read as complete and are never written back to; a trial with
    a verdict but no status is *offered* completion on save, never given it silently.
 2. **Stages** — `stageCode` on the step, and the entry screen rebuilt as a progress line of named
-   stages rather than a list of typed steps. The data underneath does not move.
-3. **Photographs on steps**, offered at every stage and required at none, plus `planPhotos` for
-   attached diagrams. *(Next.)*
+   stages rather than a list of typed steps. The data underneath does not move. *(Next. Blocked on
+   naming the five stages — they go into `vocab.js` and will be read every time.)*
+3. ~~**Photographs on steps**~~ — **done in 0.65.0**. A strip on every step, offered and never
+   required, plus `planPhotos` on the trial for a diagram attached whole. The middle of the process
+   now has somewhere to live; the fabric's story no longer has a hole between the placement and the
+   result. Step photographs are stored at 800px, plan diagrams at the result size so writing on them
+   stays readable.
 4. **One chronological photo strip** on the fabric, replacing the three separate blocks.
 5. **The cloth as the entry point** — *continue this story* from the fabric record.
 

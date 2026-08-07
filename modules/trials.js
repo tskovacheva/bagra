@@ -9,7 +9,7 @@ import { all, get, put, remove, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
 import { page, panel, field, options, label, terms, segmented, esc, empty, note,
          fmtDate, today, fact, facts, readBlock, foldable } from '../ui.js';
-import { shrinkResult, shrinkThumb } from '../photo.js';
+import { shrinkResult, shrinkStep, shrinkThumb } from '../photo.js';
 
 const ENHANCEMENTS = ['cloth_mordant', 'botanical_mordant', 'predye_substantive',
                       'blanket_mordant', 'blanket_dye', 'ph_modifier'];
@@ -29,6 +29,7 @@ function blank() {
     // intention, because that is when it actually starts.
     status: 'planned',
     intent: '',
+    planPhotos: [],
     date: today(),
     title: '',
     processCode: 'ecoprint',
@@ -148,6 +149,21 @@ async function renderList(root) {
 
 // ------------------------------------------------------------------- steps
 
+// A strip of photographs with an add button. Offered, never required: at the
+// bundle it leads the work, at the scale there is nothing to see (§8.0b).
+function photoStrip(list, { addId, addAttr, delAttr, delValue = (j) => j, multiple = true }) {
+  const shots = (list || []).map((src, j) => `
+    <div class="stepphoto"><img src="${src}" alt="">
+      <button class="btn quiet" ${delAttr}="${delValue(j)}" aria-label="×">×</button></div>`).join('');
+  return `
+    <div class="stepphotos">
+      ${shots}
+      <label class="addphoto" for="${addId}" title="${esc(t('trials.addPhoto'))}">+</label>
+      <input type="file" id="${addId}" ${addAttr} accept="image/*"
+             capture="environment"${multiple ? ' multiple' : ''} hidden>
+    </div>`;
+}
+
 async function stepRows(r) {
   return (await Promise.all((r.steps || []).map(async (st, i) => {
     // One selector for both, because from the bench they are the same question:
@@ -204,6 +220,13 @@ async function stepRows(r) {
         : `<button class="btn quiet" data-medium-add="${i}">${t('trials.addMedium')}</button>`}
 
         <input type="text" data-step="${i}.note" value="${esc(st.note || '')}" placeholder="${t('common.notes')}">
+
+        ${photoStrip(st.photos, {
+          addId: `stepphoto${i}`,
+          addAttr: `data-step-photo="${i}"`,
+          delAttr: 'data-step-photo-del',
+          delValue: (j) => `${i}.${j}`,
+        })}
       </div>`;
   }))).join('') || `<p class="hint">—</p>`;
 }
@@ -334,6 +357,9 @@ async function renderRead(root, r) {
           esc(text(sub?.name) || '—')} ${esc(m.amount || '')}${m.phMeasured ? ` · pH ${m.phMeasured}` : ''}${
           m.intent ? ` — ${esc(m.intent)}` : ''}</div>` : ''}
         ${st.note ? `<div class="hint">${esc(st.note)}</div>` : ''}
+        ${(st.photos || []).length ? `<div class="stepphotos">${
+          st.photos.map(src => `<div class="stepphoto"><img src="${src}" alt=""></div>`).join('')
+        }</div>` : ''}
       </div>`;
   }))).join('');
 
@@ -355,6 +381,9 @@ async function renderRead(root, r) {
                 ? esc(await label('trial_status', statusOf(r)))
                 : esc(await label('assessment', r.assessment) || t('trials.headlineResult'))}</h2>
           ${r.intent ? `<div class="prose"><p>${esc(r.intent)}</p></div>` : ''}
+          ${(r.planPhotos || []).length ? `<div class="stepphotos">${
+            r.planPhotos.map(src => `<div class="stepphoto"><img src="${src}" alt=""></div>`).join('')
+          }</div>` : ''}
           ${!r.intent && unfinished && !r.assessmentWhy ? `<p class="hint">${t('trials.plannedEmpty')}</p>` : ''}
           ${r.assessmentWhy ? `<div class="prose"><p>${esc(r.assessmentWhy)}</p></div>` : ''}
           ${facts([
@@ -431,6 +460,13 @@ async function renderForm(root, r) {
             ${field(t('trials.intent'),
               `<textarea data-f="intent" rows="2" placeholder="${t('trials.intentPlaceholder')}">${esc(r.intent || '')}</textarea>`,
               t('trials.intentHint'))}
+            ${field(t('trials.planPhotos'),
+              photoStrip(r.planPhotos, {
+                addId: 'planphoto',
+                addAttr: 'data-plan-photo',
+                delAttr: 'data-plan-photo-del',
+              }),
+              t('trials.planPhotosHint'))}
             ${field(t('trials.process'), `<select data-f="processCode">${await options('process', r.processCode, '')}</select>`)}
             ${r.processCode === 'paste' ? note(t('trials.pasteNotYet'), 'warn') : ''}
           `)}
@@ -632,7 +668,8 @@ export default {
         readForm(root);
         draft.steps.push({ id: uid(), order: draft.steps.length, typeCode: '',
                            recipeId: '', chainId: '', roleCode: '', what: '',
-                           tempC: null, heldMinutes: null, restMinutes: null, mediumMod: null, note: '' });
+                           tempC: null, heldMinutes: null, restMinutes: null, mediumMod: null,
+                           photos: [], note: '' });
         return redraw();
       }
       const sdel = e.target.closest('[data-step-del]');
@@ -647,6 +684,21 @@ export default {
       }
       const mdel = e.target.closest('[data-medium-del]');
       if (mdel) { readForm(root); draft.steps[Number(mdel.dataset.mediumDel)].mediumMod = null; return redraw(); }
+
+      const spdel = e.target.closest('[data-step-photo-del]');
+      if (spdel) {
+        readForm(root);
+        const [i, j] = spdel.dataset.stepPhotoDel.split('.').map(Number);
+        draft.steps[i].photos.splice(j, 1);
+        return redraw();
+      }
+
+      const ppldel = e.target.closest('[data-plan-photo-del]');
+      if (ppldel) {
+        readForm(root);
+        draft.planPhotos.splice(Number(ppldel.dataset.planPhotoDel), 1);
+        return redraw();
+      }
 
       const phdel = e.target.closest('[data-photo-del]');
       if (phdel) { readForm(root); draft.resultPhotos.splice(Number(phdel.dataset.photoDel), 1); return redraw(); }
@@ -685,6 +737,25 @@ export default {
         draft.placements[Number(e.target.dataset.placePhoto)].photo = await shrinkThumb(e.target.files[0]);
         return redraw();
       }
+      // A photograph on a step, at any stage of the work — not only the
+      // placement and the result. The middle of the process is where the
+      // fabric's story used to have a hole in it (§8.0a).
+      if (e.target.dataset.stepPhoto !== undefined && e.target.files?.length) {
+        readForm(root);
+        const i = Number(e.target.dataset.stepPhoto);
+        draft.steps[i].photos = draft.steps[i].photos || [];
+        for (const file of e.target.files) draft.steps[i].photos.push(await shrinkStep(file));
+        return redraw();
+      }
+
+      if (e.target.dataset.planPhoto !== undefined && e.target.files?.length) {
+        readForm(root);
+        draft.planPhotos = draft.planPhotos || [];
+        // Result size, not step size: a plan is usually a diagram with writing.
+        for (const file of e.target.files) draft.planPhotos.push(await shrinkResult(file));
+        return redraw();
+      }
+
       if (e.target.id === 'resultphoto' && e.target.files?.length) {
         readForm(root);
         for (const file of e.target.files) draft.resultPhotos.push(await shrinkResult(file));

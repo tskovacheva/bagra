@@ -198,9 +198,10 @@ for (const [name, path] of Object.entries(mods)) {
 }
 
 
+const dirty = await import('./dirty.js');
+
 // ---- 3. Unsaved work is not thrown away on a stray click -----------------
 {
-  const dirty = await import('./dirty.js');
   const plants = (await import('./modules/plants.js')).default
     || await import('./modules/plants.js');
 
@@ -313,6 +314,97 @@ for (const [name, path] of Object.entries(mods)) {
       else console.log('  guard: filters are not navigations');
     }
   }
+}
+
+
+// ---- 4. A photograph can be attached at any step, and removed again -------
+{
+  const trials = (await import('./modules/trials.js')).default
+    || await import('./modules/trials.js');
+
+  // shrink() resizes through a canvas, which jsdom does not implement, and an
+  // ES module's exports cannot be replaced. So the browser pieces it needs are
+  // stood up instead: an Image that reports a size and loads, and a canvas that
+  // returns a data URL. The resizing is not what is under test — the wiring is.
+  const realCreate = document.createElement.bind(document);
+  document.createElement = (tag) => tag === 'canvas'
+    ? { width: 0, height: 0,
+        getContext: () => ({ drawImage() {} }),
+        toDataURL: () => 'data:image/jpeg;base64,AAAA' }
+    : realCreate(tag);
+  global.Image = class {
+    constructor() { this.width = 1000; this.height = 800; }
+    set src(_v) { setTimeout(() => this.onload?.(), 0); }
+  };
+  global.URL.createObjectURL = () => 'blob:x';
+  global.URL.revokeObjectURL = () => {};
+
+  trials.reset?.();
+  await trials.render(root);
+  await click(root.querySelector('[data-new]'));
+  await click(root.querySelector('[data-step-add]'));
+
+  const add = root.querySelector('[data-step-photo]');
+  if (!add) fail('photos', new Error('a step offers no way to attach a photograph'));
+  else {
+    // A step photo input must not be picked up as a step FIELD: `[data-step]`
+    // matches the attribute name exactly, and data-step-photo is a different
+    // name — the same trap that made the guard miss half the form.
+    const fields = root.querySelectorAll('[data-step]');
+    if ([...fields].includes(add))
+      fail('photos', new Error('the photo input is being read as a step field'));
+
+    Object.defineProperty(add, 'files', {
+      value: [new dom.window.File(['x'], 'a.jpg', { type: 'image/jpeg' })],
+      configurable: true,
+    });
+    add.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+    await new Promise(r => setTimeout(r, 200));
+
+    const shots = root.querySelectorAll('.stepphoto img');
+    if (!shots.length) fail('photos', new Error('the photograph did not attach'));
+    else {
+      console.log(`  photos: attached to a step (${shots.length})`);
+      const del = root.querySelector('[data-step-photo-del]');
+      if (!del) fail('photos', new Error('an attached photograph cannot be removed'));
+      else {
+        if (!/^\d+\.\d+$/.test(del.dataset.stepPhotoDel))
+          fail('photos', new Error(`the delete button carries "${del.dataset.stepPhotoDel}",`
+            + ' which does not identify both the step and the photograph'));
+        await click(del);
+        if (root.querySelectorAll('.stepphoto img').length)
+          fail('photos', new Error('removing the photograph left it on screen'));
+        else console.log('  photos: removed again');
+      }
+    }
+  }
+  // A plan brought in as a drawing (§8.0d) — attached whole, with no field
+  // asking to be filled in from it.
+  const plan = root.querySelector('[data-plan-photo]');
+  if (!plan) fail('photos', new Error('there is nowhere to attach a plan drawing'));
+  else {
+    const shotsBefore = root.querySelectorAll('.stepphoto img').length;
+    Object.defineProperty(plan, 'files', {
+      value: [new dom.window.File(['x'], 'plan.png', { type: 'image/png' })],
+      configurable: true,
+    });
+    plan.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+    await new Promise(r => setTimeout(r, 200));
+    if (root.querySelectorAll('.stepphoto img').length !== shotsBefore + 1)
+      fail('photos', new Error('the plan drawing did not attach'));
+    else console.log('  photos: a plan drawing attaches to the trial');
+  }
+
+  // And it must survive a save, which is the whole point of attaching it.
+  const save = root.querySelector('[data-save]');
+  if (save) {
+    await click(save);
+    await new Promise(r => setTimeout(r, 300));
+    const saved = (await db.all('trials')).find(x => (x.planPhotos || []).length);
+    if (!saved) fail('photos', new Error('the plan drawing was not written to the record'));
+    else console.log('  photos: survives a save');
+  }
+  dirty.markClean?.();
 }
 
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
