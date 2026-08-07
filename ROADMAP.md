@@ -256,7 +256,31 @@ ingredients, chains selectable as a trial step, writing a recipe from within a t
 the trial, "would I do this again" separate from "did it succeed", and vocabulary renamed from the
 theory to the action — *blanket soaked in dye* rather than *adjective carrier blanket*.
 
-## Stage 10 — Packs · *next*
+## Stage 10 — The story of a piece · *next*
+
+The largest remaining piece of work, and the one that came out of real use rather than out of the
+model. Specified in §8.0a–d; the reasoning is there and is not repeated here.
+
+Order of work, because the parts depend on one another:
+
+1. **Trial status** — `planned → in_progress → complete`, and `intent` on the header. One record
+   opened early and corrected as the work goes, never a plan record and a result record.
+2. **Stages** — `stageCode` on the step, and the entry screen rebuilt as a progress line of named
+   stages rather than a list of typed steps. The data underneath does not move.
+3. **Photographs on steps**, offered at every stage and required at none, plus `planPhotos` for
+   attached diagrams.
+4. **One chronological photo strip** on the fabric, replacing the three separate blocks.
+5. **The cloth as the entry point** — *continue this story* from the fabric record.
+
+Two smaller ones ride along because they are cheap and were asked for in the same round:
+
+- **Favourites** on plants, recipes and combinations
+- **The label number reserved on save**, not on opening the form
+
+Deliberately *not* built: planned-versus-actual figures. Agreed and recorded in §8.0a — one figure
+per field, corrected in place.
+
+## Stage 11 — Packs · *after*
 
 Import with merge preview is done (§10, used by substances, plants, techniques and combinations).
 What remains is **export**: writing a user-authored pack of records marked `distributable`, so
@@ -288,7 +312,11 @@ people stop recording.
 
 **Four small ones:** repeat a trial as a variant, a photograph's context (wet or dry, before or
 after washing, daylight or lamp), a follow-up observation after the first wash and after a season,
-and a thumbnail strip on trial photographs.
+and a thumbnail strip on trial photographs. The last two are now partly absorbed into Stage 10.
+
+**Not needed for now:** a produced pigment as tracked stock — batch and quantity. Recipe type 6
+(pigment making) covers writing the procedure down, which is what is actually wanted; tracking how
+many grams remain is not.
 
 **Considered and deferred:** extraction as its own reusable object — one extraction serves several
 baths and several trials, and recording it as a step loses that. The strongest idea in the last
