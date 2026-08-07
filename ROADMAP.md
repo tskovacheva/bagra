@@ -256,15 +256,21 @@ ingredients, chains selectable as a trial step, writing a recipe from within a t
 the trial, "would I do this again" separate from "did it succeed", and vocabulary renamed from the
 theory to the action — *blanket soaked in dye* rather than *adjective carrier blanket*.
 
-## Stage 10 — The story of a piece · *next*
+## Stage 10 — The story of a piece · **in progress**
+
+Steps 1 and 2 below are **done** and shipped in 0.63.0, together with the two
+small ones. What was learned doing them is in §13e — two silent faults, one of
+which had been recording plant fastness wrongly, and a second boot check that
+opens records rather than stopping at the list.
 
 The largest remaining piece of work, and the one that came out of real use rather than out of the
 model. Specified in §8.0a–d; the reasoning is there and is not repeated here.
 
 Order of work, because the parts depend on one another:
 
-1. **Trial status** — `planned → in_progress → complete`, and `intent` on the header. One record
-   opened early and corrected as the work goes, never a plan record and a result record.
+1. ~~**Trial status**~~ — **done**. `planned → in_progress → complete` and `intent` on the header.
+   Records written before it existed read as complete and are never written back to; a trial with
+   a verdict but no status is *offered* completion on save, never given it silently.
 2. **Stages** — `stageCode` on the step, and the entry screen rebuilt as a progress line of named
    stages rather than a list of typed steps. The data underneath does not move.
 3. **Photographs on steps**, offered at every stage and required at none, plus `planPhotos` for
@@ -274,8 +280,9 @@ Order of work, because the parts depend on one another:
 
 Two smaller ones ride along because they are cheap and were asked for in the same round:
 
-- **Favourites** on plants, recipes and combinations
-- **The label number reserved on save**, not on opening the form
+- ~~**Favourites** on plants, recipes and combinations~~ — **done**. Star in the list, star on the
+  record, and a filter chip that appears only once there is something to filter.
+- ~~**The label number reserved on save**~~ — **done**. The form shows the code it will get.
 
 Deliberately *not* built: planned-versus-actual figures. Agreed and recorded in §8.0a — one figure
 per field, corrected in place.

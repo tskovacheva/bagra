@@ -20,13 +20,28 @@ let bulkState = '';
 
 // The code written on the pinned paper tag. Short enough to write by hand;
 // everything else lives in the app.
-async function nextLabel() {
+//
+// Split in two deliberately. The counter used to advance when the blank form
+// was OPENED, so opening it three times and saving once left a sequence with
+// two holes in it. A number is reserved on save and only on save; before that
+// the form shows what the code WILL be, which is a promise the app can keep.
+async function peekLabel() {
   const n = (await getSetting('fabricLabelCounter', 0)) + 1;
-  await setSetting('fabricLabelCounter', n);
   // The prefix is written by hand on a paper tag, so it stays a setting
   // rather than a translated string — the tag does not change language.
   const prefix = await getSetting('fabricLabelPrefix', 'П');
   return prefix + '-' + String(n).padStart(3, '0');
+}
+
+async function reserveLabel() {
+  const code = await peekLabel();
+  await setSetting('fabricLabelCounter', (await getSetting('fabricLabelCounter', 0)) + 1);
+  return code;
+}
+
+// Used everywhere a record is actually written. A hand-typed code always wins.
+async function labelFor(record) {
+  return (record.label || '').trim() || await reserveLabel();
 }
 
 function blank() {
@@ -287,8 +302,9 @@ async function renderForm(root, record) {
               <input type="file" id="fabricphoto" accept="image/*" hidden>
               <p class="hint">${t('fabrics.photoHint')}</p>
             </div>
-            ${field(t('fabrics.label'), `<input type="text" data-f="label" class="mono" value="${esc(record.label || '')}">`,
-              t('fabrics.labelHint'))}
+            ${field(t('fabrics.label'), `<input type="text" data-f="label" class="mono"
+                value="${esc(record.label || '')}" placeholder="${esc(await peekLabel())}">`,
+              record.label ? t('fabrics.labelHint') : t('fabrics.labelPending'))}
             ${field(t('fabrics.name'), `<input type="text" data-f="name" value="${esc(record.name || '')}" placeholder="${t('fabrics.namePlaceholder')}">`)}
             ${field(t('fabrics.origin'), `<select data-f="origin">
                 <option value="new"${record.origin === 'new' ? ' selected' : ''}>${t('fabrics.origin.new')}</option>
@@ -352,6 +368,10 @@ async function renderForm(root, record) {
 
 function readForm(root) {
   for (const el of root.querySelectorAll('[data-f]')) {
+    // A radio group renders one element per option, all carrying the same
+    // `data-f`. Reading them all meant the LAST option always won, whichever
+    // was actually chosen — segmented controls have been silently wrong.
+    if (el.type === 'radio' && !el.checked) continue;
     const path = el.dataset.f.split('.');
     let target = draft;
     for (let i = 0; i < path.length - 1; i++) {
@@ -398,7 +418,6 @@ export default {
     if (openId) {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('fabrics', openId));
-        if (openId === 'new' && !draft.label) draft.label = await nextLabel();
       }
       if (editing || openId === 'new') await renderForm(root, draft);
       else await renderRead(root, draft);
@@ -491,7 +510,7 @@ export default {
         for (let i = 0; i < n; i++) {
           const piece = structuredClone(draft);
           piece.id = uid();
-          piece.label = await nextLabel();
+          piece.label = await reserveLabel();
           piece.quantity = { value: 1, unit: draft.quantity?.unit || 'pcs' };
           piece.fromBatchId = draft.id;
           piece.stateEvents = [];
@@ -507,6 +526,9 @@ export default {
 
       if (e.target.closest('[data-save]')) {
         readForm(root);
+        // The number is taken here and nowhere earlier, so opening the form
+        // and thinking better of it costs nothing and leaves no gap.
+        draft.label = await labelFor(draft);
         const total = compositionTotal(draft.composition);
         if (draft.composition.length && Math.round(total) !== 100 &&
             !confirm(t('fabrics.confirmTotal', { total }))) return;
@@ -527,7 +549,7 @@ export default {
           for (let i = 1; i < count; i++) {
             const copy = structuredClone(draft);
             copy.id = uid();
-            copy.label = await nextLabel();
+            copy.label = await reserveLabel();
             copy.createdAt = new Date().toISOString();
             labels.push(copy.label);
             await put('fabrics', copy);

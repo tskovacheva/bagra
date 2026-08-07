@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.16 — the story of a piece: one record from intent to result; favourites
+**Status:** v1.17 — the story of a piece; favourites; two silent faults recorded
 **Scope:** Functional modules, data model and technical architecture.
 
 ---
@@ -1382,6 +1382,42 @@ Three rules follow, each of which was violated once and corrected:
 3. **Confidence is per claim, not per record.** A plant's dyeing temperature can be well established
    while its preferred leaf surface is a guess. One marker over both would flatten exactly the
    distinction that matters.
+
+---
+
+## 13e. Two faults that were silent, and the check that now catches them
+
+Both were found while building the favourites and the trial status, and both
+belong here rather than in a commit message, because each is a *class* of
+mistake this codebase invites.
+
+**1. A radio group reads as its last option.** `readForm` walked every element
+carrying `data-f` and assigned its value. A segmented control renders one input
+per option, all with the same `data-f`, so the loop overwrote the chosen value
+with the final option every time — whatever was clicked. Four modules shared the
+pattern. The visible consequence is that **plant lightfastness and washfastness
+have been recorded wrongly for as long as the segmented control has existed**;
+values entered by hand are worth re-checking. The fix is one line — skip an
+unchecked radio — and the lesson is that a generic reader over a hand-rolled
+form has to know about input types it did not anticipate.
+
+**2. A counter that advanced on being looked at.** The fabric tag number was
+taken when the blank form was *opened*, so opening it and thinking better of it
+left a hole in the sequence. Reserving an identifier is a write, and a write
+belongs at save. Split into `peekLabel` (shows what the code will be, changes
+nothing) and `reserveLabel` (takes it), with the form displaying the peek as a
+placeholder — a promise the app then keeps.
+
+**The check that would have caught the third.** `check-boot.mjs` proves the app
+starts and visits each module, but stops at the list view. Read views and forms
+are where imports are actually exercised, and a missing one there gives a blank
+screen with nothing on it to explain itself — which is exactly what happened
+when `segmented` was used in the trial form without being imported.
+`deep-check.mjs` now opens the first record in each module, opens its editor,
+presses the star, and asserts the two rules above as behaviour rather than as
+diffs. It dispatches real events: calling `root.onclick` directly skips handlers
+registered with `addEventListener`, and a harness that does so reports green on
+a screen that does not work.
 
 ---
 

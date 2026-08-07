@@ -4,10 +4,10 @@
 // explicit basis. One generic scaling engine serves every proportional
 // recipe here; only the aluminium acetate stoichiometry earns its own code.
 
-import { all, get, put, remove, newRecord, uid, getSetting, setSetting } from '../db.js';
+import { all, get, put, remove, newRecord, uid, getSetting, setSetting, toggleFavorite } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
 import {
-  page, panel, field, options, label, esc, empty, note,
+  page, panel, field, options, label, favStar, esc, empty, note,
   pairField, readPairs, fact, facts, prose, readBlock,
 } from '../ui.js';
 import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
@@ -29,6 +29,7 @@ const host = {
 };
 
 let filterType = null;
+let favOnly = false;
 let openId = null;
 let draft = null;
 let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null };
@@ -77,12 +78,16 @@ async function renderList(root) {
       <span class="boxcount">${counts[ty] || 0}</span>
     </button>`));
 
-  const shown = (filterType ? recipes.filter(r => r.type === filterType) : recipes)
+  const favCount = recipes.filter(r => r.favorite).length;
+
+  const shown = recipes
+    .filter(r => (!filterType || r.type === filterType) && (!favOnly || r.favorite))
     .sort((a, b) => text(a.name).localeCompare(text(b.name)));
 
   const rows = await Promise.all(shown.map(async r => {
     const fibres = await Promise.all((r.appliesTo || []).map(c => label('fibre_class', c)));
     return `<tr data-open="${r.id}">
+      <td class="favcell">${favStar(r)}</td>
       <td>${esc(text(r.name) || '—')}</td>
       <td>${esc(await label('recipe_type', r.type))}</td>
       <td>${esc(fibres.join(', '))}</td>
@@ -95,6 +100,7 @@ async function renderList(root) {
   const table = shown.length ? `
     <table class="grid">
       <thead><tr>
+        <th class="favcell"></th>
         <th>${t('recipes.col.name')}</th>
         <th>${t('recipes.col.type')}</th>
         <th>${t('recipes.col.appliesTo')}</th>
@@ -117,6 +123,10 @@ async function renderList(root) {
           <span class="boxcount">${recipes.length}</span>
         </button>
         ${tabs.join('')}
+        ${favCount ? `<button class="box${favOnly ? ' active' : ''}" data-favonly>
+          <span class="boxname">${t('common.favorites')}</span>
+          <span class="boxcount">${favCount}</span>
+        </button>` : ''}
       </div>
       ${panel(table, 'flush')}`,
   });
@@ -353,7 +363,8 @@ async function renderRead(root, r) {
   root.innerHTML = page({
     title: text(r.name) || t('recipes.one'),
     sub: `${await label('recipe_type', r.type)} · ${t('recipes.version', { n: r.version || 1 })}`,
-    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+    actions: `${favStar(r, true)}
+              <button class="btn quiet" data-back>${t('common.back')}</button>
               <button class="btn primary" data-edit>${t('common.edit')}</button>`,
     body: `
       ${panel(`
@@ -618,6 +629,15 @@ export default {
         location.hash = '#/' + (target?.module || 'trials');
         return;
       }
+
+      const fav = e.target.closest('[data-fav]');
+      if (fav) {
+        e.stopPropagation();
+        await toggleFavorite('recipes', fav.dataset.fav);
+        if (draft && draft.id === fav.dataset.fav) draft.favorite = !draft.favorite;
+        return this.render(root);
+      }
+      if (e.target.closest('[data-favonly]')) { favOnly = !favOnly; return this.render(root); }
 
       const ty = e.target.closest('[data-type]');
       if (ty) { filterType = ty.dataset.type || null; return this.render(root); }

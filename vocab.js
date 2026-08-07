@@ -14,6 +14,7 @@ export const DIMENSIONS = [
   'process', 'enhancement', 'bundle_role', 'step_type', 'medium_where',
   'placement_condition', 'facing', 'print_quality', 'confidence',
   'technique_category', 'assessment', 'water_source', 'season',
+  'trial_status',
 ];
 
 const V = (dimension, code, bg, en, order = 0, description = null) =>
@@ -277,6 +278,13 @@ export const VOCABULARY = [
   V('repeat', 'changes', 'да, с промени',   'yes, with changes', 2),
   V('repeat', 'no',      'не',              'no', 3),
   V('repeat', 'unsure',  'още не знам',     'not sure yet', 4),
+
+  // One record with three ages, not a plan record and a result record (§8.0a).
+  // The work is usually decided and begun within the same hour, and asking for
+  // it twice is how recording stops happening.
+  V('trial_status', 'planned',     'замислен',   'planned', 1),
+  V('trial_status', 'in_progress', 'в ход',      'in progress', 2),
+  V('trial_status', 'complete',    'завършен',   'complete', 3),
 
   V('assessment', 'success', 'успех',    'success', 1),
   V('assessment', 'partial', 'частично', 'partial', 2),

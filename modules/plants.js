@@ -5,11 +5,11 @@
 // knowledge is prose. Ten fixed textareas per plant would make entry a chore;
 // a book-like list of sections lets each plant say what it has to say.
 
-import { all, get, put, remove, newRecord, uid } from '../db.js';
+import { all, get, put, remove, newRecord, toggleFavorite, uid } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text, getLang } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, pairField, readPairs, segmented,
+import { page, panel, field, options, label, favStar, esc, empty, pairField, readPairs, segmented,
          confField, readConfidence, fact, facts, prose, readBlock } from '../ui.js';
 
 const MONTHS_BG = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
@@ -30,6 +30,7 @@ const SUGGESTED = [
 let openId = null;
 let draft = null;
 let filterRole = null;
+let favOnly = false;
 let editing = false;
 
 function shrink(file, maxSide) {
@@ -84,6 +85,7 @@ function blank() {
 async function renderList(root) {
   const plants = await all('plants');
 
+  const favCount = plants.filter(p => p.favorite).length;
   const roles = ['dye', 'ecoprint', 'mordant_accumulator'];
   const counts = {};
   for (const p of plants) for (const r of p.role || []) counts[r] = (counts[r] || 0) + 1;
@@ -94,7 +96,8 @@ async function renderList(root) {
       <span class="boxcount">${counts[r] || 0}</span>
     </button>`));
 
-  const shown = (filterRole ? plants.filter(p => (p.role || []).includes(filterRole)) : plants)
+  const shown = plants
+    .filter(p => (!filterRole || (p.role || []).includes(filterRole)) && (!favOnly || p.favorite))
     .sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
 
   const rows = await Promise.all(shown.map(async p => {
@@ -111,6 +114,7 @@ async function renderList(root) {
     const parts = (await Promise.all((p.parts || []).map(pt => label('plant_part', pt.partCode)))).join(', ');
     const roleNames = (await Promise.all((p.role || []).map(r => label('plant_role', r)))).join(', ');
     return `<tr data-open="${p.id}">
+      <td class="favcell">${favStar(p)}</td>
       <td class="withthumb">${p.photoData ? `<img class="thumb" src="${p.photoData}" alt="">` : `<span class="thumb empty"></span>`}
         ${esc(text(p.nameCommon) || '—')}</td>
       <td><i>${esc(p.nameBotanical || '')}</i></td>
@@ -124,6 +128,7 @@ async function renderList(root) {
   const table = shown.length ? `
     <table class="grid">
       <thead><tr>
+        <th class="favcell"></th>
         <th>${t('plants.col.name')}</th>
         <th>${t('plants.col.botanical')}</th>
         <th>${t('plants.col.role')}</th>
@@ -147,6 +152,10 @@ async function renderList(root) {
           <span class="boxcount">${plants.length}</span>
         </button>
         ${tabs.join('')}
+        ${favCount ? `<button class="box${favOnly ? ' active' : ''}" data-favonly>
+          <span class="boxname">${t('common.favorites')}</span>
+          <span class="boxcount">${favCount}</span>
+        </button>` : ''}
       </div>
       ${panel(table, 'flush')}`,
   });
@@ -296,7 +305,7 @@ async function renderRead(root, p) {
       <div class="headline">
         ${p.photoData ? `<img src="${p.photoData}" alt="">` : ''}
         <div class="headlinebody">
-          <h2>${esc(text(p.nameCommon) || '—')}</h2>
+          <h2>${esc(text(p.nameCommon) || '—')} ${favStar(p, true)}</h2>
           <div class="latin">${esc(p.nameBotanical || '')}${p.family ? ' · ' + esc(p.family) : ''}</div>
           ${facts([
             fact(t('plants.role'), esc(roles)),
@@ -439,6 +448,10 @@ async function renderForm(root, p) {
 
 function readForm(root) {
   for (const el of root.querySelectorAll('[data-f]')) {
+    // A radio group renders one element per option, all carrying the same
+    // `data-f`. Reading them all meant the LAST option always won, whichever
+    // was actually chosen — segmented controls have been silently wrong.
+    if (el.type === 'radio' && !el.checked) continue;
     const path = el.dataset.f.split('.');
     let target = draft;
     for (let i = 0; i < path.length - 1; i++) {
@@ -551,6 +564,18 @@ export default {
     };
 
     root.onclick = async (e) => {
+      // Checked before [data-open], because the star sits inside the row that
+      // opens the record — otherwise every star press would also navigate.
+      const fav = e.target.closest('[data-fav]');
+      if (fav) {
+        e.stopPropagation();
+        await toggleFavorite('plants', fav.dataset.fav);
+        if (draft && draft.id === fav.dataset.fav) draft.favorite = !draft.favorite;
+        return this.render(root);
+      }
+
+      if (e.target.closest('[data-favonly]')) { favOnly = !favOnly; return this.render(root); }
+
       if (e.target.closest('[data-sync]')) {
         try {
           await seedUI.open('plants');

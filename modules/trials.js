@@ -7,8 +7,8 @@
 
 import { all, get, put, remove, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, note, fmtDate, today,
-         fact, facts, readBlock, foldable } from '../ui.js';
+import { page, panel, field, options, label, terms, segmented, esc, empty, note,
+         fmtDate, today, fact, facts, readBlock, foldable } from '../ui.js';
 import { shrinkResult, shrinkThumb } from '../photo.js';
 
 const ENHANCEMENTS = ['cloth_mordant', 'botanical_mordant', 'predye_substantive',
@@ -18,13 +18,17 @@ let view = 'gallery';
 let openId = null;
 let draft = null;
 let editing = false;
-let filter = { plantId: '', processCode: '' };
+let filter = { plantId: '', processCode: '', status: '' };
 
 // Loaded once per render so the nested lists can name what they point at.
 let plants = [], plantsById = new Map(), recipes = [], substances = [], combinations = [], chains = [];
 
 function blank() {
   return newRecord({
+    // One record from intention to result (§8.0a). A new trial starts as an
+    // intention, because that is when it actually starts.
+    status: 'planned',
+    intent: '',
     date: today(),
     title: '',
     processCode: 'ecoprint',
@@ -46,6 +50,14 @@ function blank() {
 
 const isEcoPrint = (r) => (r.processCode || '').startsWith('ecoprint');
 
+// Records written before status existed are finished work: they were only ever
+// entered after the fact. Read, never written back — a migration that guesses
+// would be a migration that lies.
+const statusOf = (r) => r.status || 'complete';
+
+const statusChip = async (r) =>
+  `<span class="statuschip ${statusOf(r)}">${esc(await label('trial_status', statusOf(r)))}</span>`;
+
 // ---------------------------------------------------------------- gallery
 
 async function renderList(root) {
@@ -54,7 +66,11 @@ async function renderList(root) {
 
   const shown = trials.filter(tr =>
     (!filter.plantId || (tr.placements || []).some(p => p.plantId === filter.plantId)) &&
-    (!filter.processCode || tr.processCode === filter.processCode));
+    (!filter.processCode || tr.processCode === filter.processCode) &&
+    // `open` is the one people actually want: what is on the bench right now,
+    // whether it was thought of yesterday or started this morning.
+    (!filter.status
+      || (filter.status === 'open' ? statusOf(tr) !== 'complete' : statusOf(tr) === filter.status)));
 
   const usedPlants = [...new Set(trials.flatMap(tr => (tr.placements || []).map(p => p.plantId)))]
     .filter(Boolean);
@@ -74,6 +90,7 @@ async function renderList(root) {
         <div class="trialmeta">
           <b>${esc(tr.title || t('trials.one'))}</b>
           <span class="hint">${fmtDate(tr.date)}${names ? ' · ' + esc(names) : ''}</span>
+          ${statusOf(tr) !== 'complete' ? await statusChip(tr) : ''}
         </div>
       </button>`;
   }));
@@ -85,6 +102,7 @@ async function renderList(root) {
       <td>${esc(await label('process', tr.processCode))}</td>
       <td>${esc((await Promise.all((tr.placements || []).map(async p =>
         text(plantsById.get(p.plantId)?.nameCommon) || '—'))).join(', '))}</td>
+      <td>${await statusChip(tr)}</td>
       <td>${esc(await label('assessment', tr.assessment))}</td>
     </tr>`));
 
@@ -116,6 +134,13 @@ async function renderList(root) {
           <select data-filter="plantId">${plantFilter}</select></label>
         <label class="inlinefield"><span>${t('trials.filterProcess')}</span>
           <select data-filter="processCode">${await options('process', filter.processCode, t('trials.all'))}</select></label>
+        <label class="inlinefield"><span>${t('trials.filterStatus')}</span>
+          <select data-filter="status">
+            <option value="">${t('trials.all')}</option>
+            <option value="open"${filter.status === 'open' ? ' selected' : ''}>${t('trials.notFinished')}</option>
+            ${(await terms('trial_status')).map(v =>
+              `<option value="${v.code}"${filter.status === v.code ? ' selected' : ''}>${esc(text(v.label))}</option>`).join('')}
+          </select></label>
       </div>` : ''}
       ${view === 'list' && shown.length ? panel(body, 'flush') : body}`,
   });
@@ -312,16 +337,25 @@ async function renderRead(root, r) {
       </div>`;
   }))).join('');
 
+  const unfinished = statusOf(r) !== 'complete';
+
   root.innerHTML = page({
     title: r.title || t('trials.one'),
     sub: fmtDate(r.date),
-    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+    actions: `${await statusChip(r)}
+              <button class="btn quiet" data-back>${t('common.back')}</button>
               <button class="btn primary" data-edit>${t('common.edit')}</button>`,
     body: `
       <div class="headline">
         ${photos ? `<div class="resultphotos big" style="flex:1;margin:0">${photos}</div>` : ''}
         <div class="headlinebody">
-          <h2>${esc(await label('assessment', r.assessment) || t('trials.headlineResult'))}</h2>
+          ${/* A trial leads with the result — but a trial that has no result yet
+                should say what it is for instead of showing an empty verdict. */''}
+          <h2>${unfinished && !r.assessment
+                ? esc(await label('trial_status', statusOf(r)))
+                : esc(await label('assessment', r.assessment) || t('trials.headlineResult'))}</h2>
+          ${r.intent ? `<div class="prose"><p>${esc(r.intent)}</p></div>` : ''}
+          ${!r.intent && unfinished && !r.assessmentWhy ? `<p class="hint">${t('trials.plannedEmpty')}</p>` : ''}
           ${r.assessmentWhy ? `<div class="prose"><p>${esc(r.assessmentWhy)}</p></div>` : ''}
           ${facts([
             fact(t('trials.repeat'), esc(await label('repeat', r.repeat))),
@@ -391,6 +425,12 @@ async function renderForm(root, r) {
             <h2>${t('trials.about')}</h2>
             ${field(t('trials.title2'), `<input type="text" data-f="title" value="${esc(r.title || '')}" placeholder="${t('trials.titlePlaceholder')}">`)}
             ${field(t('trials.date'), `<input type="date" data-f="date" value="${esc(r.date || '')}">`)}
+            ${field(t('trials.status'),
+              await segmented('trial_status', 'status', statusOf(r), { allowEmpty: false }),
+              t('trials.statusHint'))}
+            ${field(t('trials.intent'),
+              `<textarea data-f="intent" rows="2" placeholder="${t('trials.intentPlaceholder')}">${esc(r.intent || '')}</textarea>`,
+              t('trials.intentHint'))}
             ${field(t('trials.process'), `<select data-f="processCode">${await options('process', r.processCode, '')}</select>`)}
             ${r.processCode === 'paste' ? note(t('trials.pasteNotYet'), 'warn') : ''}
           `)}
@@ -456,6 +496,10 @@ async function renderForm(root, r) {
 
 function readForm(root) {
   for (const el of root.querySelectorAll('[data-f]')) {
+    // A radio group renders one element per option, all carrying the same
+    // `data-f`. Reading them all meant the LAST option always won, whichever
+    // was actually chosen — segmented controls have been silently wrong.
+    if (el.type === 'radio' && !el.checked) continue;
     const path = el.dataset.f.split('.');
     let target = draft;
     for (let i = 0; i < path.length - 1; i++) {
@@ -609,6 +653,12 @@ export default {
 
       if (e.target.closest('[data-save]')) {
         readForm(root);
+        if (!draft.status) draft.status = 'planned';
+        // A verdict on a record still marked as an intention is a contradiction,
+        // and almost always means the status was simply not touched. Offered,
+        // never applied silently — the app does not decide the work is over.
+        if (draft.assessment && draft.status !== 'complete'
+            && confirm(t('trials.markComplete'))) draft.status = 'complete';
         await put('trials', draft);
         openId = draft.id;
         editing = false;
@@ -642,7 +692,8 @@ export default {
       }
 
       // Switching process changes which fields apply, so the form is redrawn.
-      if (e.target.matches('[data-f="processCode"]') || e.target.matches('[data-f="repeat"]')) {
+      if (e.target.matches('[data-f="processCode"]') || e.target.matches('[data-f="repeat"]')
+          || e.target.matches('[data-f="status"]')) {
         readForm(root); return redraw();
       }
       if ((e.target.dataset.step || '').endsWith('.typeCode')) { readForm(root); return redraw(); }

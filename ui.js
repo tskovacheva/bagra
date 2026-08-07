@@ -239,6 +239,16 @@ export function prose(pair) {
 }
 
 /** A section that only appears when it has content. */
+// A star, not a heart: the same mark on a plant, a recipe and a combination,
+// and one that reads at list size. `data-fav` carries the id so a list row and
+// a read header can share one handler.
+export const favStar = (record, big = false) => `
+  <button class="fav${record?.favorite ? ' on' : ''}${big ? ' big' : ''}"
+          data-fav="${record?.id || ''}"
+          aria-pressed="${record?.favorite ? 'true' : 'false'}"
+          title="${t(record?.favorite ? 'common.unfavorite' : 'common.favorite')}"
+          >${record?.favorite ? '★' : '☆'}</button>`;
+
 export const readBlock = (title, inner) =>
   inner ? panel(`${title ? `<h2>${esc(title)}</h2>` : ''}${inner}`) : '';
 

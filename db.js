@@ -113,6 +113,18 @@ export async function put(store, record) {
   return record;
 }
 
+// Favourites (§13.1). Personal, never travels in a pack: a working set of six
+// out of forty is what a reference consulted daily actually looks like.
+// Toggled straight against the store rather than through the open draft, so a
+// star can be clicked from a list without loading the record into a form.
+export async function toggleFavorite(store, id) {
+  const record = await get(store, id);
+  if (!record) return null;
+  record.favorite = !record.favorite;
+  await put(store, record);
+  return record.favorite;
+}
+
 export async function byIndex(store, index, value) {
   return wrap((await tx(store)).index(index).getAll(value));
 }

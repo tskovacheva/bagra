@@ -129,6 +129,10 @@ async function renderForm(root, r) {
 
 function readForm(root) {
   for (const el of root.querySelectorAll('[data-f]')) {
+    // A radio group renders one element per option, all carrying the same
+    // `data-f`. Reading them all meant the LAST option always won, whichever
+    // was actually chosen — segmented controls have been silently wrong.
+    if (el.type === 'radio' && !el.checked) continue;
     const path = el.dataset.f.split('.');
     let target = draft;
     for (let i = 0; i < path.length - 1; i++) {

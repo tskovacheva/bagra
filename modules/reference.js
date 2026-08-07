@@ -5,11 +5,11 @@
 // for a defined set of inputs, and the search matches on ANY SUBSET of them —
 // because in practice one rarely has all five fixed.
 
-import { all, get, put, remove, newRecord } from '../db.js';
+import { all, get, put, remove, newRecord, toggleFavorite } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, note, pairField, readPairs,
+import { page, panel, field, options, label, favStar, esc, empty, note, pairField, readPairs,
          fact, facts, prose, readBlock, fmtDate } from '../ui.js';
 
 let mode = 'search';
@@ -21,6 +21,7 @@ let editing = false;
 let query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
               mordantCode: '', mordantBand: '', phCode: '' };
 let showMore = false;
+let favOnly = false;
 
 const host = {
   tabs: () => `
@@ -267,10 +268,13 @@ async function renderSearch(root) {
 async function renderList(root) {
   const plants = await all('plants');
   const plantsById = new Map(plants.map(p => [p.id, p]));
-  const records = await all('combinations');
+  const allRecords = await all('combinations');
+  const favCount = allRecords.filter(r => r.favorite).length;
+  const records = favOnly ? allRecords.filter(r => r.favorite) : allRecords;
 
   const rows = await Promise.all(records.map(async r => `
     <tr data-open="${r.id}">
+      <td class="favcell">${favStar(r)}</td>
       <td class="withthumb"><span class="thumb" style="background:${esc(r.expected?.swatchHex || '#8C7B6B')}"></span>
         ${esc(text(r.expected?.colourText) || '—')}</td>
       <td>${esc(await sourceLine(r, plantsById))}</td>
@@ -281,13 +285,29 @@ async function renderList(root) {
   const table = records.length ? `
     <table class="grid">
       <thead><tr>
+        <th class="favcell"></th>
         <th>${t('ref.col.colour')}</th>
         <th>${t('ref.col.source')}</th>
         <th>${t('ref.col.conditions')}</th>
         <th>${t('ref.confidence')}</th>
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
-    </table>` : empty(t('ref.empty'), t('ref.emptyHint'));
+    </table>` : empty(favOnly ? t('ref.emptyFav') : t('ref.empty'),
+                    favOnly ? '' : t('ref.emptyHint'));
+
+  // A trusted result is exactly the thing worth pinning, so the chip appears
+  // here as it does on plants and recipes — one row, one shape, everywhere.
+  const chips = favCount ? `
+    <div class="boxes">
+      <button class="box${favOnly ? '' : ' active'}" data-favall>
+        <span class="boxname">${t('common.all')}</span>
+        <span class="boxcount">${allRecords.length}</span>
+      </button>
+      <button class="box${favOnly ? ' active' : ''}" data-favonly>
+        <span class="boxname">${t('common.favorites')}</span>
+        <span class="boxcount">${favCount}</span>
+      </button>
+    </div>` : '';
 
   root.innerHTML = page({
     title: t('reference.title'),
@@ -295,7 +315,7 @@ async function renderList(root) {
     actions: `${host.tabs()}
       <button class="btn quiet" data-sync>${t('seed.sync')}</button>
       <button class="btn primary" data-new>${t('ref.new')}</button>`,
-    body: panel(table, 'flush'),
+    body: `${chips}${panel(table, 'flush')}`,
   });
 }
 
@@ -342,7 +362,8 @@ async function renderRead(root, r) {
   root.innerHTML = page({
     title: text(e.colourText) || t('ref.one'),
     sub: await sourceLine(r, plantsById),
-    actions: `<button class="btn quiet" data-back>${t('common.back')}</button>
+    actions: `${favStar(r, true)}
+              <button class="btn quiet" data-back>${t('common.back')}</button>
               <button class="btn primary" data-edit>${t('common.edit')}</button>`,
     body: `
       <div class="headline">
@@ -505,6 +526,16 @@ export default {
     }
 
     root.onclick = async (e) => {
+      const fav = e.target.closest('[data-fav]');
+      if (fav) {
+        e.stopPropagation();
+        await toggleFavorite('combinations', fav.dataset.fav);
+        if (draft && draft.id === fav.dataset.fav) draft.favorite = !draft.favorite;
+        return this.render(root);
+      }
+      if (e.target.closest('[data-favonly]')) { favOnly = true; return this.render(root); }
+      if (e.target.closest('[data-favall]'))  { favOnly = false; return this.render(root); }
+
       if (e.target.closest('[data-clear]')) {
         query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
                   mordantCode: '', mordantBand: '', phCode: '' };

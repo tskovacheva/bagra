@@ -210,6 +210,28 @@ textarea{resize:vertical}
 .grid .clip{max-width:420px;color:var(--muted);font-size:13px}
 .grid .num{text-align:right;font-variant-numeric:tabular-nums}
 
+/* Favourites. Weld yellow is the one warm accent in the palette and is
+   reserved for it — a star is exactly the sparing use §15.2 has in mind. */
+.fav{
+  background:none;border:0;cursor:pointer;padding:2px 4px;line-height:1;
+  font-size:15px;color:var(--line);transition:color .12s;
+}
+.fav:hover{color:var(--muted)}
+.fav.on{color:var(--weld)}
+.fav.big{font-size:22px;padding:0 6px}
+td.favcell,th.favcell{width:28px;padding-left:6px;padding-right:0;text-align:center}
+
+/* Trial status. One record from intention to result (§8.0a), so the age of
+   the record is stated plainly rather than implied by empty fields. */
+.statuschip{
+  display:inline-block;border:1px solid var(--line);border-radius:999px;
+  padding:1px 9px;font-size:12px;color:var(--muted);background:var(--surface);
+  white-space:nowrap;
+}
+.statuschip.planned{border-color:var(--weld);color:#8a6f14}
+.statuschip.in_progress{border-color:var(--indigo);color:var(--indigo)}
+.statuschip.complete{border-color:var(--line);color:var(--muted)}
+
 .chip{
   display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;
   background:var(--ground);border:1px solid var(--line);color:var(--muted);
