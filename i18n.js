@@ -44,6 +44,10 @@ const DICT = {
     'app.version': 'Версия',
 
     'nav.more': 'Още',
+    'nav.group.reference': 'Справочна част',
+    'nav.group.diary': 'Дневник',
+    'nav.calculators': 'Калкулатори',
+    'nav.backup': 'Резервно копие',
     'common.close': 'Затвори',
     'nav.dashboard': 'Начало',
     'nav.reference': 'Справочник',
@@ -52,7 +56,7 @@ const DICT = {
     'nav.materials': 'Наличности',
     'nav.recipes': 'Рецепти',
     'nav.techniques': 'Техники',
-    'nav.trials': 'Тестове',
+    'nav.trials': 'Моята работа',
     'nav.tools': 'Инструменти',
     'nav.packs': 'Пакети',
 
@@ -997,6 +1001,10 @@ const DICT = {
     'app.version': 'Version',
 
     'nav.more': 'More',
+    'nav.group.reference': 'Reference library',
+    'nav.group.diary': 'Diary',
+    'nav.calculators': 'Calculators',
+    'nav.backup': 'Backup',
     'common.close': 'Close',
     'nav.dashboard': 'Home',
     'nav.reference': 'Reference',
@@ -1005,7 +1013,7 @@ const DICT = {
     'nav.materials': 'Stock',
     'nav.recipes': 'Recipes',
     'nav.techniques': 'Techniques',
-    'nav.trials': 'Trials',
+    'nav.trials': 'My work',
     'nav.tools': 'Tools',
     'nav.packs': 'Packs',
 

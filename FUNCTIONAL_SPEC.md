@@ -898,6 +898,101 @@ for some records still imports — the receiving app falls back to the language 
 
 ---
 
+## 11a. Navigation — two halves and a rule
+
+Twelve flat sidebar entries told nobody what shape the application has. Grouped in 0.72.0 along the
+line the data already draws:
+
+**The reference part** — knowledge that is true whether or not this particular person owns anything.
+It ships in seed packs, it is read at the desk, and another practitioner would recognise every word
+of it: *Reference* (combinations), *Plants*, *Recipes*, *Substances*, *Stock*, *Techniques*,
+*Calculators*, *Sources*.
+
+**The diary** — her own work, never distributed: *My work* (trials) and *Fabrics*.
+
+**Below a rule** — what belongs to neither: the backup and the packs. Housekeeping filed with one
+half for want of anywhere else is how a sidebar stops meaning anything.
+
+**Stock is parked, not placed.** By nature it belongs to the diary — `materials.js` opens with
+"Personal, never distributed" — but it is listed beside Substances because that is where it is
+going: folded into the substance record. Moving it to the diary first would move it twice. See §11b.
+
+**The module under *Diary* is "My work", not "Trials".** The rename was agreed long before and held
+back; it arrives here because the sidebar is what was being edited, and because "Trials" under a
+heading reading "Diary" describes the schema rather than the act. The module id stays `trials` — it
+is in every address and every backup, and renaming it would be a migration for nothing.
+
+**Two addresses, one module.** The backup was the first of nine buttons in the calculator picker,
+chosen from the same row as the WOF conversion — one module trying to be two things, the same fault
+as the original "material" record (§13.4). Split in the navigation rather than in the code:
+`#/tools` opens the calculators, `#/tools/backup` opens the backup. Which entry is lit is resolved
+from the full address; a record address like `#/plants/<id>` matches no entry and falls back to its
+module, which is what keeps a plant lit while it is open.
+
+Giving the backup its own address is worth more than it sounds: it can be bookmarked, and it is the
+one screen a person needs to reach in a hurry on a device they are about to replace.
+
+**The phone bar carries the diary, not the reference.** It had held *Home · Reference · Plants ·
+Recipes* — two of which are read at the desk — while *My work* and *Fabrics* sat behind "more", on
+the one device where the work is actually recorded. Now *Home · My work · Plants · Fabrics · More*.
+Plants stays: that one is read standing in front of the bed. Five is the maximum a narrow screen
+carries, and the fifth is "more". The sheet behind it is grouped the same way as the sidebar, because
+the phone is where a person is least able to hold twelve unlabelled tiles in their head.
+
+**A heading is not a destination**, so it does not look like one — no hover, no cursor. And a heading
+may not share a name with a module under it: the reference half is labelled *Reference library* while
+the combinations module keeps *Reference*, for the same reason the diary is *Diary* and not *My work*.
+
+**Guarded.** `check-boot.mjs` now counts the reverse direction: every module must be reachable from
+the sidebar. There are more entries than modules, so a count alone proves nothing — a module with no
+way in is a module that quietly stops being used.
+
+---
+
+## 11b. Stock, and why it is folding into Substances
+
+Recorded because the owner asked what Stock was for and could not find the answer in her own
+application — which is the finding, not the question.
+
+**The record split stays.** §13.4 separated Substance from Stock for two reasons that have nothing
+to do with navigation: a recipe points at a substance so it does not break when a jar runs out, and
+a pack can ship substances without pretending the recipient owns anything. Both hold.
+
+**The module does not.** Splitting records is not splitting screens. Глина models the same thing as
+a field on the material plus a wishlist, with no separate module, and that is the better shape.
+
+**Why the thread was lost.** Four things read the `stock` store: its own list, two counters, and the
+Substances module — where it appears as a count in the list and a thin `<li>` *inside the edit form*.
+Substances has no read view; §13c gave read mode to five modules and this was not one, so a substance
+opens straight into a form and its jars are visible only while editing. **Stock is a ledger that is
+only written to.** Nothing reads it back, and the field it exists for — this bottle's concentration,
+vinegar at 5% or at 25% — reaches no calculator.
+
+**The state is per substance, in four values.** *Have* (a jar with something left), *empty* (a jar at
+zero), *wanted* (no jar, and it is wanted — titanium oxalate), and the silent fourth, *nothing said*,
+which is most of the seeded library. The first two are derived from `remaining`; *wanted* cannot be
+derived, because the absence of a jar does not describe itself.
+
+**Wanted does not live on the Substance.** A substance is a reference record: seeded, distributed in
+packs, subject to "restore base library". A personal flag on it would leak into an export and fight
+the merge — exactly what §13.4 avoided. It lives in `stock`, which is already personal and already
+never distributed, as a named `status` field rather than a boolean: with a boolean someone forgets to
+filter, with a name they cannot miss it.
+
+The honest cost: every reader of `stock` must then exclude wanted entries from jar counts and
+low-stock logic. Four readers today, so it is affordable — but it is the kind of widening that
+produces "the wishlist item showed up as an empty jar" six months later, hence the named field.
+
+**Jars stay as records.** The tempting simplification — one checkbox on the substance and no jars at
+all — loses this bottle's concentration, and that is the difference between a working aluminium
+acetate and a wasted batch. Along with supplier, harvest date for foraged material, and batch.
+
+What this needs, and why it is not a rearrangement: a read view on the substance, the jars as a real
+block inside it, the state as a chip in the substances list, a filter for *don't have / running low /
+wanted*, and the bottle's concentration reaching the calculator.
+
+---
+
 ## 12. Deliberately out of scope (for now)
 
 - Colour measurement from photographs (light conditions make this unreliable without calibration)

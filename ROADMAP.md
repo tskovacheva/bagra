@@ -348,6 +348,51 @@ Also fixed on the way: `deep-check.mjs` slept a flat 30 ms after a click and had
 begun failing two runs in twenty as soon as the plant list grew. It now waits on
 a condition. §13e.3 — a check that fails at random is worse than no check.
 
+## Navigation · **done (0.72.0)**
+
+Specified in §11a. The sidebar is two halves and a rule: the reference part, the
+diary, and the housekeeping that belongs to neither. The module under *Diary* is
+*My work*, the rename held back from Stage 11 and arriving here because the
+sidebar was what was being edited. The backup left the calculator picker and got
+its own address. The phone bar was inverted — it had carried the reference, which
+is read at the desk, while the diary sat behind "more" on the one device the work
+is recorded on.
+
+`check-boot.mjs` now checks that every module is reachable from the sidebar.
+There are more entries than modules, so a count proves nothing.
+
+Stock stays beside Substances rather than moving to the diary, because that is
+where it is going. §11b.
+
+## The agreed order of work
+
+Settled with the owner after 0.71.1, and recorded because it changed twice in the
+conversation:
+
+1. ~~**Navigation**~~ — done in 0.72.0.
+2. **Stage 11** — the five screens of *My work*.
+3. **The rest of the interface** — the improvements from the prototype, from
+   ChatGPT's review and from the owner's own feedback documents. Stock folding
+   into Substances (§11b) belongs here.
+4. **The phone** — screens that render badly and parts that cannot be reached.
+   Deliberately after 3, because fixing the narrow layout before the other
+   interface changes means fixing it twice.
+
+Running alongside, not a stage: **filling the reference**. Recipes and plant
+profiles both need content. The plant colour swatches are the case worth naming —
+the mechanism shipped in 0.69.0 and is right, but 31 combinations cover ten
+plants, so forty of fifty show nothing. **That gap closes by writing
+combinations, not by filling `colours` on plants**, which is the same work as
+making the reference engine useful rather than polish beside it.
+
+Literature can supply prose, dose ranges and temperatures with a citation and
+`confidence: 'literature'`. It cannot supply a hex: sources disagree, and one
+book's "brown" is another's "ochre". A swatch wants her own dyeing, or a source
+that shows the sample. §13h refused to invent them and that holds.
+
+**Packs are out of the 1.0 plan.** The owner has no clear picture of what she
+wants to import, and an import module built without one gets rewritten.
+
 ## Stage 11 — The working flow · *next*
 
 Specified in §8.0e; five screens, agreed with the owner and not yet built. No
@@ -381,7 +426,11 @@ Two things this says about Stage 11, since it touches every one of these screens
 Chains insert expanded (§8.0e). Renaming the module to "My work" is agreed but
 deliberately not part of this change.
 
-## Stage 12 — Packs · *after*
+## Stage 12 — Packs · *parked, not deferred*
+
+Removed from the 1.0 plan by the owner: no clear picture yet of what an import
+should actually bring in, and a module built without one gets rewritten. The
+reference fills faster by hand in the meantime.
 
 Import with merge preview is done (§10, used by substances, plants, techniques and combinations).
 What remains is **export**: writing a user-authored pack of records marked `distributable`, so

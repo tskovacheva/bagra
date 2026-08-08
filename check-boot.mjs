@@ -69,9 +69,20 @@ try {
         await new Promise(r => setTimeout(r, 60));
       } catch (err) { fail('module ' + id, err); }
     }
+
+    // A module with no way in is a module that quietly stops being used. The
+    // sidebar carries more entries than there are modules — the backup and the
+    // calculators are one module at two addresses — so this counts the reverse
+    // direction: every module must be reachable.
+    const reachable = new Set([...document.querySelectorAll('#sidebar [data-go]')]
+      .map(b => b.dataset.go.split('/')[0]));
+    const orphans = app.MODULE_IDS.filter(id => !reachable.has(id));
+    if (orphans.length)
+      fail('navigation', new Error(`no way in from the sidebar: ${orphans.join(', ')}`));
   }
 
-  if (!failed) console.log(`boots cleanly — ${navItems} modules, first view rendered.`);
+  if (!failed) console.log(
+    `boots cleanly — ${app.MODULE_IDS.length} modules, ${navItems} sidebar entries, first view rendered.`);
 } catch (err) {
   fail('import', err);
 }

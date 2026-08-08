@@ -30,30 +30,58 @@ const MODULES = {
   recipes, techniques, trials, tools, packs, sources,
 };
 
-// Sidebar carries everything; the phone bar carries the five that matter in
-// the studio and the garden (§11.3). Laptop is the primary form.
+// The sidebar carries everything, in two halves plus a footer (§11.3).
+//
+// Twelve flat entries told nobody what shape the application has. The split is
+// the one the data already makes: **the reference** is knowledge that is true
+// whether or not this particular person owns anything, ships in seed packs and
+// is read at the desk; **the diary** is her own work, never distributed. What
+// belongs to neither — the backup, the packs — sits under a rule at the bottom
+// rather than being filed with one half for want of anywhere else.
+//
+// `heading` marks a label rather than a destination; `footer` marks the rule.
+// An entry may carry an explicit `route` and `label`, which is how the backup
+// and the calculators reach one module at two addresses.
 const NAV = [
   { id: 'dashboard',  icon: 'i-home' },
+
+  { heading: 'reference' },
   { id: 'reference',  icon: 'i-reference' },
   { id: 'plants',     icon: 'i-plant' },
-  { id: 'fabrics',    icon: 'i-fabric' },
-  { id: 'substances', icon: 'i-tools' },
-  { id: 'materials',  icon: 'i-packs' },
   { id: 'recipes',    icon: 'i-recipe' },
+  { id: 'substances', icon: 'i-tools' },
+  // Stays beside Substances rather than moving to the diary, because that is
+  // where it is going: folded into the substance record once that has a read
+  // view. Moving it to the diary first would move it twice.
+  { id: 'materials',  icon: 'i-packs' },
   { id: 'techniques', icon: 'i-technique' },
-  { id: 'trials',     icon: 'i-trial' },
-  { id: 'tools',      icon: 'i-tools' },
+  { id: 'tools',      icon: 'i-tools', label: 'nav.calculators' },
   { id: 'sources',    icon: 'i-recipe' },
+
+  { heading: 'diary' },
+  { id: 'trials',     icon: 'i-trial' },
+  { id: 'fabrics',    icon: 'i-fabric' },
+
+  { footer: true },
+  // The backup was the first of nine buttons in the calculator picker, chosen
+  // from the same row as the WOF conversion. One module trying to be two
+  // things — the same fault as the original "material" record (§13.4). Split
+  // in the navigation rather than in the code: two addresses, one module.
+  { id: 'tools',      icon: 'i-packs', route: 'tools/backup', label: 'nav.backup' },
   { id: 'packs',      icon: 'i-packs' },
 ];
 
-// Four modules earn a permanent place on a phone; the rest are one tap away
-// behind "more". A bar of five fixed entries left seven modules — the backup
-// among them — unreachable on the device most likely to be lost or replaced.
-// Exported so the pre-deploy boot check can visit every module.
+const navItems = () => NAV.filter(n => n.id);
+const navRoute = (n) => n.route || n.id;
+const navLabel = (n) => t(n.label || 'nav.' + n.id);
+
 export const MODULE_IDS = Object.keys(MODULES);
 
-const PHONE_NAV = ['dashboard', 'reference', 'plants', 'recipes'];
+// The diary earns the phone, not the reference. The bar carried Reference and
+// Recipes — both read at the desk — while Trials and Fabrics sat behind "more",
+// on the one device where the work is actually recorded. Plants stays: that one
+// is read standing in front of the bed.
+const PHONE_NAV = ['dashboard', 'trials', 'plants', 'fabrics'];
 
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -71,18 +99,33 @@ function parseRoute() {
 
 function currentRoute() { return parseRoute().id; }
 
+// Which navigation entry is lit. Two entries point at `tools`, so the module id
+// alone cannot decide it: `#/tools/backup` must light the backup and not the
+// calculators. A record address — `#/plants/<id>` — matches no entry and falls
+// back to the module, which is what keeps a plant lit while it is open.
+function activeNav() {
+  const { id, args } = parseRoute();
+  const full = args.length ? `${id}/${args[0]}` : id;
+  return navItems().some(n => navRoute(n) === full) ? full : id;
+}
+
 function renderNav() {
-  const active = currentRoute();
+  const active = activeNav();
+
+  const entry = (n, cls) => `
+    <button class="${cls}" data-go="${navRoute(n)}"
+      ${navRoute(n) === active ? 'aria-current="page"' : ''}>
+      ${icon(n.icon)}<span>${esc(navLabel(n))}</span>
+    </button>`;
 
   $('#sidebar').innerHTML =
     `<div class="brand"><b>${t('app.name')}</b><span>${t('app.tagline')}</span></div>` +
-    NAV.map(n => `
-      <button class="navitem" data-go="${n.id}"
-        ${n.id === active ? 'aria-current="page"' : ''}>
-        ${icon(n.icon)}<span>${t('nav.' + n.id)}</span>
-      </button>`).join('') +
-    `<div class="navgap"></div>
-     <div class="langrow">
+    NAV.map(n => {
+      if (n.heading) return `<div class="navhead">${esc(t('nav.group.' + n.heading))}</div>`;
+      if (n.footer) return `<div class="navgap"></div><div class="navrule"></div>`;
+      return entry(n, 'navitem');
+    }).join('') +
+    `<div class="langrow">
        <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
        <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
        <span class="version" title="${esc(t('app.version'))}">v${VERSION}</span>
@@ -90,9 +133,9 @@ function renderNav() {
 
   const inSheet = !PHONE_NAV.includes(active);
   $('#bottomnav').innerHTML = PHONE_NAV.map(id => {
-    const n = NAV.find(x => x.id === id);
+    const n = navItems().find(x => navRoute(x) === id);
     return `<button data-go="${id}" ${id === active ? 'aria-current="page"' : ''}>
-      ${icon(n.icon)}<span>${t('nav.' + id)}</span></button>`;
+      ${icon(n.icon)}<span>${esc(navLabel(n))}</span></button>`;
   }).join('') +
     `<button data-more ${inSheet ? 'aria-current="page"' : ''}>
       ${icon('i-more')}<span>${t('nav.more')}</span></button>`;
@@ -112,8 +155,20 @@ async function renderView(fresh = false) {
   document.title = `${t('nav.' + id)} · ${t('app.name')}`;
 }
 
+// The sheet is grouped like the sidebar, because the phone is where a person is
+// least able to hold twelve unlabelled tiles in their head.
+function navGroups() {
+  const out = [{ heading: null, items: [] }];
+  for (const n of NAV) {
+    if (n.heading) out.push({ heading: t('nav.group.' + n.heading), items: [] });
+    else if (n.footer) out.push({ heading: null, rule: true, items: [] });
+    else out[out.length - 1].items.push(n);
+  }
+  return out.filter(g => g.items.length);
+}
+
 function renderSheet() {
-  const active = currentRoute();
+  const active = activeNav();
   const sheet = $('#moresheet');
   sheet.innerHTML = `
     <div class="morepanel" role="dialog" aria-modal="true" aria-label="${esc(t('nav.more'))}">
@@ -121,11 +176,14 @@ function renderSheet() {
         <h2>${t('nav.more')}</h2>
         <button class="btn quiet" data-closemore>${t('common.close')}</button>
       </div>
-      <div class="moregrid">
-        ${NAV.map(n => `<button class="moreitem" data-go="${n.id}"
-            ${n.id === active ? 'aria-current="page"' : ''}>
-            ${icon(n.icon)}<span>${t('nav.' + n.id)}</span></button>`).join('')}
-      </div>
+      ${navGroups().map(g => `
+        ${g.rule ? '<div class="navrule"></div>' : ''}
+        ${g.heading ? `<div class="navhead">${esc(g.heading)}</div>` : ''}
+        <div class="moregrid">
+          ${g.items.map(n => `<button class="moreitem" data-go="${navRoute(n)}"
+              ${navRoute(n) === active ? 'aria-current="page"' : ''}>
+              ${icon(n.icon)}<span>${esc(navLabel(n))}</span></button>`).join('')}
+        </div>`).join('')}
       <div class="morelang">
         <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
         <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>

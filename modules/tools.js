@@ -17,7 +17,7 @@ import { text } from '../i18n.js';
 // clear the rest.
 // Everyday conversions first; the purchase-planning one last, since it is
 // consulted rarely and belongs to stock rather than to a dye session.
-const CALCS = ['backup', 'timer', 'alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
+const CALCS = ['timer', 'alum', 'wof', 'solution', 'bath', 'drying', 'exhaust', 'reverse'];
 
 // Substances come from the Substances module — the calculator keeps no table
 // of its own, or the two would drift apart.
@@ -225,19 +225,21 @@ function render(root) {
                    solution: 'tools.solution', bath: 'tools.bath', drying: 'tools.drying',
                    exhaust: 'tools.exhaust', backup: 'backup.title', timer: 'tools.timer' };
 
+  const isBackup = active === 'backup';
+
   root.innerHTML = page({
-    title: t('tools.title'),
-    sub: t('tools.sub'),
+    title: isBackup ? t('backup.title') : t('tools.title'),
+    sub: isBackup ? t('backup.when') : t('tools.sub'),
     body: `
-      <div class="boxes">
+      ${isBackup ? '' : `<div class="boxes">
         ${CALCS.map(c => `<button class="box${c === active ? ' active' : ''}" data-calc-pick="${c}">
-          <span class="boxname">${esc(c === 'backup' ? t('backup.short') : t('tools.short.' + c))}</span>
+          <span class="boxname">${esc(t('tools.short.' + c))}</span>
         </button>`).join('')}
-      </div>
+      </div>`}
       <div class="calcpane">
         ${panel(`
           <h2>${t(titles[active])}</h2>
-          <p class="calcwhen">${active === 'backup' ? t('backup.when') : t('tools.when.' + active)}</p>
+          ${isBackup ? '' : `<p class="calcwhen">${t('tools.when.' + active)}</p>`}
           ${bodies[active]}
         `)}
       </div>`,
@@ -271,6 +273,12 @@ export default {
   id: 'tools',
   title: () => t('tools.title'),
   sub: () => t('tools.sub'),
+
+  // Entering from the navigation lands on a calculator; `#/tools/backup` is the
+  // backup's own address, so it can be bookmarked and linked to — which for a
+  // backup is worth more than for anything else in the app.
+  reset() { active = 'alum'; },
+  open(which) { if (which === 'backup' || CALCS.includes(which)) active = which; },
 
   async render(root) {
     substances = await all('substances');
