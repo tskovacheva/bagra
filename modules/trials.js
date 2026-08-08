@@ -189,6 +189,13 @@ async function renderList(root) {
 
 // A strip of photographs with an add button. Offered, never required: at the
 // bundle it leads the work, at the scale there is nothing to see (§8.0b).
+//
+// No capture attribute. It carried the right intention — at the bench the camera
+// is what one wants — and the wrong consequence: forcing the camera does not
+// *prefer* it, it removes every other choice, so a plan drawn in a notebook and
+// photographed yesterday, or a diagram made on the laptop, could not be attached
+// at all. Without it the operating system still offers the camera first, and the
+// gallery and the file system underneath it.
 function photoStrip(list, { addId, addAttr, delAttr, delValue = (j) => j, multiple = true }) {
   const shots = (list || []).map((src, j) => `
     <div class="stepphoto"><img src="${src}" alt="">
@@ -197,8 +204,7 @@ function photoStrip(list, { addId, addAttr, delAttr, delValue = (j) => j, multip
     <div class="stepphotos">
       ${shots}
       <label class="addphoto" for="${addId}" title="${esc(t('trials.addPhoto'))}">+</label>
-      <input type="file" id="${addId}" ${addAttr} accept="image/*"
-             capture="environment"${multiple ? ' multiple' : ''} hidden>
+      <input type="file" id="${addId}" ${addAttr} accept="image/*"${multiple ? ' multiple' : ''} hidden>
     </div>`;
 }
 
@@ -350,7 +356,7 @@ async function placementRows(r) {
           ${pl.photo
             ? `<img src="${pl.photo}" alt=""><button class="btn quiet" data-place-photo-del="${i}">×</button>`
             : `<label class="btn quiet" for="placephoto${i}">${t('trials.addPhoto')}</label>
-               <input type="file" id="placephoto${i}" data-place-photo="${i}" accept="image/*" capture="environment" hidden>`}
+               <input type="file" id="placephoto${i}" data-place-photo="${i}" accept="image/*" hidden>`}
         </div>
 
         <div class="placebody">

@@ -1325,6 +1325,24 @@ sketch reference or a verbal note genuinely helps.
 result, then say what it was. The form follows that order — add photo → name the plant → write the
 observation — rather than asking for a filled form before a photo can be attached.
 
+**Photo-first must never mean camera-only.** The three photo inputs in the diary — the plan or
+sketch, a step, a placement — carried `capture="environment"` from the day they were written. The
+intention was right: standing over an opened bundle, the camera is what one wants. The consequence
+was not. The attribute does not *prefer* the camera, it removes the gallery and the file system as
+options, so **a photograph already taken could not be attached at all** — a plan drawn in a notebook
+and shot yesterday, a diagram made on the laptop, a photograph of the bundle taken with the good
+camera rather than the phone. Reported by the owner from real use in 0.71.0, and it had been true
+for as long as the trial form existed.
+
+Removed. Without it the operating system's own sheet still puts the camera first, with the gallery
+and the files beneath it — camera-first as a default rather than as a wall. Guarded in `check.sh`
+from 0.71.1, because the attribute is exactly the kind of thing that returns by being copied from a
+neighbouring input, and because the symptom appears only on a phone, which is not where the app is
+usually tested.
+
+The general rule: **photo-first is about the order of the questions, not about which device supplies
+the image.** Any screen in Stage 11 that offers a photograph inherits this.
+
 `Placement`:
 
 ```

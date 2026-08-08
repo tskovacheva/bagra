@@ -353,6 +353,22 @@ a condition. §13e.3 — a check that fails at random is worse than no check.
 Specified in §8.0e; five screens, agreed with the owner and not yet built. No
 schema change — a rearrangement of fields that already exist.
 
+**Fixed first, in 0.71.1:** adding a photograph to a plan, a step or a placement
+opened the camera and offered nothing else. `capture="environment"` had been on
+all three inputs since the trial form was written, and it does not prefer the
+camera — it removes the gallery and the file system, so an already-taken
+photograph could not be attached at all. One attribute, three places, guarded in
+`check.sh` so it cannot return by being copied from a neighbouring input. §8.5.
+
+Two things this says about Stage 11, since it touches every one of these screens:
+
+- **Photo-first is about the order of the questions**, not about which device
+  supplies the image. Every new photo control inherits that.
+- **The diary's faults are on the phone.** This one was invisible on a laptop,
+  where `capture` is ignored, and the diary is the half of the app used in the
+  studio and the garden. The reference part could be checked at the desk; this
+  part cannot.
+
 1. **My work** — the trials list in two rhythms: unfinished by progress,
    finished by result.
 2. **New work** — one screen, one question, mordanted cloth first, inline new

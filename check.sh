@@ -15,12 +15,25 @@ done
 #    responding. See check-scope.js.
 node check-scope.js modules || exit 1
 
-# 3. Boot the real module graph. `node --check` passes on a name imported
+# 3. `capture="environment"` on a file input does not prefer the camera — it
+#    removes the gallery and the file system as options. It shipped on the three
+#    photo inputs in the diary and made an already-taken photograph impossible
+#    to attach. Cheap to reintroduce by copying a nearby input, so guarded here.
+if grep -rn 'capture=' --include='*.js' --include='*.html' . \
+     | grep -v node_modules | grep -v '^\./check' \
+     | grep -vE '^[^:]+:[0-9]+: *(//|\*|<!--)'; then
+  echo "CAPTURE ATTRIBUTE: a file input forces the camera and hides the gallery."
+  exit 1
+else
+  echo "no file input forces the camera."
+fi
+
+# 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
 #    which gives a blank page. Skipped when the shim is not installed.
 if node -e "require.resolve('jsdom')" 2>/dev/null; then
   node check-boot.mjs || exit 1
-  # 4. Booting proves the app starts; it stops at each module's list. Read
+  # 5. Booting proves the app starts; it stops at each module's list. Read
   #    views and forms are where the imports actually get used, so they are
   #    opened too. See deep-check.mjs.
   node deep-check.mjs || exit 1
