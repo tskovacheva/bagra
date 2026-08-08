@@ -562,12 +562,46 @@ label.btn{cursor:pointer}
 
 /* What a plant can give, in the list. For someone who dyes this is the most
    important column on the screen, so it sits second — right after the name. */
-.swatchrow{display:inline-flex;gap:3px;align-items:center}
+.swatchrow{display:inline-flex;gap:4px;align-items:center}
 .miniswatch{
-  width:15px;height:15px;border-radius:3px;display:inline-block;
+  width:26px;height:26px;border-radius:4px;display:inline-block;
   border:1px solid rgba(0,0,0,.12);flex:none;
 }
 td.swatchcell,th.swatchcell{white-space:nowrap;width:1%}
+@media (max-width:640px){.miniswatch{width:20px;height:20px}}
+
+/* The name cell carries the botanical name as a subline rather than as a
+   column of its own — identity is one block, not two (§13i). */
+.namecell{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.latinline{color:var(--muted);font-size:12.5px}
+
+/* Availability is a filter, not a standing column: it answers a sourcing
+   question, and the list is for choosing. */
+.chiprow{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:-6px 0 14px}
+.chiplabel{color:var(--muted);font-size:12.5px;margin-right:2px}
+.box.small{padding:5px 10px}
+.box.small .boxcount{font-size:12px;font-weight:500}
+
+/* The profile is one column, because the order is the meaning. Blocks may hold
+   two columns inside themselves on a wide screen; the page never does. */
+.readblocks{display:flex;flex-direction:column;gap:0}
+.sub{margin-top:15px;min-width:0}
+.sub h3{
+  font-size:13px;font-weight:600;color:var(--muted);
+  letter-spacing:.02em;text-transform:uppercase;margin:0 0 5px;
+}
+.subone{min-width:0}
+.subcols{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;align-items:start}
+@media (max-width:900px){.subcols{grid-template-columns:1fr}}
+
+.colourcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:9px}
+.colourcards .refcard{margin-bottom:0}
+
+.sourcenote{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12.5px;line-height:1.5;
+}
+.sourcelabel{font-weight:600}
 
 /* A piece's whole life in pictures, in the order it happened (§8.0c). Scrolls
    sideways rather than wrapping: the sequence is the point, and a grid that

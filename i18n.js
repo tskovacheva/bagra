@@ -903,6 +903,13 @@ const DICT = {
     'plants.chemistrySection': 'Химия',
     'plants.filled': '{n} попълнени',
 
+    // The six blocks of the profile, in reading order (§13i).
+    'plants.read.gives': 'Какво дава',
+    'plants.read.howUsed': 'Как се използва',
+    'plants.read.why': 'Защо действа',
+    'plants.read.gathering': 'Беритба и отглеждане',
+    'plants.read.more': 'Още за растението',
+
 
     'recipes.workView': 'Работен изглед',
     'recipes.workHint': 'Стъпка по стъпка с количествата на място. За четене, докато мериш.',
@@ -1848,6 +1855,13 @@ const DICT = {
     'plants.growing': 'In the garden',
     'plants.chemistrySection': 'Chemistry',
     'plants.filled': '{n} filled',
+
+    // The six blocks of the profile, in reading order (§13i).
+    'plants.read.gives': 'What it gives',
+    'plants.read.howUsed': 'How it is used',
+    'plants.read.why': 'Why it works',
+    'plants.read.gathering': 'Gathering and growing',
+    'plants.read.more': 'More about the plant',
 
 
     'recipes.workView': 'Working view',

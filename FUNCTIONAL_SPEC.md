@@ -1568,6 +1568,24 @@ diffs. It dispatches real events: calling `root.onclick` directly skips handlers
 registered with `addEventListener`, and a harness that does so reports green on
 a screen that does not work.
 
+**3. A check that failed at random (found in 0.71.0).** After a click the harness
+slept a flat 30 ms and then read the screen. A click starts an asynchronous
+re-render whose promise the event dispatcher drops, so nothing could be awaited —
+and for a year 30 ms was enough. The moment the plant list grew, the suite began
+failing **twice in twenty runs**, on the favourites star in recipes and in the
+reference, neither of which had been touched. The application was correct; the
+check was not.
+
+It now waits for the screen to *stop changing* rather than for a fixed number of
+milliseconds: poll the rendered length, and return once it has held steady twice,
+with a ceiling. Twenty runs before: two failures. Twenty after: none.
+
+Worth stating as a rule, because the cost is not the wasted minute. **A check
+that fails at random teaches people to run it again** — which is the exact
+opposite of what a pre-deploy gate is for, and it degrades quietly: the first
+re-run that passes is the moment the gate stopped working. Any timing in
+`deep-check.mjs` must be a condition, never a duration.
+
 ---
 
 ## 13f. Protecting unsaved work
@@ -1677,8 +1695,8 @@ so both plants reach an existing database rather than only a fresh install.
 
 ## 13i. The plant profile — list and detail
 
-Agreed with the owner and **not yet built**. No schema change; the form is not
-touched in this round.
+**Built in 0.71.0.** No schema change; the edit form was not touched. What
+follows is the specification as agreed, then what building it changed.
 
 ### The fault to fix first
 
@@ -1739,6 +1757,72 @@ column, because the order is the meaning.
 Deliberately small: lighten the list, enlarge the swatches, move *what it gives*
 to the top of the detail, derive it from both sources, and order the detail
 vertically. The edit form is not touched. This is not a rewrite of the module.
+
+### What the data said, and the block that filled itself
+
+Counted before building, because the six blocks were specified against fields
+the records mostly do not carry: `facing`, `harvestMonths` and toxicity level
+are **empty on all fifty** seeded plants, dosing is present on thirty, and
+`liquorRatio` on one. Built as specified, *how it is used* would have been half
+empty and *gathering and growing* empty across the whole library — the failure
+§13g exists to prevent, arriving by a different door.
+
+The knowledge is not missing. It is in `sections`, and **the sections are not
+anonymous prose**: the same headings recur across the library, because they came
+from one guide written to one shape. "Багрилни качества" on thirty-five plants,
+"Източници" on forty-one, "Рецепта" on fourteen, the six cultivation headings on
+seven each.
+
+So **the blocks fill themselves from the headings.** A lookup read at display
+time maps a normalised heading to a block; parentheses and punctuation are
+stripped first, so "Агротехника (отглеждане)" and "Агротехника" are one heading.
+Both languages are tried. Across the seeded library this routes 83 sections into
+*how it is used*, 34 into *gathering*, 28 into *why it works* and 41 into the
+source note, leaving 38 in *more*.
+
+**An unrecognised heading falls to `more`,** which is where every section used to
+go — so a heading the table does not know cannot lose its text. That property is
+what makes routing by title safe, and it is checked (§13e): four sections in,
+four out, each in its expected block. The table is a living list, extended when a
+heading recurs; it is data, not structure, and adding to it costs nothing.
+
+**No migration, no writing back.** A record made before the question was asked
+is not wrong, and a migration that guessed would turn a guess into a fact — the
+same rule as the stage inference in §8.0b.
+
+### Three departures from the plan, and why
+
+**Cautions are their own block, immediately after the use.** Not in the list of
+six. A warning read after the pot is on the heat is a warning too late.
+
+**Two internal columns only where the prose is short** — *gathering* and *more*.
+A recipe runs to nineteen hundred characters on madder and reads badly at half
+width, so *how it is used* stays single-column however wide the screen.
+
+**Fastness moved into the working facts, not into a block of its own.** It had
+been sitting under "in the garden", which had become a bucket for whatever was
+left over; fastness has nothing to do with a plot of ground. Its first home in
+the redesign was *what it gives*, beside the swatches it qualifies — and that
+was wrong for a reason only the rendered screen showed: forty-five of the fifty
+plants have no recorded colour, so on those the block appeared containing
+nothing but "moderate lightfastness", a heading answering a question nobody
+asked. **A block with no content is absent**, exactly as the list column is
+blank for the same plants, and fastness reads with the temperatures and the
+ceiling instead.
+
+That third one is the lesson of the round: the routing table and the block order
+were both decided correctly on paper, and the only fault that survived to the end
+was one that required looking at three real profiles side by side — a full one, a
+thin one, and one in between.
+
+### What the list became
+
+Five columns: star · plant · what it gives · what for · which part. The botanical
+name is a subline under the common name rather than a column, because identity is
+one block and not two. Chemistry moved to the detail. Availability became a row of
+filter chips under the role tabs, and is cleared by `reset()` for the reason §13g
+gives — a list that looks short for a reason nobody can see. Swatches went from
+15px to 26px, and to 20px on a narrow screen.
 
 ---
 

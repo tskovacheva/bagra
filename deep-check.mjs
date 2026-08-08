@@ -74,10 +74,26 @@ for (const store of ['plants','recipes','combinations']) {
 // handlers are registered with addEventListener in the capture phase, and a
 // direct call silently skips them — which is exactly how a harness ends up
 // reporting green on a broken screen.
+// A click starts an async re-render that nothing here can await: the handler is
+// `root.onclick = async …` and its promise is dropped by the dispatcher. So the
+// harness waits for the screen to stop changing rather than for a fixed number
+// of milliseconds. A flat sleep passed for a year and then began failing one run
+// in ten the moment the plant list grew — a check that fails at random teaches
+// people to re-run it, which is the opposite of what it is for.
+const settle = async (max = 1500) => {
+  let last = -1, stable = 0, waited = 0;
+  while (waited < max) {
+    await new Promise(r => setTimeout(r, 15));
+    waited += 15;
+    const now = root.innerHTML.length;
+    if (now === last) { if (++stable >= 2) return; } else { stable = 0; last = now; }
+  }
+};
+
 const click = async (el) => {
   if (!el) throw new Error('nothing to click — the expected control is not on screen');
   el.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
-  await new Promise(r => setTimeout(r, 30));
+  await settle();
 };
 
 const mods = { plants:'./modules/plants.js', recipes:'./modules/recipes.js',
@@ -701,6 +717,65 @@ const dirty = await import('./dirty.js');
   const rows = root.querySelectorAll('tbody tr').length;
   if (!lit) fail('swatches', new Error('not one plant in the seeded library shows a colour'));
   else console.log(`  swatches: ${lit} swatches across ${rows} seeded plants`);
+}
+
+
+// ---- 9. The plant profile: list and detail agree, and no prose is lost -----
+//
+// Each of these guards a fault that shipped or nearly shipped. The colour
+// disagreement between list and detail was live for two releases and invisible
+// in a check that stopped at the list.
+{
+  const plants = (await import('./modules/plants.js')).default;
+  const { groupSections } = await import('./modules/plants.js');
+
+  plants.reset?.();
+  await plants.render(root);
+
+  const cols = root.querySelectorAll('thead th').length;
+  if (cols !== 5)
+    fail('profile', new Error(`the list has ${cols} columns; four blocks plus the star is five`));
+  else console.log('  profile: the list is four blocks, not a spreadsheet');
+
+  // Pick the row showing the most swatches and open it: the detail must not
+  // show fewer colours than the row the person just clicked.
+  let best = null, bestCount = -1;
+  for (const tr of root.querySelectorAll('tbody tr')) {
+    const n = tr.querySelectorAll('.miniswatch').length;
+    if (n > bestCount) { bestCount = n; best = tr; }
+  }
+  if (!best || !bestCount) {
+    fail('profile', new Error('no seeded plant shows a swatch in the list'));
+  } else {
+    await click(best);
+    const inDetail = root.querySelectorAll('.colourcards .refswatch').length;
+    if (inDetail < bestCount)
+      fail('profile', new Error(`the list showed ${bestCount} colours, the record shows ${inDetail}`));
+    else console.log(`  profile: the record shows the colours the list promised (${bestCount} → ${inDetail})`);
+
+    const ctx = root.querySelectorAll('.colourcards .hint').length;
+    if (!ctx) fail('profile', new Error('a swatch in the detail says what, but never how'));
+    else console.log('  profile: each colour carries the conditions it was reached by');
+  }
+
+  // A heading nobody anticipated must still reach the screen. This is the whole
+  // safety of routing by title: unknown falls to `more`, never to nowhere.
+  const grouped = groupSections([
+    { title: { bg: 'Рецепта' }, body: { bg: 'x' } },
+    { title: { bg: 'Агротехника (отглеждане)' }, body: { bg: 'x' } },
+    { title: { bg: 'Нещо съвсем ново' }, body: { bg: 'x' } },
+    { title: { bg: 'Източници' }, body: { bg: 'x' } },
+  ]);
+  const total = Object.values(grouped).reduce((n, l) => n + l.length, 0);
+  if (total !== 4)
+    fail('profile', new Error(`four sections went in, ${total} came out`));
+  else if (grouped.use.length !== 1 || grouped.grow.length !== 1
+        || grouped.sources.length !== 1 || grouped.more.length !== 1)
+    fail('profile', new Error('a heading was routed to the wrong block'));
+  else console.log('  profile: known headings find their block, unknown ones are not lost');
+
+  plants.reset?.();
+  await plants.render(root);
 }
 
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');

@@ -30,8 +30,67 @@ const SUGGESTED = [
 let openId = null;
 let draft = null;
 let filterRole = null;
+let filterAvail = null;
 let favOnly = false;
 let editing = false;
+
+// Which block of the profile a named section belongs to (§13i).
+//
+// The sections are not anonymous free text: the same headings recur across the
+// library, because they came from one guide written to one shape. Reading the
+// heading at display time lets the six blocks fill themselves from prose the
+// structured fields do not carry — `harvestMonths` is empty on all 50 seeded
+// plants, but "Беритба и обработка" is written out on six of them.
+//
+// A lookup, never a migration. An unrecognised heading falls to `more`, which
+// is where every section used to go, so nothing a heading is not known for can
+// be lost.
+const SECTION_BLOCKS = {
+  // "За тези числа" recurs on eight plants and says the ranges are a starting
+  // point rather than tested practice. A caveat about the figures belongs beside
+  // the figures, not at the bottom of the page.
+  use: ['багрилни качества', 'рецепта', 'дозиране', 'еко принт', 'използвани части', 'части',
+        'за тези числа', 'температура', 'работа с него', 'върху кои влакна', 'устойчивост',
+        'като източник на танин', 'танин и еко принт', 'плодовете отделно',
+        'dye qualities', 'recipe', 'dosing', 'eco print', 'parts used', 'parts',
+        'about these figures', 'temperature', 'working with it', 'on which fibres',
+        'fastness', 'as a tannin source'],
+  why: ['багрилна съставка', 'багрилни съставки', 'dye constituent', 'dye constituents'],
+  grow: ['агротехника', 'отглеждане', 'размножаване', 'грижи и поддръжка', 'грижи',
+         'вредители и болести', 'беритба и обработка', 'беритба', 'сезон',
+         'cultivation', 'growing', 'propagation', 'care', 'pests and diseases',
+         'harvest and processing', 'harvest', 'season'],
+  sources: ['източници', 'източник', 'sources', 'source'],
+};
+
+const SECTION_BLOCK = new Map();
+for (const [block, titles] of Object.entries(SECTION_BLOCKS))
+  for (const title of titles) SECTION_BLOCK.set(title, block);
+
+// "Агротехника (отглеждане)" and "Агротехника" are one heading. Parentheses go,
+// then punctuation, then the spaces they leave behind.
+function normTitle(s) {
+  return String(s || '').toLowerCase()
+    .replace(/\(.*?\)/g, ' ')
+    .replace(/[.,;:!?"'„“”«»\-–—/]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function sectionBlock(sec) {
+  for (const lang of ['bg', 'en']) {
+    const key = normTitle(sec.title?.[lang]);
+    if (key && SECTION_BLOCK.has(key)) return SECTION_BLOCK.get(key);
+  }
+  return 'more';
+}
+
+/** Sections grouped by block, each keeping the order the record gives them. */
+export function groupSections(sections = []) {
+  const out = { use: [], why: [], grow: [], sources: [], more: [] };
+  for (const sec of sections) out[sectionBlock(sec)].push(sec);
+  return out;
+}
 
 function shrink(file, maxSide) {
   return new Promise((resolve, reject) => {
@@ -100,53 +159,59 @@ async function renderList(root) {
       <span class="boxcount">${counts[r] || 0}</span>
     </button>`));
 
+  // Availability was a standing column; it answers a sourcing question, not a
+  // choosing one (§13i). As a filter it earns its place — "what can I go and
+  // pick today" is a real question and the column could not answer it.
+  const availCounts = {};
+  for (const p of plants) if (p.availability) availCounts[p.availability] = (availCounts[p.availability] || 0) + 1;
+  const availCodes = Object.keys(availCounts).sort();
+  const availTabs = await Promise.all(availCodes.map(async a => `
+    <button class="box${filterAvail === a ? ' active' : ''}" data-avail="${esc(a)}">
+      <span class="boxname">${esc(await label('availability', a))}</span>
+      <span class="boxcount">${availCounts[a]}</span>
+    </button>`));
+
   const shown = plants
-    .filter(p => (!filterRole || (p.role || []).includes(filterRole)) && (!favOnly || p.favorite))
+    .filter(p => (!filterRole || (p.role || []).includes(filterRole))
+              && (!filterAvail || p.availability === filterAvail)
+              && (!favOnly || p.favorite))
     .sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
 
   const rows = await Promise.all(shown.map(async p => {
-    // Levels are mostly unknown, so filtering by them showed nothing. What is
-    // worth seeing at a glance is which classes are present at all.
-    const seen = new Set();
-    const chem = (p.parts || []).flatMap(pt => pt.chemistry || [])
-      .filter(c => c.classCode && !seen.has(c.classCode) && seen.add(c.classCode));
-    const top = (await Promise.all(chem.slice(0, 3)
-      .map(async c => {
-        const name = await label('chemistry_class', c.classCode);
-        return c.level ? `${name} (${await label('chemistry_level', c.level)})` : name;
-      }))).join(', ');
     const parts = (await Promise.all((p.parts || []).map(pt => label('plant_part', pt.partCode)))).join(', ');
     const roleNames = (await Promise.all((p.role || []).map(r => label('plant_role', r)))).join(', ');
+    const sw = plantSwatches(p, combinations);
     return `<tr data-open="${p.id}">
       <td class="favcell">${favStar(p)}</td>
-      <td class="withthumb">${p.photoData ? `<img class="thumb" src="${p.photoData}" alt="">` : `<span class="thumb empty"></span>`}
-        ${esc(text(p.nameCommon) || '—')}</td>
-      <td class="swatchcell">${(() => {
-        const sw = plantSwatches(p, combinations);
-        return sw.length
-          ? `<span class="swatchrow">${sw.map(x =>
-              `<span class="miniswatch" style="background:${esc(x.hex)}" title="${esc(x.caption || '')}"></span>`).join('')}</span>`
-          : '';
-      })()}</td>
-      <td><i>${esc(p.nameBotanical || '')}</i></td>
+      <td>
+        <div class="withthumb">
+          ${p.photoData ? `<img class="thumb" src="${p.photoData}" alt="">` : `<span class="thumb empty"></span>`}
+          <span class="namecell">
+            <span class="nameline">${esc(text(p.nameCommon) || '—')}</span>
+            ${p.nameBotanical ? `<i class="latinline">${esc(p.nameBotanical)}</i>` : ''}
+          </span>
+        </div>
+      </td>
+      <td class="swatchcell">${sw.length
+        ? `<span class="swatchrow">${sw.map(x =>
+            `<span class="miniswatch" style="background:${esc(x.hex)}" title="${esc(x.caption || '')}"></span>`).join('')}</span>`
+        : ''}</td>
       <td>${esc(roleNames)}</td>
       <td>${esc(parts)}</td>
-      <td>${esc(top)}</td>
-      <td>${esc(await label('availability', p.availability))}</td>
     </tr>`;
   }));
 
+  // Four blocks, not eight columns: plant · what it gives · what for · which
+  // part. The question this screen answers is "I have oak, walnut, rose and
+  // eucalyptus — which do I use", and chemistry was never part of the answer.
   const table = shown.length ? `
     <table class="grid">
       <thead><tr>
         <th class="favcell"></th>
         <th>${t('plants.col.name')}</th>
-        <th>${t('plants.col.gives')}</th>
-        <th>${t('plants.col.botanical')}</th>
+        <th class="swatchcell">${t('plants.col.gives')}</th>
         <th>${t('plants.col.role')}</th>
         <th>${t('plants.col.parts')}</th>
-        <th>${t('plants.col.chemistry')}</th>
-        <th>${t('plants.col.availability')}</th>
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
     </table>`
@@ -169,6 +234,13 @@ async function renderList(root) {
           <span class="boxcount">${favCount}</span>
         </button>` : ''}
       </div>
+      ${availTabs.length ? `<div class="chiprow">
+        <span class="chiplabel">${t('plants.col.availability')}</span>
+        <button class="box small${filterAvail === null ? ' active' : ''}" data-avail="">
+          <span class="boxname">${t('common.all')}</span>
+        </button>
+        ${availTabs.map(x => x.replace('class="box', 'class="box small')).join('')}
+      </div>` : ''}
       ${panel(table, 'flush')}`,
   });
 }
@@ -231,25 +303,36 @@ async function partRows(p) {
 // an expected colour — so they fill in everything not yet written by hand, and
 // keep filling in as the library grows. Derived at display time, never stored:
 // there are no back-references in the data (§13.1).
-export function plantSwatches(plant, combinations = [], max = 6) {
+//
+// The detail asks the same question with more room, so it reads from the same
+// function rather than from `p.colours` alone — the fault §13i names. There the
+// context is worth keeping, and two combinations that land on the same hex from
+// different mordants are two answers, not one; hence `distinctContext`.
+export function plantColourSources(plant, combinations = [], { max = 6, distinctContext = false } = {}) {
   const out = [];
   const seen = new Set();
 
-  const add = (hex, caption) => {
+  const add = (hex, caption, from, combo) => {
     if (!hex) return;
-    const key = hex.toLowerCase();
+    const ctx = combo ? [combo.key?.dyeSource?.partCode, combo.key?.fibreClass,
+                         combo.key?.mordantCode, combo.key?.processCode].filter(Boolean).join('/') : '';
+    const key = hex.toLowerCase() + (distinctContext ? '|' + ctx : '');
     if (seen.has(key) || out.length >= max) return;
     seen.add(key);
-    out.push({ hex, caption });
+    out.push({ hex, caption, from, combo });
   };
 
-  for (const c of plant.colours || []) add(c.hex, text(c.name) || text(c.conditions));
+  for (const c of plant.colours || []) add(c.hex, text(c.name) || text(c.conditions), 'own', null);
 
   for (const c of combinations) {
     if (c.key?.dyeSource?.plantId !== plant.id) continue;
-    add(c.expected?.swatchHex, text(c.expected?.colourText));
+    add(c.expected?.swatchHex, text(c.expected?.colourText), 'combination', c);
   }
   return out;
+}
+
+export function plantSwatches(plant, combinations = [], max = 6) {
+  return plantColourSources(plant, combinations, { max });
 }
 
 function colourRows(p) {
@@ -310,12 +393,65 @@ async function useNowCard(p) {
   if (p.dryingRatio) rows.push(fact(t('plants.dryingRatio'), `× ${p.dryingRatio}`));
   if (p.steamNote) rows.push(fact(t('plants.steamNote'), esc(p.steamNote)));
 
+  // Fastness used to sit under "in the garden", which was a bucket for whatever
+  // was left over — it has nothing to do with the plot of ground. It is how the
+  // colour will behave, so it reads here, with the temperatures and the ceiling.
+  if (p.lightfastness) rows.push(fact(t('plants.lightfastness'), esc(await label('fastness', p.lightfastness))));
+  if (p.washfastness) rows.push(fact(t('plants.washfastness'), esc(await label('fastness', p.washfastness))));
+
   return facts(rows);
 }
 
+// A named part of a block. Not a panel of its own: nesting panels was what made
+// the two-column layout read as scattered.
+const sub = (title, inner) =>
+  inner ? `<section class="sub">${title ? `<h3>${esc(title)}</h3>` : ''}${inner}</section>` : '';
+
+// Two columns inside a block, but only where the prose is short. A recipe runs
+// forty lines and reads badly at half width, so *how it is used* stays single.
+const subs = (list, cols = 1) => {
+  const inner = list.filter(Boolean).join('');
+  return inner ? `<div class="${cols === 2 ? 'subcols' : 'subone'}">${inner}</div>` : '';
+};
+
+// What each swatch was reached by. The list has no room for this; the detail
+// does, and without it a row of colours says what but never how.
+async function swatchContext(combo) {
+  if (!combo) return '';
+  const bits = [];
+  const k = combo.key || {};
+  if (k.dyeSource?.partCode) bits.push(await label('plant_part', k.dyeSource.partCode));
+  if (k.fibreCode) bits.push(await label('fibre', k.fibreCode));
+  else if (k.fibreClass) bits.push(await label('fibre_class', k.fibreClass));
+  if (k.mordantCode && k.mordantCode !== 'none') {
+    const band = k.mordantBand ? ` (${await label('concentration', k.mordantBand)})` : '';
+    bits.push((await label('mordant_type', k.mordantCode)) + band);
+  }
+  if (k.processCode) bits.push(await label('process', k.processCode));
+  return bits.filter(Boolean).join(' · ');
+}
+
 async function renderRead(root, p) {
+  // The list derives its swatches from the plant and from the combinations
+  // both; reading only `p.colours` here is what made every seeded record open
+  // with an empty colour section (§13i).
+  const combinations = await all('combinations');
+
   const roles = (await Promise.all((p.role || []).map(x => label('plant_role', x)))).join(', ');
   const comp = (await Promise.all((p.compositionalRole || []).map(x => label('compositional_role', x)))).join(', ');
+
+  const sources = plantColourSources(p, combinations, { max: 24, distinctContext: true });
+  const colours = (await Promise.all(sources.map(async s => {
+    const ctx = await swatchContext(s.combo);
+    return `
+    <div class="refcard" style="cursor:default">
+      <div class="refswatch" style="background:${esc(s.hex || '#8C7B6B')}"></div>
+      <div class="refbody">
+        <b>${esc(s.caption || '—')}</b>
+        ${ctx ? `<div class="hint">${esc(ctx)}</div>` : ''}
+      </div>
+    </div>`;
+  }))).join('');
 
   const chem = (await Promise.all((p.parts || []).map(async part => {
     const items = (await Promise.all((part.chemistry || []).map(async c =>
@@ -323,21 +459,48 @@ async function renderRead(root, p) {
     return items ? fact(await label('plant_part', part.partCode), esc(items)) : '';
   }))).join('');
 
-  const colours = (p.colours || []).map(c => `
-    <div class="refcard" style="cursor:default">
-      <div class="refswatch" style="background:${esc(c.hex || '#8C7B6B')}"></div>
-      <div class="refbody">
-        <b>${esc(text(c.name) || '—')}</b>
-        ${text(c.conditions) ? `<div class="hint">${esc(text(c.conditions))}</div>` : ''}
-      </div>
-    </div>`).join('');
-
   const months = (p.harvestMonths || []).map(i => MONTHS_BG[i - 1]).join(' · ');
-
-  const sections = (p.sections || []).map(sec =>
-    readBlock(text(sec.title), prose(sec.body))).join('');
-
+  const grouped = groupSections(p.sections || []);
+  const asSubs = (list) => list.map(sec => sub(text(sec.title), prose(sec.body)));
   const useNow = await useNowCard(p);
+
+  // Six blocks in one column, because the order is the meaning: what is this,
+  // what does it give me, how do I use it, why does it work, when do I gather
+  // it, what else is written down. Cautions sit beside the use rather than at
+  // the end — a warning read after the pot is on is a warning too late.
+  const blocks = [
+    // Only when there is something to show. Forty-five of the fifty seeded
+    // plants have no recorded colour yet (§13h), and a block headed "what it
+    // gives" holding nothing but "moderate lightfastness" answers a question
+    // nobody asked. When it is empty it is absent, exactly as the list column
+    // is blank for the same plants.
+    readBlock(t('plants.read.gives'),
+      colours ? `<div class="colourcards">${colours}</div>` : ''),
+
+    readBlock(t('plants.read.howUsed'),
+      [useNow, subs(asSubs(grouped.use))].filter(Boolean).join('')),
+
+    readBlock(t('plants.readCareful'), prose(p.toxicity)),
+
+    readBlock(t('plants.read.why'),
+      [chem, subs(asSubs(grouped.why))].filter(Boolean).join('')),
+
+    readBlock(t('plants.read.gathering'),
+      [facts([
+        fact(t('plants.harvestMonths'), esc(months)),
+        fact(t('plants.yearsToMaturity'), p.yearsToMaturity),
+        p.invasive ? fact(t('plants.invasive'), '⚠') : '',
+      ]), subs(asSubs(grouped.grow), 2)].filter(Boolean).join('')),
+
+    readBlock(t('plants.read.more'), subs(asSubs(grouped.more), 2)),
+  ].filter(Boolean);
+
+  // Attribution is not a section among sections: it says where the whole
+  // profile came from, and §"Sources and authorship" requires it be visible.
+  const sourceNote = grouped.sources.length
+    ? `<div class="sourcenote">${grouped.sources.map(sec =>
+        `<span class="sourcelabel">${esc(text(sec.title))}</span> ${esc(text(sec.body))}`).join('<br>')}</div>`
+    : '';
 
   root.innerHTML = page({
     title: text(p.nameCommon) || t('plants.one'),
@@ -359,23 +522,10 @@ async function renderRead(root, p) {
         </div>
       </div>
 
-      ${useNow ? panel(`<h2>${t('read.useNow')}</h2>${useNow}`) : ''}
-
-      <div class="cols">
-        <div class="col">
-          ${readBlock(t('plants.colours'), colours)}
-          ${readBlock(t('plants.chemistrySection'), chem)}
-          ${readBlock(t('plants.growing'), facts([
-            fact(t('plants.harvestMonths'), esc(months)),
-            fact(t('plants.yearsToMaturity'), p.yearsToMaturity),
-            fact(t('plants.lightfastness'), esc(await label('fastness', p.lightfastness))),
-            fact(t('plants.washfastness'), esc(await label('fastness', p.washfastness))),
-            p.invasive ? fact(t('plants.invasive'), '⚠') : '',
-          ]))}
-          ${readBlock(t('plants.readCareful'), prose(p.toxicity))}
-        </div>
-        <div class="col">${sections || (useNow ? '' : `<p class="hint">${t('read.noData')}</p>`)}</div>
-      </div>`,
+      <div class="readblocks">
+        ${blocks.join('') || `<p class="hint">${t('read.noData')}</p>`}
+      </div>
+      ${sourceNote}`,
   });
 }
 
@@ -580,7 +730,9 @@ export default {
     draft = null;
     filterRole = null;
     // Leaving the module and coming back must not leave the favourites filter
-    // silently on: the list would look short for no visible reason.
+    // silently on: the list would look short for no visible reason. The same
+    // rule holds for availability, which is why it is cleared here too (§13g).
+    filterAvail = null;
     favOnly = false;
   },
 
@@ -632,6 +784,8 @@ export default {
 
       const role = e.target.closest('[data-role]');
       if (role) { filterRole = role.dataset.role || null; return this.render(root); }
+      const avail = e.target.closest('[data-avail]');
+      if (avail) { filterAvail = avail.dataset.avail || null; return this.render(root); }
       if (e.target.closest('[data-new]')) { draft = null; openId = 'new'; editing = true; return this.render(root); }
       if (e.target.closest('[data-edit]')) { editing = true; return this.render(root); }
       const row = e.target.closest('[data-open]');

@@ -322,15 +322,31 @@ Recorded here so they are not lost between stages. Numbering follows her notes.
 - **Reverse colour lookup** — now the obvious next step, since the swatches are
   in the list: ask for a colour range and get the plants that reach it.
 
-## The plant profile · *small, and ready to do*
+## The plant profile · **done (0.71.0)**
 
-Specified in §13i. Six changes, no schema change, the edit form untouched.
+Specified in §13i, built without a schema change and without touching the edit
+form. The fault it carried — the detail reading colours from `p.colours` while
+the list derived them from combinations too, so opening a plant lost what the
+list had just shown — is fixed: both now read one function, and in the detail
+each swatch carries the part, fibre, mordant and process it was reached by.
 
-Worth doing before or alongside Stage 11 because it is small and because it
-carries a real fault: the detail view reads colours from `p.colours` only while
-the list derives them from combinations too, so opening a plant loses the
-information the list just showed. That fault arrived with the swatch column in
-0.69.0.
+The list went from eight columns to five. Availability became a filter rather
+than a standing column; chemistry moved into the detail; the botanical name
+became a subline; the swatches roughly doubled.
+
+The detail is one vertical column of six blocks. The part that was not in the
+plan: the blocks fill themselves from the **section headings**, because the
+structured fields they were specified against are largely empty — `facing`,
+`harvestMonths` and toxicity level on all fifty plants — while the prose that
+carries the same knowledge uses recurring headings. A display-time lookup routes
+83 sections into *how it is used* and 34 into *gathering*; an unknown heading
+falls to *more* and so cannot be lost. Three departures from the specified
+layout, all recorded in §13i, the last of which was only visible once three real
+profiles were rendered side by side.
+
+Also fixed on the way: `deep-check.mjs` slept a flat 30 ms after a click and had
+begun failing two runs in twenty as soon as the plant list grew. It now waits on
+a condition. §13e.3 — a check that fails at random is worse than no check.
 
 ## Stage 11 — The working flow · *next*
 
