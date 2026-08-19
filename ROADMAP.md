@@ -119,6 +119,11 @@ None of this is a feature; all of it is a condition of taking money.
 - **README and ROADMAP are read before each release.** README claimed 48 plants and a Stock
   module long after both had changed; it is the only document that asserts things about the
   app with nothing checking it.
+- ~~**The Library**~~ — **done (1.0.0-rc7)**, §13bt. Sources became one of three tabs in a Library
+  module: Glossary, pH, Sources. Thirty glossary terms in our own words with cited sources; the pH
+  tab carries our own scale and the modifier lists rather than a photographed test strip. The four
+  new books are seeded (ten sources in all). A term met on another screen does not yet link to its
+  entry — the more valuable half, touching every screen, recorded and not started.
 - **A public page is not a public roadmap.** Buyers see what is included, what is new and
   what is known to be broken. A future idea published becomes a promised feature.
 

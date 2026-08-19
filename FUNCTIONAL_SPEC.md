@@ -6320,3 +6320,78 @@ Still missing:
     of five doubtful headings with substance. The owner is still thinking about it.
 
 ---
+
+## 13bt. The Library: glossary, pH, sources (1.0.0-rc7)
+
+`modules/sources.js` became `modules/library.js`, and attribution became one of three tabs rather
+than a place in the navigation of its own. Attribution deserves a screen but is opened rarely, to
+check where something came from. What is opened often — and had nowhere to live — is the meaning of
+a word met on another screen.
+
+**Three tabs, not two.** The owner proposed Glossary and Sources. A pH scale is not a term with a
+definition, it is a table, and forcing it into a glossary entry makes it a paragraph about a
+picture. `#/library/glossary` (the default), `#/library/ph`, `#/library/sources`.
+
+**The tab is in the address.** `#/library/sources/<id>` opens the record. A tab kept in a variable
+the address does not mention looks like it works and breaks the back button, reload and bookmarks
+at once (§13q) — the same fault a sessionStorage handoff has, in different clothes.
+
+### The glossary does not restate the vocabulary
+
+Five codes in `vocab.js` already carry an explanation and show it where the code is shown (§13aw):
+`mordant_accumulator` and the four extraction modes. A glossary term repeating one of those is one
+thing defined in two files, and the two drift at the first edit. `modules/library.js` reads those
+five out of `VOCABULARY` at render time and merges them into the list, marked as explaining a term
+the application uses. No copy; no stored link (§13.6).
+
+Guard 24d fails the build if a glossary term ever names a code `vocab.js` explains. It caught one
+on its first run: `vat` had been written into the glossary while `extraction_mode:vat` already
+explained it. The glossary term was removed, and the two `seeAlso` entries pointing at it with it.
+
+`seed/glossary.json`, pack `bagra-glossary` 0.1.0, thirty terms in six groups — chemistry, process,
+fabric, pH, eco print, fastness. Written in our own words with a cited source, per §13r. Terms that
+warranted the space and are easy to get wrong: **WOF and WOA as separate entries**, because Stopka
+measures against the weight of the ALUM and everyone else against the weight of the CLOTH, and
+reading one as the other is wrong by an order of magnitude; **the three tannins**, because the
+library already distinguishes `tannin_gallo`, `tannin_ellagi` and `tannin_cond` and the glossary
+should be at least as precise as the model; **discharge**, because true discharge destroys the dye
+and a pH shift only moves it, and the two look alike.
+
+### The pH tab is ours, not a photograph
+
+The reference photograph offered was a test-strip colour chart. That is one maker's paper — another
+maker's reads differently — and it is a page from a book. What a dyer needs is not what the paper
+looks like but which jar moves the bath which way. The tab carries a five-band scale in the
+application's own palette, saying only where a reading falls, and two lists: what moves pH up and
+what moves it down.
+
+### Two faults found on the way, both older than this work
+
+**A seeded `kind` that rendered as its own key.** `cameo-mfa` shipped with `kind: 'reference'` and
+`natures-rainbow` with `kind: 'website'`; neither was in `KINDS` and neither had a translation, so
+the Sources screen printed the literal string `sources.kind.reference` where a word belonged, in
+both languages, for as long as both records have existed. Layer 3b of `check.sh` reads literal
+`t('...')` keys and this one is built at run time as `t('sources.kind.' + sx.kind)` — that layer's
+own comment says a constructed key cannot be checked there. The check therefore comes from the DATA
+end: guard 24c asks whether every code a seed pack actually uses resolves to a word, and whether
+every kind in `KINDS` has one in both languages. `website` was `site` under another name and the
+data was corrected; `reference` is a real distinct kind and was added to the vocabulary.
+
+**A record-address check that could not fail.** The address layer asserted that a record's own
+words appear on screen when its address is opened. A record's name appears in the LIST as well, so
+a module that ignored the address entirely and fell back to its list still contained the marker and
+still passed. Found by deliberately breaking the Library's record address and watching the layer
+stay green. It now requires the marker AND a Back button, which every record screen carries and no
+list does. The marker stays, because Back alone would not notice a module opening the wrong record.
+
+`DB_VERSION` 7 → 8 for the `glossary` store. The pack loader derives its work from `PACKS`, so the
+new pack needed no second list — the fault §13aa records, where `sources` was declared and never
+loaded, does not repeat.
+
+### Not done here
+
+A term met on another screen does not yet link to its glossary entry. That is the more valuable
+half and it touches every screen that shows a term; the glossary has to exist and have content
+first. Recorded, not started.
+
+---

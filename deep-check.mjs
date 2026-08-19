@@ -1571,13 +1571,18 @@ const dirty = await import('./dirty.js');
   // and a thrown render leaves the PREVIOUS screen in place, so the application
   // appears to ignore the address rather than to have failed (§11b).
   {
-    const gone = ['plants', 'recipes', 'techniques', 'sources', 'substances', 'fabrics'];
+    const gone = ['plants', 'recipes', 'techniques', 'library', 'substances', 'fabrics'];
     let bad = 0;
     for (const name of gone) {
       const mod = (await import(`./modules/${name}.js`)).default;
       mod.reset?.();
-      // Nothing of this id was ever written.
-      mod.open('zz-never-existed');
+      // Nothing of this id was ever written. The Library reaches a record
+      // through a tab, so its missing-record address is one segment deeper —
+      // pointed at the tab it actually uses, not at the module name, or this
+      // would test that `#/library/zz-never-existed` falls back to the glossary
+      // and prove nothing about the case it exists for.
+      if (name === 'library') mod.open('sources', 'zz-never-existed');
+      else mod.open('zz-never-existed');
       try {
         await mod.render(root);
         await settle();
@@ -1604,12 +1609,16 @@ const dirty = await import('./dirty.js');
       ['plants',     'plants',       { nameCommon: { bg: 'Адресируемо растение' }, parts: [], colours: [] }, 'Адресируемо растение'],
       ['substances', 'substances',   { name: { bg: 'Адресируемо вещество' }, category: 'mordant' }, 'Адресируемо вещество'],
       ['techniques', 'techniques',   { name: { bg: 'Адресируема техника' }, category: 'resist', description: { bg: 'описание' } }, 'Адресируема техника'],
-      ['sources',    'sources',      { name: 'Адресируем източник', kind: 'book', author: '' }, 'Адресируем източник'],
+      // The Library reaches a record through a tab, so its record address is
+      // `#/library/sources/<id>` — one segment deeper than every other module.
+      // The fifth element carries whatever comes before the id; empty for the
+      // modules whose record sits directly under the module name.
+      ['library',    'sources',      { name: 'Адресируем източник', kind: 'book', author: '' }, 'Адресируем източник', ['sources']],
       ['fabrics',    'fabrics',      { label: 'ПЛ-77', name: 'Адресируемо парче', composition: [], stateEvents: [] }, 'Адресируемо парче'],
       ['reference',  'combinations', { key: { dyeSource: { plantId: 'seed:test' } }, confidence: 'practice' }, null],
     ];
 
-    for (const [name, store, extra, marker] of cases) {
+    for (const [name, store, extra, marker, prefix = []] of cases) {
       const mod = (await import(`./modules/${name}.js`)).default;
       if (typeof mod.open !== 'function') {
         fail('address', new Error(`${name} has no open() — its address is ignored, not obeyed`));
@@ -1619,20 +1628,28 @@ const dirty = await import('./dirty.js');
       await db.put(store, db.newRecord({ id, ...extra }));
 
       mod.reset?.();
-      mod.open(id);
+      mod.open(...prefix, id);
       await mod.render(root);
       await settle();
-      // Either the record's own words are on screen, or — where the record has
-      // no words of its own, like a stock line or a combination — a Back button
-      // is, which every record screen has and no list does. Asking for
-      // `[data-save]` instead was wrong for the modules whose record opens as a
-      // read view rather than a form.
+      // The record's own words AND a Back button, not either one.
+      //
+      // The marker alone was not enough and had not been: a record's name
+      // appears in the LIST as well as on the record, so a module that ignored
+      // the address entirely and fell back to its list still contained the
+      // marker and still passed. Caught by deliberately breaking the Library's
+      // record address and watching this layer stay green — a check aimed at
+      // the wrong thing is not neutral, it reads as cover.
+      //
+      // Back is the honest half: every record screen carries one and no list
+      // does. The marker stays because Back alone would not notice a module
+      // opening the WRONG record.
+      const back = !!root.querySelector('[data-goto], [data-back]');
       const opened = marker
-        ? (root.textContent || '').includes(marker)
-        : !!root.querySelector('[data-goto], [data-back]');
-      if (!opened) fail('address', new Error(`#/${name}/<id> does not open the record`));
+        ? ((root.textContent || '').includes(marker) && back)
+        : back;
+      if (!opened) fail('address', new Error(`#/${[name, ...prefix].join('/')}/<id> does not open the record`));
 
-      mod.open();
+      mod.open(...prefix);
       await mod.render(root);
       await settle();
       const backToList = marker
@@ -1667,10 +1684,10 @@ const dirty = await import('./dirty.js');
   // departure unless it is told otherwise (§13ad).
   {
     const { isDirty, markDirty } = await import('./dirty.js');
-    const sources = (await import('./modules/sources.js')).default;
+    const sources = (await import('./modules/library.js')).default;
     await db.put('sources', db.newRecord({ id: 'zz-dirty', name: 'Тест', kind: 'book', author: '' }));
     sources.reset?.();
-    sources.open('zz-dirty');
+    sources.open('sources', 'zz-dirty');
     await sources.render(root);
     await settle();
     if (!root.querySelector('[data-save]')) {
@@ -4051,10 +4068,10 @@ const dirty = await import('./dirty.js');
 // Held against the code's own KINDS list rather than a copy: a second list here
 // would be a second thing to keep in step, and it would drift.
 {
-  const src = fs.readFileSync('modules/sources.js', 'utf8');
+  const src = fs.readFileSync('modules/library.js', 'utf8');
   const m = src.match(/const KINDS = \[([^\]]*)\]/);
   if (!m) {
-    fail('vocab', new Error('cannot find KINDS in modules/sources.js'));
+    fail('vocab', new Error('cannot find KINDS in modules/library.js'));
   } else {
     const kinds = [...m[1].matchAll(/'([a-z_]+)'/g)].map(x => x[1]);
     const sources = JSON.parse(fs.readFileSync('seed/sources.json', 'utf8')).sources;
@@ -4082,6 +4099,64 @@ const dirty = await import('./dirty.js');
       fail('vocab', new Error(`source kind with no translation: ${untranslated.join(', ')}`));
     else console.log(`  vocab: every source kind has a word in both languages (${kinds.length} kinds)`);
   }
+}
+
+// ---- 24d. The glossary holds together and does not duplicate the vocabulary
+//
+// Two failures this is built to catch.
+//
+// The first is ordinary: a `seeAlso` or `sourceCode` pointing at something that
+// is not there. One shipped in the first draft — `tannin` pointed at `iron`,
+// which is a substance, not a glossary term. A dead cross-reference renders as
+// nothing or as a broken chip, and nobody notices which.
+//
+// The second is the reason the glossary is built the way it is. Five codes in
+// vocab.js already carry their own explanation and show it where the code is
+// shown (§13aw) — `mordant_accumulator` and the four extraction modes. A
+// glossary term repeating one of those is a SECOND definition of one thing in
+// two files, and the two will drift at the first edit. The glossary reads those
+// five rather than restating them, and this guard holds that line.
+{
+  const gloss = JSON.parse(fs.readFileSync('seed/glossary.json', 'utf8')).terms;
+  const codes = new Set(gloss.map(t => t.code));
+
+  const dangling = [];
+  for (const t of gloss)
+    for (const s of (t.seeAlso || []))
+      if (!codes.has(s)) dangling.push(`${t.code} -> ${s}`);
+  if (dangling.length)
+    fail('glossary', new Error(`seeAlso pointing nowhere: ${dangling.join(', ')}`));
+  else console.log(`  glossary: every cross-reference reaches a term (${gloss.length} terms)`);
+
+  const sourceCodes = new Set(
+    JSON.parse(fs.readFileSync('seed/sources.json', 'utf8')).sources.map(s => s.code));
+  const badSource = gloss
+    .filter(t => t.sourceCode && !sourceCodes.has(t.sourceCode))
+    .map(t => `${t.code} -> ${t.sourceCode}`);
+  if (badSource.length)
+    fail('glossary', new Error(`sourceCode pointing nowhere: ${badSource.join(', ')}`));
+  else console.log('  glossary: every attribution reaches a real source');
+
+  // Both languages, on the term and on the definition. A half-translated term
+  // renders as an empty line rather than as an obvious gap.
+  const halfTranslated = [];
+  for (const t of gloss)
+    for (const field of ['term', 'definition'])
+      for (const lang of ['bg', 'en'])
+        if (!t[field]?.[lang]?.trim()) halfTranslated.push(`${t.code}.${field}.${lang}`);
+  if (halfTranslated.length)
+    fail('glossary', new Error(`missing text: ${halfTranslated.join(', ')}`));
+  else console.log('  glossary: every term reads in both languages');
+
+  // The line against duplication.
+  const vocabSrc = fs.readFileSync('vocab.js', 'utf8');
+  const explained = [...vocabSrc.matchAll(
+    /V\('[a-z_]+',\s*'([a-z_]+)',\s*'[^']*',\s*'[^']*',\s*\d+,\s*\{/g)].map(m => m[1]);
+  const clash = explained.filter(c => codes.has(c));
+  if (clash.length)
+    fail('glossary', new Error(
+      `term also explained in vocab.js — one thing, two definitions: ${clash.join(', ')}`));
+  else console.log(`  glossary: nothing restates a vocabulary explanation (${explained.length} in vocab.js)`);
 }
 
 // ---- 25. A placement finds the right reference record ---------------------

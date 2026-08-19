@@ -70,6 +70,14 @@ export const PACKS = {
     file: 'seed/sources.json', store: 'sources', listKey: 'sources',
     defaults: { kind: 'other', author: '', url: '' },
   },
+  // The words of the craft (§13bt). Only terms that are NOT codes in the
+  // model: a code carries its explanation in vocab.js and the Library merges
+  // those in at render time, so nothing here restates one. Deep-check 24d
+  // fails the build if that line is ever crossed.
+  glossary: {
+    file: 'seed/glossary.json', store: 'glossary', listKey: 'terms',
+    defaults: { group: 'process', aliases: [], seeAlso: [], sourceCode: '' },
+  },
 };
 
 export function loadPack(name) {

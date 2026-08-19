@@ -48,9 +48,10 @@ const FILES = [
   './seed/techniques.json',
   './seed/combinations.json',
   './seed/sources.json',
+  './seed/glossary.json',
   './calc/alum-acetate.js',
   './modules/packs.js',
-  './modules/sources.js',
+  './modules/library.js',
   './modules/batch.js',
 ];
 
