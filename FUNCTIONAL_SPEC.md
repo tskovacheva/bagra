@@ -6395,3 +6395,65 @@ half and it touches every screen that shows a term; the glossary has to exist an
 first. Recorded, not started.
 
 ---
+
+## 13bu. The second chemistry audit (1.0.0-rc8)
+
+A second pass over plant chemistry, prepared by the owner with ChatGPT and delivered as a workbook
+whose `За merge` sheet is a replacing set. 153 entries became 171.
+
+**It was checked before it was trusted, and it held.** Across the 134 rows the audit and the library
+share it overwrites nothing and blanks nothing; all 19 entries it removes or reclasses carry an
+empty level in the library. Nothing already judged was touched. That is the opposite of the usual
+failure of a bulk merge and is worth recording as the reason this one was accepted.
+
+Added 37, filled 29, removed 19, marked 5 as unknown. Every part now has either a strength or an
+explicit statement that none can be given: **zero blank levels without a mark**.
+
+### `merge-chemistry-audit-2.py`, and why it is a second script
+
+The first audit script refuses to create an entry, remove one, or change a compound's class —
+those are domain decisions and it has no standing to make them. This audit asks for all three. They
+are done explicitly in a script that declares them, rather than smuggled through the old one by
+loosening it.
+
+What it still refuses, each seen to fail before it was trusted:
+
+- overwriting a level that is already set
+- blanking one
+- removing an entry that is neither named in `Корекции вещества` nor already empty — a replacing
+  set read literally makes a row dropped by accident indistinguishable from one dropped on purpose
+- a compound name that is not a class in the vocabulary
+
+### Three things found on the way
+
+**`антоциани` → `антоцианини`.** The audit is right on IUPAC grounds — anthocyanins are the
+glycosides, anthocyanidins their aglycones — and the application was already inconsistent with
+itself: `seed/plants.json`, the glossary and the techniques all wrote „антоцианини" while `vocab.js`
+alone wrote „антоциани". The code (`anthocyanin`) is unchanged; only the label. It also had a
+practical edge: until the label was corrected, the six audit rows spelled „антоцианини" resolved to
+no code and would have been skipped in silence.
+
+**`levelUnknown`, not `confidence: 'unknown'`.** The first draft of the merge script wrote the mark
+into `confidence`. But `confidence` is already a dimension in vocab.js with five values —
+unverified, literature, practice, confirmed, contradicted — and `unknown` is not one of them. That
+would have put an unknown code into a controlled vocabulary, which renders as its own key on
+screen: exactly the fault guard 24c was written for, reintroduced one section later. A separate
+boolean says the separate thing.
+
+**A blank level was two statements wearing one face.** *Not recorded yet* and *no honest
+quantitative estimate exists* both rendered as bare text. The second is a finding — the plant is
+strongly seasonal or cultivar-dependent — and now reads „степен неизвестна". Only marked entries
+say it; an ordinary blank still means simply not recorded. Guard 24e holds both halves: nothing may
+claim a strength and no strength at once, and the words must exist for the screen to show.
+
+### Open, recorded and not decided
+
+**Should the chemistry vocabulary hold technologically important non-pigments?** Rhubarb leaf is
+the case: its oxalates matter to a dyer and are not a colourant, so the dimension has no place for
+them. Deciding this changes what the whole dimension means and was not settled in passing.
+
+Eight parts now carry no chemistry, where the audit counted seven. The extra is
+`prunus_domestica/bark`, whose two entries were both marked for removal — a consequence of the
+audit's own instructions rather than an omission, but noted so the number is not a surprise later.
+
+---

@@ -4159,6 +4159,52 @@ const dirty = await import('./dirty.js');
   else console.log(`  glossary: nothing restates a vocabulary explanation (${explained.length} in vocab.js)`);
 }
 
+// ---- 24e. An unknown strength says so, and does not also carry one ---------
+//
+// `levelUnknown` marks the case where no honest quantitative estimate exists —
+// the plant is strongly seasonal or cultivar-dependent — as opposed to a
+// strength simply not being recorded yet. The two used to look identical on
+// screen, both rendering as bare text, and the second audit's whole point was
+// that they are different statements (§13bu).
+//
+// A separate boolean and NOT `confidence: 'unknown'`, which the first draft of
+// the merge script wrote: `confidence` is already a dimension in vocab.js with
+// five values and `unknown` is not among them, so it would have put an unknown
+// code into a controlled vocabulary — rendering as its own key on screen, which
+// is the fault guard 24c exists for.
+//
+// Two ways this can rot, so both are held.
+{
+  const plants = JSON.parse(fs.readFileSync('seed/plants.json', 'utf8')).plants;
+  const both = [];
+  const marked = [];
+  for (const p of plants)
+    for (const part of (p.parts || []))
+      for (const c of (part.chemistry || [])) {
+        if (!c.levelUnknown) continue;
+        marked.push(`${p.code}/${part.partCode}/${c.classCode}`);
+        // A strength AND a claim that no strength can be given is a
+        // contradiction, and the screen would show the bar and hide the claim.
+        if (c.level) both.push(`${p.code}/${part.partCode}/${c.classCode} = ${c.level}`);
+      }
+
+  if (both.length)
+    fail('chem', new Error(`marked unknown but carrying a level: ${both.join(', ')}`));
+  else console.log(`  chem: nothing claims both a strength and no strength (${marked.length} marked unknown)`);
+
+  // The screen shows the words only for a marked entry, so the words must
+  // exist. Without this the mark renders as the raw key — silently, since the
+  // key is literal and layer 3b would catch it, but only if the key is spelled
+  // the same in both places, which is what this actually checks.
+  const dict = fs.readFileSync('i18n.js', 'utf8');
+  const view = fs.readFileSync('modules/plants.js', 'utf8');
+  if (!view.includes("t('plants.levelUnknown')"))
+    fail('chem', new Error('nothing on the plant screen shows an unknown strength'));
+  else if (!dict.includes("'plants.levelUnknown':"))
+    fail('chem', new Error('plants.levelUnknown has no translation'));
+  else console.log('  chem: an unknown strength is shown as words, not as a blank');
+}
+
 // ---- 25. A placement finds the right reference record ---------------------
 //
 // The other half of §13bp. The matcher read plant, part and process and nothing

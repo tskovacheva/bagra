@@ -127,7 +127,7 @@ export const VOCABULARY = [
   V('chemistry_class', 'tannin_gallo',   'галотанини',   'gallotannins', 1),
   V('chemistry_class', 'tannin_ellagi',  'елаготанини',  'ellagitannins', 2),
   V('chemistry_class', 'tannin_cond',    'кондензирани танини', 'condensed tannins', 3),
-  V('chemistry_class', 'anthocyanin',    'антоциани',    'anthocyanins', 4),
+  V('chemistry_class', 'anthocyanin',    'антоцианини',  'anthocyanins', 4),
   V('chemistry_class', 'flavonoid',      'флавоноиди',   'flavonoids', 5),
   // Coreopsis and its relatives owe their oranges to chalcones and aurones
   // rather than to flavonoids in general; folding them together loses the

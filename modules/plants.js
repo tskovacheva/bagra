@@ -662,6 +662,16 @@ async function renderRead(root, p) {
   const chem = (await Promise.all((p.parts || []).map(async part => {
     const items = (await Promise.all((part.chemistry || []).map(async c => {
       const name = esc(await label('chemistry_class', c.classCode));
+      // Three states, not two. A blank level used to render as bare text, which
+      // read as "there is nothing more to say here" — and it meant two quite
+      // different things: nobody has recorded a strength yet, or no honest
+      // quantitative estimate exists at all, because the plant is strongly
+      // seasonal or cultivar-dependent (§13bu). The second is a finding and
+      // should look like one; only it is marked, and only it says so.
+      if (c.levelUnknown) {
+        return `<span class="chemline">${name}<span class="hint">${
+          t('plants.levelUnknown')}</span></span>`;
+      }
       if (!c.level) return `<span class="chemline">${name}</span>`;
       const n = LEVELS.indexOf(c.level) + 1;
       return `<span class="chemline">${name}${

@@ -119,6 +119,11 @@ None of this is a feature; all of it is a condition of taking money.
 - **README and ROADMAP are read before each release.** README claimed 48 plants and a Stock
   module long after both had changed; it is the only document that asserts things about the
   app with nothing checking it.
+- ~~**Plant chemistry**~~ — **done (1.0.0-rc8)**, §13bu. A second audit took 153 entries to 171:
+  37 added, 29 filled, 19 removed or reclassed, 5 marked as having no honest quantitative estimate.
+  Zero blank levels remain without a mark. Eight parts carry no chemistry, each a recorded "not
+  enough data" rather than an omission. Open and not decided: whether the chemistry vocabulary
+  should hold technologically important non-pigments — rhubarb leaf's oxalates are the case.
 - ~~**The Library**~~ — **done (1.0.0-rc7)**, §13bt. Sources became one of three tabs in a Library
   module: Glossary, pH, Sources. Thirty glossary terms in our own words with cited sources; the pH
   tab carries our own scale and the modifier lists rather than a photographed test strip. The four
