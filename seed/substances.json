@@ -1,0 +1,319 @@
+{
+  "packId": "bagra-base",
+  "packVersion": "0.1.0",
+  "description": {
+    "bg": "Начален набор вещества — морданти, танини, модификатори и помощни.",
+    "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
+  },
+  "substances": [
+    {
+      "code": "alum_potassium_12",
+      "category": "mordant",
+      "name": { "bg": "Калиева стипца", "en": "Potassium alum" },
+      "formula": "KAl(SO₄)₂·12H₂O",
+      "hydrationState": "12-хидрат",
+      "molarMass": 474.39,
+      "mordantTypeCode": "alum_potassium",
+      "standardPercentWof": 15,
+      "suitableFibreClasses": ["cellulose", "protein"],
+      "colourEffect": "brightening",
+      "alPerUnit": 1,
+      "notes": {
+        "bg": "Класическият мордант. За вълна обикновено 12–15% WOF, заедно с винена киселина.",
+        "en": "The classic mordant. For wool usually 12–15% WOF, together with cream of tartar."
+      }
+    },
+    {
+      "code": "alum_ammonium_12",
+      "category": "mordant",
+      "name": { "bg": "Амониева стипца", "en": "Ammonium alum" },
+      "formula": "NH₄Al(SO₄)₂·12H₂O",
+      "hydrationState": "12-хидрат",
+      "molarMass": 453.33,
+      "mordantTypeCode": "alum_potassium",
+      "standardPercentWof": 15,
+      "suitableFibreClasses": ["cellulose", "protein"],
+      "colourEffect": "brightening",
+      "alPerUnit": 1
+    },
+    {
+      "code": "al_sulfate_18",
+      "category": "mordant",
+      "name": { "bg": "Алуминиев сулфат, 18-хидрат", "en": "Aluminium sulfate, 18-hydrate" },
+      "formula": "Al₂(SO₄)₃·18H₂O",
+      "hydrationState": "18-хидрат",
+      "molarMass": 666.42,
+      "mordantTypeCode": "alum_sulfate",
+      "suitableFibreClasses": ["cellulose"],
+      "alPerUnit": 2,
+      "notes": {
+        "bg": "Изходно вещество за приготвяне на алуминиев ацетат.",
+        "en": "Starting material for preparing aluminium acetate."
+      }
+    },
+    {
+      "code": "al_sulfate_16",
+      "category": "mordant",
+      "name": { "bg": "Алуминиев сулфат, 16-хидрат", "en": "Aluminium sulfate, 16-hydrate" },
+      "formula": "Al₂(SO₄)₃·16H₂O",
+      "hydrationState": "16-хидрат",
+      "molarMass": 630.39,
+      "mordantTypeCode": "alum_sulfate",
+      "suitableFibreClasses": ["cellulose"],
+      "alPerUnit": 2
+    },
+    {
+      "code": "al_sulfate_14",
+      "category": "mordant",
+      "name": { "bg": "Алуминиев сулфат, 14-хидрат", "en": "Aluminium sulfate, 14-hydrate" },
+      "formula": "Al₂(SO₄)₃·14H₂O",
+      "hydrationState": "14-хидрат",
+      "molarMass": 594.35,
+      "mordantTypeCode": "alum_sulfate",
+      "suitableFibreClasses": ["cellulose"],
+      "alPerUnit": 2
+    },
+    {
+      "code": "al_sulfate_anhydrous",
+      "category": "mordant",
+      "name": { "bg": "Алуминиев сулфат, безводен", "en": "Aluminium sulfate, anhydrous" },
+      "formula": "Al₂(SO₄)₃",
+      "hydrationState": "безводен",
+      "molarMass": 342.15,
+      "mordantTypeCode": "alum_sulfate",
+      "suitableFibreClasses": ["cellulose"],
+      "alPerUnit": 2,
+      "notes": {
+        "bg": "Гram за грам изисква почти двойно повече сода и оцет от 18-хидрата — водата в кристала не участва в реакцията.",
+        "en": "Gram for gram it needs nearly twice the soda and acid of the 18-hydrate — the water of crystallisation takes no part in the reaction."
+      }
+    },
+    {
+      "code": "al_acetate",
+      "category": "mordant",
+      "name": { "bg": "Алуминиев ацетат", "en": "Aluminium acetate" },
+      "formula": "Al(CH₃COO)₃",
+      "molarMass": 204.11,
+      "mordantTypeCode": "alum_acetate",
+      "standardPercentWof": 6,
+      "suitableFibreClasses": ["cellulose"],
+      "colourEffect": "brightening",
+      "notes": {
+        "bg": "Стандартът за целулоза при еко принт. След мордантирането е нужна варова баня — тя свързва морданта, не просто регулира pH.",
+        "en": "The standard for cellulose in eco printing. A chalk bath is required afterwards — it binds the mordant rather than merely adjusting pH."
+      }
+    },
+    {
+      "code": "iron_sulfate",
+      "category": "mordant",
+      "name": { "bg": "Железен сулфат", "en": "Ferrous sulfate" },
+      "formula": "FeSO₄·7H₂O",
+      "hydrationState": "7-хидрат",
+      "molarMass": 278.01,
+      "mordantTypeCode": "iron",
+      "standardPercentWof": 1,
+      "maxPercentWof": 2,
+      "suitableFibreClasses": ["cellulose", "protein"],
+      "colourEffect": "saddening",
+      "handling": ["gloves"],
+      "safetyNote": {
+        "bg": "Над 2% WOF прави влакната чупливи. Платът изглежда добре, когато излезе, и се къса година по-късно.",
+        "en": "Above 2% WOF it embrittles the fibre. The cloth looks right coming out of the pot and tears a year later."
+      }
+    },
+    {
+      "code": "copper_sulfate",
+      "category": "mordant",
+      "name": { "bg": "Меден сулфат", "en": "Copper sulfate" },
+      "formula": "CuSO₄·5H₂O",
+      "hydrationState": "5-хидрат",
+      "molarMass": 249.68,
+      "mordantTypeCode": "copper",
+      "standardPercentWof": 2,
+      "suitableFibreClasses": ["cellulose", "protein"],
+      "colourEffect": "saddening",
+      "handling": ["gloves", "mask"],
+      "safetyNote": {
+        "bg": "Токсичен за водни организми. Не се излива в канала.",
+        "en": "Toxic to aquatic life. Not to be poured down the drain."
+      }
+    },
+    {
+      "code": "titanium_oxalate",
+      "category": "mordant",
+      "name": { "bg": "Титанов оксалат", "en": "Titanium oxalate" },
+      "formula": "K₂TiO(C₂O₄)₂·2H₂O",
+      "molarMass": 354.19,
+      "mordantTypeCode": "titanium_oxalate",
+      "standardPercentWof": 2,
+      "maxTempC": 70,
+      "suitableFibreClasses": ["cellulose", "protein"],
+      "colourEffect": "warming",
+      "handling": ["gloves", "mask", "ventilation"],
+      "safetyNote": {
+        "bg": "Никога над 70 °C. Прахът се работи с маска и ръкавици. С танини дава силно оранжево.",
+        "en": "Never above 70 °C. Handle the powder with mask and gloves. With tannins it gives a strong orange."
+      }
+    },
+
+    {
+      "code": "tannin_gallnut",
+      "category": "tannin",
+      "name": { "bg": "Екстракт от шикалки", "en": "Gallnut extract" },
+      "tanninTypeCode": "gallo",
+      "colourCast": { "bg": "почти безцветен", "en": "near colourless" },
+      "notes": {
+        "bg": "Най-чистият танин — не жълти плата. Обичайно 7–10% WOF преди мордантиране на целулоза.",
+        "en": "The clearest tannin — does not yellow the cloth. Usually 7–10% WOF before mordanting cellulose."
+      }
+    },
+    {
+      "code": "tannin_myrobalan",
+      "category": "tannin",
+      "name": { "bg": "Миробалан", "en": "Myrobalan" },
+      "tanninTypeCode": "ellagi",
+      "colourCast": { "bg": "топло жълтеникав", "en": "warm yellowish" }
+    },
+    {
+      "code": "tannin_oak",
+      "category": "tannin",
+      "name": { "bg": "Дъбов танин", "en": "Oak tannin" },
+      "tanninTypeCode": "ellagi",
+      "colourCast": { "bg": "бежов до сивкав", "en": "beige to greyish" }
+    },
+    {
+      "code": "tannin_sumac",
+      "category": "tannin",
+      "name": { "bg": "Смрадлика", "en": "Sumac" },
+      "tanninTypeCode": "gallo",
+      "colourCast": { "bg": "светъл, леко жълт", "en": "pale, slightly yellow" }
+    },
+    {
+      "code": "tannin_pomegranate",
+      "category": "tannin",
+      "name": { "bg": "Нарова кора", "en": "Pomegranate rind" },
+      "tanninTypeCode": "ellagi",
+      "colourCast": { "bg": "жълт", "en": "yellow" }
+    },
+
+    {
+      "code": "soda_ash",
+      "category": "modifier",
+      "name": { "bg": "Калцинирана сода", "en": "Soda ash" },
+      "formula": "Na₂CO₃",
+      "molarMass": 105.99,
+      "phDirection": "alkaline",
+      "naPerUnit": 2,
+      "needsAcid": true,
+      "typicalUse": {
+        "bg": "Очистване на целулоза, обикновено 2% WOF. Също източник на натрий при приготвяне на алуминиев ацетат.",
+        "en": "Scouring cellulose, usually 2% WOF. Also a sodium source when preparing aluminium acetate."
+      }
+    },
+    {
+      "code": "sodium_bicarbonate",
+      "category": "modifier",
+      "name": { "bg": "Сода бикарбонат", "en": "Sodium bicarbonate" },
+      "formula": "NaHCO₃",
+      "molarMass": 84.01,
+      "phDirection": "alkaline",
+      "naPerUnit": 1,
+      "needsAcid": true
+    },
+    {
+      "code": "sodium_acetate",
+      "category": "modifier",
+      "name": { "bg": "Натриев ацетат, безводен", "en": "Sodium acetate, anhydrous" },
+      "formula": "CH₃COONa",
+      "molarMass": 82.03,
+      "naPerUnit": 1,
+      "needsAcid": false,
+      "typicalUse": {
+        "bg": "Носи ацетата наготово — при него оцет не е нужен.",
+        "en": "Carries the acetate ready-made — no vinegar needed with it."
+      }
+    },
+    {
+      "code": "sodium_acetate_tri",
+      "category": "modifier",
+      "name": { "bg": "Натриев ацетат, тривхидрат", "en": "Sodium acetate trihydrate" },
+      "formula": "CH₃COONa·3H₂O",
+      "hydrationState": "3-хидрат",
+      "molarMass": 136.08,
+      "naPerUnit": 1,
+      "needsAcid": false
+    },
+    {
+      "code": "acetic_acid",
+      "category": "modifier",
+      "name": { "bg": "Оцетна киселина", "en": "Acetic acid" },
+      "formula": "CH₃COOH",
+      "molarMass": 60.05,
+      "phDirection": "acid",
+      "typicalUse": {
+        "bg": "Оцетът в магазина е 5–9%; есенцията стига до 25%. Концентрацията се записва при наличността, не тук.",
+        "en": "Shop vinegar is 5–9%; essence reaches 25%. The strength belongs on the stock record, not here."
+      }
+    },
+    {
+      "code": "citric_acid",
+      "category": "modifier",
+      "name": { "bg": "Лимонена киселина", "en": "Citric acid" },
+      "formula": "C₆H₈O₇",
+      "molarMass": 192.12,
+      "phDirection": "acid"
+    },
+    {
+      "code": "calcium_carbonate",
+      "category": "auxiliary",
+      "name": { "bg": "Калциев карбонат (креда)", "en": "Calcium carbonate (chalk)" },
+      "formula": "CaCO₃",
+      "molarMass": 100.09,
+      "typicalUse": {
+        "bg": "Варовата баня след алуминиев ацетат. Обичайно около 50 г на 5 л вода.",
+        "en": "The chalk bath after aluminium acetate. Usually around 50 g in 5 L of water."
+      }
+    },
+    {
+      "code": "calcium_hydroxide",
+      "category": "auxiliary",
+      "name": { "bg": "Калциев хидроксид (гасена вар)", "en": "Calcium hydroxide (slaked lime)" },
+      "formula": "Ca(OH)₂",
+      "molarMass": 74.09,
+      "handling": ["gloves", "mask"],
+      "typicalUse": {
+        "bg": "Част от индиговата каца по метода 1-2-3.",
+        "en": "Part of the 1-2-3 indigo vat."
+      }
+    },
+    {
+      "code": "cream_of_tartar",
+      "category": "auxiliary",
+      "name": { "bg": "Винен камък", "en": "Cream of tartar" },
+      "formula": "KC₄H₅O₆",
+      "molarMass": 188.18,
+      "typicalUse": {
+        "bg": "При вълна с алум, обикновено 5–6% WOF. Омекотява влакното и избистря цвета. Безсмислен при памук.",
+        "en": "With alum on wool, usually 5–6% WOF. Softens the fibre and clears the colour. Pointless on cotton."
+      }
+    },
+    {
+      "code": "synthrapol",
+      "category": "auxiliary",
+      "name": { "bg": "Синтрапол", "en": "Synthrapol" },
+      "typicalUse": {
+        "bg": "Неутрален препарат за очистване на целулоза и коприна преди мордантиране. Отмива фабричните апретури, които иначе пречат на равномерното поемане на цвят.",
+        "en": "A neutral detergent for scouring cellulose and silk before mordanting. It removes mill finishes that would otherwise prevent even uptake of colour."
+      }
+    },
+    {
+      "code": "neutral_soap",
+      "category": "auxiliary",
+      "name": { "bg": "Неутрален сапун", "en": "Neutral soap" },
+      "typicalUse": {
+        "bg": "При очистване, обикновено около 1% WOF, заедно със содата.",
+        "en": "For scouring, usually around 1% WOF, together with the soda."
+      }
+    }
+  ]
+}

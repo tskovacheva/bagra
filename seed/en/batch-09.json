@@ -1,0 +1,44 @@
+{
+  "rubus_fruticosus": {
+    "Багрилна съставка": "Blackberry leaves are rich in polyphenols and ellagitannins; this accounts for the astringency, the reaction with iron and the fairly good substantivity. The berries contain anthocyanins, which give the violet tones but are less stable.",
+    "Как се държи": "The leaves and young stems are the more dependable dye part and give tannic grey-browns. The berries can give deep violet and burgundy, but their anthocyanin colour is delicate and fades comparatively quickly; take it as experimental rather than as a lasting principal colour.",
+    "Багрилни качества": "Mordant: an alum mordant can give cleaner beige-pink and lilac tones; iron darkens the tannic parts.\npH: the berries are strongly pH-sensitive.\nTemperature: the berries do not like a long boil.\nEco print: the leaves can give a tannin outline, particularly with iron.",
+    "Беритба и обработка": "When to gather: leaves — sound and mature during the active season; young stems — at pruning; berries — fully ripe.\nWhat is used: leaves and stems for tannic grey-browns; berries for violet and burgundy.\nProcessing: use the leaves fresh or dry them in the shade; cut the stems up; crush the berries lightly and work at a moderate temperature.\nStorage: leaves and stems — dry and dark; berries — frozen."
+  },
+  "dahlia_pinnata": {
+    "Багрилна съставка": "The flowers hold a mixture of flavonoid and other plant pigments, and the proportions differ between varieties. That makes dahlia excellent for experiment, but no single fixed colour should be promised.",
+    "Как се държи": "Dahlia is a highly variable dye flower. Yellow and orange varieties usually give golds, ochres and browns; dark flowers can give deeper shades, though not necessarily faster ones.",
+    "Багрилни качества": "Mordant: an alum mordant is a good start for wool, silk and — after suitable preparation — cellulose.\npH: laboratory work on Dahlia variabilis shows a marked change of colour with pH.\nEco print: the flowers leave interesting marks and silhouettes, but the fastness is less predictable than with the classic dye plants.",
+    "Беритба и обработка": "When to gather: flowers — fully out, but before they fade badly; they can be picked repeatedly through the season. Leaves — sound and mature.\nWhat is used: mainly the flowers; the leaves are a secondary dye part.\nProcessing: use fresh for the liveliest results, or dry quickly in the shade with good air movement.\nStorage: dried flowers — dark, dry and free of moisture."
+  },
+  "genista_tinctoria": {
+    "Багрилна съставка": "Dyer's greenweed contains flavonoid colourants. Analysis of historic textiles confirms the use of Genista tinctoria as a yellow dye.",
+    "Как се държи": "A classic European yellow. It gives clear yellows and golds with an alum mordant; with iron it shifts to olive and sage. Historically it was also used for greens, laid over a blue from woad or indigo.",
+    "Багрилни качества": "Mordant: an alum mordant supports the clean yellow; iron mutes it towards olive.\nCombinations: particularly valuable for greens, overdyed on indigo or woad.\nQuantity: works well with a generous weight of fresh aerial material.",
+    "Беритба и обработка": "When to gather: at full bloom, while the flowers are fresh and deep in colour.\nWhat is gathered: the flowering tops — flowers, leaves and thin stems.\nProcessing: use fresh, or cut into short lengths and dry in the shade with good air movement.\nStorage: fully dry, somewhere dark and dry."
+  },
+  "alkanna_tinctoria": {
+    "Багрилна съставка": "The main colourant is an alkannin or shikonin-type naphthoquinone pigment, concentrated in the root. It is lipophilic and pH-sensitive, which is why it needs a different process from the water-soluble yellows.",
+    "Как се държи": "Alkanet is not an ordinary water dye. The main pigments in the root are poorly soluble in water and extract better into a suitable solvent; the hue can move from red and wine through violet to a bluish grey.",
+    "Багрилни качества": "Process: treat as a special dye, not as an ordinary decoction.\npH: acid shifts it towards red, more alkaline towards violet and blue.\nTemperature: gentle heat; strong heat and an unsuitable solvent both spoil the result.\nFastness: historically prized for the colour, but known for limited lightfastness.",
+    "Беритба и обработка": "When to gather: the roots — from well established perennial plants, most practically at the end of the season.\nWhat is gathered: the roots, where the alkannin is concentrated.\nProcessing: wash, cut and dry. For textile use the colourant extracts better into alcohol or another suitable solvent, because the main pigments are poorly soluble in water.\nStorage: dried root, kept away from light."
+  },
+  "rheum_rhabarbarum": {
+    "Багрилна съставка": "Rheum roots and rhizomes contain anthraquinone compounds — of the emodin type, for instance — which give the yellow-to-orange range. The leaves are rich in oxalates and therefore have a different technical role.",
+    "Как се държи": "Rhubarb root gives yellow, ochre and orange; alkaline modifiers can shift it towards warmer orange-brick tones. Ordinary garden rhubarb will dye, but some Asian Rheum species are richer in dye anthraquinones.",
+    "Багрилни качества": "Mordant: the root will give colour without a metal mordant, but a mordant or modifier changes the hue.\npH: alkaline → more orange and reddish; acidic → more yellow.\nLeaves: do not treat them as food material; their practical role is different from the root's.",
+    "Беритба и обработка": "When to gather: roots — from well established plants, usually at the end of the season; leaves — during the active season.\nWhat is used: root and rhizome for yellow-orange dyes; the leaves can serve as an auxiliary acid or oxalate treatment in some recipes.\nProcessing: wash, cut and dry the root; use the leaves fresh or dried, kept separate.\nStorage: dried root and dried leaves separately, clearly labelled."
+  },
+  "fraxinus_excelsior": {
+    "Багрилна съставка": "The leaves and bark contain phenolic and flavonoid compounds; work on Fraxinus excelsior bark shows it to be usable as a water-based textile dye extract.",
+    "Как се държи": "The leaves give soft golden-beige tones. The bark holds more phenolics and can give a more olive or beige result, especially with iron. Not a bright dye, but a good source of natural neutrals.",
+    "Багрилни качества": "Mordant: an alum mordant keeps the lighter golden tones; iron darkens towards olive and grey.\nEco print: the compound leaves can give an interesting silhouette, though less intense than oak or eucalyptus.",
+    "Беритба и обработка": "When to gather: leaves — sound and fully grown in summer; bark — only from prunings, fallen or already cut branches.\nWhat is used: leaves for golden-beige tones; the bark can give deeper beige-olive and brownish shades.\nProcessing: use the leaves fresh or dry them in the shade; cut the bark into small pieces and soak it beforehand if needed.\nStorage: fully dry and dark. Do not strip bark from a living tree."
+  },
+  "frangula_alnus": {
+    "Багрилна съставка": "Frangula alnus bark contains anthraquinone and anthrone derivatives. The changes they undergo with ageing and with alkaline treatment account for the wide range from yellow-brown to orange-red, and for the violet modifications.",
+    "Как се държи": "The bark gives yellow-browns and peach tones; aged material can develop a warmer orange-red range. The result depends heavily on the condition of the bark and on the handling, so fresh and aged material should be treated as two separate things.",
+    "Багрилни качества": "Process: fresh and aged bark are not equivalent — record them separately in trials.\npH: alkalinity can change the hue considerably.\nFruit: historically used for lake pigments as well; for textile, treat as experimental.",
+    "Беритба и обработка": "When to gather: bark — only from prunings or already cut branches; leaves — mature, during the active season; fruit — ripe.\nWhat is used: mainly the bark and the leaves. Historic recipes for reddish tones often use aged or \u201erotted\u201c bark.\nProcessing: cut the bark into small pieces; for the historic red-orange process it can be left to age or ferment under a controlled recipe.\nStorage: dried bark — dark and dry, clearly labelled."
+  }
+}

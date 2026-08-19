@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F4EC">
+<title>Багра</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/favicon-64.png" sizes="64x64" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{
+  --ground:#F7F4EC;
+  --surface:#FFFDF8;
+  --ink:#2A2724;
+  --muted:#5C574E;
+  --line:#DED8CA;
+  --indigo:#2C3B57;
+  --madder:#A03D3B;
+  --weld:#C9A227;
+  --iron:#3A3733;
+
+  --sidebar:236px;
+  --pad:20px;
+  --radius:10px;
+
+  /* The two heading levels (§13bg). One pair of numbers for the whole
+     application, so the levels cannot be set the wrong way round on one screen
+     and the right way round on another — which is how they came to be inverted
+     in the first place. The outer is larger. */
+  --h-section:13px;
+  --h-sub:12.5px;
+
+  /* Prose has a measure. The view is 1080px wide and body text was running the
+     whole of it — about 115 characters a line, where the eye is comfortable to
+     about 75 and starts losing the return sweep beyond that. This is the single
+     largest readability difference against the prototype and costs one token. */
+  --measure:672px;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.5;
+  color:var(--ink);
+  background:var(--ground);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+button{font:inherit;color:inherit}
+
+/* ---------- layout ---------- */
+.app{display:flex;min-height:100vh}
+
+.sidebar{
+  width:var(--sidebar);
+  flex:0 0 var(--sidebar);
+  border-right:1px solid var(--line);
+  background:var(--surface);
+  padding:22px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+.brand{padding:0 10px 20px;display:flex;flex-direction:column;gap:2px}
+.brand b{font-size:19px;font-weight:600;letter-spacing:.01em}
+.brand span{font-size:11.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+
+.navitem{
+  display:flex;align-items:center;gap:11px;
+  padding:8px 10px;
+  border:0;background:none;
+  border-radius:var(--radius);
+  cursor:pointer;text-align:left;width:100%;
+  color:var(--muted);
+}
+.navitem svg{width:18px;height:18px;flex:0 0 18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.navitem:hover{background:var(--ground);color:var(--ink)}
+.navitem[aria-current="page"]{background:var(--indigo);color:#fff}
+.navitem:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
+
+.navgap{flex:1}
+
+/* The two halves are labelled, not boxed. A heading is not a destination, so it
+   must not look like one: no hover, no cursor, no indent matching the items. */
+.navhead{
+  font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:16px 12px 5px;user-select:none;
+}
+.navhead:first-of-type{padding-top:10px}
+.navrule{height:1px;background:var(--line);margin:8px 12px}
+.langrow{display:flex;gap:4px;align-items:center;padding:10px 10px 0;border-top:1px solid var(--line);margin-top:10px}
+.version{margin-left:auto;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.langbtn{
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:6px;padding:3px 9px;font-size:12px;color:var(--muted);cursor:pointer;
+}
+.langbtn[aria-pressed="true"]{border-color:var(--indigo);color:var(--indigo)}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.view{padding:26px var(--pad) 60px;max-width:1080px;width:100%}
+
+h1{font-size:30px;font-weight:600;margin:0 0 3px;letter-spacing:-.005em;line-height:1.15;text-wrap:balance}
+.sub{color:var(--muted);font-size:14.5px;margin:0 0 22px;max-width:var(--measure);text-wrap:pretty}
+
+.panel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+}
+.stub{color:var(--muted);font-size:13.5px}
+.stub code{background:var(--ground);padding:1px 5px;border-radius:4px;font-size:12.5px}
+
+/* ---------- bottom nav (narrow) ---------- */
+.bottomnav{display:none}
+
+@media (max-width:820px){
+  .sidebar{display:none}
+  .view{padding:18px 14px calc(72px + env(safe-area-inset-bottom))}
+  /* 30px reads well across a desk column and shouts on a phone, where it takes
+     a fifth of the screen before anything has been said. */
+  h1{font-size:26px}
+  .bottomnav{
+    display:flex;
+    position:fixed;left:0;right:0;bottom:0;
+    background:var(--surface);
+    border-top:1px solid var(--line);
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+    justify-content:space-around;
+    z-index:10;
+  }
+  .bottomnav button{
+    border:0;background:none;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:5px 8px;border-radius:var(--radius);
+    font-size:10.5px;color:var(--muted);
+  }
+  .bottomnav svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .bottomnav button[aria-current="page"]{color:var(--indigo)}
+}
+
+
+/* ---------- page furniture ---------- */
+.pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.pagehead h1{margin:0}
+.pagehead .sub{margin:3px 0 0}
+.pageactions{display:flex;gap:8px;align-items:center}
+.tabswitch{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.tab{border:0;background:none;padding:7px 15px;cursor:pointer;font-size:13.5px;color:var(--muted)}
+.tab.active{background:var(--indigo);color:#fff}
+.tab:not(.active):hover{background:var(--ground);color:var(--ink)}
+
+.chainstep{border:1px solid var(--line);border-radius:var(--radius);padding:11px;margin-bottom:9px;background:var(--ground)}
+.chainhead{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.chainhead .spacer{flex:1}
+.chainhead .stepnum{margin-top:0}
+/* A chain at the head of the recipes list, showing what it is made of. Cards,
+   not a table row: the steps are the content and a row would truncate them. */
+/* A technique is its description, so the card is sized to hold one. Four to a
+   row at desk width, one on a phone; the text is clamped rather than cut with
+   an ellipsis mid-sentence, and the whole of it is on the record. */
+/* One channel, described by the same questions a second channel would answer:
+   what it holds, what it is for, what happens when it comes back in. */
+.channel{border:1px solid var(--line);border-radius:var(--radius);padding:14px 15px}
+.channelhead{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.channelhead b{font-size:15.5px}
+/* Cloth that is waiting: a short row, not a list. Six at most — this is a
+   prompt, not an inventory, and the inventory is one press away. */
+.readyrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}
+.readycard{
+  display:flex;flex-direction:column;align-items:flex-start;gap:5px;
+  text-align:left;cursor:pointer;font:inherit;color:inherit;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:11px 12px;
+}
+.readycard:hover{border-color:var(--indigo)}
+.readyname{font-weight:600;font-size:14px}
+/* The verdict, for every answer and not only for yes: "no" is the most useful
+   thing to see at a glance, and a silent card said nothing at all. */
+.verdict{font-size:12.5px;display:inline-flex;align-items:center;gap:4px;color:var(--muted)}
+.verdict.yes,.verdict.changes{color:var(--indigo)}
+.verdict.no{color:var(--madder)}
+.whyline{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  font-size:12.5px;line-height:1.45;color:var(--muted);font-style:italic;margin-top:4px;
+}
+.techcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.techcard{
+  display:flex;flex-direction:column;text-align:left;width:100%;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:14px;font:inherit;color:inherit;
+}
+.techcard:hover{border-color:var(--indigo)}
+.techhead{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.techplate{
+  display:grid;place-items:center;width:32px;height:32px;flex:none;
+  border-radius:calc(var(--radius) - 2px);
+  background:color-mix(in srgb, var(--indigo) 10%, transparent);color:var(--indigo);
+}
+.techplate svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.techname{font-size:15.5px;font-weight:600;line-height:1.25}
+.techcard .hint{margin-bottom:7px}
+.techdesc{
+  margin:0;font-size:13.5px;line-height:1.55;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;
+}
+@media (max-width:700px){.techcards{grid-template-columns:1fr}.techdesc{-webkit-line-clamp:4}}
+.chaincards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.chaincard{
+  display:block;text-align:left;width:100%;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:13px 14px;font:inherit;color:inherit;
+}
+.chaincard:hover{border-color:var(--indigo)}
+.chainname{font-size:15.5px;font-weight:600;margin-bottom:2px}
+.chaincard .chiprow{margin-top:9px}
+.chaincard .chip b{color:var(--indigo);margin-right:3px}
+@media (max-width:700px){.chaincards{grid-template-columns:1fr}}
+.chainpicks{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.chainpick{display:block}
+.planstep{border-top:1px solid var(--line);padding:12px 0}
+.planstep:first-child{border-top:0}
+/* A step the work is not correct without. Marked in madder because it is the
+   one thing on the plan the owner did not choose and cannot skip. The turned
+   arrow replaces a number, since the numbers belong to her own sequence and
+   renumbering them whenever a mordant changed would make the plan unstable. */
+.planstep.required{
+  border-top-color:color-mix(in srgb, var(--madder) 40%, var(--line));
+  background:color-mix(in srgb, var(--madder) 4%, transparent);
+  padding-left:11px;padding-right:11px;
+  border-left:2px solid color-mix(in srgb, var(--madder) 55%, transparent);
+}
+.stepnum.followmark{
+  background:none;color:var(--madder);font-size:15px;
+  border:1px solid color-mix(in srgb, var(--madder) 45%, var(--line));
+}
+.requirednote{margin:2px 0 9px;font-size:12.5px;color:var(--madder)}
+.plan{margin-top:8px}
+
+/* A label, not a small heading. At .05em it sat in the ambiguous middle; the
+   wider tracking is what makes an eyebrow read as one at this size. */
+/* Two heading levels, settled once for the whole application (§13bg).
+   
+   They were the wrong way round: a section heading was 11.5px and a subheading
+   inside it was 13px, so the inner level shouted over the outer. Reported from
+   real use — "Защо действа" set smaller than "Багрилна съставка", which sits
+   inside it.
+   
+   The levels now differ on two axes rather than one, because size alone at these
+   sizes is a difference of a pixel and a half and reads as an accident: the
+   outer is uppercase, letterspaced and muted; the inner is sentence case, tight
+   and in ink. Uppercase muted reads as a label over a region; sentence-case ink
+   reads as a name for something within it. */
+h2{font-size:var(--h-section);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+
+.btn{
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:6px;padding:7px 13px;cursor:pointer;font-size:14px;
+}
+.btn:hover{border-color:var(--muted)}
+.btn:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
+.btn.primary{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.btn.quiet{background:none;border-color:transparent;color:var(--muted)}
+.btn.quiet:hover{background:var(--ground);color:var(--ink)}
+.btn.danger{color:var(--madder)}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px}
+@media (max-width:900px){.cols{grid-template-columns:1fr}}
+
+.panel{margin-bottom:0}
+/* `overflow:hidden` rounded the corners over a table — and on a phone silently
+   cut the plants list off at 360px of its 561px, taking the last two columns
+   with it. Clipped content gives no sign that anything is missing; scrolling at
+   least admits it. The narrow list becomes stacked rows in stage 4. */
+.panel.flush{padding:0;overflow:hidden}
+@media (max-width:820px){.panel.flush{overflow-x:auto;overflow-y:hidden}}
+
+/* ---------- forms ---------- */
+.field{display:block;margin-bottom:13px}
+.fieldlabel{display:block;font-size:12.5px;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=number],input[type=date],select,textarea{
+  width:100%;padding:7px 9px;font:inherit;font-size:14px;color:var(--ink);
+  background:var(--ground);border:1px solid var(--line);border-radius:6px;
+}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-offset:-1px;border-color:var(--indigo)}
+textarea{resize:vertical}
+.hint{font-size:12px;color:var(--muted)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- composition rows ---------- */
+.comprow{display:grid;grid-template-columns:1fr 86px auto auto;gap:7px;align-items:center;margin-bottom:7px}
+.comprow .pct{color:var(--muted);font-size:13px}
+.derived{margin-top:12px}
+.note{font-size:13px;color:var(--muted);background:var(--ground);border-radius:6px;padding:8px 10px;margin:0 0 7px}
+/* Three levels and no fourth (§13s·4). Weld says pay attention; madder says
+   something will be lost if nothing is done, and earns the mark and the tint. */
+.note.warn{border-left:3px solid var(--weld)}
+.note.danger{
+  border-left:3px solid var(--madder);
+  background:color-mix(in srgb, var(--madder) 5%, var(--surface));
+  color:var(--ink);
+}
+.notemark{
+  display:inline-grid;place-items:center;width:20px;height:20px;flex:none;
+  border-radius:50%;background:var(--madder);color:#fff;
+  font-size:12px;font-weight:700;margin-right:8px;vertical-align:-4px;
+}
+/* The number is the point of the sentence, so it is allowed to be the number. */
+.note b{color:var(--ink)}
+.note.error{border-left:3px solid var(--madder);color:var(--ink)}
+
+/* ---------- boxes (the fabric state inventory) ---------- */
+.boxes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.box{
+  display:flex;align-items:baseline;gap:8px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:var(--radius);padding:8px 13px;
+}
+.box:hover{border-color:var(--muted)}
+.box.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+.boxname{font-size:13.5px}
+.boxcount{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.box.active .boxcount{color:rgba(255,255,255,.75)}
+
+/* ---------- tables ---------- */
+.grid{width:100%;border-collapse:collapse;font-size:14px}
+.grid th{
+  text-align:left;font-weight:500;font-size:12px;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--muted);
+  padding:11px 14px;border-bottom:1px solid var(--line);
+}
+.grid td{padding:11px 14px;border-bottom:1px solid var(--line)}
+.grid tbody tr:last-child td{border-bottom:0}
+.grid tbody tr{cursor:pointer}
+.grid tbody tr:hover{background:var(--ground)}
+.grid .clip{max-width:420px;color:var(--muted);font-size:13px}
+.grid .num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Favourites. Weld yellow is the one warm accent in the palette and is
+   reserved for it — a star is exactly the sparing use §15.2 has in mind. */
+.fav{
+  background:none;border:0;cursor:pointer;padding:2px 4px;line-height:0;
+  color:var(--line);transition:color .12s;
+}
+.fav svg{width:16px;height:16px}
+.fav:hover{color:var(--muted)}
+/* Filled when on, outline when off — one shape, so the difference between a
+   starred and an unstarred row is only whether it is starred. */
+.fav.on{color:var(--weld)}
+.fav.on svg{fill:var(--weld)}
+.fav.big svg{width:22px;height:22px}
+td.favcell,th.favcell{width:28px;padding-left:6px;padding-right:0;text-align:center}
+
+/* Trial status. One record from intention to result (§8.0a), so the age of
+   the record is stated plainly rather than implied by empty fields. */
+.statuschip{
+  display:inline-block;border:1px solid var(--line);border-radius:999px;
+  padding:1px 9px;font-size:12px;color:var(--muted);background:var(--surface);
+  white-space:nowrap;
+}
+.statuschip.planned{border-color:var(--weld);color:#8a6f14}
+.statuschip.in_progress{border-color:var(--indigo);color:var(--indigo)}
+.statuschip.complete{border-color:var(--line);color:var(--muted)}
+/* The verdict on finished work. Madder for a success, not green: the interface
+   must not put a colour opinion beside a photograph of dyed cloth. */
+/* These were the wrong way round: success wore madder, which by §13s·4 means
+   something is about to be lost, and failure wore the quiet grey of a settled
+   thing. A colour that contradicts its own rule teaches the reader to ignore
+   the rule. */
+.statuschip.success{border-color:var(--indigo);color:var(--indigo)}
+.statuschip.partial{border-color:var(--weld);color:#8a6f14}
+.statuschip.failure,.statuschip.fail{border-color:var(--madder);color:var(--madder)}
+.repeatmark{color:var(--madder);font-size:13px}
+
+/* ---- the working flow (§8.0e) ------------------------------------------- */
+
+.worksection{margin-bottom:22px}
+
+/* Unfinished work asks "how far along" and answers as a row; finished work asks
+   "what came out" and answers as a photograph. Same records, two questions. */
+.workrow{
+  display:grid;grid-template-columns:56px minmax(0,1fr) auto 16px;
+  gap:12px;align-items:center;width:100%;text-align:left;
+  padding:11px 13px;margin-bottom:8px;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  color:inherit;font:inherit;
+}
+/* Asking by colour. The swatch is a real control here, not a decoration, so it
+   keeps the finger target; the workspace stays neutral around it (§13n). */
+.askcolour{display:flex;align-items:center;gap:8px}
+.askcolour input[type=color]{
+  width:52px;height:44px;padding:2px;cursor:pointer;
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+}
+@media (max-width:640px){
+    }
+
+/* The mark on a shut step. Madder, because something will be lost — rule 4 of
+   §13s, and the one case in the diary where that is literally true. */
+.stepwarn.soft{background:var(--weld);color:var(--ink)}
+.stepwarn{
+  flex:none;width:20px;height:20px;border-radius:50%;
+  background:var(--madder);color:#fff;font-weight:600;font-size:12px;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+
+/* One card per piece, with the runs inside it (§13am). */
+.piececard{display:flex;flex-direction:column;gap:6px}
+.earlierruns{display:flex;flex-direction:column;gap:2px;padding:0 2px}
+.runshead{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.runline{
+  display:flex;justify-content:space-between;gap:8px;align-items:baseline;
+  border:0;background:none;cursor:pointer;color:inherit;font:inherit;
+  padding:7px 4px;text-align:left;border-bottom:1px solid var(--line);
+}
+.runline:last-child{border-bottom:0}
+.workagain{align-self:flex-start}
+
+/* The ground a repeat run starts from. */
+.groundrow{display:flex;gap:12px;align-items:flex-start}
+.groundshot{
+  width:96px;height:96px;object-fit:cover;flex:none;
+  border-radius:6px;border:1px solid var(--line);
+}
+@media (max-width:640px){
+  .groundrow{flex-direction:column}
+  .groundshot{width:100%;height:180px}
+  .workagain{width:100%}
+}
+
+/* A piece that says two things about itself at once. Weld, because it is
+   something to attend to rather than something being lost (§13s rule 4). */
+.readywrap{display:flex;flex-direction:column;gap:4px}
+/* When a piece contradicts itself the card itself becomes the way to settle it,
+   and starting new work steps down to a quiet line beneath (§13an). The card
+   was a "start new work" button with the correction tucked underneath, and
+   pressing what looks like the piece created a second, empty piece of work. */
+/* The dyestuffs of one step, inside it. Indented and quieter than the block
+   below, because it is part of the step rather than a section of the work. */
+.stepdyes{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.stepdyes .stagecardhead{margin-bottom:6px}
+.stepdyes .placeblock{margin:0}
+
+/* A bath has no photograph of a leaf in place: there is no place (§13ap). */
+
+/* The shelf, inside the material (§11b). A chip, never a row colour: the
+   workspace stays neutral so it does not bias a colour judgement, and only
+   running low and empty raise their voice — in madder, not in green. */
+/* Something the person must act on, said once at the top of the list rather
+   than as an alert that can be dismissed and forgotten. Madder, because it is
+   an accent — the workspace stays neutral. */
+.notice{margin:0 0 14px;padding:10px 14px;border:1px solid var(--madder);
+        border-radius:8px;color:var(--madder);background:var(--surface)}
+
+/* Temperatures live inside the part, so the part block grows a small grid
+   rather than the plant growing three more fields (§13az). */
+.temprow{display:flex;align-items:center;gap:8px;margin:0 0 6px;flex-wrap:wrap}
+.temprow input[type=number]{width:88px}
+.templabel{min-width:120px;color:var(--muted);font-size:13px}
+
+.jars{display:flex;flex-direction:column;gap:2px;margin:10px 0 14px}
+.jar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+     width:100%;text-align:left;padding:10px 12px;border:1px solid var(--line);
+     border-radius:8px;background:var(--surface);cursor:pointer}
+.jar:hover{border-color:var(--muted)}
+.jarwho{display:flex;flex-direction:column;gap:2px;min-width:0}
+.jarwho b{font-weight:600}
+.jarleft{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.stockline{margin:0;color:var(--muted)}
+
+.statechip{display:inline-block;padding:1px 8px;border-radius:999px;
+           border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.statechip.low,.statechip.empty{border-color:var(--madder);color:var(--madder)}
+.statechip.wanted{border-color:var(--weld);color:var(--weld)}
+
+.statefilter{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.chipbtn{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;
+         border:1px solid var(--line);border-radius:999px;background:var(--surface);
+         color:var(--muted);font-size:13px;cursor:pointer}
+.chipbtn.active{border-color:var(--indigo);color:var(--indigo)}
+.chipcount{color:var(--muted);font-size:12px}
+/* On the phone a filter is pressed with a thumb in the studio, not clicked with
+   a mouse — the same reason the navigation sheet exists. */
+@media (max-width:820px){
+  .chipbtn{min-height:44px;padding:4px 16px}
+  .jar{padding:14px 12px}
+}
+
+/* The day the work finished, asked before the five questions rather than
+   inside them: it is one fact, not a judgement (§13au). */
+.finishwhen{padding:0 0 14px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.finishwhen .field{max-width:220px}
+.finishwhen .hint{margin:6px 0 0}
+
+.placement.nophoto .placephoto{display:none}
+.contextstrip.needsattention{border-color:var(--weld)}
+.chip.warn{border-color:var(--weld);color:var(--ink)}
+.nocloth{border-color:var(--weld);color:var(--ink);font-size:12px;text-align:left;line-height:1.3}
+.readycard.stale{border-color:var(--weld)}
+.staleline{font-size:12px;color:var(--ink);line-height:1.3}
+.againsmall{font-size:12px;text-align:left;line-height:1.3}
+
+/* Work pointing at no cloth. Weld: something to attend to, not something being
+   lost (§13ao). It updates nothing and belongs to no piece, while looking like
+   an ordinary record. */
+.nocloth{border-color:var(--weld);font-size:12px;text-align:left;line-height:1.3}
+
+/* A placement closed is one line, like a step (§13ag). The thumbnail stands
+   where a step has its number: the photograph is how a placement is recognised,
+   which a number is not. */
+.placeline{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.placeline .stepline{flex:1;min-width:0}
+.placedot{width:34px;height:34px;border-radius:5px;overflow:hidden;border:1px solid var(--line);flex:none}
+.placedot img{width:100%;height:100%;object-fit:cover;display:block}
+.placedot .thumb.empty{width:100%;height:100%;border:0;border-radius:0}
+
+/* The finish action sits beside the row rather than inside it: the row is
+   itself a button, and a button inside a button is not valid and does not
+   receive its own clicks reliably. */
+.workrowwrap{position:relative;margin-bottom:8px}
+.workrowwrap .workrow{margin-bottom:0}
+.workfinish{position:absolute;right:34px;bottom:9px}
+@media (max-width:640px){
+  .workfinish{position:static;width:100%;margin-top:6px}
+}
+.workrow:hover{border-color:var(--muted)}
+.workrow:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
+.workthumb{width:56px;height:56px;border-radius:6px;overflow:hidden;border:1px solid var(--line);flex:none}
+.workthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.workthumb .thumb.empty{width:100%;height:100%;border:0;border-radius:0}
+.workbody{display:flex;flex-direction:column;gap:2px;min-width:0}
+.worktop{display:flex;gap:9px;align-items:baseline;justify-content:space-between}
+.worktop b{font-size:14px}
+.workstate{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:2px}
+.workgo{color:var(--muted);font-size:18px;text-align:right}
+
+/* The progress line is generated from the runs the record has (§8.0b) — never a
+   template, so a stage that never happened leaves no empty circle behind. */
+.progline{display:flex;align-items:flex-start;gap:0}
+.progmark{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none;max-width:88px}
+.progdot{
+  width:19px;height:19px;border-radius:50%;flex:none;
+  border:1.5px solid var(--line);background:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;line-height:1;color:transparent;
+}
+.progmark.done .progdot{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.progmark.current .progdot{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(44,59,87,.13)}
+.proglabel{font-size:11px;color:var(--muted);text-align:center;line-height:1.2}
+.progmark.current .proglabel{color:var(--indigo);font-weight:600}
+.progbar{height:1.5px;background:var(--line);flex:1;min-width:14px;margin-top:9px}
+.progline.compact .proglabel{display:none}
+.progline.compact .progdot{width:15px;height:15px;font-size:9px}
+.progline.compact{min-width:150px}
+
+/* ---- 2 · new work ------------------------------------------------------- */
+
+.newpiece{display:grid;grid-template-columns:1fr 140px;gap:0 14px}
+@media (max-width:640px){.newpiece{grid-template-columns:1fr}}
+
+/* ---- 4 · finishing ------------------------------------------------------ */
+
+.finishq{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:16px 0;
+  border-bottom:1px solid var(--line)}
+.finishq:last-of-type{border-bottom:0}
+.finishnum{
+  width:23px;height:23px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--muted);background:var(--ground);
+}
+.finishbody{min-width:0}
+.finishask{font-weight:600;font-size:14px;margin-bottom:8px}
+.finishbody textarea{margin-top:7px}
+
+.finishcolour{
+  display:grid;grid-template-columns:46px minmax(0,1.1fr) minmax(0,1.4fr) 44px;
+  gap:9px;align-items:center;margin-bottom:8px;
+}
+.finishcolour .workthumb{width:46px;height:46px}
+.finishwho{display:flex;flex-direction:column;gap:1px;min-width:0}
+.finishwho b{font-size:13.5px}
+.finishcolour input[type="color"]{width:44px;height:34px;padding:2px;cursor:pointer}
+@media (max-width:640px){
+  .finishcolour{grid-template-columns:46px 1fr 44px}
+  .finishcolour input[type="text"]{grid-column:2 / span 2}
+}
+
+.finishstate{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.finishstate select{max-width:220px}
+.resultphotos .addphoto.big{
+  height:96px;display:flex;align-items:center;justify-content:center;
+  border:1px dashed var(--line);border-radius:6px;color:var(--muted);
+  cursor:pointer;font-size:22px;
+}
+.resultphotos .addphoto.big:hover{border-color:var(--indigo);color:var(--indigo)}
+.btnrow.end{justify-content:flex-end}
+
+/* ---- 3 · the active trial ----------------------------------------------- */
+
+/* One column, because the order is the work. The page is not two columns even
+   on a wide screen: two columns leave the reading order undefined. */
+.workcol{display:flex;flex-direction:column;gap:14px;max-width:820px}
+
+.workhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.worktitle{
+  flex:1;min-width:220px;font-size:20px;font-weight:600;
+  border:0;border-bottom:1px solid var(--line);border-radius:0;
+  padding:4px 2px;background:none;
+}
+.worktitle:focus{outline:none;border-bottom-color:var(--indigo)}
+.workheadmeta{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.workheadmeta input[type="date"]{width:auto}
+.workprogfull{padding:4px 2px 2px}
+
+/* Context, not work: water, process, enhancements, techniques and the cloth.
+   The summary carries chips, so folding it away is not hiding it. */
+.contextstrip{border:1px solid var(--line);border-radius:var(--radius);background:var(--ground)}
+.contextstrip > summary{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:10px 13px;cursor:pointer;list-style:none;
+}
+.contextstrip > summary::-webkit-details-marker{display:none}
+.contextstrip > summary::before{content:'›';color:var(--muted);transition:transform .12s}
+.contextstrip[open] > summary::before{transform:rotate(90deg)}
+.contextstrip > .foldbody{padding:0 13px 13px;border-top:1px solid var(--line);margin-top:2px}
+
+.stagecard{border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.stagecardhead{
+  display:flex;align-items:center;gap:9px;padding:9px 12px;
+  background:var(--ground);border-bottom:1px solid var(--line);
+}
+.stagecardhead b{font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stagecardhead .spacer{flex:1}
+.stagecardhead.sub{background:none;border-top:1px solid var(--line);border-bottom:0}
+.fromchain{padding:7px 12px 0;font-size:12.5px;color:var(--muted);font-style:italic}
+
+/* A step reads as one line, from a metre away over a scale. */
+.steplinerow{display:flex;align-items:stretch;border-bottom:1px solid var(--line)}
+.stagecard .steplinerow:last-of-type{border-bottom:0}
+.stepline{
+  flex:1;display:grid;grid-template-columns:26px minmax(96px,1fr) minmax(0,1.4fr) auto;
+  gap:10px;align-items:center;text-align:left;
+  padding:9px 12px;background:none;border:0;cursor:pointer;color:inherit;font:inherit;
+}
+.stepline:hover{background:var(--ground)}
+.stepline.read{cursor:default;padding:7px 12px}
+.steptype{font-weight:500;font-size:13.5px}
+.steprecipe{color:var(--muted);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.steptimeline{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.steplinerow > .btn{border:0;border-left:1px solid var(--line);border-radius:0;padding:0 11px}
+
+.stepopen{padding:2px 12px 13px;background:var(--ground);border-bottom:1px solid var(--line)}
+.stepgrid{display:grid;grid-template-columns:1fr 1fr 1.4fr auto;gap:7px;margin:10px 0 8px}
+.steptimefields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.stepopen > input[type="text"]{margin-top:7px}
+
+.addmenu{position:relative;display:inline-block}
+.addmenu > summary{list-style:none;cursor:pointer}
+.addmenu > summary::-webkit-details-marker{display:none}
+.addmenubody{
+  position:absolute;right:0;top:calc(100% + 4px);z-index:6;min-width:220px;
+  display:flex;flex-direction:column;gap:3px;padding:7px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:0 6px 20px rgba(42,39,36,.12);
+}
+.addmenubody .btn{justify-content:flex-start;text-align:left;width:100%}
+.addmenubody .navhead{padding:8px 8px 2px}
+
+.placeblock{padding-bottom:11px}
+.placeblock .placement{margin:9px 12px 0}
+
+@media (max-width:700px){
+  .stepline{grid-template-columns:22px 1fr auto;gap:8px}
+  .steprecipe{grid-column:2;font-size:12.5px}
+  .steptimeline{grid-column:3}
+  .stepgrid{grid-template-columns:1fr 1fr}
+  .steptimefields{grid-template-columns:1fr 1fr}
+}
+
+/* ---- 5 · reviewing finished work ---------------------------------------- */
+
+/* The result IS the screen. */
+.reviewhero{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--line);background:var(--ground);
+  display:flex;align-items:center;justify-content:center;min-height:180px;
+}
+.reviewhero img{width:100%;max-height:430px;object-fit:cover;display:block}
+.statuschip.onphoto{position:absolute;top:11px;right:11px;background:var(--surface)}
+
+.reviewswatches{display:flex;flex-wrap:wrap;gap:14px}
+.reviewswatch{display:flex;flex-direction:column;gap:4px;max-width:150px}
+.swatchblock{
+  width:62px;height:40px;border-radius:5px;display:block;
+  border:1px solid rgba(0,0,0,.12);
+}
+
+/* The four facts, sized to what they hold rather than into equal columns
+   (§13bi). An equal grid gave "eco print" the same width as seven plant names
+   and seven colours, so two cells had room going spare while two wrapped into
+   narrow ribbons. Flex bases each on its own content and shares what is left. */
+.reviewfacts{display:flex;flex-wrap:wrap;gap:16px 26px}
+.reviewfact{display:flex;flex-direction:column;gap:2px;flex:1 1 auto;min-width:130px;max-width:100%}
+.reviewfact .factvalue{font-size:14px;line-height:1.35}
+.reviewfact .factlabel{font-size:11.5px;color:var(--muted);letter-spacing:.03em;text-transform:uppercase}
+
+/* Intention, then what came of it (§13bi). Side by side on a wide screen with
+   an arrow between them, because the pair IS the meaning of the record and
+   reading them stacked loses that they answer each other. Below them, set
+   apart, what she would change and then the notes — three different treatments
+   in one panel was what made this unreadable. */
+.story{display:grid;grid-template-columns:1fr auto 1fr;gap:0 18px;align-items:start}
+.storythen{display:flex;align-items:center;padding-top:22px;color:var(--line)}
+.storythen svg{width:20px;height:20px}
+.storypart h3{font-size:var(--h-sub);font-weight:600;color:var(--ink);margin:0 0 5px}
+.storypart .prose{max-width:none}
+.storypart.apart{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.storypart.quiet h3,.storypart.quiet .prose{color:var(--muted)}
+@media (max-width:760px){
+  .story{grid-template-columns:1fr}
+  .storythen{padding:6px 0;transform:rotate(90deg);justify-content:flex-start}
+}
+
+.processfold{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.processfold > summary{
+  display:flex;align-items:center;gap:9px;padding:11px 13px;cursor:pointer;list-style:none;
+}
+.processfold > summary::-webkit-details-marker{display:none}
+.processfold > summary::before{content:'›';color:var(--muted);transition:transform .12s}
+.processfold[open] > summary::before{transform:rotate(90deg)}
+.processfold > .foldbody{padding:0 13px 11px}
+
+.procrow{border-top:1px solid var(--line)}
+.procrow > summary{
+  display:flex;align-items:center;gap:9px;padding:9px 2px;cursor:pointer;list-style:none;
+}
+.procrow > summary::-webkit-details-marker{display:none}
+.procrow.fixed{display:flex;align-items:center;gap:9px;padding:9px 2px;color:var(--muted)}
+.procdot{
+  width:17px;height:17px;border-radius:50%;flex:none;font-size:10px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--indigo);color:#fff;
+}
+.procrow.fixed .procdot{background:none;border:1px dashed var(--line);color:transparent}
+.procname{font-size:13.5px;font-weight:500;flex:1}
+.procbody{padding:2px 0 10px 26px;border-left:1px solid var(--line);margin-left:8px}
+.hint.indent,.stepphotos.indent{margin-left:36px}
+.placeblock.read .placement{margin:9px 0 0;background:var(--ground)}
+
+.chip{
+  display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;
+  background:var(--ground);border:1px solid var(--line);color:var(--muted);
+}
+
+.history{list-style:none;margin:0 0 14px;padding:0;font-size:13.5px}
+.history li{padding:6px 0;border-bottom:1px solid var(--line)}
+.history li:last-child{border-bottom:0}
+.addstate{border-top:1px solid var(--line);padding-top:12px}
+
+.emptystate{padding:40px 20px;text-align:center;color:var(--muted)}
+.emptystate p{margin:0 0 6px}
+
+
+/* ---------- checkboxes ---------- */
+.checks{display:flex;flex-wrap:wrap;gap:12px}
+.check{display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;margin:4px 0}
+.check input{width:auto;margin:0}
+
+/* ---------- bilingual pair field ---------- */
+.pairfield .untranslated{
+  display:inline-block;margin-left:7px;font-size:10.5px;letter-spacing:.03em;
+  color:var(--weld);border:1px solid var(--weld);border-radius:20px;padding:0 6px;
+  text-transform:none;
+}
+.pairalt{margin-top:6px}
+.pairalt summary{
+  font-size:12px;color:var(--muted);cursor:pointer;list-style:none;
+  padding:3px 0;user-select:none;
+}
+.pairalt summary::-webkit-details-marker{display:none}
+.pairalt summary::before{content:"▸ ";font-size:10px}
+.pairalt[open] summary::before{content:"▾ "}
+.pairalt textarea,.pairalt input{margin-top:4px}
+
+
+/* ---------- calculators ---------- */
+.calcpane{max-width:520px}
+.calcwhen{font-size:13.5px;color:var(--muted);margin:-6px 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.fromfabric{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.fromfabricrow{display:grid;grid-template-columns:1fr 80px auto auto;gap:7px;align-items:center;margin-top:6px}
+.btnrow{display:flex;gap:8px;margin:12px 0}
+.rule{border:0;border-top:1px solid var(--line);margin:18px 0}
+.subhead{font-size:var(--h-section);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+label.btn{cursor:pointer}
+.calcresults{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.calcout{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:5px 0}
+.calclabel{font-size:13px;color:var(--muted)}
+.calcvalue{font-size:17px;font-variant-numeric:tabular-nums;color:var(--indigo);font-weight:600}
+.calcvalue small{font-size:12px;font-weight:400;color:var(--muted)}
+
+
+/* ---------- recipe ingredient and step rows ---------- */
+.ingrow{border:1px solid var(--line);border-radius:var(--radius);padding:10px;margin-bottom:9px;background:var(--ground)}
+.ingmain{display:grid;grid-template-columns:1fr 1.3fr auto;gap:7px;margin-bottom:7px}
+.ingdetail{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.optblock{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.optlabel{display:block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.orsep{display:flex;align-items:center;gap:8px;margin:2px 0 6px}
+.orsep::before,.orsep::after{content:"";flex:1;height:1px;background:var(--line)}
+.orsep span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* Eight controls on one line meant the first of them — the one naming the plant
+   or the substance — got 150px, which is not enough to read "бояджийски брош"
+   next to its optgroup. It is the field the row is *about*, so it gets its own
+   line and the measurements sit underneath. */
+.optrow{
+  display:grid;gap:6px;margin-bottom:10px;align-items:center;
+  grid-template-columns:auto auto auto 66px 66px minmax(110px,1fr) auto;
+}
+.optrow > *{min-width:0}
+.optrow > select:first-child{
+  grid-column:1 / -1;font-weight:500;font-size:13.5px;padding:6px 8px;
+}
+@media (max-width:1100px){
+  .optrow{grid-template-columns:1fr 1fr 66px 66px auto}
+}
+.optrow input,.optrow select{font-size:13px;padding:5px 7px}
+.followrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.followrow:last-child{border-bottom:0}
+.calcpick{align-items:center}
+.calcpick select{
+  font-size:13px;padding:5px 26px 5px 8px;max-width:230px;
+  background:var(--surface);border:1px solid var(--indigo);border-radius:6px;
+  color:var(--ink);cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--indigo) 50%),
+                   linear-gradient(135deg,var(--indigo) 50%,transparent 50%);
+  background-position:calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size:5px 5px, 5px 5px;
+  background-repeat:no-repeat;
+}
+.calcpick select:hover{background-color:var(--ground)}
+.pickhint{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+.ingdetail input,.ingdetail select{font-size:13px;padding:5px 7px}
+
+.steprow{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:start;margin-bottom:12px}
+.stepbody{min-width:0}
+.stepnum{
+  width:22px;height:22px;border-radius:50%;background:var(--indigo);color:#fff;
+  font-size:11.5px;display:flex;align-items:center;justify-content:center;margin-top:6px;
+}
+@media (max-width:700px){
+  .ingmain{grid-template-columns:1fr auto}
+  .ingdetail{grid-template-columns:1fr}
+  .optrow{grid-template-columns:1fr 1fr;gap:5px}
+}
+
+
+/* ---------- plants ---------- */
+.chemrow{display:grid;grid-template-columns:1.4fr 1fr auto;gap:6px;margin-bottom:6px}
+.dosingrow{display:grid;grid-template-columns:1.2fr 70px 70px auto auto;gap:6px;align-items:center;margin-bottom:6px}
+.chemrow select,.dosingrow input,.dosingrow select{font-size:13px;padding:5px 7px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rangerow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.rangerow{grid-template-columns:1fr}}
+
+.months{display:flex;flex-wrap:wrap;gap:4px}
+.month{cursor:pointer}
+.month input{position:absolute;opacity:0;width:0}
+.month span{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:32px;padding:4px 6px;font-size:11.5px;
+  border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);
+}
+.month input:checked + span{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.month input:focus-visible + span{outline:2px solid var(--indigo);outline-offset:1px}
+
+.colourrow{display:grid;grid-template-columns:44px 1fr 1.5fr 118px 96px auto;gap:7px;align-items:center;margin-bottom:7px}
+@media (max-width:760px){
+  /* Six columns will not fit a phone. The colour and the name stay on the first
+     line because they are what identifies the row; the rest wraps beneath. */
+  .colourrow{grid-template-columns:44px 1fr auto}
+  .colourrow input[type=text]:nth-of-type(2),
+  .colourrow select{grid-column:2/4}
+}
+.colourrow input[type=color]{
+  width:44px;height:32px;padding:2px;border:1px solid var(--line);
+  border-radius:6px;background:var(--surface);cursor:pointer;
+}
+.colourrow input[type=text]{font-size:13px;padding:5px 7px}
+
+.conffield{margin-bottom:16px}
+.confrow{
+  display:flex;flex-wrap:wrap;align-items:center;gap:5px;
+  margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);
+}
+.conflabel{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-right:3px}
+.conf{
+  display:inline-flex;align-items:center;gap:5px;cursor:pointer;
+  padding:3px 8px;border:1px solid var(--line);border-radius:20px;
+  font-size:12px;color:var(--muted);background:var(--surface);
+}
+.conf:hover{border-color:var(--muted)}
+.conf input{position:absolute;opacity:0;width:0}
+.confdot{width:8px;height:8px;border-radius:50%;border:1px solid currentColor;flex:0 0 8px}
+.conftext{display:none}
+.conf.picked .conftext{display:inline}
+.conf.picked{border-width:1.5px;font-weight:500}
+
+.conf-literature{color:#5C7A54}
+.conf-literature.picked{background:#EDF1E8;border-color:#5C7A54;color:#3F5638}
+.conf-own_trial{color:var(--indigo)}
+.conf-own_trial.picked{background:#E8ECF3;border-color:var(--indigo);color:var(--indigo)}
+.conf-practice{color:#9A7D1E}
+.conf-practice.picked{background:#F7F1DC;border-color:var(--weld);color:#7A6318}
+.conf-unverified{color:var(--madder)}
+.conf-unverified.picked{background:#F6E7E6;border-color:var(--madder);color:var(--madder)}
+.conf-none{color:var(--muted)}
+.conf-none.picked{background:var(--ground);border-color:var(--muted)}
+.conf.picked .confdot{background:currentColor}
+.conf input:focus-visible ~ .confdot{outline:2px solid var(--indigo);outline-offset:2px}
+
+.nearhead{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.refcard{
+  display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+  padding:11px;border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:9px;background:var(--ground);
+}
+.refcard:hover{border-color:var(--muted)}
+.refswatch{width:52px;height:52px;border-radius:4px;flex:0 0 52px;border:1px solid var(--line)}
+/* The question is four short answers; the reply is long. Two columns on a desk,
+   one on a phone — never four selects stacked down half the screen. */
+.askgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+@media (max-width:700px){.askgrid{grid-template-columns:1fr}}
+/* The swatch carries the colour, so the words carry the source. */
+.refcolour{font-size:14.5px;margin:1px 0 7px}
+.chiprow{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px}
+/* Confidence, by the three-level rule (§13s·4): weld for literature only,
+   madder for contradicted, indigo for confirmed by her own trials, and a quiet
+   grey for a record nobody has checked. */
+.confdot,.conflegend i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--line);border:1px solid rgba(0,0,0,.12)}
+.confdot.literature{background:var(--weld);border-color:var(--weld)}
+/* Two levels of grounded, and the difference matters: from her own practice,
+   against confirmed by a trial recorded here. Outline and filled, same hue. */
+.confdot.practice{background:transparent;border:2px solid var(--indigo)}
+.confdot.confirmed{background:var(--indigo);border-color:var(--indigo)}
+.confdot.contradicted{background:var(--madder);border-color:var(--madder)}
+/* A colour nobody can read is decoration. */
+.conflegend{display:flex;flex-wrap:wrap;gap:12px;margin:-4px 0 12px;font-size:12px;color:var(--muted)}
+.conflegend span{display:flex;align-items:center;gap:5px}
+.chip.near{background:color-mix(in srgb, var(--indigo) 9%, transparent);border-color:color-mix(in srgb, var(--indigo) 25%, var(--line))}
+.refbody{min-width:0;flex:1}
+.refhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.chip.exact{border-color:var(--indigo);color:var(--indigo)}
+.differs{color:var(--madder)}
+
+.segrow{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface);flex-wrap:wrap}
+.seg{cursor:pointer}
+.seg input{position:absolute;opacity:0;width:0}
+.seg span{display:inline-block;padding:6px 11px;font-size:12.5px;color:var(--muted);border-right:1px solid var(--line)}
+.seg:last-child span{border-right:0}
+.seg input:checked + span{background:var(--indigo);color:#fff}
+.seg input:focus-visible + span{outline:2px solid var(--indigo);outline-offset:-2px}
+
+.photobox{margin-bottom:14px}
+
+.difgroup{margin-bottom:22px}
+.difhead{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.difhead h3{font-size:var(--h-section);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0}
+.difcount{background:var(--ground);border:1px solid var(--line);border-radius:20px;padding:1px 8px;font-size:11.5px}
+.difrow{display:grid;grid-template-columns:auto 1fr 1.4fr;gap:10px;align-items:baseline;
+  padding:7px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:13.5px}
+.difrow:last-child{border-bottom:0}
+.difrow input{width:auto;margin:0}
+.difname{font-weight:500}
+.diffields{color:var(--muted);font-size:12.5px}
+@media (max-width:640px){.difrow{grid-template-columns:auto 1fr}.diffields{grid-column:2}}
+.plantphoto{display:block;max-width:200px;border-radius:var(--radius);border:1px solid var(--line);margin-bottom:7px}
+.withthumb{display:flex;align-items:center;gap:9px}
+.thumb{width:30px;height:30px;object-fit:cover;border-radius:5px;border:1px solid var(--line)}
+.thumb.empty{background:var(--ground);display:inline-block}
+
+.sectionrow{border:1px solid var(--line);border-radius:var(--radius);padding:11px;margin-bottom:10px;background:var(--ground)}
+.sectitle{font-weight:600;flex:1}
+.sectionrow textarea{margin-top:7px}
+
+.gap{height:16px}
+
+/* ---------- working view ---------- */
+.workhead{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.weighbox{background:var(--ground);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+.weightitle{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.weighline{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0;border-bottom:1px solid var(--line)}
+.weighline:last-child{border-bottom:0}
+.weighname{font-size:14px}
+.weighamount{font-size:22px;font-weight:600;color:var(--indigo);font-variant-numeric:tabular-nums;white-space:nowrap}
+.weighamount small{font-size:13px;font-weight:400;color:var(--muted)}
+.conditions{font-size:14px;color:var(--muted);margin:0 0 14px}
+.worksteps{list-style:none;margin:0;padding:0}
+.workstep{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.workstep .stepnum{margin-top:1px;flex:0 0 22px}
+
+.grid td.pick,.grid th.pick{width:34px;padding-right:0}
+.grid td.pick input{width:auto;margin:0}
+.bulkbar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--indigo);color:#fff;border-radius:var(--radius);
+  padding:10px 14px;margin-bottom:12px;font-size:13.5px;
+}
+.bulkbar select{width:auto;min-width:150px;background:var(--surface);border-color:var(--surface)}
+.bulkbar .btn.primary{background:var(--surface);border-color:var(--surface);color:var(--indigo)}
+.bulkbar .btn.quiet{color:rgba(255,255,255,.8)}
+.bulkbar .btn.quiet:hover{background:rgba(255,255,255,.12);color:#fff}
+
+.grid td.low{color:var(--madder)}
+.lowtag{display:block;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase}
+
+.timerface{
+  font-size:52px;font-weight:600;color:var(--indigo);
+  font-variant-numeric:tabular-nums;text-align:center;
+  padding:18px 0;margin-bottom:8px;
+  background:var(--ground);border-radius:var(--radius);
+}
+.timerface.running{color:var(--madder)}
+
+/* ---------- read mode ---------- */
+.factgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px 20px}
+.fact{padding:7px 0;border-bottom:1px solid var(--line)}
+.factlabel{display:block;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.factvalue{font-size:14.5px;line-height:1.35}
+.factvalue b{font-weight:600}
+.prose{font-size:14.5px;line-height:1.62;max-width:var(--measure)}
+.prose p{margin:0 0 9px}
+.prose p:last-child{margin-bottom:0}
+
+.headline{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:16px 18px;margin-bottom:16px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+}
+.headline img{width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid var(--line);flex:0 0 96px}
+.headlinebody{flex:1;min-width:0}
+
+/* A photograph and the name of whoever took it (§13at). Quiet, and always
+   there: the licence asks for the name where the picture is, not elsewhere.
+   The figure is held to the width of the image: without that it takes its
+   width from the CAPTION, which is a name, a licence and a taxon on one line —
+   and on a phone that pushed everything beside it off the screen (§13bb). */
+.plantshot{margin:0;flex:0 0 96px;max-width:96px;min-width:0}
+.plantshot .credit{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;
+                   overflow-wrap:anywhere}
+.plantshot .credit a{color:var(--muted)}
+
+/* On a phone the headline stacks: 96px of photograph beside a name, a botanical
+   name and five facts leaves the facts about forty characters of room. */
+@media (max-width:820px){
+  .headline{flex-direction:column;gap:12px}
+  .plantshot{flex:0 0 auto;max-width:100%}
+  .headline img{width:120px;height:120px;flex:0 0 120px}
+}
+.headlinebody h2{margin:0 0 6px}
+.latin{font-style:italic;color:var(--muted);font-size:13.5px}
+.usenow{background:var(--ground);border-radius:var(--radius);padding:12px 14px;margin-top:10px}
+
+.timeline{list-style:none;margin:0;padding:0 0 0 4px}
+.tl{display:flex;gap:12px;align-items:flex-start;padding:0 0 16px;position:relative}
+.tl:not(:last-child)::before{
+  content:"";position:absolute;left:4px;top:14px;bottom:0;width:1px;background:var(--line);
+}
+.tldot{
+  width:9px;height:9px;border-radius:50%;background:var(--indigo);
+  flex:0 0 9px;margin-top:5px;position:relative;z-index:1;
+}
+
+.fold{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin-bottom:10px}
+.fold > summary{
+  display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;
+  padding:13px 16px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+}
+.fold > summary::-webkit-details-marker{display:none}
+.fold > summary::before{content:"▸";font-size:10px;color:var(--muted)}
+.fold[open] > summary::before{content:"▾"}
+.fold[open] > summary{border-bottom:1px solid var(--line);color:var(--ink)}
+.foldtitle{font-weight:600}
+.foldbadge{margin-left:auto;font-size:11.5px;text-transform:none;letter-spacing:0;color:var(--muted)}
+.foldbody{padding:16px}
+
+/* ---------- trials ---------- */
+.filterrow{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.inlinefield{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted)}
+.inlinefield select,.inlinefield input{width:auto;min-width:110px;font-size:13px;padding:5px 8px}
+
+.trialgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.trialcard{
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  background:var(--surface);cursor:pointer;text-align:left;padding:0;color:var(--ink);
+}
+.trialcard:hover{border-color:var(--muted)}
+.trialphoto{
+  aspect-ratio:4/3;background:var(--ground);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.trialphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.trialnophoto{font-size:12px;color:var(--muted)}
+.trialmeta{padding:10px 11px;display:flex;flex-direction:column;gap:3px}
+.trialmeta b{font-size:13.5px;line-height:1.3}
+
+.steptimes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.mediumrow{display:grid;grid-template-columns:1fr 1fr 90px 80px auto;gap:6px;margin-bottom:6px}
+.mediumrow input,.mediumrow select{font-size:13px;padding:5px 7px}
+
+.placement{
+  display:flex;gap:11px;align-items:flex-start;
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:10px;margin-bottom:10px;background:var(--ground);
+}
+.placephoto{
+  width:92px;flex:0 0 92px;position:relative;
+  border-radius:6px;overflow:hidden;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;min-height:92px;
+}
+.placephoto img{width:100%;height:92px;object-fit:cover;display:block}
+.placephoto .btn{position:absolute;top:2px;right:2px;background:var(--surface);padding:2px 7px}
+.placebody{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.placemain{display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:6px}
+.placemain select,.placemain input{font-size:13px;padding:5px 7px}
+.matched{color:var(--indigo)}
+
+/* What a plant can give, in the list. For someone who dyes this is the most
+   important column on the screen, so it sits second — right after the name. */
+.swatchrow{display:inline-flex;gap:4px;align-items:center}
+/* Deliberately squarer than everything else. A 26px chip at a large radius
+   loses about a fifth of its visible area to the corners, and the sample is the
+   one thing on screen whose area must not be distorted. */
+.miniswatch{
+  width:26px;height:26px;border-radius:3px;display:inline-block;
+  border:1px solid rgba(0,0,0,.12);flex:none;
+}
+td.swatchcell,th.swatchcell{white-space:nowrap;width:1%}
+@media (max-width:640px){.miniswatch{width:20px;height:20px}}
+
+/* The name cell carries the botanical name as a subline rather than as a
+   column of its own — identity is one block, not two (§13i). */
+.namecell{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.latinline{color:var(--muted);font-size:12.5px}
+
+/* Availability is a filter, not a standing column: it answers a sourcing
+   question, and the list is for choosing. */
+.chiprow{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:-6px 0 14px}
+.chiplabel{color:var(--muted);font-size:12.5px;margin-right:2px}
+.box.small{padding:5px 10px}
+.box.small .boxcount{font-size:12px;font-weight:500}
+
+/* The profile is one column, because the order is the meaning. Blocks may hold
+   two columns inside themselves on a wide screen; the page never does. */
+.readblocks{display:flex;flex-direction:column;gap:0}
+.sub{margin-top:15px;min-width:0}
+.sub h3{
+  font-size:var(--h-sub);font-weight:600;color:var(--ink);
+  letter-spacing:0;text-transform:none;margin:0 0 5px;
+}
+.subone{min-width:0}
+.subcols{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;align-items:start}
+@media (max-width:900px){.subcols{grid-template-columns:1fr}}
+
+/* How much of something there is (§13bh). Indigo rather than a heat ramp from
+   green to red: a coloured scale beside a photograph of dyed cloth is a second
+   opinion about colour, and this screen must not have one. */
+/* An icon before a figure. Sized down from the sprite's 18px because it sits on
+   a line of text and must not out-weigh the number it introduces. */
+.cond,.typecell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.stagecardhead>svg,.prepcardhead>svg{width:16px;height:16px;color:var(--muted);flex:none}
+.procrow svg,.procrow summary>svg{width:15px;height:15px;color:var(--muted);flex:none}
+.factlabel{display:inline-flex;align-items:center;gap:5px}
+.factlabel svg{width:13px;height:13px;flex:none}
+.conds{display:inline-flex;flex-wrap:wrap;gap:4px 14px}
+.cond svg,.typecell svg{width:14px;height:14px;color:var(--muted);flex:none}
+.conditions{display:flex;flex-wrap:wrap;gap:6px 18px}
+
+/* The figures you need standing over a pot (§13bs). Tiles, not a fact grid:
+   these are instruments to be read at a glance and a two-column list of
+   label-and-value scans as prose. The order is the order of use. */
+.usenow{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;margin-bottom:14px;
+}
+.usetile{display:flex;flex-direction:column;gap:3px;padding:11px 13px;background:var(--surface)}
+.usehead{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);
+  letter-spacing:.04em;text-transform:uppercase}
+.usehead svg{width:14px;height:14px;flex:none}
+.useval{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.usetile .hint{font-size:11.5px}
+@media (max-width:640px){
+  .usenow{grid-template-columns:repeat(auto-fit,minmax(108px,1fr))}
+  .useval{font-size:14px}
+}
+
+.chemline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:2px 0}
+.level{display:inline-flex;align-items:center;gap:8px}
+.levelbar{display:inline-flex;gap:3px}
+.levelbar .seg{width:11px;height:5px;border-radius:2px;background:var(--line)}
+.levelbar .seg.on{background:var(--indigo)}
+.levelword{font-size:12.5px;color:var(--muted)}
+
+.colourcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:9px}
+.colourcards .refcard{margin-bottom:0}
+
+/* Safety. Jaundice-yellow for care and madder for heightened care; low risk is
+   neutral rather than green. The colour renders the code — it never carries the
+   meaning alone, so the label is always beside it. */
+.risk{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.riskdot{width:11px;height:11px;border-radius:50%;flex:none;background:var(--line);
+  border:1px solid rgba(0,0,0,.15)}
+.risk.low{color:var(--muted)}
+.risk.caution{color:#8a6f14}
+.risk.caution .riskdot{background:var(--weld)}
+.risk.elevated{color:var(--madder)}
+.risk.elevated .riskdot{background:var(--madder)}
+#flash{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);
+  background:var(--indigo);color:#fff;padding:9px 18px;border-radius:999px;
+  font-size:13.5px;box-shadow:0 6px 20px rgba(42,39,36,.22);
+  opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;z-index:60;
+}
+#flash.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:640px){#flash{bottom:76px}}
+
+/* A menu of screens: icon, name, one line on when to use it, chevron. Better
+   than a grid of bare labels — the sentence was already written and only showed
+   after you had already chosen. */
+.searchbox{
+  display:flex;align-items:center;gap:8px;flex:1;min-width:180px;max-width:340px;
+  border:1px solid var(--line);border-radius:999px;padding:0 12px;background:var(--surface);
+}
+.searchbox:focus-within{border-color:var(--indigo)}
+.searchbox svg{color:var(--muted);flex:none}
+.searchbox input{border:0;background:none;padding:8px 0;flex:1;min-width:0;font-size:13.5px}
+.searchbox input:focus{outline:none}
+.searchbox input::-webkit-search-cancel-button{display:none}
+.searchclear{border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;padding:0 2px}
+
+.picker{display:block;min-width:0}
+.picker input[type="text"]{width:100%}
+
+/* A filter box with its mark. The mark sits above the word, never instead of
+   it — sixteen pictures nobody has seen before are sixteen guesses. */
+/* The same mark beside a state wherever it is named. */
+.chip.withmark{display:inline-flex;align-items:center;gap:5px}
+.chip.withmark svg{width:14px;height:14px;stroke:currentColor;fill:none;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.box .boxicon{display:block;margin-bottom:5px}
+.box .boxicon svg{width:21px;height:21px;stroke:var(--muted);fill:none;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.box.active .boxicon svg{stroke:var(--indigo)}
+
+.pickgroup{margin-bottom:18px}
+.picklist{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.pickrow{
+  display:grid;grid-template-columns:30px 1fr 14px;gap:13px;align-items:center;
+  width:100%;text-align:left;padding:13px 14px;cursor:pointer;
+  background:none;border:0;border-bottom:1px solid var(--line);color:inherit;font:inherit;
+}
+.picklist .pickrow:last-child{border-bottom:0}
+.pickrow:hover{background:var(--ground)}
+.pickrow:focus-visible{outline:2px solid var(--indigo);outline-offset:-2px}
+.pickrow svg{width:23px;height:23px;stroke:var(--indigo);fill:none;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round}
+.pickname{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pickname b{font-size:14px;font-weight:600}
+.pickname span{font-size:12.5px;color:var(--muted);line-height:1.35}
+.pickgo{color:var(--line);font-size:17px;text-align:right}
+
+.riskmarks{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+
+/* One bath, several pieces (§13bd). A separate row from `.pickrow`, which is a
+   three-column list of destinations; this one carries a tick, a tag number, a
+   name, a weight and the box the piece is in, and the weight column has to line
+   up down the list because the running total below is their sum. */
+.batchlist{border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  background:var(--surface);list-style:none;padding:0;margin:0}
+.batchrow{
+  display:grid;grid-template-columns:30px 56px 1fr 78px auto;gap:12px;
+  align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);
+}
+.batchlist .batchrow:last-child{border-bottom:0}
+.batchrow.on{background:color-mix(in srgb, var(--indigo) 5%, transparent)}
+.batchname{display:flex;flex-direction:column;gap:2px;min-width:0}
+.batchname b{font-size:14px;font-weight:600}
+.batchname .hint{font-size:12.5px}
+.batchstate{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+
+/* A treatment that did not move the piece between boxes. Quieter than a chip on
+   purpose: the box is where the cloth IS, the tag is what it has been through,
+   and reading them as equals would put tannin and mordanted on one footing. */
+.tag{
+  display:inline-block;padding:2px 7px;border-radius:5px;font-size:11.5px;
+  color:var(--muted);background:var(--ground);border:1px solid var(--line);
+}
+
+/* The number the recipe is scaled against, and it must not leave the screen
+   while the list is scrolled: it is the one figure on this page that everything
+   weighed out depends on. */
+.runningtotal{
+  position:sticky;bottom:0;display:flex;justify-content:space-between;
+  align-items:center;gap:14px;margin-top:12px;padding:12px 15px;
+  border:1px solid var(--line);border-radius:8px;background:var(--surface);
+  color:var(--muted);font-size:13px;
+}
+.runningtotal.on{border-color:var(--madder);color:var(--ink)}
+.runningtotal .num{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+
+.summaryline{
+  margin:18px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:15px;
+}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.scaledbox{margin:6px 0 14px;padding:12px 15px;border:1px solid var(--line);
+  border-radius:8px;background:var(--ground)}
+.scaledbox .qty{list-style:none;padding:0;margin:8px 0 0}
+.scaledbox .qty li{display:flex;justify-content:space-between;gap:14px;
+  padding:4px 0;font-size:13.5px}
+.scaledbox .qty .num{font-variant-numeric:tabular-nums}
+.chainsteps{margin:6px 0 14px;padding-left:20px}
+.chainsteps .qty{list-style:none;padding:0;margin:5px 0 10px}
+.chainsteps .qty li{display:flex;justify-content:space-between;gap:14px;
+  padding:3px 0;font-size:13px;color:var(--muted)}
+/* A flat box: still a control, still a finger target, but without the count and
+   the icon a shelf filter carries. `.chip` was wrong here and check.sh said so —
+   a chip names and a box is pressed (§13ac), and every one of these changes the
+   screen when pressed. */
+/* The preparation the cloth carries, read on the trial. Quieter than a step
+   row, because these are not steps of this work — they happened to the cloth
+   and this work inherited them. */
+.prepcardhead{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.prepcardhead b{font-size:14px}
+.prepcardhead .spacer{flex:1}
+/* What the cloth has been through, read from the cloth (§13bd). Columns rather
+   than a run of spans: the action, then when, then what with. Set as a grid so
+   the dates line up down the list — three lines of prose with dots between them
+   is what this was, and it read as one sentence broken in the wrong places. */
+.preplist{list-style:none;margin:0;padding:0}
+.prepline{
+  display:grid;grid-template-columns:16px minmax(120px,auto) 92px 1fr;
+  gap:10px;align-items:baseline;
+  padding:9px 2px;border-bottom:1px solid var(--line);font-size:13.5px;
+}
+.preplist .prepline:last-child{border-bottom:0}
+.prepline>svg{width:15px;height:15px;color:var(--muted);align-self:center}
+.prepwhat{font-weight:600}
+.prepwhen{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.prepwith{color:var(--muted);font-size:12.5px;min-width:0}
+.prepshared{color:var(--muted);font-size:12.5px}
+.prepwith .prepshared::before{content:' · '}
+
+/* A shot from earlier work on the same cloth (§13bn). Set back rather than
+   hidden: it belongs to the piece's story and not to this record, and the eye
+   should be able to find where one work ends and the next begins without
+   reading a caption. */
+.lifeshot.earlier img{opacity:.72}
+.lifeshot.earlier{position:relative}
+.lifeshot.earlier::after{
+  content:'';position:absolute;left:-7px;top:0;bottom:0;
+  border-left:1px dashed var(--line);
+}
+.lifeshot.earlier+.lifeshot:not(.earlier)::before{
+  content:'';position:absolute;left:-7px;top:0;bottom:0;
+  border-left:1px solid var(--line);
+}
+.lifeshot:not(.earlier){position:relative}
+.shotfrom{display:block;font-size:11.5px;color:var(--muted);font-style:italic}
+
+/* The four levels of action (§13bo). `contextual` is the one that was missing:
+   "add a role", "add a step" — an action INSIDE a list, which wore the same
+   weight as the second action of the whole screen. Lighter, and it carries its
+   plus so it reads as an addition rather than as a choice. */
+.btn.contextual{font-size:12.5px;padding:6px 10px;color:var(--muted)}
+.btn.contextual:hover{color:var(--ink)}
+.btn svg{width:15px;height:15px;flex:none}
+.btn{display:inline-flex;align-items:center;gap:6px}
+
+/* The way up: the module's own name, not the word "back". */
+.btn.upto{padding-left:6px;color:var(--muted)}
+.btn.upto:hover{color:var(--indigo)}
+.btn.upto svg{width:16px;height:16px}
+.prepline:hover .prepwhat{color:var(--indigo)}
+@media (max-width:640px){
+  .prepline{grid-template-columns:16px 1fr;gap:4px 10px}
+  .prepwhen,.prepwith{grid-column:2}
+}
+
+/* What a piece carries, on the row where work is chosen. */
+.carries{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:3px}
+
+.boxes.flat{gap:6px}
+.box.flat{flex-direction:row;padding:9px 13px;min-height:38px}
+.box.flat .boxname{font-size:13px}
+
+@media (max-width:640px){
+  .batchrow{grid-template-columns:30px 1fr auto;gap:8px 10px}
+  .batchrow .mono{grid-column:2}
+  .batchname{grid-column:2/4}
+  .batchstate{grid-column:2/4;justify-content:flex-start}
+  .cols2{grid-template-columns:1fr}
+}
+
+.sourcenote{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12.5px;line-height:1.5;
+}
+.sourcelabel{font-weight:600}
+/* A URL has no spaces, so it sets the minimum width of everything above it. One
+   sciencedirect link in a plant's Sources block made the page 459px wide in a
+   390px window, and the bottom bar — which is the width of the page, not the
+   window — carried its last button, "Още", off the right edge. The record read
+   perfectly well; the navigation had gone. Applies to every link, because the
+   next long address will not be in a plant. */
+a,.sourcenote{overflow-wrap:anywhere}
+
+/* A piece's whole life in pictures, in the order it happened (§8.0c). Scrolls
+   sideways rather than wrapping: the sequence is the point, and a grid that
+   reflows breaks the reading of it. */
+/* It scrolls sideways because the sequence is the point. But a strip that
+   scrolls with nothing to say so is a strip that ends at the fifth photograph
+   as far as the reader is concerned — reported by the owner, who could not see
+   the last one (§13as). The bar is always shown rather than on hover, and the
+   right edge fades while there is more to come. */
+.lifestrip{
+  display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;
+  scrollbar-width:thin;scrollbar-color:var(--line) transparent;
+  scroll-snap-type:x proximity;
+  mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);
+}
+.lifestrip::-webkit-scrollbar{height:8px}
+.lifestrip::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.lifeshot{margin:0;flex:none;width:132px;scroll-snap-align:start}
+.lifeshot img{
+  width:132px;height:132px;object-fit:cover;display:block;
+  border-radius:6px;border:1px solid var(--line);
+}
+.lifeshot figcaption{display:flex;flex-direction:column;gap:1px;margin-top:5px;font-size:12px}
+.lifeshot figcaption .hint{font-size:11px}
+
+/* The progress line. Generated from the steps that exist, so a stage worked
+   twice appears twice — the line shows the work, not a template. */
+.stageline{
+  display:flex;align-items:center;flex-wrap:wrap;gap:4px;
+  padding:10px 12px;margin-bottom:12px;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;
+}
+.stagemark{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text);white-space:nowrap}
+.stagemark.fixed{color:var(--muted)}
+.stagedot{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:19px;height:19px;border-radius:50%;font-size:11px;
+  background:var(--indigo);color:#fff;flex:none;
+}
+.stagemark.fixed .stagedot{background:none;border:1px dashed var(--line)}
+.stagearrow{color:var(--line);font-size:15px}
+
+.stagegroup{border:1px solid var(--line);border-radius:8px;margin-bottom:12px;overflow:hidden}
+.stagehead{
+  display:flex;align-items:center;gap:8px;padding:7px 11px;
+  background:var(--surface);border-bottom:1px solid var(--line);font-size:14px;
+}
+.stagegroup .ingrow{border:0;border-bottom:1px solid var(--line);border-radius:0;margin:0}
+.stagegroup .ingrow:last-child{border-bottom:0}
+.stagestarters{display:flex;flex-wrap:wrap;gap:6px}
+
+/* Photographs on a step and on a plan. Smaller than the result grid: they are
+   evidence of how the work went, glanced at rather than studied. */
+.stepphotos{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.stepphoto{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--line);
+  width:78px;height:78px;flex:none}
+.stepphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.stepphoto .btn{position:absolute;top:1px;right:1px;background:var(--surface);padding:1px 6px;
+  font-size:12px;line-height:1.3}
+.stepphotos .addphoto{width:78px;height:78px;display:flex;align-items:center;justify-content:center;
+  border:1px dashed var(--line);border-radius:5px;color:var(--muted);cursor:pointer;
+  font-size:20px;background:none;flex:none}
+.stepphotos .addphoto:hover{border-color:var(--indigo);color:var(--indigo)}
+
+.resultphotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:10px}
+.resultphotos.big{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:16px}
+.resultphotos.big img{height:200px}
+.resultphoto{position:relative;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.resultphoto img{width:100%;height:96px;object-fit:cover;display:block}
+.resultphoto .btn{position:absolute;top:2px;right:2px;background:var(--surface);padding:2px 7px}
+.checks.column{flex-direction:column;gap:2px;max-height:190px;overflow:auto}
+
+@media (max-width:700px){
+  .steptimes{grid-template-columns:1fr 1fr}
+  .mediumrow{grid-template-columns:1fr 1fr}
+  .placemain{grid-template-columns:1fr 1fr}
+  .placement{flex-direction:column}
+  .placephoto{width:100%;flex:auto}
+}
+/* 146px was sized for a bare 19px glyph. The plate is 36px wide plus its gap,
+   so the same track left the name and the count fighting for the remainder and
+   they overlapped. */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:9px}
+.tile{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 13px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--ground);cursor:pointer;text-align:left;color:var(--ink);
+}
+.tile:hover{border-color:var(--muted)}
+/* The mark sits on a tinted plate rather than bare on the ground. No new
+   colour — indigo at a tenth — but it gives the glyph an edge to be drawn
+   against, which is most of what reads as "finished". */
+.tile svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tileplate{
+  display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;
+  border-radius:calc(var(--radius) - 1px);
+  background:color-mix(in srgb, var(--indigo) 10%, transparent);
+  color:var(--indigo);
+}
+.tile:hover .tileplate{background:var(--indigo);color:#fff}
+.tilename{font-size:13.5px;line-height:1.25;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tilecount{
+  font-size:15px;font-weight:600;color:var(--indigo);
+  font-variant-numeric:tabular-nums;margin-left:auto;flex:none;padding-left:8px;
+}
+.tile:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
+
+.updatebar{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:10px;
+  background:var(--indigo);color:#fff;
+  padding:9px 10px 9px 16px;border-radius:24px;
+  box-shadow:0 4px 16px rgba(42,39,36,.22);
+  font-size:13.5px;z-index:200;max-width:calc(100vw - 24px);
+}
+.updatebar .btn{padding:5px 12px;font-size:13px}
+.updatebar .btn.primary{background:var(--surface);border-color:var(--surface);color:var(--indigo)}
+.updatebar .btn.quiet{color:rgba(255,255,255,.75);padding:5px 8px}
+.updatebar .btn.quiet:hover{background:rgba(255,255,255,.12);color:#fff}
+/* Narrow screen. Everything else that once lived in here was a duplicate of
+   rules standing outside it — see §13e. */
+@media (max-width:820px){
+  .gap{height:16px}
+  .updatebar{bottom:calc(76px + env(safe-area-inset-bottom))}
+  @media (max-width:700px){
+    .steptimes{grid-template-columns:1fr 1fr}
+    .mediumrow{grid-template-columns:1fr 1fr}
+    .placemain{grid-template-columns:1fr 1fr}
+    .placement{flex-direction:column}
+    .placephoto{width:100%;flex:auto}
+  }
+}
+
+/* Below 640px a table stops being a table (§13ae).
+   A table exists so values can be compared down a column. On a phone there is
+   no column — there is one view — and the question changes with it: at a desk
+   *which of these has the most tannin*, in the hand *is this the plant I am
+   looking for*. The plants list was 562px wide inside a 390px window and the
+   substances list 721px; scrolling sideways to reach "which part" is reading a
+   table through a letterbox.
+
+   Each row becomes a card. The first cell that has words leads it; every other
+   cell carries its column heading beside it, supplied by `labelCells()` at
+   render, because `attr()` cannot reach across the table to the header row.
+   Nothing is dropped: the columns a phone does not need are a judgement to make
+   with the lists in hand, not one to guess at here. */
+@media (max-width:640px){
+  .grid thead{display:none}
+  .grid,.grid tbody,.grid tr,.grid td{display:block;width:auto}
+  .grid tbody tr{
+    border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;margin:0 0 10px;background:var(--surface);
+    position:relative;
+  }
+  .grid tbody tr:last-child{margin-bottom:0}
+  .grid tbody tr:hover{background:var(--surface)}
+  .grid td{border-bottom:0;padding:3px 0;display:flex;gap:10px;align-items:baseline}
+  .grid tbody tr td:last-child{padding-bottom:0}
+  .grid td[data-label]::before{
+    content:attr(data-label);flex:none;width:38%;max-width:132px;
+    color:var(--muted);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;
+    line-height:1.5;
+  }
+  /* The row's own name leads, at reading size and with no label over it: a card
+     headed "ИМЕ  дъб" reads as a form, not as a plant. */
+  .grid td.leadcell{display:block;font-size:15.5px;font-weight:500;padding-bottom:6px}
+  .grid td.leadcell::before{content:none}
+  /* The star and the selection box sit in the corner of the card rather than
+     taking a line of their own. They keep their 44px target (§13ac). */
+  .grid td.favcell,.grid td.pick{
+    position:absolute;top:6px;right:8px;width:auto;padding:0;
+  }
+  .grid td.favcell::before,.grid td.pick::before{content:none}
+  .grid td.leadcell{padding-right:52px}
+  /* A colour sample is not a value to be labelled and lined up; it is the one
+     thing on this screen whose area must not be squeezed (§13n). */
+  td.swatchcell{width:auto}
+  .grid td.emptycell{display:none}
+  /* A note runs to a paragraph, and a paragraph turns one card into a screen:
+     the sources list came out 405px per row. Four lines, with the heading above
+     rather than beside it, and the whole of it in the record. */
+  .grid td.clip,.grid td.longcell{
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;
+    overflow:hidden;max-width:none;
+  }
+  .grid td.clip::before,.grid td.longcell::before{width:auto;display:block}
+  .grid .num{text-align:left}
+  /* The panel no longer holds anything wider than itself, so the sideways
+     scroll put there as a stopgap in §13o is removed with the cause. */
+  .panel.flush{overflow-x:visible}
+  .panel.flush .grid{padding:12px}
+}
+
+/* A control is what changes the screen when it is pressed, and below 640px it
+   is sized for a finger: 44px, the width of an adult fingertip. At a desk a
+   19px star is a small mouse target; in a wet hand in a garden it is not a
+   target at all, and this application is used in a garden.
+
+   What is NOT here, deliberately: `.chip`. A chip is a `<span>` — the
+   conditions under a reference result, a technique's category, a plant's
+   precautions. It names something and does nothing when pressed, so making it
+   44px tall would be sizing prose for a finger. `.box` — the role filter in
+   plants, the state filter in fabrics — is a `<button>` that changes what the
+   list shows, and it is the thing rule 3 (§13s) means by a chip. The two look
+   alike and behave nothing alike; they are told apart here by what they do, and
+   `check.sh` refuses a `.chip` that is a button or a `.box` that is not. */
+@media (max-width:640px){
+  /* The header actions were one unwrapping row. On the reference records tab —
+     a two-tab switch beside two buttons — it ran 13px past the edge and the tab
+     switch itself clipped, so "Записи" was half a word. Nobody had seen it:
+     `#/reference/records` showed the search tab until §13ad gave the module an
+     open(), so the address existed and the screen behind it did not. */
+  .pageactions{flex-wrap:wrap}
+  .tabswitch{flex:1 1 100%}
+  .tabswitch .tab{flex:1}
+  .btn,.tab,.box,.fav,.moreitem,.bottomnav button,
+  input:not([type=checkbox]):not([type=radio]),select,textarea{
+    min-height:44px;
+  }
+  .btn,.tab,.box{display:inline-flex;align-items:center;justify-content:center}
+  .box{align-items:center}
+  /* The star is square: a 44px-tall target 22px wide is still missed. */
+  .fav{min-width:44px}
+  /* A checkbox cannot be stretched, so the label around it carries the target.
+     Every checkbox in the application already sits in a `label.check` except
+     the fabric selection box, which is the seed of the bulk actions and now has
+     one of its own. */
+  label:has(> input[type=checkbox]),label:has(> input[type=radio]),.pickbox{
+    display:inline-flex;align-items:center;min-height:44px;
+  }
+  .pickbox{justify-content:center;min-width:44px}
+}
+
+.moresheet{
+  position:fixed;inset:0;background:rgba(42,39,36,.4);
+  display:flex;align-items:flex-end;z-index:50;
+}
+.morepanel{
+  background:var(--surface);width:100%;
+  border-top-left-radius:16px;border-top-right-radius:16px;
+  padding:18px 14px calc(18px + env(safe-area-inset-bottom));
+  max-height:82vh;overflow:auto;
+}
+.morehead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.morehead h2{margin:0}
+.moregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.moreitem{
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  padding:14px 6px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--ground);cursor:pointer;font-size:12px;color:var(--ink);text-align:center;
+}
+.moreitem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.moreitem[aria-current="page"]{border-color:var(--indigo);color:var(--indigo)}
+.morelang{display:flex;gap:6px;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- Icon sprite. Real SVG, distinct silhouettes — never dingbats (§15.4). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Filter marks. One per code, in the chrome palette. A mark stands beside
+         its label and never replaces it: a picture alone cannot be read aloud,
+         searched, or understood by someone meeting the app for the first time. -->
+
+    <!-- fabric_state — the life of a piece of cloth, in order -->
+    <symbol id="s-unwashed" viewBox="0 0 24 24"><path d="M5 6.5c3-2 5-2 7 0s4 2 7 0v11c-3 2-5 2-7 0s-4-2-7 0Z"/></symbol>
+    <symbol id="s-scoured" viewBox="0 0 24 24"><path d="M5 8.5c2.5-2 4.5-2 7 0s4.5 2 7 0"/><path d="M5 13c2.5-2 4.5-2 7 0s4.5 2 7 0"/><path d="M5 17.5c2.5-2 4.5-2 7 0s4.5 2 7 0"/></symbol>
+    <symbol id="s-mordanted" viewBox="0 0 24 24"><path d="M12 3.5 19 8v8l-7 4.5L5 16V8Z"/><path d="M12 9.5v5M9.5 12h5"/></symbol>
+    <symbol id="s-dyed" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="s-finished" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.3l2.6 2.6 4.6-5.2"/></symbol>
+
+    <!-- material_category — what a substance is for -->
+    <symbol id="c-mordant" viewBox="0 0 24 24"><path d="M12 3.5 19 8v8l-7 4.5L5 16V8Z"/></symbol>
+    <symbol id="c-tannin" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 9c0-3.3 2.4-5.8 5.8-5.8 0 3.4-2.5 5.8-5.8 5.8Z"/><path d="M12 13c0-2.8-2-4.7-4.7-4.7 0 2.8 1.9 4.7 4.7 4.7Z"/></symbol>
+    <symbol id="c-dyestuff" viewBox="0 0 24 24"><path d="M6 10.5h12l-1.2 8a2 2 0 0 1-2 1.7H9.2a2 2 0 0 1-2-1.7Z"/><path d="M9.5 10.5V6a2.5 2.5 0 0 1 5 0v4.5"/></symbol>
+    <symbol id="c-modifier" viewBox="0 0 24 24"><path d="M4 15.5h16"/><path d="M7 15.5V11M12 15.5V7M17 15.5v-6"/><path d="M4 19.5h16"/></symbol>
+    <symbol id="c-auxiliary" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></symbol>
+
+    <!-- technique_category -->
+    <symbol id="k-resist" viewBox="0 0 24 24"><path d="M12 3.5 19.5 7v6c0 4-3.2 6.8-7.5 8-4.3-1.2-7.5-4-7.5-8V7Z"/></symbol>
+    <symbol id="k-shibori" viewBox="0 0 24 24"><path d="M4 12c0-3 2-5 4-5s4 2 4 5-2 5-4 5-4-2-4-5Z"/><path d="M12 12c0-3 2-5 4-5s4 2 4 5-2 5-4 5-4-2-4-5Z"/></symbol>
+    <symbol id="k-printing" viewBox="0 0 24 24"><rect x="4.5" y="4.5" width="15" height="10" rx="1.5"/><path d="M8 18.5h8"/><path d="M12 14.5v4"/></symbol>
+    <symbol id="k-bundling" viewBox="0 0 24 24"><path d="M6.5 4.5v15"/><path d="M17.5 4.5v15"/><path d="M6.5 8.5c4 2 7 2 11 0M6.5 12c4 2 7 2 11 0M6.5 15.5c4 2 7 2 11 0"/></symbol>
+    <symbol id="k-post_treatment" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.6-5.7"/><path d="M19.5 4v4h-4"/></symbol>
+
+    <!-- Calculators. Line icons in the chrome palette, never green: the whole
+         interface stays neutral so it does not tilt a judgement about colour. -->
+    <symbol id="i-wof" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8"/><path d="M9 13l6 4M9 17l6-4"/></symbol>
+    <symbol id="i-solution" viewBox="0 0 24 24"><path d="M10 3.5h4"/><path d="M11 3.5v6L6.5 18a2 2 0 0 0 1.8 2.5h7.4A2 2 0 0 0 17.5 18L13 9.5v-6"/><path d="M8.5 15h7"/></symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24"><path d="M4 11h16v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5Z"/><path d="M9 8c0-1.5-1.5-2-1.5-3.5M15 8c0-1.5-1.5-2-1.5-3.5"/></symbol>
+    <symbol id="i-drying" viewBox="0 0 24 24"><path d="M7 17c-2 0-3.5-1.6-3.5-3.5S5 10 7 10c.2-2.6 2.3-4.5 4.8-4.5 2.3 0 4.2 1.6 4.7 3.7 2 .2 3.5 1.9 3.5 4 0 2.1-1.6 3.8-3.7 3.8Z"/><path d="M9 20.5l.8-1.8M12.5 20.5l.8-1.8M16 20.5l.8-1.8"/></symbol>
+    <symbol id="i-alum" viewBox="0 0 24 24"><path d="M12 3.5 19 8v8l-7 4.5L5 16V8Z"/><path d="M12 8.5 15.5 11v4L12 17l-3.5-2v-4Z"/></symbol>
+    <symbol id="i-exhaust" viewBox="0 0 24 24"><path d="M5 12h14v3.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 5 15.5Z"/><path d="M8.5 15.5h7"/><path d="M12 8.5V3.5M12 3.5 9.5 6M12 3.5 14.5 6"/></symbol>
+    <symbol id="i-reverse" viewBox="0 0 24 24"><path d="M4 7.5h11a4.5 4.5 0 0 1 0 9H8"/><path d="M10.5 14 8 16.5 10.5 19"/><path d="M4 19h3"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7"/><path d="M12 10v3.5l2.5 1.5"/><path d="M9.5 3.5h5"/><path d="M12 3.5v3"/></symbol>
+
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="i-reference" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.8 15.8 21 21"/><path d="M8.5 11h5M11 8.5v5"/></symbol>
+    <symbol id="i-plant" viewBox="0 0 24 24"><path d="M12 21v-8"/><path d="M12 13c0-4 2.8-7 7-7 0 4-3 7-7 7Z"/><path d="M12 15c0-3.3-2.3-5.5-5.5-5.5 0 3.3 2.2 5.5 5.5 5.5Z"/></symbol>
+    <symbol id="i-fabric" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17"/><path d="M9 4.5v15M15 4.5v15"/></symbol>
+    <symbol id="i-recipe" viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V20a.5.5 0 0 1-.5.5h-12A.5.5 0 0 1 6 20Z"/><path d="M14.5 3.5V8h4.5"/><path d="M9 12h7M9 15.5h7"/></symbol>
+    <symbol id="i-trial" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><circle cx="9" cy="10.5" r="1.6"/><path d="M3.5 16 9 12l4 3 3-2.2 4.5 3.4"/></symbol>
+    <symbol id="i-technique" viewBox="0 0 24 24"><path d="M4 18c4-1.5 4-8.5 8-8.5S16 18 20 16.5"/><path d="M4 11c4-1.5 4 1 8 1s4-4.5 8-6"/></symbol>
+    <symbol id="i-tools" viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="M8 8h8"/><path d="M8 12h2.5M13.5 12H16M8 16h2.5M13.5 16H16"/></symbol>
+    <!-- Drawn because three marks were serving seven places: substances shared
+         with calculators, sources with recipes, stock with backup and packs. A
+         mark accompanies a label and never replaces it (§13.4) — but a mark
+         that does not distinguish accompanies nothing, and reads as noise. All
+         sit on the same optical box, 3.5 to 20.5, at stroke 1.9. -->
+    <symbol id="i-substance" viewBox="0 0 24 24"><path d="M9.5 3.5v5.2L4.8 17a2.2 2.2 0 0 0 1.9 3.5h10.6a2.2 2.2 0 0 0 1.9-3.5L14.5 8.7V3.5"/><path d="M8.5 3.5h7"/><circle cx="10.5" cy="16" r="1.1"/><circle cx="14" cy="18" r="0.9"/></symbol>
+    <symbol id="i-source" viewBox="0 0 24 24"><path d="M4 5a3 3 0 0 1 3-2h4.5v16H7a3 3 0 0 0-3 2Z"/><path d="M20 5a3 3 0 0 0-3-2h-4.5v16H17a3 3 0 0 1 3 2Z"/></symbol>
+    <symbol id="i-stock" viewBox="0 0 24 24"><path d="M5.5 8.5h13v10a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2Z"/><path d="M3.5 4.5h17v4h-17Z"/><path d="M10 13h4"/></symbol>
+
+    <symbol id="i-backup" viewBox="0 0 24 24"><path d="M12 3.5v9"/><path d="M8.5 9.5 12 13l3.5-3.5"/><path d="M4.5 14.5v3a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3v-3"/></symbol>
+
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></symbol>
+    <symbol id="i-packs" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9Z"/><path d="m4 7.5 8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+
+    <!-- Borrowed from the v0 prototype (§13bh), which draws them from Lucide.
+         Redrawn here at the sprite's own stroke weight rather than pulled in as
+         a dependency: the application has no build step and one more network
+         request for twelve paths would be a poor trade.
+
+         NOT borrowed: the prototype's colour. There the icons sit in indigo
+         discs and the scouring mark is red. Indigo is navigation and active
+         states only, and madder is an accent — an icon that is neither is ink or
+         muted, so a row of them cannot compete with a swatch of dyed cloth. -->
+
+    <!-- flask-conical: mordanting, and preparation as a whole -->
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 2.5v6.2a2 2 0 0 1-.29 1.03L4.2 19.2A1 1 0 0 0 5.06 20.5h13.88a1 1 0 0 0 .86-1.3l-5.51-9.47A2 2 0 0 1 14 8.7V2.5"/><path d="M8.5 2.5h7"/><path d="M7.3 15.5h9.4"/></symbol>
+
+    <!-- beaker: a dye bath, and the dyeing stage.
+         NOT `i-bath`: that id was already taken by the calculators' bath-volume
+         mark, and a sprite with two symbols of one id silently serves the first.
+         So every place this was used since 0.99.0 was drawing the calculator's
+         icon instead. Found by counting the sprite, not by looking. -->
+    <symbol id="i-beaker" viewBox="0 0 24 24"><path d="M6.5 3.5h11"/><path d="M8 3.5v15a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-15"/><path d="M8 13h8"/></symbol>
+
+    <!-- droplets: washing and scouring -->
+    <symbol id="i-drops" viewBox="0 0 24 24"><path d="M8.5 3.5c2.5 2.6 3.8 4.4 3.8 6a3.8 3.8 0 0 1-7.6 0c0-1.6 1.3-3.4 3.8-6Z"/><path d="M16 10.5c2.3 2.4 3.5 4.1 3.5 5.6a3.5 3.5 0 0 1-7 0c0-1.5 1.2-3.2 3.5-5.6Z"/></symbol>
+
+    <!-- layers: a tannin bath, and anything that builds up in coats -->
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 8.5 4.5L12 12 3.5 7.5Z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5"/><path d="m3.5 16.5 8.5 4.5 8.5-4.5"/></symbol>
+
+    <!-- sparkles: a finishing or binding step -->
+    <symbol id="i-finish" viewBox="0 0 24 24"><path d="m9 4 1.4 3.6L14 9l-3.6 1.4L9 14l-1.4-3.6L4 9l3.6-1.4Z"/><path d="m17.5 13.5.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9Z"/></symbol>
+
+    <!-- atom: a salt, a compound with a formula -->
+    <symbol id="i-compound" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M12 3.5c-3 0-5.5 3.8-5.5 8.5s2.5 8.5 5.5 8.5 5.5-3.8 5.5-8.5S15 3.5 12 3.5Z"/><path d="M4.3 7.8c-1.5 2.6.9 6.9 5 9.3s8.2 2.1 9.7-.5-.9-6.9-5-9.3-8.2-2.1-9.7.5Z"/></symbol>
+
+    <!-- test-tube: a solution, a jar on the shelf -->
+    <symbol id="i-vial" viewBox="0 0 24 24"><path d="M9.5 2.5h5"/><path d="M10.5 2.5v14.5a2.5 2.5 0 0 0 5 0V2.5"/><path d="M10.5 11.5h5"/></symbol>
+
+    <!-- thermometer -->
+    <symbol id="i-temp" viewBox="0 0 24 24"><path d="M13.5 14.2V4.8a2.3 2.3 0 0 0-4.6 0v9.4a4 4 0 1 0 4.6 0Z"/><path d="M11.2 17.5h.02"/></symbol>
+
+    <!-- timer -->
+    <symbol id="i-time" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 10.2v3.3l2 1.6"/><path d="M9.5 2.8h5"/></symbol>
+
+    <!-- rotate-ccw: would do again, might do again -->
+    <symbol id="i-again" viewBox="0 0 24 24"><path d="M3.5 5.5v5h5"/><path d="M3.9 10.5A8.5 8.5 0 1 1 6 17.6"/></symbol>
+
+    <!-- triangle-alert: a caution that must be read before the pot is on -->
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 4.1 2.7 17.2A1.5 1.5 0 0 0 4 19.5h16a1.5 1.5 0 0 0 1.3-2.3L13.7 4.1a1.5 1.5 0 0 0-2.6 0Z"/><path d="M12 9v4"/><path d="M12 16.5h.02"/></symbol>
+
+    <!-- The semantic actions (§13bo). One mark per action, everywhere.
+         Silhouettes deliberately unlike one another: a plus, a pencil, a bin, a
+         chevron, a lens, a funnel, a camera, three dots, two sheets, a star. -->
+    <symbol id="a-add" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+    <symbol id="a-edit" viewBox="0 0 24 24"><path d="M16.5 3.9a2 2 0 0 1 2.8 2.8L7.5 18.5l-3.8 1 1-3.8Z"/><path d="M14.5 6l3.5 3.5"/></symbol>
+    <symbol id="a-delete" viewBox="0 0 24 24"><path d="M4 6.5h16"/><path d="M9.5 6.5V4.6a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.9"/><path d="M6.5 6.5 7.4 19a1.5 1.5 0 0 0 1.5 1.4h6.2a1.5 1.5 0 0 0 1.5-1.4l.9-12.5"/></symbol>
+    <symbol id="a-back" viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5"/></symbol>
+    <symbol id="a-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.4 15.4 4.1 4.1"/></symbol>
+    <symbol id="a-filter" viewBox="0 0 24 24"><path d="M4 5.5h16l-6.3 7.4v5.4l-3.4 2v-7.4Z"/></symbol>
+    <symbol id="a-photo" viewBox="0 0 24 24"><path d="M3.5 8.5a2 2 0 0 1 2-2h2l1.4-2h6.2l1.4 2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/><circle cx="12" cy="12.5" r="3.2"/></symbol>
+    <symbol id="a-more" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18.5" r="1.5"/></symbol>
+    <symbol id="a-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5h-.5a1.5 1.5 0 0 1-1.5-1.5v-9a1.5 1.5 0 0 1 1.5-1.5h9a1.5 1.5 0 0 1 1.5 1.5v.5"/></symbol>
+    <symbol id="a-star" viewBox="0 0 24 24"><path d="m12 3.8 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.2l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9Z"/></symbol>
+
+    <!-- arrow-right: from what was meant to what happened -->
+    <symbol id="i-then" viewBox="0 0 24 24"><path d="M4.5 12h15"/><path d="m13.5 6 6 6-6 6"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <nav class="sidebar" id="sidebar" aria-label="Основна навигация"></nav>
+  <div class="main"><main class="view" id="view" tabindex="-1"></main></div>
+</div>
+<nav class="bottomnav" id="bottomnav" aria-label="Основна навигация"></nav>
+<div class="moresheet" id="moresheet" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

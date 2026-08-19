@@ -1,0 +1,38 @@
+{
+  "isatis_tinctoria": {
+    "Багрилни качества": "Process: a reduction indigo vat; do not use the ordinary \u201edecoction plus mordant\u201c schema.\nMordant: no classic metal mordant is needed.\npH: the reduction vat is alkaline, and controlling the pH is part of the process.\nTemperature: depends on the method of extraction and reduction chosen; no single range applies as it does for the yellow dyes.",
+    "Багрилна съставка": "The leaves contain indoxyl precursors such as indican and isatan. Hydrolysis releases indoxyl, which oxidises into insoluble indigo. In a reduction vat the indigo is temporarily brought into a soluble form, enters the fibre, and turns blue again on contact with air.",
+    "Беритба и обработка": "When to gather: in the first year, while the plant is still a rosette of leaves; best in summer, before the flower stem forms. Once flowering begins the indigo precursors fall away.\nWhat is gathered: the leaves.\nProcessing: for fresh extraction, use as soon after cutting as possible. For historic processing the leaves can be worked into a paste or balls; this is a different process from an ordinary dye decoction.\nStorage: fresh leaves do not keep; for dried or fermented material, follow the particular indigo process.",
+    "Как се държи": "The leaves are a source of indigo precursors and are not used as an ordinary hot dye bath. The blue comes from a particular process of extraction, reduction and then oxidation on the fibre."
+  },
+  "juglans_regia": {
+    "Багрилни качества": "Mordant: not required; alum can clear the tone, iron takes it very dark.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nCellulose: the high tannin content means a separate tannin pre-bath is often unnecessary.",
+    "Багрилна съставка": "Walnut hulls, leaves and bark contain juglone and a considerable quantity of tannins and other polyphenols. The juglone gives the characteristic brown; the tannins give substantivity and a strong reaction with iron.",
+    "Как се държи": "The green hulls are the strongest dye part and give light through to very dark brown; leaves and bark are gentler. Walnut is strongly substantive and can dye without a metal mordant.",
+    "Беритба и обработка": "When to gather: green hulls — as the nuts ripen or fall; leaves — sound and grown during the active season; bark — only from prunings or waste material.\nWhat is used: green hulls, leaves, and bark if needed.\nProcessing: the hulls can be used fresh, frozen or dried; wear gloves, they stain strongly.\nStorage: dried material — dark and dry; fresh material — frozen or used soon."
+  },
+  "lavandula_angustifolia": {
+    "Багрилни качества": "Mordant: alum for lighter yellow-beiges; iron very sparingly.\npH: the flower pigments are pH-sensitive and not especially fast.\nTemperature: moderate; a hard, long boil does the colour no good.\nStatus: an experimental or local dye plant rather than a staple.",
+    "Багрилна съставка": "Lavender contains flavonoids, phenolic acids, and in the flowers a little anthocyanin pigment. Water extraction takes mainly the yellow-brown phenolic fraction; the aromatic essential oils are not significant textile dyes.",
+    "Как се държи": "The flowers and leaves give pale grey-yellows, beiges and sometimes experimental lilac casts. Do not expect a lasting lavender purple from a water bath.",
+    "Беритба и обработка": "When to gather: on a dry day, when the flowers or flower heads are fully out; for the most even material, choose sound, unwilted plants.\nWhat is gathered: flowers · leaves.\nProcessing: use fresh, or spread in a thin layer and dry in the shade with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+  },
+  "malus_domestica": {
+    "Багрилни качества": "Mordant: alum for yellow-beige; iron for grey or brown.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nEco print: the leaves can give a soft outline; the strength depends on the season and the variety.",
+    "Багрилна съставка": "The leaves and bark contain flavonoids, procyanidins and tannin polyphenols. They give the yellow-brown range and form darker complexes with iron.",
+    "Как се държи": "Leaves and bark give yellow-beige through light brown. It is worth having as an easily found local material and for gentle natural tones.",
+    "Беритба и обработка": "When to gather: leaves — sound and fully grown during the active season; bark — best taken as prunings or from fallen or cut branches.\nWhat is used: leaves · bark.\nProcessing: use the leaves fresh or dry them in the shade; chop the bark small before extracting.\nStorage: fully dry and dark. Never ring-strip bark from a living tree."
+  },
+  "mespilus_germanica": {
+    "Багрилни качества": "Mordant: alum for a warmer brown; iron for grey or dark.\npH: neutral suits it.\nTemperature: hot extraction.\nEco print: the leaves can give a tannin outline, but the strength varies with the season.",
+    "Багрилна съставка": "The leaves and bark contain polyphenols and tannins. The tannin fraction accounts for the brown ground and the darkening with iron; how much there is varies with the part and the maturity of the plant.",
+    "Как се държи": "Leaves and bark give honey-browns and muted beige-browns. The material is tannic, but local and seasonal rather than a standardised source for a pre-bath.",
+    "Беритба и обработка": "When to gather: leaves — sound and fully grown during the active season; bark — only from prunings, fallen or already cut branches.\nWhat is used: leaves · bark.\nProcessing: use the leaves fresh or dry them in the shade; chop the bark small before extracting.\nStorage: fully dry, in the dark. Never ring-strip bark from a living tree."
+  },
+  "origanum_vulgare": {
+    "Багрилни качества": "Mordant: alum for a lighter gold; iron to darken.\npH: neutral is a good starting point.\nTemperature: moderate hot extraction.\nStatus: a secondary or experimental dye plant.",
+    "Багрилна съставка": "Oregano is rich in phenolic acids and flavonoids. These water-soluble polyphenols give the golden-brown range; the essential oils are not the main textile colourant.",
+    "Как се държи": "The aerial parts give golds through to reddish browns. The dye strength is moderate, and the plant is more interesting as an easily available local or garden material than as a classic strong dye.",
+    "Беритба и обработка": "When to gather: on a dry day, when the flowers or flower heads are fully out; for the most even material, choose sound, unwilted plants.\nWhat is gathered: flowers · leaves · the aerial parts.\nProcessing: use fresh, or spread in a thin layer and dry in the shade with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+  }
+}

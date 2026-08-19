@@ -1,0 +1,73 @@
+{
+  "packId": "bagra-core",
+  "packVersion": "2",
+  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
+  "sources": [
+    {
+      "code": "boutrup-ellis",
+      "kind": "book",
+      "name": "The Art and Science of Natural Dyes",
+      "author": "Joy Boutrup and Catharine Ellis",
+      "url": "",
+      "note": {
+        "bg": "Систематичното описание на подготовката на целулоза и протеин, на морданти и на устойчивостта. Голяма част от пропорциите в справочника минават през тази книга — не защото авторите са ги измислили, а защото са ги подредили и проверили. Има и придружаващ комплект рецептурни карти.",
+        "en": "The systematic account of preparing cellulose and protein, of mordants, and of fastness. A great deal of what the library holds passes through this book — not because the authors invented it, but because they ordered and tested it. There is a companion set of recipe cards."
+      }
+    },
+    {
+      "code": "chandra-rice",
+      "kind": "person",
+      "name": "Chandra Rice",
+      "author": "",
+      "url": "https://www.chandrarice.ca",
+      "note": {
+        "bg": "Художник и преподавател, работи с керамика, еко принт и натурално багрене в Тоскана. Технически ръководства и калкулатори онлайн, работилници на място. Част от практиката в приложението идва оттам — при нея, както и при всички, знанието е предадено, а не измислено.",
+        "en": "Artist and teacher working in ceramics, eco print and natural dyeing in Tuscany. Technical guides and calculators online, workshops in person. Part of the practice here comes by that route — with her, as with everyone, the knowledge is passed on rather than invented."
+      }
+    },
+    {
+      "code": "maiwa",
+      "kind": "course",
+      "name": "Maiwa",
+      "author": "",
+      "url": "https://naturaldyes.ca",
+      "note": {
+        "bg": "Курсове и подробни онлайн указания за морданти, танини и подготовка на влакна. Полезни са с това, че дават числа и ги обосновават, вместо да ги оставят като предписание.",
+        "en": "Courses and detailed online instructions on mordants, tannins and fibre preparation. Useful because they give figures and explain them rather than leaving them as prescription."
+      }
+    },
+    {
+      "code": "crafty-place-guide",
+      "kind": "book",
+      "name": "НАТУРАЛНИ БАГРИЛА — ръководство",
+      "author": "Crafty Place",
+      "url": "",
+      "note": {
+        "bg": "Собственото ръководство: български растения, беритба по нашия климат, изпробвани пропорции. Където приложението и ръководството се разминават, разминаването е нарочно и е отбелязано.",
+        "en": "The studio's own guide: Bulgarian plants, harvest in this climate, proportions actually tested. Where the application and the guide differ, the difference is deliberate and noted."
+      }
+    },
+    {
+      "code": "cameo-mfa",
+      "kind": "reference",
+      "name": "CAMEO — Conservation and Art Materials Encyclopedia Online",
+      "author": "Museum of Fine Arts, Boston",
+      "url": "https://cameo.mfa.org",
+      "note": {
+        "bg": "Речник на материалите, поддържан от Музея за изящни изкуства в Бостън, с описания на историческите багрила и техните съставки. Полезен за проверка какво е било получавано от дадено растение, но описва цвят с думи, не с измерена стойност — тук се използва за потвърждение на палитрата, не за точния оттенък.",
+        "en": "A materials encyclopedia maintained by the Museum of Fine Arts, Boston, describing historical dyestuffs and their constituents. Useful for checking what a plant was actually used to obtain, but it describes colour in words rather than measured values — used here to confirm a palette, never for an exact shade."
+      }
+    },
+    {
+      "code": "natures-rainbow",
+      "kind": "website",
+      "name": "Nature's Rainbow",
+      "author": "Ashley Walker and Susan Dye",
+      "url": "https://www.naturesrainbow.co.uk",
+      "note": {
+        "bg": "Проект за отглеждане на багрилни растения в британски климат, с практически бележки за температура, реколта и поведение на банята. Близък е до нашите условия и е особено полезен за европейските жълти багрила.",
+        "en": "A growing project for dye plants in a British climate, with practical notes on temperature, harvest and how a bath behaves. Close to our conditions, and particularly useful for the European yellows."
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "prunus_domestica": {
+    "Багрилни качества": "Mordant: alum for warmer light tones; iron to darken.\npH: neutral is a good starting point.\nTemperature: the bark takes a hot and longer extraction.\nGathering: use bark only from prunings or cut branches.",
+    "Багрилна съставка": "The bark contains tannins, flavonoids and other phenolic compounds. Their proportions vary with age and season, and give the soft pink-brown to grey range under metal mordants.",
+    "Как се държи": "The bark gives light pink through pink-brown, but the result varies with the age of the branches and the season. This is a local tree material rather than a standardised strong dye.",
+    "Беритба и обработка": "When to gather: best at pruning time, or from branches already cut or fallen; never ring-strip bark from a living tree.\nWhat is used: bark.\nProcessing: cut the bark into small pieces; use fresh or dry in the shade with good air movement.\nStorage: dry and dark, in a paper bag or a well closed container once fully dry."
+  },
+  "punica_granatum": {
+    "Багрилни качества": "Mordant: can be used on its own; alum for a clearer yellow, iron for olive or grey.\npH: neutral to slightly acidic.\nTemperature: hot extraction.\nCellulose: the rind itself brings a considerable quantity of tannin and can take part in the pre-mordanting.",
+    "Багрилна съставка": "The rind is rich in hydrolysable tannins, punicalagins and ellagitannins among them. The tannins bind to cellulose and to metal ions, while the accompanying phenolics give the yellow-brown range.",
+    "Как се държи": "The fruit rind is strongly tannic and gives yellow, yellow-brown and olive. It can colour cellulose without a separate tannin bath, and the result is usually fairly predictable and fast.",
+    "Беритба и обработка": "When to gather: the rind is taken from ripe fruit; both fresh and dried suit it.\nWhat is used: the rind of the fruit.\nProcessing: remove any soft flesh, cut into pieces and air-dry completely; crush before use for a quicker extraction.\nStorage: dry and dark; well dried rind keeps a long time."
+  },
+  "quercus_robur": {
+    "Багрилни качества": "Mordant: visible colour is possible without a metal mordant; with iron it gives grey-black complexes.\npH: neutral to slightly acidic is a dependable start.\nTemperature: hot extraction; galls will take a gentler one.\nCellulose: the galls are an excellent material for a tannin pre-bath before an alum mordant.",
+    "Багрилна съставка": "Oak parts contain large quantities of hydrolysable and condensed tannins. Tannins have a strong affinity for cellulose and form dark iron-tannin complexes, which accounts both for their role as a pre-mordant and for the dark marks in eco print.",
+    "Как се държи": "Oak is strongly tannic and gives yellow-greens, browns, and with iron very dark grey-blacks. The galls and bark are the richest in tannin; the leaves are particularly valuable in eco print, because they can leave a distinct outline.",
+    "Беритба и обработка": "When to gather: leaves — sound and fully grown; acorns — when ripe; galls — once fully formed; bark — only from prunings, fallen or already cut branches.\nWhat is used: leaves · bark · acorns · galls.\nProcessing: the leaves can be used fresh or dried; acorns and galls are crushed; the bark is cut or chopped small before extracting.\nStorage: every part fully dry and kept separate by kind. Never ring-strip bark from a living tree."
+  },
+  "reseda_luteola": {
+    "Багрилни качества": "Mordant: alum for a bright, clean yellow; iron sparingly for greens and olives.\npH: neutral to slightly acidic.\nTemperature: do not overheat; around 70 °C is enough for a gentle process.\nCombinations: the classic yellow to lay over indigo or woad for greens.",
+    "Багрилна съставка": "The main colourant is luteolin and related flavonoids. Luteolin forms stable complexes with an alum mordant and gives the characteristic clean yellow; iron alters the complex and shifts the colour towards olive.",
+    "Беритба и обработка": "When to gather: in the second year, from the beginning of flowering to full bloom and before the seed develops strongly.\nWhat is gathered: the whole of the aerial part — leaves, stems and flowers.\nProcessing: use fresh, or cut up and dry in the shade somewhere airy. For extraction, dried material can be soaked beforehand.\nStorage: fully dry, in the dark; the plant does not need to stay green for the dye to remain active.",
+    "Как се държи": "One of the most dependable European yellows. The whole aerial part gives a clear lemon through to golden yellow; iron shifts it to olive. Overheating dulls the brightness, so it is worked at a lower temperature than many other yellow plants."
+  },
+  "rhamnus_cathartica": {
+    "Багрилни качества": "Mordant: alum for yellow; iron for olive or brown.\npH: has a marked effect and can move the yellow towards greenish or brown.\nTemperature: moderate hot extraction.\nImportant: do not confuse this species with alder buckthorn, Frangula alnus.",
+    "Багрилна съставка": "The bark and fruit contain various phenolic and anthraquinone derivatives. How they ionise and form complexes makes the colour sensitive to pH and to metal mordants.",
+    "Как се държи": "Bark and fruit can give yellows, yellow-browns and olives. The hue is sensitive to pH and to the mordant, and the different parts should not be treated as equivalent.",
+    "Беритба и обработка": "When to gather: when the fruit or rind in question is ripe, or as fresh kitchen or garden waste.\nWhat is used: fruit · bark.\nProcessing: clean off any remains, cut or crush as needed; can be used fresh, frozen or dried depending on the material.\nStorage: dried material keeps somewhere dark and dry; fresh material — use soon or freeze."
+  },
+  "rhus_coriaria": {
+    "Багрилни качества": "Mordant: can give colour without a metal mordant; iron for a strong darkening.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nCellulose: a suitable tannin material for preparation before an alum mordant.",
+    "Багрилна съставка": "Rhus coriaria is rich in hydrolysable tannins, gallotannin derivatives among them. The tannins have a strong affinity for cellulose and form dark iron-tannin complexes, which accounts for both the mordanting and the dyeing function.",
+    "Как се държи": "The leaves and fruit are strongly tannic and give yellow-browns through to dark tones. Sumac is valuable as a tannin material for cellulose fibres, though the bath itself brings a slight ground colour with it.",
+    "Беритба и обработка": "When to gather: leaves — sound and grown during the active season; the fruit clusters — once fully formed and ripe.\nWhat is used: leaves · fruit.\nProcessing: use fresh or dried; the fruit clusters can be broken up before extraction. For tannin use, avoid storing damp material for any length of time.\nStorage: fully dry, dark and airy."
+  }
+}

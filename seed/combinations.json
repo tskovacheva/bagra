@@ -1,0 +1,1064 @@
+{
+ "packId": "bagra-combinations",
+ "packVersion": "0.2.0",
+ "description": {
+  "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
+  "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
+ },
+ "combinations": [
+  {
+   "code": "quercus_robur_bark_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:quercus_robur",
+     "partCode": "bark"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "бежово, охра, светъл до среден кафяв",
+     "en": "beige, ochre, light to medium brown"
+    },
+    "swatchHex": "#B69A72",
+    "variation": {
+     "bg": "При недокументирано условие резултатът клони към чист златист тон вместо бежово, охра, светъл до среден кафяв.",
+     "en": "Under an unrecorded condition the result leans toward a clean golden tone rather than beige, ochre, light to medium brown."
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "quercus_robur_fruit_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:quercus_robur",
+     "partCode": "fruit"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "топло кафяво, ръждиво",
+     "en": "warm brown, rust"
+    },
+    "swatchHex": "#8C6244",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "Жълъди и шапчици.",
+    "en": "Acorns and cups."
+   }
+  },
+  {
+   "code": "quercus_robur_bark_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:quercus_robur",
+     "partCode": "bark"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено, тъмно кафяво, сиво-черно",
+     "en": "olive, dark brown, grey-black"
+    },
+    "swatchHex": "#4A4A3C",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "quercus_robur_leaf_iron_plain_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:quercus_robur",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "силно сива до пушечно-кафява палитра",
+     "en": "a strong grey to smoky brown"
+    },
+    "swatchHex": "#6B675C",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "betula_pendula_leaf_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:betula_pendula",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "жълто, слънчево жълто, зеленикаво-жълто",
+     "en": "yellow, sunny yellow, greenish yellow"
+    },
+    "swatchHex": "#D4B740",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "betula_pendula_bark_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:betula_pendula",
+     "partCode": "bark"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "топло кремаво, бежово, светла охра",
+     "en": "warm cream, beige, pale ochre"
+    },
+    "swatchHex": "#D6C3A0",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "betula_pendula_leaf_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:betula_pendula",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено зелено, кафеникаво-зелено",
+     "en": "olive green, brownish green"
+    },
+    "swatchHex": "#6E7250",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "betula_pendula_leaf_alum_potassium_alkaline_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:betula_pendula",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": {
+     "phCode": "alkaline",
+     "whereCode": "dye_bath"
+    }
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко лимонено жълто",
+     "en": "bright lemon yellow"
+    },
+    "swatchHex": "#DCC63A",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "cotinus_coggygria_leaf_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cotinus_coggygria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "жълто до златисто, зеленикаво-жълто",
+     "en": "yellow to gold, greenish yellow"
+    },
+    "swatchHex": "#C9A83C",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "cotinus_coggygria_bark_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cotinus_coggygria",
+     "partCode": "bark"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "охра, топло кафяво, ръждиво",
+     "en": "ochre, warm brown, rust"
+    },
+    "swatchHex": "#A97B4F",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "cotinus_coggygria_leaf_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cotinus_coggygria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено зелено, сиво-зелено, кафяво-черно",
+     "en": "olive, grey-green, brown-black"
+    },
+    "swatchHex": "#5A5F45",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "juglans_regia_hull_none_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:juglans_regia",
+     "partCode": "hull"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": "trace",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "топло кафяво",
+     "en": "warm brown"
+    },
+    "swatchHex": "#6F4E37",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "Орехът е субстантивен — хваща без мордант.",
+    "en": "Walnut is substantive — it holds without a mordant."
+   }
+  },
+  {
+   "code": "juglans_regia_hull_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:juglans_regia",
+     "partCode": "hull"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмен сивокафяв до почти черен",
+     "en": "dark grey-brown to near black"
+    },
+    "swatchHex": "#3A322B",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "juglans_regia_hull_none_alkaline_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:juglans_regia",
+     "partCode": "hull"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": "trace",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": {
+     "phCode": "alkaline",
+     "whereCode": "dye_bath"
+    }
+   },
+   "expected": {
+    "colourText": {
+     "bg": "по-топли кафяви",
+     "en": "warmer browns"
+    },
+    "swatchHex": "#7D5434",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "hypericum_perforatum_flower_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:hypericum_perforatum",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "златисто жълто",
+     "en": "golden yellow"
+    },
+    "swatchHex": "#D0A93A",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "hypericum_perforatum_flower_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:hypericum_perforatum",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено зелено до кафяво",
+     "en": "olive green to brown"
+    },
+    "swatchHex": "#6A6A44",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "achillea_millefolium_flower_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:achillea_millefolium",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "жълто",
+     "en": "yellow"
+    },
+    "swatchHex": "#CDB24A",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "Цветните кошнички дават най-жълт тон; листата — зеленикав оттенък.",
+    "en": "The flower heads give the yellowest tone; the leaves a greenish cast."
+   }
+  },
+  {
+   "code": "achillea_millefolium_flower_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:achillea_millefolium",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено зелено до сиво-зелено",
+     "en": "olive to grey-green"
+    },
+    "swatchHex": "#697053",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "tagetes_erecta_flower_alum_potassium_acid_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tagetes_erecta",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": {
+     "phCode": "acid",
+     "whereCode": "dye_bath"
+    }
+   },
+   "expected": {
+    "colourText": {
+     "bg": "светложълто",
+     "en": "pale yellow"
+    },
+    "swatchHex": "#DFCB6A",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "tagetes_erecta_flower_alum_potassium_alkaline_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tagetes_erecta",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": {
+     "phCode": "alkaline",
+     "whereCode": "dye_bath"
+    }
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко канарче",
+     "en": "bright canary"
+    },
+    "swatchHex": "#E8C51F",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "tagetes_erecta_flower_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tagetes_erecta",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено жълто",
+     "en": "olive yellow"
+    },
+    "swatchHex": "#8A8340",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "rubia_tinctorum_root_alum_potassium_alkaline_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rubia_tinctorum",
+     "partCode": "root"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": {
+     "phCode": "alkaline",
+     "whereCode": "dye_bath"
+    }
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко червено",
+     "en": "bright red"
+    },
+    "swatchHex": "#C62B2B",
+    "variation": {
+     "bg": "При 70 °C и щипка сода.",
+     "en": "At 70 °C with a pinch of soda."
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "Малиново вместо ярко червено — повече алкалност и по-дълго време.",
+    "en": "Raspberry rather than bright red — more alkalinity and longer."
+   }
+  },
+  {
+   "code": "rubia_root_alum_pink",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rubia_tinctorum",
+     "partCode": "root"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "розово",
+     "en": "pink"
+    },
+    "swatchHex": "#D98C93",
+    "variation": {
+     "bg": "Около 50% WOF, 60–65 °C, кратко багрене.",
+     "en": "Around 50% WOF, 60–65 °C, a short dyeing."
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "rubia_tinctorum_root_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rubia_tinctorum",
+     "partCode": "root"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "керемидено, тухлено",
+     "en": "brick, terracotta"
+    },
+    "swatchHex": "#A85A32",
+    "variation": {
+     "bg": "1–2% желязо, 1–3 минути в модифицираща баня.",
+     "en": "1–2% iron, one to three minutes in a modifier bath."
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "persicaria_tinctoria_leaf_none_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:persicaria_tinctoria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": "trace",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "наситено индиго",
+     "en": "deep indigo"
+    },
+    "swatchHex": "#2C3B57",
+    "variation": {
+     "bg": "При повече потапяния.",
+     "en": "With more dips."
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "Нежно синьо вместо наситено индиго — при по-ниска температура.",
+    "en": "Soft blue rather than deep indigo — at a lower temperature."
+   }
+  },
+  {
+   "code": "persicaria_tinctoria_leaf_none_alkaline_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:persicaria_tinctoria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": "trace",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": {
+     "phCode": "alkaline",
+     "whereCode": "dye_bath"
+    }
+   },
+   "expected": {
+    "colourText": {
+     "bg": "по-топло зеленикаво синьо",
+     "en": "warmer greenish blue"
+    },
+    "swatchHex": "#3C5A63",
+    "variation": {
+     "bg": "При повече сода.",
+     "en": "With more soda."
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "rhus_coriaria_leaf_alum_potassium_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rhus_coriaria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": "medium",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "бледо жълто",
+     "en": "pale yellow"
+    },
+    "swatchHex": "#CFC077",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "rhus_coriaria_leaf_iron_plain_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rhus_coriaria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": "low",
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено",
+     "en": "olive"
+    },
+    "swatchHex": "#6F7350",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "practice",
+   "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  }
+ ]
+}

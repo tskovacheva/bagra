@@ -1,0 +1,38 @@
+{
+  "rosmarinus_officinalis": {
+    "Багрилни качества": "Mordant: alum for a light yellow-green; iron minimally.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nStatus: a secondary or experimental dye plant.",
+    "Багрилна съставка": "Rosemary contains rosmarinic acid, flavonoids and other phenolic compounds. These give the water-soluble yellow-brown fraction; the essential oil is not the main textile dye source.",
+    "Как се държи": "The leaves and young tops give yellow-greens and olives. The colour is soft, and iron shifts it towards grey-olive. This is an experimental garden material rather than a strong classic dye.",
+    "Беритба и обработка": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves and tops. For flowering herbs, from the beginning of bloom to full bloom is the most practical window.\nWhat is gathered: leaves · flowering tops.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+  },
+  "rubia_tinctorum": {
+    "Багрилни качества": "Mordant: alum is the classic choice; calcium ions in the bath often help the deep red.\npH: slightly alkaline can improve the extraction, but too much alkalinity shifts the colour and damages some fibres.\nTemperature: keep the dye bath below about 80–82 °C when a clean red is wanted.\nCellulose: needs a good tannin and alum preparation for dependable results.",
+    "Багрилна съставка": "The roots contain anthraquinone dyes — alizarin, purpurin and related compounds above all. These form stable complexes with metal ions and give reds, oranges and browns that vary with the mordant, the mineral content of the water and the temperature.",
+    "Беритба и обработка": "When to gather: the roots are lifted after at least two or three years of growing; the end of the season, as the top growth dies back, is the practical time.\nWhat is gathered: roots and rhizomes.\nProcessing: wash well, cut or crush, and use fresh or dry completely in the shade and air. Letting dried root age often improves how the reds develop.\nStorage: dry, dark and airy; grind just before use if you want it to keep better.",
+    "Как се държи": "The roots give a range from pink and clear red through to terracotta and wine. Low to moderate heat keeps the cleaner reds; overheating and long boiling increase the brown. An alum mordant brings out the red-orange tones, and iron darkens them."
+  },
+  "salix_alba": {
+    "Багрилни качества": "Mordant: not required for visible colour; alum clears it, iron darkens it.\npH: neutral is a good starting point.\nTemperature: hot extraction suits it.\nCellulose: it can contribute tannin, but for a standardised tannin pre-bath, prefer richer sources.",
+    "Багрилна съставка": "The bark and leaves contain tannins along with flavonoid and other phenolic compounds. The tannins have an affinity of their own for cellulose and form dark complexes with iron ions, which accounts for the olive-brown and grey results.",
+    "Как се държи": "Bark and leaves give yellow-browns and olives and react distinctly with iron. Because of its own tannins the material will give colour without a strong metal mordant, though the result is more muted than walnut or oak. The bark is stronger and more tannic than the leaves.",
+    "Беритба и обработка": "When to gather: leaves — sound and fully grown during the active season; bark — most practically from prunings or from fallen or cut branches.\nWhat is used: bark · leaves.\nProcessing: use fresh or dry in the shade; chop the bark small before extracting.\nStorage: dry and dark. Never ring-strip bark from a living tree."
+  },
+  "tagetes_erecta": {
+    "Багрилни качества": "Mordant: alum for a bright yellow or orange; iron sparingly for olive.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nEco print: the flower heads are good for marks and silhouettes; the colour depends on the variety and the maturity.",
+    "Багрилна съставка": "The flower heads contain flavonoids and carotenoid pigments, lutein among them. In water dyeing it is the flavonoid fraction that matters, while the overall pigment profile sets the yellow-to-orange range.",
+    "Беритба и обработка": "When to gather: at full opening; pick regularly through the season.\nWhat is gathered: the flower heads.\nProcessing: use fresh or dry in the shade in a single layer with good air movement.\nStorage: once fully dry — dark and dry, without pressing damp heads together.",
+    "Как се държи": "The flower heads give clear yellow, bright gold and soft orange. Fresh and well dried flowers are a dependable garden material, and the hue varies with the variety and the maturity."
+  },
+  "thymus_vulgaris": {
+    "Багрилни качества": "Mordant: alum for a lighter gold; iron for dark brown or grey.\npH: neutral is a good starting point.\nTemperature: moderate hot extraction.\nStatus: an experimental or secondary dye plant.",
+    "Багрилна съставка": "Thyme contains flavonoids and other phenolic compounds. These give the water-soluble yellow-brown fraction; the aromatic terpenes of the essential oil are not the main source of textile colour.",
+    "Как се държи": "The aerial parts give golden-browns and darker muted tones. The dye strength is moderate to low, and the plant suits local experiment better than the role of a principal yellow.",
+    "Беритба и обработка": "When to gather: on a dry day, when the flowers or flower heads are fully out; for the most even material, choose sound, unwilted plants.\nWhat is gathered: flowers · leaves · the aerial parts.\nProcessing: use fresh, or spread in a thin layer and dry in the shade with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+  },
+  "tilia_cordata": {
+    "Багрилни качества": "Mordant: alum for a cleaner yellow-beige; iron to mute it.\npH: neutral to slightly acidic.\nTemperature: hot extraction without a hard boil.\nEco print: a delicate mark; not among the most contrasting leaves.",
+    "Багрилна съставка": "The leaves and bark contain flavonoids and other polyphenols. These compounds give gentle yellow tones and form darker complexes with iron ions.",
+    "Как се държи": "Leaves and bark give soft beige-yellows. The dye strength is moderate, and the result often suits a ground or a gentle natural palette better than a feature colour.",
+    "Беритба и обработка": "When to gather: leaves — sound and fully grown during the active season; bark — only from prunings, fallen or already cut branches.\nWhat is used: leaves · bark.\nProcessing: use the leaves fresh or dry them in the shade; chop the bark small before extracting.\nStorage: dry and dark. Never ring-strip bark from a living tree."
+  }
+}
