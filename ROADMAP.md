@@ -25,13 +25,12 @@ Status legend: **done** · **in progress** · *planned*
 
 This is the product. The JavaScript is not the moat; the library is.
 
-- ~~**Three questions have two answers**~~ — **done (1.0.0-rc6)**, §13br. Dye strength, not a new
-  key dimension: `dyestuff_ratio` exists as a band scale but nothing reads a real dye:fibre ratio
-  off a trial yet, so it stays unwired for now. Oak bark's alternate went into `variation` (it was
-  empty); madder's and indigo's went into `notes`, because `variation` on both already held the
-  real condition for the colour named in `expected` and was not to be overwritten. 31 records
-  became 28.
-- **Combinations.** 28 records cover 10 plants out of 57. The reference engine — the thing
+- **Three questions have two answers** — oak bark with alum, madder root in alkali, indigo leaf.
+  One key, two colours each. Either the key is missing a dimension that separates them
+  (`dyestuff_ratio` is the obvious candidate) or they are one record whose expected result should
+  read *from beige to golden*, which is what `variation` is for. Decide before the rest of the
+  combinations are written (§13br).
+- **Combinations.** 31 records cover 10 plants out of 57. The reference engine — the thing
   the application claims to be — is filled to roughly a fifth. Every other item in this
   document is smaller than this one.
 - **Seed recipes.** The studio database holds eight recipes and two chains; the shipped seed
@@ -122,14 +121,6 @@ None of this is a feature; all of it is a condition of taking money.
   app with nothing checking it.
 - **A public page is not a public roadmap.** Buyers see what is included, what is new and
   what is known to be broken. A future idea published becomes a promised feature.
-- ~~**Repository hygiene**~~ — **done (1.0.0-rc6)**. Fourteen dead root-level `.js` files and
-  three `.json` files — leftovers from the move into `modules/` and `calc/`, with content shifted
-  by one position alphabetically rather than merely stale — removed. `_reviews/` (working review
-  documents, not code) untracked and gone. `gitignore` had no leading dot and so was never read as
-  one; renamed to `.gitignore` with real content. `check.sh`'s layer 1 printed `NOT CACHED` for
-  every one of the fourteen on every run and exited 0 regardless — a guard that reports and does
-  not stop is not a guard — now it exits 1. `scripts/remove-dead-root-copies.sh` does the removal;
-  safe to re-run.
 
 ---
 

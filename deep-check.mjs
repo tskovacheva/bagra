@@ -4034,6 +4034,56 @@ const dirty = await import('./dirty.js');
   } else console.log(`  combos: ${combos.length} records, each answering a different question`);
 }
 
+// ---- 24c. Every vocabulary a seed pack names must render as a word --------
+//
+// `cameo-mfa` shipped with `kind: 'reference'` and `natures-rainbow` with
+// `kind: 'website'`. Neither was in `KINDS` in modules/sources.js and neither
+// had a translation, so the Sources screen printed the literal key
+// `sources.kind.reference` where a word belonged — for as long as both records
+// have existed, in both languages, in plain sight.
+//
+// Nothing was looking. Layer 3b of check.sh reads literal `t('...')` keys, and
+// this one is built at run time as `t('sources.kind.' + sx.kind)`; that layer's
+// own comment says a constructed key cannot be checked there. So the check has
+// to come from the other end: from the DATA, asking whether every code a seed
+// pack actually uses resolves to a word.
+//
+// Held against the code's own KINDS list rather than a copy: a second list here
+// would be a second thing to keep in step, and it would drift.
+{
+  const src = fs.readFileSync('modules/sources.js', 'utf8');
+  const m = src.match(/const KINDS = \[([^\]]*)\]/);
+  if (!m) {
+    fail('vocab', new Error('cannot find KINDS in modules/sources.js'));
+  } else {
+    const kinds = [...m[1].matchAll(/'([a-z_]+)'/g)].map(x => x[1]);
+    const sources = JSON.parse(fs.readFileSync('seed/sources.json', 'utf8')).sources;
+
+    const unlisted = [...new Set(sources.map(s => s.kind).filter(k => !kinds.includes(k)))];
+    if (unlisted.length)
+      fail('vocab', new Error(`seeded source kind not in KINDS: ${unlisted.join(', ')}`));
+    else console.log(`  vocab: every seeded source kind is a known kind (${sources.length} sources)`);
+
+    // A kind in KINDS with no translation renders as the key too — the same
+    // fault from the other direction, and the reason this checks both lists
+    // rather than only the data.
+    const dict = fs.readFileSync('i18n.js', 'utf8');
+    const cut = dict.indexOf('  en: {');
+    const has = (lang, key) => {
+      const part = lang === 'bg' ? dict.slice(dict.indexOf('  bg: {'), cut) : dict.slice(cut);
+      return part.includes(`'${key}':`);
+    };
+    const untranslated = [];
+    for (const k of kinds)
+      for (const lang of ['bg', 'en'])
+        if (!has(lang, `sources.kind.${k}`)) untranslated.push(`${k} (no ${lang})`);
+
+    if (untranslated.length)
+      fail('vocab', new Error(`source kind with no translation: ${untranslated.join(', ')}`));
+    else console.log(`  vocab: every source kind has a word in both languages (${kinds.length} kinds)`);
+  }
+}
+
 // ---- 25. A placement finds the right reference record ---------------------
 //
 // The other half of §13bp. The matcher read plant, part and process and nothing

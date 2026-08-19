@@ -10,7 +10,16 @@ import { t, text } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { page, panel, field, esc, empty, pairField, readPairs, navigate, backTo, actionBtn, icon } from '../ui.js';
 
-const KINDS = ['book', 'course', 'person', 'site', 'other'];
+// A seeded source shipped with `kind: 'reference'` and another with
+// `kind: 'website'`, neither of which was here — so the Sources screen printed
+// the literal key `sources.kind.reference` where a word belonged, for as long
+// as both records have existed. Layer 3b of check.sh cannot see it: the key is
+// built as `t('sources.kind.' + sx.kind)` at run time, and that layer reads
+// literal keys only. 'website' was the same thing as 'site' and the data was
+// corrected; 'reference' is a real distinct kind — an online encyclopaedia is
+// not a personal site — so it is added here. A deep-check guard now holds every
+// seeded kind against this list.
+const KINDS = ['book', 'course', 'person', 'site', 'reference', 'other'];
 
 let openId = null;
 let draft = null;
