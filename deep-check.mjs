@@ -4205,6 +4205,65 @@ const dirty = await import('./dirty.js');
   else console.log('  chem: an unknown strength is shown as words, not as a blank');
 }
 
+// ---- 24f. A corrected vocabulary term reaches an installed copy -----------
+//
+// `chemistry_class:anthocyanin` was renamed „антоциани" → „антоцианини" in
+// vocab.js, and the plant screen went on saying „антоциани" — for everyone who
+// had ever started the application before. `seedIfEmpty()` added terms that
+// were ABSENT and left everything else alone, so a label we shipped WRONG could
+// never be corrected. Half the fix was already there: the gate used to be
+// `count === 0`, which stopped new terms arriving at all. This is the other
+// half.
+//
+// RUN, not read. The first version of this guard searched app.js for the text
+// `JSON.stringify(mine.label)` and for the `origin` test, and passed both times
+// while the behaviour was broken — commenting the comparison out with
+// `if (false && ...)` leaves the searched-for text exactly where it was, and
+// deleting one of the two `origin` tests leaves the other. A guard that reads
+// source for a phrase tests spelling, not conduct.
+{
+  const { seedIfEmpty } = await import('./app.js');
+  const key = 'chemistry_class:anthocyanin';
+
+  // A copy installed before the correction: the seeded term, with the old label.
+  const current = await db.get('vocabulary', key);
+  if (!current) {
+    fail('vocab', new Error(`${key} is not seeded, so the correction cannot be tested`));
+  } else {
+    const good = structuredClone(current);
+
+    await db.put('vocabulary', { ...good, label: { bg: 'СТАРО', en: 'OLD' }, origin: 'seed' });
+    await seedIfEmpty();
+    const after = await db.get('vocabulary', key);
+    if (after?.label?.bg === 'СТАРО')
+      fail('vocab', new Error('a corrected seed term never reaches a copy that already had it'));
+    else console.log('  vocab: a corrected seed term is written over the old one');
+
+    // The safety this replaced was "a term already present is left alone, so
+    // her edits survive". There is no vocabulary editor yet — but when one is
+    // built, updating in place would undo an edit on the next start. `origin`
+    // is what keeps that safe.
+    await db.put('vocabulary', { ...good, label: { bg: 'МОЕ', en: 'MINE' }, origin: 'user' });
+    await seedIfEmpty();
+    const mine = await db.get('vocabulary', key);
+    if (mine?.label?.bg !== 'МОЕ')
+      fail('vocab', new Error("a user's own term was overwritten by the seeder"));
+    else console.log('  vocab: only a seeded term is overwritten, never an edited one');
+
+    await db.put('vocabulary', good);
+  }
+
+  // And an editor must not appear without marking what it touches.
+  const writers = [];
+  for (const f of ['ui.js', 'backup.js', ...fs.readdirSync('modules').map(x => 'modules/' + x)]) {
+    if (/put\(\s*'vocabulary'/.test(fs.readFileSync(f, 'utf8'))) writers.push(f);
+  }
+  if (writers.length)
+    fail('vocab', new Error(
+      `${writers.join(', ')} writes to the vocabulary — it must set origin so seedIfEmpty does not undo it`));
+  else console.log('  vocab: nothing but the seeder writes to the vocabulary');
+}
+
 // ---- 25. A placement finds the right reference record ---------------------
 //
 // The other half of §13bp. The matcher read plant, part and process and nothing

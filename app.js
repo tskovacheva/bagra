@@ -293,15 +293,47 @@ async function route(fresh = false) {
 // „платът е мордантиран“. Every safety term added in 0.74.0 would have done the
 // same on her installed copy.
 //
-// A term already present is left alone, so her edits survive.
-async function seedIfEmpty() {
-  const haveVocab = new Set((await all('vocabulary')).map(v => v.key));
-  for (const v of VOCABULARY)
-    if (!haveVocab.has(v.key)) await put('vocabulary', { ...v, origin: 'seed' });
+// That fix was half a fix, and the other half showed up in 1.0.0-rc8. Adding
+// only what was ABSENT meant a term whose label we shipped WRONG could never be
+// corrected: `chemistry_class:anthocyanin` was renamed „антоциани" →
+// „антоцианини" in vocab.js — IUPAC separates anthocyanins from anthocyanidins,
+// and the application's own prose already used the longer form everywhere — and
+// the plant screen went on saying „антоциани", because the key was already
+// there and "already there" meant "leave alone". A correction that cannot reach
+// an installed copy is not a correction.
+//
+// So a seeded term is now updated in place, and only a seeded one: `origin` is
+// the test. Nothing in the application writes to `vocabulary` except this
+// function — there is no vocabulary editor and never has been — so no edit of
+// hers can be sitting in a term for this to overwrite. If an editor is ever
+// built, it must mark what it touches (`origin: 'user'` or an `edited` flag)
+// BEFORE this runs again, or the first start after her edit will undo it.
+// Guarded by deep-check so that requirement cannot be forgotten quietly.
+export async function seedIfEmpty() {
+  const haveVocab = new Map((await all('vocabulary')).map(v => [v.key, v]));
+  for (const v of VOCABULARY) {
+    const mine = haveVocab.get(v.key);
+    if (!mine) { await put('vocabulary', { ...v, origin: 'seed' }); continue; }
+    if (mine.origin !== 'seed') continue;
+    // Only when something actually differs, so a start is not a hundred
+    // pointless writes.
+    if (JSON.stringify(mine.label) !== JSON.stringify(v.label)
+        || JSON.stringify(mine.description ?? null) !== JSON.stringify(v.description ?? null)
+        || mine.order !== v.order) {
+      await put('vocabulary', { ...mine, ...v, origin: 'seed' });
+    }
+  }
 
-  const haveBands = new Set((await all('bands')).map(b => b.key));
-  for (const b of BANDS)
-    if (!haveBands.has(b.key)) await put('bands', { ...b, origin: 'seed' });
+  const haveBands = new Map((await all('bands')).map(b => [b.key, b]));
+  for (const b of BANDS) {
+    const mine = haveBands.get(b.key);
+    if (!mine) { await put('bands', { ...b, origin: 'seed' }); continue; }
+    if (mine.origin !== 'seed') continue;
+    if (JSON.stringify(mine.label) !== JSON.stringify(b.label)
+        || mine.min !== b.min || mine.max !== b.max || mine.unit !== b.unit) {
+      await put('bands', { ...mine, ...b, origin: 'seed' });
+    }
+  }
 }
 
 // One work, one mark on a piece — repairing what the fault already wrote.

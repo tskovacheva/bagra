@@ -6457,3 +6457,128 @@ Eight parts now carry no chemistry, where the audit counted seven. The extra is
 audit's own instructions rather than an omission, but noted so the number is not a surprise later.
 
 ---
+
+## 13bv. Pigment: a second kind of work, decided and not yet built (1.0.0-rc8)
+
+The question arrived as "a new module for pigments, or a screen in the Diary?" — and the answer
+turned out to be neither, because most of what it needs already exists and one thing that looked
+like it existed does not.
+
+### What is already there
+
+`recipe_type` already holds `pigment` and `paste`. `basis` already holds `absolute` and
+`ratio_to_dyestuff` alongside `percent_wof`. Chains already model an ordered preparation. The
+owner's own reading — "this looks to me like recipes and chains of recipes" — is not an
+approximation; it is what the model was shaped for.
+
+### What is missing, and it is three things
+
+1. **A chain scales against one weight of goods.** `modules/chains.js` says so as its whole
+   purpose. A pigment chain has no cloth: it scales against 20 g of root, or against 10 g of alum.
+   Chains need a second kind of base.
+2. **A recipe declares no output.** The pigment chain is solution → PIGMENT → watercolour. The
+   middle link is a thing that is stored and then used as input to the next recipe, and no field
+   says a recipe produces a substance.
+3. **A made pigment is not a material.** "I have some quantity on hand" is stock, but stock holds
+   bought substances; nothing connects a substance to the batch that made it.
+
+### `extractionMode` is on the wrong record
+
+Found while answering this. The field sits on a part, holds one value, and is filled for 5 parts of
+118. But Stopka's chart gives madder root 500% by decoction, 300% by fermentation, 50% by alkaline
+extraction — one plant, one part, three methods, three doses. One value cannot hold that, in the
+same way one temperature per plant could not hold two parts wanting different heat (§13az).
+
+Two different things share the name:
+
+- **A constraint, belonging to the plant.** Woad and Japanese indigo are `vat`; alkanet is
+  `solvent`. Not a choice — the ordinary "simmer it in water" schema does not apply, and
+  deep-check already guards this explicitly.
+- **A choice, belonging to the work.** Madder by decoction versus by fermentation. The part does
+  not change; what is done with it changes, and the dose and the hue change with it.
+
+The constraint stays on the part. The choice belongs with the extraction. Recorded; not migrated —
+a migration that guesses turns an assumption into a fact.
+
+### The shape agreed
+
+A pigment batch is work on a SUBSTANCE, where a trial is work on CLOTH. A trial has pieces, each
+with its own placement and outcome; a batch has one output, one quantity, one quality, one colour.
+Same skeleton — input, stages, observations, output — different subject, and not to be forced into
+one another.
+
+    pigmentBatches
+      date
+      input     plant × part, weight of raw material
+      via       recipe or chain
+      stages    extraction · laking · washing · filtering · drying · grinding, each with notes
+      output    grams · quality · colour hex · swatch
+      notes     for the next time
+
+Which answers the owner's own sentence: *"I made a red pigment from madder by this recipe. I got
+20 grams of good quality and the red I expected."*
+
+**A separate screen, visually apart, in the same language.** The Diary stays cloth. Pigments are
+their own section — the owner asked for this and it is right: the process is long, laborious and
+infrequent, and interleaving it with dye trials would bury it. But the stages behave like a
+trial's stages, because that pattern is already learned.
+
+**"What pigments do I have" is a view, not a second store.** The batch list filtered to those with
+quantity remaining, ordered by colour. Derived on opening; no back-link stored (§13.6).
+
+### Scope, deliberately cut in half
+
+The owner: *"I don't need to keep track of how many watercolours or pastels I made."* Taken as a
+decision, and it halves the work:
+
+- **The pigment is recorded** — it has a quantity, it gets used later, it earns a record.
+- **Watercolour, pastels and print paste are recipes but not records** — made, not counted.
+
+So the chain ends at the pigment. What follows are recipes to READ. The application must say so
+rather than imply it, or someone will hunt for where to log a watercolour they just made. Seeded:
+pigment, watercolour and pastel recipes, with the last two marked as reference rather than work.
+
+### Not built in this session
+
+A new store, a new screen, three model changes and seed recipes — as much work as everything else
+this session together. Recorded as decided so the next session does not rediscover it.
+
+The reason for the order is not fatigue: `combinations` cover 10 plants of 57, and a second engine
+standing empty beside the first one does not move the application closer to a paid release. The
+reference engine being filled does.
+
+---
+
+## 13bw. A corrected vocabulary term must reach an installed copy (1.0.0-rc9)
+
+Reported from a running screen: the plant page still read „антоциани" after §13bu renamed the term
+to „антоцианини" in `vocab.js`. The version was right — the same screen showed „степен неизвестна",
+which only exists from 1.0.0-rc8 — so the correction had shipped and not arrived.
+
+`seedIfEmpty()` wrote a term only when its key was ABSENT. That gate was itself a fix: it used to
+be `count === 0`, which meant no term added after a person's first install ever reached them
+(§13aa). But adding-only leaves the other half open — a label shipped WRONG can never be corrected,
+because "already there" was taken to mean "leave alone".
+
+The safety that reasoning protected does not exist. Nothing in the application writes to
+`vocabulary` except the seeder; there is no vocabulary editor and never has been. So a seeded term
+is now updated in place, gated on `origin === 'seed'`, and only when something actually differs.
+When an editor is built it must mark what it touches, or the next start will undo the edit.
+
+**Six more places carried the old spelling in free text** — four plant sections, one technique, one
+glossary entry. Corrected with the definite article handled („антоцианите" → „антоцианините"),
+since a blind substitution would have produced „антоцианинте".
+
+### The guard was written wrong first, and it passed
+
+Guard 24f began by searching `app.js` for the string `JSON.stringify(mine.label)` and for the
+`origin` test. Both were found, both reported green — and the behaviour was broken in the test:
+commenting the comparison out as `if (false && ...)` leaves the searched-for text exactly where it
+was, and deleting one of the two `origin` tests leaves the other for the regex to find.
+
+A guard that reads source for a phrase tests spelling, not conduct. It now imports `seedIfEmpty`,
+writes a term with an old label and `origin: 'seed'`, runs it, and checks the label changed — then
+writes one with `origin: 'user'`, runs it, and checks the label did NOT. Both were seen to fail
+with the source text left intact, which is the only way to know either is real.
+
+---
