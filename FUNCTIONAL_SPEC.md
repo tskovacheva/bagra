@@ -6582,3 +6582,134 @@ writes one with `origin: 'user'`, runs it, and checks the label did NOT. Both we
 with the source text left intact, which is the only way to know either is real.
 
 ---
+
+## 13bx. The pigment batch, fully specified (1.0.0-rc9)
+
+§13bv agreed the shape. Writing the screen brief against it found seven places where the shape was
+not a specification — five fields it did not name and two questions only the owner could answer.
+Both answers simplified the model rather than enlarging it.
+
+### "No remainder — only how much I made"
+
+This removes one of the three model changes §13bv listed. There is no pigment stock: nothing
+decrements, nothing links a batch to `materials`, no consumption is recorded. **Two changes remain,
+not three** — a chain that scales against raw material, and a recipe that can declare an output.
+
+The consequence has to be said out loud on the screen rather than left to be discovered: the list
+answers *what have I made*, not *what do I have*. Read a year later by someone expecting quantities
+on hand, an unlabelled list of grams is a quiet lie. The heading says which question it answers.
+
+### "One row for madder, batches underneath"
+
+The list groups by source — plant × part — with batches nested. A view, derived on opening; no
+grouping is stored (§13.6).
+
+### The record
+
+    pigmentBatches
+      status        planned · done · failed
+      date          when the making began
+      finishedOn    when it ended, null until it has — a batch runs over days:
+                    three hours of simmering, a night settling, days drying.
+                    The same pair a trial carries (§13au), for the same reason.
+      plantId       the source
+      partCode
+      rawWeightG    weight of plant material started from. Named because
+                    "I got 20 g" is meaningless without it: 20 g from 100 g of
+                    root is a different result from 20 g from 500 g.
+      viaRecipeId   a recipe OR a chain, never both — `viaKind` says which,
+      viaChainId    the same way a trial reaches its preparation
+      stages        extraction · laking · washing · filtering · drying · grinding
+                    each: note, optional date, optional photo
+      yieldG        grams of pigment obtained
+      quality       good · acceptable · poor
+      swatchHex     the colour, as a hex — the same shape a plant's swatch has
+      swatchName    {bg, en}
+      photos        of the powder itself, optional
+      notes         {bg, en} — for the next time
+
+`status: 'failed'` is a real state, not an absence. A batch that yielded nothing is worth keeping —
+it is the most useful note there is for the next attempt — and without the state it would have to
+be recorded as a batch of zero grams, which reads as unfinished rather than as instructive. A
+failed batch shows in the list, marked, with no swatch.
+
+`quality` is three words, not five stars. A star rating implies a scale that was measured; three
+words admit a judgement.
+
+### Not on the screen, and why it must be visible
+
+Watercolour, pastels and print paste are recipes to READ, not work to LOG (§13bv). If nothing
+distinguishes them from the pigment recipe, someone will look for where to record a watercolour
+they just made and find nothing. The distinction has to be visible in the recipe list itself, not
+inferred from the absence of a button.
+
+### Prototyping with v0
+
+`prototype/BRIEF-for-v0.md` carries the fixed part — palette, the no-green rule and why it exists,
+the §13s layout decisions, the tone, and an explicit "do not invent fields". Per screen, a second
+file describes what is on it.
+
+The brief exists because the two prototypes already in `prototype/` came back with `--sage:#1ba39c`
+and `--leaf:#63b86a` — turquoise, pink, lavender, gradients, and green in two places. The one rule
+with the clearest reason behind it, broken in the first twenty lines. Not an argument against the
+tool; an argument against using it unbriefed.
+
+**A v0 prototype is a picture, not code.** It returns React and Tailwind; this application is
+vanilla ES modules with no build step. Nothing from it is pasted in — the layout is read and built
+again.
+
+---
+
+## 13by. Pigments built, and what one field settled (1.0.0-rc10)
+
+Built from the v0 prototype at `bagra-ten.vercel.app/pigments`, which came back close to the brief:
+grouping by source with batches nested, the failed batch visible and unswatched, both dates, the
+raw weight, recipe-or-chain in both its forms, six stages marked „без отметки", quality as three
+words. Most importantly the list said what it was — „тук не се следи оставащо количество" — which
+was the thing most likely to be lost.
+
+Three things it did not do, corrected here: `theme-color: #2a2f34` is not a colour in the palette;
+`color-scheme: light dark` announces a dark theme the brief ruled out; and the one question the
+brief asked it to answer — how a worked recipe should look different from one that is only read —
+was silently skipped. That last is the real hazard of prototypes: they answer what was drawn and
+say nothing about what was not, and the silence looks like agreement.
+
+### `recipe_output` settles two problems with one field
+
+§13bv listed "a recipe cannot declare an output" as a model gap, and §13bx listed "a read-only
+recipe must be distinguishable" as an open UI question. They are the same question.
+
+    recipe_output:  none · pigment · extract
+
+`none` is a recipe that is read and followed and keeps no record — watercolour, pastels, print
+paste. `pigment` and `extract` produce something, so they can be worked, and only they appear when
+a batch chooses what it was made by. The middle link of a pigment chain now has a name.
+
+### The store and the screen
+
+`pigmentBatches`, `DB_VERSION` 8 → 9. `modules/pigments.js` renders a list grouped by plant × part
+— derived on opening, no grouping stored (§13.6) — and a batch screen following the trial's stage
+pattern, since that arrangement is already learned.
+
+A group's swatch is its most recent SUCCESSFUL batch: a failed one has no colour and must not lend
+the group a blank square. A failed batch keeps its stages and its note and shows no result panel —
+recording it as zero grams would read as unfinished rather than as instructive.
+
+`i-mortar` was drawn for the navigation. The id first written, `i-flask`, does not exist; nothing
+would have rendered.
+
+### Guards
+
+24g holds three things: nothing in the module tracks a remainder (checked by name — `remaining`,
+`consumed`, `inStock` — because this is a decision one well-meaning commit can undo), the list says
+which question it answers, and a failed batch gets its own panel. 24h holds that `recipe_output`
+keeps its distinguishing values and that the batch screen offers only recipes which produce
+something. All five seen to fail.
+
+### Still open
+
+Seed recipes — pigment, watercolour, pastel — are not written. The pigment one must ship with
+`output: 'pigment'` and the other two with `output: 'none'`, or the distinction this section is
+built on has nothing to demonstrate itself on.
+
+---

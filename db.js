@@ -2,7 +2,7 @@
 // Migrations only ever ADD. Nothing is renamed or removed, ever.
 
 const DB_NAME = 'bagra';
-const DB_VERSION = 8;   // 8: the glossary store (§13be)
+const DB_VERSION = 9;   // 8: the glossary store (§13bt); 9: pigmentBatches (§13bx)
 
 // Every top-level entity from §13 gets a store. Nested lists (steps,
 // placements, state events) are embedded in their parent, not stored apart.
@@ -15,6 +15,7 @@ export const STORES = {
   chains:       { keyPath: 'id', indexes: ['updatedAt'] },
   sources:      { keyPath: 'id', indexes: ['kind', 'updatedAt'] },
   glossary:     { keyPath: 'id', indexes: ['group', 'updatedAt'] },
+  pigmentBatches: { keyPath: 'id', indexes: ['plantId', 'status', 'updatedAt'] },
   techniques:   { keyPath: 'id', indexes: ['category'] },
   combinations: { keyPath: 'id', indexes: ['confidence', 'updatedAt'] },
   trials:       { keyPath: 'id', indexes: ['date', 'processCode', 'updatedAt'] },

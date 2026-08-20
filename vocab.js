@@ -9,7 +9,7 @@ export const DIMENSIONS = [
   'fibre_class', 'fibre', 'fabric_form', 'fabric_structure', 'fabric_state',
   'fabric_action',
   'plant_part', 'chemistry_class', 'chemistry_level', 'plant_role',
-  'compositional_role', 'plant_type', 'habitat', 'extraction_mode', 'fastness', 'toxicity_level',
+  'compositional_role', 'plant_type', 'habitat', 'extraction_mode', 'recipe_output', 'fastness', 'toxicity_level',
   'precaution',
   'material_category', 'mordant_type', 'tannin_type', 'colour_effect',
   'dye_class', 'recipe_type', 'ingredient_role', 'basis', 'basis_refers_to',
@@ -259,6 +259,28 @@ export const VOCABULARY = [
   V('recipe_type', 'pigment',  'пигмент',    'pigment', 6),
   V('recipe_type', 'paste',    'багрилна паста', 'dye paste', 7),
   V('recipe_type', 'blanket',  'одеяло',     'blanket', 8),
+
+  // What a recipe PRODUCES, which is a different question from what it is for.
+  //
+  // It settles two things with one field. First, the middle link of a pigment
+  // chain — solution → PIGMENT → watercolour — had nowhere to be declared, so a
+  // recipe could not say it makes a thing the next recipe consumes (§13bv).
+  //
+  // Second, and the reason it is a vocabulary rather than a boolean: it tells a
+  // recipe that is WORKED from one that is only READ. A pigment recipe yields
+  // batches and is logged; a watercolour recipe is followed and not recorded,
+  // because the owner does not count watercolours (§13bx). Without something
+  // saying so, a person hunts for where to log the watercolour they just made
+  // and finds nothing — and absence of a button is not an answer.
+  V('recipe_output', 'none',     'нищо за записване', 'nothing recorded', 1,
+    { bg: 'Рецепта, която се чете и следва, но не се води. Няма записи от нея.',
+      en: 'A recipe that is read and followed but not logged. It keeps no records.' }),
+  V('recipe_output', 'pigment',  'пигмент',    'pigment', 2,
+    { bg: 'Произвежда пигмент. Всяко правене е партида със свой запис.',
+      en: 'Produces a pigment. Each making is a batch with a record of its own.' }),
+  V('recipe_output', 'extract',  'извлек',     'extract', 3,
+    { bg: 'Произвежда багрилен извлек, който влиза в следваща рецепта.',
+      en: 'Produces a dye extract that feeds the next recipe.' }),
 
   V('ingredient_role', 'tannin',           'танин',              'tannin', 1),
   V('ingredient_role', 'mordant',          'мордант',            'mordant', 2),

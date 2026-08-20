@@ -26,11 +26,12 @@ import trials     from './modules/trials.js';
 import tools      from './modules/tools.js';
 import packs      from './modules/packs.js';
 import library    from './modules/library.js';
+import pigments   from './modules/pigments.js';
 import batch      from './modules/batch.js';
 
 const MODULES = {
   dashboard, reference, plants, fabrics, substances, materials,
-  recipes, techniques, trials, tools, packs, library, batch,
+  recipes, techniques, trials, tools, packs, library, batch, pigments,
 };
 
 // The sidebar carries everything, in two halves plus a footer (§11.3).
@@ -66,6 +67,7 @@ const NAV = [
 
   { heading: 'diary' },
   { id: 'trials',     icon: 'i-trial' },
+  { id: 'pigments',   icon: 'i-mortar' },
   { id: 'fabrics',    icon: 'i-fabric' },
 
   { footer: true },

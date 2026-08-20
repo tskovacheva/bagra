@@ -51,6 +51,9 @@ function blank() {
     ingredients: [],
     steps: [],
     scaleBy: 'weight',
+    // What this recipe produces, and so whether it is worked or only read
+    // (§13by). Default 'none': most recipes make no record.
+    output: 'none',
     computedBy: '',
     target: { percentWof: null, basisRefersTo: 'finished_product' },
     vinegarPercent: null,

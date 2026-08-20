@@ -4264,6 +4264,70 @@ const dirty = await import('./dirty.js');
   else console.log('  vocab: nothing but the seeder writes to the vocabulary');
 }
 
+// ---- 24g. A pigment batch records what was made, not what is left ---------
+//
+// The owner's call: no remainder is tracked. A hand-kept remainder goes wrong
+// within weeks and then lies confidently, so the list answers *what have I
+// made* and never *what do I have* (§13bx).
+//
+// That is a decision the code can drift away from in one well-meaning commit —
+// someone adds "remaining" because the screen looks like stock — so it is held
+// here rather than trusted to memory.
+{
+  const src = fs.readFileSync('modules/pigments.js', 'utf8');
+
+  for (const word of ['remaining', 'remainder', 'consumed', 'inStock', 'stockG']) {
+    if (new RegExp(`\\b${word}\\b`).test(src.replace(/\/\/.*$/gm, ''))) {
+      fail('pigments', new Error(`pigments.js tracks '${word}' — no remainder is kept (§13bx)`));
+      break;
+    }
+  }
+  console.log('  pigments: no remaining quantity is tracked');
+
+  // And the screen has to SAY it answers a different question, or a column of
+  // grams read a year later looks exactly like stock on hand.
+  const dict = fs.readFileSync('i18n.js', 'utf8');
+  if (!src.includes("t('pigments.noStockNote')"))
+    fail('pigments', new Error('the list does not say that no remainder is tracked'));
+  else if (!dict.includes("'pigments.noStockNote':"))
+    fail('pigments', new Error('pigments.noStockNote has no translation'));
+  else console.log('  pigments: the list says which question it answers');
+
+  // A failed batch keeps its stages and its note — that is the whole reason to
+  // record it. If it ever renders an empty result panel instead, the most
+  // useful record in the module reads as unfinished rather than as instructive.
+  if (!/failed \?[\s\S]{0,400}pigments\.noResult/.test(src))
+    fail('pigments', new Error('a failed batch does not show its own panel — it would read as unfinished'));
+  else console.log('  pigments: a failed batch says so, and keeps its notes');
+}
+
+// ---- 24h. A recipe that is only read cannot be worked ---------------------
+//
+// Watercolour, pastels and print paste are recipes to FOLLOW, not work to LOG
+// (§13bx). A pigment recipe yields batches. Without something saying which is
+// which, a person hunts for where to record the watercolour they just made and
+// finds nothing — and the absence of a button is not an answer.
+//
+// `recipe_output` carries it: 'none' is read-only, 'pigment' and 'extract' are
+// worked. One field, because it is the same question as "what does this recipe
+// produce", which the pigment chain needed anyway (§13bv).
+{
+  const src = fs.readFileSync('modules/pigments.js', 'utf8');
+  const vocabSrc = fs.readFileSync('vocab.js', 'utf8');
+
+  const outputs = [...vocabSrc.matchAll(/V\('recipe_output',\s*'([a-z_]+)'/g)].map(m => m[1]);
+  if (!outputs.includes('none') || !outputs.includes('pigment'))
+    fail('pigments', new Error(`recipe_output is missing values: ${outputs.join(', ') || 'none at all'}`));
+  else console.log(`  pigments: recipe_output distinguishes read from worked (${outputs.length} values)`);
+
+  // The batch screen must offer only recipes that produce something. Offering a
+  // read-only one invites a batch recording the making of a watercolour the
+  // owner does not count.
+  if (!/output === 'pigment'/.test(src))
+    fail('pigments', new Error('the batch screen offers every recipe, including ones that keep no record'));
+  else console.log('  pigments: only a recipe that produces something can start a batch');
+}
+
 // ---- 25. A placement finds the right reference record ---------------------
 //
 // The other half of §13bp. The matcher read plant, part and process and nothing

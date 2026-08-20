@@ -119,13 +119,16 @@ None of this is a feature; all of it is a condition of taking money.
 - **README and ROADMAP are read before each release.** README claimed 48 plants and a Stock
   module long after both had changed; it is the only document that asserts things about the
   app with nothing checking it.
-- **Pigment — decided, not built** (§13bv). A pigment batch is work on a SUBSTANCE where a trial is
+- **Pigment — specified, not built** (§13bv, §13bx). A pigment batch is work on a SUBSTANCE where a trial is
   work on CLOTH: one output, one quantity, one quality, one colour, its own screen. `recipe_type`
   already holds `pigment` and `paste`; `basis` already holds `absolute`. Three model changes
   remain: a chain must scale against raw material as well as cloth, a recipe must be able to
   declare an output, and a made pigment must reach stock as a substance with a batch behind it.
   Scope halved by the owner's own call — watercolour and pastels are recipes to read, not work to
-  log. Also found: `extractionMode` sits on a part and holds one value, but one part yields
+  log — and halved again by "no remainder, only how much I made", which removes the stock link and
+  leaves TWO model changes rather than three. The list answers *what have I made*, not *what do I
+  have*, and says so. Grouped by source with batches nested. Full field list in §13bx; screen brief
+  for v0 in `prototype/`. Also found: `extractionMode` sits on a part and holds one value, but one part yields
   differently by decoction, fermentation and alkaline extraction; the constraint belongs to the
   plant, the choice belongs to the work. Recorded, not migrated.
 - ~~**Plant chemistry**~~ — **done (1.0.0-rc8)**, §13bu. A second audit took 153 entries to 171:
