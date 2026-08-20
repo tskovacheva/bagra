@@ -149,61 +149,38 @@ async function renderBatch(root, b, plants, recipes, chains) {
   // is for the next attempt. Showing an empty result panel instead would read
   // as unfinished rather than as instructive.
   const failed = b.status === 'failed';
+  const choices = b.viaKind === 'chain' ? chains : recipes;
+  const partOptions = (await Promise.all(parts.map(async pc =>
+    `<option value="${pc}"${b.partCode === pc ? ' selected' : ''}>${
+      esc(await label('plant_part', pc))}</option>`))).join('');
 
   const partName = b.partCode ? await label('plant_part', b.partCode) : '';
   const heading = plant
     ? `${text(plant.nameCommon)}${partName ? ' — ' + partName : ''}`
     : t('pigments.new');
 
+  // Layout from the v0 prototype rather than from habit. The prototype put the
+  // batch's context — dates, what it was made by — down the side and left the
+  // wide column for the work itself, and it reads better than the two equal
+  // columns every other screen here uses: the stages are what is looked at
+  // while working, and the rest is answered once and then referred to.
+  //
+  // The context sections fold. `contextstrip` already does this for a trial
+  // (§13ab) and is reused rather than reinvented — the summary keeps its words
+  // visible, so folded is not hidden.
   root.innerHTML = page({
     title: heading,
     sub: '',
     actions: `${backTo('#/pigments', t('pigments.title'))}
               <button class="btn primary" data-save>${t('common.save')}</button>`,
     body: `
-      <div class="cols">
+      <div class="pigmentcols">
         <div class="col">
           ${panel(`
-            <h2>${t('pigments.batch')}</h2>
-            ${field(t('pigments.statusLabel'), `<select data-f="status">${
-              STATUSES.map(s => `<option value="${s}"${b.status === s ? ' selected' : ''}>${
-                t('pigments.status.' + s)}</option>`).join('')}</select>`)}
-            ${field(t('plants.one'), `<select data-f="plantId"><option value=""></option>${
-              plants.map(p => `<option value="${p.id}"${b.plantId === p.id ? ' selected' : ''}>${
-                esc(text(p.nameCommon))}</option>`).join('')}</select>`)}
-            ${field(t('pigments.part'), `<select data-f="partCode"><option value=""></option>${
-              (await Promise.all(parts.map(async pc =>
-                `<option value="${pc}"${b.partCode === pc ? ' selected' : ''}>${
-                  esc(await label('plant_part', pc))}</option>`))).join('')}</select>`)}
-            ${field(t('pigments.raw'), `<input type="number" data-f="rawWeightG" value="${
-              b.rawWeightG ?? ''}" min="0" step="1"> g`)}
-            <p class="note">${t('pigments.rawWhy')}</p>
+            <p class="note">${t('pigments.processHint')}</p>
+            <div style="height:12px"></div>
+            ${stages}
           `)}
-          <div style="height:16px"></div>
-          ${panel(`
-            <h2>${t('pigments.dates')}</h2>
-            ${field(t('pigments.started'), `<input type="date" data-f="date" value="${esc(b.date || '')}">`)}
-            ${field(t('pigments.finished'), `<input type="date" data-f="finishedOn" value="${esc(b.finishedOn || '')}">`)}
-          `)}
-          <div style="height:16px"></div>
-          ${panel(`
-            <h2>${t('pigments.via')}</h2>
-            <p class="note">${t('pigments.viaHint')}</p>
-            ${field(t('pigments.viaKind'), `<select data-f="viaKind">
-              <option value="recipe"${b.viaKind === 'recipe' ? ' selected' : ''}>${t('pigments.viaRecipe')}</option>
-              <option value="chain"${b.viaKind === 'chain' ? ' selected' : ''}>${t('pigments.viaChain')}</option>
-            </select>`)}
-            ${field('', `<select data-f="viaId"><option value=""></option>${
-              (b.viaKind === 'chain' ? chains : recipes).map(r =>
-                `<option value="${r.id}"${b.viaId === r.id ? ' selected' : ''}>${
-                  esc(text(r.name))}</option>`).join('')}</select>`)}
-          `)}
-        </div>
-        <div class="col">
-          ${panel(`<h2>${t('pigments.process')}</h2>
-                   <p class="note">${t('pigments.processHint')}</p>`)}
-          <div style="height:12px"></div>
-          ${stages}
           <div style="height:16px"></div>
           ${failed ? panel(`
             <h2>${t('pigments.noResult')}</h2>
@@ -223,9 +200,55 @@ async function renderBatch(root, b, plants, recipes, chains) {
           ${panel(`
             <h2>${t('pigments.nextTime')}</h2>
             ${pairField('', 'notes', b.notes, { multiline: true })}
-            ${openId !== 'new' ? actionBtn('delete', t('pigments.delete'), 'data-delete', 'destructive') : ''}
           `)}
         </div>
+
+        <aside class="side">
+          ${panel(`
+            ${field(t('pigments.statusLabel'), `<select data-f="status">${
+              STATUSES.map(x => `<option value="${x}"${b.status === x ? ' selected' : ''}>${
+                t('pigments.status.' + x)}</option>`).join('')}</select>`)}
+            ${field(t('plants.one'), `<select data-f="plantId"><option value=""></option>${
+              plants.map(p => `<option value="${p.id}"${b.plantId === p.id ? ' selected' : ''}>${
+                esc(text(p.nameCommon))}</option>`).join('')}</select>`)}
+            ${field(t('pigments.part'), parts.length
+              ? `<select data-f="partCode"><option value=""></option>${partOptions}</select>`
+              : `<p class="hint">${t('pigments.pickPlantFirst')}</p>`)}
+            ${field(t('pigments.raw'), `<input type="number" data-f="rawWeightG" value="${
+              b.rawWeightG ?? ''}" min="0" step="1"> g`)}
+            <p class="note">${t('pigments.rawWhy')}</p>
+          `)}
+          <div style="height:12px"></div>
+          <details class="contextstrip"${b.date || b.finishedOn ? ' open' : ''}>
+            <summary>${t('pigments.dates')}${b.date ? ` <span class="chip">${esc(b.date)}</span>` : ''}</summary>
+            <div class="foldbody">
+              ${field(t('pigments.started'), `<input type="date" data-f="date" value="${esc(b.date || '')}">`)}
+              ${field(t('pigments.finished'), `<input type="date" data-f="finishedOn" value="${esc(b.finishedOn || '')}">`)}
+            </div>
+          </details>
+          <div style="height:12px"></div>
+          <details class="contextstrip" open>
+            <summary>${t('pigments.via')}${via ? ` <span class="chip">${esc(text(via.name))}</span>` : ''}</summary>
+            <div class="foldbody">
+              ${field(t('pigments.viaKind'), `<select data-f="viaKind">
+                <option value="recipe"${b.viaKind === 'recipe' ? ' selected' : ''}>${t('pigments.viaRecipe')}</option>
+                <option value="chain"${b.viaKind === 'chain' ? ' selected' : ''}>${t('pigments.viaChain')}</option>
+              </select>`)}
+              ${choices.length
+                ? field('', `<select data-f="viaId"><option value=""></option>${
+                    choices.map(r => `<option value="${r.id}"${b.viaId === r.id ? ' selected' : ''}>${
+                      esc(text(r.name))}</option>`).join('')}</select>`)
+                // An empty dropdown with no explanation reads as broken. It is
+                // not: there is simply no recipe yet that produces a pigment,
+                // and the way out is to write one, so the way out is offered
+                // here instead of being hunted for.
+                : `<p class="hint">${t('pigments.noRecipes')}</p>
+                   ${actionBtn('add', t('pigments.newRecipe'), 'data-newrecipe')}`}
+            </div>
+          </details>
+          ${openId !== 'new' ? `<div style="height:12px"></div>
+            ${panel(actionBtn('delete', t('pigments.delete'), 'data-delete', 'destructive'))}` : ''}
+        </aside>
       </div>`,
   });
 }
@@ -263,9 +286,13 @@ export default {
       // render leaves the previous screen up, which reads as the address being
       // ignored (§11b).
       if (!draft) return navigate('#/pigments');
-      const [plants, recipes, chains] = await Promise.all([
+      const [rawPlants, recipes, chains] = await Promise.all([
         all('plants'), all('recipes'), all('chains'),
       ]);
+      // Sorted by name, in the reader's own language. Unsorted, a list of 57
+      // plants is a list nobody can find anything in.
+      const plants = rawPlants.sort(
+        (a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon), getLang()));
       // Only recipes that say they produce a pigment. A recipe with
       // `output: 'none'` is read and followed, never logged (§13by), and
       // offering it here would invite a batch that records the making of a
@@ -291,6 +318,12 @@ export default {
         markClean();
         return navigate('#/pigments');
       }
+      if (e.target.closest('[data-newrecipe]')) {
+        readForm(root);
+        await put('pigmentBatches', draft);
+        markClean();
+        return navigate('#/recipes/new');
+      }
       if (e.target.closest('[data-delete]')) {
         if (!confirm(t('pigments.confirmDelete'))) return;
         await remove('pigmentBatches', draft.id);
@@ -301,6 +334,17 @@ export default {
     // Switching between recipe and chain changes which list the second dropdown
     // holds, so the screen is drawn again rather than left showing options from
     // the other kind.
+    // Two dropdowns decide what a THIRD one may hold, so both redraw. Without
+    // the plant one, Part stayed empty however a plant was chosen — the options
+    // are read off the plant, and nothing re-read them. A select that never
+    // fills looks broken rather than empty, which is what it was.
+    const plantSel = root.querySelector('[data-f="plantId"]');
+    if (plantSel) plantSel.onchange = async () => {
+      readForm(root);
+      draft.partCode = '';
+      await this.render(root);
+    };
+
     const kind = root.querySelector('[data-f="viaKind"]');
     if (kind) kind.onchange = async () => {
       readForm(root);

@@ -273,6 +273,12 @@ h2{font-size:var(--h-section);font-weight:600;letter-spacing:.1em;text-transform
 .btn.danger{color:var(--madder)}
 
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+/* The pigment batch: the work wide, its context down the side. The stages are
+   what is looked at while working; dates and which recipe are answered once and
+   then referred to, so they do not deserve half the screen (§13bz). */
+.pigmentcols{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
+.side{display:flex;flex-direction:column}
+@media (max-width:900px){.pigmentcols{grid-template-columns:1fr}}
 .col{display:flex;flex-direction:column;gap:16px}
 @media (max-width:900px){.cols{grid-template-columns:1fr}}
 

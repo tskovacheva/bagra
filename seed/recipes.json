@@ -1,0 +1,142 @@
+{
+ "packId": "bagra-recipes",
+ "packVersion": "0.1.0",
+ "description": {
+  "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
+  "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
+ },
+ "recipes": [
+  {
+   "code": "pigment-lake-master",
+   "type": "pigment",
+   "output": "pigment",
+   "name": {
+    "bg": "Лаков пигмент — основна рецепта",
+    "en": "Lake pigment — master recipe"
+   },
+   "appliesTo": [],
+   "scaleBy": "raw",
+   "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
+   "ingredients": [
+    { "roleCode": "dyestuff", "basis": "absolute", "note": {
+      "bg": "Спрямо тежестта на стипцата, не на тъкан. Виж таблицата с проценти: марена 500%, жълтениче 180%, кампешово дърво 50%.",
+      "en": "Against the weight of the alum, not of cloth. See the ratios chart: madder 500%, weld 180%, logwood 50%." } },
+    { "roleCode": "mordant", "basis": "absolute", "note": {
+      "bg": "10 г стипца — алуминиев сулфат или калиева стипца.",
+      "en": "10 g alum — aluminium sulphate or potassium alum." } },
+    { "roleCode": "alkali", "basis": "absolute", "note": {
+      "bg": "5 г калцинирана сода.",
+      "en": "5 g soda ash." } }
+   ],
+   "steps": [
+    { "text": {
+      "bg": "Претегли растителния материал спрямо стипцата и извлечи цвета — гореща отвара, освен ако растението иска друго.",
+      "en": "Weigh the plant material against the alum and draw the colour out — a hot decoction, unless the plant wants otherwise." } },
+    { "text": {
+      "bg": "Прецеди старателно. Ситно смляното иска няколко прецеждания и накрая хартиен филтър.",
+      "en": "Strain thoroughly. Finely ground material wants several passes and a paper filter at the end." } },
+    { "text": {
+      "bg": "Разтвори стипцата в топла вода и я добави бавно към извлека.",
+      "en": "Dissolve the alum in warm water and add it slowly to the extract." } },
+    { "text": {
+      "bg": "Разтвори содата и я добави. Ще запени и утайката ще започне да пада.",
+      "en": "Dissolve the soda and add it. It will foam and the precipitate will begin to fall." } },
+    { "text": {
+      "bg": "Остави да се утаи, отлей бистрото и промивай с чиста вода, докато водата над утайката стане почти бистра.",
+      "en": "Let it settle, pour off the clear liquid, and wash with clean water until what stands above the sediment is nearly clear." } },
+    { "text": {
+      "bg": "Филтрирай през хартиен филтър и разстели филтрите да съхнат на сянка.",
+      "en": "Filter through paper and lay the filters out to dry in the shade." } },
+    { "text": {
+      "bg": "Изсушения пигмент стържи и стрий на фин прах. С маска — всеки прах се вдишва.",
+      "en": "Scrape the dried pigment and grind it to a fine powder. With a mask — any powder is breathed." } }
+   ],
+   "notes": {
+    "bg": "Пропорцията решава наситеността, не силата на цвета: малко багрило върху много основа дава пастелен тон, а не по-блед вариант на същия цвят. По-ниският процент — по-светъл пигмент.",
+    "en": "The proportion decides the depth, not the strength: little dye over much base gives a pastel hue rather than a paler version of the same colour. The lower the percentage, the paler the pigment."
+   },
+   "sourceCode": "natalie-stopka-pigment",
+   "distributable": true
+  },
+  {
+   "code": "watercolour-from-pigment",
+   "type": "paste",
+   "output": "none",
+   "name": {
+    "bg": "Акварелна боя от пигмент",
+    "en": "Watercolour paint from pigment"
+   },
+   "appliesTo": [],
+   "scaleBy": "raw",
+   "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
+   "ingredients": [
+    { "roleCode": "pigment", "basis": "absolute", "note": {
+      "bg": "Готов пигмент, стрит на фин прах.",
+      "en": "Finished pigment, ground fine." } },
+    { "roleCode": "binder", "basis": "ratio_to_dyestuff", "note": {
+      "bg": "Свързващ разтвор — гума арабика, мед, глицерин — в съотношение 1:1 към пигмента.",
+      "en": "Binder — gum arabic, honey, glycerine — one to one with the pigment." } }
+   ],
+   "steps": [
+    { "text": {
+      "bg": "Изсипи няколко чаени лъжички пигмент върху гладка стъклена плоскост.",
+      "en": "Tip a couple of teaspoons of pigment onto a smooth glass slab." } },
+    { "text": {
+      "bg": "Добави свързващия разтвор 1:1 и разбъркай с шпакла.",
+      "en": "Add the binder one to one and combine with a palette knife." } },
+    { "text": {
+      "bg": "Разтрий със стъклено пестило до гладка, течна смес без зърна.",
+      "en": "Mull with a glass muller until smooth and fluid, with no grain left." } },
+    { "text": {
+      "bg": "Напълни панички и остави да съхнат бавно, покрити от прах.",
+      "en": "Fill pans and let them dry slowly, covered from dust." } }
+   ],
+   "notes": {
+    "bg": "Приложението не води направените акварели — това е рецепта за четене и следване, не работа със запис. Записва се пигментът, от който тръгва.",
+    "en": "The application does not log watercolours made — this is a recipe to read and follow, not work that keeps a record. What is recorded is the pigment it starts from."
+   },
+   "sourceCode": "joanne-green-watercolour",
+   "distributable": true
+  },
+  {
+   "code": "pastels-from-pigment",
+   "type": "paste",
+   "output": "none",
+   "name": {
+    "bg": "Меки пастели от пигмент",
+    "en": "Soft pastels from pigment"
+   },
+   "appliesTo": [],
+   "scaleBy": "raw",
+   "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
+   "ingredients": [
+    { "roleCode": "pigment", "basis": "absolute", "note": {
+      "bg": "Готов пигмент, стрит на фин прах.",
+      "en": "Finished pigment, ground fine." } },
+    { "roleCode": "filler", "basis": "ratio_to_dyestuff", "note": {
+      "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел.",
+      "en": "Filler — chalk or kaolin. More filler, a softer and paler pastel." } },
+    { "roleCode": "binder", "basis": "absolute", "note": {
+      "bg": "Слаб разтвор на гума трагакант или метилцелулоза, добавян капка по капка.",
+      "en": "A weak solution of gum tragacanth or methyl cellulose, added drop by drop." } }
+   ],
+   "steps": [
+    { "text": {
+      "bg": "Смеси пигмента с пълнителя на сухо, докато цветът стане равномерен.",
+      "en": "Mix the pigment with the filler dry, until the colour is even." } },
+    { "text": {
+      "bg": "Добавяй свързващия разтвор на капки, докато сместа се събере на топка, която не лепне.",
+      "en": "Add the binder in drops until the mixture gathers into a ball that does not stick." } },
+    { "text": {
+      "bg": "Разточи пръчици и ги остави да съхнат на въздух няколко дни, върху попивателна хартия.",
+      "en": "Roll sticks and leave them to dry in air for several days, on absorbent paper." } }
+   ],
+   "notes": {
+    "bg": "Съотношението пигмент към пълнител прави гамата: чист пигмент дава наситен и трошлив пастел, повече пълнител — по-светъл и по-твърд. Не се води; записва се пигментът.",
+    "en": "The pigment-to-filler ratio makes the range: pure pigment gives a saturated, crumbly pastel, more filler a paler and harder one. Not logged; what is recorded is the pigment."
+   },
+   "sourceCode": "natalie-stopka-pigment",
+   "distributable": true
+  }
+ ]
+}

@@ -78,6 +78,20 @@ export const PACKS = {
     file: 'seed/glossary.json', store: 'glossary', listKey: 'terms',
     defaults: { group: 'process', aliases: [], seeAlso: [], sourceCode: '' },
   },
+  // Three recipes, and the set is chosen to demonstrate the distinction it
+  // rests on (§13by): the pigment recipe has `output: 'pigment'` and is
+  // WORKED — batches come out of it — while watercolour and pastels have
+  // `output: 'none'` and are read and followed without keeping a record.
+  // Shipping only the first would leave the distinction with nothing to show
+  // itself on, and shipping none left the batch screen's recipe list empty,
+  // which reads as broken rather than as unseeded.
+  recipes: {
+    file: 'seed/recipes.json', store: 'recipes', listKey: 'recipes',
+    defaults: {
+      output: 'none', appliesTo: [], scaleBy: 'raw', version: 1,
+      ingredients: [], steps: [], requiredFollowOn: [], distributable: true,
+    },
+  },
 };
 
 export function loadPack(name) {

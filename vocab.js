@@ -293,6 +293,13 @@ export const VOCABULARY = [
   V('ingredient_role', 'sodium_source',    'натриев източник',   'sodium source', 9),
   V('ingredient_role', 'assistant',        'помощно',            'assistant', 10),
 
+  // Roles a pigment recipe needs and dyeing does not. `pigment` is the finished
+  // powder used as an INPUT — a watercolour starts where a lake recipe ended,
+  // which is what a chain of recipes means here (§13bv).
+  V('ingredient_role', 'pigment',          'пигмент',            'pigment', 11),
+  V('ingredient_role', 'binder',           'свързващо',          'binder', 12),
+  V('ingredient_role', 'filler',           'пълнител',           'filler', 13),
+
   V('basis', 'percent_wof',      '% WOF',            '% WOF', 1),
   V('basis', 'percent_of_bath',  '% от банята',      '% of bath', 2),
   V('basis', 'grams_per_litre',  'г/л',              'g/L', 3),

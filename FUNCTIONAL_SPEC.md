@@ -6713,3 +6713,46 @@ Seed recipes — pigment, watercolour, pastel — are not written. The pigment o
 built on has nothing to demonstrate itself on.
 
 ---
+
+## 13bz. What the first pigment screen got wrong (1.0.0-rc11)
+
+Reviewed on a running screen, and most of the findings were mine rather than the prototype's.
+
+**The layout ignored the prototype, which was the reason for using it.** The v0 arrangement was
+read for its structure — grouping, stages, fields — and then the screen was built with the two
+equal columns every other screen here has, out of habit. But the arrangement was the point: the
+prototype put the work wide and its context down the side, and folded the context sections. Both
+are better here, because the stages are what is looked at while working and the dates and the
+recipe are answered once and referred to. Rebuilt as `pigmentcols` with an `aside`, reusing
+`contextstrip` (§13ab) rather than inventing a second folding pattern.
+
+**Part never filled.** Its options are read off the chosen plant, and nothing re-read them when the
+plant changed — `viaKind` had a redraw and `plantId` did not. A select that never fills reads as
+broken rather than as empty, which is exactly what it was. Both redraw now.
+
+**Fifty-seven plants in source order.** Sorted by name in the reader's language.
+
+**The recipe list was empty, and empty read as broken.** It was not: nothing had `output: 'pigment'`
+because no recipes were seeded at all — `seed/recipes.json` did not exist. Two fixes. The pack now
+ships three recipes, chosen to demonstrate the distinction they rest on: a lake pigment recipe with
+`output: 'pigment'`, which is worked, and watercolour and pastels with `output: 'none'`, which are
+read and followed and keep no record. And when the list is empty the screen says why and offers the
+way out — writing a recipe — instead of leaving an unexplained empty dropdown.
+
+**A panel whose whole content was one line of hint text.** „ПРОЦЕС · Шест етапа — бележки, не
+задачи." A heading, a note, and nothing else, above the stages it was describing. Folded into the
+stage panel itself.
+
+Three ingredient roles a pigment recipe needs and dyeing does not: `pigment`, `binder`, `filler`.
+`pigment` is the finished powder used as an INPUT — a watercolour starts where a lake recipe
+ended, which is what a chain means here. Caught by the vocabulary guard on the first run, which is
+what it is for.
+
+### Still open
+
+**The recipe screen is shaped for dyeing.** WOF, liquor ratio, fibre class, follow-on requirements —
+a pigment recipe needs almost none of them, and a watercolour recipe needs none at all. `type`
+already says which kind a recipe is; the screen does not yet read it. Fields should follow the
+type rather than every recipe carrying every field. Recorded, not built.
+
+---
