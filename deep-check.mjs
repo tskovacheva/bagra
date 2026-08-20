@@ -4328,6 +4328,68 @@ const dirty = await import('./dirty.js');
   else console.log('  pigments: only a recipe that produces something can start a batch');
 }
 
+// ---- 24i. A recipe screen shows the fields its type has ------------------
+//
+// The screen was built for dyeing and every recipe carried every field, so a
+// pigment recipe offered weight-of-fibre, liquor ratio, fibre class and
+// required follow-ons, and a watercolour recipe offered them twice over. An
+// empty field is not neutral: it reads as one nobody has filled in yet, not as
+// one that does not apply, and there were far more of the former.
+//
+// RENDERED, not read. A guard that greps recipes.js for `SHOWS.scale` tests
+// that the words are present; only drawing the screen tests that they do
+// anything (§13bw).
+{
+  const recipes = (await import('./modules/recipes.js')).default;
+  const root = document.createElement('div');
+  document.body.appendChild(root);
+
+  const made = [];
+  for (const [type, id] of [['mordant', 'zz-r-cloth'], ['pigment', 'zz-r-subst']]) {
+    await db.put('recipes', db.newRecord({
+      id, type, output: type === 'pigment' ? 'pigment' : 'none',
+      name: { bg: 'Проба ' + type, en: 'Test ' + type },
+      lineageId: id, version: 1, ingredients: [], steps: [],
+      appliesTo: ['cellulose'], scaleBy: 'weight', requiredFollowOn: [],
+      notes: { bg: '', en: '' }, target: {}, distributable: true,
+    }));
+    made.push(id);
+  }
+
+  const draw = async (id) => {
+    recipes.reset?.();
+    // The fields live in the EDIT form; open(id) alone shows the read view.
+    recipes.open(id, 'edit');
+    await recipes.render(root);
+    await settle();
+    return root.innerHTML;
+  };
+
+  const cloth = await draw('zz-r-cloth');
+  const subst = await draw('zz-r-subst');
+
+  // Present for cloth, absent for a substance. Held by the FIELD NAME the
+  // markup uses, so renaming a label does not quietly disable the check.
+  const clothOnly = ['data-f="liquorRatio"', 'data-follow-add', 'data-f="appliesTo"'];
+  const wrong = [];
+  for (const marker of clothOnly) {
+    if (!cloth.includes(marker) && marker !== 'data-f="appliesTo"')
+      wrong.push(`${marker} missing from a cloth recipe`);
+    if (subst.includes(marker))
+      wrong.push(`${marker} shown on a pigment recipe`);
+  }
+  // Both kinds keep ingredients and steps — a recipe without them is not a
+  // recipe, whatever it makes.
+  for (const keep of ['data-ing-add', 'data-step-add'])
+    if (!subst.includes(keep)) wrong.push(`${keep} missing from a pigment recipe`);
+
+  if (wrong.length) fail('recipes', new Error(wrong.join('; ')));
+  else console.log('  recipes: the fields on screen follow the recipe type');
+
+  for (const id of made) await db.remove('recipes', id);
+  root.remove();
+}
+
 // ---- 25. A placement finds the right reference record ---------------------
 //
 // The other half of §13bp. The matcher read plant, part and process and nothing

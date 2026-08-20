@@ -16,6 +16,41 @@ import chains from './chains.js';
 const TYPES = ['scour', 'tannin', 'mordant', 'dye', 'ecoprint', 'blanket', 'pigment', 'paste'];
 const FIBRE_CLASSES = ['cellulose', 'protein'];
 
+// Which types work on CLOTH and which MAKE A SUBSTANCE. The screen was built
+// entirely for the first kind, so a pigment recipe carried weight-of-fibre,
+// liquor ratio, fibre class and required follow-ons — none of which it has, and
+// a watercolour recipe has none of them twice over. Every recipe carrying every
+// field is not neutral: an empty field reads as one nobody has filled in yet
+// rather than as one that does not apply, and there were more of the former
+// than of the latter.
+//
+// A table rather than conditions scattered through the markup. `blanket`
+// already had `r.type === 'blanket' ? panel(...) : ''` and was the only one, so
+// the pattern existed and had simply never been applied to the rest — which is
+// how a screen ends up shaped for whichever case was built first.
+const MAKES_SUBSTANCE = ['pigment', 'paste'];
+const worksOnCloth = (type) => !MAKES_SUBSTANCE.includes(type);
+
+// Panel by panel, so the answer to "why is this not on screen" is one lookup.
+const SHOWS = {
+  // Fibre class: what cloth the recipe suits. A pigment has no cloth.
+  appliesTo:  worksOnCloth,
+  // The aluminium-acetate calculator works from weight of fibre (§13.9).
+  computed:   worksOnCloth,
+  // Liquor ratio is bath volume against cloth weight.
+  liquorRatio: worksOnCloth,
+  // "This recipe requires another after it" is about preparing cloth in order.
+  // A pigment chain is ordered too, but by the chain, not by this field.
+  followOn:   worksOnCloth,
+  // The scaling block computes against a weight of goods.
+  scale:      worksOnCloth,
+  // Only the blanket recipe has blanket fields.
+  blanket:    (type) => type === 'blanket',
+  // Temperature, holding and pH matter to both kinds: a lake wants a
+  // temperature ceiling and the laking step is a pH event.
+  conditions: () => true,
+};
+
 // Recipes and chains share one nav entry: a chain is a plan made of recipes,
 // and an eleventh item in the sidebar would cost more than it explains.
 let mode = 'recipes';
@@ -518,7 +553,7 @@ async function renderForm(root, r) {
             <h2>${t('recipes.about')}</h2>
             ${pairField(t('recipes.name'), 'name', r.name)}
             ${field(t('recipes.type'), `<select data-f="type">${await options('recipe_type', r.type, '')}</select>`)}
-            ${fieldGroup(t('recipes.appliesTo'), `<div class="checks">${fibreChecks}</div>`)}
+            ${SHOWS.appliesTo(r.type) ? fieldGroup(t('recipes.appliesTo'), `<div class="checks">${fibreChecks}</div>`) : ''}
           `)}
 
           ${panel(`
@@ -529,7 +564,7 @@ async function renderForm(root, r) {
             <p class="hint">${t('recipes.alternativesHint')} ${t('recipes.qtyRangeHint')}</p>
           `)}
 
-          ${panel(`
+          ${SHOWS.computed(r.type) ? panel(`
             <h2>${t('recipes.computed')}</h2>
             <p class="note">${t('recipes.computedHint')}</p>
             ${field(t('recipes.computedBy'), `<select data-f="computedBy">
@@ -544,7 +579,7 @@ async function renderForm(root, r) {
                 </select>`, t('recipes.targetBasisHint'))}
               ${field(t('recipes.vinegarPercent'), `<input type="number" step="0.5" min="0"
                  data-f="vinegarPercent" value="${r.vinegarPercent ?? ''}">`)}` : ''}
-          `)}
+          `) : ''}
 
           ${panel(`
             <h2>${t('recipes.conditions')}</h2>
@@ -555,13 +590,14 @@ async function renderForm(root, r) {
                 <option value="weight"${r.scaleBy !== 'volume' ? ' selected' : ''}>${t('recipes.scaleBy.weight')}</option>
                 <option value="volume"${r.scaleBy === 'volume' ? ' selected' : ''}>${t('recipes.scaleBy.volume')}</option>
               </select>`, t('recipes.scaleByHint'))}
-            ${r.scaleBy === 'volume'
-              ? field(t('recipes.defaultLitres'), `<input type="number" step="0.5" min="0" data-f="defaultLitres" value="${r.defaultLitres ?? ''}">`)
-              : field(t('recipes.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${r.liquorRatio ?? ''}">`)}
+            ${!SHOWS.liquorRatio(r.type) ? ''
+              : r.scaleBy === 'volume'
+                ? field(t('recipes.defaultLitres'), `<input type="number" step="0.5" min="0" data-f="defaultLitres" value="${r.defaultLitres ?? ''}">`)
+                : field(t('recipes.liquorRatio'), `<input type="number" step="1" min="0" data-f="liquorRatio" value="${r.liquorRatio ?? ''}">`)}
             ${field(t('recipes.phTarget'), `<input type="number" step="0.1" min="0" max="14" data-f="phTarget" value="${r.phTarget ?? ''}">`)}
           `)}
 
-          ${panel(`
+          ${SHOWS.followOn(r.type) ? panel(`
             <h2>${t('recipes.followOn')}</h2>
             <p class="note">${t('recipes.followOnHint')}</p>
             <div class="followlist">${followOnRows(r, allRecipes)}</div>
@@ -571,9 +607,9 @@ async function renderForm(root, r) {
                 .filter(x => x.id !== r.id && !(r.requiredFollowOn || []).includes(x.id))
                 .map(x => `<option value="${x.id}">${esc(text(x.name))}</option>`).join('')}
             </select>
-          `)}
+          `) : ''}
 
-          ${r.type === 'blanket' ? panel(`
+          ${SHOWS.blanket(r.type) ? panel(`
             <h2>${t('recipes.blanket')}</h2>
             ${note(t('recipes.blanketBasisWarn'), 'warn')}
             ${field(t('recipes.blanketKind'), `<select data-f="blanketKind">
@@ -587,10 +623,13 @@ async function renderForm(root, r) {
         </div>
 
         <div class="col">
-          ${panel(`
+          ${SHOWS.scale(r.type) ? panel(`
             <h2>${t('recipes.scale')}</h2>
             <p class="note">${t('recipes.scaleHint')}</p>
             <div class="scaleblock">${await scaleBlock(r, substances)}</div>
+          `) : panel(`
+            <h2>${t('recipes.proportions')}</h2>
+            <p class="note">${t('recipes.proportionsHint')}</p>
           `)}
 
           ${panel(`

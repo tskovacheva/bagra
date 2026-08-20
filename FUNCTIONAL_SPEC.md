@@ -6756,3 +6756,48 @@ already says which kind a recipe is; the screen does not yet read it. Fields sho
 type rather than every recipe carrying every field. Recorded, not built.
 
 ---
+
+## 13ca. Recipe fields follow the recipe's type (1.0.0-rc12)
+
+The recipe screen was built for dyeing and never revisited, so every recipe carried every field. A
+pigment recipe offered weight-of-fibre, liquor ratio, fibre class and required follow-ons; a
+watercolour recipe offered all of them and needs none.
+
+An empty field is not neutral. It reads as one nobody has filled in yet, not as one that does not
+apply — and on a pigment recipe there were more of the second than of the first, which makes the
+screen look unfinished rather than the record.
+
+The pattern already existed and had been applied exactly once: `blanket` was drawn as
+`r.type === 'blanket' ? panel(...) : ''`. That is how a screen ends up shaped for whichever case
+was built first — the general fix gets written as a special case and never generalised.
+
+Now a table, so "why is this not on screen" is one lookup:
+
+    MAKES_SUBSTANCE = ['pigment', 'paste']
+
+    appliesTo    cloth only   — a pigment suits no fibre
+    computed     cloth only   — the aluminium-acetate calculator works from weight of fibre
+    liquorRatio  cloth only   — bath volume against cloth weight
+    followOn     cloth only   — ordering a pigment chain is the chain's job, not this field's
+    scale        cloth only   — the scaling block computes against a weight of goods
+    blanket      blanket only
+    conditions   always       — a lake wants a temperature ceiling and laking is a pH event
+
+Where the scaling block is hidden, a short panel takes its place saying the quantities sit on the
+ingredients instead — against the raw material or against the alum. Removing the block without
+saying anything would leave a person looking for where the amounts went.
+
+Ingredients and steps stay on both kinds. A recipe without them is not a recipe, whatever it makes.
+
+### The guard renders
+
+Guard 24i draws both a cloth recipe and a pigment recipe and inspects the markup for the field
+names themselves. Grepping `modules/recipes.js` for `SHOWS.scale` would test that the words are
+present; only drawing tests that they do anything — the lesson from §13bw, applied without having
+to relearn it.
+
+It failed on its first run for a reason worth keeping: it called `open(id)`, which shows the READ
+view, and the fields live in the edit form. A guard pointed at the wrong screen reports absence
+correctly and means nothing.
+
+---

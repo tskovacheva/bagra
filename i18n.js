@@ -528,6 +528,8 @@ const DICT = {
     'recipes.distributableHint': 'Изключено, докато не е преработена от собствена практика или няма съгласие.',
 
     'recipes.scale': 'Мащабирай тази рецепта',
+    'recipes.proportions': 'Пропорции',
+    'recipes.proportionsHint': 'Тази рецепта не се мащабира спрямо тегло на тъкан. Количествата стоят на съставките — спрямо суровината или спрямо стипцата, според това какво казва рецептата.',
     'recipes.scaleHint': 'Въведи тегло на тъканта и получаваш количествата в грамове.',
     'recipes.forWeight': 'Тегло на тъканта (г)',
     'recipes.forFibre': 'Върху какво влакно',
@@ -1773,6 +1775,8 @@ const DICT = {
     'recipes.distributableHint': 'Off until rewritten from your own practice, or permission given.',
 
     'recipes.scale': 'Scale this recipe',
+    'recipes.proportions': 'Proportions',
+    'recipes.proportionsHint': 'This recipe does not scale against a weight of cloth. The quantities sit on the ingredients — against the raw material or against the alum, as the recipe says.',
     'recipes.scaleHint': 'Enter the weight of goods and the quantities come out in grams.',
     'recipes.forWeight': 'Weight of goods (g)',
     'recipes.forFibre': 'On which fibre',
