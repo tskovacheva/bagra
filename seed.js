@@ -4,7 +4,7 @@
 // the modules, so keeping it there made a circular dependency — app importing
 // plants importing app. It worked by accident of hoisting until it did not.
 
-import { all, get, put } from './db.js';
+import { all, get, put, remove } from './db.js';
 
 /**
  * Adds seeded records that are absent, and touches nothing else.
@@ -160,7 +160,10 @@ export async function diffPack(name) {
   if (!res.ok) throw new Error(`${file}: ${res.status}`);
   const pack = await res.json();
 
-  const diff = { store, pack, defaults, added: [], changed: [], edited: [], unchanged: [] };
+  const diff = {
+    store, pack, defaults,
+    added: [], changed: [], edited: [], withdrawn: [], unchanged: [],
+  };
 
   for (const row of pack[listKey]) {
     const id = 'seed:' + row.code;
@@ -182,6 +185,31 @@ export async function diffPack(name) {
     (existing.editedByUser ? diff.edited : diff.changed).push(entry);
   }
 
+  // WHAT THE PACK NO LONGER CARRIES (§13cb).
+  //
+  // The loop above walks the PACK. A record that has left the pack is therefore
+  // never looked at, and stays on an installed copy for ever — so a fresh
+  // install and an updated one become two different applications, silently and
+  // permanently. Until rc13 no pack had ever removed a row, so the gap had never
+  // shown; the glossary review removed five terms and it showed at once. This is
+  // the same shape as the fault §13bt records, where a corrected term never
+  // reached an installed copy.
+  //
+  // Only SEEDED records are considered — `origin: 'seed'` and this pack's
+  // `packId`. Anything the user wrote herself is not the pack's to withdraw, and
+  // a record seeded by a different pack into the same store is not this pack's
+  // business either.
+  //
+  // It is offered, not performed. Removal is the one direction that cannot be
+  // undone by running the update again, so it goes through the same tick-box as
+  // everything else, and an edited record arrives unticked like any other.
+  const codes = new Set(pack[listKey].map(r => 'seed:' + r.code));
+  for (const row of await all(store)) {
+    if (row.origin !== 'seed' || row.packId !== pack.packId) continue;
+    if (codes.has(row.id)) continue;
+    diff.withdrawn.push({ id: row.id, name: nameOf(row), remove: true, edited: !!row.editedByUser });
+  }
+
   return diff;
 }
 
@@ -198,6 +226,15 @@ export async function applyDiff(store, entries, pack) {
   let n = 0;
 
   for (const entry of entries) {
+    // A withdrawal is the one entry that is not a write. It is marked on the
+    // entry rather than inferred from a missing `row`, because inferring it
+    // would make a malformed entry delete a record.
+    if (entry.remove) {
+      await remove(store, entry.id);
+      n++;
+      continue;
+    }
+
     const existing = await get(store, entry.id);
 
     if (!existing) {

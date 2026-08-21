@@ -158,6 +158,13 @@ if node -e "require.resolve('jsdom')" 2>/dev/null; then
   #    views and forms are where the imports actually get used, so they are
   #    opened too. See deep-check.mjs.
   node deep-check.mjs || exit 1
+  # 5b. A pack update runs against an INSTALLED copy, and no layer above sees
+  #     one: they all read the shipped files, where a record that has left the
+  #     pack simply is not there. On a real installation it is, and until rc13 it
+  #     stayed for ever — an updated copy and a fresh one drifting apart with
+  #     nothing to say so. This seeds the previous pack into a database, applies
+  #     this one, and checks what actually left (§13cb).
+  node scripts/try-pack-withdrawal.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by

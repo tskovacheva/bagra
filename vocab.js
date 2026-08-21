@@ -19,8 +19,25 @@ export const DIMENSIONS = [
   'trial_status', 'trial_stage',
 ];
 
-const V = (dimension, code, bg, en, order = 0, description = null) =>
-  ({ key: dimension + ':' + code, dimension, code, label: { bg, en }, order, description });
+// `description` is shown where the code is shown (§13aw). `glossaryGroup` is a
+// SEPARATE and deliberate statement: this explanation is also a word of the
+// craft, and it belongs in that group of the Library's glossary (§13cb).
+//
+// The two were one thing until rc13, and the Library merged in every code that
+// carried a description. That inferred a decision from a side effect: the
+// glossary grew silently whenever anyone explained a code anywhere in this file,
+// and by rc12 it had — „нищо за записване", „пигмент" and „извлек" were sitting
+// among the terms as though somebody had put them there. A fallback that
+// produces plausible output hides the fault it covers for.
+//
+// So membership is now said, not deduced. `chemistry_class:tannin` keeps its
+// description and does NOT get a group: what it explains is which CODE to pick
+// when the subtype is unknown, which is a note about the model and not about
+// dyeing — and the glossary already has a `tannin` term of its own, so the two
+// were rendering as two cards under one title.
+const V = (dimension, code, bg, en, order = 0, description = null, glossaryGroup = null) =>
+  ({ key: dimension + ':' + code, dimension, code, label: { bg, en }, order,
+     description, glossaryGroup });
 
 export const VOCABULARY = [
   // --- fibre -------------------------------------------------------------
@@ -159,7 +176,7 @@ export const VOCABULARY = [
   // not chemistry: chemistry says what is inside a part.
   V('plant_role', 'mordant_accumulator', 'акумулатор', 'mordant accumulator', 3,
     { bg: 'Растение, което трупа алуминий в тъканите си, така че само по себе си може да замести или намали байцването.',
-      en: 'A plant that accumulates aluminium in its tissue, so it can stand in for a mordant or reduce how much is needed.' }),
+      en: 'A plant that accumulates aluminium in its tissue, so it can stand in for a mordant or reduce how much is needed.' }, 'textile_prep'),
 
   // Eco-print specific and absent from most references (§4).
   V('compositional_role', 'shape_printer', 'оформящо',      'shape printer', 1),
@@ -200,16 +217,16 @@ export const VOCABULARY = [
   // false statement.
   V('extraction_mode', 'decoction', 'гореща отвара', 'hot decoction', 1,
     { bg: 'Обичайното: частта се вари или се държи гореща във вода.',
-      en: 'The ordinary way: the part is simmered or held hot in water.' }),
+      en: 'The ordinary way: the part is simmered or held hot in water.' }, 'dyeing'),
   V('extraction_mode', 'cold', 'студена', 'cold extraction', 2,
     { bg: 'Извлича се на стайна температура; нагряването разваля цвета.',
-      en: 'Extracted at room temperature; heat spoils the colour.' }),
+      en: 'Extracted at room temperature; heat spoils the colour.' }, 'dyeing'),
   V('extraction_mode', 'solvent', 'с разтворител', 'solvent extraction', 3,
     { bg: 'Багрилото не е водоразтворимо — извлича се със спирт или масло.',
-      en: 'The dye is not water soluble — alcohol or oil is used instead.' }),
+      en: 'The dye is not water soluble — alcohol or oil is used instead.' }, 'dyeing'),
   V('extraction_mode', 'vat', 'редукционна вана', 'reduction vat', 4,
     { bg: 'Индигов процес: багрилото се редуцира, а цветът се появява на въздух.',
-      en: 'An indigo process: the dye is reduced, and the colour appears in air.' }),
+      en: 'An indigo process: the dye is reduced, and the colour appears in air.' }, 'indigo'),
 
   V('fastness', 'unknown',   'неизвестно', 'unknown', 0),
   V('fastness', 'poor',      'слаба',      'poor', 1),

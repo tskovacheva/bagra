@@ -18,7 +18,11 @@ export async function open(name) {
   const chosen = new Set([
     ...diff.added.map(e => e.id),
     ...diff.changed.map(e => e.id),
-    // Edited records stay unticked: the default must be to protect her work.
+    // A withdrawal the user has not edited is ticked: the pack dropped the
+    // record on purpose and leaving it behind is what makes an updated copy
+    // differ from a fresh one. One she HAS edited stays unticked, like any
+    // other edited record — her work is not the pack's to discard.
+    ...diff.withdrawn.filter(e => !e.edited).map(e => e.id),
   ]);
   state = { name, diff, chosen };
 }
@@ -63,7 +67,8 @@ export async function render(root, onDone) {
   const { diff } = state;
   const total = state.chosen.size;
 
-  const nothing = !diff.added.length && !diff.changed.length && !diff.edited.length;
+  const nothing = !diff.added.length && !diff.changed.length
+               && !diff.edited.length && !diff.withdrawn.length;
 
   root.innerHTML = page({
     title: t('seed.previewTitle'),
@@ -78,6 +83,8 @@ export async function render(root, onDone) {
           ${await group('seed.groupChanged', diff.changed, { ticked: 'changed' })}
           ${await group('seed.groupEdited', diff.edited, {
             ticked: 'edited', hint: t('seed.editedHint') })}
+          ${await group('seed.groupWithdrawn', diff.withdrawn, {
+            ticked: 'withdrawn', hint: t('seed.withdrawnHint') })}
           <p class="hint">${t('seed.unchanged', { n: diff.unchanged.length })}</p>
         `),
   });
@@ -94,7 +101,7 @@ export async function render(root, onDone) {
     }
 
     if (e.target.closest('[data-apply]')) {
-      const all = [...diff.added, ...diff.changed, ...diff.edited]
+      const all = [...diff.added, ...diff.changed, ...diff.edited, ...diff.withdrawn]
         .filter(x => state.chosen.has(x.id));
       const n = await applyDiff(diff.store, all, diff.pack);
       close();

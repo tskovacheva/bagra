@@ -6801,3 +6801,165 @@ view, and the fields live in the edit form. A guard pointed at the wrong screen 
 correctly and means nothing.
 
 ---
+
+## 13cb. The glossary edited down, and a pack that can withdraw (1.0.0-rc13)
+
+The owner reviewed the thirty glossary terms against a principle she stated for the first time
+here: a word earns a place if a person will meet it in a book, a recipe or a community, its
+meaning is not obvious from the word itself, misreading it leads to the wrong process, or the
+application uses it in the visible interface. **A term does not earn a place by existing as a
+chemical concept or as a category in the model.** Thirty terms became thirty-two —
+`scripts/edit-glossary.py`, pack `bagra-glossary` 0.2.0.
+
+### Five left, and only two of them for the same reason
+
+`affinity` and `buffer` are valid chemistry and too low-level for the use they get; neither is
+attached to any workflow the application has.
+
+`hapa_zome` left because it is a technique and not a word. The Techniques module did not have it,
+so removing it from the glossary alone would have deleted it from the application — which is why
+`edit-techniques.py` runs in the same session and adds it under `printing`, not `bundling`:
+nothing is rolled and nothing is bound, the plant is struck through the cloth and its own sap
+makes the mark. Its description states plainly that the result is usually fugitive, which is the
+kind of thing a reference exists to say about a technique that photographs well.
+
+`bundling` left for the same reason: `bundle_roll`, `bundle_fold` and `barrier_layer` are already
+techniques carrying their own descriptions.
+
+`discharge` left because **the method does not exist yet**. §13bt argued it had earned the space —
+true discharge destroys the dye and a pH shift only moves it, and the two look alike — and that
+argument still holds. It is a glossary entry for a practice no screen can record, which is a
+promise the application does not keep. It returns with the method; ROADMAP.md carries it.
+
+### Three terms looked removable because their titles were bad
+
+The review listed `afterbath`, `bundling` and `discharge` as essential in one section and as
+removable in another. Two of the three are one code each, and the contradiction resolves the same
+way both times: the entry had earned its place and the Bulgarian title had not. „Дообработка" can
+mean anything done after dyeing; „Кроки" is an English technical term transliterated into a
+Bulgarian word carrying no sense; „Одеяло" alone does not say which cloth. That is the distinction
+the owner draws between a labelling fault and a data error, arriving from her own review.
+
+Five Bulgarian titles changed. The English name stays in the title where it is the word actually
+met in practice and Bulgarian has no settled equivalent — the aliases already carry it for the
+search, but aliases cannot be seen on the card, and a reader who knows a word from a book has to
+recognise the card as the right one.
+
+### Where the review was not followed
+
+**The four chemistry classes stay.** The review suspected that `anthocyanin`, `flavonoid`,
+`anthraquinone`, `indigoid`, `tannin` and `resist` duplicated `vocab.js`, on the strength of the
+architectural note in §13bt. They do not: in `vocab.js` these carry a code and a LABEL and no
+explanation, so the screen shows „антрахинони" and nothing says what that is. The glossary is
+their only explanation, and removing it would open a hole directly under the pending work §13bt
+records — a term met on another screen leading to its entry. The one real duplicate was `tannin`,
+and it was a bug rather than an editorial judgement; see below.
+
+**`washfastness` stays.** The review removed it and, two paragraphs later, asked for
+`colourfastness` as a parent over the three kinds. The middle child cannot be missing. Its text
+already said the non-obvious thing — the first washes always carry off unbound dye, and loss past
+the third is the warning sign — and it was rewritten rather than removed.
+
+### „Марена" is not a Bulgarian word
+
+Madder is „брош". „Марена" is a loan from the Russian „марена красильная". The plant record was
+always right — `rubia_tinctorum` is „Бояджийски брош" — but the prose written around it had
+drifted, in the glossary, in a recipe note, in a technique description and in the pH tab.
+`rename-madder-bg.py` corrects a fixed list of phrases rather than a pattern over „марен-":
+Bulgarian inflects, the substituted grammar would have to be guessed, and `марля` is one character
+away. English is untouched; `madder` is correct English and is also a palette colour in the code.
+
+### Eight groups, and the field that nothing drew
+
+`GROUPS` was declared in `modules/library.js` and read nowhere. `group` was a field on every term
+and rendered nowhere. The screen was one flat alphabetical run of thirty cards, which is not a
+reference shelf, and a field nothing renders is a field nobody maintains. The six groups were also
+named after the model — chemistry, process, fabric, ph, ecoprint, fastness — which says where a
+term came FROM rather than where a person would look for it.
+
+Eight groups, in the order a reader is walked through the craft: **basics · textile\_prep · dyeing ·
+ecoprint · indigo · pigment · colour\_chemistry · fastness**. A heading appears only above cards
+that are there, because during a search most groups are empty and a column of headings over
+nothing reads as an application that has lost its content.
+
+### Membership in the glossary is stated, not deduced
+
+`modules/library.js` merged in every `vocab.js` code carrying a `description`. That inferred a
+decision from a side effect: the glossary grew silently as `vocab.js` grew, and by rc12 the three
+`recipe_output` notes — „нищо за записване", „пигмент", „извлек" — were sitting among the terms as
+though somebody had put them there. Nobody had. A seventh argument to `V()`, `glossaryGroup`, now
+says it, and says which group.
+
+### A guard that read the source and missed the one case there was
+
+Guard 24d refuses a glossary term that names a code `vocab.js` explains. It read `vocab.js` as
+TEXT, with a pattern requiring `\d+` for the order argument — and `chemistry_class:tannin` carries
+the order `0.5`, so that it sorts above its three subtypes. The pattern did not match, the code
+never entered the list, and **the Library drew two cards titled „Танини", in both languages, for as
+long as both records have existed.** A guard that reads source text for a shape is testing
+spelling; this one was passing on a decimal point.
+
+The pattern is fixed, but what holds the line now is importing the module and asking it. The rule
+was also narrowed to the condition that actually produces two cards: a code the Library MERGES IN
+may not also be a seeded term. `chemistry_class:tannin` keeps its description and gets no group —
+what it explains is which CODE to pick when the subtype is unknown, which is a note about the model
+and not about dyeing. That overlap is named in the guard with its reason, so that a second one
+stops the build and has to be argued for rather than absorbed by a rule stated loosely enough to
+cover it.
+
+Three further checks, each shown failing before it was accepted: every group a term names is one
+the screen draws (a term in an unknown group is never rendered — no error, no empty state, the
+term simply is not there); every heading has words in both languages; and nothing is marked for the
+glossary with no definition to show, which is the cost of separating the flag from the description.
+
+### A pack could not withdraw a record
+
+`diffPack` walked the PACK. A seeded record that had LEFT the pack was therefore never looked at
+and stayed on an installed copy for ever — so a fresh install and an updated one become two
+different applications, silently and permanently. No pack had ever removed a row before, so the gap
+had never shown; removing five glossary terms showed it at once. It is the same shape as the fault
+§13bt records, where a corrected term never reached an installed copy.
+
+`diffPack` now walks the store as well and reports a fourth group, `withdrawn`: seeded records of
+this pack that the pack no longer carries. Only `origin: 'seed'` with this `packId` — what the user
+wrote herself is not the pack's to withdraw, and another pack's records in the same store are not
+its business either.
+
+It is offered, not performed. Removal is the one direction that running the update again cannot
+undo, so it goes through the same tick-box as everything else. A withdrawal she has not edited
+arrives ticked, because leaving it behind is precisely what makes her copy differ; one she HAS
+edited arrives unticked, like any other edited record.
+
+`applyDiff` acts on an explicit `remove` flag on the entry rather than inferring a deletion from a
+missing `row`, because inferring it would let a malformed entry delete a record.
+
+**`scripts/try-pack-withdrawal.mjs`, layer 5b of `check.sh`.** No layer above it sees a pack update:
+they all read the shipped files, where a withdrawn record is simply not there. This seeds the
+previous pack into a database — including one term marked as edited by the user and one the user
+wrote herself — applies this pack, and checks what actually left. Twelve assertions. Against the
+rc12 `seed.js` nine of them fail, which is what makes the other three worth reading.
+
+### A glossary card was two columns
+
+The card borrowed `.refcard`, which is `display:flex` because everywhere else its left column is a
+52px colour swatch. A term name is not a swatch: as a flex child it took a column as wide as the
+longest name in the list, wrapped „Целулозни и протеинови влакна" down four lines while the
+paragraph beside it started at the top, and pushed the cross-references and the source out to the
+right edge, away from the text they belong to. Its own class, `.glossterm`: the term, the
+definition under it, the references and the attribution below that, in the order they are read.
+`.refcard` also carries a pointer cursor, which said "press me" about something that does nothing
+when pressed (§13ac).
+
+The group heading is an `h2` and takes the one heading scale. It was written with a size of its own
+first and `check-scope` refused it — correctly, since two places holding one size is how the
+inversion that guard exists for came about.
+
+### Open
+
+`overdye` is „Повторно багрене" in both the glossary and Techniques, where it was „Наслагване". The
+code is untouched, so nothing referencing the technique is orphaned. What the old name carried and
+the new one does not is that the second colour LAYERS OVER the first, as against running the same
+bath again for depth; the description now carries that distinction in its first sentences. If it is
+seen to be confused in use, the label changes without touching data.
+
+---

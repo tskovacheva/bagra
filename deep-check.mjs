@@ -4149,14 +4149,103 @@ const dirty = await import('./dirty.js');
   else console.log('  glossary: every term reads in both languages');
 
   // The line against duplication.
+  //
+  // THIS READ THE SOURCE AND MISSED THE ONE CASE THERE WAS. The pattern below
+  // used to require `\d+` for the order argument, and `chemistry_class:tannin`
+  // carries the order `0.5` so that it sorts above its three subtypes. The
+  // pattern did not match, the code never entered `explained`, and the guard
+  // reported a clean result while the Library drew two cards titled „Танини" —
+  // the seeded term and the vocabulary explanation — in every language, for as
+  // long as both have existed. A guard that reads source text for a shape is
+  // testing spelling, not behaviour, and this one was passing on a decimal
+  // point. `\d+(?:\.\d+)?` closes that particular hole; importing the module and
+  // asking it, below, is what actually holds the line.
   const vocabSrc = fs.readFileSync('vocab.js', 'utf8');
   const explained = [...vocabSrc.matchAll(
-    /V\('[a-z_]+',\s*'([a-z_]+)',\s*'[^']*',\s*'[^']*',\s*\d+,\s*\{/g)].map(m => m[1]);
-  const clash = explained.filter(c => codes.has(c));
+    /V\('[a-z_]+',\s*'([a-z_]+)',\s*'[^']*',\s*'[^']*',\s*[\d.]+,\s*\{/g)].map(m => m[1]);
+
+  // Asked of the module rather than of its text: this is what the screen will
+  // actually merge in, whatever the source happens to look like (§13cb).
+  const { VOCABULARY } = await import('./vocab.js');
+  const merged = VOCABULARY.filter(v => v.glossaryGroup);
+  const explainedCodes = new Set([
+    ...explained,
+    ...VOCABULARY.filter(v => v.description).map(v => v.code),
+  ]);
+
+  // The hard line: a code the Library MERGES IN may not also be a seeded term.
+  // That is the condition that actually puts two cards with one title on the
+  // screen, and it admits no exception.
+  const doubled = merged.filter(v => codes.has(v.code)).map(v => v.code);
+  if (doubled.length)
+    fail('glossary', new Error(
+      `drawn twice — a seeded term and a merged vocabulary term: ${doubled.join(', ')}`));
+  else console.log(`  glossary: nothing is drawn twice (${merged.length} merged in)`);
+
+  // The softer line, and the reason it is not simply the same rule. A code that
+  // has a description but is NOT merged does not reach the glossary screen —
+  // but its description is still shown wherever the code is shown (§13aw), so
+  // two texts about one word still exist in two files and can still drift.
+  //
+  // One such overlap is deliberate and is named here with its reason. It is
+  // named rather than tolerated by a broader rule, so that a SECOND one stops
+  // the build and has to be argued for.
+  const ACKNOWLEDGED = {
+    // The glossary defines tannins as a dyer meets them. This describes what
+    // choosing the CODE `tannin` means — that the level is recorded and the
+    // subtype is not, as against `tannin_gallo` and the other two. Different
+    // subjects; the shared word is a coincidence of the model.
+    tannin: 'the vocabulary note is about picking the code, not about tannins',
+  };
+  const clash = [...explainedCodes]
+    .filter(c => codes.has(c) && !(c in ACKNOWLEDGED));
   if (clash.length)
     fail('glossary', new Error(
       `term also explained in vocab.js — one thing, two definitions: ${clash.join(', ')}`));
-  else console.log(`  glossary: nothing restates a vocabulary explanation (${explained.length} in vocab.js)`);
+  else console.log(
+    `  glossary: nothing restates a vocabulary explanation (${explainedCodes.size} explained, ` +
+    `${Object.keys(ACKNOWLEDGED).length} overlap acknowledged)`);
+
+  // Every group a term names must be one the screen draws. A term in a group
+  // GROUPS does not list is never rendered — no error, no empty state, the term
+  // simply is not there — which is the quietest way for the glossary to lose an
+  // entry (§13cb).
+  const GROUPS = ['basics', 'textile_prep', 'dyeing', 'ecoprint',
+                  'indigo', 'pigment', 'colour_chemistry', 'fastness'];
+  const libSrc = fs.readFileSync('modules/library.js', 'utf8');
+  for (const g of GROUPS)
+    if (!libSrc.includes(`'${g}'`))
+      fail('glossary', new Error(`this check knows a group modules/library.js does not: ${g}`));
+
+  const strayGroup = [
+    ...gloss.filter(t => !GROUPS.includes(t.group)).map(t => `${t.code} in ${t.group}`),
+    ...merged.filter(v => !GROUPS.includes(v.glossaryGroup))
+      .map(v => `vocab ${v.code} in ${v.glossaryGroup}`),
+  ];
+  if (strayGroup.length)
+    fail('glossary', new Error(`group nothing renders: ${strayGroup.join(', ')}`));
+  else console.log(`  glossary: every term sits in a group the screen draws (${GROUPS.length} groups)`);
+
+  // The heading has to have words, in both languages, or the section renders as
+  // its own key above the cards — the fault guard 24c was written for (§13bt).
+  const dictSrc = fs.readFileSync('i18n.js', 'utf8');
+  const wordless = GROUPS
+    .filter(g => (dictSrc.split(`'library.group.${g}'`).length - 1) < 2);
+  if (wordless.length)
+    fail('glossary', new Error(
+      `group heading missing in one language or both: ${wordless.join(', ')}`));
+  else console.log('  glossary: every group heading reads in both languages');
+
+  // A vocabulary entry may be marked for the glossary only if it has something
+  // to say there. The flag and the description are separate fields precisely so
+  // that membership is stated rather than deduced, and the cost of separating
+  // them is that they can now disagree: a flag with no description renders a
+  // card with a title and a blank body.
+  const flagged = merged.filter(v => !v.description).map(v => v.code);
+  if (flagged.length)
+    fail('glossary', new Error(
+      `marked for the glossary with nothing to show: ${flagged.join(', ')}`));
+  else console.log(`  glossary: every vocabulary term it draws has a definition (${merged.length} drawn)`);
 }
 
 // ---- 24e. An unknown strength says so, and does not also carry one ---------

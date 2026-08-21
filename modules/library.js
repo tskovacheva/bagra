@@ -35,7 +35,21 @@ import { page, panel, field, esc, empty, pairField, readPairs, navigate, backTo,
 const KINDS = ['book', 'course', 'person', 'site', 'reference', 'other'];
 
 const TABS = ['glossary', 'ph', 'sources'];
-const GROUPS = ['chemistry', 'process', 'fabric', 'ph', 'ecoprint', 'fastness'];
+
+// The order a reader is walked through the craft: what a dye is, how the cloth
+// is prepared, how it is dyed, the two processes that have rules of their own,
+// and only then the chemistry and the fastness (§13cb).
+//
+// The six groups before these — chemistry, process, fabric, ph, ecoprint,
+// fastness — were named after the model, which says where a term came FROM
+// rather than where a person would look for it. They were also never drawn:
+// `GROUPS` was declared here and read nowhere, and the screen was one flat
+// alphabetical run of thirty cards. A field nothing renders is a field nobody
+// maintains.
+const GROUPS = [
+  'basics', 'textile_prep', 'dyeing', 'ecoprint',
+  'indigo', 'pigment', 'colour_chemistry', 'fastness',
+];
 
 // What moves pH in each direction. Ours, not a photograph of a test strip:
 // a strip's colours belong to the maker who printed it, and another maker's
@@ -68,16 +82,30 @@ function blank() {
 
 // ---- glossary -------------------------------------------------------------
 
-// The five vocab.js explanations, shaped like glossary terms so one list can
-// render both. Derived on every call rather than stored: a copy would be a
-// second definition, which is the thing this module exists not to have.
+// The vocab.js explanations that are ALSO words of the craft, shaped like
+// glossary terms so one list can render both. Derived on every call rather than
+// stored: a copy would be a second definition, which is the thing this module
+// exists not to have.
+//
+// The test is `glossaryGroup`, not `description`. Until rc13 it was
+// `description`, which inferred a decision from a side effect: any code
+// explained anywhere in vocab.js appeared here, so the glossary grew silently as
+// vocab.js grew, and by rc12 „нищо за записване", „пигмент" and „извлек" — three
+// notes about what a recipe records — were sitting among the terms as though
+// somebody had put them there. Nobody had. Membership is now stated at the entry
+// (§13cb).
+//
+// It also ended a duplication. `chemistry_class:tannin` carries a description
+// and the glossary carries a `tannin` term, so the screen drew TWO cards titled
+// „Танини". Guard 24d exists to refuse exactly that and missed it — see the
+// guard for why.
 function vocabTerms() {
   const out = [];
   for (const v of VOCABULARY) {
-    if (!v.description) continue;
+    if (!v.glossaryGroup) continue;
     out.push({
       code: v.code,
-      group: 'process',
+      group: v.glossaryGroup,
       term: v.label,
       definition: v.description,
       aliases: [],
@@ -108,7 +136,7 @@ async function renderGlossary(root, sources) {
   const byCode = new Map([...seeded, ...vocabTerms()].map(x => [x.code, x]));
   const sourceName = new Map(sources.map(s => [s.code, s.name]));
 
-  const cards = terms.map(x => {
+  const card = (x) => {
     const rel = (x.seeAlso || [])
       .map(c => byCode.get(c))
       .filter(Boolean)
@@ -119,17 +147,39 @@ async function renderGlossary(root, sources) {
       : (x.sourceCode && sourceName.has(x.sourceCode)
           ? `<span class="hint">${esc(sourceName.get(x.sourceCode))}</span>`
           : '');
+    // Name, then definition, then everything secondary on one line beneath.
+    // It used to be a two-column row, because `.refcard` is a flex row
+    // everywhere else — where the left column is a colour swatch of a fixed
+    // 52px. A term name is not a swatch: it wrapped to three lines on the long
+    // ones, the column width was set by whichever name in the list happened to
+    // be longest, and the chip and the source floated off to the right edge with
+    // whitespace between them and the text they belonged to (§13cb).
     return `
-      <div class="refcard">
-        <h3>${esc(text(x.term))}</h3>
-        <p>${esc(text(x.definition))}</p>
-        ${rel ? `<div class="chips">${rel}</div>` : ''}
-        ${from}
+      <div class="refcard glossterm">
+        <h3 class="termname">${esc(text(x.term))}</h3>
+        <p class="termdef">${esc(text(x.definition))}</p>
+        ${rel || from ? `<div class="termfoot">${rel}${from}</div>` : ''}
       </div>`;
+  };
+
+  // A heading appears only above cards that are there. While a search is
+  // running most groups are empty, and a column of headings over nothing reads
+  // as an application that has lost its content rather than as a narrow result.
+  //
+  // A group that holds no term at all is not an error: `indigo` and `pigment`
+  // hold two each and either could be emptied by an edit. Guard 24d holds the
+  // other direction — that every group a term names is one of these — because
+  // that failure is silent, the term simply never being drawn.
+  const sections = GROUPS.map(g => {
+    const inGroup = terms.filter(x => x.group === g);
+    if (!inGroup.length) return '';
+    return `
+      <h2 class="grouphead">${t('library.group.' + g)}</h2>
+      <div class="cards">${inGroup.map(card).join('')}</div>`;
   }).join('');
 
   return terms.length
-    ? `<div class="cards">${cards}</div>`
+    ? sections
     : empty(t('library.noTerms'), t('library.noTermsHint'));
 }
 

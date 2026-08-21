@@ -942,6 +942,27 @@ label.btn{cursor:pointer}
   margin-bottom:9px;background:var(--ground);
 }
 .refcard:hover{border-color:var(--muted)}
+/* The glossary's eight sections (§13cb). An h2, so it takes the one heading
+   scale rather than a size of its own — check-scope refuses a heading that sets
+   its own, and it was right to: two places holding one size is how the
+   inversion it was written for came back. All this adds is the room between
+   sections and the hairline under the words. */
+.grouphead{margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.grouphead:first-child{margin-top:2px}
+/* A glossary card reads down, not across. `.refcard` is a flex ROW everywhere
+   else, where its left column is a 52px colour swatch; a term name is not a
+   swatch, and as a flex child it took a column as wide as the longest name in
+   the whole list, wrapped the long ones to three lines, and pushed the chips
+   and the source out to the right edge away from the text they belong to. */
+.glossterm{display:block;padding:13px 15px;cursor:default}
+.glossterm:hover{border-color:var(--line)}
+.termname{font-size:15.5px;font-weight:600;color:var(--ink);margin:0 0 4px;line-height:1.3}
+/* A definition is prose and wants a reading measure. Left to the panel width on
+   a wide screen it runs to well over a hundred characters a line, which is the
+   width at which the eye starts losing its place returning to the left. */
+.termdef{margin:0;max-width:74ch;color:var(--ink);line-height:1.5}
+.termfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:9px}
+.termfoot .hint{margin:0}
 .refswatch{width:52px;height:52px;border-radius:4px;flex:0 0 52px;border:1px solid var(--line)}
 /* The question is four short answers; the reply is long. Two columns on a desk,
    one on a phone — never four selects stacked down half the screen. */

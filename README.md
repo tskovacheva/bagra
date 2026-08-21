@@ -38,9 +38,10 @@ anything. It ships in seed packs and is read at the desk.
 | Plants | 57 species, fully described, bilingual |
 | Recipes | Procedures with proportions; sequences inside |
 | Materials | What a substance *is* — formula, ceiling, disposal — with the jars on the shelf |
-| Techniques | Controlled vocabulary |
+| Techniques | Controlled vocabulary — 21 records |
 | Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, planning, timer |
-| Sources | The attribution register |
+| Library | Glossary (32 terms in eight groups), the pH scale, and the attribution register |
+| Pigments | Batches of made pigment, worked from a recipe that declares an output |
 
 **Diary** — her own work, never distributed.
 
@@ -187,6 +188,11 @@ Six layers, each of which exists because something got through:
 5. **Deep check** — opens every record, clicks through the flows, and asserts
    behaviour: that collapsed steps survive a save, that search narrows and clears,
    that a record shows the colours its row promised.
+5b. **A pack update against an installed copy.** Every layer above reads the shipped
+   files, where a record removed from a pack is simply not there; on a real
+   installation it is. This one seeds the previous pack into a database, applies
+   this one, and checks what actually left — and that an edited record and the
+   user's own records did not.
 6. **Screen rendering** — every address drawn in a real browser at a phone width,
    checking geometry: nothing overflowing sideways, no control smaller than a finger.
 

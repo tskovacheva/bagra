@@ -1,6 +1,6 @@
 {
  "packId": "bagra-techniques",
- "packVersion": "0.1.0",
+ "packVersion": "0.2.0",
  "description": {
   "bg": "Техники за резист, шибори, печат, вързване и последваща обработка.",
   "en": "Techniques for resist, shibori, printing, bundling and post-treatment."
@@ -232,7 +232,7 @@
     "ecoprint"
    ],
    "description": {
-    "bg": "Потапяне в слаб разтвор на сода. Измества цвета към по-топло и по-ярко при мареновите и антрахиноновите багрила; при антоцианините го превръща в синьо-зелено, но нетрайно.",
+    "bg": "Потапяне в слаб разтвор на сода. Измества цвета към по-топло и по-ярко при брошовите и антрахиноновите багрила; при антоцианините го превръща в синьо-зелено, но нетрайно.",
     "en": "A dip in a weak soda solution. Shifts madder and anthraquinone dyes warmer and brighter; turns anthocyanins blue-green, though not durably."
    }
   },
@@ -255,7 +255,7 @@
   {
    "code": "overdye",
    "name": {
-    "bg": "Наслагване",
+    "bg": "Повторно багрене",
     "en": "Overdyeing"
    },
    "category": "post_treatment",
@@ -264,8 +264,8 @@
     "ecoprint"
    ],
    "description": {
-    "bg": "Второ багрене върху вече набагрен плат. Жълто под синьо дава зелено, което почти никое растение не дава направо. Редът има значение — по-светлото отива първо.",
-    "en": "A second dyeing over an already dyed cloth. Yellow under blue gives the green that almost no plant gives directly. Order matters — the lighter colour goes first."
+    "bg": "Второ багрене върху вече обагрен плат, за да се получи цвят, който едно багрене не дава — жълто под синьо дава зелено, каквото почти никое растение не дава направо. Различава се от повтарянето на същата баня за по-наситен резултат: тук второто багрило ляга върху първия цвят. Редът има значение и по-светлото отива първо.",
+    "en": "A second dyeing over cloth that is already dyed, to reach a colour a single dyeing does not give — yellow under blue gives the green almost no plant gives directly. It differs from repeating the same bath for greater depth: here the second dye settles over the first colour. Order matters, and the lighter colour goes first."
    }
   },
   {
@@ -315,6 +315,21 @@
    "description": {
     "bg": "Свежите листа на японското индиго или сърпицата се използват веднага след брането — смачкани, пасирани или като студена мацерация — и платът се обработва директно в тях. Не е редукционна вана: тук няма нито редукция, нито алкална среда, а прекурсорът се свързва с влакното, преди да е станал неразтворим индиготин. Работи най-добре върху коприна и вълна, слабо върху целулоза, и дава студени сини до тюркоазени тонове, различни от тези на вана. Часът има значение — листата губят сила бързо след откъсване.",
     "en": "Fresh leaves of Japanese indigo or woad are used straight after picking — crushed, blended or as a cold maceration — and the cloth is worked directly in them. It is not a reduction vat: there is neither reduction nor alkalinity, and the precursor bonds to the fibre before it becomes insoluble indigotin. It works best on silk and wool, poorly on cellulose, and gives cool blues to turquoise unlike a vat's. Timing matters — the leaves lose strength quickly once picked."
+   }
+  },
+  {
+   "code": "hapa_zome",
+   "name": {
+    "bg": "Хапа-зоме",
+    "en": "Hapa-zome"
+   },
+   "category": "printing",
+   "appliesTo": [
+    "ecoprint"
+   ],
+   "description": {
+    "bg": "Листа и цветове се полагат върху плата, покриват се и се чукат с чук или камък, докато сокът им премине в тъканта. Отпечатъкът излиза веднага и е много точен — вижда се всяка жилка. Цветът обаче е самият сок на растението, не извлечено и свързано багрило, затова обикновено е нетраен: избледнява за седмици и се измива. Мордантът и последваща желязна баня го задържат отчасти.",
+    "en": "Leaves and flowers are laid on the cloth, covered, and struck with a hammer or a stone until their juice passes into the textile. The print appears at once and is very precise — every vein shows. The colour, though, is the plant sap itself rather than an extracted and bound dye, so it is usually fugitive: it fades within weeks and washes out. A mordant and an iron afterbath hold it back in part."
    }
   }
  ]

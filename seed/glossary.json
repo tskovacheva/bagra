@@ -1,210 +1,108 @@
 {
  "packId": "bagra-glossary",
- "packVersion": "0.1.0",
+ "packVersion": "0.2.0",
  "description": {
-  "bg": "Думите на занаята, обяснени със свои думи. Тук са само термините, които НЕ са кодове в модела — кодовете носят обяснението си там, където се показват, и се извеждат в речника от речниковия файл, не се преписват тук.",
-  "en": "The words of the craft, explained in our own words. Only terms that are NOT codes in the model live here — codes carry their explanation where they are shown, and are drawn into the glossary from the vocabulary file rather than copied here."
+  "bg": "Думите на занаята, обяснени със свои думи. Тук стои дума, която човек ще срещне в книга, рецепта или общност и чието значение не е очевидно от самата дума. Не стоят тук нито понятия, които са кодове в модела и носят обяснението си там, където се показват, нито техники — те са в модула Техники.",
+  "en": "The words of the craft, explained in our own words. A word belongs here if a person will meet it in a book, a recipe or a community and its meaning is not obvious from the word itself. Concepts that are codes in the model do not: they carry their explanation where they are shown. Neither do techniques, which live in the Techniques module."
  },
  "terms": [
   {
-   "code": "affinity",
-   "group": "chemistry",
+   "code": "wof",
+   "group": "basics",
    "term": {
-    "bg": "Афинитет",
-    "en": "Affinity"
+    "bg": "WOF — спрямо тежестта на тъканта",
+    "en": "WOF — weight of fibre"
    },
    "aliases": [
-    "привличане",
-    "attraction"
+    "wof",
+    "тегло на влакното",
+    "weight of fibre",
+    "процент wof"
    ],
    "definition": {
-    "bg": "Колко охотно едно багрило се хваща за дадено влакно. Високият афинитет изглежда като предимство, но не винаги е: багрилото се лепва бързо и неравномерно, преди да е стигнало навсякъде. Затова много процеси вдигат температурата бавно — не за да загреят, а за да забавят хващането и да го разпределят.",
-    "en": "How readily a dye takes to a given fibre. High affinity looks like an advantage and is not always one: the dye grabs fast and unevenly, before it has reached everywhere. This is why many processes raise the temperature slowly — not to heat, but to slow the taking and spread it out."
-   },
-   "seeAlso": [
-    "exhaust",
-    "cellulose_protein"
-   ],
-   "sourceCode": "boutrup-ellis"
-  },
-  {
-   "code": "substantive_adjective",
-   "group": "chemistry",
-   "term": {
-    "bg": "Субстантивно и адективно багрило",
-    "en": "Substantive and adjective dyes"
-   },
-   "aliases": [
-    "пряко багрило",
-    "direct dye",
-    "субстантивно",
-    "адективно"
-   ],
-   "definition": {
-    "bg": "Субстантивното багрило се хваща за влакното само, без байц. Адективното не се хваща — нужен му е мордант като мост между влакното и цвета. Повечето растителни багрила са адективни; ореховата обвивка и някои танинови кори са сред малкото, които не са. Не е степен на качество: субстантивното е по-лесно, адективното често е по-трайно.",
-    "en": "A substantive dye takes to the fibre on its own, without a mordant. An adjective dye does not — it needs a mordant as a bridge between fibre and colour. Most plant dyes are adjective; walnut hull and some tannin-rich barks are among the few that are not. This is not a measure of quality: substantive is easier, adjective is often the more lasting."
-   },
-   "seeAlso": [
-    "mordant",
-    "tannin"
-   ],
-   "sourceCode": "boutrup-ellis"
-  },
-  {
-   "code": "lake_pigment",
-   "group": "chemistry",
-   "term": {
-    "bg": "Лаков пигмент",
-    "en": "Lake pigment"
-   },
-   "aliases": [
-    "лак",
-    "лаков",
-    "lake"
-   ],
-   "definition": {
-    "bg": "Багрилен разтвор, вързан за неразтворима основа — почти винаги алуминиев хидроксид — така че цветът от течност става зърно. Оттам нататък е пигмент: рисува се, не се багри. Пропорцията решава наситеността — малко багрило върху много основа дава пастелен тон, не по-слаб същия цвят.",
-    "en": "A dye solution bound onto an insoluble base — almost always aluminium hydroxide — so the colour goes from liquid to grain. From there it is a pigment: it paints, it does not dye. The proportion decides the depth — little dye over much base gives a pastel hue, not a weaker version of the same colour."
+    "bg": "Мярката, по която върви почти цялото багрене: количество спрямо сухата тежест на тъканта. 20% WOF върху 100 г плат значи 20 г. Тъканта се тегли суха и преди мокрене — мокрият плат тежи многократно повече и разчита сметката. Процентът е безсмислен без базата, спрямо която е.",
+    "en": "The measure nearly all dyeing runs on: an amount against the dry weight of the cloth. 20% WOF on 100 g of fabric means 20 g. The cloth is weighed dry and before wetting — wet cloth weighs several times more and destroys the sum. A percentage means nothing without the base it is taken against."
    },
    "seeAlso": [
     "woa",
-    "extraction"
-   ],
-   "sourceCode": "natalie-stopka-pigment"
-  },
-  {
-   "code": "tannin",
-   "group": "chemistry",
-   "term": {
-    "bg": "Танини",
-    "en": "Tannins"
-   },
-   "aliases": [
-    "танин",
-    "tannin",
-    "дъбилни вещества"
-   ],
-   "definition": {
-    "bg": "Голяма група растителни съединения, които се връзват и за влакното, и за металите. Затова служат двойно: като собствен цвят — бежово до кафяво — и като основа, върху която друг мордант ляга по-здраво. С желязо потъмняват рязко, до сиво и черно. Приложението ги дели на три, защото се държат различно.",
-    "en": "A large group of plant compounds that bind both to fibre and to metals. So they serve twice: as a colour of their own — beige through brown — and as a ground on which another mordant sits more firmly. With iron they darken sharply, into greys and blacks. The library divides them into three, because they behave differently."
-   },
-   "seeAlso": [
-    "tannin_kinds",
-    "mordant",
-    "modifier"
+    "mordant"
    ],
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "tannin_kinds",
-   "group": "chemistry",
+   "code": "ph",
+   "group": "basics",
    "term": {
-    "bg": "Галови, елагови и кондензирани танини",
-    "en": "Gallo-, ellagi- and condensed tannins"
+    "bg": "pH — кисело и алкално",
+    "en": "pH — acid and alkaline"
    },
    "aliases": [
-    "галотанини",
-    "елаготанини",
-    "кондензирани танини",
-    "gallotannin",
-    "ellagitannin"
+    "ph",
+    "киселинност",
+    "алкалност",
+    "acid",
+    "alkaline"
    ],
    "definition": {
-    "bg": "Три вида, три различни резултата. Галовите дават най-чиста, най-светла основа — затова галоядките са класиката за бяла подложка. Елаговите са по-жълтеникави; дъбът и наровата кора са пълни с тях. Кондензираните са най-тъмни и най-склонни към кафяво сами по себе си. Ако рецептата казва само «танин», най-често има предвид галов.",
-    "en": "Three kinds, three different results. Gallotannins give the cleanest, palest ground — which is why oak galls are the classic for a white base. Ellagitannins are yellower; oak and pomegranate rind are full of them. Condensed tannins are the darkest and the most inclined to brown on their own. When a recipe says only \"tannin\", it usually means gallo."
+    "bg": "Скалата от 1 до 14: под 7 е кисело, 7 е неутрално, над 7 е алкално. pH може значително да промени оттенъка и поведението на някои багрила. Антоцианините реагират особено силно; брошът често дава по-чисти червени тонове в неутрална до умерено алкална среда; много от жълтите реагират слабо. Реакцията е различна за всяко багрило, затова pH не бива да се използва като универсална рецепта за промяна на цвета.",
+    "en": "The scale from 1 to 14: below 7 is acid, 7 is neutral, above 7 is alkaline. pH can markedly change both the hue and the behaviour of some dyes. Anthocyanins respond especially strongly; madder often gives cleaner reds in neutral to mildly alkaline conditions; many yellows respond little. The response differs from dye to dye, so pH should not be treated as a general method for changing colour."
    },
    "seeAlso": [
-    "tannin"
-   ],
-   "sourceCode": "boutrup-ellis"
-  },
-  {
-   "code": "anthocyanin",
-   "group": "chemistry",
-   "term": {
-    "bg": "Антоцианини",
-    "en": "Anthocyanins"
-   },
-   "aliases": [
-    "антоцианини",
+    "modifier",
     "anthocyanin"
    ],
-   "definition": {
-    "bg": "Червените, лилавите и сините на плодовете и цветовете. Сменят цвят според киселинността — червено в кисело, синьо до зелено в алкално — и точно това ги прави ненадеждни: същата промяна продължава и след багренето, при първото пране. Красиви са и почти никога не са трайни.",
-    "en": "The reds, purples and blues of fruit and flowers. They shift colour with acidity — red in acid, blue to green in alkali — and that is exactly what makes them unreliable: the same shift carries on after dyeing, at the first wash. They are beautiful and almost never lasting."
-   },
-   "seeAlso": [
-    "ph",
-    "lightfastness"
-   ],
-   "sourceCode": "jenny-dean-wild-colour"
-  },
-  {
-   "code": "flavonoid",
-   "group": "chemistry",
-   "term": {
-    "bg": "Флавоноиди",
-    "en": "Flavonoids"
-   },
-   "aliases": [
-    "флавоноид",
-    "flavonoid"
-   ],
-   "definition": {
-    "bg": "Най-широката група жълти в растителния свят — от бледо лимонено до наситено златисто. Държат се добре със стипца и са в основата на повечето сигурни жълти: жълтениче, резеда, лайка. С желязо отиват в маслинено и хаки, което е най-краткият път до зелено без индиго.",
-    "en": "The widest group of yellows in the plant world — from pale lemon to deep gold. They behave well with alum and underpin most of the dependable yellows: goldenrod, weld, chamomile. With iron they go olive and khaki, which is the shortest road to green without indigo."
-   },
-   "seeAlso": [
-    "mordant",
-    "modifier"
-   ],
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "anthraquinone",
-   "group": "chemistry",
+   "code": "dye_bath",
    "term": {
-    "bg": "Антрахинони",
-    "en": "Anthraquinones"
+    "bg": "Багрилна баня",
+    "en": "Dye bath"
    },
    "aliases": [
-    "антрахинон",
-    "anthraquinone"
+    "баня",
+    "dye bath",
+    "багрилен разтвор"
    ],
    "definition": {
-    "bg": "Червените, които издържат. Марената и кошенилата са тук. За разлика от антоцианините, тези не изсветляват бързо — античният текстил, оцелял с цвят, най-често е боядисан с тях. Марената иска алкална вода и не понася вряне: над 80 °C червеното хваща тухлен, после кафяв оттенък.",
-    "en": "The reds that last. Madder and cochineal are here. Unlike anthocyanins these do not fade quickly — ancient textiles that survive with colour are most often dyed with them. Madder wants alkaline water and will not take a boil: above 80 °C the red turns brick, then brown."
+    "bg": "Течността, в която се багри тъканта: вода, извлечени багрилни вещества и според процеса добавки — мордант, модификатор, сол, киселина или основа. Обемът трябва да стига тъканта да се движи свободно; притиснат плат се багри на петна. Обемът обаче не решава колко багрило влиза — то се дава спрямо тежестта на тъканта, не спрямо водата.",
+    "en": "The liquid in which the textile is dyed: water, extracted dye compounds and, depending on the process, additions such as mordant, modifier, salt, acid or alkali. The volume has to be enough for the cloth to move freely, since cloth packed tight dyes in patches. Volume does not set how much dye goes in, though: that is given against the weight of the fibre, not against the water."
    },
    "seeAlso": [
-    "ph",
-    "lightfastness"
+    "wof",
+    "extraction",
+    "exhaust"
    ],
-   "sourceCode": "boutrup-ellis"
+   "sourceCode": "boutrup-ellis",
+   "group": "basics"
   },
   {
-   "code": "indigoid",
-   "group": "chemistry",
+   "code": "natural_dye",
    "term": {
-    "bg": "Индигоиди",
-    "en": "Indigoids"
+    "bg": "Естествено багрило",
+    "en": "Natural dye"
    },
    "aliases": [
-    "индиго",
-    "indigo",
-    "индигоид"
+    "багрилно вещество",
+    "natural dye",
+    "dyestuff",
+    "багрилна суровина"
    ],
    "definition": {
-    "bg": "Синьото, и то работи различно от всичко останало. Индигото не се разтваря във вода и не иска мордант — трябва да се сведе химически до разтворима форма, влакното да се потопи, и цветът да се появи при досег с въздуха. Затова се говори за вана, а не за баня, и затова тъмното се постига с многократни кратки потапяния, не с едно дълго.",
-    "en": "Blue, and it works unlike everything else. Indigo does not dissolve in water and wants no mordant — it has to be chemically reduced to a soluble form, the fibre dipped, and the colour appears on contact with air. Hence a vat rather than a bath, and hence depth comes from many short dips rather than one long one."
+    "bg": "Багрилното вещество, което идва от растение, лишей, гъба или насекомо — за разлика от растението или суровината, в която се съдържа. Дъбовият лист не е багрилото; багрило са танините в него. Разликата има значение: количеството багрилно вещество в една и съща суровина се мени с вида, сезона, почвата и начина на сушене, затова дозирането се дава спрямо суровината, а резултатът не е едно и също нещо при две реколти.",
+    "en": "The colouring compound obtained from a plant, lichen, fungus or insect — as distinct from the plant or raw material that holds it. An oak leaf is not the dye; the tannins in it are. The distinction matters, because the amount of dye compound in the same raw material varies with species, season, soil and drying. Dosing is therefore given against the raw material, and two harvests are not the same thing."
    },
    "seeAlso": [
-    "reduction_oxidation"
+    "extraction",
+    "dye_bath",
+    "fugitive"
    ],
-   "sourceCode": "boutrup-ellis"
+   "sourceCode": "boutrup-ellis",
+   "group": "basics"
   },
   {
    "code": "mordant",
-   "group": "process",
+   "group": "textile_prep",
    "term": {
     "bg": "Мордант и байцване",
     "en": "Mordant and mordanting"
@@ -217,8 +115,8 @@
     "mordanting"
    ],
    "definition": {
-    "bg": "Мордантът е металната сол — най-често алуминиева — която стои между влакното и багрилото и държи цвета. Байцването е самото действие: тъканта се обработва с него преди багренето. Мордантът не е само залепване; той променя и самия тон. Едно и също багрило дава различен цвят със стипца, с желязо и с мед — това не е нюанс, а друг цвят.",
-    "en": "The mordant is the metal salt — most often aluminium — that stands between fibre and dye and holds the colour. Mordanting is the act: the cloth is treated with it before dyeing. A mordant does not only fix; it changes the hue itself. The same dye gives a different colour with alum, with iron and with copper — not a shade, a different colour."
+    "bg": "Мордантът е металната сол — най-често алуминиева — която подпомага свързването на багрилото с влакното. Байцването е самото действие: тъканта се обработва с него преди или по време на багренето. Мордантът не само задържа цвета, а често го и променя: едно и също багрило дава различен цвят със стипца, с желязо и с мед — не нюанс, а друг цвят.",
+    "en": "A mordant is a metal salt — most often an aluminium one — that helps the dye bind to the fibre. Mordanting is the act itself: the cloth is treated with it before or during dyeing. A mordant does more than hold the colour; it commonly changes it. The same dye yields a different colour with alum, with iron and with copper — not a shade of one colour but a different one."
    },
    "seeAlso": [
     "substantive_adjective",
@@ -228,140 +126,53 @@
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "modifier",
-   "group": "process",
+   "code": "scouring",
+   "group": "textile_prep",
    "term": {
-    "bg": "Модификатор",
-    "en": "Modifier"
+    "bg": "Предварително почистване (scouring)",
+    "en": "Scouring"
    },
    "aliases": [
-    "модификатор",
-    "modifier",
-    "промивка"
+    "скауринг",
+    "scouring",
+    "изваряване",
+    "изпиране"
    ],
    "definition": {
-    "bg": "Нещо, което се дава СЛЕД багренето, за да измести цвета — желязо за потъмняване, мед за позеленяване, киселина или основа за преместване по скалата. Разликата с морданта е във времето, не във веществото: желязото преди багренето е мордант, желязото след него е модификатор, и двете дават различен резултат.",
-    "en": "Something given AFTER dyeing to shift the colour — iron to darken, copper to green, acid or alkali to move along the scale. The difference from a mordant is timing, not substance: iron before dyeing is a mordant, iron after is a modifier, and the two give different results."
+    "bg": "Основното почистване на влакното преди мордантиране и багрене. Премахва естествени и производствени остатъци — масла, восъци, апрет — както и омекотител и препарат от предишно пране. Всичко това пречи и води до петна и неравномерност, които изглеждат като провал на самото багрене. При целулозните влакна обикновено е алкално изпиране или изваряване и е по-интензивно от обикновено пране; протеиновите се третират по-меко.",
+    "en": "The main cleaning of the fibre before mordanting and dyeing. It removes natural and manufacturing residues — oils, waxes, sizing — along with softener and detergent from earlier laundering. All of it interferes, producing the patches and unevenness that read as a failure of the dyeing itself. On cellulose it is usually an alkaline wash or a boil, more intensive than ordinary laundering; protein fibres are treated more gently."
    },
    "seeAlso": [
-    "mordant",
-    "afterbath",
-    "ph"
-   ],
-   "sourceCode": "jenny-dean-wild-colour"
-  },
-  {
-   "code": "afterbath",
-   "group": "process",
-   "term": {
-    "bg": "Дообработка",
-    "en": "Afterbath"
-   },
-   "aliases": [
-    "афтърбат",
-    "afterbath",
-    "последваща баня"
-   ],
-   "definition": {
-    "bg": "Кратка баня след багренето, в която парчето получава модификатор. Обикновено е студена или хладка и трае минути, не часове. Парчето не сменя състоянието си — то си остава боядисано, само носи вече и промяната.",
-    "en": "A short bath after dyeing in which the piece receives a modifier. Usually cool or lukewarm and a matter of minutes, not hours. The piece does not change state — it stays dyed, it merely carries the shift as well."
-   },
-   "seeAlso": [
-    "modifier"
+    "cellulose_protein"
    ],
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "discharge",
-   "group": "process",
+   "code": "tannin_ground",
+   "group": "textile_prep",
    "term": {
-    "bg": "Изтегляне",
-    "en": "Discharge"
+    "bg": "Танинова основа",
+    "en": "Tannin ground"
    },
    "aliases": [
-    "дисчардж",
-    "discharge",
-    "избелване"
+    "танинова подложка",
+    "танинова база",
+    "tannin base"
    ],
    "definition": {
-    "bg": "Махане на цвят от вече боядисана тъкан, за да се получи светъл рисунък върху тъмно. Истинското изтегляне разрушава багрилото и не се връща. Различно е от промяна на pH, която само измества цвета и може да се обърне — двете изглеждат еднакво на пръв поглед и се бъркат постоянно.",
-    "en": "Removing colour from already-dyed cloth, to get a pale figure on a dark ground. True discharge destroys the dye and does not come back. It differs from a pH shift, which only moves the colour and can be reversed — the two look alike at first glance and are constantly confused."
+    "bg": "Предварителна обработка с танин, използвана най-вече при целулозни влакна като памук и лен. Танинът може да подобри свързването на последващия метален мордант и често увеличава наситеността и устойчивостта на цвета. Не е необходима във всяка рецепта — подходът зависи от морданта и багрилото; алуминиевият ацетат например се използва като директен мордант за целулоза. Изборът на танин влияе и върху основата: галовият оставя най-светла, кондензираният — по-топла и по-тъмна.",
+    "en": "A tannin pre-treatment, used mainly on cellulose fibres such as cotton and linen. Tannin can improve the binding of the metal mordant applied after it, and often increases depth and fastness. It is not required by every recipe — the approach depends on the mordant and the dye, and aluminium acetate, for one, is used as a direct mordant on cellulose. The choice of tannin also affects the ground: gallotannin leaves it lightest, condensed tannin warmer and darker."
    },
    "seeAlso": [
-    "ph",
-    "modifier"
-   ],
-   "sourceCode": ""
-  },
-  {
-   "code": "reduction_oxidation",
-   "group": "process",
-   "term": {
-    "bg": "Редукция и окисление",
-    "en": "Reduction and oxidation"
-   },
-   "aliases": [
-    "редукция",
-    "окисление",
-    "reduction",
-    "oxidation"
-   ],
-   "definition": {
-    "bg": "Двете състояния, между които индигото се движи. Редукцията отнема кислород и прави индигото разтворимо — ваната изглежда жълто-зелена, а не синя. Окислението го връща обратно при досег с въздуха и цветът се появява върху влакното. Затова платът излиза от ваната зеленикав и посинява пред очите.",
-    "en": "The two states indigo moves between. Reduction takes oxygen away and makes indigo soluble — the vat looks yellow-green, not blue. Oxidation brings it back on contact with air and the colour appears on the fibre. This is why cloth comes out of the vat greenish and turns blue as you watch."
-   },
-   "seeAlso": [
-    "indigoid"
+    "tannin_kinds",
+    "cellulose_protein",
+    "mordant"
    ],
    "sourceCode": "boutrup-ellis"
-  },
-  {
-   "code": "exhaust",
-   "group": "process",
-   "term": {
-    "bg": "Изчерпване на банята",
-    "en": "Exhausting the bath"
-   },
-   "aliases": [
-    "изчерпана баня",
-    "exhaust",
-    "втора баня"
-   ],
-   "definition": {
-    "bg": "Банята се изчерпва, когато багрилото е излязло от водата и е влязло във влакното. Останалото след първото парче още има цвят — втора и трета баня дават същия тон, но по-светъл. Това е начин да се получи стъпаловидна гама от една баня, вместо да се хвърля.",
-    "en": "A bath is exhausted when the dye has left the water and entered the fibre. What remains after the first piece still holds colour — a second and third bath give the same hue, lighter. This is a way to get a graded range from one bath rather than pouring it away."
-   },
-   "seeAlso": [
-    "affinity",
-    "wof"
-   ],
-   "sourceCode": "jenny-dean-wild-colour"
-  },
-  {
-   "code": "extraction",
-   "group": "process",
-   "term": {
-    "bg": "Извличане",
-    "en": "Extraction"
-   },
-   "aliases": [
-    "екстракция",
-    "extraction",
-    "отвара"
-   ],
-   "definition": {
-    "bg": "Изваждането на цвета от растението, преди тъканта изобщо да се появи. Начинът има значение и не е един: гореща отвара, ферментация, тинктура в спирт, алкално извличане, мацерация в лед. Едно и също растение дава различен добив и различен оттенък според начина — не защото рецептата е различна, а защото се вадят различни съединения.",
-    "en": "Getting the colour out of the plant, before the cloth appears at all. The method matters and is not one: hot decoction, fermentation, an alcohol tincture, alkaline extraction, maceration in ice. The same plant yields differently and shifts hue according to the method — not because the recipe differs, but because different compounds come out."
-   },
-   "seeAlso": [
-    "lake_pigment",
-    "woa"
-   ],
-   "sourceCode": "natalie-stopka-pigment"
   },
   {
    "code": "cellulose_protein",
-   "group": "fabric",
+   "group": "textile_prep",
    "term": {
     "bg": "Целулозни и протеинови влакна",
     "en": "Cellulose and protein fibres"
@@ -384,76 +195,276 @@
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "scouring",
-   "group": "fabric",
+   "code": "extraction",
+   "group": "dyeing",
    "term": {
-    "bg": "Обезмасляване",
-    "en": "Scouring"
+    "bg": "Извличане",
+    "en": "Extraction"
    },
    "aliases": [
-    "скауринг",
-    "scouring",
-    "изваряване",
-    "изпиране"
+    "екстракция",
+    "extraction",
+    "отвара"
    ],
    "definition": {
-    "bg": "Първата стъпка и най-често пропусканата. Новата тъкан носи апрет, восъци и масла от производството, а неновата — омекотител и препарат. Всичко това пречи и води до петна и неравномерност, които изглеждат като провал на багренето. Обезмасляването е горещо и дълго, с алкален препарат, и не е същото като пране.",
-    "en": "The first step and the most often skipped. New cloth carries sizing, waxes and oils from manufacture; not-new cloth carries softener and detergent. All of it gets in the way and produces the patches and unevenness that look like a failure of the dyeing. Scouring is hot and long, with an alkaline agent, and is not the same as washing."
+    "bg": "Изваждането на цвета от растението, преди тъканта изобщо да се появи. Начинът има значение и не е един: гореща отвара, ферментация, тинктура в спирт, алкално извличане, мацерация в лед. Едно и също растение дава различен добив и различен оттенък според начина — не защото рецептата е различна, а защото се вадят различни съединения.",
+    "en": "Getting the colour out of the plant, before the cloth appears at all. The method matters and is not one: hot decoction, fermentation, an alcohol tincture, alkaline extraction, maceration in ice. The same plant yields differently and shifts hue according to the method — not because the recipe differs, but because different compounds come out."
    },
    "seeAlso": [
-    "cellulose_protein"
+    "lake_pigment",
+    "woa"
+   ],
+   "sourceCode": "natalie-stopka-pigment"
+  },
+  {
+   "code": "exhaust",
+   "group": "dyeing",
+   "term": {
+    "bg": "Изчерпване на банята",
+    "en": "Exhausting the bath"
+   },
+   "aliases": [
+    "изчерпана баня",
+    "exhaust",
+    "втора баня"
+   ],
+   "definition": {
+    "bg": "Банята се изчерпва, когато багрилото е излязло от водата и е влязло във влакното. Останалото след първото парче още има цвят — втора и трета баня дават същия тон, но по-светъл. Това е начин да се получи стъпаловидна гама от една баня, вместо да се хвърля.",
+    "en": "A bath does not give up all its colour at once. After the first cloth comes out, what is left will dye a second one paler, and often a third paler still. Those are not failures but a scale of depth from one extraction, and the paler steps are frequently the more useful ones."
+   },
+   "seeAlso": [
+    "wof"
+   ],
+   "sourceCode": "jenny-dean-wild-colour"
+  },
+  {
+   "code": "modifier",
+   "group": "dyeing",
+   "term": {
+    "bg": "Модификатор",
+    "en": "Modifier"
+   },
+   "aliases": [
+    "модификатор",
+    "modifier",
+    "промивка"
+   ],
+   "definition": {
+    "bg": "Вещество, което се използва основно за промяна на вече получен цвят — желязо за потъмняване, мед за преместване към зелено, киселина или основа за преместване по скалата. Разликата с морданта не е само във времето: някои вещества, като железните соли, изпълняват и двете роли според това кога и как се прилагат — желязото преди багренето действа като мордант, същото желязо след него като модификатор, и двете дават различен резултат.",
+    "en": "A substance used mainly to alter a colour already obtained — iron to darken, copper to shift towards green, acid or alkali to move along the scale. The difference from a mordant is not timing alone: some substances, iron salts among them, fill either role depending on when and how they are applied. Iron before dyeing behaves as a mordant, the same iron afterwards as a modifier, and the two give different results."
+   },
+   "seeAlso": [
+    "mordant",
+    "afterbath",
+    "ph"
+   ],
+   "sourceCode": "jenny-dean-wild-colour"
+  },
+  {
+   "code": "overdye",
+   "term": {
+    "bg": "Повторно багрене",
+    "en": "Overdyeing"
+   },
+   "aliases": [
+    "надбагряване",
+    "наслагване",
+    "overdye",
+    "overdyeing",
+    "второ багрене"
+   ],
+   "definition": {
+    "bg": "Второ багрене върху вече обагрен плат, за да се получи цвят, който едно багрене не дава — жълто под синьо дава зелено. Различава се от повтарянето на същата баня, за да излезе по-наситено: тук второто багрило ляга върху първия цвят, а не го допълва. Затова редът има значение и по-светлото отива първо.",
+    "en": "A second dyeing over cloth that is already dyed, to reach a colour a single dyeing does not give — yellow under blue gives green. It differs from repeating the same bath for greater depth: here the second dye settles over the first colour rather than adding to it. Order therefore matters, and the lighter colour goes first."
+   },
+   "seeAlso": [
+    "modifier",
+    "exhaust",
+    "afterbath"
+   ],
+   "sourceCode": "jenny-dean-wild-colour",
+   "group": "dyeing"
+  },
+  {
+   "code": "afterbath",
+   "group": "dyeing",
+   "term": {
+    "bg": "Последваща баня (afterbath)",
+    "en": "Afterbath"
+   },
+   "aliases": [
+    "афтърбат",
+    "afterbath",
+    "последваща баня"
+   ],
+   "definition": {
+    "bg": "Кратка баня след багренето, в която парчето получава модификатор. Обикновено е студена или хладка и трае минути, не часове. Парчето не сменя състоянието си — то си остава боядисано, само носи вече и промяната.",
+    "en": "A short bath after dyeing in which the piece receives a modifier. Usually cool or lukewarm, and a matter of minutes rather than hours. The piece does not change state — it remains dyed and simply carries the shift as well."
+   },
+   "seeAlso": [
+    "modifier"
    ],
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "tannin_ground",
-   "group": "fabric",
+   "code": "substantive_adjective",
+   "group": "dyeing",
    "term": {
-    "bg": "Танинова основа",
-    "en": "Tannin ground"
+    "bg": "Субстантивно и адективно багрило",
+    "en": "Substantive and adjective dyes"
    },
    "aliases": [
-    "танинова подложка",
-    "танинова база",
-    "tannin base"
+    "пряко багрило",
+    "direct dye",
+    "субстантивно",
+    "адективно"
    ],
    "definition": {
-    "bg": "Слой танин, положен върху целулозна тъкан преди морданта, за да има мордантът за какво да се хване. Памукът без него приема стипцата слабо и цветът излиза бледен и мие се. Изборът на танин решава колко бяла остава основата: галов за най-чиста, кондензиран за топла и по-тъмна.",
-    "en": "A layer of tannin laid on cellulose before the mordant, so the mordant has something to hold. Cotton without it takes alum poorly and the colour comes out pale and washes away. The choice of tannin decides how white the ground stays: gallo for the cleanest, condensed for a warm and darker one."
+    "bg": "Субстантивното багрило се хваща за влакното само, без байц. Адективното не се хваща — нужен му е мордант като мост между влакното и цвета. Повечето растителни багрила са адективни; ореховата обвивка и някои танинови кори са сред малкото, които не са. Не е степен на качество: субстантивното е по-лесно, адективното често е по-трайно.",
+    "en": "A substantive dye binds to the fibre without a mordant — indigo, walnut, many tannins. An adjective dye needs one, and most plant dyes are of that kind. The terms are counter-intuitive and worth learning: \"adjective\" does not mean weaker, it means the colour depends on what stands between the dye and the fibre."
    },
    "seeAlso": [
-    "tannin_kinds",
-    "cellulose_protein",
-    "mordant"
+    "mordant",
+    "tannin"
    ],
    "sourceCode": "boutrup-ellis"
   },
   {
-   "code": "wof",
-   "group": "fabric",
+   "code": "water_hardness",
    "term": {
-    "bg": "WOF — спрямо тежестта на тъканта",
-    "en": "WOF — weight of fibre"
+    "bg": "Твърдост на водата",
+    "en": "Water hardness"
    },
    "aliases": [
-    "wof",
-    "тегло на влакното",
-    "weight of fibre",
-    "процент wof"
+    "твърда вода",
+    "мека вода",
+    "water hardness",
+    "hard water",
+    "калций"
    ],
    "definition": {
-    "bg": "Мярката, по която върви почти цялото багрене: количество спрямо сухата тежест на тъканта. 20% WOF върху 100 г плат значи 20 г. Тъканта се тегли суха и преди мокрене — мокрият плат тежи многократно повече и разчита сметката. Процентът е безсмислен без базата, спрямо която е.",
-    "en": "The measure nearly all dyeing runs on: an amount against the dry weight of the cloth. 20% WOF on 100 g of fabric means 20 g. The cloth is weighed dry and before wetting — wet cloth weighs several times more and destroys the sum. A percentage means nothing without the base it is taken against."
+    "bg": "Съдържанието на калциеви и магнезиеви соли във водата. Твърдата вода променя резултата при някои багрила — при броша например поддържа по-топлите, тухлени тонове, — а при други притъпява цвета и утаява сапуна при пране. Това е една от честите причини една и съща рецепта да дава различен цвят на две места. Ако се търси повторяемост, водата се записва като условие на работата наравно с pH и температурата.",
+    "en": "The calcium and magnesium content of the water. Hard water changes the result with some dyes — with madder it favours the warmer, brick tones — and with others dulls the colour and precipitates soap during washing. It is one of the common reasons the same recipe gives a different colour in two places. Where repeatability matters, the water is recorded as a condition of the work alongside pH and temperature."
    },
    "seeAlso": [
-    "woa",
-    "mordant"
+    "ph",
+    "dye_bath",
+    "anthraquinone"
+   ],
+   "sourceCode": "boutrup-ellis",
+   "group": "dyeing"
+  },
+  {
+   "code": "blanket",
+   "group": "ecoprint",
+   "term": {
+    "bg": "Багрилно одеяло (blanket)",
+    "en": "Blanket"
+   },
+   "aliases": [
+    "одеало",
+    "blanket",
+    "покривало"
+   ],
+   "definition": {
+    "bg": "Допълнителен слой плат, който се навива заедно с основната тъкан при еко принт. Може да бъде напоен с багрилна баня, с желязо или с друг разтвор и предава цвят или модификатор към основния плат по време на обработката. Самото одеяло също често получава интересен отпечатък и може да се използва повторно. Един вързоп дава два резултата.",
+    "en": "An additional layer of cloth rolled up with the main textile in eco print. It may be soaked in a dye bath, in iron or in another solution, and passes colour or modifier to the main cloth during processing. The blanket itself often takes an interesting print as well and can be used again. One bundle gives two results."
+   },
+   "seeAlso": [
+    "modifier"
+   ],
+   "sourceCode": "india-flint-eco-colour"
+  },
+  {
+   "code": "ecoprint",
+   "term": {
+    "bg": "Еко принт",
+    "en": "Eco print"
+   },
+   "aliases": [
+    "ботанически контактен печат",
+    "eco print",
+    "ecoprint",
+    "botanical contact print",
+    "контактен печат"
+   ],
+   "definition": {
+    "bg": "Багрене чрез пряк контакт: листа, цветове или кора се подреждат върху тъканта и се притискат към нея, вместо да се вари в баня. Цветът остава там, където растението докосва плата, и носи неговата форма. Затова резултатът зависи не само от растението и морданта, а и от натиска, влагата, топлината и това какво е било между слоевете.",
+    "en": "Dyeing by direct contact: leaves, flowers or bark are laid on the cloth and pressed against it rather than boiled in a bath. The colour stays where the plant touches the textile and takes its shape. The result therefore depends not only on the plant and the mordant but on pressure, moisture, heat and whatever lay between the layers."
+   },
+   "seeAlso": [
+    "blanket",
+    "resist",
+    "modifier"
+   ],
+   "sourceCode": "india-flint-eco-colour",
+   "group": "ecoprint"
+  },
+  {
+   "code": "resist",
+   "group": "ecoprint",
+   "term": {
+    "bg": "Резист",
+    "en": "Resist"
+   },
+   "aliases": [
+    "резист",
+    "resist",
+    "защита"
+   ],
+   "definition": {
+    "bg": "Каквото пречи на цвета да стигне до тъканта — конец, щипка, дъска, восък, дори плътно притиснат лист. Защитеното остава светло и точно то рисува. В шибори резистът е целта; в еко принт често е страничен ефект, който трябва да се предвиди.",
+    "en": "Whatever keeps colour from reaching the cloth — thread, clamp, board, wax, even a tightly pressed leaf. What is protected stays pale, and that is what draws the figure. In shibori the resist is the point; in eco print it is often a side effect that has to be anticipated."
+   },
+   "seeAlso": [],
+   "sourceCode": ""
+  },
+  {
+   "code": "indigoid",
+   "group": "indigo",
+   "term": {
+    "bg": "Индигоиди",
+    "en": "Indigoids"
+   },
+   "aliases": [
+    "индиго",
+    "indigo",
+    "индигоид"
+   ],
+   "definition": {
+    "bg": "Синьото, и то работи различно от всичко останало. Индигото не се разтваря във вода и не иска мордант — трябва да се сведе химически до разтворима форма, влакното да се потопи, и цветът да се появи при досег с въздуха. Затова се говори за вана, а не за баня, и затова тъмното се постига с многократни кратки потапяния, не с едно дълго.",
+    "en": "Blue, and it works unlike everything else. Indigo does not dissolve in water and wants no mordant — it has to be chemically reduced to a soluble form, the fibre dipped, and the colour appears on contact with air. Hence a vat rather than a bath, and hence depth comes from many short dips rather than one long one."
+   },
+   "seeAlso": [
+    "reduction_oxidation"
+   ],
+   "sourceCode": "boutrup-ellis"
+  },
+  {
+   "code": "reduction_oxidation",
+   "group": "indigo",
+   "term": {
+    "bg": "Редукция и окисление",
+    "en": "Reduction and oxidation"
+   },
+   "aliases": [
+    "редукция",
+    "окисление",
+    "reduction",
+    "oxidation"
+   ],
+   "definition": {
+    "bg": "Двете състояния, между които индигото се движи. Редукцията отнема кислород и прави индигото разтворимо — ваната изглежда жълто-зелена, а не синя. Окислението го връща обратно при досег с въздуха и цветът се появява върху влакното. Затова платът излиза от ваната зеленикав и посинява пред очите.",
+    "en": "The two states indigo moves between. Reduction takes oxygen away and makes indigo soluble — the vat looks yellow-green, not blue. Oxidation brings it back on contact with air and the colour appears on the fibre. This is why cloth comes out of the vat greenish and turns blue as you watch."
+   },
+   "seeAlso": [
+    "indigoid"
    ],
    "sourceCode": "boutrup-ellis"
   },
   {
    "code": "woa",
-   "group": "fabric",
+   "group": "pigment",
    "term": {
     "bg": "WOA — спрямо тежестта на стипцата",
     "en": "WOA — weight of alum"
@@ -475,138 +486,159 @@
    "sourceCode": "natalie-stopka-pigment"
   },
   {
-   "code": "ph",
-   "group": "ph",
+   "code": "lake_pigment",
+   "group": "pigment",
    "term": {
-    "bg": "pH — кисело и алкално",
-    "en": "pH — acid and alkaline"
+    "bg": "Лаков пигмент",
+    "en": "Lake pigment"
    },
    "aliases": [
-    "ph",
-    "киселинност",
-    "алкалност",
-    "acid",
-    "alkaline"
+    "лак",
+    "лаков",
+    "lake"
    ],
    "definition": {
-    "bg": "Скалата от 1 до 14: под 7 е кисело, 7 е неутрално, над 7 е алкално. За багренето това не е подробност — при някои багрила pH решава кой цвят излиза, не колко наситен. Марената иска алкално за истинско червено; антоцианините се въртят през цялата дъга; жълтите почти не реагират.",
-    "en": "The scale from 1 to 14: below 7 is acid, 7 neutral, above 7 alkaline. For dyeing this is not a detail — with some dyes pH decides which colour comes out, not how deep it is. Madder wants alkaline for a true red; anthocyanins swing across the whole range; yellows barely react at all."
+    "bg": "Багрилен разтвор, вързан за неразтворима основа — почти винаги алуминиев хидроксид — така че цветът от течност става зърно. Оттам нататък е пигмент: рисува се, не се багри. Пропорцията решава наситеността — малко багрило върху много основа дава пастелен тон, не по-слаб същия цвят.",
+    "en": "A dye solution bound onto an insoluble base — almost always aluminium hydroxide — so the colour goes from liquid to grain. From there it is a pigment: it paints, it does not dye. The proportion decides the depth — little dye over much base gives a pastel hue, not a weaker version of the same colour."
    },
    "seeAlso": [
-    "buffer",
-    "modifier",
+    "woa",
+    "extraction"
+   ],
+   "sourceCode": "natalie-stopka-pigment"
+  },
+  {
+   "code": "anthocyanin",
+   "group": "colour_chemistry",
+   "term": {
+    "bg": "Антоцианини",
+    "en": "Anthocyanins"
+   },
+   "aliases": [
+    "антоцианини",
     "anthocyanin"
    ],
-   "sourceCode": "boutrup-ellis"
-  },
-  {
-   "code": "buffer",
-   "group": "ph",
-   "term": {
-    "bg": "Буфер",
-    "en": "Buffer"
-   },
-   "aliases": [
-    "буфер",
-    "buffer"
-   ],
    "definition": {
-    "bg": "Смес, която удържа pH около дадена стойност, вместо да я остави да скача при всяко добавяне. Полезна е, защото твърдата вода, самото растение и мордантът всички местят киселинността, а една дълга баня иначе не свършва там, където е започнала.",
-    "en": "A mixture that holds pH near a value instead of letting it jump with every addition. It is useful because hard water, the plant itself and the mordant all move the acidity, and a long bath otherwise does not end where it began."
+    "bg": "Червените, лилавите и сините на плодовете и цветовете. Сменят цвят според киселинността — червено в кисело, синьо до зелено в алкално — и точно това ги прави ненадеждни: същата промяна продължава и след багренето, при първото пране. Красиви са и почти никога не са трайни.",
+    "en": "The reds, purples and blues of fruit and flowers. They shift colour with acidity — red in acid, blue to green in alkali — and that is exactly what makes them unreliable: the same shift carries on after dyeing, at the first wash. They are beautiful and almost never lasting."
    },
    "seeAlso": [
-    "ph"
-   ],
-   "sourceCode": "boutrup-ellis"
-  },
-  {
-   "code": "bundling",
-   "group": "ecoprint",
-   "term": {
-    "bg": "Завиване",
-    "en": "Bundling"
-   },
-   "aliases": [
-    "бъндъл",
-    "bundle",
-    "bundling",
-    "навиване"
-   ],
-   "definition": {
-    "bg": "Листата се подреждат върху тъканта, всичко се навива плътно на руло и се стяга, после се пари или вари. Цветът не плува в баня, а остава там, където листът докосва плата — оттам идва отпечатъкът. Стягането решава колко чист е контурът: хлабавото руло дава размито петно.",
-    "en": "Leaves are laid on the cloth, the whole is rolled tight and bound, then steamed or boiled. The colour does not swim in a bath but stays where the leaf touches the cloth — hence the print. The tightness decides how clean the outline is: a loose roll gives a blurred patch."
-   },
-   "seeAlso": [
-    "blanket",
-    "resist"
-   ],
-   "sourceCode": "india-flint-eco-colour"
-  },
-  {
-   "code": "blanket",
-   "group": "ecoprint",
-   "term": {
-    "bg": "Одеяло",
-    "en": "Blanket"
-   },
-   "aliases": [
-    "одеало",
-    "blanket",
-    "покривало"
-   ],
-   "definition": {
-    "bg": "Втора тъкан, навита заедно с първата, най-често напоена с желязо или друг модификатор. Тя не е защита — тя участва: пренася цвят и метал към основното парче и често се отпечатва не по-малко интересно от него. Едно завиване дава два резултата.",
-    "en": "A second cloth rolled in with the first, most often soaked in iron or another modifier. It is not a wrapping — it takes part: it carries colour and metal into the main piece and often prints no less interestingly than it does. One bundle gives two results."
-   },
-   "seeAlso": [
-    "bundling",
-    "modifier"
-   ],
-   "sourceCode": "india-flint-eco-colour"
-  },
-  {
-   "code": "resist",
-   "group": "ecoprint",
-   "term": {
-    "bg": "Резист",
-    "en": "Resist"
-   },
-   "aliases": [
-    "резист",
-    "resist",
-    "защита"
-   ],
-   "definition": {
-    "bg": "Каквото пречи на цвета да стигне до тъканта — конец, щипка, дъска, восък, дори плътно притиснат лист. Защитеното остава светло и точно то рисува. В шибори резистът е целта; в еко принт често е страничен ефект, който трябва да се предвиди.",
-    "en": "Whatever keeps colour from reaching the cloth — thread, clamp, board, wax, even a tightly pressed leaf. What is protected stays pale, and that is what draws. In shibori the resist is the point; in eco print it is often a side effect that has to be anticipated."
-   },
-   "seeAlso": [
-    "bundling"
-   ],
-   "sourceCode": ""
-  },
-  {
-   "code": "hapa_zome",
-   "group": "ecoprint",
-   "term": {
-    "bg": "Хапа-зоме",
-    "en": "Hapa-zome"
-   },
-   "aliases": [
-    "хапазоме",
-    "hapa zome",
-    "hapazome",
-    "чукане"
-   ],
-   "definition": {
-    "bg": "Цветът се набива в тъканта с чук — листът се поставя между два слоя плат и се удря, докато сокът премине. Дава най-точния контур от всички методи и най-непостоянния цвят: почти нищо не е байцвано, така че отпечатъкът често избледнява. Прави се заради формата, не заради трайността.",
-    "en": "The colour is beaten into the cloth with a mallet — the leaf is set between two layers and struck until the sap comes through. It gives the sharpest outline of any method and the least stable colour: almost nothing is mordanted, so the print often fades. It is done for the shape, not for the lasting."
-   },
-   "seeAlso": [
-    "bundling",
+    "ph",
     "lightfastness"
    ],
-   "sourceCode": "india-flint-eco-colour"
+   "sourceCode": "jenny-dean-wild-colour"
+  },
+  {
+   "code": "anthraquinone",
+   "group": "colour_chemistry",
+   "term": {
+    "bg": "Антрахинони",
+    "en": "Anthraquinones"
+   },
+   "aliases": [
+    "антрахинон",
+    "anthraquinone"
+   ],
+   "definition": {
+    "bg": "Група багрилни съединения, свързани с едни от най-трайните естествени червени. Срещат се например в броша и кошенилата. За разлика от много антоцианинови цветове антрахиноновите багрила обикновено имат добра устойчивост — античният текстил, оцелял с цвят, най-често е боядисан с тях. При броша температурата, pH и минералният състав на водата силно влияят върху оттенъка; прекомерното нагряване измества чистото червено към тухлени и кафеникави тонове.",
+    "en": "A group of dye compounds behind some of the most durable natural reds. They occur in madder and cochineal, among others. Unlike many anthocyanin colours, anthraquinone dyes generally have good fastness — ancient textiles that survive with their colour are most often dyed with them. With madder, temperature, pH and the mineral content of the water all affect the hue strongly; excessive heat shifts a clear red towards brick and brown."
+   },
+   "seeAlso": [
+    "ph",
+    "lightfastness"
+   ],
+   "sourceCode": "boutrup-ellis"
+  },
+  {
+   "code": "tannin_kinds",
+   "group": "colour_chemistry",
+   "term": {
+    "bg": "Видове танини",
+    "en": "Gallo-, ellagi- and condensed tannins"
+   },
+   "aliases": [
+    "галотанини",
+    "елаготанини",
+    "кондензирани танини",
+    "gallotannin",
+    "ellagitannin"
+   ],
+   "definition": {
+    "bg": "Три вида, три различни резултата. Галовите дават най-чиста, най-светла основа — затова галоядките са класиката за бяла подложка. Елаговите са по-жълтеникави; дъбът и наровата кора са пълни с тях. Кондензираните са най-тъмни и най-склонни към кафяво сами по себе си. Ако рецептата казва само «танин», най-често има предвид галов.",
+    "en": "Three kinds, three different results. Gallotannins give the cleanest, palest ground — which is why oak galls are the classic for a white base. Ellagitannins are yellower; oak and pomegranate rind are full of them. Condensed tannins are the darkest and the most inclined to brown on their own. When a recipe says only \"tannin\", it usually means gallo."
+   },
+   "seeAlso": [
+    "tannin"
+   ],
+   "sourceCode": "boutrup-ellis"
+  },
+  {
+   "code": "tannin",
+   "group": "colour_chemistry",
+   "term": {
+    "bg": "Танини",
+    "en": "Tannins"
+   },
+   "aliases": [
+    "танин",
+    "tannin",
+    "дъбилни вещества"
+   ],
+   "definition": {
+    "bg": "Голяма група растителни съединения, които се връзват и за влакното, и за металите. Затова служат двойно: като собствен цвят — бежово до кафяво — и като основа, върху която друг мордант ляга по-здраво. С желязо потъмняват рязко, до сиво и черно. Приложението ги дели на три, защото се държат различно.",
+    "en": "A large group of plant compounds that bind to both fibre and metal. In natural dyeing they do two jobs: they are a colour in their own right — the beiges, the greys and, with iron, the blacks — and they are the ground that lets cellulose take a metal mordant. Oak, sumac, myrobalan and tea are all here, and they do not give the same result."
+   },
+   "seeAlso": [
+    "tannin_kinds",
+    "mordant",
+    "modifier"
+   ],
+   "sourceCode": "boutrup-ellis"
+  },
+  {
+   "code": "flavonoid",
+   "group": "colour_chemistry",
+   "term": {
+    "bg": "Флавоноиди",
+    "en": "Flavonoids"
+   },
+   "aliases": [
+    "флавоноид",
+    "flavonoid"
+   ],
+   "definition": {
+    "bg": "Най-широката група жълти в растителния свят — от бледо лимонено до наситено златисто. Държат се добре със стипца и са в основата на повечето сигурни жълти: жълтениче, резеда, лайка. С желязо отиват в маслинено и хаки, което е най-краткият път до зелено без индиго.",
+    "en": "The widest group of yellows in the plant world — from pale lemon to deep gold. They behave well with alum and underpin most of the dependable yellows: goldenrod, weld, chamomile. With iron they go olive and khaki, which is the shortest road to green without indigo."
+   },
+   "seeAlso": [
+    "mordant",
+    "modifier"
+   ],
+   "sourceCode": "boutrup-ellis"
+  },
+  {
+   "code": "fugitive",
+   "term": {
+    "bg": "Нетрайно багрило",
+    "en": "Fugitive dye"
+   },
+   "aliases": [
+    "нетрайно",
+    "fugitive",
+    "fugitive dye",
+    "избледняващо багрило"
+   ],
+   "definition": {
+    "bg": "Багрило, което дава силен цвят в деня на багренето и го губи за седмици или при първите изпирания. Много цветни листенца, цвеклото и антоцианиновите плодове са тук: цветът е истински, но не се задържа върху влакното. Нетрайността не се вижда на прясна мостра — личи само след излагане на светлина и пране, затова се проверява, преди багрилото да влезе в работа, която трябва да остане.",
+    "en": "A dye that gives a strong colour on the day and loses it within weeks, or at the first washes. Many flower petals, beetroot and anthocyanin fruits belong here: the colour is real but does not hold on the fibre. Fugitiveness is invisible on a fresh swatch and shows only after exposure to light and washing, so it is tested before the dye goes into work meant to last."
+   },
+   "seeAlso": [
+    "colourfastness",
+    "lightfastness",
+    "anthocyanin"
+   ],
+   "sourceCode": "jenny-dean-wild-colour",
+   "group": "fastness"
   },
   {
    "code": "lightfastness",
@@ -621,8 +653,8 @@
     "устойчивост на светлина"
    ],
    "definition": {
-    "bg": "Колко издържа цветът на светлина, преди да избледнее. Мери се с изложена мостра, половината от която е покрита — след седмици разликата се вижда. Това е слабото място на растителните багрила и разликата между тях е огромна: марена и индиго остават, повечето цветни листенца — не.",
-    "en": "How long the colour survives light before fading. It is measured with an exposed swatch half of which is covered — after weeks the difference shows. This is the weak point of plant dyes, and the spread between them is enormous: madder and indigo stay, most flower petals do not."
+    "bg": "Колко издържа цветът на светлина, преди да избледнее. Мери се с изложена мостра, половината от която е покрита — след седмици разликата се вижда. Това е слабото място на растителните багрила и разликата между тях е огромна: брошът и индигото остават, повечето цветни листенца — не.",
+    "en": "How long a colour survives light before fading. It is measured with an exposed swatch, half of it covered — after some weeks the difference shows. This is the weak point of plant dyes and the spread between them is very wide: madder and indigo hold, most flower petals do not."
    },
    "seeAlso": [
     "washfastness",
@@ -644,8 +676,8 @@
     "пране"
    ],
    "definition": {
-    "bg": "Колко цвят се губи при пране и колко от него се лепва по съседното. Различна е от светлоустойчивостта — цвят може да е стабилен на светлина и пак да се измива. Първите изпирания винаги свалят излишъка, който не се е вързал; тревожното е, ако продължава и след третото.",
-    "en": "How much colour is lost in washing and how much of it takes hold on whatever is beside it. It differs from lightfastness — a colour can be stable in light and still wash out. The first washes always carry off the excess that never bound; what is worrying is if it goes on past the third."
+    "bg": "Колко цвят се губи при пране и колко от него се пренася върху текстила, изпран заедно с него. Различна е от светлоустойчивостта — цвят може да е стабилен на светлина и пак да се измива. Първите изпирания винаги свалят несвързаното багрило; тревожно е, ако загубата продължава и след третото. Температурата и препаратът също имат значение: алкалният препарат измества оттенъка на някои багрила независимо от устойчивостта им.",
+    "en": "How much colour is lost in washing, and how much of it transfers to textiles washed alongside. It is distinct from lightfastness: a colour can be stable in light and still wash out. The first few washes always carry off unbound dye; loss continuing past the third is the warning sign. Temperature and detergent matter too — an alkaline detergent shifts the hue of some dyes regardless of how fast they are."
    },
    "seeAlso": [
     "lightfastness",
@@ -657,7 +689,7 @@
    "code": "crocking",
    "group": "fastness",
    "term": {
-    "bg": "Кроки — триене",
+    "bg": "Устойчивост на триене (crocking)",
     "en": "Crocking"
    },
    "aliases": [
@@ -667,14 +699,38 @@
     "цапане"
    ],
    "definition": {
-    "bg": "Цвят, който излиза при сухо триене и оставя следа върху кожа или друга тъкан. Почти винаги значи, че по повърхността е останало несвързано багрило — обикновено защото е било повече, отколкото влакното може да поеме, или защото изплакването е било кратко.",
-    "en": "Colour that comes off on dry rubbing and marks skin or another cloth. It nearly always means unbound dye left sitting on the surface — usually because there was more of it than the fibre could take, or because the rinsing was short."
+    "bg": "Способността на обагрения текстил да не отдава цвят при сухо или мокро триене. Цвят, който излиза при триене и оставя следа върху кожа или друга тъкан, почти винаги значи, че по повърхността е останало несвързано багрило — обикновено защото е било повече, отколкото влакното може да поеме, или защото изплакването е било кратко.",
+    "en": "The ability of a dyed textile not to give up colour under dry or wet rubbing. Colour that comes off on rubbing and marks skin or another cloth nearly always means unbound dye left sitting on the surface — usually because there was more of it than the fibre could take, or because the rinsing was short."
    },
    "seeAlso": [
     "washfastness",
     "exhaust"
    ],
    "sourceCode": "boutrup-ellis"
+  },
+  {
+   "code": "colourfastness",
+   "term": {
+    "bg": "Устойчивост на цвета",
+    "en": "Colourfastness"
+   },
+   "aliases": [
+    "устойчивост",
+    "colourfastness",
+    "colorfastness",
+    "трайност на цвета"
+   ],
+   "definition": {
+    "bg": "Общото название за това колко се задържа цветът върху текстила. Мери се в три отделни посоки, които не вървят заедно: на светлина, на пране и на триене. Едно багрене може да е стабилно на светлина и пак да се измива, или да издържа пране и да оставя следа при сухо триене. Затова се проверяват и трите, а не се съди по едното.",
+    "en": "The general name for how well a colour holds on a textile. It is measured in three separate directions, which do not move together: light, washing and rubbing. A dyeing can be stable in light and still wash out, or survive washing and still mark under dry rubbing. All three are tested rather than one being taken for the rest."
+   },
+   "seeAlso": [
+    "lightfastness",
+    "washfastness",
+    "crocking"
+   ],
+   "sourceCode": "boutrup-ellis",
+   "group": "fastness"
   }
  ]
 }

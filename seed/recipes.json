@@ -19,7 +19,7 @@
    "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
    "ingredients": [
     { "roleCode": "dyestuff", "basis": "absolute", "note": {
-      "bg": "Спрямо тежестта на стипцата, не на тъкан. Виж таблицата с проценти: марена 500%, жълтениче 180%, кампешово дърво 50%.",
+      "bg": "Спрямо тежестта на стипцата, не на тъкан. Виж таблицата с проценти: брош 500%, жълтениче 180%, кампешово дърво 50%.",
       "en": "Against the weight of the alum, not of cloth. See the ratios chart: madder 500%, weld 180%, logwood 50%." } },
     { "roleCode": "mordant", "basis": "absolute", "note": {
       "bg": "10 г стипца — алуминиев сулфат или калиева стипца.",

@@ -116,6 +116,12 @@ None of this is a feature; all of it is a condition of taking money.
   Never release directly from the working copy — development, then a candidate the owner
   uses herself for a while, then production.
 - **The documents ship inside the release ZIP**, at the same version as the code.
+- **A pack update must be able to withdraw a record · done (1.0.0-rc13, §13cb).** Until rc13
+  `diffPack` walked only the pack, so a record removed from a pack stayed on every installed copy
+  for ever and an updated copy quietly became a different application from a fresh install. Worth
+  keeping in this list because it is the class of fault a paid release cannot carry: it is silent,
+  it is permanent, and it grows with every pack edit. `scripts/try-pack-withdrawal.mjs` is layer 5b
+  of `check.sh`.
 - **README and ROADMAP are read before each release.** README claimed 48 plants and a Stock
   module long after both had changed; it is the only document that asserts things about the
   app with nothing checking it.
@@ -194,6 +200,13 @@ there and has changed colour. Neither is expressible today.
 Also missing and related: heat alone discharges madder above 60 °C, so steaming onto a madder
 ground always shifts it. `softMaxTempC` is the field; whether it is filled for madder wants
 checking.
+
+**The glossary term went with it (1.0.0-rc13, §13cb).** „Изтегляне" was a definition for a
+practice no screen can record, which is a promise the application does not keep. When the record
+type is built, the term returns with it, under a Bulgarian title that says what it is —
+**„Печат чрез отнемане на цвят"**; „изтегляне" alone carries no meaning outside the trade. The
+text to restore is in git history at rc12, and it already drew the true-discharge-against-pH-shift
+distinction this section asks for.
 
 ## B3. The phone, and the diary screens
 
