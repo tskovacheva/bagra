@@ -4880,5 +4880,60 @@ const dirty = await import('./dirty.js');
   plantsMod.reset?.();
 }
 
+// ---- 24g. What came back from the workbook holds together (§13ce)
+{
+  const all57 = await db.all('plants');
+
+  // Every part answers, one way or the other. „Bought rather than gathered" is
+  // a positive statement and NOT the same as an empty field — the whole reason
+  // the workbook offered it as a value.
+  const silent = [];
+  const both = [];
+  const badMonth = [];
+  for (const p of all57) {
+    for (const part of p.parts || []) {
+      const gathered = Array.isArray(part.harvestMonths) && part.harvestMonths.length;
+      const bought = !!part.sourcedNotGathered;
+      if (!gathered && !bought) silent.push(`${p.id}.${part.partCode}`);
+      if (gathered && bought) both.push(`${p.id}.${part.partCode}`);
+      if (Array.isArray(part.harvestMonths) && !part.harvestMonths.length)
+        both.push(`${p.id}.${part.partCode} (empty list)`);
+      for (const m of part.harvestMonths || [])
+        if (!Number.isInteger(m) || m < 1 || m > 12) badMonth.push(`${p.id}: ${m}`);
+    }
+  }
+  if (both.length)
+    fail('plants', new Error(`bought AND gathered, or an empty list: ${both.join(', ')}`));
+  else console.log('  plants: nothing is both bought and gathered');
+
+  if (badMonth.length)
+    fail('plants', new Error(`not a month: ${badMonth.join(', ')}`));
+  else console.log('  plants: every gathering month is 1–12');
+
+  if (silent.length)
+    fail('plants', new Error(`part says neither gathered nor bought: ${silent.join(', ')}`));
+  else console.log('  plants: every part says when it is gathered, or that it is bought');
+
+  // Bilingual from the first record. A description in one language only would
+  // render as an empty paragraph for half the readers.
+  const half = all57.filter(p => {
+    const d = p.description || {};
+    return (d.bg || '').trim() !== '' !== ((d.en || '').trim() !== '');
+  }).map(p => p.id);
+  if (half.length)
+    fail('plants', new Error(`description in one language only: ${half.join(', ')}`));
+  else console.log(`  plants: every general description reads in both languages (${
+    all57.filter(p => (p.description || {}).bg).length}/${all57.length})`);
+
+  // The months in this pack were observed somewhere. A gathering month is a
+  // property of the plant HERE, and the label is what lets a second region be
+  // added later instead of 118 rows being guessed at (§13cd).
+  const fs = await import('node:fs');
+  const pack = JSON.parse(fs.readFileSync('seed/plants.json', 'utf8'));
+  if (!pack.harvestRegion)
+    fail('plants', new Error('the pack carries gathering months and does not say where'));
+  else console.log(`  plants: the gathering months say where they were observed (${pack.harvestRegion})`);
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);

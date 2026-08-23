@@ -951,6 +951,14 @@ label.btn{cursor:pointer}
 /* „Какво можеш да събираш сега“ (§13cd). Four cards, because this is the panel
    that gets read standing in a garden and four stays legible in a narrow column
    without the layout becoming two different things. */
+/* The plant's opening paragraph (§13ce). Set slightly larger and in the muted
+   ink: it is orientation rather than instruction, and it should read as the
+   voice of the book rather than as another field. */
+.plantintro{
+  max-width:var(--measure);margin:0 0 18px;padding-bottom:16px;
+  border-bottom:1px solid var(--line);color:var(--muted);line-height:1.55;
+}
+.plantintro p{margin:0}
 .seasonhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
 .seasonhead h2{margin:0}
 .seasonhead .hint{margin:3px 0 0}

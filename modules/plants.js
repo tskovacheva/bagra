@@ -118,6 +118,7 @@ function blank() {
   return newRecord({
     nameCommon: { bg: '', en: '' },
     nameBotanical: '',
+    description: { bg: '', en: '' },
     family: '',
     role: [],
     compositionalRole: [],
@@ -748,6 +749,17 @@ async function renderRead(root, p) {
   // it, what else is written down. Cautions sit beside the use rather than at
   // the end — a warning read after the pot is on is a warning too late.
   const blocks = [
+    // The plant as a plant, before it is a dye (§13ce). First, because it is
+    // what a reference book opens with and because everything under it assumes
+    // you know what you are looking at.
+    //
+    // Deliberately NOT headed. A heading over two sentences of orientation
+    // makes them look like a section to be skipped, and this is the paragraph
+    // that should simply be read. It is also why it is a field rather than a
+    // section: what must be present on every plant is a field.
+    p.description && text(p.description)
+      ? `<div class="plantintro">${prose(p.description)}</div>` : '',
+
     // Only when there is something to show. Forty-five of the fifty seeded
     // plants have no recorded colour yet (§13h), and a block headed "what it
     // gives" holding nothing but "moderate lightfastness" answers a question
@@ -900,6 +912,12 @@ async function renderForm(root, p) {
             <label class="check"><input type="checkbox" data-f-bool="invasive" ${p.invasive ? 'checked' : ''}>
               ${t('plants.invasive')}</label>
             ${pairField(t('plants.toxicity'), 'toxicity', p.toxicity, { multiline: true })}
+          `)}
+
+          ${panel(`
+            <h2>${t('plants.description')}</h2>
+            <p class="note">${t('plants.descriptionHint')}</p>
+            ${pairField('', 'description', p.description, { multiline: true })}
           `)}
 
           ${panel(`

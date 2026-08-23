@@ -7184,3 +7184,57 @@ Anything predictive. Notifications. And the rest of the mock-up — the „Пр�
 actions, the bottom navigation — which is a separate conversation.
 
 ---
+
+## 13ce. The plant library completed: a description, and gathering per part (1.0.0-rc16)
+
+The workbook of §13cd came back filled. `scripts/merge-plant-gaps.py`, same discipline as the
+chemistry merge: it does not overwrite what is already there, it does not invent, and it stops at
+anything it cannot read rather than choosing an interpretation. Re-runnable, and shown refusing
+three ways — an unreadable month, a Bulgarian description with no English, and a part marked as
+bought that also carries months — writing nothing in each case.
+
+### `description`: the plant as a plant
+
+All 57, both languages. Not `character`, and not the „Как се държи“ section: both of those describe
+dye behaviour — the temperament of the bath, what spoils it, the order of work (§13m). A botanical
+opening is a seventh thing, and by the rule the library rests on, **what must be present on every
+plant is a field, not a section.**
+
+It opens the record and is deliberately **not headed**. A heading over two sentences of orientation
+makes them look like a section to be skipped, and this is the paragraph that should simply be read.
+
+### Gathering moved to the part, and finished
+
+118 of 118 parts now answer. **The plant-level fallback is used nowhere** — the count of plants
+reaching the seasonal panel through it is zero in every month.
+
+Seven parts are `sourcedNotGathered`: avocado stone and skin, cutch bark and heartwood, henna leaf,
+brazilwood bark and heartwood. A positive statement, distinct from an empty field — a month of
+harvest for cutch would have been invented.
+
+**Safflower, sumac, pomegranate, Persian buckthorn and eucalyptus came back WITH months**, settling
+the question §13cd raised. They are marked `habitat: imported`, and that vocabulary is
+wild | garden | imported: it answers where a plant GROWS. Sumac is native here and also arrives in a
+bag; both are true at once. Reading the origin field as a sourcing field was a misreading, not a
+contradiction in the data — two facts had been sharing one field, as in §13cc.
+
+`plant.harvestMonths` is superseded, not deleted, and retires one version later as
+`FabricStateEvent` did (§13bd).
+
+`harvestRegion: 'BG'` on the pack. A gathering month is a property of the plant HERE, and the label
+is what lets a second region be added later instead of 118 rows having to be guessed at.
+
+### Guard 24g, five checks, each shown failing
+
+Nothing is both bought and gathered, nor carries an empty list; every month is 1–12; **every part
+says when it is gathered or that it is bought** — silence is now a failure, not a gap; every
+description reads in both languages; and the pack that carries months says where they were observed.
+
+### Still open
+
+`character` and the „Как се държи“ section carry the same heading and appear twice on fourteen
+records. Merging a third prose block was not the moment to take that decision, and it is still to be
+taken: the recommendation is that the section stays (filled on all 57 against the field's 14), the
+field folds into it, and `character` retires.
+
+---
