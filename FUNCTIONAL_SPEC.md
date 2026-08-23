@@ -7238,3 +7238,96 @@ taken: the recommendation is that the section stays (filled on all 57 against th
 field folds into it, and `character` retires.
 
 ---
+
+## 13cf. The home screen: what you came back for (1.0.0-rc17)
+
+The screen was eleven tiles with counts — navigation wearing the clothes of a summary. It answered
+"where can I go", which is not what anyone asks on opening an application they were in yesterday. It
+now answers "what was I doing".
+
+Order, fixed: **attention → Продължи → the season and the shelf → quick actions and the reference.**
+The season is outside and the shelf is inside; they read as a pair. The reference goes last because
+it is where you go deliberately and does not need to be greeted. Counts stay on its tiles, since
+„Растения 57“ is worth reading on the way past.
+
+### „Следващо“ exists for a trial and cannot exist for a piece of cloth
+
+This is the line the mock-up made attractive and the model has to be checked against before it can
+be written.
+
+For a **trial** it is a fact the record states: the steps are a written plan and each carries `done`,
+so the next thing is the first step not yet done.
+
+For a **piece of cloth** there is no such thing. The shelf is unwashed → scoured → mordanted → dyed
+→ finished, and §13bd says plainly that **pieces may skip states**, because the process is a base
+type plus a set of enhancements rather than a sequence. A card naming "the next state" of a piece
+would be inventing — on the first screen, where it is likeliest to be believed.
+
+**So the carousel is built from trials, not from cloth.** Duplicating the shelf boxes is accepted as
+convenience; inventing a value to fill a card is not.
+
+When every step is done there is **no** next line: not „—“, not the last step repeated. A trial in
+progress with all steps done is a trial waiting to be assessed, which is a different sentence and a
+different button. The card says that instead.
+
+„Продължи“ lands on the first undone step, not at the top of the record — the word is a promise
+about where you arrive. The photograph is the work's own most recent step photograph, never a stock
+image. Four cards, matching the seasonal panel below so the two rows agree; two-by-two on a laptop
+column, four across on a wide screen, a scrolling row on a phone.
+
+### The waiting piece joins the attention block
+
+Cloth prepared and then forgotten is the most avoidable waste in the studio: mordanted cloth does
+not keep. The trials module had computed this for some time and the home screen never said it.
+
+It sits **with** the backup warning rather than in a panel of its own — both are "this costs you
+something if you do not look", and a third panel competing for the top of the screen weakens both.
+Fourteen days, so that the line is not always there; a warning always present stops being read.
+
+The attention block stays above everything and is absent when there is nothing to say. It is the
+only thing here that can cost work which cannot be got back, so it is never below the fold.
+
+### Three things from the mock-up that were not built
+
+**The hero photograph** — a third of the first screen, the same picture every day, pushing the work
+below the fold on a laptop. The first thing you see should be your own work, and the card images
+already are.
+
+**The global search bar with its suggestion chips.** There is no cross-module search; „жълто“ would
+have to reach plants, combinations, recipes and swatches, each with its own idea of a match. Worth
+building, with its own brief. An empty box that searches less than it appears to is worse than no
+box.
+
+**The central `+`.** A phone pattern on a screen whose primary form is a laptop with a sidebar, and
+it does not say what it makes. Giving it a menu turns it into the quick-action row from the same
+mock-up, twice. The row stays; three named actions beat one unnamed one. „Еко принт“ and „Нова
+записка“ are not among them: the first is a technique inside a trial, the second is not a record —
+notes live on the things they are about.
+
+### The first launch
+
+No trials, no cloth, and until the packs are installed no plants: every block would be a heading
+over nothing, and this is the first impression of a paid library. It gets its own arrangement —
+what the library holds, in numbers, and one way in.
+
+**No warnings on that screen.** „Няма архив“ is true of an empty installation and means nothing to
+someone who has not yet written anything; showing it makes the application open by complaining about
+work that does not exist.
+
+### Guard 24h, and a check that could not fail
+
+Six checks, each shown failing: the next step is the first undone one; a trial with nothing left
+shows no next line; completed work stays out; the button lands on the step; attention renders above
+the work; and nothing on this screen is green.
+
+**The fifth could not fail as first written.** It compared the two positions only when both were
+found, and in the test database neither was — with no work recorded the dashboard renders the
+first-launch screen — so it reported a clean result while testing nothing. That is the third time in
+this project a check has passed by examining nothing. Both markers must now be found, and the
+absence of either is itself the failure.
+
+The second check had the mirror fault in miniature: it searched for „—“ and failed on the em dash
+inside the very sentence it was meant to be looking for. It now tests whether the next-step wording
+is used at all. A check that reads punctuation is a check testing spelling.
+
+---

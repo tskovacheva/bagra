@@ -278,7 +278,7 @@ const cover = (r, fabrics) =>
 // back-references in the data — related lists are worked out when the record is
 // opened" (§3). The copy stays in the record only as a fallback for work that
 // points at no cloth.
-const workTitle = (r, fabrics) => {
+export const workTitle = (r, fabrics) => {
   const cloth = fabrics.find(f => (r.fabricIds || []).includes(f.id));
   const clothName = cloth ? (cloth.name || cloth.label || '').trim() : '';
   // The cloth names the work when there is a cloth. No flag, no guessing at

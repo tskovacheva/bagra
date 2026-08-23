@@ -4935,5 +4935,103 @@ const dirty = await import('./dirty.js');
   else console.log(`  plants: the gathering months say where they were observed (${pack.harvestRegion})`);
 }
 
+// ---- 24h. The home screen says only what the records state (§13cf)
+{
+  const dash = await import('./modules/dashboard.js');
+  const { t } = await import('./i18n.js');
+
+  const step = (id, type, done) =>
+    ({ id, order: Number(id.slice(1)), typeCode: type, stageCode: 'colouring', done });
+
+  // 1. „Следващо" is the first UNDONE step, not the last done one and not the
+  //    first in the list.
+  const partly = { id: 't1', status: 'in_progress', date: '2026-08-18',
+    steps: [step('s1', 'scour', true), step('s2', 'mordant', true), step('s3', 'dye', false)] };
+  if (dash.nextStep(partly)?.id !== 's3')
+    fail('dash', new Error(`next step is ${dash.nextStep(partly)?.id}, expected s3`));
+  else if (dash.reachedStep(partly)?.id !== 's2')
+    fail('dash', new Error(`reached step is ${dash.reachedStep(partly)?.id}, expected s2`));
+  else console.log('  dash: „next" is the first undone step and „reached" the last done one');
+
+  // 2. Every step done means NO next step — not a dash, not the last one again.
+  //    This is the branch the whole design rests on: a card that filled the line
+  //    to keep its shape would be inventing, and inventing on the first screen.
+  const finished = { id: 't2', status: 'in_progress', date: '2026-08-17',
+    steps: [step('s1', 'dye', true)] };
+  if (dash.nextStep(finished) !== null)
+    fail('dash', new Error('a trial with every step done still claims a next step'));
+  else {
+    const html = await dash.continueCards([finished], []);
+    // The condition is that the card does not USE THE NEXT-STEP SENTENCE at
+    // all, not that a dash character is absent: the first version of this check
+    // searched for „—" and failed on the em dash inside the wording it was
+    // meant to be looking for. A check that reads punctuation is a check
+    // testing spelling.
+    if (html.includes(t('dash.next')))
+      fail('dash', new Error('a trial with nothing left still shows a „next step" line'));
+    else if (!html.includes(t('dash.awaiting')))
+      fail('dash', new Error('a trial waiting to be assessed does not say so'));
+    else console.log('  dash: all steps done says „waiting to be assessed", not „—"');
+  }
+
+  // 3. Only work in progress. A completed trial is not something to carry on
+  //    with, however recent.
+  const done = { id: 't3', status: 'complete', date: '2026-08-20',
+    steps: [step('s1', 'dye', true)] };
+  const html3 = await dash.continueCards([done, partly], []);
+  if (html3.includes('t3') || (html3.match(/contcard/g) || []).length !== 1)
+    fail('dash', new Error('a completed trial appears under „carry on"'));
+  else console.log('  dash: completed work stays out of „carry on"');
+
+  // 4. „Продължи" lands on the step, not the top of the record. The word is a
+  //    promise about where you arrive.
+  const html4 = await dash.continueCards([partly], []);
+  if (!html4.includes('trials/t1/step/s3'))
+    fail('dash', new Error('the button goes to the record rather than to the step'));
+  else console.log('  dash: „carry on" lands on the first undone step');
+
+  // 5. The warning is ABOVE the work, in the rendered order — not merely
+  //    present. A warning below the fold is a warning too late, and it is the
+  //    only thing here that can cost work which cannot be got back.
+  //
+  // THE FIRST VERSION OF THIS CHECK COULD NOT FAIL. It compared the two
+  // positions only `if (iWarn !== -1 && iWork !== -1)`, so when either was
+  // absent it fell through to the pass line — and in this database neither was
+  // there, because with no work recorded the dashboard renders the first-launch
+  // screen instead. It reported a clean result while testing nothing, which is
+  // the third time in this project a check has done that. Both markers must now
+  // be FOUND, and their absence is itself the failure.
+  location.hash = '#/dashboard';
+  await settle();
+  const body = document.querySelector('#view')?.innerHTML || '';
+  const iWarn = body.indexOf('notemark');
+  const iWork = body.indexOf(t('dash.continueTitle'));
+  if (iWarn === -1)
+    fail('dash', new Error('no attention block rendered — this check would test nothing'));
+  else if (iWork === -1)
+    fail('dash', new Error('„carry on" did not render — this check would test nothing'));
+  else if (iWarn > iWork)
+    fail('dash', new Error('the attention block renders below „carry on"'));
+  else console.log('  dash: attention renders above the work in hand');
+
+  // 6. No green anywhere on this screen. The workspace must not bias the
+  //    judgement of a swatch. Plant swatches are data and carry their own hex,
+  //    so they are read from the record and exempted by value rather than by
+  //    being skipped.
+  const fs = await import('node:fs');
+  const css = fs.readFileSync('index.html', 'utf8')
+    .split('/* „Продължи“')[1]?.split('</style>')[0] || '';
+  const greens = [...css.matchAll(/#([0-9a-fA-F]{6})/g)]
+    .map(m => m[1])
+    .filter(hex => {
+      const r = parseInt(hex.slice(0, 2), 16), g = parseInt(hex.slice(2, 4), 16),
+            b2 = parseInt(hex.slice(4, 6), 16);
+      return g > r + 12 && g > b2 + 12;
+    });
+  if (greens.length)
+    fail('dash', new Error(`green on the home screen: ${greens.join(', ')}`));
+  else console.log('  dash: nothing on the home screen is green');
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);
