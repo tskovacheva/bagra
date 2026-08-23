@@ -234,7 +234,12 @@ objection to the record and should not read as one.
 Blocks the merge below: without it, 177 swatches with an honest blank would enter the reference as
 177 claims about the wrong fibre.
 
-## B4f. The combination grid came back, and proved the source cannot fill the key
+## B4f. The combination grid · **merged (1.0.0-rc22, §13cl) — 102 records, 35 plants**
+
+Still open: the fibre column, which only the owner can answer, and the two groups set aside because
+the key cannot carry the extraction method. Protein is the second pass.
+
+### Original note
 
 177 rows, filled to the letter — nothing guessed, every blank carrying its reason, four marked for
 review. **And not one row has a complete key.** `Влакно` is answered on 3 of 177 and

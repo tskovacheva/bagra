@@ -7541,3 +7541,67 @@ The order was backwards. The engine has to be able to hold a blank before anyone
 one down.
 
 ---
+
+## 13cl. The combination library, 28 to 102 (1.0.0-rc22)
+
+The filled grid merged. **102 records over 35 of the 57 plants**, up from 28 over 10.
+
+### What became a record, and what did not
+
+Two things are required and are not negotiable: **the part and the process.** Without the part a
+record does not say what was in the pot, and a colour from oak bark and one from oak leaf are
+different answers. 84 rows lack it and **stay swatches on the plant**, where they already do useful
+work; they are reported, not forced in.
+
+Everything else may be blank, and most of it is: `mordantBand` on 93 rows, `fibreClass` on 91,
+`medium` on 90, `mordantCode` on 64. That is only usable because §13ck taught the engine that a
+blank is a blank.
+
+### Several swatches, one key, one record
+
+Eucalyptus leaf by immersion appears three times — керемидено, прасковено, ръждиво — differing by
+the strength of the bath, which is deliberately not a dimension (§13br). They are not three answers
+to one question but **one answer with a range**, which is how the original 28 were already written:
+„бежово, охра, светъл до среден кафяв" is a span. 93 rows became 74 records.
+
+The colours are joined, never rewritten — a script does not compose prose — and each row's own
+conditions stay verbatim in the notes, which is where bath strength was always supposed to live.
+
+### But not every difference is bath strength
+
+Woad leaf appears as „многократно потапяне" and as „**редукционна вана**". A reduction vat is not a
+weak bath; it is a different way of getting the colour out. Alkanet the same, with „алкохолен
+извлек". The key does not carry the extraction method — it lives on the dose (§13cc) — so collapsing
+these would have said woad by immersion gives „средно синьо, светло синьо" and lost that one of them
+was a vat.
+
+Those two groups are **set aside, not refused**: a known and recorded limit of the model, named
+precisely, which should not hold back the other 74. They stay swatches until the key can carry the
+method.
+
+### The notes were carrying instructions to whoever filled the grid
+
+„Влакно: не е посочено в източника", „не записвай едновременно iron + alkaline" — written for the
+merge and not for the reader, and the reference now says „не уточнява" for itself. Stripped, on the
+separator and on the sentence, since the reasons had been written as running prose and a filter that
+cut only on „·" left half of them in.
+
+### Four records were disappearing between the pack and the database
+
+`code` becomes the record's id. The first code generator left out `blanket` and `medium`, so two
+different keys produced one code and the second **silently overwrote the first on install**. Among
+the four: madder root in an alkaline bath („винено") lost to madder root with no recorded pH („ярко
+розово, керемидено"). Two real and different answers, one of them simply not there, with nothing
+anywhere to say so.
+
+The code now carries every dimension the key does. Guard 24k counts the pack against the database,
+which is the only thing that would have found this — nothing in the pack itself is wrong.
+
+### Guard 24k, seven checks, each shown failing
+
+Every record names a real plant, a part and a process; no band without a mordant, which would be the
+strength of nothing; every pH says where it was measured, since an alkaline extraction is not an
+alkaline bath; no key answered twice, which §13br had to clean up once already; and every record in
+the pack reaches the database.
+
+---

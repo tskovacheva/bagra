@@ -5165,5 +5165,71 @@ const dirty = await import('./dirty.js');
   else console.log('  reference: silence and difference have different words');
 }
 
+// ---- 24k. The enlarged combination library holds together (§13cl)
+{
+  const combos = await db.all('combinations');
+  const plants = new Set((await db.all('plants')).map(p => p.id));
+  const seen = new Map();
+  const noPart = [], noProcess = [], strayPlant = [], bandNoMordant = [], phNoWhere = [];
+
+  for (const c of combos) {
+    const k = c.key || {};
+    const id = k.dyeSource?.plantId;
+    if (!plants.has(id)) strayPlant.push(`${c.id}: ${id}`);
+    if (!k.dyeSource?.partCode) noPart.push(c.id);
+    if (!k.processCode) noProcess.push(c.id);
+    // A band is the strength OF something. Without a mordant it is the
+    // strength of nothing, and the reference would show „(medium)" beside an
+    // empty word.
+    if (k.mordantBand && !k.mordantCode) bandNoMordant.push(c.id);
+    // pH with no place is the fault §13cc separated: an alkaline EXTRACTION is
+    // not an alkaline bath, and `whereCode` is what tells them apart.
+    if (k.medium?.phCode && !k.medium?.whereCode) phNoWhere.push(c.id);
+
+    // A stable stringify of the WHOLE key. The first version passed
+    // `Object.keys(k).sort()` as the replacer, which is an allow-list applied at
+    // EVERY level — so `dyeSource`'s own plantId and partCode were not on it and
+    // every record serialised with an empty dyeSource. Ten collisions were
+    // reported that do not exist. A guard that lies is worse than none.
+    const stable = (v) => Array.isArray(v) ? v.map(stable)
+      : (v && typeof v === 'object'
+          ? Object.fromEntries(Object.keys(v).sort().map(x => [x, stable(v[x])]))
+          : v);
+    const ks = JSON.stringify(stable(k));
+    if (seen.has(ks)) seen.set(ks, seen.get(ks) + 1);
+    else seen.set(ks, 1);
+  }
+
+  const doubled = [...seen.entries()].filter(([, n]) => n > 1).length;
+
+  const say = (list, msg, ok) => {
+    if (list.length) fail('combinations', new Error(`${msg}: ${list.slice(0, 5).join(', ')}`));
+    else console.log('  ' + ok);
+  };
+  say(strayPlant, 'points at a plant that is not here', `combinations: every record names a real plant (${combos.length})`);
+  say(noPart, 'no part — the record does not say what was in the pot', 'combinations: every record names a part');
+  say(noProcess, 'no process', 'combinations: every record names a process');
+  say(bandNoMordant, 'a band with no mordant — the strength of nothing', 'combinations: no band without a mordant');
+  say(phNoWhere, 'a pH with no place — bath or extraction is undecidable', 'combinations: every pH says where it was measured');
+
+  if (doubled)
+    fail('combinations', new Error(`${doubled} key(s) answered twice — §13br had to clean this once`));
+  else console.log(`  combinations: no key is answered twice (${seen.size} distinct keys)`);
+
+  // AND EVERY RECORD IN THE PACK REACHED THE DATABASE.
+  //
+  // `code` becomes the id, so two different keys sharing a code means the
+  // second overwrites the first on install — in the pack and not in the
+  // application, with nothing to say so. Four did: madder root in an alkaline
+  // bath („винено") lost to madder root with no recorded pH. Counting is what
+  // finds this; nothing else would (§13cl).
+  const fs2 = await import('node:fs');
+  const packed = JSON.parse(fs2.readFileSync('seed/combinations.json', 'utf8')).combinations;
+  if (packed.length !== combos.length)
+    fail('combinations', new Error(
+      `the pack holds ${packed.length} and the database ${combos.length} — records share a code`));
+  else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);
