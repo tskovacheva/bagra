@@ -220,6 +220,30 @@ Worth stating before it starts: `deep-check.mjs` renders in jsdom, which has no 
 gallery and no narrow viewport. `screen-check.mjs` catches geometry and nothing else. This
 work needs a pass on a real phone after each step, or something invented to replace it.
 
+## B4c. Harvest months, moved to the part · **panel done, data pending (1.0.0-rc15, §13cd)**
+
+The third instance of the same fault, after the temperature (§13az) and the extraction mode
+(§13cc): a value fixed to a record that does not determine it. Walnut leaf is May–September and the
+green husks are August–October; one list per plant cannot say that.
+
+The seasonal panel is built and reads part-level months where they exist, falling back to the
+plant's list **in the open** — a card built on the fallback names no part rather than naming all of
+them. The workbook out for filling collects the 118 rows. When it comes back: the merge script,
+`sourcedNotGathered` for what is bought rather than gathered, `harvestRegion` on the pack, and
+`plant.harvestMonths` retired one version later rather than in the same session.
+
+## B4b. Extraction, moved to where it belongs · **done (1.0.0-rc14, §13cc)**
+
+`extractionMode` held a constraint while being named a mode, so the choice it was named for —
+madder by decoction against by fermentation against alkaline, three doses an order of magnitude
+apart — could not be recorded at all. Split into a constraint on the part, a choice on the
+placement, and a dimension on the dose. 113 parts deliberately left unstated rather than tidied
+into `decoction`, with a guard that fails if the count ever drops.
+
+Still to do here: the doses themselves. The dimension exists and every row carries `null` — nobody
+has yet written what madder costs by fermentation. That is reference data, and it belongs with the
+combination grid rather than with code.
+
 ## B4. Model questions still open
 
 - ~~**Band numbers are provisional**~~ — **checked and revised in 1.0.0-rc2** (§13bp). Mordant

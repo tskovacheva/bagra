@@ -892,9 +892,29 @@ export default {
         if (!plant) return;
 
         const part = (plant.parts || []).find(x => x.partCode === opt.partCode) || plant.parts?.[0];
-        const dose = (part?.dosing || []).find(d => d.condition === opt.condition)
-                  || (part?.dosing || []).find(d => !d.condition)
-                  || (part?.dosing || [])[0];
+        // Part -> condition -> extraction method, narrowing (§13cc). The method
+        // enters the chain because it changes the dose outright, not by a
+        // little: Stopka gives madder root 500% by decoction and 50% by
+        // alkaline extraction. Before this the search was part -> condition and
+        // took whichever row came first, so a recipe written for an alkaline
+        // extraction could silently be handed the decoction figure — a
+        // ten-fold error arriving as a helpful auto-fill.
+        //
+        // Each step falls back to the looser match rather than to nothing,
+        // because a dose recorded without a method is still the best figure
+        // there is. What it must not do is claim to be the figure for a method
+        // it never named, so a fallback match leaves `qtyMode` unset and the
+        // form does not assert one.
+        const rows = part?.dosing || [];
+        const dose = (opt.extractionMode
+                      && rows.find(d => d.condition === opt.condition
+                                     && d.extractionMode === opt.extractionMode))
+                  || (opt.extractionMode
+                      && rows.find(d => !d.condition && d.extractionMode === opt.extractionMode))
+                  || rows.find(d => d.condition === opt.condition && !d.extractionMode)
+                  || rows.find(d => d.condition === opt.condition)
+                  || rows.find(d => !d.condition)
+                  || rows[0];
         if (dose) { opt.qtyMin = dose.min; opt.qtyMax = dose.max; draft.ingredients[i].basis = 'percent_wof'; }
 
         // The temperature of THIS part, not of the plant (§13az). Elder leaf

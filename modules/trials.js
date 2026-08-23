@@ -7,7 +7,7 @@
 
 import { all, get, put, remove, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
-import { navigate, page, panel, field, options, label, terms, segmented, esc, empty, note,
+import { navigate, page, panel, field, options, vocabList, label, terms, segmented, esc, empty, note,
          pickerInput,
          fmtDate, today, fact, facts, readBlock, foldable, fieldGroup, flash, icon, backTo, actionBtn } from '../ui.js';
 import { shrinkResult, shrinkStep, shrinkThumb } from '../photo.js';
@@ -1185,6 +1185,7 @@ async function placementsBlock(r, stepId = null) {
                             placeholder: t('trials.pickPlant') })}
             <select data-place="${i}.partCode">${await options('plant_part', pl.partCode, t('trials.part'))}</select>
             <select data-place="${i}.condition">${await options('placement_condition', pl.condition, t('trials.condition'))}</select>
+            ${await modeSelect(i, pl)}
           </div>
 
           ${isEcoPrint(r) ? `
@@ -1438,12 +1439,51 @@ async function reviewStep(r, st, i) {
     }</div>` : ''}`;
 }
 
+// Which way the colour was got out of THIS plant in THIS trial (§13cc).
+//
+// On the placement, for the same reason `condition` is: it is a fact about the
+// raw material in this piece of work, it differs plant by plant inside one
+// bundle, and it is what the dose hangs on. Stopka gives madder root 500% by
+// decoction and 50% by alkaline extraction — without recording which was done,
+// a trial's quantity cannot be read back against the reference at all.
+//
+// Offered from the part's permitted set where the plant states one, since a
+// list that lets alkanet be recorded as a decoction is a list that will be used
+// that way. Where nothing is stated the whole vocabulary is offered, because
+// „not stated" is not „nothing is allowed", and refusing every choice would
+// make 113 of 118 parts unrecordable.
+//
+// Never pre-selected. The plant record says which methods EXIST; only the person
+// at the pot knows which one she used, and filling it in for her would put a
+// guess into the one record that is supposed to be evidence.
+async function modeSelect(i, pl) {
+  const plant = plantsById.get(pl.plantId);
+  const part = (plant?.parts || []).find(x => x.partCode === pl.partCode);
+  const allowed = part?.extractionModes || null;
+
+  const list = await vocabList('extraction_mode');
+  const offered = allowed ? list.filter(m => allowed.includes(m.code)) : list;
+
+  // A stray value must survive the form. Built only from the offered set, a
+  // placement recorded before the part was restricted would fall back to the
+  // empty option and saving would erase it silently.
+  const stray = pl.extractionMode && !offered.some(m => m.code === pl.extractionMode)
+    ? `<option value="${esc(pl.extractionMode)}" selected>${esc(pl.extractionMode)}</option>`
+    : '';
+
+  return `<select data-place="${i}.extractionMode">
+    <option value="">${t('trials.mode')}</option>${stray}${offered.map(m =>
+      `<option value="${m.code}"${m.code === pl.extractionMode ? ' selected' : ''}>${esc(m.label)}</option>`
+    ).join('')}</select>`;
+}
+
 async function reviewPlacements(r) {
   const rows = (await Promise.all((r.placements || []).map(async pl => {
     const plant = plantsById.get(pl.plantId);
     const bits = [
       pl.partCode ? await label('plant_part', pl.partCode) : '',
       pl.condition ? await label('placement_condition', pl.condition) : '',
+      pl.extractionMode ? await label('extraction_mode', pl.extractionMode) : '',
       pl.facing ? await label('facing', pl.facing) : '',
       pl.printQuality ? await label('print_quality', pl.printQuality) : '',
       pl.localTreatment || '',

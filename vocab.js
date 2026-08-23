@@ -208,23 +208,43 @@ export const VOCABULARY = [
   V('habitat', 'garden',   'градинско',   'garden', 2),
   V('habitat', 'imported', 'вносно',      'imported', 3),
 
-  // How the colour is got out of the part (§13az).
+  // How the colour is got out of the part (§13az, §13cc).
   //
   // Temperature alone could not say this. Woad, Japanese indigo and alkanet
   // have no extraction temperature — not an unknown one, none: the ordinary
   // "simmer it in water" schema does not apply to them at all, and leaving the
   // field empty said "nobody has measured it yet", which is a different and
   // false statement.
+  //
+  // ONE VOCABULARY, THREE FIELDS (§13cc). `part.extractionModes` says which of
+  // these are possible for that part — a constraint. `placement.extractionMode`
+  // says which was used — a choice. `dosing[].extractionMode` says which dose
+  // belongs to which method, because they are not the same dose: Stopka gives
+  // madder root 500% by decoction, 300% by fermentation and 50% by alkaline
+  // extraction.
   V('extraction_mode', 'decoction', 'гореща отвара', 'hot decoction', 1,
     { bg: 'Обичайното: частта се вари или се държи гореща във вода.',
       en: 'The ordinary way: the part is simmered or held hot in water.' }, 'dyeing'),
   V('extraction_mode', 'cold', 'студена', 'cold extraction', 2,
     { bg: 'Извлича се на стайна температура; нагряването разваля цвета.',
       en: 'Extracted at room temperature; heat spoils the colour.' }, 'dyeing'),
-  V('extraction_mode', 'solvent', 'с разтворител', 'solvent extraction', 3,
+  V('extraction_mode', 'fermentation', 'ферментация', 'fermentation', 3,
+    { bg: 'Частта стои в топла вода дни или седмици и бактериите освобождават ' +
+          'багрилото. Иска много по-малко суровина от варенето, но времето и ' +
+          'миризмата са цената, а резултатът се повтаря по-трудно.',
+      en: 'The part stands in warm water for days or weeks and bacteria release the ' +
+          'dye. It needs far less raw material than boiling, at the cost of time and ' +
+          'smell, and the result is harder to repeat.' }, 'dyeing'),
+  V('extraction_mode', 'alkaline', 'алкална екстракция', 'alkaline extraction', 4,
+    { bg: 'Извлича се в основа — сода или вар. Изважда багрилото много по-пълно, ' +
+          'затова суровината е в пъти по-малко, но основата мести и самия цвят.',
+      en: 'Extracted in an alkali — soda or lime. It draws the dye out far more ' +
+          'completely, so much less raw material is needed, but the alkali shifts ' +
+          'the colour itself.' }, 'dyeing'),
+  V('extraction_mode', 'solvent', 'с разтворител', 'solvent extraction', 5,
     { bg: 'Багрилото не е водоразтворимо — извлича се със спирт или масло.',
       en: 'The dye is not water soluble — alcohol or oil is used instead.' }, 'dyeing'),
-  V('extraction_mode', 'vat', 'редукционна вана', 'reduction vat', 4,
+  V('extraction_mode', 'vat', 'редукционна вана', 'reduction vat', 6,
     { bg: 'Индигов процес: багрилото се редуцира, а цветът се появява на въздух.',
       en: 'An indigo process: the dye is reduced, and the colour appears in air.' }, 'indigo'),
 

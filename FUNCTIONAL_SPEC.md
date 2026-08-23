@@ -1252,7 +1252,12 @@ harvest         {
                   whenNote {bg,en}, processing {bg,en},
                   dryingRatio: number | null   // fresh weight ÷ dried weight
                 } | null
-dosing          [ { partCode, condition, percentWofMin, percentWofMax } ]
+dosing          [ { partCode, condition, extractionMode | null, percentWofMin, percentWofMax } ]
+                                        // extractionMode: which method this dose is FOR (§13cc)
+                                        // null = recorded without saying which
+extractionModes [code] | null           // on the PART: which methods are possible at all —
+                                        // a constraint, never a choice. null = not stated,
+                                        // which is NOT „the ordinary way". [] is never written.
 tempExtractC    { min, max } | null
 tempDyeC        { min, max } | null
 maxTempC        number | null           // hard ceiling; flagged when a step exceeds it
@@ -1583,6 +1588,7 @@ the image.** Any screen in Stage 11 that offers a photograph inherits this.
   plantId, partCode,             // always a Plant — never a Material
   materialId      id | null,     // optional, only when a stocked extract was used
   condition       code,          // fresh | dried | rehydrated | frozen
+  extractionMode  code | null,   // which way the colour was got out, this time (§13cc)
   harvestSeason   code | null,
   position        string | null, // optional, hidden by default — the photo records this
   facing          code | null,   // face_down | face_up — eco print only
@@ -6961,5 +6967,220 @@ code is untouched, so nothing referencing the technique is orphaned. What the ol
 the new one does not is that the second colour LAYERS OVER the first, as against running the same
 bath again for depth; the description now carries that distinction in its first sentences. If it is
 seen to be confused in use, the label changes without touching data.
+
+---
+
+## 13cc. Extraction: a constraint on the plant, a choice on the work (1.0.0-rc14)
+
+§13bv found the fault and recorded it without migrating, because a migration that guesses turns an
+assumption into a fact. This is the migration, once it was clear what the field had actually been
+holding.
+
+### The field was already doing the other job
+
+`extractionMode` sat on the part, held one value, and was filled for 5 parts of 118:
+
+    safflower        flower, leaf   cold
+    woad             leaf           vat
+    Japanese indigo  leaf           vat
+    alkanet          root           solvent
+
+**Not one of them is `decoction`,** and that is not chance. The field was only ever filled when the
+answer was "the ordinary way does not apply here". Nobody records "I boiled it", because boiling is
+what happens unless something prevents it. So in practice the field already held a CONSTRAINT while
+being named and shaped as a mode — and the label said so out loud: the placeholder read
+„гореща отвара (по подразбиране)", asserting that an empty field meant boiling.
+
+Meanwhile the thing it was named for could not be recorded at all. Stopka gives madder root **500%
+by decoction, 300% by fermentation, 50% by alkaline extraction** — one plant, one part, three
+methods, three doses an order of magnitude apart. A single value on the part holds one of the three
+and makes the other two unsayable.
+
+### One vocabulary, three fields
+
+    part.extractionModes      [code] | null    which ways are possible      — a constraint
+    placement.extractionMode  code | null      which way was used this time — a choice
+    dosing[].extractionMode   code | null      which way this dose is FOR
+
+**The constraint is a list**, because a constraint names a set. Alkanet is `['solvent']` — only
+that. Madder is decoction, fermentation and alkaline — three, all real. One value can say neither.
+On the form it is a row of checkboxes rather than a select, for the same reason.
+
+**The choice is on the placement**, where `condition` already is, and for the same reasons: it is a
+fact about the raw material in this piece of work, it differs plant by plant inside one bundle, and
+it is what the dose hangs on. It is offered from the part's permitted set where the plant states
+one — a list that lets alkanet be recorded as a decoction is a list that will be used that way —
+and from the whole vocabulary where nothing is stated, since "not stated" is not "nothing is
+allowed" and refusing every choice would make 113 of 118 parts unrecordable. **Never pre-selected.**
+The plant record says which methods exist; only the person at the pot knows which she used, and
+filling it in for her would put a guess into the one record that is meant to be evidence.
+
+**The dose gains the dimension**, which is the point of the whole change. `null` on the 125
+existing rows means "the dose as recorded, without saying by which method" — precisely what they
+claim today. Nothing is asserted that was not asserted before.
+
+Two methods joined the vocabulary for it: **fermentation** and **alkaline extraction**, both with
+definitions and both in the glossary by the rule of §13cb — membership is stated, not deduced.
+
+### The migration's refusal, and a guard that keeps it
+
+`cold` became `['cold']` and so on for all five: the same statement, moved where it can be added to.
+
+**The 113 parts with no value keep no value.** The temptation is `['decoction']`, since most parts
+are simply boiled, and it looks like completeness. It would turn "nobody has got to this yet" into
+"it has been checked, and only boiling works" on 113 records in one stroke. `null` and `[]` are
+likewise kept apart and `[]` is never written — "not stated" against "no method is possible", and
+the second is not true of any part, but an empty list renders exactly like an absent one.
+
+Four guards, each shown failing first: an empty list; a method outside the vocabulary; a dose
+recorded for a method its own part forbids; and the count of unstated parts dropping below fifty,
+which is the tidying-up above arriving later under a different name.
+
+### The recipe auto-fill was handing over the wrong figure
+
+`modules/recipes.js` looked up a dose by part, then condition, then took whichever row came first.
+With three doses on one part that is a ten-fold error arriving as a helpful auto-fill: a recipe
+written for an alkaline extraction handed the decoction figure. The chain now narrows part →
+condition → method, each step falling back to the looser match rather than to nothing, because a
+dose recorded without a method is still the best figure there is. What it must not do is claim to
+be the figure for a method it never named.
+
+### On screen
+
+The plant record names the methods **only where the part is restricted**, by the rule of §13az —
+repeat only where the parts disagree. Writing „гореща отвара" across all 113 would restate the
+claim the migration refused to make, and in the place a reader is most likely to believe it.
+
+"Use now" gives the dose per method where more than one exists, and names the method beside the
+figure only when the record says which; a dose recorded without one is not a decoction dose, it is
+a dose whose method nobody wrote down.
+
+### Not done, deliberately
+
+**The extraction method does not enter the combination key.** It goes in `variation`, exactly as
+dye strength does. Putting it in the key turns 28 records into a possible 84, of which 56 would be
+empty. The key widens when there is something to fill it with — and the prior condition is the same
+one already recorded: dye-to-fibre ratios on real trial placements.
+
+---
+
+## 13cd. „Какво можеш да събираш сега“ — the seasonal panel (1.0.0-rc15)
+
+The home screen's answer to "what should I do today", and the replacement for the reliability panel
+removed in Part A6. That one counted claims awaiting testing: it addressed the owner of a private
+notebook, and to someone who had paid for a library the first thing the application said about
+itself was a number of things it was unsure of. This one says something true on the day it is
+opened, to either reader.
+
+**A query, not an engine.** Plants whose parts have a gathering window containing this month. No new
+store, no derived record, nothing to keep in step. `modules/season.js`, kept out of `dashboard.js`
+because the month is the one input that cannot be clicked — everything takes it as an argument, so
+that the panel is not only ever tested in August.
+
+### Four cards
+
+Five fit the wide column. Four is what stays legible on the phone, which is where this panel is
+actually read — standing in a garden — and one layout for both is worth more than one extra card.
+On a narrow screen the row scrolls horizontally with the second card cut, so it is visible that
+there is more.
+
+Three lines under the photograph, in the order they are read: the plant; **which parts are in season
+this month**, not all its parts (if the bark is a winter job it has no business on an August card);
+and at most two colours with the plant's own recorded hex as a swatch. Nothing else — no dose, no
+temperature, no fastness. It is a card that says *go and look*, and one press opens the record.
+
+Ordered by **how soon the window closes**. Not alphabetical, which puts walnut last for no reason,
+and not random, which makes the panel look broken when it changes on reload. Green husks ending this
+month come before leaves that run to October; that is the ordering that makes the panel worth
+opening twice in a season, and it needs no data that is not already there. Ties break on the
+library's own order, so it does not reshuffle between reloads on the same day.
+
+### The safety mark is on the card
+
+Of the plants that appear in August, eleven carry a warning and tansy and alder buckthorn are
+`elevated`. A home screen saying "gather this now" under a photograph, with no mark, is the
+application sending someone out to pick tansy. **This panel is an invitation in a way that a library
+listing is not**, so the mark is on the card and not one press away.
+
+It **accompanies and never replaces** (§13ac): the name and the part stay exactly as they are,
+nothing is hidden, greyed or reordered. It says *read before you pick*, not *do not pick*. `low` and
+unmarked show nothing — a mark on everything is a mark on nothing. The filtered list carries the
+line the card has no room for: a plant with no recorded level of care is unrated, not safe.
+
+### `imported` is not „bought“
+
+The panel decides what to leave out from `part.sourcedNotGathered`, **not** from
+`habitat: 'imported'`. That vocabulary is wild | garden | imported and answers where a plant GROWS.
+Sumac is native here and also arrives in a bag; both are true at once, and reading the origin field
+as a sourcing field was a misreading, not a contradiction in the data. Two facts had been sharing
+one field, which is the same class of fault as §13cc.
+
+### The migration is half done, and the panel says so
+
+`harvestMonths` is moving from the plant to the part, because walnut leaf is May–September and the
+green husks are August–October — one list per plant cannot say that, and where a plant has three
+parts today's single list is the months of whichever part was in mind when it was typed, with no way
+to know which. This is the third of the same fault: the temperature on the plant (§13az), the
+extraction mode on the part (§13cc), and now the months. The workbook out for filling collects them
+per part, 118 rows.
+
+Until it comes back, most plants have only the plant-level list. **Falling back to it silently would
+be the worst of both**: a walnut with three parts would show all three as in season in August —
+plausible, wrong, and indistinguishable from a real answer. So the fallback is carried in the open
+as `viaPlant`, and a card built on it **names no part at all** rather than naming all of them.
+
+### Two empties, which must not share words
+
+„Nothing is recorded as gathered in January“ is a fact about January. „No gathering months have been
+recorded yet“ is a fact about the library. Not-yet-filled must never read as nothing-to-pick.
+
+And the panel does **not** disappear when there is nothing. A panel that vanishes reads as something
+broken, and January is a real month rather than an edge case.
+
+### The month is in the address
+
+„Виж всички“ opens `#/plants?month=8` — the same list, the same cards, a filter chip that can be
+taken off. Not a second plant list: two lists of plants are two lists that eventually disagree, and
+the filtered list runs the same `inSeason` from the same module as the panel.
+
+Bookmarkable, survives a reload, comes back correctly with the browser's back button (§13q).
+
+### Months are a fact about a place
+
+A gathering month is not a property of the plant; it is a property of the plant HERE. Walnut husks
+in Sofia and in Andalusia are not the same week, and the library is a candidate for distribution.
+Not climate zones — one line on the pack, `harvestRegion: 'BG'`, said by the panel and the filtered
+list: „Месеците са наблюдавани в България.“ The cost now is nothing; the cost of not doing it is 118
+rows nobody labelled whose conditions have to be guessed at later.
+
+### Two faults the guards found
+
+**A plant with months and no parts vanished.** Membership was decided inside a loop over parts,
+which made a plant's own months depend on it having some. The first fix was written loosely and put
+cutch back on the panel; the test is `parts.length === 0`, not "no part matched", because a plant
+whose every part is bought also matches nothing and must stay out.
+
+**The query was read by position.** The router calls `open(...args, query)` and `args` varies in
+length — none for `#/plants`, one for `#/plants/<id>`, two for `.../edit`. `open(first, second, q)`
+therefore put the query into `first` on the bare address, `openId` became a `URLSearchParams`, and
+the database was handed an object for a key. It failed loudly, which was luck: had `openId` been
+merely wrong rather than unusable, the list would have shown an empty record with no error at all.
+The query is now taken by type from the end of the arguments. **Any module with optional path
+segments has this trap.**
+
+### Guards 24e and 24f, eight checks
+
+Rendered and inspected, never grepped: a check that finds `seasonwarn` in the source is testing
+spelling, and in this project a string has twice sat in place while the behaviour was broken. Each
+was shown failing before it was accepted — the mark dropped, the mark on everything, bought plants
+let through, the panel vanishing when empty, the order reversed, a plant-level month passed off as
+the part's own, the query read by position again, and the list narrowed with nothing on screen
+saying so.
+
+### Not in this
+
+Seasons as a filter („лято“ puts elder flower in June and walnut husks in September in one bucket).
+Anything predictive. Notifications. And the rest of the mock-up — the „Продължи“ carousel, the quick
+actions, the bottom navigation — which is a separate conversation.
 
 ---

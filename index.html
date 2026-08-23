@@ -948,6 +948,52 @@ label.btn{cursor:pointer}
    inversion it was written for came back. All this adds is the room between
    sections and the hairline under the words. */
 .grouphead{margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+/* „Какво можеш да събираш сега“ (§13cd). Four cards, because this is the panel
+   that gets read standing in a garden and four stays legible in a narrow column
+   without the layout becoming two different things. */
+.seasonhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.seasonhead h2{margin:0}
+.seasonhead .hint{margin:3px 0 0}
+.seasonall{font-size:13px;color:var(--indigo);text-decoration:none;white-space:nowrap;padding-top:3px}
+.seasonall:hover{text-decoration:underline}
+.seasoncards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.seasoncard{
+  display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
+  padding:10px 6px 12px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--ground);cursor:pointer;font:inherit;color:var(--ink);
+}
+.seasoncard:hover{border-color:var(--muted)}
+.seasonphoto{
+  position:relative;width:68px;height:68px;border-radius:50%;overflow:hidden;
+  background:var(--line);margin-bottom:4px;flex:0 0 auto;
+}
+.seasonphoto img{width:100%;height:100%;object-fit:cover;display:block}
+/* The mark accompanies the name and never replaces it — nothing is hidden,
+   greyed or reordered. It sits over the photograph rather than beside the name
+   so that it cannot be mistaken for part of the plant's title. */
+.seasonwarn{
+  position:absolute;right:-1px;bottom:-1px;width:21px;height:21px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface);border:1px solid var(--line);color:var(--madder);
+}
+.seasonname{font-weight:600;font-size:13.5px;line-height:1.25}
+.seasonpart{font-size:12px;color:var(--muted);line-height:1.3}
+.seasoncolours{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:3px 5px;font-size:11.5px;color:var(--muted);margin-top:2px;
+}
+.seasonswatch{width:9px;height:9px;border-radius:2px;border:1px solid var(--line);flex:0 0 auto}
+.seasonempty{margin:0;color:var(--muted);font-size:13.5px}
+/* In the garden, on a phone: one row that scrolls, with the second card cut so
+   it is visible that there is more. */
+@media (max-width:700px){
+  .seasoncards{
+    display:flex;overflow-x:auto;scroll-snap-type:x proximity;
+    margin:0 -14px;padding:0 14px 4px;
+  }
+  .seasoncard{flex:0 0 43%;scroll-snap-align:start}
+}
+
 .grouphead:first-child{margin-top:2px}
 /* A glossary card reads down, not across. `.refcard` is a flex ROW everywhere
    else, where its left column is a 52px colour swatch; a term name is not a

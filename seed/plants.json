@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.6.0",
+ "packVersion": "0.7.0",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -34,7 +34,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -213,7 +214,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -247,7 +249,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -458,12 +461,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 80
+       "max": 80,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 150,
-       "max": 250
+       "max": 250,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -497,12 +502,14 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -689,14 +696,17 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
-     "extractionMode": "cold",
      "tempExtractC": {
       "min": 20,
       "max": 25
-     }
+     },
+     "extractionModes": [
+      "cold"
+     ]
     },
     {
      "partCode": "leaf",
@@ -710,14 +720,17 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
-     "extractionMode": "cold",
      "tempExtractC": {
       "min": 20,
       "max": 25
-     }
+     },
+     "extractionModes": [
+      "cold"
+     ]
     }
    ],
    "colours": [
@@ -890,7 +903,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 80
+       "max": 80,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1106,12 +1120,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1318,7 +1334,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1352,7 +1369,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1561,7 +1579,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1591,7 +1610,8 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1774,7 +1794,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1804,7 +1825,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -1986,7 +2008,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2224,7 +2247,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2258,7 +2282,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2443,7 +2468,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2477,7 +2503,8 @@
       {
        "condition": "dried",
        "min": 150,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2697,15 +2724,19 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
-     "extractionMode": "vat"
+     "extractionModes": [
+      "vat"
+     ]
     }
    ],
    "colours": [
@@ -2876,7 +2907,8 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2914,7 +2946,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -2948,7 +2981,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3143,7 +3177,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3172,7 +3207,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3347,7 +3383,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 80
+       "max": 80,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3381,7 +3418,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 120
+       "max": 120,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3415,7 +3453,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3594,7 +3633,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3624,7 +3664,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3787,7 +3828,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -3821,7 +3863,8 @@
       {
        "condition": "fresh",
        "min": 300,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4004,7 +4047,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4187,7 +4231,8 @@
       {
        "condition": "dried",
        "min": 20,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4384,7 +4429,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4418,7 +4464,8 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4452,7 +4499,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4676,7 +4724,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4706,7 +4755,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4736,7 +4786,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -4933,7 +4984,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempDyeC": {
@@ -4966,7 +5018,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempDyeC": {
@@ -5158,7 +5211,8 @@
       {
        "condition": "dried",
        "min": 20,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -5192,7 +5246,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 80
+       "max": 80,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -5371,7 +5426,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempDyeC": {
@@ -5403,7 +5459,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempDyeC": {
@@ -5586,12 +5643,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -5805,7 +5864,8 @@
       {
        "condition": "fresh",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6016,12 +6076,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6229,7 +6291,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6263,7 +6326,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6470,7 +6534,8 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6504,7 +6569,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6673,7 +6739,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6707,7 +6774,8 @@
       {
        "condition": "dried",
        "min": 150,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -6890,22 +6958,26 @@
       {
        "condition": "fresh",
        "min": 300,
-       "max": 500
+       "max": 500,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempDyeC": {
       "min": 45,
       "max": 50
      },
-     "extractionMode": "vat",
      "confidence": {
       "tempDyeC": "practice"
-     }
+     },
+     "extractionModes": [
+      "vat"
+     ]
     }
    ],
    "colours": [
@@ -7087,12 +7159,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -7329,12 +7403,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 150,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -7564,7 +7640,8 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 80
+       "max": 80,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -7761,7 +7838,8 @@
       {
        "condition": "dried",
        "min": 20,
-       "max": 50
+       "max": 50,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -7988,7 +8066,8 @@
       {
        "condition": "dried",
        "min": 15,
-       "max": 30
+       "max": 30,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -8214,12 +8293,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 150,
-       "max": 250
+       "max": 250,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -8249,7 +8330,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -8279,7 +8361,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -8474,7 +8557,8 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -8665,12 +8749,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -8932,12 +9018,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -9148,12 +9236,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -9370,12 +9460,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -9572,12 +9664,14 @@
       {
        "condition": "dried",
        "min": 30,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -9794,12 +9888,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 100,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10020,12 +10116,14 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       },
       {
        "condition": "fresh",
        "min": 50,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10055,7 +10153,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10264,7 +10363,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10302,7 +10402,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10500,12 +10601,14 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10535,7 +10638,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10565,7 +10669,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10595,7 +10700,8 @@
       {
        "condition": "dried",
        "min": 80,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10802,7 +10908,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -10822,7 +10929,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11035,12 +11143,14 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11065,7 +11175,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11094,7 +11205,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11323,12 +11435,14 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11357,7 +11471,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11377,7 +11492,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "softMaxTempC": 90
@@ -11579,12 +11695,14 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11604,7 +11722,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11801,12 +11920,14 @@
       {
        "condition": "fresh",
        "min": 150,
-       "max": 300
+       "max": 300,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 75,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -11831,12 +11952,14 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12019,15 +12142,18 @@
       {
        "condition": "dried",
        "min": 20,
-       "max": 50
+       "max": 50,
+       "extractionMode": null
       }
      ],
-     "extractionMode": "solvent",
      "tempDyeC": {
       "min": 60,
       "max": 60
      },
-     "softMaxTempC": 60
+     "softMaxTempC": 60,
+     "extractionModes": [
+      "solvent"
+     ]
     }
    ],
    "colours": [
@@ -12194,12 +12320,14 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12224,7 +12352,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 100
+       "max": 100,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12407,12 +12536,14 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       },
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12437,7 +12568,8 @@
       {
        "condition": "dried",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12635,7 +12767,8 @@
       {
        "condition": "dried",
        "min": 50,
-       "max": 150
+       "max": 150,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12655,7 +12788,8 @@
       {
        "condition": "fresh",
        "min": 200,
-       "max": 400
+       "max": 400,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {
@@ -12675,7 +12809,8 @@
       {
        "condition": "fresh",
        "min": 100,
-       "max": 200
+       "max": 200,
+       "extractionMode": null
       }
      ],
      "tempExtractC": {

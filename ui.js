@@ -51,6 +51,19 @@ export async function describe(dimension, code) {
   return row?.description ? text(row.description) : '';
 }
 
+/**
+ * The terms of one vocabulary as `{ code, label }`, ordered.
+ *
+ * `options()` builds a `<select>` and is the right shape when the answer is one
+ * of several. A constraint names a SET — which extraction methods a part
+ * permits (§13cc) — and a set is a row of checkboxes, so the caller needs the
+ * terms rather than the markup. Both read the same `terms()`, so a vocabulary
+ * cannot be ordered one way in a select and another in a checkbox row.
+ */
+export async function vocabList(dimension) {
+  return (await terms(dimension)).map(v => ({ code: v.code, label: text(v.label) }));
+}
+
 export async function options(dimension, selected, placeholder = '—') {
   const list = await terms(dimension);
   // A code the vocabulary does not know must still survive the form. Built only

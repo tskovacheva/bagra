@@ -3011,11 +3011,81 @@ const dirty = await import('./dirty.js');
   else console.log('  temperature: two parts of one plant can want different heat');
 
   // Woad has no extraction temperature — not an unknown one, none. Saying so is
-  // a different statement from leaving the field empty.
+  // a different statement from leaving the field empty. A list since §13cc:
+  // vat is the only way woad gives colour, and that is a constraint of one.
   const woad = byCode.get('seed:isatis_tinctoria');
-  if (!(woad?.parts || []).every(x => x.extractionMode === 'vat'))
+  if (!(woad?.parts || []).every(x =>
+        Array.isArray(x.extractionModes) && x.extractionModes.length === 1
+        && x.extractionModes[0] === 'vat'))
     fail('temperature', new Error('woad does not say that it is a vat, so its blank reads as unmeasured'));
   else console.log('  temperature: a plant outside the ordinary schema says which schema it is in');
+
+  // ---- Extraction: a constraint on the part, a choice on the work (§13cc)
+  {
+    const { VOCABULARY: VOCAB } = await import('./vocab.js');
+    const modes = new Set(VOCAB.filter(v => v.dimension === 'extraction_mode')
+                               .map(v => v.code));
+
+    // Not stated and „no method is possible" are different statements, and only
+    // the first is ever true. `[]` claims the second and is always a fault —
+    // silently, since an empty list renders exactly like an absent one.
+    const empties = [];
+    const strays = [];
+    const doseStrays = [];
+    let restricted = 0;
+
+    for (const p of await db.all('plants')) {
+      for (const part of p.parts || []) {
+        const ms = part.extractionModes;
+        if (Array.isArray(ms) && ms.length === 0)
+          empties.push(`${p.id}.${part.partCode}`);
+        if (Array.isArray(ms) && ms.length) {
+          restricted++;
+          for (const m of ms)
+            if (!modes.has(m)) strays.push(`${p.id}.${part.partCode}: ${m}`);
+        }
+        // A dose may name the method it is the dose FOR. Where the part is
+        // restricted, that method has to be one the part actually permits —
+        // otherwise the record carries a figure for a way of working it has
+        // just declared impossible, and the recipe auto-fill will hand it over
+        // without a murmur.
+        for (const d of part.dosing || []) {
+          if (!d.extractionMode) continue;
+          if (!modes.has(d.extractionMode))
+            doseStrays.push(`${p.id}.${part.partCode}: ${d.extractionMode} is not a method`);
+          else if (Array.isArray(ms) && ms.length && !ms.includes(d.extractionMode))
+            doseStrays.push(`${p.id}.${part.partCode}: dose for ${d.extractionMode}, `
+                          + `which the part does not permit (${ms.join(', ')})`);
+        }
+      }
+    }
+
+    if (empties.length)
+      fail('extraction', new Error(
+        `empty list — „no method is possible" is not true of any part: ${empties.join(', ')}`));
+    else console.log('  extraction: nothing says „no method is possible" (null and [] kept apart)');
+
+    if (strays.length)
+      fail('extraction', new Error(`method not in the vocabulary: ${strays.join('; ')}`));
+    else console.log(`  extraction: every permitted method is a real one (${restricted} parts restricted)`);
+
+    if (doseStrays.length)
+      fail('extraction', new Error(`dose against an impossible method: ${doseStrays.join('; ')}`));
+    else console.log('  extraction: no dose is recorded for a method its part forbids');
+
+    // The migration's refusal, held in place. 113 parts say nothing, and the
+    // pressure to "tidy" them into `['decoction']` will come back — it looks
+    // like completeness. It would turn „nobody has got to this" into „checked,
+    // and only boiling works" on 113 records at once (§13cc).
+    const nothingSaid = [];
+    for (const p of await db.all('plants'))
+      for (const part of p.parts || [])
+        if (!part.extractionModes) nothingSaid.push(`${p.id}.${part.partCode}`);
+    if (nothingSaid.length < 50)
+      fail('extraction', new Error(
+        `only ${nothingSaid.length} parts are unstated — has something filled them in wholesale?`));
+    else console.log(`  extraction: ${nothingSaid.length} parts stay unstated rather than assumed`);
+  }
 
   // The ceiling that stops madder being boiled brown, at the value the owner
   // accepted from the audit.
@@ -4683,6 +4753,131 @@ const dirty = await import('./dirty.js');
     location.hash = '#/dashboard';
     await settle();
   }
+}
+
+// ---- 24e. The seasonal panel says only what it can vouch for (§13cd)
+//
+// RENDERED, NOT GREPPED. A check that finds "seasonwarn" in the source is
+// testing spelling: the string sat in place through two earlier faults in this
+// project while the behaviour was broken. These build the panel for a fixed
+// month and read what came out.
+{
+  const season = await import('./modules/season.js');
+  const plants = await db.all('plants');
+
+  // A month is an argument, never the clock. A panel that only renders for
+  // today is a panel only ever tested in August.
+  const AUG = 8;
+
+  // 1. The mark is on the card of a plant that needs it.
+  const withWarn = plants.find(p => season.warns(p)
+    && (p.harvestMonths || []).includes(AUG));
+  if (!withWarn) {
+    fail('season', new Error('no plant to test the mark with — has the data changed?'));
+  } else {
+    const html = await season.seasonPanel(AUG, [withWarn]);
+    if (!html.includes('seasonwarn'))
+      fail('season', new Error(
+        `${withWarn.id} needs care and its card carries no mark`));
+    else if (!html.includes(String(withWarn.nameCommon?.bg || '')))
+      fail('season', new Error('the mark replaced the name instead of accompanying it'));
+    else console.log(`  season: a plant that needs care carries the mark AND its name (${withWarn.id})`);
+  }
+
+  // 2. A plant with nothing to worry about carries no mark. A mark on
+  //    everything is a mark on nothing.
+  const noWarn = plants.find(p => !season.warns(p) && (p.harvestMonths || []).includes(AUG));
+  if (noWarn) {
+    const html = await season.seasonPanel(AUG, [noWarn]);
+    if (html.includes('seasonwarn'))
+      fail('season', new Error(`${noWarn.id} needs no care and is marked anyway`));
+    else console.log('  season: a plant that needs no care is not marked');
+  }
+
+  // 3. Bought rather than gathered never appears. Decided from the part's own
+  //    field, NOT from `habitat: 'imported'` — that vocabulary is wild | garden
+  //    | imported and answers where a plant grows, not where it is obtained.
+  {
+    const one = JSON.parse(JSON.stringify(plants.find(p => (p.parts || []).length)));
+    one.harvestMonths = [AUG];
+    for (const part of one.parts) { part.harvestMonths = [AUG]; part.sourcedNotGathered = true; }
+    const html = await season.seasonPanel(AUG, [one]);
+    if (html.includes('seasoncard'))
+      fail('season', new Error('something bought rather than gathered is in the panel'));
+    else console.log('  season: what is bought rather than gathered stays out');
+  }
+
+  // 4. The panel does NOT disappear when there is nothing, and the two empties
+  //    do not share words. "Nothing is gathered in January" is a fact about
+  //    January; "no months recorded" is a fact about the library, and
+  //    not-yet-filled must never read as nothing-to-pick.
+  {
+    const bare = JSON.parse(JSON.stringify(plants[0]));
+    bare.harvestMonths = [];
+    for (const part of bare.parts || []) part.harvestMonths = [];
+    const nothing = await season.seasonPanel(1, [bare]);
+    const withData = await season.seasonPanel(1, [{ ...plants[0], harvestMonths: [7] }]);
+    if (!nothing.includes('seasonhead') || !withData.includes('seasonhead'))
+      fail('season', new Error('the panel vanishes when empty, which reads as broken'));
+    else if (nothing === withData)
+      fail('season', new Error('an unfilled library and an empty month say the same thing'));
+    else console.log('  season: an empty month keeps the panel, and says something different from an empty library');
+  }
+
+  // 5. The order: soonest to close, first. It is what makes the panel worth
+  //    opening twice in a season.
+  {
+    const a = { ...plants[0], id: 'x:closes-late', harvestMonths: [8, 9, 10], parts: [] };
+    const b = { ...plants[1], id: 'x:closes-now', harvestMonths: [8], parts: [] };
+    const got = (await season.inSeason(AUG, [a, b])).map(x => x.plant.id);
+    if (got[0] !== 'x:closes-now')
+      fail('season', new Error(`ordered ${got.join(', ')} — the closing window is not first`));
+    else console.log('  season: what closes soonest comes first');
+  }
+
+  // 6. Months on the plant rather than the part are carried in the OPEN. The
+  //    migration is half done (§13cd); falling back silently would show a
+  //    walnut's three parts as all in season in August — plausible, wrong, and
+  //    indistinguishable from a real answer.
+  {
+    const p2 = { ...plants[0], harvestMonths: [AUG],
+                 parts: [{ partCode: 'leaf' }, { partCode: 'bark' }] };
+    const [entry] = await season.inSeason(AUG, [p2]);
+    if (!entry?.viaPlant || entry.parts.length)
+      fail('season', new Error('a plant-level month was passed off as the part\'s own answer'));
+    else console.log('  season: a plant-level month names no part rather than naming all of them');
+  }
+}
+
+// ---- 24f. The month filter is in the address, and the bare address is clean
+//
+// The router calls `open(...args, query)` and `args` varies in length, so a
+// module reading the query by position gets it in the wrong slot on the short
+// address. Here that put a URLSearchParams into `openId` and the database was
+// handed an object for a key. It failed loudly, which was luck.
+{
+  const plantsMod = (await import('./modules/plants.js')).default;
+  const before = (await db.all('plants')).length;
+
+  location.hash = '#/plants';
+  await settle();
+  const bare = document.querySelectorAll('#view tbody tr').length;
+  if (bare !== before)
+    fail('season', new Error(`#/plants shows ${bare} of ${before} — the bare address is not clean`));
+  else console.log(`  season: the bare plant address still lists everything (${bare})`);
+
+  location.hash = '#/plants?month=8';
+  await settle();
+  const narrowed = document.querySelectorAll('#view tbody tr').length;
+  if (!(narrowed > 0 && narrowed < before))
+    fail('season', new Error(`month=8 shows ${narrowed} of ${before} — the filter does not narrow`));
+  else if (!document.querySelector('.monthfilter'))
+    fail('season', new Error('the list is narrowed with nothing on screen saying so'));
+  else console.log(`  season: #/plants?month=8 narrows to ${narrowed} and says it is filtered`);
+
+  location.hash = '#/dashboard';
+  await settle();
+  plantsMod.reset?.();
 }
 
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');

@@ -10,7 +10,8 @@ import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
-import { page, panel, field, options, label, describe, favStar, esc, empty, pairField, readPairs, segmented, levelBar,
+import { inSeason as seasonOf } from './season.js';
+import { page, panel, field, options, vocabList, label, describe, favStar, esc, empty, pairField, readPairs, segmented, levelBar,
          confField, readConfidence, readApprox, fact, facts, prose, readBlock, flash, searchBox, matches, navigate , approxNumber, fieldGroup, backTo, actionBtn, icon } from '../ui.js';
 
 const MONTHS_BG = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
@@ -26,6 +27,9 @@ const SUGGESTED = [
 ];
 
 let openId = null;
+// The month the list is narrowed to, from the address (§13cd). Null is the whole
+// library.
+let filterMonth = null;
 let draft = null;
 let filterRole = null;
 let query = '';
@@ -162,13 +166,20 @@ async function renderList(root) {
       <span class="boxcount">${counts[r] || 0}</span>
     </button>`));
 
+  // The same query the seasonal panel runs, from the same module. Two lists of
+  // what is in season would be two lists that eventually disagree.
+  const inSeason = new Set(filterMonth
+    ? (await seasonOf(filterMonth, plants)).map(x => x.plant.id)
+    : []);
+
   const shown = plants
     .filter(p => (!filterRole || (p.role || []).includes(filterRole))
               && (!favOnly || p.favorite)
               // Common name, botanical name and family: the three ways a person
               // arrives at a plant. Not the prose — a search that matched body
               // text would return half the library for "кора".
-              && matches(query, text(p.nameCommon), p.nameBotanical, p.family))
+              && matches(query, text(p.nameCommon), p.nameBotanical, p.family)
+              && (!filterMonth || inSeason.has(p.id)))
     .sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
 
   const rows = await Promise.all(shown.map(async p => {
@@ -228,12 +239,38 @@ async function renderList(root) {
           <span class="boxcount">${favCount}</span>
         </button>` : ''}
       </div>
+      ${filterMonth ? `<div class="monthfilter">
+        <span class="chip">${esc(t('month.' + filterMonth))}</span>
+        <span class="hint">${esc(t('season.region'))} ${esc(t('plants.monthUnrated'))}</span>
+        <a class="seasonall" href="#/plants">${t('plants.monthClear')}</a>
+      </div>` : ''}
       <div class="filterrow">${searchBox(query, t('plants.search'))}</div>
       ${panel(table, 'flush')}`,
   });
 }
 
 // ---------------------------------------------------------------- form view
+
+// Which ways of getting the colour out are possible for this part (§13cc).
+//
+// Checkboxes and not a select, because it is a constraint and a constraint names
+// a SET. Madder root is decoction, fermentation and alkaline — three real ways,
+// with three different doses. A select could hold one of the three and would
+// make the other two unsayable, which is the fault this replaces.
+//
+// Nothing ticked means NOT STATED, not „the ordinary way". The distinction is
+// the whole point of the migration and is said in the hint under the row, since
+// an empty row otherwise reads as an answer.
+async function modeChecks(i, picked) {
+  const on = new Set(picked || []);
+  const modes = await vocabList('extraction_mode');
+  return modes.map(m => `
+    <label class="check">
+      <input type="checkbox" data-partmode="${i}" value="${m.code}"
+        ${on.has(m.code) ? 'checked' : ''}>
+      <span>${esc(m.label)}</span>
+    </label>`).join('');
+}
 
 async function partRows(p) {
   return (await Promise.all((p.parts || []).map(async (pt, i) => {
@@ -244,18 +281,25 @@ async function partRows(p) {
         <button class="btn quiet" data-chem-del="${i}.${j}" aria-label="×">×</button>
       </div>`))).join('');
 
-    const dosing = (pt.dosing || []).map((d, j) => `
+    // `await` inside, so Promise.all rather than a plain map — the dose now
+    // carries which method it is the dose FOR, and that select needs the
+    // vocabulary (§13cc). Stopka gives madder root 500% by decoction and 50%
+    // by alkaline extraction; without this column the record can hold one of
+    // them and makes the other a thing that cannot be said.
+    const dosing = (await Promise.all((pt.dosing || []).map(async (d, j) => `
       <div class="dosingrow">
         <select data-dose="${i}.${j}.condition">
           <option value=""${!d.condition ? ' selected' : ''}>${t('plants.anyCondition')}</option>
           <option value="dried"${d.condition === 'dried' ? ' selected' : ''}>${t('materials.form.dried')}</option>
           <option value="fresh"${d.condition === 'fresh' ? ' selected' : ''}>${t('materials.form.fresh')}</option>
         </select>
+        <select data-dose="${i}.${j}.extractionMode">${
+          await options('extraction_mode', d.extractionMode, t('plants.anyMode'))}</select>
         <input type="number" step="5" min="0" data-dose="${i}.${j}.min" value="${d.min ?? ''}" placeholder="${t('recipes.qtyMin')}">
         <input type="number" step="5" min="0" data-dose="${i}.${j}.max" value="${d.max ?? ''}" placeholder="${t('recipes.qtyMax')}">
         <span class="pct">%</span>
         <button class="btn quiet" data-dose-del="${i}.${j}" aria-label="×">×</button>
-      </div>`).join('');
+      </div>`))).join('');
 
     return `
       <div class="ingrow">
@@ -280,10 +324,11 @@ async function partRows(p) {
 
         <div class="optblock">
           <span class="optlabel">${t('plants.temperatures')}</span>
-          <div class="temprow">
-            <select data-part="${i}.extractionMode">${
-              await options('extraction_mode', pt.extractionMode, t('plants.modeUnsaid'))}</select>
+          <div class="temprow modes">
+            <span class="templabel">${t('plants.modes')}</span>
+            ${(await modeChecks(i, pt.extractionModes))}
           </div>
+          <p class="hint">${t('plants.modesHint')}</p>
           <div class="temprow">
             <span class="templabel">${t('plants.tempExtract')}</span>
             <input type="number" step="5" data-part="${i}.tempExtractC.min" value="${pt.tempExtractC?.min ?? ''}" placeholder="${t('recipes.qtyMin')}">
@@ -456,9 +501,14 @@ async function useNowCard(p) {
     for (const d of part.dosing || []) {
       const cond = d.condition ? await label('placement_condition', d.condition) : '';
       const amount = d.max && d.max !== d.min ? `${d.min}–${d.max}%` : `${d.min}%`;
+      // Which method this dose is the dose FOR (§13cc). Named only when the
+      // record says — a dose recorded without a method is not a decoction dose,
+      // it is a dose nobody wrote the method down for, and labelling it would
+      // invent the missing half.
+      const mode = d.extractionMode ? await label('extraction_mode', d.extractionMode) : '';
       rows.push(tile('i-plant', t('plants.partAndCondition'),
         `${esc(partName)}${cond ? ', ' + esc(cond) : ''}`));
-      rows.push(tile('i-wof', t('plants.dose'), `${esc(amount)} WOF`));
+      rows.push(tile('i-wof', t('plants.dose'), `${esc(amount)} WOF`, mode));
     }
   }
 
@@ -475,7 +525,10 @@ async function useNowCard(p) {
   const temps = (p.parts || []).map(pt => ({
     part: pt.partCode,
     raw: pt,
-    mode: pt.extractionMode || '',
+    // A list now, and it is a CONSTRAINT: which ways are possible at all, not
+    // which one was used (§13cc). Joined for comparison so that two parts
+    // permitting the same set still count as agreeing.
+    mode: (pt.extractionModes || []).join('+'),
     line: [span(pt.tempExtractC) && `${t('plants.tempExtract')} ${approxNumber(span(pt.tempExtractC), pt.approx?.tempExtractC, '°C')}`,
            span(pt.tempDyeC) && `${t('plants.tempDye')} ${approxNumber(span(pt.tempDyeC), pt.approx?.tempDyeC, '°C')}`,
            pt.softMaxTempC && `${t('plants.softMaxTemp')} ${approxNumber(pt.softMaxTempC, pt.approx?.softMaxTempC, '°C')}`,
@@ -488,7 +541,12 @@ async function useNowCard(p) {
   for (const x of same ? temps.slice(0, 1) : temps) {
     const heading = same ? t('plants.temperatures')
       : `${await label('plant_part', x.part)}`;
-    const mode = x.mode ? await label('extraction_mode', x.mode) : '';
+    // Named only where the part is restricted. An unrestricted part says
+    // nothing — writing „гореща отвара" on all 113 would turn „nobody has
+    // stated this" into „it has been checked and only boiling works", which is
+    // the claim the migration refused to make (§13cc).
+    const mode = (await Promise.all((x.raw?.extractionModes || [])
+      .map(m => label('extraction_mode', m)))).join(' · ');
     // Extraction and dyeing are two different heats and were on one line —
     // the prototype separates them and it is right: they are two acts, done at
     // different moments, and reading them as one sentence hides that.
@@ -923,6 +981,30 @@ function readForm(root) {
     if (!part) continue;
     part.approx = { ...(part.approx || {}), [key]: el.checked };
   }
+
+  // The permitted extraction methods (§13cc). Collected per part rather than
+  // pushed as each box is read, so that a part with nothing ticked ends as
+  // `null` — NOT STATED — instead of `[]`, which would claim that no method is
+  // possible. The two are different statements and only one of them is ever
+  // true, so `[]` is never written.
+  //
+  // Every part that HAS a checkbox row is visited, including the ones where
+  // nothing is ticked. Reading only the ticked boxes would leave a part that
+  // had its last method unticked still carrying the old list, and the removal
+  // would silently not happen.
+  {
+    const picked = new Map();
+    for (const el of root.querySelectorAll('[data-partmode]')) {
+      const i = Number(el.dataset.partmode);
+      if (!picked.has(i)) picked.set(i, []);
+      if (el.checked) picked.get(i).push(el.value);
+    }
+    for (const [i, list] of picked) {
+      const part = parts[i];
+      if (!part) continue;
+      part.extractionModes = list.length ? list : null;
+    }
+  }
   for (const el of root.querySelectorAll('[data-chem]')) {
     const [i, j, key] = el.dataset.chem.split('.');
     const part = parts[Number(i)];
@@ -997,11 +1079,31 @@ export default {
   // different screen: leaving the editor with the back button should reach the
   // record, and a reload in the middle of an edit should not silently drop into
   // the read view.
-  open(first, second) {
+  // The month filter travels in the address rather than in a variable, so
+  // „Виж всички“ from the seasonal panel is bookmarkable, survives a reload and
+  // comes back correctly with the browser's back button. A hidden hand-off
+  // would break all three (§13q).
+  takesQuery: true,
+
+  // NOT read by position. The router calls `open(...args, query)` and `args` is
+  // whatever the address happened to carry — none for `#/plants`, one for
+  // `#/plants/<id>`, two for `.../edit`. Declaring `open(first, second, q)` puts
+  // the query into `first` on the bare address, so `openId` became a
+  // URLSearchParams and the database was handed an object for a key. It failed
+  // loudly, which was luck: had `openId` been merely wrong rather than
+  // unusable, the list would have shown an empty record with no error at all.
+  open(...rest) {
+    const q = rest[rest.length - 1] instanceof URLSearchParams
+      ? rest.pop() : null;
+    const [first, second] = rest;
+
     draft = null;
     seedUI.close();
     openId = first || null;
     editing = first === 'new' || second === 'edit';
+
+    const m = Number(q?.get('month'));
+    filterMonth = Number.isInteger(m) && m >= 1 && m <= 12 ? m : null;
   },
 
   // Choosing a module in the navigation means "take me to this module", not
@@ -1012,6 +1114,7 @@ export default {
     openId = null;
     draft = null;
     filterRole = null;
+    filterMonth = null;
     // Leaving the module and coming back must not leave a filter silently on:
     // the list would look short for no visible reason. The same rule holds for
     // the search text, which is why it is cleared here too (§13g).
@@ -1087,7 +1190,7 @@ export default {
       if (e.target.closest('[data-part-add]')) {
         readForm(root);
         draft.parts.push({ id: uid(), partCode: '', facing: '', chemistry: [], dosing: [],
-                           extractionMode: '', tempExtractC: { min: null, max: null },
+                           extractionModes: null, tempExtractC: { min: null, max: null },
                            tempDyeC: { min: null, max: null }, softMaxTempC: null,
                            approx: {}, confidence: {} });
         return redraw();
@@ -1112,7 +1215,7 @@ export default {
       const dadd = e.target.closest('[data-dose-add]');
       if (dadd) {
         readForm(root);
-        draft.parts[Number(dadd.dataset.doseAdd)].dosing.push({ id: uid(), condition: 'dried', min: null, max: null });
+        draft.parts[Number(dadd.dataset.doseAdd)].dosing.push({ id: uid(), condition: 'dried', extractionMode: null, min: null, max: null });
         return redraw();
       }
       const ddel = e.target.closest('[data-dose-del]');

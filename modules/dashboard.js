@@ -10,6 +10,7 @@ import { backupState } from '../backup.js';
 import { t, plural } from '../i18n.js';
 import { page, panel, label, esc, note } from '../ui.js';
 import { currentState, STATE_ORDER } from '../fabric-logic.js';
+import { seasonPanel } from './season.js';
 
 // The navigation is already in two labelled halves, and the home screen was one
 // undifferentiated heap of eleven. It reads as the same two halves now: the
@@ -136,6 +137,9 @@ export default {
               <h2>${t('dash.boxes')}</h2>
               ${boxes ? `<div class="boxes">${boxes}</div>` : `<p class="hint">${t('dash.noFabrics')}</p>`}
             `)}
+
+            <div class="gap"></div>
+            ${panel(await seasonPanel(new Date().getMonth() + 1), 'season')}
 
             ${''/* The reliability panel used to live here: a count of claims
                     awaiting testing, headed "Confidence".
