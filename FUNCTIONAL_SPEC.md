@@ -7331,3 +7331,91 @@ inside the very sentence it was meant to be looking for. It now tests whether th
 is used at all. A check that reads punctuation is a check testing spelling.
 
 ---
+
+## 13cg. „Как се държи" existed twice, and the phone had a widened page (1.0.0-rc18)
+
+### One heading, two homes
+
+`character` was a FIELD from §13m — dye temperament — on the grounds that what must be present on
+every plant is a field. §13ay then admitted a SECTION headed „Как се държи", on the grounds that
+observed behaviour reads as prose.
+
+Both arguments were sound and **neither mentioned the other's name.** Fourteen records showed the
+heading twice, and the field looked almost empty — 14 of 57 — because the section had quietly taken
+over its work on all of them. The general description of §13ce put a third prose block on the record,
+two of them identically titled, which is what forced the decision.
+
+**The section stays**, filled on all 57 against the field's 14. `scripts/merge-character-into-section.py`
+appends the field's text to the section with a blank line between — never merged into a sentence,
+because a script does not compose prose — and where a plant had the field and no section the field
+becomes one, inserted where the other records keep it rather than at the end. `character` is then
+removed from the data, the read view, the form and the wording, in both languages.
+
+The guard **counts the heading** rather than looking for the words. The fault was never a missing
+text; it was a doubled one, and a check that only looked for the words would have passed throughout.
+
+### A negative margin widened the whole page
+
+Reported from a real phone: the shelf boxes and the quick actions were cut off. Neither was at
+fault. The horizontally scrolling rows introduced in §13cd and §13cf used `margin: 0 -14px` to bleed
+to the screen edge, and a negative horizontal margin inside a padded page **widens the document** —
+everything else was pushed, not broken.
+
+The rows are gone with it. **Two cards per row and the rest underneath**, because a sideways row
+hides its own contents behind a gesture nobody makes on a screen that already scrolls downwards; the
+cards past the second were effectively absent.
+
+`jsdom` has no layout engine and cannot measure this, so guard 24i refuses the construct instead: a
+negative value in a horizontal position in any `margin` rule. It reads the stylesheet with comments
+stripped — the first version found its own explanation, since the paragraph above names the rule it
+forbids — and it accepts `;` or `}` as the terminator, because the first version required the
+semicolon and the last declaration in a block usually has none, so re-introducing the exact rule that
+caused the fault did not trip it. Both faults were found by breaking the check before accepting it.
+
+### A card that looked pressable and was not
+
+The seasonal card carried `data-plant`. The router listens for `data-go`. It looked exactly like a
+button and did nothing at all when pressed — the opposite of §13ac, and invisible to every check,
+because the markup was present and correct-looking.
+
+It now opens the plant. The second half of guard 24i walks every module for a `<button>` carrying
+only `data-` names that nothing in its own file reads.
+
+---
+
+## 13ch. Home screen, second pass: words, marks, and one refusal (1.0.0-rc19)
+
+From a review of the built screen.
+
+**„Кутии с тъкани" → „Тъкани по етап".** „Кутии" is how the model thinks — a shelf a piece sits on
+— and it read as a storage structure rather than as help. The block shows where the work has got to,
+so it says that.
+
+**A mark beside each stage.** Five bare words and a number was dry. The marks come from the icon set
+already in the page, not from emoji: emoji render differently on every platform and would arrive in
+a bilingual offline application as a third typeface nobody chose.
+
+**„Ново растение" leaves the quick actions.** A quick action earns its place by being done OFTEN,
+not by being possible. The library gains a plant a few times a year and the button was competing
+with two things done every week. „Нова рецепта" takes the place: a recipe is written once and used
+many times, so writing one is a real beginning. Pigments were considered and left out for the same
+reason plants were.
+
+**The empty state offers both beginnings** and says what they are for, rather than „Нямаш текуща
+работа."
+
+### The refusal: no colour coding, and no green panel
+
+The review asked for a soft green ground on the seasonal block and a colour per fabric stage.
+
+**This is the one change the screen cannot take.** A person judging „is this the ochre I wanted"
+must not have five invented colours in the corner of the eye, and the seasonal block sits directly
+beside the plant swatches. The palette rule is not a style preference; it is the reason the
+workspace is neutral at all.
+
+The concern behind the request is fair — the screen was close to being too even, everything a beige
+box of equal weight. The answer is hierarchy by **spacing, heading weight and the marks**, which is
+what this pass does, and not by colour. The one colour on this screen stays what it has always been:
+a plant's own recorded hex, which is data.
+
+---

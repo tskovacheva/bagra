@@ -46,10 +46,18 @@ const ALL_STORES = [...REFERENCE_TILES, { id: 'fabrics', store: 'fabrics' },
 // Three named actions rather than one unnamed `+`: the central button in the
 // mock-up does not say what it makes, and giving it a menu turns it into this
 // row a second time.
+// „Ново растение" is gone (§13ch). A quick action earns its place by being done
+// OFTEN, not by being possible: the library gains a plant a few times a year and
+// the button was competing with two things done every week. A home screen that
+// offers everything offers nothing.
+//
+// A recipe takes the third place because recipes are written once and used many
+// times, so writing one is a real beginning. Pigments were considered and left
+// out for the same reason plants were.
 const QUICK = [
   { id: 'trial',  icon: 'i-trial',  go: 'trials/new' },
   { id: 'fabric', icon: 'i-fabric', go: 'fabrics/new' },
-  { id: 'plant',  icon: 'i-plant',  go: 'plants/new' },
+  { id: 'recipe', icon: 'i-recipe', go: 'recipes/new' },
 ];
 
 // Four, matching the seasonal panel below so the two rows agree, and four is
@@ -259,10 +267,23 @@ export default {
       const st = currentState(f);
       boxCounts[st] = (boxCounts[st] || 0) + 1;
     }
+    // A mark beside each stage, from the icon set already in the page — not an
+    // emoji, which renders differently on every platform and would arrive in a
+    // bilingual offline application as a third typeface nobody chose.
+    //
+    // NO COLOUR CODING. The suggestion was a colour per stage, and it is the one
+    // change this screen cannot take: a person judging „is this the ochre I
+    // wanted" must not have five invented colours in the corner of the eye. The
+    // mark accompanies the word, and the word still says which stage it is.
+    const STATE_MARK = {
+      unwashed: 'i-fabric', scoured: 'i-drops', mordanted: 'i-flask',
+      dyed: 'i-bath', finished: 'i-finish',
+    };
     const boxes = (await Promise.all(STATE_ORDER
       .filter(code => boxCounts[code])
       .map(async code => `
         <button class="box" data-go="fabrics">
+          ${icon(STATE_MARK[code] || 'i-fabric')}
           <span class="boxname">${esc(await label('fabric_state', code))}</span>
           <span class="boxcount">${boxCounts[code]}</span>
         </button>`))).join('');
@@ -294,8 +315,10 @@ export default {
           ${cards
             ? `<div class="contcards">${cards}</div>`
             : `<p class="seasonempty">${t('dash.nothingRunning')}</p>
-               <div class="btnrow"><button class="btn primary" data-go="trials/new">${
-                 t('dash.quick.trial')}</button></div>`}`)}
+               <div class="btnrow">
+                 <button class="btn primary" data-go="trials/new">${t('dash.quick.trial')}</button>
+                 <button class="btn quiet" data-go="fabrics/new">${t('dash.quick.fabric')}</button>
+               </div>`}`)}
 
         <div class="gap"></div>
 

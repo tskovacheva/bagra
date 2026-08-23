@@ -1807,27 +1807,44 @@ const dirty = await import('./dirty.js');
     else console.log(`  library: all ${KEEP.length} sections stand on all ${seeded.length} plants`);
   }
 
-  // The character text is a field, so it must reach the record without a
-  // section to carry it. Opening a plant that has one and finding the words is
-  // the only proof; the field existing in the data proves nothing.
+  // „Как се държи" is a SECTION and nothing else (§13cg). It was a field as
+  // well until rc18, and fourteen records showed the heading twice — a fault
+  // that survived because each half had been argued for separately and neither
+  // argument mentioned the other's name.
+  //
+  // The check is that the words reach the screen, and that the heading is on it
+  // ONCE. Counting is the point: the fault was never a missing text, it was a
+  // doubled one, and a check that only looked for the words would have passed
+  // throughout.
   {
     const seeded = await db.all('plants');
-    const withChar = seeded.find(p => (p.character?.bg || '').length > 20);
-    if (!withChar) {
-      fail('character', new Error('no seeded plant carries a character text'));
+    const stray = seeded.filter(p => 'character' in p).map(p => p.id);
+    if (stray.length)
+      fail('character', new Error(`the retired field survives on: ${stray.join(', ')}`));
+    else console.log('  character: the retired field is gone from every record');
+
+    const withText = seeded.find(p => (p.sections || []).some(x =>
+      x.title?.bg === 'Как се държи' && (x.body?.bg || '').length > 20));
+    if (!withText) {
+      fail('character', new Error('no seeded plant carries the behaviour text'));
     } else {
       plants.reset?.();
       await plants.render(root);
       const row = [...root.querySelectorAll('tbody tr')]
-        .find(tr => tr.textContent.includes(withChar.nameCommon.bg));
+        .find(tr => tr.textContent.includes(withText.nameCommon.bg));
       if (!row) {
-        fail('character', new Error(`${withChar.nameCommon.bg} is not in the list`));
+        fail('character', new Error(`${withText.nameCommon.bg} is not in the list`));
       } else {
         await click(row);
-        const words = withChar.character.bg.slice(0, 24);
+        const section = (withText.sections || [])
+          .find(x => x.title?.bg === 'Как се държи');
+        const words = section.body.bg.slice(0, 24);
+        const heads = (root.textContent.match(/Как се държи/g) || []).length;
         if (!root.textContent.includes(words))
-          fail('character', new Error('the record does not show the character text'));
-        else console.log('  character: the text reaches the record without a section');
+          fail('character', new Error('the record does not show the behaviour text'));
+        else if (heads !== 1)
+          fail('character', new Error(`„Как се държи" appears ${heads} times on the record`));
+        else console.log('  character: the behaviour text reaches the record, under one heading');
       }
     }
   }
@@ -5031,6 +5048,67 @@ const dirty = await import('./dirty.js');
   if (greens.length)
     fail('dash', new Error(`green on the home screen: ${greens.join(', ')}`));
   else console.log('  dash: nothing on the home screen is green');
+}
+
+// ---- 24i. Nothing widens the page, and a card that looks pressable is (§13cg)
+{
+  const fs = await import('node:fs');
+  const html = fs.readFileSync('index.html', 'utf8');
+  const css = html.split('<style')[1]?.split('</style>')[0] || '';
+
+  // A NEGATIVE HORIZONTAL MARGIN INSIDE A PADDED PAGE WIDENS THE DOCUMENT.
+  // It was used to let a row bleed to the screen edge, and the whole phone
+  // layout gained a horizontal overflow: the shelf boxes and the quick actions
+  // were reported as cut off, and neither was at fault — both were pushed.
+  // The fault is invisible in jsdom, which has no layout, so it is caught by
+  // refusing the construct rather than by measuring.
+  //
+  // Comments are stripped first. The pattern found its own explanation on the
+  // first run — the paragraph above names the rule it forbids — and a check
+  // that reads prose is reading the wrong file.
+  const rules = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  // Terminated by `;` OR `}`. The first version required the semicolon, and the
+  // last declaration in a block usually has none — so re-introducing the exact
+  // rule that caused the fault did not trip it. Shown failing before accepted,
+  // which is the only reason that was found.
+  const bleeds = [...rules.matchAll(/margin\s*:\s*([^;{}]*)-\d+px([^;{}]*)[;}]/g)]
+    .map(m => m[0].trim())
+    // `margin: -6px 0` moves a block up, which is harmless. What widens the
+    // page is a negative value in a HORIZONTAL position: the second and fourth
+    // in a four-value rule, the second in a two- or three-value one.
+    .filter(rule => {
+      const parts = rule.split(':')[1].replace(/[;}]$/, '').trim().split(/\s+/);
+      const horizontal = parts.length === 1 ? parts
+        : parts.length === 4 ? [parts[1], parts[3]] : [parts[1]];
+      return horizontal.some(v => v && v.startsWith('-'));
+    });
+  if (bleeds.length)
+    fail('layout', new Error(
+      `a negative horizontal margin widens the page: ${bleeds.join(' | ')}`));
+  else console.log('  layout: nothing bleeds past the page and widens it');
+
+  // A box is pressed. `data-plant` was invented for the seasonal card and the
+  // router listens for `data-go`, so the card looked exactly like a button and
+  // did nothing at all when pressed (§13ac).
+  const modules = fs.readdirSync('modules').filter(f => f.endsWith('.js'));
+  const orphans = [];
+  for (const f of modules) {
+    const src = fs.readFileSync('modules/' + f, 'utf8');
+    for (const m of src.matchAll(/<button[^>]*?class="([^"]*)"[^>]*?>/g)) {
+      const tag = m[0];
+      if (/data-go|data-open|type="submit"/.test(tag)) continue;
+      // Anything the module handles itself, by any of its own data- names.
+      const own = [...tag.matchAll(/data-([a-z-]+)=/g)].map(x => x[1]);
+      if (own.some(name => src.includes(`dataset.${name.replace(/-(.)/g,
+        (_, c) => c.toUpperCase())}`) || src.includes(`[data-${name}]`)))
+        continue;
+      if (!own.length) continue;
+      orphans.push(`${f}: <button ${own.map(n => 'data-' + n).join(' ')}>`);
+    }
+  }
+  if (orphans.length)
+    fail('layout', new Error(`button that nothing listens for: ${orphans.join('; ')}`));
+  else console.log(`  layout: every button carries a name something listens for (${modules.length} modules)`);
 }
 
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');

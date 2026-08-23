@@ -178,8 +178,12 @@ async function card(entry) {
         stroke-linecap="round" aria-hidden="true"><use href="#i-alert"></use></svg>
     </span>` : '';
 
+  // `data-go`, which the router listens for — NOT `data-plant`, which it does
+  // not. The first version invented an attribute name and the card looked
+  // exactly like a button while doing nothing at all when pressed. A box is
+  // pressed; if it cannot be, it must not look like one (§13ac).
   return `
-    <button class="seasoncard" data-plant="${esc(p.id)}">
+    <button class="seasoncard" data-go="plants/${esc(p.id)}">
       <span class="seasonphoto">${p.photoData
         ? `<img src="${esc(p.photoData)}" alt="" loading="lazy">`
         : ''}${mark}</span>

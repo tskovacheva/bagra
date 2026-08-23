@@ -771,8 +771,10 @@ async function renderRead(root, p) {
     // "must not pass the ceiling" means nothing until the ceiling is on screen —
     // so it reads under them rather than above.
     readBlock(t('plants.read.howUsed'),
-      [useNow, sub(t('plants.character'), prose(p.character)),
-       subs(asSubs(grouped.use))].filter(Boolean).join('')),
+      // `character` retired in rc18 (§13cg): „Как се държи" is a section and the
+      // section renders it, so reading the field here would have shown the
+      // heading twice on every record that had both.
+      [useNow, subs(asSubs(grouped.use))].filter(Boolean).join('')),
 
     readBlock(t('plants.readCareful'), await safetyBlock(p)),
 
@@ -918,12 +920,6 @@ async function renderForm(root, p) {
             <h2>${t('plants.description')}</h2>
             <p class="note">${t('plants.descriptionHint')}</p>
             ${pairField('', 'description', p.description, { multiline: true })}
-          `)}
-
-          ${panel(`
-            <h2>${t('plants.character')}</h2>
-            <p class="note">${t('plants.characterHint')}</p>
-            ${pairField('', 'character', p.character, { multiline: true })}
           `)}
 
           ${panel(`

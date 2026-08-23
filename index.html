@@ -327,13 +327,18 @@ textarea{resize:vertical}
 /* ---------- boxes (the fabric state inventory) ---------- */
 .boxes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .box{
-  display:flex;align-items:baseline;gap:8px;cursor:pointer;
+  display:flex;align-items:center;gap:9px;cursor:pointer;
   border:1px solid var(--line);background:var(--surface);
   border-radius:var(--radius);padding:8px 13px;
 }
 .box:hover{border-color:var(--muted)}
 .box.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
 .boxname{font-size:13.5px}
+/* The mark in a stage chip is smaller than in a tile and takes the muted ink:
+   it identifies the stage at a glance and must not out-shout the word, which
+   is what actually names it (§13ch). */
+.box .tileplate{width:26px;height:26px;flex:0 0 auto}
+.box .tileplate svg{width:15px;height:15px}
 .boxcount{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .box.active .boxcount{color:rgba(255,255,255,.75)}
 
@@ -985,10 +990,19 @@ label.btn{cursor:pointer}
 @media (min-width:1180px){ .contcards{grid-template-columns:repeat(4,1fr)}
   .contcard{flex-direction:column}
   .contphoto{flex:0 0 96px;width:100%;min-height:96px} }
+/* TWO PER ROW ON A PHONE, AND THE REST UNDERNEATH — not a horizontal scroll.
+   Read on a real phone: a sideways row hides its own contents behind a gesture
+   nobody makes on a screen that already scrolls downwards, and the cards past
+   the second were effectively absent.
+   The negative margin that row needed was worse than the row. `margin:0 -14px`
+   inside a padded page widens the document, and the whole screen gained a
+   horizontal overflow — which is why the shelf boxes and „Започни" looked cut
+   off. They were never broken; they were pushed. */
 @media (max-width:700px){
-  .contcards{display:flex;overflow-x:auto;scroll-snap-type:x proximity;
-    margin:0 -14px;padding:0 14px 4px}
-  .contcard{flex:0 0 78%;scroll-snap-align:start}
+  .contcards{grid-template-columns:repeat(2,1fr);gap:9px}
+  .contcard{flex-direction:column}
+  .contphoto{width:100%;flex:0 0 78px;min-height:78px}
+  .contbody{padding:9px 10px 10px}
 }
 /* The plant's opening paragraph (§13ce). Set slightly larger and in the muted
    ink: it is orientation rather than instruction, and it should read as the
@@ -1034,11 +1048,7 @@ label.btn{cursor:pointer}
 /* In the garden, on a phone: one row that scrolls, with the second card cut so
    it is visible that there is more. */
 @media (max-width:700px){
-  .seasoncards{
-    display:flex;overflow-x:auto;scroll-snap-type:x proximity;
-    margin:0 -14px;padding:0 14px 4px;
-  }
-  .seasoncard{flex:0 0 43%;scroll-snap-align:start}
+  .seasoncards{grid-template-columns:repeat(2,1fr);gap:9px}
 }
 
 .grouphead:first-child{margin-top:2px}
