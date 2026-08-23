@@ -220,6 +220,32 @@ Worth stating before it starts: `deep-check.mjs` renders in jsdom, which has no 
 gallery and no narrow viewport. `screen-check.mjs` catches geometry and nothing else. This
 work needs a pass on a real phone after each step, or something invented to replace it.
 
+## B4d. The words: one name per thing, and an editorial pass on both languages
+
+Raised from use, and to be done in a session of its own rather than in passing.
+
+**One record had three Bulgarian names.** The module is „Моята работа", `trials.new` said „Нова
+работа", `trials.one` said „Тест", and the home screen added „Ново изпитание". Each was written in a
+different session and each was reasonable on its own. Settled on **„опит"** for the record, with
+„Моята работа" left as the name of the module that holds them — a collection and a record are
+different things and may fairly have different words.
+
+**Terms that sound like the model rather than like the craft.** „Кутии с тъкани" was one and is
+fixed (§13ch). Others reported and not yet looked at: „Справочна част", „Моята работа", and the
+labels on several vocabularies that were written as codes first and translated afterwards.
+
+**„Декокция" is not a Bulgarian word.** Corrected to „гореща отвара", which is what the vocabulary
+label already said. Note for whoever does this pass: **„екстракт" was rejected deliberately.** The
+root is already carrying three jobs — `recipe_output: extract` is „извлек", the glossary term is
+„Извличане / екстракция", and one of the extraction methods is „алкална екстракция". A fourth sense
+would empty the word.
+
+**The English is a second original, not a translation.** §13cb did this for the glossary — the
+prose there had been following the Bulgarian phrase by phrase and read as translated. The rest of
+the interface has not had that pass.
+
+Owner has further glitches recorded and will bring them to this session.
+
 ## B4c. Harvest months, moved to the part · **panel done, data pending (1.0.0-rc15, §13cd)**
 
 The third instance of the same fault, after the temperature (§13az) and the extraction mode

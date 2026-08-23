@@ -1040,7 +1040,7 @@ const DICT = {
     'dash.waitingMore': 'И още {n}.',
     'dash.goCloth': 'Виж парчето',
     'dash.quickTitle': 'Започни',
-    'dash.quick.trial': 'Ново изпитание',
+    'dash.quick.trial': 'Нов опит',
     'dash.quick.fabric': 'Нов плат',
     'dash.quick.recipe': 'Нова рецепта',
     'dash.welcome': 'Добре дошла в Багра',
@@ -1056,7 +1056,7 @@ const DICT = {
     'dash.needsTestingHint': 'Справочникът стъпва на компилация. Твоите тестове го правят твой.',
 
 
-    'trials.new': 'Нова работа',
+    'trials.new': 'Нов опит',
     'trials.newWork': 'Нова работа',
     'trials.newWorkAsk': 'Върху какво работиш?',
     'trials.choosePiece': 'Изберете парче',
@@ -1109,7 +1109,7 @@ const DICT = {
     'trials.nPlacements': '{n} позиции',
     'trials.nStages': '{n} етапа',
     'trials.placementsOncePerTrial': 'Листата се записват веднъж за цялата работа — засега не могат да се разделят между два пробега на багренето.',
-    'trials.one': 'Тест',
+    'trials.one': 'Опит',
     'trials.empty': 'Още няма записани тестове.',
     'trials.emptyHint': 'Един тест е една реална работа — какво сложи, при какви условия и какво излезе.',
     'trials.title2': 'Заглавие',

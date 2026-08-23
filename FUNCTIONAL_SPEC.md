@@ -7419,3 +7419,76 @@ what this pass does, and not by colour. The one colour on this screen stays what
 a plant's own recorded hex, which is data.
 
 ---
+
+## 13ci. Stopka's ratios are WOA, and the merge refused (1.0.0-rc20)
+
+The owner confirmed twelve rows of Natalie Stopka's dyestuff ratios chart, and `merge-stopka-ratios.py`
+was written to put them onto the `extractionMode` dimension §13cc had added and left empty.
+
+**It stopped, and it was right to.** Every existing dose disagreed by roughly a factor of ten:
+
+    madder root    recorded  50% WOF     chart  500%
+    onion skin     recorded  50% WOF     chart  120%
+    tagetes        recorded  30% WOF     chart  200%
+
+These are not two opinions about one dose. `seed/sources.json` already records, in the owner's own
+words, that the chart gives **plant material as a percentage of the weight of the ALUM — WOA, not
+WOF** — and the glossary term `woa` states the consequence outright: read as WOF, the calculation
+comes out ten times wrong.
+
+`dosing` is WOF. Writing 500% into it would have made every madder recipe call for ten times the
+root. **The fixed decision that a percentage always carries what it is relative to is what caught
+this**, and it caught it in the merge rather than in a dye pot.
+
+The script writes nothing while anything disagrees, so no partial state exists.
+
+### The decision this leaves open
+
+Either `dosing` gains a base — `WOF` | `WOA` — and the chart's figures sit honestly beside the
+present ones; or the chart belongs only to the pigment module, where the base IS the alum, and never
+touches `dosing`. The second reads as the truer one: the book is about lake pigments and the owner's
+own source note describes it that way.
+
+Not decided here. Recorded so that the next session does not rediscover it by writing the numbers in.
+
+### Two of the chart's five columns are out, on the owner's call
+
+`TINCTURE` is alcohol — our `solvent` — and matters only for pigment work. `ICE MACERATION` is not a
+method Багра records, and adding a vocabulary term to hold two numbers would be the tail wagging the
+dog.
+
+**Buckthorn is deliberately absent** from the twelve. The chart says „Rhamnus spp." for berry, leaf
+and bark; Багра holds three different buckthorns and „spp." does not say which. They are not the
+same dye, and a dose is a thing someone weighs out.
+
+### Scope
+
+Only rows for plants Багра already holds. A published chart is a compilation, and its selection and
+arrangement are the author's work even where the individual figures are facts. The intersection is
+the natural boundary, not a way round one.
+
+---
+
+## 13cj. „Декокция" is not a Bulgarian word (1.0.0-rc20)
+
+Corrected to „гореща отвара", which is what the `extraction_mode` label already said — so the fix
+introduced nothing new.
+
+**„Екстракт" was considered and rejected.** The root already carries three jobs: `recipe_output:
+extract` is „извлек", the glossary term is „Извличане / екстракция", and one of the methods is
+„алкална екстракция". A fourth sense would empty the word.
+
+### One record had three Bulgarian names
+
+Found while making the change. The module is „Моята работа", `trials.new` said „Нова работа",
+`trials.one` said „Тест", and §13cf added „Ново изпитание". Each was written in a different session
+and each was reasonable alone.
+
+Settled on **„опит"** for the record. „Моята работа" stays as the name of the module that holds
+them: a collection and a record are different things and may fairly have different words.
+
+The wider pass — terms that sound like the model rather than the craft, and an editorial pass on the
+English as a second original rather than a translation — is ROADMAP B4d and gets a session of its
+own.
+
+---
