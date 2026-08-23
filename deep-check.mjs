@@ -5111,5 +5111,59 @@ const dirty = await import('./dirty.js');
   else console.log(`  layout: every button carries a name something listens for (${modules.length} modules)`);
 }
 
+// ---- 24j. „Does not say" is not „says something else" (§13ck)
+//
+// Found by filling the combination grid: 177 swatches came back with the fibre
+// answered on three of them, honestly, because the guide does not record it.
+// Under the old comparison every one of the other 174 would have entered the
+// reference as a record CONTRADICTING a question about cotton. A blank is not a
+// contradiction, and a reference that reads it as one is worse than one that
+// has no record at all.
+{
+  const { compare } = await import('./modules/reference.js');
+
+  const rec = (key) => ({ id: 'x', key });
+  const full = rec({ dyeSource: { plantId: 'p1', partCode: 'leaf' },
+                     fibreClass: 'cellulose', mordantCode: 'iron',
+                     mordantBand: 'low', processCode: 'immersion' });
+  const quiet = rec({ dyeSource: { plantId: 'p1', partCode: 'leaf' },
+                      fibreClass: null, mordantCode: 'iron',
+                      mordantBand: null, processCode: 'immersion' });
+  const other = rec({ dyeSource: { plantId: 'p1', partCode: 'leaf' },
+                      fibreClass: 'protein', mordantCode: 'iron',
+                      mordantBand: 'low', processCode: 'immersion' });
+
+  const q = { plantId: 'p1', fibreClass: 'cellulose' };
+
+  const a = compare(full, q);
+  if (!a.exact || a.differs.length || a.silent.length)
+    fail('reference', new Error('a record that answers in full is not exact'));
+  else console.log('  reference: a record that states everything asked is an exact answer');
+
+  const b = compare(quiet, q);
+  if (b.differs.length)
+    fail('reference', new Error(
+      'a blank fibre is reported as a difference — the record is being made to disagree'));
+  else if (!b.silent.some(x => x.name === 'fibreClass'))
+    fail('reference', new Error('a blank fibre is not reported at all — it vanishes silently'));
+  else if (b.exact)
+    fail('reference', new Error(
+      'a record silent on the fibre is passed off as an exact answer about cotton'));
+  else if (!b.open)
+    fail('reference', new Error('a record that agrees as far as it goes is not marked open'));
+  else console.log('  reference: a blank is neither a difference nor a match — it is a blank');
+
+  const c = compare(other, q);
+  if (!c.differs.some(x => x.name === 'fibreClass') || c.silent.length)
+    fail('reference', new Error('a record for another fibre is not reported as differing'));
+  else console.log('  reference: a record that says something else still says so');
+
+  // And the two must not read alike on screen. The whole point is the wording.
+  const { t } = await import('./i18n.js');
+  if (t('ref.silentOn') === t('ref.differsIn'))
+    fail('reference', new Error('silence and difference are worded the same'));
+  else console.log('  reference: silence and difference have different words');
+}
+
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');
 process.exit(failed?1:0);

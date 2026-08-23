@@ -7492,3 +7492,52 @@ English as a second original rather than a translation — is ROADMAP B4d and ge
 own.
 
 ---
+
+## 13ck. „Не се знае" is not „различно" (1.0.0-rc21)
+
+The reference engine had two outcomes where the data has three. A record could agree, or it could
+disagree — and a record that **did not say** was counted as disagreeing.
+
+Found by filling the combination grid. 177 swatches came back with the fibre answered on three of
+them and the mordant strength on none, honestly: the guide records colour and conditions, not the
+fibre, because to someone writing a dyeing book that is obvious from context. Under the old
+comparison, all 174 of the rest would have entered the reference as records **contradicting** a
+question about cotton.
+
+The distinction was already made elsewhere in the same file — the comment above the medium says an
+unrecorded pH is unknown, not neutral — and had simply never been carried into the comparison.
+
+### Three outcomes
+
+    matches          the record states it, and it agrees
+    does not say     the record is silent on it
+    says something else
+
+`silent` joins `differs`. Silence is **not** agreement either: a record that does not name the fibre
+is not an exact answer to a question about cotton, so `exact` now requires both lists empty, and
+`open` marks a record that agrees as far as it goes.
+
+Open records sit **with the exact answers, not with the neighbours** — nothing in them contradicts
+the question — sorted after those that answer in full, fewest blanks first.
+
+### The wording is the point
+
+„Записът не уточнява: влакно" is a different sentence from „различава се по: влакно", on its own
+line, in the muted ink and never in the accent colour. Silence is not an objection to the record,
+and a mark that shouted would make it read as one.
+
+The guard checks that the two strings are not equal. That looks trivial and is not: the fault this
+whole section corrects was one concept wearing another's words.
+
+### Whose mistake
+
+Recorded because the cost was three rounds of someone else's work. The first grid was generated with
+four of the key's eight columns — a fault in the export script. The second corrected that and was
+sent out **without checking what the matcher did with a blank**, which was one grep and would have
+turned the whole exercise around: the fibre was never going to come from the text, and the right
+question to the owner was always „you made these swatches, what were they on".
+
+The order was backwards. The engine has to be able to hold a blank before anyone is asked to write
+one down.
+
+---

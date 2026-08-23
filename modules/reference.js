@@ -70,7 +70,7 @@ function blank() {
  * made a eucalyptus record surface under a search for oak merely because both
  * were on cotton. Useful sometimes, but not an answer.
  */
-function compare(record, q) {
+export function compare(record, q) {
   const k = record.key || {};
 
   // An unrecorded medium is unknown, NOT neutral. Treating a blank as a
@@ -87,14 +87,30 @@ function compare(record, q) {
     ['phCode',      recordedPh,                    q.phCode,      t('ref.ph'),      1],
   ];
 
+  // THREE OUTCOMES, NOT TWO (§13ck).
+  //
+  // A record can agree, it can say something else, or IT CAN NOT SAY. The third
+  // was being counted as the second: a record whose `fibreClass` is null, met by
+  // a query for cellulose, went into `differs`, and the card told the person the
+  // record was for a different fibre. It is not. It does not say.
+  //
+  // The distinction is the same one the `medium` comment above already makes —
+  // an unrecorded pH is unknown, not neutral — and it had simply never been
+  // carried into the comparison. It matters more than it looks: the guide
+  // records colour and conditions and almost never the fibre or the mordant
+  // strength, so nearly every record drawn from it is silent on something, and
+  // under the old reading nearly every one of them contradicted the question.
   const differs = [];
+  const silent = [];
   let asked = 0;
   let plantMatches = false;
 
   for (const [name, actual, wanted, labelText, weight] of criteria) {
     if (!wanted) continue;
     asked++;
-    if (actual === wanted) {
+    if (actual === null || actual === undefined || actual === '') {
+      silent.push({ name, labelText, weight });
+    } else if (actual === wanted) {
       if (name === 'plantId') plantMatches = true;
     } else {
       differs.push({ name, labelText, weight });
@@ -104,7 +120,13 @@ function compare(record, q) {
   return {
     asked,
     differs,
-    exact: asked > 0 && differs.length === 0,
+    silent,
+    // Silence is not agreement either. A record that does not name the fibre is
+    // not an exact answer to a question about cotton — it is an answer that
+    // leaves the fibre open, and the card says so rather than claiming a match
+    // the record cannot support.
+    exact: asked > 0 && differs.length === 0 && silent.length === 0,
+    open: asked > 0 && differs.length === 0 && silent.length > 0,
     // One difference is a neighbour worth seeing; two is a different question.
     near: differs.length === 1,
     plantMatches,
@@ -159,7 +181,7 @@ async function resultCard(record, plantsById, match) {
   const mine = placementCounts.get(record.id) || 0;
   const badge = (match && !match.exact && match.differs.length)
     ? `<span class="chip near">${match.plantMatches ? t('ref.samePlant') : t('ref.sameConditions')}</span>`
-    : '';
+    : (match && match.open ? `<span class="chip near">${t('ref.openBadge')}</span>` : '');
 
   // The reference is a compilation until her own trials make it hers, and the
   // screen should say which is which without being asked. `confidence` has been
@@ -181,8 +203,12 @@ async function resultCard(record, plantsById, match) {
         <div class="refcolour">${esc(text(e.colourText) || '—')}</div>
         <div class="chiprow">${await conditionChips(record)}</div>
         ${text(e.variation) ? `<div class="hint">${esc(text(e.variation))}</div>` : ''}
-        ${match && !match.exact && match.differs.length
+        ${match && match.differs.length
           ? `<div class="hint differs">${t('ref.differsIn', { what: esc(match.differs.map(x => x.labelText).join(', ')) })}</div>` : ''}
+        ${/* Separate line and separate words. „Не уточнява влакното" is not
+             „за друго влакно" — the record is not disagreeing, it is quiet. */''}
+        ${match && match.silent?.length
+          ? `<div class="hint silent">${t('ref.silentOn', { what: esc(match.silent.map(x => x.labelText).join(', ')) })}</div>` : ''}
 
         ${mine ? `<div class="hint matched">${t('ref.confirmedBy', { n: mine })}</div>` : ''}
       </div>
@@ -232,6 +258,15 @@ async function renderSearch(root) {
   const results = records.map(r => ({ r, m: compare(r, query) }));
 
   const exact = results.filter(x => x.m.exact);
+
+  // Records that agree with everything they DO state and are silent on the
+  // rest. They belong with the exact answers, not with the neighbours: nothing
+  // in them contradicts the question. They are marked so the difference is
+  // visible, and they sort after the records that answer in full (§13ck).
+  const open = results
+    .filter(x => x.m.open)
+    .sort((a, b) => a.m.silent.length - b.m.silent.length);
+
   const near = results
     .filter(x => x.m.near)
     // A neighbour that keeps the plant answers "what else can this give?";
@@ -246,11 +281,12 @@ async function renderSearch(root) {
   // sorted by distance is not an answer to anything.
   let byColour = [];
   if (query.colourHex) {
-    const allowed = results.filter(x => x.m.exact || x.m.near).map(x => x.r);
+    const allowed = results.filter(x => x.m.exact || x.m.open || x.m.near).map(x => x.r);
     byColour = rankByColour(allowed.length ? allowed : records, query.colourHex);
   }
 
-  const exactCards = await Promise.all(exact.slice(0, 40).map(x => resultCard(x.r, plantsById, x.m)));
+  const exactCards = await Promise.all([...exact, ...open].slice(0, 40)
+    .map(x => resultCard(x.r, plantsById, x.m)));
   const nearCards = await Promise.all(near.slice(0, 12).map(x => resultCard(x.r, plantsById, x.m)));
 
   // Which parts to offer depends on the plant: avocado has stones and skins,

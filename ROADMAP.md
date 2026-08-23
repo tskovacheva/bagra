@@ -220,6 +220,45 @@ Worth stating before it starts: `deep-check.mjs` renders in jsdom, which has no 
 gallery and no narrow viewport. `screen-check.mjs` catches geometry and nothing else. This
 work needs a pass on a real phone after each step, or something invented to replace it.
 
+## B4e. „Не се знае" is not „different" · **done (1.0.0-rc21, §13ck)**
+
+Found while filling the combination grid. `matchOf` compares only the dimensions the person asked
+about, which is right. But a record whose `fibreClass` is **null**, met by a query for cellulose,
+lands in `differs` — so the screen says the record is for a different fibre when in truth the record
+does not say. Same shape as the fault the medium comment already guards against: an unrecorded pH is
+unknown, not neutral.
+
+Three states, not two: **matches · does not say · says something else.** The middle one is not an
+objection to the record and should not read as one.
+
+Blocks the merge below: without it, 177 swatches with an honest blank would enter the reference as
+177 claims about the wrong fibre.
+
+## B4f. The combination grid came back, and proved the source cannot fill the key
+
+177 rows, filled to the letter — nothing guessed, every blank carrying its reason, four marked for
+review. **And not one row has a complete key.** `Влакно` is answered on 3 of 177 and
+`Сила на байца` on 0.
+
+That is not a failure of the filling; it is a finding. The guide records colour and conditions, not
+the fibre and not the mordant strength, because to someone writing a dyeing book those are obvious
+from context. 29 rows have part and mordant; 31 have neither.
+
+Next, in order: **B4e first** (the engine must be able to hold a blank), then the owner filling the
+fibre column, which she can answer from her own practice for her own swatches and which turns those
+29 into records. Protein is the second pass, as always.
+
+## B4g. Home-screen tiles that no longer point anywhere of their own
+
+Reported from use:
+
+- **Наличности** is part of Материали now and does not need its own tile.
+- **Инструменти** and **Източници** are merged into Библиотека.
+
+So three of the eight reference tiles name destinations that are no longer separate. Small, and
+worth doing with the wider terminology pass (B4d) rather than alone, since it is the same question:
+the screen still speaks the shape the model had two versions ago.
+
 ## B4d. The words: one name per thing, and an editorial pass on both languages
 
 Raised from use, and to be done in a session of its own rather than in passing.
