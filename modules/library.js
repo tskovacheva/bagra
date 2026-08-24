@@ -17,11 +17,11 @@
 // time — no copy, no back-link stored anywhere (§13.6). A deep-check guard
 // (24d) fails the build if a glossary term ever names a code vocab.js explains.
 
-import { all, get, put, remove, newRecord } from '../db.js';
+import { all, get, put, newRecord } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { VOCABULARY } from '../vocab.js';
-import { page, panel, field, esc, empty, pairField, readPairs, navigate, backTo, actionBtn, icon } from '../ui.js';
+import { page, panel, field, esc, empty, pairField, readPairs, navigate, backTo, actionBtn, icon, deleteGuarded } from '../ui.js';
 
 // A seeded source shipped with `kind: 'reference'` and another with
 // `kind: 'website'`, neither of which was here — so the screen printed the
@@ -386,8 +386,10 @@ export default {
         return navigate('#/library/sources');
       }
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('sources.confirmDelete'))) return;
-        await remove('sources', draft.id);
+        // Guarded (§13ct). Attribution is part of the history: a source that
+        // glossary terms, recipes or colour swatches credit cannot be deleted,
+        // or the claim stays and the credit it rests on is gone.
+        if (!await deleteGuarded('sources', draft.id, t('sources.confirmDelete'))) return;
         return navigate('#/library/sources');
       }
     };
