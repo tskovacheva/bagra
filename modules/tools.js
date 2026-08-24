@@ -472,7 +472,14 @@ export default {
             return;
           }
           const report = await importBackup(payload, importMode);
-          alert(t('backup.imported', report));
+          // A snapshot restore and an add-only merge did different things and
+          // were reported in one sentence, which had to describe both and so
+          // described neither. „Presented as replaced" was the count of records
+          // written; what a person actually wants to know after a restore is
+          // how many of her newer records went.
+          alert(importMode === 'replace'
+            ? t('backup.restored', report)
+            : t('backup.imported', report));
           location.reload();
         } catch (err) {
           alert(t('backup.badFile') + ' ' + (err?.message || ''));

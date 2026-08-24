@@ -1,5 +1,22 @@
 #!/bin/sh
 # Two things that only fail after deployment, checked before it.
+#
+# TWO RUNS, NAMED APART.
+#
+#   sh check.sh              development — a runtime layer whose dependency is
+#                            absent is skipped, and the run says so.
+#   sh check.sh --release    release     — an absent dependency is a FAILURE.
+#   BAGRA_RELEASE=1 sh check.sh
+#
+# Because on a laptop mid-afternoon skipping is right, and on a release
+# candidate it is the fault §1 below already cost a release for: a guard that
+# reports and does not stop is not a guard. See check-deps.mjs.
+if [ "$1" = "--release" ] || [ -n "$BAGRA_RELEASE" ]; then
+  REL=--release
+  echo "RELEASE RUN — every layer must start."
+else
+  REL=
+fi
 
 # 1. Every module on disk must be listed in the service worker cache list.
 #    A file missing there is a file that silently stops updating.
@@ -149,10 +166,34 @@ if grep -rnE '<button[^>]*class="chip[ "$]|<span[^>]*class="box[ "$]' \
 fi
 echo "chips name, boxes are pressed."
 
+# 3d. The release gate itself. It is the layer that decides whether the other
+#     layers may be skipped, so it needs a guard of its own, and one in both
+#     directions: stuck open it lets an unchecked candidate through, which is
+#     the fault it was built for; stuck shut it stops every development run and
+#     gets pulled out within a week, which is how a suite loses a layer for
+#     good. Needs nothing installed, so it sits with the static guards.
+sh scripts/try-release-gate.sh || exit 1
+
 # 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
-#    which gives a blank page. Skipped when the shim is not installed.
-if node -e "require.resolve('jsdom')" 2>/dev/null; then
+#    which gives a blank page.
+#
+#    Skipped when the shim is not installed — ON A DEVELOPMENT RUN. On a release
+#    run a missing shim is a FAILURE, because a candidate whose runtime layers
+#    never started is not a checked candidate, and a pipeline that says „all
+#    held" after skipping three of six layers is worse than no pipeline: it is a
+#    pipeline that gives permission. See check-deps.mjs.
+#
+#      sh check.sh              development — may skip
+#      sh check.sh --release    release     — may not
+node check-deps.mjs $REL jsdom fake-indexeddb
+case $? in
+  0) HAVE_SHIM=1 ;;
+  2) HAVE_SHIM=0 ;;
+  *) exit 1 ;;
+esac
+
+if [ "$HAVE_SHIM" = 1 ]; then
   node check-boot.mjs || exit 1
   # 5. Booting proves the app starts; it stops at each module's list. Read
   #    views and forms are where the imports actually get used, so they are
@@ -165,17 +206,28 @@ if node -e "require.resolve('jsdom')" 2>/dev/null; then
   #     nothing to say so. This seeds the previous pack into a database, applies
   #     this one, and checks what actually left (§13cb).
   node scripts/try-pack-withdrawal.mjs || exit 1
+  # 5c. Restoring a backup is the one operation a person reaches for when
+  #     something has ALREADY gone wrong, and until rc26 `replace` did not
+  #     replace: it overwrote what matched, added what was missing, and left
+  #     everything written since the backup sitting in the database. This runs a
+  #     real export, real work on top of it, and a real restore, and asks in
+  #     both directions — that the snapshot mode removes and that the safe mode
+  #     does not (§11.4).
+  node scripts/try-backup-restore.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by
   #    hand on a phone. `screen-check.mjs` drives real Chromium at 390px and
   #    1280px. It does not replace a phone — no camera, no gallery, no touch —
   #    but it catches the geometric faults before the phone has to.
-  if node -e "require.resolve('puppeteer-core')" 2>/dev/null; then
-    node screen-check.mjs || exit 1
-  else
-    echo "screen check skipped (npm install --no-save puppeteer-core)"
-  fi
-else
-  echo "boot check skipped (npm install --no-save jsdom fake-indexeddb)"
+  #     The browser is checked here as well as the library that drives it:
+  #     screen-check.mjs had a silent skip of its own for a missing Chromium and
+  #     left with status 0, so gating only the library would have closed one
+  #     door of two.
+  node check-deps.mjs $REL --chromium puppeteer-core
+  case $? in
+    0) node screen-check.mjs || exit 1 ;;
+    2) ;;
+    *) exit 1 ;;
+  esac
 fi

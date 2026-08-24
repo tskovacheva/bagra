@@ -120,13 +120,115 @@ export function newRecord(extra = {}) {
 
 export async function all(store)      { return wrap((await tx(store)).getAll()); }
 export async function get(store, id)  { return wrap((await tx(store)).get(id)); }
-export async function remove(store, id){ return wrap((await tx(store, 'readwrite')).delete(id)); }
 
-export async function put(store, record) {
-  record.updatedAt = new Date().toISOString();
+// ---- the three write paths ------------------------------------------------
+//
+// One `put` did three things at once, and two of them were wrong for most of
+// its callers. Every write stamped `updatedAt` with the current time, and every
+// write counted as an edit the user had not backed up. That is right for a
+// woman saving a trial and wrong for everything else that writes: a seed pack,
+// a migration, a repair, a restore.
+//
+// Two independent questions, so two independent flags:
+//
+//   stamp — is this an edit being made NOW? A restore is not: the file says
+//           when the record was last touched and that is the fact. Stamping it
+//           with today's date destroys the only evidence of when the work
+//           happened, and does it silently.
+//   count — is this the USER'S work, not yet in a backup file? A seeded plant
+//           is not. Before this split, a first install wrote several hundred
+//           records through `put` and the counter read like several hundred
+//           unsaved edits before she had typed anything.
+//
+// Three of the four combinations are meaningful and each has a name. The
+// fourth — count without stamp — has no caller and is not offered.
+async function write(store, record, { stamp, count }) {
+  if (stamp) record.updatedAt = new Date().toISOString();
   await wrap((await tx(store, 'readwrite')).put(record));
-  await bumpChangeCounter();
+  if (count) await bumpChangeCounter();
   return record;
+}
+
+/** A person edited something. Stamps the time and counts against the backup. */
+export async function put(store, record) {
+  return write(store, record, { stamp: true, count: true });
+}
+
+/**
+ * The application wrote something on its own account — a seed pack, a pack
+ * update, a migration, a repair. It happened now, so it is stamped; it is not
+ * her work, so it is not counted.
+ */
+export async function putSystem(store, record) {
+  return write(store, record, { stamp: true, count: false });
+}
+
+/**
+ * A record restored verbatim from a file. Nothing is stamped and nothing is
+ * counted: the record's own `createdAt` and `updatedAt` came out of the backup
+ * and are what it is being restored TO.
+ */
+export async function putRaw(store, record) {
+  return write(store, record, { stamp: false, count: false });
+}
+
+// Deleting a trial is her work leaving the database, and it did not count at
+// all — so the surest way to have unbacked-up changes read as zero was to
+// spend the afternoon deleting things.
+export async function remove(store, id) {
+  await wrap((await tx(store, 'readwrite')).delete(id));
+  await bumpChangeCounter();
+}
+
+/** A withdrawal performed by a pack update. Not her doing, so not counted. */
+export async function removeSystem(store, id) {
+  return wrap((await tx(store, 'readwrite')).delete(id));
+}
+
+/**
+ * Replace the contents of whole stores with what a file holds — the snapshot
+ * half of a restore (§11.4).
+ *
+ * ONE transaction across every store involved. `clear()` and every `put()` are
+ * queued against it synchronously, so either the whole restore lands or the
+ * transaction aborts and the database is exactly as it was. The failure this
+ * exists to make impossible is `clear → half the records → error`, which would
+ * leave a person with less than she started with and a success message on the
+ * screen.
+ *
+ * Nothing is stamped and nothing is counted, for the reason `putRaw` gives.
+ *
+ * Only the stores PRESENT in `data` are touched. A backup written by an older
+ * schema does not carry the newer stores, and clearing those would read a gap
+ * in the file as an instruction to delete — a migration that guesses, in the
+ * other direction.
+ */
+export async function replaceStores(data) {
+  const db = await open();
+  const names = Object.keys(data).filter(n => STORES[n]);
+  if (!names.length) return { stores: [], written: 0, cleared: 0 };
+
+  return new Promise((resolve, reject) => {
+    const t = db.transaction(names, 'readwrite');
+    let written = 0;
+    t.oncomplete = () => resolve({ stores: names, written });
+    t.onerror   = () => reject(t.error || new Error('restore failed'));
+    t.onabort   = () => reject(t.error || new Error('restore aborted'));
+
+    try {
+      for (const name of names) {
+        const store = t.objectStore(name);
+        store.clear();
+        for (const row of data[name] || []) { store.put(row); written++; }
+      }
+    } catch (err) {
+      // A row the store refuses — no key, wrong shape — throws here rather
+      // than firing an error event. Aborting by hand keeps the promise's
+      // contract: this function either restores everything or nothing.
+      try { t.abort(); } catch { /* already gone */ }
+      reject(err);
+    }
+  });
 }
 
 // Favourites (§13.1). Personal, never travels in a pack: a working set of six
@@ -159,8 +261,14 @@ export async function setSetting(key, value) {
   return wrap(store.put({ key, value }));
 }
 
-// Counts edits since the last export, so the backup reminder can be honest
-// about how much would be lost — the Глина lesson.
+// Counts THE USER'S edits since the last export, so the backup reminder can be
+// honest about how much would be lost — the Глина lesson.
+//
+// Only `put` and `remove` reach here. Seeding, pack updates, migrations,
+// repairs and restores go through `putSystem`, `putRaw`, `removeSystem` or
+// `replaceStores` and are deliberately invisible to it: none of them is work
+// that would be lost, because every one of them can be performed again from a
+// file that already exists.
 async function bumpChangeCounter() {
   const n = await getSetting('changeCounter', 0);
   await setSetting('changeCounter', n + 1);

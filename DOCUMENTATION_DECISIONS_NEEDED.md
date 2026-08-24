@@ -72,3 +72,38 @@ makes the first two hard to find.
 **Suggested.** Leave it alone for the audit ahead. A reviewer being asked to judge
 commercial readiness benefits from the fault record sitting next to the decision it
 corrected. Revisit after.
+
+---
+
+## 5. What a snapshot restore does to the language — **settled**
+
+**Settled in 1.0.0-rc26 and recorded in §13co.** `language` is a device
+preference and survives a snapshot restore; `fabricLabelCounter` stays part of the
+snapshot, because losing it means the next piece takes a number already on a label
+in the studio. Absence of a language row is preserved as carefully as a value.
+
+---
+
+## 6. Two screen faults, now visible
+
+**Raised by 1.0.0-rc26.** Not a decision about documentation — a decision about a release.
+
+The release gate (§13cp) ran `screen-check.mjs` for the first time and it failed on six
+things, every one present in rc25 unchanged. Four were one stale route in the harness and
+are corrected in rc26. Two are real and are **not**:
+
+- **„Виж всички →" is 23px** on the home screen, against a 44px finger target (§13ac).
+  Growing it moves the heading row it sits in.
+- **The *use now* tiles overflow** on an opened plant, 337px of content in 322px. Letting
+  a tile shrink means letting a figure wrap — and these are the figures meant to be read
+  at a glance over a pot (§13bs).
+
+Neither is a mechanical application of a rule the project already states, which is why
+they were left. They want an eye on a real phone.
+
+**What needs deciding.** Whether rc28 is these two and nothing else — which would keep the
+discipline of this release and make it as easy to regression-test — or whether they ride
+along with the next piece of real work.
+
+**Suggested.** rc28 is the two, on its own. The last time layout faults were bundled with
+something else they were found by the owner on a phone rather than by a check.

@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc25 · 110 sections
+**Status:** 1.0.0-rc27 · 112 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -7803,6 +7803,251 @@ identical in the diary list, and a trial read on its own does not know it was on
 of taking money. Neither is, unless it is decided that they are. Metric-only is defensible
 for a European buyer, and 57 plants is a library. Both remain listed — the point is that the
 decision is now taken deliberately rather than inherited from a list.
+
+## 13co. Restoring a backup, and what a write means (1.0.0-rc26, amended rc27)
+
+An independent technical audit of 1.0.0-rc25 found four faults in one place: the
+path a record takes into the database. They are recorded together because they
+are one fault seen four times — a single `put` doing three jobs at once, two of
+which were wrong for most of its callers.
+
+### `replace` did not replace
+
+The backup module offers two restore modes (§11): **merge**, which adds records
+whose id is not present and touches nothing else, and **replace**, offered for
+moving to a new device or recovering from real loss.
+
+What `replace` did was overwrite every record whose id matched, add every record
+that was missing, and remove nothing. A record that existed in the database and
+not in the file simply stayed.
+
+So restoring last week's backup did not return the database to last week. It
+returned last week's records and kept everything written since, mixed together
+with nothing to tell the two apart. The mode was a merge with overwriting,
+offered under a label promising a snapshot, to a person who had reached for it
+*because something had already gone wrong*.
+
+**`replace` now restores a snapshot.** For each store the file carries: the
+store is cleared and the file's records are written. Afterwards the database
+holds what the file holds, and nothing newer.
+
+Three things follow, and each is a decision rather than an implementation
+detail.
+
+**One transaction.** `clear()` and every `put()` ride a single IndexedDB
+transaction across every store involved. IndexedDB aborts a transaction whole,
+so the failure this is arranged around — clear, write half the records, hit an
+error — cannot leave a person with less than she started with and a message on
+the screen saying the restore failed. Either the whole restore lands or the
+database is exactly as it was.
+
+**Validated before anything is destroyed.** Format, schema version, and that
+every row carries its key, all checked against the object in memory before the
+transaction opens. A file that cannot be restored is refused rather than
+discovered halfway through.
+
+**Only the stores the file carries.** A backup written by an older schema does
+not hold the newer stores. Clearing those would read a gap in the file as an
+instruction to delete — a migration that guesses (§13.1), in the other
+direction. A store absent from the file is left alone.
+
+`merge` is unchanged in what it does: it can still only ever add. It is checked
+in that direction too, because the correction is exactly the kind that turns the
+safe mode into the destructive one by accident.
+
+### A write says three things, and they are not the same thing
+
+`put` stamped `updatedAt` with the current time and counted the write against
+the backup reminder. Both are right for a person saving a trial and wrong for a
+seed pack, a migration, a repair and a restore, all of which went through it.
+
+Two independent questions, so two independent flags, and three named paths:
+
+| | stamps `updatedAt` | counts as her work | used by |
+|---|---|---|---|
+| `put` | yes | yes | a person editing a record |
+| `putSystem` | yes | no | seeding, pack updates, migrations, repairs |
+| `putRaw` | no | no | restoring a record from a file |
+
+The fourth combination — counted but not stamped — has no caller and is not
+offered.
+
+**Why a restore must not stamp.** The file records when the work was last
+touched. Restoring it and writing today's date over that destroys the only
+evidence of when the work happened, permanently, as a side effect of recovering
+it. Both modes now write raw: `merge` too, since a record merged back in is
+being restored just as much as one in a snapshot.
+
+`createdAt` was already safe — `put` never touched it — and the provenance
+fields (`origin`, `packId`, `editedByUser`, `editedFields`) travel in the file
+and are restored with the record.
+
+### What the backup counter counts
+
+The counter answers one question on the home screen and in the backup panel:
+*how much of my own work is not in a backup file?* Every write reached it, so
+the answer it gave was not merely imprecise, it was about something else.
+
+The worst case is the first: a new installation seeds 57 plants, 102
+combinations, 32 glossary terms, the substances, the techniques, the sources,
+the recipes, and 258 vocabulary terms — several hundred writes, every one of
+them counted. The threshold for the warning is forty. A person opened the
+application for the first time and was told she had hundreds of unsaved changes
+before she had typed anything.
+
+**The counter now moves for `put` and `remove` and for nothing else.** Seeding,
+pack updates, migrations, repairs and restores are deliberately invisible to it:
+none of them is work that would be lost, because every one can be performed
+again from a file that already exists.
+
+`remove` was not counted at all, which meant the surest way to have no unsaved
+changes was to spend the afternoon deleting things. It counts now. `removeSystem`
+exists for the one deletion that is not hers — a record withdrawn by a pack
+update (§13cb).
+
+### The file's own counter is stale, by construction
+
+`downloadBackup` exports and then resets the counter, so what travels inside the
+file is the count from *before* the export, alongside the previous
+`lastExportAt`. This never showed while `replace` was a merge, because merge does
+not touch a key that already exists. The moment `replace` became a snapshot it
+would have restored both — telling her she had unsaved work at the exact moment
+the database equalled a file on her disk.
+
+After a snapshot restore: `changeCounter` is set to 0, and `lastExportAt` to the
+file's own `exportedAt`. Both are the truthful answers. `returnTo` is cleared —
+it is a handoff address (§13bo) that may now point at a record the restore has
+removed.
+
+**Settled:** `settings` is restored as part of the snapshot, but the *language*
+is not. It is a property of the **device**, not of the work. Nobody reaches for a
+restore in order to change the language, and a person recovering from data loss
+should not be met with an interface in the other one; restoring a phone's backup
+onto the laptop leaves the laptop as it was.
+
+Absence is preserved as carefully as a value. No `language` row means Bulgarian
+by default (`i18n.js`), so writing one where there was none would change the
+language just as surely as overwriting one.
+
+`fabricLabelCounter` **stays in the snapshot**. It is state rather than
+preference: losing it means the next piece takes a number that is already on a
+label in the studio.
+
+### The removal count is a set difference, not a subtraction
+
+`removed` was first written as the count before minus the count after. That is
+right only when the file is a subset of the database. Current `{A, B}` against a
+backup of `{B, C}` is two records before and two after — so the arithmetic
+reported nothing removed, while A had gone.
+
+The number after a snapshot restore is the one thing telling a person what the
+file did not carry, and it is a set difference: the ids present in the database
+and absent from the file, read before the transaction opens.
+
+### The label promised the fault
+
+`backup.confirmReplace` read „записите с еднакъв идентификатор ще бъдат
+презаписани" — an accurate description of the merge-with-overwriting it was
+attached to. Correcting the code and leaving the sentence would have had a
+person press *yes* against a promise that was no longer true, and lose newer
+records without having been told. Both languages now say the database is
+returned to exactly what the file holds and that anything entered since is lost.
+The report after a snapshot restore is its own sentence (`backup.restored`) and
+names how many newer records went.
+
+---
+
+## 13cp. A run that may skip, and a run that may not (1.0.0-rc26, amended rc27)
+
+`check.sh` has six layers and three of them need something installed. When the
+shim was absent the run printed a line saying so and carried on with status 0.
+An independent run of 1.0.0-rc25 in a clean environment ended:
+
+```
+boot check skipped (npm install --no-save jsdom fake-indexeddb)
+all held
+```
+
+Three of six layers had not started, the pipeline reported success, and nothing
+in the output distinguished that from a run in which they had. This is §1 of
+`check.sh` again — the layer that printed fourteen NOT CACHED lines and left
+with status 0 — and it is the same lesson: **a guard that reports and does not
+stop is not a guard.**
+
+On a laptop mid-afternoon skipping is right. The static layers are fast and the
+runtime ones are not always worth the wait. So the two runs are named apart
+rather than one being made to serve both:
+
+```
+sh check.sh              development — a runtime layer whose dependency is
+                         absent is skipped, and the run says so
+sh check.sh --release    release     — an absent dependency is a FAILURE
+BAGRA_RELEASE=1 sh check.sh
+```
+
+The invariant, in one line:
+
+> A candidate cannot be called checked if a layer of its release policy never
+> started.
+
+`check-deps.mjs` is the gate. Three exit codes, because a shell `||` must be
+able to tell *cannot run here* from *must not ship*: `0` everything present,
+`2` missing on a development run, `1` missing on a release run. The failure
+message names what is missing and the command that installs it — a release that
+stops without saying what to install is a release that stops twice.
+
+**The second door.** `screen-check.mjs` had a silent skip of its own: with
+`puppeteer-core` installed and no Chromium on disk it printed „screen check
+skipped (no chromium found)" and exited 0. Gating only the driver in the shell
+would have closed one door of two, so the gate checks the browser as well.
+`BAGRA_CHROME` names one, for an installation the list does not know about — and
+for the test below, which cannot create a missing browser by deleting one.
+
+**The gate has a guard of its own**, and it is asked in both directions
+(`scripts/try-release-gate.sh`, run among the static layers because it needs
+nothing installed). Stuck open it lets an unchecked candidate through, which is
+the fault it was built for. Stuck shut it stops every development run and gets
+pulled out within a week, which is how a suite loses a layer for good.
+
+### What the gate found on its first release run
+
+Six failures in the screen layer, all present in 1.0.0-rc25 byte for byte, none
+ever seen, because that layer had never run. Reading them turned out to be a
+second lesson: **four of the six were one stale line in the harness.**
+
+`screen-check.mjs` listed `#/sources`, and there has been no module of that name
+since attribution folded into the Library (§13bt) — Sources lives at
+`#/library/sources`, with the tab in the address (§13q). An unknown module id
+falls back to the dashboard, so the layer rendered the HOME SCREEN and reported
+its faults under the name of Sources, including „there is no record to open",
+which was true of the dashboard and said nothing whatever about the Sources
+table. The Sources screen had never been measured at all, at either width.
+
+This is the failure mode this project has named three times — a check that is
+not testing what it says it is testing — in its most expensive form: not silent,
+but failing loudly about the wrong screen, which would have sent somebody
+hunting a layout fault on a page that was never drawn. The route is corrected
+here, along with `#/library` and `#/library/ph`, which had no coverage either.
+The correction belongs in this release because it is the test pipeline, which is
+what this release is about.
+
+**Two real faults remain**, and they are deferred on purpose:
+
+- `#/dashboard`, phone — „Виж всички →" is 23px, under the 44px finger target
+  (§13ac). Also a note at desk width, with three buttons at 37px.
+- `#/plants` opened, phone — the *use now* tiles overflow, 337px of content in
+  322px. A grid track of `minmax(108px,1fr)` cannot hold a tile whose value will
+  not wrap.
+
+Neither is mechanical. Growing the link to 44px moves the heading row it sits
+in; letting a tile shrink means letting a figure wrap, and these are the figures
+meant to be read at a glance over a pot (§13bs). Both are layout decisions and
+both want the owner's eye, so they are the first work of 1.0.0-rc28.
+
+Until they are done `sh check.sh --release` refuses the candidate. That is the
+gate doing exactly what it was built to do, and 1.0.0-rc27 is therefore a
+candidate that passes five of its six layers and says so, rather than one that
+passes six by not running one.
 
 ---
 

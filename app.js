@@ -5,7 +5,10 @@
 // element it is handed. With seven modules this consistency is the difference
 // between one application and seven.
 
-import { open, all, put, get, count, getSetting } from './db.js';
+// `put` is deliberately absent: nothing app.js does at boot is the user's own
+// edit. Everything here seeds, migrates or repairs, and all of it goes through
+// `putSystem` so it stays out of the backup counter.
+import { open, all, putSystem, get, count, getSetting } from './db.js';
 import { icon, labelCells, navigate } from './ui.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { VOCABULARY, BANDS } from './vocab.js';
@@ -315,25 +318,25 @@ export async function seedIfEmpty() {
   const haveVocab = new Map((await all('vocabulary')).map(v => [v.key, v]));
   for (const v of VOCABULARY) {
     const mine = haveVocab.get(v.key);
-    if (!mine) { await put('vocabulary', { ...v, origin: 'seed' }); continue; }
+    if (!mine) { await putSystem('vocabulary', { ...v, origin: 'seed' }); continue; }
     if (mine.origin !== 'seed') continue;
     // Only when something actually differs, so a start is not a hundred
     // pointless writes.
     if (JSON.stringify(mine.label) !== JSON.stringify(v.label)
         || JSON.stringify(mine.description ?? null) !== JSON.stringify(v.description ?? null)
         || mine.order !== v.order) {
-      await put('vocabulary', { ...mine, ...v, origin: 'seed' });
+      await putSystem('vocabulary', { ...mine, ...v, origin: 'seed' });
     }
   }
 
   const haveBands = new Map((await all('bands')).map(b => [b.key, b]));
   for (const b of BANDS) {
     const mine = haveBands.get(b.key);
-    if (!mine) { await put('bands', { ...b, origin: 'seed' }); continue; }
+    if (!mine) { await putSystem('bands', { ...b, origin: 'seed' }); continue; }
     if (mine.origin !== 'seed') continue;
     if (JSON.stringify(mine.label) !== JSON.stringify(b.label)
         || mine.min !== b.min || mine.max !== b.max || mine.unit !== b.unit) {
-      await put('bands', { ...mine, ...b, origin: 'seed' });
+      await putSystem('bands', { ...mine, ...b, origin: 'seed' });
     }
   }
 }
@@ -377,7 +380,7 @@ export async function healDoubleStateEvents() {
 
     if (!dropped) continue;
     f.stateEvents = keep;   // legacy: repairs records written before §13bd
-    await put('fabrics', f);
+    await putSystem('fabrics', f);
     pieces++;
   }
 
@@ -387,7 +390,7 @@ export async function healDoubleStateEvents() {
       const tr = e.trialId && byId.get(e.trialId);
       if (tr && !tr.finishedOn && e.date) {
         tr.finishedOn = e.date;
-        await put('trials', tr);
+        await putSystem('trials', tr);
       }
     }
   }
@@ -416,7 +419,7 @@ export async function migrateFabricActions() {
   let touched = 0;
   for (let i = 0; i < fabrics.length; i++) {
     if (Array.isArray(fabrics[i].actions)) continue;
-    await put('fabrics', migrated[i]);
+    await putSystem('fabrics', migrated[i]);
     touched++;
   }
   for (const b of batches) {
@@ -424,7 +427,7 @@ export async function migrateFabricActions() {
     // an earlier run, and overwriting it would discard a weight or a deviation
     // she has since filled in by hand.
     if (await get('batchActions', b.id)) continue;
-    await put('batchActions', b);
+    await putSystem('batchActions', b);
   }
 
   if (touched) {

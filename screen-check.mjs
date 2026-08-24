@@ -151,7 +151,18 @@ try {
     '#/materials', { route: '#/materials', open: true },
     '#/techniques', { route: '#/techniques', open: true },
     '#/tools', '#/tools/backup',
-    '#/sources', { route: '#/sources', open: true },
+    // `#/sources` for as long as this list has existed, and there has been no
+    // module of that name since attribution folded into the Library (§13bt).
+    // An unknown id falls back to the dashboard (app.js), so the layer rendered
+    // the HOME SCREEN three times and reported its faults under the name of
+    // Sources — including „there is no record to open", which was true of the
+    // dashboard and said nothing whatever about the Sources table. Four of the
+    // six failures on the first release run were this one line.
+    //
+    // The Library's tab is in the address (§13q), which is what makes the
+    // correction a route rather than a click.
+    '#/library', '#/library/ph',
+    '#/library/sources', { route: '#/library/sources', open: true },
     '#/fabrics', { route: '#/fabrics', open: true },
     '#/trials', '#/trials/new', { route: '#/trials', open: true },
   ];

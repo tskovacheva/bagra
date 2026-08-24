@@ -12,6 +12,78 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc27 — 24 August 2026
+
+A reliability patch, from an independent technical audit of rc25, with the two
+corrections from her first reading of it folded in (the removal count, and the
+language) rather than left for a further candidate. Four faults in one
+place — the path a record takes into the database — and the discipline that should
+have caught them. **No features, no performance work, no change to start-up, seeding,
+the service worker or the module graph**, deliberately: the release changes how every
+record is written, and a package that also moved other things would not be testable
+against the thing it was made for.
+
+- **`replace` did not replace.** It overwrote what matched, added what was missing and
+  removed nothing, so restoring last week's backup returned last week's records and
+  kept everything written since, mixed together. A merge with overwriting, offered
+  under a label promising a snapshot, to a person who had reached for it because
+  something had already gone wrong. It now clears and restores, in **one** IndexedDB
+  transaction across every store involved, so `clear → half the records → error`
+  cannot leave a person with less than she started with. Validated before anything is
+  destroyed; a store the file does not carry is left alone rather than emptied. §13co
+- **A restored record kept the time the file gives it.** Every write stamped
+  `updatedAt` with the current time, so recovering a record destroyed the only record
+  of when the work happened. Three named write paths now: `put` stamps and counts,
+  `putSystem` stamps and does not count, `putRaw` does neither. §13co
+- **The backup counter counts her work.** It counted every write, including the several
+  hundred a first install performs — so a person opening the app for the first time was
+  told she had hundreds of unsaved changes before typing anything, against a warning
+  threshold of forty. Seeding, pack updates, migrations, repairs and restores are now
+  invisible to it. `remove` counts, which it never did: the surest way to have no
+  unsaved changes had been to spend the afternoon deleting things. §13co
+- **The language belongs to the device.** `settings` is restored as part of the snapshot,
+  but `language` is not: restoring a phone's backup onto the laptop leaves the laptop in
+  the language it was in. Absence is preserved too — no row means Bulgarian by default, so
+  writing one where there was none changes the language just as surely.
+  `fabricLabelCounter` stays in the snapshot: it is state, not preference. §13co
+- **The removal count is a set difference.** It was first written as the count before minus
+  the count after, which is right only when the file is a subset of the database. Current
+  `{A,B}` against a backup of `{B,C}` is two before and two after, so it reported nothing
+  removed while A had gone. §13co
+- **The file's own counter is stale by construction** — `downloadBackup` exports and
+  then resets, so the count travelling inside the file predates the export. Harmless
+  while `replace` was a merge; a new fault the moment it became a snapshot. After a
+  restore the counter is zero and the last-backup date is the file's own. §13co
+- **The confirmation described the fault.** „Записите с еднакъв идентификатор ще бъдат
+  презаписани" was an accurate account of the broken behaviour. Corrected in both
+  languages, with the snapshot restore reporting in its own sentence and naming how
+  many newer records went. §13co
+- **A run that may skip, and a run that may not.** `check.sh` ended with status 0 after
+  skipping three of its six layers for a missing shim, so a candidate could be declared
+  checked while its runtime tests had never started — the same fault as §1 of the script
+  itself. `sh check.sh --release` now fails where a development run skips.
+  `screen-check.mjs` had a second silent skip inside it, for a missing Chromium; that
+  is closed too. The gate has a guard of its own, asked in both directions. §13cp
+- **Two new layers**: `scripts/try-backup-restore.mjs` (a real export, real work on top
+  of it, a real restore, asked in both directions) and `scripts/try-release-gate.sh`.
+  Every one of the new guards was watched failing against the restored old behaviour
+  before it was accepted.
+- **The screen layer had been measuring the wrong screen.** Its route list still said
+  `#/sources`, and there has been no module of that name since attribution folded into
+  the Library. An unknown id falls back to the dashboard, so the layer rendered the home
+  screen and reported its faults under the name of Sources — four of the six failures on
+  the first release run were that one line, and the Sources screen had never been
+  measured at all. Corrected here, with `#/library` and `#/library/ph` added; it is the
+  test pipeline, which is what this release is about. §13cp
+- **Two real screen faults remain and are NOT fixed here**: „Виж всички →" at 23px on the
+  home screen, and the *use now* tiles overflowing on an opened plant. Neither is
+  mechanical — one moves a heading row, the other lets a figure wrap — so both want the
+  owner's eye and both are the first work of rc28. Until then `check.sh --release`
+  refuses the candidate, and rc27 is a candidate that passes five of six layers and says
+  so, rather than one that passes six by not running one. §13cp
+
+---
+
 ## 1.0.0-rc13 … rc22 — August 2026
 
 The release-candidate run. In order:

@@ -116,7 +116,11 @@ None of this is a feature; all of it is a condition of taking money.
   and chemical-handling disclaimer · a way to report a bug.** None of these exist.
 - **Migration tests as a release blocker.** Before each release: a backup from the previous
   version, update, open, verify. The expensive bug is not a crooked button — it is eighty
-  trials and six hundred photographs gone after an update.
+  trials and six hundred photographs gone after an update. **Partly done at rc26**: the
+  restore path itself is now covered by `scripts/try-backup-restore.mjs`, which runs a real
+  export, real work on top of it and a real restore, in both directions (§13co). What is
+  still missing is the other half — a backup written by an OLDER version, opened by this
+  one.
 - **Numerical tests on the calculators.** A disclaimer does not cover an unchecked formula.
   The aluminium acetate stoichiometry has still not been compared against an independent
   source; it is written out openly in `calc/alum-acetate.js` for exactly that.
@@ -124,10 +128,20 @@ None of this is a feature; all of it is a condition of taking money.
   Never release from the working copy — development, then a candidate the owner uses for a
   while, then production.
 - **The documents ship inside the release ZIP**, at the same version as the code.
-- **The screen check has never run in this environment.** `screen-check.mjs` needs
-  `puppeteer-core`, which is not installed, so every layout decision since rc13 has been
-  verified by reading rather than by rendering. The owner has walked the phone twice and
-  found real faults both times. **Install it, or state plainly that layout is unverified.**
+- **The screen check has now run — and it failed.** It needed `puppeteer-core`, which was
+  never installed, so every layout decision from rc13 to rc25 was verified by reading rather
+  than by rendering, and `check.sh` left with status 0 regardless. The release gate added in
+  rc26 (§13cp) closed that, and the first release run turned up six failures present in rc25
+  byte for byte. Four were one stale route in the harness — it still asked for `#/sources`,
+  a module that has not existed since attribution folded into the Library, so it was
+  measuring the home screen and reporting its faults under another name. That is corrected.
+  **Two real faults remain**: „Виж всички →" at 23px on the home screen, and the *use now*
+  tiles overflowing on an opened plant. Both are layout decisions rather than mechanical
+  corrections and both want the owner's eye. They are the first work of rc28; until then
+  `sh check.sh --release` refuses the candidate, which is the point of having it.
+- **A release run is now a different run.** `sh check.sh --release` fails where a
+  development run skips a layer for a missing dependency. The invariant: a candidate cannot
+  be called checked if a layer of its release policy never started. §13cp
 - **README and ROADMAP are read before each release.** README claimed 48 plants and a Stock
   module long after both had changed. Audited at rc23; the habit is the point.
 

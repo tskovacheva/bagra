@@ -4,7 +4,7 @@
 // the modules, so keeping it there made a circular dependency — app importing
 // plants importing app. It worked by accident of hoisting until it did not.
 
-import { all, get, put, remove } from './db.js';
+import { all, get, putSystem, removeSystem } from './db.js';
 
 /**
  * Adds seeded records that are absent, and touches nothing else.
@@ -30,7 +30,7 @@ export async function seedPack(file, store, listKey, defaults = {}) {
     const id = 'seed:' + row.code;
     if (existing.has(id)) continue;
     const { code, ...rest } = row;
-    await put(store, {
+    await putSystem(store, {
       ...defaults,
       id,
       origin: 'seed',
@@ -234,7 +234,7 @@ export async function applyDiff(store, entries, pack) {
     // entry rather than inferred from a missing `row`, because inferring it
     // would make a malformed entry delete a record.
     if (entry.remove) {
-      await remove(store, entry.id);
+      await removeSystem(store, entry.id);
       n++;
       continue;
     }
@@ -242,7 +242,7 @@ export async function applyDiff(store, entries, pack) {
     const existing = await get(store, entry.id);
 
     if (!existing) {
-      await put(store, {
+      await putSystem(store, {
         ...defaults,
         id: entry.id,
         origin: 'seed',
@@ -254,7 +254,7 @@ export async function applyDiff(store, entries, pack) {
         ...entry.row,
       });
     } else {
-      await put(store, {
+      await putSystem(store, {
         ...existing,
         packId: pack.packId,
         packVersion: pack.packVersion,
