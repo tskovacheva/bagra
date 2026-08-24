@@ -3,8 +3,9 @@
 // Fixed here once so seven modules do not end up looking as though seven
 // people wrote them. Nothing in this file knows about any particular module.
 
-import { all } from './db.js';
+import { all, remove } from './db.js';
 import { text, getLang, t, needsTranslation } from './i18n.js';
+import { findReferences } from './refs.js';
 
 let _vocab = null;
 
@@ -615,3 +616,63 @@ export const approxNumber = (value, isApprox, unit = '') => {
   const shown = `${value}${unit ? ' ' + unit : ''}`;
   return isApprox ? `${t('common.approxMark')}\u00A0${shown}` : shown;
 };
+
+
+/**
+ * Delete a record, unless the history points at it (§13cq).
+ *
+ * One helper rather than six, because six copies of this decision would become
+ * five copies and an exception. Every module that offers a delete calls it, and
+ * `deep-check` fails the build for one that does not.
+ *
+ * When nothing points at the record it asks the same question it always asked
+ * and deletes. When something does, it REFUSES and says what — a plain count,
+ * per kind, in a sentence: „used in 7 trials and 2 cloth preparations".
+ *
+ * NO CASCADE. The refusal is the feature. `delete recipe → delete the steps
+ * that used it` and `delete plant → blank every plantId` both turn one explicit
+ * act into silent loss of the history the record was part of.
+ *
+ * @returns {Promise<boolean>} true when the record was deleted.
+ */
+export async function deleteGuarded(store, id, confirmText) {
+  const refs = await findReferences(store, id);
+
+  if (refs.total === 0) {
+    if (!await dialog({
+      title: t('common.delete'), body: `<p>${esc(confirmText)}</p>`,
+      confirmLabel: t('common.delete'), cancelLabel: t('common.cancel'),
+    })) return false;
+    await remove(store, id);
+    return true;
+  }
+
+  // Counted by RECORDS, not by pointers: „7 trials" is what a person can go and
+  // look at. A trial naming the same recipe at three steps is one trial.
+  const parts = refs.byStore.map(r => `${r.records} ${t(r.label, { n: r.records })}`);
+  const list = parts.length > 1
+    ? parts.slice(0, -1).join(', ') + ' ' + t('common.and') + ' ' + parts[parts.length - 1]
+    : parts[0];
+
+  await dialog({
+    title: t('refs.cannotDelete'),
+    body: `<p>${esc(t('refs.usedIn', { list }))}</p><p class="note">${esc(t('refs.why'))}</p>`,
+    confirmLabel: t('common.ok'), cancelLabel: t('common.close'),
+  });
+  return false;
+}
+
+
+/**
+ * What to show for a plant's photograph (§13cr).
+ *
+ * `photoData` first, then `photoSrc`. The order is the policy: a photograph the
+ * owner put there herself wins over the one the pack shipped, always, and a
+ * pack update can never displace it because the pack does not carry
+ * `photoData` at all any more.
+ *
+ * Returns '' when there is neither, so the caller can decide what an absent
+ * photograph looks like — a plant with no picture is a real state and not an
+ * error.
+ */
+export const photoOf = (record) => record?.photoData || record?.photoSrc || '';

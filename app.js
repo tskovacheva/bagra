@@ -8,11 +8,12 @@
 // `put` is deliberately absent: nothing app.js does at boot is the user's own
 // edit. Everything here seeds, migrates or repairs, and all of it goes through
 // `putSystem` so it stays out of the backup counter.
-import { open, all, putSystem, get, count, getSetting } from './db.js';
+import { open, all, putSystem, get, count, getSetting, setSetting } from './db.js';
 import { icon, labelCells, navigate } from './ui.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { VOCABULARY, BANDS } from './vocab.js';
-import { loadPack, PACKS } from './seed.js';
+import { ensurePacks, PACKS } from './seed.js';
+import { migratePlantPhotos } from './migrate-photos.js';
 import { VERSION } from './version.js';
 import * as dirty from './dirty.js';
 import { migrateAll } from './migrate-actions.js';
@@ -437,6 +438,8 @@ export async function migrateFabricActions() {
 }
 
 
+
+
 document.addEventListener('click', async (e) => {
   // The way up out of a record: an ADDRESS, not a step back through history
   // (§13bo). Handled once here rather than in fourteen modules, and it goes
@@ -589,10 +592,12 @@ function watchLists() {
   // the four attested sources the library credits shipped as an empty screen. A
   // second list of the same thing is a second thing to forget. Guarded (§13aa).
   // Failing to seed must not take the whole app down with it.
-  for (const name of Object.keys(PACKS)) {
-    try { await loadPack(name); }
-    catch (err) { console.warn('seed failed:', name, err); }
-  }
+  // Only the packs that need it (§13cs). An unchanged installed library is
+  // recognised from a 534-byte manifest and a read of the ids, so a normal
+  // start no longer fetches and parses the plant pack to discover that all 57
+  // records are already there.
+  await ensurePacks();
+  await migratePlantPhotos();
   await healDoubleStateEvents();
   await migrateFabricActions();
   dirty.install(() => confirm(t('common.discardUnsaved')));

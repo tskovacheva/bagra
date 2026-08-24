@@ -121,6 +121,10 @@ None of this is a feature; all of it is a condition of taking money.
   export, real work on top of it and a real restore, in both directions (§13co). What is
   still missing is the other half — a backup written by an OLDER version, opened by this
   one.
+- **Referential integrity — done at rc28.** A record the history points at can no longer be
+  deleted (§13cq). What is NOT done, and is now a decision rather than a task: whether cloth
+  gets a *retired* state, and whether reference entities get archiving at all. Both are in
+  `DOCUMENTATION_DECISIONS_NEEDED.md`.
 - **Numerical tests on the calculators.** A disclaimer does not cover an unchecked formula.
   The aluminium acetate stoichiometry has still not been compared against an independent
   source; it is written out openly in `calc/alum-acetate.js` for exactly that.

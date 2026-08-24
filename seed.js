@@ -4,7 +4,7 @@
 // the modules, so keeping it there made a circular dependency — app importing
 // plants importing app. It worked by accident of hoisting until it did not.
 
-import { all, get, putSystem, removeSystem } from './db.js';
+import { all, keys, get, putSystem, removeSystem, getSetting, setSetting } from './db.js';
 
 /**
  * Adds seeded records that are absent, and touches nothing else.
@@ -97,6 +97,129 @@ export const PACKS = {
     },
   },
 };
+
+// ---------------------------------------------------------------- the boot gate
+//
+// WHAT A NORMAL START USED TO DO (§13cs).
+//
+// Every boot fetched and parsed EVERY pack, in full, to find out whether there
+// was anything to add. For plants in rc27 that was 3.97 MB of JSON — most of it
+// photographs — read, parsed and thrown away, on every single opening of the
+// application, so that `seedPack` could discover that all 57 records were
+// already there. The first render waited for it.
+//
+// WHAT THE GATE MUST NOT BREAK.
+//
+// `seedPack` does not only seed a fresh install. It also puts back a seeded
+// record that has gone missing — deleted by hand, lost after a deploy — and
+// that is a real recovery path, not an accident of the implementation. So a
+// gate that says
+//
+//     same version → skip
+//
+// would silently change behaviour: delete a plant, restart, and it would no
+// longer come back.
+//
+// The gate therefore asks TWO questions, and skips only when both agree:
+//
+//   1. Is the shipped version the same one that was installed?  (the manifest)
+//   2. Is the SET of seeded ids in the store still the set that was installed?
+//      (a fingerprint over the ids, read with `keys()` — no records cloned, no
+//      photographs, no parse of a pack)
+//
+// A record deleted by hand changes the fingerprint, the gate opens, the pack is
+// fetched and the record comes back. Behaviour preserved, exactly.
+//
+// The gate is never a reason to overwrite anything. It can only decide whether
+// to run `seedPack`, which adds absent records and touches nothing else. Pack
+// UPDATES still go through `diffPack` and the preview (§10), and the explicit
+// „check the library" button calls `diffPack` directly, so it fetches whatever
+// the gate decided — a person asking to be shown the pack is always shown it.
+
+const MANIFEST = 'seed/manifest.json';
+
+// FNV-1a over the sorted seeded ids. Not a security hash — the question is only
+// „is this the same set of records", and a 32-bit answer to that is enough for
+// a few dozen ids while costing nothing and needing no crypto.
+function fingerprint(ids) {
+  const s = ids.filter(k => typeof k === 'string' && k.startsWith('seed:')).sort().join('|');
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return `${s ? s.split('|').length : 0}:${h.toString(16)}`;
+}
+
+async function packState() {
+  return (await getSetting('packState', null)) || {};
+}
+
+/**
+ * Load only the packs that actually need loading.
+ *
+ * @returns {Promise<{loaded:string[], skipped:string[], manifest:object|null}>}
+ */
+export async function ensurePacks() {
+  const out = { loaded: [], skipped: [], failed: [], manifest: null };
+
+  let manifest = null;
+  try {
+    const res = await fetch(MANIFEST);
+    if (res.ok) manifest = (await res.json()).packs || null;
+  } catch { /* no manifest: fall back to loading everything, as before */ }
+  out.manifest = manifest;
+
+  const state = await packState();
+  const next = { ...state };
+
+  for (const name of Object.keys(PACKS)) {
+    const shipped = manifest?.[name];
+    const known = state[name];
+    const store = PACKS[name].store;
+
+    if (shipped && known && known.version === shipped.version) {
+      const now = fingerprint(await keys(store));
+      if (now === known.fingerprint) { out.skipped.push(name); continue; }
+    }
+
+    try {
+      await loadPack(name);
+      out.loaded.push(name);
+      next[name] = {
+        version: shipped?.version ?? null,
+        fingerprint: fingerprint(await keys(store)),
+      };
+    } catch (err) {
+      // Failing to seed must not take the application down with it (§13aa).
+      // Nothing is recorded for a pack that failed, so the next start tries
+      // again rather than deciding it is installed.
+      console.warn('seed failed:', name, err);
+      out.failed.push(name);
+    }
+  }
+
+  await setSetting('packState', next);
+  return out;
+}
+
+/**
+ * Which shipped packs differ from what is installed — asked from the manifest
+ * alone, without opening a pack. This is what a „there is a new library"
+ * notice would read; it does not apply anything.
+ */
+export async function packsWithNewVersion() {
+  let manifest = null;
+  try {
+    const res = await fetch(MANIFEST);
+    if (res.ok) manifest = (await res.json()).packs || null;
+  } catch { return []; }
+  if (!manifest) return [];
+
+  const state = await packState();
+  return Object.keys(PACKS).filter(name =>
+    manifest[name] && state[name] && state[name].version !== manifest[name].version);
+}
 
 export function loadPack(name) {
   const p = PACKS[name];

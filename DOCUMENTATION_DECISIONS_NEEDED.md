@@ -107,3 +107,43 @@ along with the next piece of real work.
 
 **Suggested.** rc28 is the two, on its own. The last time layout faults were bundled with
 something else they were found by the owner on a phone rather than by a check.
+
+---
+
+## 7. A piece of cloth that has been used cannot be deleted
+
+**Raised by 1.0.0-rc28.** The delete policy (§13cq) refuses any record the history points
+at, and for a recipe or a plant that is plainly right — they are reference, and the history
+means nothing without them.
+
+Cloth is the one entity a person genuinely disposes of. A piece is cut up, given away,
+worn out. Under the new policy, a piece that has been in a single trial can never leave the
+list, and the list is a working surface rather than an archive.
+
+**What could be done instead**, in rough order of weight:
+
+- Leave it. A finished piece is already out of the way, and the list has boxes.
+- A *retired* state on the cloth, so it leaves the working list and keeps its history. This
+  is real work: a new state in the vocabulary, in `STATE_ORDER`, and in every screen that
+  reads a box.
+- Allow deletion of cloth specifically, and accept the orphaned actions. **Not
+  recommended** — it is the fault this section exists to close, with an exception carved
+  into it.
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 8. Does an `archive` concept belong in the model at all?
+
+**Raised by 1.0.0-rc28.** The second audit suggested Archive/Retire as the answer for
+reference entities, and rc28 deliberately did not build it: a new model concept inside an
+iteration whose point was a small measurable change would have made it neither small nor
+measurable.
+
+The question stands for 1.0. Blocking a delete is honest and it is also a dead end — a
+recipe superseded three versions ago is refused deletion for ever, and the list only grows.
+An archived record would leave the list and keep the history.
+
+**Suggested.** Decide it after the library is filled, not before. The list is short enough
+that the cost is theoretical today, and the concept would touch every reference module.

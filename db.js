@@ -119,6 +119,12 @@ export function newRecord(extra = {}) {
 }
 
 export async function all(store)      { return wrap((await tx(store)).getAll()); }
+
+// Keys alone. `all()` clones every record out of IndexedDB and into JS, which
+// for `plants` used to mean four megabytes of photograph to answer a question
+// about ids. `getAllKeys` reads the index and nothing else.
+export async function keys(store)     { return wrap((await tx(store)).getAllKeys()); }
+
 export async function get(store, id)  { return wrap((await tx(store)).get(id)); }
 
 // ---- the three write paths ------------------------------------------------

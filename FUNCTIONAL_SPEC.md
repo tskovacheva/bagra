@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc27 · 112 sections
+**Status:** 1.0.0-rc28 · 115 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -8048,6 +8048,208 @@ Until they are done `sh check.sh --release` refuses the candidate. That is the
 gate doing exactly what it was built to do, and 1.0.0-rc27 is therefore a
 candidate that passes five of its six layers and says so, rather than one that
 passes six by not running one.
+
+## 13cq. The history cannot be orphaned by a delete (1.0.0-rc28)
+
+Six modules offered a plain physical delete — recipes, plants, techniques,
+fabrics, combinations, chains — while other records held their ids, and nothing
+checked.
+
+Delete the tannin recipe and every trial that used it still says it used
+*something*: the step is there, the id is there, the lookup that resolves it
+returns nothing, and the screen renders „—". The history survives in shape and
+loses its meaning, silently, at the moment least likely to be noticed.
+
+It is worst on recipes, because the model already carries versioning for exactly
+this reason (§13ab): a past trial goes on pointing at the version actually used,
+so improving a recipe never rewrites what happened. Physical deletion of that
+version defeats the whole mechanism.
+
+### One checker, written out by hand
+
+`refs.js` holds the map of every incoming reference. It is written out rather
+than discovered, because a path the file does not know about is a path that
+silently permits a delete — and a checker returning zero for a path it cannot
+see looks exactly like a record nobody uses. That is the failure mode this
+project has named three times.
+
+**No back-references are stored** (§13.1 is unchanged). The record does not know
+who points at it; the answer is derived by reading the pointing stores at the
+moment somebody presses delete, which is the only moment it is needed.
+
+| Deleting | Is pointed at by |
+|---|---|
+| Recipe | a trial step · an action on cloth · a group action · **a chain step** |
+| Chain | a trial step · an action on cloth · a group action |
+| Plant | a placement · a reference record · a pigment batch · **a recipe ingredient** |
+| Technique | a trial |
+| Combination | a placement |
+| Fabric | a trial · a group action |
+| **Substance** | a recipe ingredient · a jar on the shelf |
+| **Trial** | an action it wrote onto cloth |
+
+The last two were not in the audit's list and are real. A substance is the same
+fault one level down: delete it and a recipe has an ingredient with no
+substance. A trial WRITES actions onto cloth (§13an) and those actions carry its
+id, so deleting it leaves a piece of cloth saying it was dyed by something that
+does not exist.
+
+### The policy
+
+**Refuse, with a count.** One policy for every entity, not five.
+
+`archive` was not introduced. The audit allows it and it is the better answer in
+the long run, but a new model concept in an iteration whose point is a
+measurable, easily regression-tested change would have made it neither. Blocking
+with a plain explanation is the whole of the behaviour:
+
+> This recipe is used in 7 trials and 2 group actions. It cannot be deleted.
+
+Counted by RECORDS, not by pointers: a trial naming the same recipe at three
+steps is one trial, because „7 trials" is a thing a person can go and look at.
+
+**No cascade, ever.** `delete recipe → delete the steps that used it` and
+`delete plant → blank every plantId` both turn one explicit act into silent loss
+of the history the record was part of. The refusal is the feature.
+
+`deleteGuarded` in `ui.js` is the only route, because six copies of this
+decision would become five copies and an exception. A `remove()` left in a
+module against a checked store fails the build.
+
+**Open, for the owner:** a piece of cloth that has been used cannot now be
+deleted at all, and cloth is the one entity a person genuinely disposes of.
+Recorded in `DOCUMENTATION_DECISIONS_NEEDED.md`.
+
+---
+
+## 13cr. The shipped photographs leave the plant record (1.0.0-rc28)
+
+`seed/plants.json` was 3.97 MB and 3.49 MB of it was `photoData` — base64 JPEG
+inside the records, for 57 plants. Almost the whole plant pack was pictures.
+
+Download size was the smaller half of it. The photograph lived INSIDE the
+record, so every `all('plants')` cloned all of it out of IndexedDB into JS to
+answer questions about names and parts — and plants are read by Reference,
+Recipes, Trials, the seasonal panel and the plant screens. A routine read of 57
+records moved nearly four megabytes.
+
+The photographs are now files:
+
+```
+seed/images/plants/<code>.jpg      57 files, 2.62 MB
+photoSrc: 'seed/images/plants/quercus_robur.jpg'
+```
+
+The browser fetches one when an `<img>` is actually on screen, and not before.
+
+| | rc27 | rc28 |
+|---|---|---|
+| `seed/plants.json` | 3 973 057 B | 486 387 B |
+| shipped images | — | 2 619 187 B in 57 files |
+| one plant record | ~65 KB | 7 561 B |
+| `all('plants')` | ~3 730 KB | 326 KB |
+
+### Telling her photograph from the shipped one
+
+The one thing this migration must not do is replace a photograph the owner put
+there herself. On an installed rc27 copy `photoData` is one of two things and
+the record does not say which. `editedByUser` cannot decide it — it is set by
+saving the record at all, for any reason.
+
+So it is not inferred. **The pack records the SHA-256 of the exact string it
+shipped**, and the migration compares. Equal means this is the shipped
+photograph and the file now holds it. Anything else is hers and is left exactly
+where it is.
+
+That is an equality test, not a judgement. Where there is no comparison table —
+offline and uncached — nothing is touched and the migration is not marked done,
+because comparing nothing would be guessing (§13.1).
+
+Rendering is `photoData || photoSrc`. Her photograph wins, always, and a pack
+update can never displace it because the pack no longer carries `photoData` at
+all.
+
+`photoCredit` never moves. Attribution is a condition of shipping (§13at) and
+neither half of this touches it. The two guards that check it were reading
+`photoData` and now read `photoOf` — they failed loudly on the change, which is
+the right way round.
+
+### The form
+
+„Remove the photograph" appears only against a photograph of hers, and undoes
+it — the shipped one comes back. Against a shipped photograph the offer is
+„Replace the photograph". Hiding a shipped photograph is a different idea and
+would need a field to remember the hiding; it is not built. Settled with the
+owner.
+
+### Offline
+
+All 57 images are in the worker's cache list, and a new layer of `check.sh`
+checks it in both directions: a file on disk and absent from the list is a
+picture that works at the desk and is broken in the garden; a name in the list
+with no file behind it fails the whole `addAll` and takes the worker down.
+
+---
+
+## 13cs. A normal start no longer reads the library (1.0.0-rc28)
+
+Every boot fetched and parsed EVERY pack, in full, to find out whether there was
+anything to add. For plants in rc27 that was 3.97 MB read, parsed and thrown
+away on every single opening of the application, so that `seedPack` could
+discover that all 57 records were already there. The first render waited for it.
+
+### What the gate must not break
+
+`seedPack` does not only seed a fresh install. It also puts back a seeded record
+that has gone missing — deleted by hand, lost after a deploy — and that is a
+real recovery path, not an accident of the implementation. A gate that says
+
+> same version → skip
+
+would change that silently: delete a plant, restart, and it would no longer come
+back.
+
+So the gate asks TWO questions and skips only when both agree:
+
+1. **Is the shipped version the one installed?** — from `seed/manifest.json`,
+   534 bytes.
+2. **Is the SET of seeded ids still the set that was installed?** — a
+   fingerprint over the ids, read with the new `keys()`, which uses
+   `getAllKeys` and clones no records at all.
+
+A record deleted by hand changes the fingerprint, the gate opens, the pack is
+fetched, the record comes back. Behaviour preserved exactly, and the guard
+checks it in that direction as well as the other.
+
+### What the gate is not
+
+It is never a reason to overwrite anything. It can only decide whether to run
+`seedPack`, which adds absent records and touches nothing else. Pack UPDATES go
+through `diffPack` and the preview (§10) as before, and the explicit „check the
+library" button calls `diffPack` directly — so a person asking to be shown the
+pack is always shown it, whatever the gate decided. `packsWithNewVersion()`
+answers „is there a newer library" from the manifest alone, without opening a
+pack.
+
+A pack that fails to load records nothing, so the next start tries again rather
+than deciding it is installed.
+
+### Measured
+
+Development measurements, under Node with `fake-indexeddb` and a filesystem
+`fetch` — no network, no disk cache, no service worker, an in-memory database.
+The absolute numbers mean nothing outside `scripts/time-boot.mjs`. The shape is
+what transfers.
+
+| Second start, library unchanged | rc27 | rc28 |
+|---|---|---|
+| packs phase | 138 ms, 7 files, 4 059 KB | **1 ms, 1 file, 1 KB** |
+| `all('plants')` | 16 ms | 3 ms |
+| first start, packs phase | 90 ms, 4 059 KB | 50 ms, 655 KB |
+
+The structural claim is the one that matters and it is checked rather than
+timed: **an unchanged boot does not fetch `seed/plants.json` at all.** The guard
+counts the fetches and names them, and the whole start reads one file.
 
 ---
 
