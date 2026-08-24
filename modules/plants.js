@@ -5,14 +5,14 @@
 // knowledge is prose. Ten fixed textareas per plant would make entry a chore;
 // a book-like list of sections lets each plant say what it has to say.
 
-import { all, get, put, remove, newRecord, toggleFavorite, uid } from '../db.js';
+import { all, get, put, newRecord, toggleFavorite, uid } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { inSeason as seasonOf } from './season.js';
 import { page, panel, field, options, vocabList, label, describe, favStar, esc, empty, pairField, readPairs, segmented, levelBar,
-         confField, readConfidence, readApprox, fact, facts, prose, readBlock, flash, searchBox, matches, navigate , approxNumber, fieldGroup, backTo, actionBtn, icon } from '../ui.js';
+         confField, readConfidence, readApprox, fact, facts, prose, readBlock, flash, searchBox, matches, navigate , approxNumber, fieldGroup, backTo, actionBtn, icon, deleteGuarded, photoOf } from '../ui.js';
 
 const MONTHS_BG = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
@@ -190,7 +190,7 @@ async function renderList(root) {
       <td class="favcell">${favStar(p)}</td>
       <td>
         <div class="withthumb">
-          ${p.photoData ? `<img class="thumb" src="${p.photoData}" alt="">` : `<span class="thumb empty"></span>`}
+          ${photoOf(p) ? `<img class="thumb" src="${esc(photoOf(p))}" alt="" loading="lazy">` : `<span class="thumb empty"></span>`}
           <span class="namecell">
             <span class="nameline">${esc(text(p.nameCommon) || '—')}</span>
             ${p.nameBotanical ? `<i class="latinline">${esc(p.nameBotanical)}</i>` : ''}
@@ -813,9 +813,9 @@ async function renderRead(root, p) {
               ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
     body: `
       <div class="headline">
-        ${p.photoData ? `
+        ${photoOf(p) ? `
           <figure class="plantshot">
-            <img src="${p.photoData}" alt="">
+            <img src="${esc(photoOf(p))}" alt="" loading="lazy">
             ${photoCredit(p)}
           </figure>` : ''}
         <div class="headlinebody">
@@ -869,10 +869,13 @@ async function renderForm(root, p) {
           ${panel(`
             <h2>${t('plants.identity')}</h2>
             <div class="photobox">
+              ${photoOf(p) ? `<img class="plantphoto" src="${esc(photoOf(p))}" alt="">` : ''}
               ${p.photoData
-                ? `<img class="plantphoto" src="${p.photoData}" alt="">
-                   <button class="btn quiet" data-photo-del>${t('plants.removePhoto')}</button>`
-                : `<label class="btn quiet" for="plantphoto">${t('plants.addPhoto')}</label>`}
+                ? `<button class="btn quiet" data-photo-del>${t('plants.removePhoto')}</button>
+                   <p class="hint">${t('plants.photoOwn')}</p>`
+                : `<label class="btn quiet" for="plantphoto">${
+                     p.photoSrc ? t('plants.replacePhoto') : t('plants.addPhoto')}</label>${
+                     p.photoSrc ? `<p class="hint">${t('plants.photoShipped')}</p>` : ''}`}
               <input type="file" id="plantphoto" accept="image/*" hidden>
               <p class="hint">${t('plants.photoHint')}</p>
             </div>
@@ -1290,8 +1293,9 @@ export default {
         return navigate(`#/plants/${draft.id}`);
       }
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('plants.confirmDelete'))) return;
-        await remove('plants', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('plants', draft.id, t('plants.confirmDelete'))) return;
         return navigate('#/plants');
       }
     };

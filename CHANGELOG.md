@@ -12,6 +12,49 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc28 — 24 August 2026
+
+An integrity and weight iteration, from the second independent audit. Three subjects and
+nothing else: what a delete may destroy, what a plant record carries, and what a start
+reads. **No features, no service-worker change, no `getAll()` rewriting, no UX work** —
+the two known screen defects are still open and still deferred.
+
+- **The history can no longer be orphaned by a delete.** Six modules offered a physical
+  delete while other records held their ids and nothing checked, so deleting a recipe left
+  every trial that used it pointing at nothing and rendering „—" — worst on recipes, whose
+  whole versioning exists so a past trial keeps pointing at the version actually used.
+  `refs.js` now holds the map of every incoming reference, written out by hand rather than
+  discovered, and a referenced record is refused with an honest count: „used in 7 trials
+  and 2 group actions". No cascade, no blanking, no `archive` concept invented mid-flight.
+  Two paths the audit had not listed turned out to be real — a substance named by a recipe
+  or held in a jar, and a trial that wrote actions onto cloth. §13cq
+- **The shipped plant photographs left the record.** `seed/plants.json` was 3.97 MB and
+  3.49 MB of it was base64 inside the records, so every `all('plants')` in the application
+  cloned four megabytes of picture to answer a question about names. They are files now;
+  the pack is 486 KB and a plant record is 7.5 KB. §13cr
+- **A personal photograph is told from a shipped one by comparison, not inference.**
+  `editedByUser` cannot decide it — it is set by saving the record for any reason — so the
+  pack records the SHA-256 of the exact string it shipped and the migration compares.
+  Anything that does not match is hers and is left alone. With no comparison table
+  available nothing is touched, because comparing nothing would be guessing. §13cr
+- **A normal start no longer reads the library from the files.** Every boot fetched and
+  parsed every pack in full to discover that nothing needed adding. The gate now asks two
+  questions — is the version the one installed, and is the set of seeded ids still the set
+  that was installed — and skips only when both agree, so a record deleted by hand still
+  comes back. Second start, unchanged library: 138 ms and 4 059 KB became 1 ms and 1 KB.
+  §13cs
+- **New: `keys()`** — `getAllKeys` rather than `getAll`, so a store can be asked about its
+  ids without cloning its records.
+- **Three new layers**: `try-referential-integrity.mjs`, `try-boot-and-photos.mjs`, and a
+  cache guard for the 57 shipped images, checked in both directions. Every new guard was
+  watched failing against the restored old behaviour.
+- **Two existing guards were reading `photoData`** and failed loudly on the change,
+  reporting all 57 plants as credited-with-no-image. That is the right alarm and the wrong
+  question; they read `photoOf` now. A guard that names a field which has moved fails here
+  rather than passing silently, which is the way round it should be.
+
+---
+
 ## 1.0.0-rc27 — 24 August 2026
 
 A reliability patch, from an independent technical audit of rc25, with the two

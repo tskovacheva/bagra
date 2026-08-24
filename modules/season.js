@@ -16,7 +16,7 @@
 
 import { all } from '../db.js';
 import { t, text } from '../i18n.js';
-import { label, esc } from '../ui.js';
+import { label, esc, photoOf } from '../ui.js';
 
 // Four cards. Five fit the wide column, but the phone is where this screen is
 // actually read — in the garden — and four is what stays legible there without
@@ -182,8 +182,8 @@ async function card(entry) {
   // pressed; if it cannot be, it must not look like one (§13ac).
   return `
     <button class="seasoncard" data-go="plants/${esc(p.id)}">
-      <span class="seasonphoto">${p.photoData
-        ? `<img src="${esc(p.photoData)}" alt="" loading="lazy">`
+      <span class="seasonphoto">${photoOf(p)
+        ? `<img src="${esc(photoOf(p))}" alt="" loading="lazy">`
         : ''}${mark}</span>
       <span class="seasonname">${esc(text(p.nameCommon))}</span>
       <span class="seasonpart">${esc(

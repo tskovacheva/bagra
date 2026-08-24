@@ -56,6 +56,7 @@ await import('./app.js');
 await new Promise(r=>setTimeout(r,1500));
 
 const db = await import('./db.js');
+const { photoOf } = await import('./ui.js');
 const root = document.getElementById('view');
 
 // Give trials something to render: one legacy record (no status) and one new.
@@ -2972,7 +2973,12 @@ const dirty = await import('./dirty.js');
   // Every plant now carries a photograph. A credit without an image was the
   // honest state while the files were still coming; it must not become a
   // permanent half-record, so the check is that none is left in it.
-  const creditNoPhoto = plants.filter(p => p.photoCredit?.author && !p.photoData);
+  // Reads `photoOf`, not `photoData`. In rc28 the shipped photograph left the
+  // record and became a file (§13cr) — this guard went on asking for base64 and
+  // reported all 57 as credited-with-no-image, which is the right alarm and the
+  // wrong question. A guard that names the wrong field fails loudly here and
+  // would have passed silently if it had been written the other way round.
+  const creditNoPhoto = plants.filter(p => p.photoCredit?.author && !photoOf(p));
   if (creditNoPhoto.length)
     fail('audit', new Error(`still credited without an image: ${creditNoPhoto.map(p => p.id).join(', ')}`));
   else console.log(`  audit: all ${plants.length} plants carry a photograph and a credit`);
@@ -3309,7 +3315,10 @@ const dirty = await import('./dirty.js');
 // is meant to be given away.
 {
   const seeded = await db.all('plants');
-  const withPhoto = seeded.filter(p => p.photoData);
+  // Either kind of photograph counts: the one the pack ships as a file, and one
+  // the owner put there herself. The rule is about ATTRIBUTION, and it does not
+  // care where the bytes live.
+  const withPhoto = seeded.filter(p => photoOf(p));
   if (!withPhoto.length) {
     fail('credit', new Error('no seeded plant carries a photograph'));
   } else {

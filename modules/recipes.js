@@ -4,12 +4,12 @@
 // explicit basis. One generic scaling engine serves every proportional
 // recipe here; only the aluminium acetate stoichiometry earns its own code.
 
-import { all, get, put, remove, newRecord, uid, getSetting, setSetting, toggleFavorite } from '../db.js';
+import { all, get, put, newRecord, uid, getSetting, setSetting, toggleFavorite } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
 import {
   page, panel, field, options, label, favStar, esc, empty, note,
   pairField, readPairs, fact, facts, prose, readBlock, searchBox, matches, navigate, flash,
-  fieldGroup, icon, backTo, actionBtn } from '../ui.js';
+  fieldGroup, icon, backTo, actionBtn, deleteGuarded } from '../ui.js';
 import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
 import chains from './chains.js';
 
@@ -1002,8 +1002,9 @@ export default {
       }
 
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('recipes.confirmDelete'))) return;
-        await remove('recipes', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('recipes', draft.id, t('recipes.confirmDelete'))) return;
         openId = null; draft = null;
         return this.render(root);
       }

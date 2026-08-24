@@ -5,11 +5,11 @@
 // actually done and for how long, and placements, which attribute a result to
 // one plant rather than to a whole bundle.
 
-import { all, get, put, remove, newRecord, uid, setSetting } from '../db.js';
+import { all, get, put, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
 import { navigate, page, panel, field, options, vocabList, label, terms, segmented, esc, empty, note,
          pickerInput,
-         fmtDate, today, fact, facts, readBlock, foldable, fieldGroup, flash, icon, backTo, actionBtn } from '../ui.js';
+         fmtDate, today, fact, facts, readBlock, foldable, fieldGroup, flash, icon, backTo, actionBtn, deleteGuarded } from '../ui.js';
 import { shrinkResult, shrinkStep, shrinkThumb } from '../photo.js';
 import { markClean } from '../dirty.js';
 import { mordantBand } from '../vocab.js';
@@ -2268,8 +2268,9 @@ export default {
         return this.render(root);
       }
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('trials.confirmDelete'))) return;
-        await remove('trials', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('trials', draft.id, t('trials.confirmDelete'))) return;
         return navigate('#/trials');
       }
     };

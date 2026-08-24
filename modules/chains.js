@@ -8,9 +8,9 @@
 // for silk, one for a stained reclaimed garment with an extra scour, all added
 // without touching code, and all shippable in a reference pack.
 
-import { all, get, put, remove, newRecord, uid } from '../db.js';
+import { all, get, put, newRecord, uid } from '../db.js';
 import { t, text } from '../i18n.js';
-import { page, panel, field, options, label, esc, empty, note, pairField, readPairs, navigate , fieldGroup, actionBtn, backTo } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, note, pairField, readPairs, navigate , fieldGroup, actionBtn, backTo, deleteGuarded } from '../ui.js';
 import { expandChain } from '../calc/scale.js';
 
 const FIBRE_CLASSES = ['cellulose', 'protein'];
@@ -340,8 +340,9 @@ export default {
         return this.render(root, host);
       }
       if (e.target.closest('[data-delete-chain]')) {
-        if (!confirm(t('chains.confirmDelete'))) return;
-        await remove('chains', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('chains', draft.id, t('chains.confirmDelete'))) return;
         openId = null; draft = null;
         return this.render(root, host);
       }

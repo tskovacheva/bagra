@@ -16,7 +16,7 @@ import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs, icon, navigate, fieldGroup,
-         readBlock, facts, fact, prose, fmtDate, flash, backTo, actionBtn } from '../ui.js';
+         readBlock, facts, fact, prose, fmtDate, flash, backTo, actionBtn, deleteGuarded } from '../ui.js';
 
 const CAT_ICONS = {
   mordant: 'c-mordant',
@@ -625,8 +625,9 @@ export default {
         return navigate(`#/substances/${openId}`);
       }
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('substances.confirmDelete'))) return;
-        await remove('substances', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('substances', draft.id, t('substances.confirmDelete'))) return;
         return navigate('#/substances');
       }
     };

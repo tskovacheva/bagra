@@ -5,7 +5,7 @@
 // for a defined set of inputs, and the search matches on ANY SUBSET of them —
 // because in practice one rarely has all five fixed.
 
-import { all, get, put, remove, newRecord, toggleFavorite } from '../db.js';
+import { all, get, put, newRecord, toggleFavorite } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { rankByColour, colourDifference } from '../calc/colour.js';
@@ -13,7 +13,7 @@ import { bandRange } from '../vocab.js';
 import { t, text } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { page, panel, field, options, label, favStar, esc, empty, note, pairField, readPairs,
-         fact, facts, prose, readBlock, fmtDate, navigate, backTo, actionBtn, icon } from '../ui.js';
+         fact, facts, prose, readBlock, fmtDate, navigate, backTo, actionBtn, icon, deleteGuarded } from '../ui.js';
 
 let mode = 'search';
 let openId = null;
@@ -771,8 +771,9 @@ export default {
         return navigate(`#/reference/${draft.id}`);
       }
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('ref.confirmDelete'))) return;
-        await remove('combinations', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('combinations', draft.id, t('ref.confirmDelete'))) return;
         return navigate(mode === 'records' ? '#/reference/records' : '#/reference');
       }
     };

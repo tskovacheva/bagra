@@ -1,0 +1,232 @@
+{
+ "photos": {
+  "seed:allium_cepa": {
+   "hash": "2c4d88a90be928bf7ef61b884dd63bb1c3566441fb59f546d744c63454446543",
+   "src": "seed/images/plants/allium_cepa.jpg"
+  },
+  "seed:alnus_glutinosa": {
+   "hash": "ed5dfc9fed9c5c1cbc59033449b83962a9d7fae47f563b4ff587a7739b9793e6",
+   "src": "seed/images/plants/alnus_glutinosa.jpg"
+  },
+  "seed:betula_pendula": {
+   "hash": "d065bdfef8b2d6ddece21c2aa729f69a23d5dcb85c8e7c678023c757407e36bb",
+   "src": "seed/images/plants/betula_pendula.jpg"
+  },
+  "seed:carthamus_tinctorius": {
+   "hash": "1b152d73f61d9f94f4efd84da149c459afe01d1c01375ff88b6339beea6124b4",
+   "src": "seed/images/plants/carthamus_tinctorius.jpg"
+  },
+  "seed:coreopsis_tinctoria": {
+   "hash": "406d92d8dc7eea3f142e072d91313a61b8d7716cb3e18eab34997c87a8e174c9",
+   "src": "seed/images/plants/coreopsis_tinctoria.jpg"
+  },
+  "seed:cosmos_sulphureus": {
+   "hash": "42b08e4ac6a644e6b1a0cbf5c0ee9540e6193ddeb02f39c3d6251bc326bddef6",
+   "src": "seed/images/plants/cosmos_sulphureus.jpg"
+  },
+  "seed:cotinus_coggygria": {
+   "hash": "6e013d78b48eb5ff64ebc16599f1c7841036f6e1c7cbe6974cc5d6b637648170",
+   "src": "seed/images/plants/cotinus_coggygria.jpg"
+  },
+  "seed:cornus_mas": {
+   "hash": "14cf7049d7da56f68e47ed6f8fe57dfafab2d536e4935de6afcfc07126b93458",
+   "src": "seed/images/plants/cornus_mas.jpg"
+  },
+  "seed:cornus_sanguinea": {
+   "hash": "8d01c0b922285a4f00a74c0dedcded5500defc823b2289100dca9fcc281b9744",
+   "src": "seed/images/plants/cornus_sanguinea.jpg"
+  },
+  "seed:crataegus_monogyna": {
+   "hash": "acf5499da71ed33654f6b897091d4fc417d808831575fa9224c7073f20d00054",
+   "src": "seed/images/plants/crataegus_monogyna.jpg"
+  },
+  "seed:geranium_macrorrhizum": {
+   "hash": "ad35dc87ab0037a2e7f08178a9a64de6727cebcc899cdcfc944184f11e9faad9",
+   "src": "seed/images/plants/geranium_macrorrhizum.jpg"
+  },
+  "seed:hypericum_perforatum": {
+   "hash": "fb13a1d10f28e7b9eeb21b54e7514989ffdee65b8ae19722ac34bedd10e0c867",
+   "src": "seed/images/plants/hypericum_perforatum.jpg"
+  },
+  "seed:isatis_tinctoria": {
+   "hash": "008400dc168a9d79f99320b3ae7919f6116ccf7672724f3f8469e5fbe36ad732",
+   "src": "seed/images/plants/isatis_tinctoria.jpg"
+  },
+  "seed:juglans_regia": {
+   "hash": "34f16d2ee11abf13d9c00d2a80437c892641bf955b91ba87053c5930eada980f",
+   "src": "seed/images/plants/juglans_regia.jpg"
+  },
+  "seed:lavandula_angustifolia": {
+   "hash": "5d334783b206dd2fae65fda121982b421a84eba84e2a5762535a71e438601d37",
+   "src": "seed/images/plants/lavandula_angustifolia.jpg"
+  },
+  "seed:malus_domestica": {
+   "hash": "6b774e1d4752c7383cb684521f86de6741bc570d34f04dfb03252cbc1de0f01e",
+   "src": "seed/images/plants/malus_domestica.jpg"
+  },
+  "seed:mespilus_germanica": {
+   "hash": "2d39162c5ed280cec4b4284fe859553c0e5b66caf7bfb9f60d96d75c43b23d18",
+   "src": "seed/images/plants/mespilus_germanica.jpg"
+  },
+  "seed:origanum_vulgare": {
+   "hash": "da4a1d01bdc6b0ca6dd8fc6b90f585d33751e17cffad0745548d095243f77c88",
+   "src": "seed/images/plants/origanum_vulgare.jpg"
+  },
+  "seed:prunus_domestica": {
+   "hash": "8fb414487a3b3bbd34730334d3310f7080c29b8e9657438f3fa78100c37411e8",
+   "src": "seed/images/plants/prunus_domestica.jpg"
+  },
+  "seed:punica_granatum": {
+   "hash": "d8e4cce7cf5936f12c54b1ff0858626b3acea8c9093bfc2795abc40784fea8b5",
+   "src": "seed/images/plants/punica_granatum.jpg"
+  },
+  "seed:quercus_robur": {
+   "hash": "b9da48b2a4f85f2f36fa76223d8a5b304e990817ff42bded7719984022643be2",
+   "src": "seed/images/plants/quercus_robur.jpg"
+  },
+  "seed:reseda_luteola": {
+   "hash": "4e66c601763a0879816e550b26fdec6f4bd6ac68083b1d22e30626132887e48f",
+   "src": "seed/images/plants/reseda_luteola.jpg"
+  },
+  "seed:rhamnus_cathartica": {
+   "hash": "12ff13e3de59196d1a8685567ef2a8019696ef30c00c54975e10c8bb77e7c2ad",
+   "src": "seed/images/plants/rhamnus_cathartica.jpg"
+  },
+  "seed:rhus_coriaria": {
+   "hash": "3ad39589dfb9fad2d5ba540ec04f6d787c90daa848a28fe18fa5873246f9db1f",
+   "src": "seed/images/plants/rhus_coriaria.jpg"
+  },
+  "seed:rosmarinus_officinalis": {
+   "hash": "4959860b942bada8548314d8ab167c7176411fd1dc6ac095b0bdc73077e8eb41",
+   "src": "seed/images/plants/rosmarinus_officinalis.jpg"
+  },
+  "seed:rubia_tinctorum": {
+   "hash": "c726dca6077a3a8356ae655427bcc069b67806ebae7856a22b4d4cd68da2062e",
+   "src": "seed/images/plants/rubia_tinctorum.jpg"
+  },
+  "seed:salix_alba": {
+   "hash": "bba47c01030b5a1c55b3d953103c2f5c7ddb76f384688ba5f2484c5c71680929",
+   "src": "seed/images/plants/salix_alba.jpg"
+  },
+  "seed:tagetes_erecta": {
+   "hash": "46441c3ff929ca966faa501fc821be0aade6296dda332a8e338ec5a360ff70ff",
+   "src": "seed/images/plants/tagetes_erecta.jpg"
+  },
+  "seed:thymus_vulgaris": {
+   "hash": "2a1398cce5aa3da8d7c4b4c96460f6f9030a6a8c61bf75c0c1a63d1b8e5539f1",
+   "src": "seed/images/plants/thymus_vulgaris.jpg"
+  },
+  "seed:tilia_cordata": {
+   "hash": "27fcebe3a9223093c0bd184427e688d7953f9b5586bbc27b94ff5c84e18c3851",
+   "src": "seed/images/plants/tilia_cordata.jpg"
+  },
+  "seed:urtica_dioica": {
+   "hash": "17384637eb26ab333c2c36acbbe3fbbde800da20aa0fd551457e85e64cbe8b51",
+   "src": "seed/images/plants/urtica_dioica.jpg"
+  },
+  "seed:persicaria_tinctoria": {
+   "hash": "985f449dcb1e80552a7c132abed84d1602aebaeff89791b1f716c4398b8fde02",
+   "src": "seed/images/plants/persicaria_tinctoria.jpg"
+  },
+  "seed:tanacetum_vulgare": {
+   "hash": "726f026dd2ebd2b01491908e42a8e52d63d7ae0279e3670cf401fe180c87b624",
+   "src": "seed/images/plants/tanacetum_vulgare.jpg"
+  },
+  "seed:anthemis_tinctoria": {
+   "hash": "4ad8047a423f00db5fea08db55504d757ec7791c9381c2e5553b22c6c251b654",
+   "src": "seed/images/plants/anthemis_tinctoria.jpg"
+  },
+  "seed:rhamnus_tinctoria": {
+   "hash": "48eac7e510c65d25d59237a2db6b14d12f8a942b7968a8a209ab6293e4a72920",
+   "src": "seed/images/plants/rhamnus_tinctoria.jpg"
+  },
+  "seed:paubrasilia_echinata": {
+   "hash": "fa856059b7dd5171451a80ad88814be109e314fb8343222e0dfa16fcc6e38142",
+   "src": "seed/images/plants/paubrasilia_echinata.jpg"
+  },
+  "seed:senegalia_catechu": {
+   "hash": "6f7ec5aba0e8b8503504f74ce29692992d69603500fcca68764170a099b6c217",
+   "src": "seed/images/plants/senegalia_catechu.jpg"
+  },
+  "seed:castanea_sativa": {
+   "hash": "f948c01a65ac5ab684258b8ef12ee62681167b59322336e67501317fdeaa36bf",
+   "src": "seed/images/plants/castanea_sativa.jpg"
+  },
+  "seed:lawsonia_inermis": {
+   "hash": "278a4ded2ed2b1dc269d4c0e6571af85ac6b2ccab4290df8a5c5299c609256e4",
+   "src": "seed/images/plants/lawsonia_inermis.jpg"
+  },
+  "seed:achillea_millefolium": {
+   "hash": "f44f0010943eea3a463e9b672a7177e97c90153627244fba95c1a0f466787b23",
+   "src": "seed/images/plants/achillea_millefolium.jpg"
+  },
+  "seed:salvia_officinalis": {
+   "hash": "81ef924f8c1820225e23ede3a8fc0028ae3316d6f47ee31e8e121efbb9615c3c",
+   "src": "seed/images/plants/salvia_officinalis.jpg"
+  },
+  "seed:mentha_spp": {
+   "hash": "e46c1adbc55022ff621b3096a5b74fc8d0e3e9e9859f145fcf92ee9a39dc18dd",
+   "src": "seed/images/plants/mentha_spp.jpg"
+  },
+  "seed:melissa_officinalis": {
+   "hash": "947ef62afb22d51253bc0d217405de47edef7ff6c2edcd69e40949f867f4940a",
+   "src": "seed/images/plants/melissa_officinalis.jpg"
+  },
+  "seed:calendula_officinalis": {
+   "hash": "dd73d88156de066beddcb8e8f421af74e946712cc5622417632d55dcd525f8de",
+   "src": "seed/images/plants/calendula_officinalis.jpg"
+  },
+  "seed:eucalyptus_spp": {
+   "hash": "df88d47b5ae8e9dc297e9d00219b362d8eb58ec8a91c3c7a69bcf7b30fba18ae",
+   "src": "seed/images/plants/eucalyptus_spp.jpg"
+  },
+  "seed:persea_americana": {
+   "hash": "3bc2b28181ff7b97ccf3b34d46d18884f158f9bbecf6154f688faedeecca8000",
+   "src": "seed/images/plants/persea_americana.jpg"
+  },
+  "seed:rosa_spp": {
+   "hash": "c3eaaff5835f99a477472cb9d7dcd02feb747332b776d6bb59da4e840b70d850",
+   "src": "seed/images/plants/rosa_spp.jpg"
+  },
+  "seed:corylus_avellana": {
+   "hash": "1f843588fd4e112dda518e4ca2ebeb3070294de27f5d58b7ad7862df5387fe0e",
+   "src": "seed/images/plants/corylus_avellana.jpg"
+  },
+  "seed:pelargonium_zonale": {
+   "hash": "505eec8769721489787b8e0756c967414fb13b28f2242745d6af07015f1c96c1",
+   "src": "seed/images/plants/pelargonium_zonale.jpg"
+  },
+  "seed:sambucus_nigra": {
+   "hash": "e99f1577e6ed0af0090127125bace2124134af8cc2eb6b060e050675ae272955",
+   "src": "seed/images/plants/sambucus_nigra.jpg"
+  },
+  "seed:rubus_fruticosus": {
+   "hash": "725ce431345abaf5163844d603f6c6c8090818ce4ea5ecdb300e58236e3c4fb1",
+   "src": "seed/images/plants/rubus_fruticosus.jpg"
+  },
+  "seed:dahlia_pinnata": {
+   "hash": "2d28be97425fffe154a94f672f5df7d0f83bed4559946c32f0fa728b3ab0fdfa",
+   "src": "seed/images/plants/dahlia_pinnata.jpg"
+  },
+  "seed:genista_tinctoria": {
+   "hash": "ef55e284682fe8c37c18bc72ad55164ac72d5d071b60f39414655a0ffbcd921a",
+   "src": "seed/images/plants/genista_tinctoria.jpg"
+  },
+  "seed:alkanna_tinctoria": {
+   "hash": "a1f4ffa3418a910b83ccfa7bb60421ef7aec874915954e13d3764218164010a2",
+   "src": "seed/images/plants/alkanna_tinctoria.jpg"
+  },
+  "seed:rheum_rhabarbarum": {
+   "hash": "1f4d8bda54e48f02b1b89f08769924db94435f1ff48e24665573ab0e70bfb188",
+   "src": "seed/images/plants/rheum_rhabarbarum.jpg"
+  },
+  "seed:fraxinus_excelsior": {
+   "hash": "c087312b03584b4cf5968f73fa9de1b01a442ea05e982d5aff9b2e65a7478df8",
+   "src": "seed/images/plants/fraxinus_excelsior.jpg"
+  },
+  "seed:frangula_alnus": {
+   "hash": "bd866ff56dd24307e8b407cb440836865f429565e4edf65258e3c3387094f90b",
+   "src": "seed/images/plants/frangula_alnus.jpg"
+  }
+ }
+}

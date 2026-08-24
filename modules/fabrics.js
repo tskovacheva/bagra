@@ -1,10 +1,10 @@
 // modules/fabrics.js — one record is one physical piece (§3, A.1).
 
-import { all, get, put, remove, newRecord, getSetting, setSetting, uid } from '../db.js';
+import { all, get, put, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t } from '../i18n.js';
 import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
-         fact, facts, readBlock, navigate, icon, flash, searchBox, matches, backTo, actionBtn } from '../ui.js';
+         fact, facts, readBlock, navigate, icon, flash, searchBox, matches, backTo, actionBtn, deleteGuarded } from '../ui.js';
 import { markClean } from '../dirty.js';
 import { ACTION_FOR_STATE } from '../migrate-actions.js';
 import {
@@ -778,8 +778,9 @@ export default {
       }
 
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('fabrics.confirmDelete'))) return;
-        await remove('fabrics', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('fabrics', draft.id, t('fabrics.confirmDelete'))) return;
         return navigate('#/fabrics');
       }
     };

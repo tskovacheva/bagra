@@ -2,12 +2,12 @@
 // (§6). Orthogonal to the recipe: the recipe says what was in the pot, the
 // technique says what was done to the cloth.
 
-import { all, get, put, remove, newRecord } from '../db.js';
+import { all, get, put, newRecord } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
 import { markClean } from '../dirty.js';
-import { page, panel, field, options, label, esc, empty, pairField, readPairs, searchBox, matches, icon, navigate, fieldGroup, backTo, actionBtn } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, pairField, readPairs, searchBox, matches, icon, navigate, fieldGroup, backTo, actionBtn, deleteGuarded } from '../ui.js';
 
 const CAT_ICONS = {
   resist: 'k-resist', shibori: 'k-shibori', printing: 'k-printing',
@@ -220,8 +220,9 @@ export default {
         return navigate('#/techniques');
       }
       if (e.target.closest('[data-delete]')) {
-        if (!confirm(t('techniques.confirmDelete'))) return;
-        await remove('techniques', draft.id);
+        // Guarded (§13cq): a record the history points at is refused, with a
+        // count of what points at it. No cascade — see refs.js.
+        if (!await deleteGuarded('techniques', draft.id, t('techniques.confirmDelete'))) return;
         return navigate('#/techniques');
       }
     };

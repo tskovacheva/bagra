@@ -60,6 +60,27 @@ if [ -n "$missing_seed" ]; then
 fi
 echo "every seed file is in the cache list."
 
+# 1c. The shipped plant photographs, checked like seed data (§13cr). They left
+#     the plant record in rc28 and became 57 static files. A file on disk and
+#     absent from the worker's list is a picture that works on the desk and is
+#     broken in the garden — which is the half of the application nobody tests
+#     first, and offline-first is the whole premise.
+missing_img=""
+for f in seed/images/plants/*; do
+  [ -e "$f" ] || continue
+  grep -q "'\./$f'" sw.js || missing_img="$missing_img $f"
+done
+if [ -n "$missing_img" ]; then
+  echo "IMAGE NOT CACHED:$missing_img"
+  exit 1
+fi
+# And the other direction: a name in the list with no file behind it installs
+# nothing and fails the whole `addAll`, which takes the worker down with it.
+for f in $(grep -oE "\./seed/images/plants/[^']+" sw.js); do
+  [ -e "$f" ] || { echo "CACHED BUT ABSENT: $f"; exit 1; }
+done
+echo "every shipped plant photograph is in the cache list, and every name in it exists."
+
 # 1b. The cache name must carry the current version. It sat at v0.70.0 while the
 #     app was at v0.82.1 — twelve releases during which sw.js never changed, so
 #     the browser had no reason to install a new worker and devices kept serving
@@ -214,6 +235,18 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     both directions — that the snapshot mode removes and that the safe mode
   #     does not (§11.4).
   node scripts/try-backup-restore.mjs || exit 1
+  # 5d. The history cannot be orphaned by a delete (§13cq). Six modules offered
+  #     a plain physical delete while other records held their ids, and nothing
+  #     checked — so deleting a recipe left every trial that used it pointing at
+  #     nothing, and rendering „—". Asked in both directions: a referenced
+  #     record is refused, an unused one is not.
+  node scripts/try-referential-integrity.mjs || exit 1
+  # 5e. The plant pack stopped carrying photographs, and a normal start stopped
+  #     reading the library from the files (§13cr, §13cs). The structural claim
+  #     is checked rather than timed: an unchanged boot must not fetch
+  #     seed/plants.json at all, and a photograph the owner chose must survive a
+  #     migration that cannot tell which is which except by comparing hashes.
+  node scripts/try-boot-and-photos.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by
