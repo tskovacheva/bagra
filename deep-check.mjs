@@ -4787,8 +4787,12 @@ const dirty = await import('./dirty.js');
   const AUG = 8;
 
   // 1. The mark is on the card of a plant that needs it.
-  const withWarn = plants.find(p => season.warns(p)
-    && (p.harvestMonths || []).includes(AUG));
+  // Chosen by the PART's months since rc25 — `plant.harvestMonths` is retired
+  // (§13cn). The check went red the moment the field left, which is what it is
+  // for: a guard that keeps passing after its subject has moved is testing
+  // nothing.
+  const inAug = (p) => (p.parts || []).some(x => (x.harvestMonths || []).includes(AUG));
+  const withWarn = plants.find(p => season.warns(p) && inAug(p));
   if (!withWarn) {
     fail('season', new Error('no plant to test the mark with — has the data changed?'));
   } else {
@@ -4803,7 +4807,7 @@ const dirty = await import('./dirty.js');
 
   // 2. A plant with nothing to worry about carries no mark. A mark on
   //    everything is a mark on nothing.
-  const noWarn = plants.find(p => !season.warns(p) && (p.harvestMonths || []).includes(AUG));
+  const noWarn = plants.find(p => !season.warns(p) && inAug(p));
   if (noWarn) {
     const html = await season.seasonPanel(AUG, [noWarn]);
     if (html.includes('seasonwarn'))
@@ -4816,7 +4820,6 @@ const dirty = await import('./dirty.js');
   //    | imported and answers where a plant grows, not where it is obtained.
   {
     const one = JSON.parse(JSON.stringify(plants.find(p => (p.parts || []).length)));
-    one.harvestMonths = [AUG];
     for (const part of one.parts) { part.harvestMonths = [AUG]; part.sourcedNotGathered = true; }
     const html = await season.seasonPanel(AUG, [one]);
     if (html.includes('seasoncard'))
@@ -4852,17 +4855,20 @@ const dirty = await import('./dirty.js');
     else console.log('  season: what closes soonest comes first');
   }
 
-  // 6. Months on the plant rather than the part are carried in the OPEN. The
-  //    migration is half done (§13cd); falling back silently would show a
-  //    walnut's three parts as all in season in August — plausible, wrong, and
-  //    indistinguishable from a real answer.
+  // 6. A plant with no parts recorded cannot be in season. The months live on
+  //    the part (§13cn), so a plant entered before its parts — which the library
+  //    expansion will produce — has nothing to be in season BY, and must stay
+  //    out rather than appear with no part named.
+  //
+  //    This replaces the check that guarded the transitional plant-level
+  //    fallback. That fallback is gone, and a guard whose subject has been
+  //    removed passes for ever while testing nothing.
   {
-    const p2 = { ...plants[0], harvestMonths: [AUG],
-                 parts: [{ partCode: 'leaf' }, { partCode: 'bark' }] };
-    const [entry] = await season.inSeason(AUG, [p2]);
-    if (!entry?.viaPlant || entry.parts.length)
-      fail('season', new Error('a plant-level month was passed off as the part\'s own answer'));
-    else console.log('  season: a plant-level month names no part rather than naming all of them');
+    const p2 = { ...plants[0], id: 'x:no-parts', parts: [] };
+    const found = await season.inSeason(AUG, [p2]);
+    if (found.length)
+      fail('season', new Error('a plant with no parts recorded is shown as in season'));
+    else console.log('  season: a plant with no parts recorded cannot be in season');
   }
 }
 
@@ -4930,6 +4936,15 @@ const dirty = await import('./dirty.js');
   if (silent.length)
     fail('plants', new Error(`part says neither gathered nor bought: ${silent.join(', ')}`));
   else console.log('  plants: every part says when it is gathered, or that it is bought');
+
+  // The retired field stays retired (§13cn). It is the kind of thing that comes
+  // back by import: a merge script written against an older workbook writes it
+  // without meaning to, and then two places hold the months and only one is read.
+  const revived = all57.filter(p => 'harvestMonths' in p).map(p => p.id);
+  if (revived.length)
+    fail('plants', new Error(
+      `plant.harvestMonths is retired and has come back on: ${revived.slice(0, 5).join(', ')}`));
+  else console.log('  plants: the retired plant-level months have not come back');
 
   // Bilingual from the first record. A description in one language only would
   // render as an empty paragraph for half the readers.

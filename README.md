@@ -30,24 +30,27 @@ your water, your fabrics and your local plants.
 The sidebar is in two halves and a rule, along the line the data already draws.
 
 **Reference part** — knowledge that is true whether or not this particular person owns
-anything. It ships in seed packs and is read at the desk.
+anything. It ships in seed packs and is read at the desk. Materials and the Library are
+here because a substance and a source are the same for everyone; the jars inside a
+material record are not, and are never distributed.
 
 | Module | Nature |
 |---|---|
-| Reference | The reference engine — combinations, searched |
-| Plants | 57 species, fully described, bilingual |
+| Reference | The reference engine — combinations, searched by key |
+| Plants | 57 species, bilingual, each with a description, parts, chemistry and colours |
 | Recipes | Procedures with proportions; sequences inside |
 | Materials | What a substance *is* — formula, ceiling, disposal — with the jars on the shelf |
 | Techniques | Controlled vocabulary — 21 records |
-| Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, planning, timer |
+| Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, reverse, timer |
 | Library | Glossary (32 terms in eight groups), the pH scale, and the attribution register |
-| Pigments | Batches of made pigment, worked from a recipe that declares an output |
 
-**Diary** — her own work, never distributed.
+**Diary** — her own work, never distributed. Pigments sits here rather than with the
+reference: a batch of made pigment is a thing on a shelf, not a fact about the world.
 
 | Module | Nature |
 |---|---|
 | My work | Trials, in five screens |
+| Pigments | Batches of made pigment, worked from a recipe that declares an output |
 | Fabrics | One record per physical piece, with a lifecycle and group actions |
 
 **Below a rule** — the backup. Housekeeping filed with one half for want of anywhere
@@ -222,25 +225,41 @@ updating — the one mistake this architecture invites.
 ## Documents
 
 - `FUNCTIONAL_SPEC.md` — the source of truth. Every decision lives there, not in chat history.
-- `ROADMAP.md` — what is built, what remains, and what is deliberately not being done.
-  The remaining work is kept in two lists: what a paid release needs, and what is
-  functionality and model work with no release date attached to it.
+- `ROADMAP.md` — what remains, in three lists: what a paid release needs, what comes
+  after it, and what is deliberately not planned. History moved to `CHANGELOG.md`.
 
-**A release is one cumulative ZIP of the whole application, and these three documents
-travel inside it.** Not patches, not diffs, and not the documents handed over separately
+**A release is one cumulative ZIP of the whole application, and the documents travel
+inside it.** Not patches, not diffs, and not the documents handed over separately
 beside the archive — the owner should be able to open one file and have the code and the
 reasoning for it in the same place, at the same version. A document delivered apart from
 the build it describes is a document that will later be read against the wrong code.
 
+`CHANGELOG.md` holds the history that used to sit at the bottom of the roadmap — what was
+built, in what order, and what was got wrong first.
+
+`DOCUMENTATION_DECISIONS_NEEDED.md` lists the places where the documents and the code do
+not agree and the choice between them is the owner's, not the developer's. It is short by
+design: if it grows, the documents have stopped being read.
+
 ## The reference library
 
-57 plants, each carrying: what it gives, the parts used, the dye constituent, sources, a
-colour palette with conditions, a safety level with precautions, harvest months for the
-Bulgarian climate, growth form and habitat, chemistry per part, and dosing, temperature
-and extraction mode per part.
+57 plants, each carrying: a general description, what it gives, the parts used, the dye
+constituent, sources, a colour palette with conditions, a safety level with precautions,
+growth form and habitat, chemistry per part, and dosing, temperature and permitted
+extraction methods per part.
+
+Gathering months are recorded **per part**, because the leaf and the bark of one tree are
+not gathered in the same weeks — 118 of 118 parts answer, seven of them saying they are
+bought rather than gathered. The months are as observed in Bulgaria and the pack says so:
+a gathering month is a fact about a plant in a place.
 
 342 sections, in both languages. The English is a translation made by the developer, not a
 second authorial voice, and is marked for the owner's review before public distribution.
+
+**The combination engine holds 102 records over 35 of the 57 plants.** Most of them do not
+name the fibre or the mordant strength, because the sources they came from do not; the
+screen says „does not state" rather than passing silence off as agreement or as a
+difference. That is a known content gap and the largest one remaining.
 
 All 57 plants say what colour they give — 176 swatches, each recording the process and the part
 that produced it, because the same leaf gives yellow in a dye bath and near-black under iron in an

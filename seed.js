@@ -61,7 +61,11 @@ export const PACKS = {
   },
   plants: {
     file: 'seed/plants.json', store: 'plants', listKey: 'plants',
-    defaults: { harvestMonths: [], colours: [], photoData: null },
+    // `harvestMonths` was here until rc25. The pack no longer carries it and the
+    // record no longer has it (§13cn) — but a DEFAULT put it back on every plant
+    // at install time, so the field was gone from the file and present in the
+    // database. A default outlives the field it defaults.
+    defaults: { colours: [], photoData: null },
   },
   // Attribution for the whole library, in one place — §13r. Seeded rather than
   // left to the owner because a library that credits nobody is worse than one

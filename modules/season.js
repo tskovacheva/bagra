@@ -24,25 +24,21 @@ import { label, esc } from '../ui.js';
 export const CARDS = 4;
 
 /**
- * Which months a part is worth gathering in, and whether that is really the
- * part's own answer.
+ * Which months a part is worth gathering in.
  *
- * WHILE THE MIGRATION IS HALF DONE. `harvestMonths` is moving from the plant to
- * the part (§13cd), because walnut leaf is May–September and the green husks are
- * August–October — one list per plant cannot say that. Until the workbook comes
- * back, most plants have only the old plant-level list.
+ * THE MIGRATION IS FINISHED (§13cn). `plant.harvestMonths` is retired: the
+ * months belong to the part, because walnut leaf is May–September and the green
+ * husks are August–October, and one list per plant could only ever be one of
+ * them. All 118 parts answer.
  *
- * Falling back to it silently would be the worst of both: a walnut with three
- * parts would show all three as in season in August, which is plausible, wrong,
- * and indistinguishable from a real answer. So the fallback is carried in the
- * open — `viaPlant` — and the card says less when it is set: the plant appears,
- * but it does not name parts it cannot vouch for.
+ * `viaPlant` stays in the shape and is now only ever produced by a plant that
+ * records NO PARTS at all — a case the library expansion will create, since a
+ * plant is often entered before its parts are. A card built on it names no part
+ * rather than naming all of them, which is what the flag was always for.
  */
 export function windowOf(plant, part) {
   if (Array.isArray(part.harvestMonths) && part.harvestMonths.length)
     return { months: part.harvestMonths, viaPlant: false };
-  if (Array.isArray(plant.harvestMonths) && plant.harvestMonths.length)
-    return { months: plant.harvestMonths, viaPlant: true };
   return null;
 }
 
@@ -101,8 +97,10 @@ export async function inSeason(month, plants = null) {
       else parts.push({ part, months: w.months });
     }
 
-    // A plant that lists NO parts at all, but whose own months contain this
-    // month, still belongs in the panel.
+    // A plant that lists NO parts at all cannot be in season: the months are on
+    // the part and it has none. It stays out, and this is now the only reader of
+    // the retired plant-level field — kept because a plant entered without its
+    // parts yet is a real state and this is what carries it (§13cn).
     //
     // The guard found this: a plant carrying real months and no parts vanished
     // entirely. It never entered the loop, nothing was ever set, and it dropped

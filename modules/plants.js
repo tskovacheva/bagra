@@ -135,7 +135,6 @@ function blank() {
     dryingRatio: null,
     liquorRatio: null,
     steamNote: '',
-    harvestMonths: [],
     yearsToMaturity: null,
     lightfastness: '',
     washfastness: '',
@@ -739,7 +738,16 @@ async function renderRead(root, p) {
     return items ? fact(await label('plant_part', part.partCode), items) : '';
   }))).join('');
 
-  const months = (p.harvestMonths || []).map(i => MONTHS_BG[i - 1]).join(' · ');
+  // Gathering months live on the PART (§13ce) and the plant-level field is
+  // retired (§13cn). The record shows them per part, because that is the answer:
+  // the leaf and the bark of one tree are not gathered in the same weeks, and
+  // one line for the whole plant could only ever be one of them.
+  const partMonths = (await Promise.all((p.parts || []).map(async pt => {
+    const name = await label('plant_part', pt.partCode);
+    if (pt.sourcedNotGathered) return fact(esc(name), esc(t('plants.notGathered')));
+    const when = (pt.harvestMonths || []).map(i => MONTHS_BG[i - 1]).join(' · ');
+    return when ? fact(esc(name), esc(when)) : '';
+  }))).filter(Boolean).join('');
   const grouped = groupSections(p.sections || []);
   const asSubs = (list) => list.map(sec => sub(text(sec.title), prose(sec.body)));
   const useNow = await useNowCard(p);
@@ -783,7 +791,7 @@ async function renderRead(root, p) {
 
     readBlock(t('plants.read.gathering'),
       [facts([
-        fact(t('plants.harvestMonths'), esc(months)),
+        partMonths,
         fact(t('plants.yearsToMaturity'), p.yearsToMaturity),
         p.invasive ? fact(t('plants.invasive'), '⚠') : '',
       ]), subs(asSubs(grouped.grow), 2)].filter(Boolean).join('')),
@@ -850,10 +858,6 @@ async function renderForm(root, p) {
       ${(p.habitat || []).includes(h) ? 'checked' : ''}>
       ${esc(await label('habitat', h))}</label>`))).join('');
 
-  const monthChecks = MONTHS_BG.map((m, i) => `
-    <label class="month"><input type="checkbox" data-month value="${i + 1}"
-      ${(p.harvestMonths || []).includes(i + 1) ? 'checked' : ''}><span>${m}</span></label>`).join('');
-
   root.innerHTML = page({
     title: isNew ? t('plants.new') : (text(p.nameCommon) || t('plants.one')),
     sub: isNew ? t('plants.emptyHint') : (p.nameBotanical || ''),
@@ -907,7 +911,6 @@ async function renderForm(root, p) {
             ${await confField(t('plants.dryingRatio'), `<input type="number" step="0.5" min="0" data-f="dryingRatio" value="${p.dryingRatio ?? ''}">`,
               'dryingRatio', p.confidence?.dryingRatio, t('plants.dryingRatioHint'), !!p.approx?.dryingRatio)}
             ${field(t('plants.steamNote'), `<input type="text" data-f="steamNote" value="${esc(p.steamNote || '')}">`)}
-            ${field(t('plants.harvestMonths'), `<div class="months">${monthChecks}</div>`)}
             ${field(t('plants.yearsToMaturity'), `<input type="number" step="1" min="0" data-f="yearsToMaturity" value="${p.yearsToMaturity ?? ''}">`, t('plants.yearsHint'))}
             ${await confField(t('plants.lightfastness'), await segmented('fastness', 'lightfastness', p.lightfastness, { allowEmpty: false }), 'lightfastness', p.confidence?.lightfastness)}
             ${await confField(t('plants.washfastness'), await segmented('fastness', 'washfastness', p.washfastness, { allowEmpty: false }), 'washfastness', p.confidence?.washfastness)}
@@ -970,8 +973,6 @@ function readForm(root) {
     if (el.checked) draft.compositionalRole.push(el.value);
   }
 
-  draft.harvestMonths = [];
-  for (const el of root.querySelectorAll('[data-month]')) if (el.checked) draft.harvestMonths.push(Number(el.value));
 
   // parts, with their chemistry and dosing nested inside
   const parts = draft.parts || [];

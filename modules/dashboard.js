@@ -30,10 +30,23 @@ const REFERENCE_TILES = [
   { id: 'recipes',    icon: 'i-recipe',    store: 'recipes' },
   { id: 'substances', icon: 'i-substance', store: 'substances' },
   { id: 'techniques', icon: 'i-technique', store: 'techniques' },
-  { id: 'materials',  icon: 'i-stock',     store: 'stock' },
   { id: 'tools',      icon: 'i-tools',     store: null },
-  { id: 'sources',    icon: 'i-source',    store: 'sources' },
+  { id: 'library',    icon: 'i-source',    store: 'glossary' },
 ];
+// TWO TILES LEFT IN 1.0.0-rc25.
+//
+// `sources` was a **button that did nothing**: it rendered `data-go="sources"`
+// and there is no module with that id — the register moved into the Library's
+// third tab (§13bt) and the tile stayed behind. It looked exactly like the
+// seven that work.
+//
+// `materials` pointed at a module that is in `HIDDEN_MODULES`: the old Stock
+// address, kept alive so saved links resolve, now redirecting into the material
+// that owns the jar (§11b). Not broken, but offering a destination that was
+// deliberately taken out of the sidebar.
+//
+// The Library takes the place of both, which is where a person going to either
+// of them was actually trying to arrive.
 
 const ALL_STORES = [...REFERENCE_TILES, { id: 'fabrics', store: 'fabrics' },
   { id: 'trials', store: 'trials' }];

@@ -2,10 +2,115 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** v1.26 — the plant profile, specified (not yet built)
-**Scope:** Functional modules, data model and technical architecture.
+**Status:** 1.0.0-rc25 · 110 sections
+**Scope:** Functional modules, data model, technical architecture, and the record of
+decisions taken and faults found.
 
 ---
+
+### How to read this
+
+Six parts. **Section numbers are never reused and never renumbered** — the code cites them 443 times, and a number that moved would leave every one of those comments pointing at the wrong decision, plausibly and in silence.
+
+The numbering is therefore historical rather than positional: §13cl follows §13ck because it was decided later, not because it sits below it. Read by part, or by the subject index.
+
+#### Part I. The product
+
+What this is for, what it is not, and what it looks like.
+
+- 1. Purpose and positioning
+- 2. Module overview
+- 12. Deliberately out of scope (for now)
+- 15. Visual identity and naming
+
+#### Part II. The modules
+
+One section per module, in the order the sidebar shows them.
+
+- 3. Module A — Materials
+- 4. Module B — Plant Library
+- 5. Module C — Recipes
+- 6. Module D — Techniques (decoration & manipulation)
+- 7. Module E — Combinations (the reference engine)
+- 8. Module F — Trials (activity log & gallery)
+- 9. Module G — Library & Tools
+- 10. Reference packs — separate export/import for knowledge
+- 11. Cross-cutting requirements
+- 11a. Navigation — two halves and a rule
+- 11b. Stock, and why it is folding into Substances
+
+#### Part III. The data model
+
+Every store, every field, and what each one may hold.
+
+- 13. Data model
+- 13.2a Safety, as a level and a set of things to do
+
+#### Part IV. Architecture
+
+How it is built and how it is released.
+
+- 14. Technical architecture
+
+#### Part V. Decisions, and the faults that produced them
+
+In the order they happened. This is the largest part of the document and the most useful: it records what was got wrong, how it was found, and what stops it coming back. Read chronologically — several faults recurred months apart, and grouping them by subject would hide that.
+
+91 sections, §13a to §13cn. Listed by subject below rather than one by one.
+
+#### Part VI. Open questions
+
+Decisions not yet taken.
+
+- 16. Open questions
+
+---
+
+### By subject
+
+A section may appear under more than one heading; that is what the index is for. Several titles name the FAULT rather than the subject — „Работа, която сочи към никакъв плат" is a Trials section — so this is written by hand and is worth keeping so.
+
+**Plants and the plant library** — §4 · §13g · §13h · §13i · §13m · §13at · §13aw · §13ay · §13az · §13ba · §13bp · §13cc · §13cd · §13ce · §13cg
+
+**Combinations and the reference engine** — §7 · §13l · §13t · §13aj · §13bq · §13br · §13ck · §13cl
+
+**Fabrics, and preparing the cloth** — §13al · §13am · §13an · §13av · §13bd · §13bj · §13bl · §13bm · §13bn
+
+**Trials and the dyeing workflow** — §8 · §13ag · §13ao · §13ap · §13ar · §13au · §13y · §13bf · §13bi
+
+**Group actions** — §13bd · §13bh
+
+**Recipes and chains** — §5 · §13ak · §13aq · §13v · §13ca
+
+**Techniques** — §6 · §13w
+
+**Materials, substances and stock** — §3 · §11b · §13bs
+
+**Pigments** — §13bv · §13bx · §13by · §13bz
+
+**The Library — glossary, pH, sources** — §9 · §13r · §13bt · §13bu · §13cb
+
+**Calculators and tools** — §13af · §13ak · §13bs
+
+**The home screen** — §13u · §13cd · §13cf · §13ch
+
+**Navigation and addresses** — §11a · §13q · §13ad · §13ab
+
+**The interface — rules that bind every screen** — §13s · §13k · §13ac · §13o · §13n · §13bg · §13bo · §13bb
+
+**The phone** — §13aa · §13ae · §13cg
+
+**Language, terminology and translation** — §13bc · §13cb · §13cj
+
+**Backup, restore and the update path** — §13a · §13x · §13f
+
+**Reference packs and distribution** — §10 · §13ab · §13bw · §13cb
+
+**Checks, and faults that hid from them** — §13e · §13d · §13p · §13ci
+
+**Search and filtering** — §13j · §13aj · §13cd
+
+# Part I. The product
 
 ## 1. Purpose and positioning
 
@@ -87,6 +192,81 @@ Consequences for the build:
 | G | Library & Tools | Calculators, backup, guides |
 
 ---
+
+## 12. Deliberately out of scope (for now)
+
+- Colour measurement from photographs (light conditions make this unreliable without calibration)
+- Commercial/production features: orders, pricing, client records
+- Multi-user accounts and cloud sync
+- Automated colour matching against a standard system (Pantone/NCS)
+
+---
+
+## 15. Visual identity and naming
+
+### 15.1 Names
+- **Bulgarian:** Багра
+- **English:** Rubia — after *Rubia tinctorum*, madder, one of the two oldest dyes in the world
+- **Attribution:** *by Crafty Place*
+
+A bilingual app may carry two names. Багра follows the same logic as Глина — an ordinary Bulgarian
+noun naming the substance of the craft — so the two read as siblings. Rubia carries the same
+register outward without being a literal translation.
+
+### 15.2 Palette — indigo and madder
+
+Grounded in real dyes, and deliberately away from Глина's sage and terracotta. The two apps should
+look related — both earthen, muted, in a craft register — without being mistaken for each other.
+
+| Role | Colour | Use |
+|---|---|---|
+| Ground | unbleached linen `#F7F4EC` | page background, working surface |
+| Surface | near-white warm `#FFFDF8` | cards, panels |
+| Ink | `#2A2724` | primary text |
+| Muted | `#5C574E` | secondary text, labels |
+| Line | `#DED8CA` | hairline borders |
+| Primary — indigo | `#2C3B57` | navigation, active states, primary buttons |
+| Accent — madder | `#A03D3B` | accents, emphasis, destructive actions |
+| Highlight — weld | `#C9A227` | sparingly: warnings, unsaved state |
+| Iron | `#3A3733` | dark neutral, chips |
+
+**Discipline is the whole point.** Indigo is a strong colour: navigation and active states only.
+Madder for accents only. The working surface stays neutral.
+
+### 15.3 Why the interface must stay muted
+This is an application about colour. Every screen carries swatches and photographs of results, and
+the user judges from them whether a print came out grey-green or olive. A saturated interface
+shifts that judgement — adjacent colour changes perception, which is physiology, not taste, and the
+reason image-editing software is grey. The interface is the ground against which the work is read;
+it must not compete.
+
+### 15.4 Icons
+Real SVG icons, not typographic glyphs. Dingbat flowers (✦ ❈ ✽ ❀ ❋) are indistinguishable from one
+another at navigation size and defeat icon-based wayfinding entirely. Icons must differ in
+silhouette, not only in detail.
+
+### 15.5 Prototype review — outstanding gaps
+Reviewed against the first two prototypes (July 2026). Correctly captured: sidebar plus bottom-nav
+for the two form factors; partial-match reference search with an explanation of why a result is
+partial; confidence indicators; the combination suggestion; the bilingual form with a 2/2 status
+and collapsible translation; the pack import preview.
+
+Still missing:
+
+1. **Medium modification cannot be entered.** It appears as a search filter but has no field in the
+   trial steps. Data that cannot be entered cannot be searched.
+2. **Photographs are nearly absent.** Placements have no photo field, though the per-plant result is
+   exactly what needs photographing.
+3. **The fabric lifecycle is reduced to a table column.** The "what is in the mordanted box" view —
+   the actual inventory — is missing.
+4. **Recipe source attribution is not shown anywhere.** Seed badges exist; credit does not.
+5. **Calculators are the three generic ones.** Recipe scaling to WOF and the aluminium acetate
+   preparation — the two named as most useful — are absent.
+
+---
+
+
+# Part II. The modules
 
 ## 3. Module A — Materials
 
@@ -1113,14 +1293,8 @@ which asks for a vinegar percentage and offers 9 while the jar knows it is 5.
 
 ---
 
-## 12. Deliberately out of scope (for now)
 
-- Colour measurement from photographs (light conditions make this unreliable without calibration)
-- Commercial/production features: orders, pricing, client records
-- Multi-user accounts and cloud sync
-- Automated colour matching against a standard system (Pantone/NCS)
-
----
+# Part III. The data model
 
 ## 13. Data model
 
@@ -1247,7 +1421,13 @@ cultivation     {
                   yearsToMaturity: number | null
                 } | null
                 // `propagation`, `care` and `pests` were removed in 0.83.0 — §13m.
-character       { bg, en }              // "How it behaves" — §13m
+// character   { bg, en }              // ~~SUPERSEDED by §13cg (1.0.0-rc18).~~
+//                                     // „Как се държи" was a field AND a section
+//                                     // of the same name, and appeared twice on
+//                                     // fourteen records. The section stays —
+//                                     // filled on all 57 against the field's 14 —
+//                                     // and the field folded into it.
+description     { bg, en }              // The plant as a plant, before it is a dye — §13ce
 harvest         {
                   whenNote {bg,en}, processing {bg,en},
                   dryingRatio: number | null   // fresh weight ÷ dried weight
@@ -1261,7 +1441,19 @@ extractionModes [code] | null           // on the PART: which methods are possib
 tempExtractC    { min, max } | null
 tempDyeC        { min, max } | null
 maxTempC        number | null           // hard ceiling; flagged when a step exceeds it
-seasonality     { harvestMonths: [int], note {bg,en} }
+// seasonality  { harvestMonths, note }  // ~~RETIRED in §13cn (1.0.0-rc25).~~
+//                                     // Two things were wrong with it. It was
+//                                     // never built nested — the code carried a
+//                                     // flat `plant.harvestMonths` and no `note`,
+//                                     // so the spec described a shape that never
+//                                     // existed. And the months belong to the
+//                                     // PART: the leaf and the bark of one tree
+//                                     // are not gathered in the same weeks
+//                                     // (§13ce). See `parts[].harvestMonths`,
+//                                     // `parts[].harvestNote` and
+//                                     // `parts[].sourcedNotGathered`, with
+//                                     // `harvestRegion` on the pack saying where
+//                                     // the months were observed.
 lightfastness   code | null             // poor|moderate|good|excellent|unknown
 washfastness    code | null
 toxicity        { level: code, precautions: [code], note {bg,en} }   // §13.2a
@@ -1711,65 +1903,76 @@ goes to anyone else; the other forty-four carry less weight.
 
 ---
 
-## 13j. Search, and where a filter is still better
 
-**Built in 0.78.0**, in plants, recipes, techniques, and the plant picker inside
-a trial.
+# Part IV. Architecture
 
-Typing beats a row of chips once a list is long enough that scanning costs more
-than three letters. Forty-eight plants in a `<select>` is a list you scroll, not
-one you choose from — and that select sits in the middle of recording work, where
-the interruption is most expensive.
+## 14. Technical architecture
 
-**Chips stay where they answer something typing cannot.** "Show me only the
-mordant accumulators" is not a word anyone would search for, so the role tabs in
-plants, the categories in substances and techniques, and the states in fabrics
-all remain. The availability chips in plants were replaced, because availability
-was already a weak filter and the search covers the common case.
+### 14.1 The two failure modes being avoided
 
-**What is searched is names, not prose.** Common name, botanical name, family. A
-search that reached into the body text would return half the library for "кора",
-which is worse than no search.
+Глина is a single HTML file of some 7,700 lines. It works, and its one-file discipline is the reason
+it still runs untouched years after it was written. But it is at the limit: every substantial change
+now means navigating a file too large to hold in view, which is where quiet mistakes are made. Багра
+is materially larger — seven modules, a bilingual dictionary, calculators with real chemistry,
+reference packs, a seed library. A single file would not survive it.
 
-**The picker keeps the id, not the typed text.** A native `datalist` avoids
-writing a custom dropdown, and works with a phone keyboard. The visible input
-holds the name and a hidden input holds the id, because the form reader reads
-`value` from whatever carries the data attribute. **A name matching nothing
-restores the previous selection** rather than clearing it — losing a plant to a
-typo would be a poor trade for the convenience of typing.
+The opposite failure is worse and more common: a modern toolchain. A project with npm, a bundler and
+a framework is pleasant for six months and unmaintainable after three years, when the build no
+longer runs and an application that otherwise works can no longer be changed. For a personal tool
+expected to last a decade, the build step is the liability.
 
-**Search text is a filter, and is cleared by `reset()`** for the reason §13g
-gives: a list that looks short for a reason nobody can see. Checked.
+### 14.2 The decision: native ES modules, no build step
+
+Multiple files, loaded directly by the browser as ES modules. What is edited is what runs. No
+compilation, no dependencies, nothing to go stale.
+
+```
+index.html            shell, styles, module entry point
+app.js                bootstrap, routing, shared render loop
+db.js                 IndexedDB, schema, migrations
+i18n.js               dictionary, language switching
+vocab.js              controlled vocabularies and band definitions
+modules/plants.js     one file per module
+modules/fabrics.js
+modules/materials.js
+modules/recipes.js
+modules/techniques.js
+modules/combinations.js
+modules/trials.js
+modules/packs.js      reference pack import/export with merge preview
+calc/                 calculators — pure functions, independently testable
+seed/*.json           the reference library, versioned as packs
+sw.js                 service worker
+```
+
+**No framework.** Vanilla JavaScript, as in Глина, for the same reason: there is nothing to break.
+With seven modules, however, a single shared rendering pattern must be fixed at the outset —
+otherwise each module ends up looking as though a different person wrote it.
+
+**Calculators are pure functions in their own directory.** The aluminium acetate arithmetic, the
+%WOF scaling and the reverse limiting-ingredient mode carry real chemistry and real consequences
+when wrong. Isolated from the interface, they can be verified directly.
+
+**Seed data ships as JSON, not as code.** Reference packs are already specified as JSON files
+(§10), so the initial load is simply the import of a base pack — one mechanism rather than two, and
+the library can be revised without touching the application.
+
+### 14.3 The two costs, accepted knowingly
+
+1. **The service worker caches a file list, not a file.** Every release must keep that list correct.
+   This is where the first deployment mistakes will happen, and it needs a check before publishing.
+2. **`file://` no longer works.** ES modules require a server, so local testing needs a one-line
+   command. On GitHub Pages nothing changes.
+
+### 14.4 Unchanged from Глина
+
+Offline-first with IndexedDB as the sole source of truth. Backward compatibility on every release.
+Migrations that only ever add. Export and import as the safety net. Deployment as static files.
 
 ---
 
-## 13k. Marks, and what they may not replace
 
-**Built in 0.79.0.** Sixteen marks across three dimensions — the six fabric
-states, the five substance categories, the five technique categories — plus eight
-for the calculators.
-
-**A mark stands above its label, never instead of it.** Sixteen drawings nobody
-has seen before are sixteen guesses; "tanned" and "dyed" are not obvious as
-pictures, and a person opening the application for the first time has no way to
-learn them. A picture also cannot be read aloud or searched.
-
-**One mark means one thing everywhere.** The crystal that marks a mordant in the
-substance filter is the crystal on the mordanted fabric state; the leaf that
-marks a tannin is the same leaf. The fabric state mark now appears in the filter
-row, the list, the record and the history, through one helper — five copies would
-have drifted.
-
-**The tools screen is a menu, not a grid of labels.** Each calculator is a row
-with a mark, its name, and one line saying when to use it — sentences that
-already existed as `tools.when.*` and were only shown *after* the calculator had
-been chosen, which is to say after they could help. `#/tools` is the menu and
-`#/tools/<calc>` is the calculator, the shape the backup already had.
-
-**Never green**, here as everywhere: the interface must not put a colour opinion
-beside a photograph of dyed cloth.
-
----
+# Part V. Decisions, and the faults that produced them
 
 ## 13a. Versioning and installation
 
@@ -2375,6 +2578,66 @@ gives — a list that looks short for a reason nobody can see. Swatches went fro
 
 ---
 
+## 13j. Search, and where a filter is still better
+
+**Built in 0.78.0**, in plants, recipes, techniques, and the plant picker inside
+a trial.
+
+Typing beats a row of chips once a list is long enough that scanning costs more
+than three letters. Forty-eight plants in a `<select>` is a list you scroll, not
+one you choose from — and that select sits in the middle of recording work, where
+the interruption is most expensive.
+
+**Chips stay where they answer something typing cannot.** "Show me only the
+mordant accumulators" is not a word anyone would search for, so the role tabs in
+plants, the categories in substances and techniques, and the states in fabrics
+all remain. The availability chips in plants were replaced, because availability
+was already a weak filter and the search covers the common case.
+
+**What is searched is names, not prose.** Common name, botanical name, family. A
+search that reached into the body text would return half the library for "кора",
+which is worse than no search.
+
+**The picker keeps the id, not the typed text.** A native `datalist` avoids
+writing a custom dropdown, and works with a phone keyboard. The visible input
+holds the name and a hidden input holds the id, because the form reader reads
+`value` from whatever carries the data attribute. **A name matching nothing
+restores the previous selection** rather than clearing it — losing a plant to a
+typo would be a poor trade for the convenience of typing.
+
+**Search text is a filter, and is cleared by `reset()`** for the reason §13g
+gives: a list that looks short for a reason nobody can see. Checked.
+
+---
+
+## 13k. Marks, and what they may not replace
+
+**Built in 0.79.0.** Sixteen marks across three dimensions — the six fabric
+states, the five substance categories, the five technique categories — plus eight
+for the calculators.
+
+**A mark stands above its label, never instead of it.** Sixteen drawings nobody
+has seen before are sixteen guesses; "tanned" and "dyed" are not obvious as
+pictures, and a person opening the application for the first time has no way to
+learn them. A picture also cannot be read aloud or searched.
+
+**One mark means one thing everywhere.** The crystal that marks a mordant in the
+substance filter is the crystal on the mordanted fabric state; the leaf that
+marks a tannin is the same leaf. The fabric state mark now appears in the filter
+row, the list, the record and the history, through one helper — five copies would
+have drifted.
+
+**The tools screen is a menu, not a grid of labels.** Each calculator is a row
+with a mark, its name, and one line saying when to use it — sentences that
+already existed as `tools.when.*` and were only shown *after* the calculator had
+been chosen, which is to say after they could help. `#/tools` is the menu and
+`#/tools/<calc>` is the calculator, the shape the backup already had.
+
+**Never green**, here as everywhere: the interface must not put a colour opinion
+beside a photograph of dyed cloth.
+
+---
+
 ## 13l. Loading the reference, for other people
 
 The owner's intention: the library ships **already full**, from many sources, so
@@ -2927,6 +3190,31 @@ same snapshot — §13e.5 in a second costume.
 
 ---
 
+## 13u. The home screen, in two halves (0.88.1)
+
+Eleven tiles in one heap, while the navigation beside them had been in two
+labelled halves since 0.72.0. The home screen now reads as the same two: the
+reference is what you read, the diary is what you write.
+
+**The diary counts states, not modules.** "Trials 3" is not a question anyone
+asks; "how much have I got on the go" is. The diary half shows *in progress ·
+planned · complete*, each a way into the same module, plus the fabrics count.
+
+**The warning says what will be lost, with a number.** With no backup at all,
+everything goes and the totals are exactly right: "losing this device now means
+losing 2 trials · 1 fabric". With a stale backup only the work since is at risk,
+and the change counter is all that is known about it, so that is all it claims.
+It carries the madder mark and tint — §13s·4's "something will be lost" level,
+which did not previously exist as a note kind at all: everything was weld.
+
+**Counted nouns agree with their number.** `plural(n, one, many)` in `i18n.js`.
+Bulgarian needs the counted form rather than the plural after a numeral — два
+плата, never два платове — and "1 записани платове" in a warning meant to be
+taken seriously reads as though nobody proofread it. Guarded, because it is the
+kind of thing that returns every time a count is put into a sentence.
+
+---
+
 ## 13v. Chains come out from behind their tab (0.88.2)
 
 A chain is the more useful unit — nobody mordants without scouring first — and
@@ -3058,31 +3346,6 @@ rarely on screen together — which is precisely when nobody notices.
 
 The stylistic half of the request stands: the marks now share a weight and a
 box, which was most of what read as drift.
-
----
-
-## 13u. The home screen, in two halves (0.88.1)
-
-Eleven tiles in one heap, while the navigation beside them had been in two
-labelled halves since 0.72.0. The home screen now reads as the same two: the
-reference is what you read, the diary is what you write.
-
-**The diary counts states, not modules.** "Trials 3" is not a question anyone
-asks; "how much have I got on the go" is. The diary half shows *in progress ·
-planned · complete*, each a way into the same module, plus the fabrics count.
-
-**The warning says what will be lost, with a number.** With no backup at all,
-everything goes and the totals are exactly right: "losing this device now means
-losing 2 trials · 1 fabric". With a stale backup only the work since is at risk,
-and the change counter is all that is known about it, so that is all it claims.
-It carries the madder mark and tint — §13s·4's "something will be lost" level,
-which did not previously exist as a note kind at all: everything was weld.
-
-**Counted nouns agree with their number.** `plural(n, one, many)` in `i18n.js`.
-Bulgarian needs the counted form rather than the plural after a numeral — два
-плата, never два платове — and "1 записани платове" in a warning meant to be
-taken seriously reads as though nobody proofread it. Guarded, because it is the
-kind of thing that returns every time a count is put into a sentence.
 
 ---
 
@@ -6132,201 +6395,6 @@ a new check passes first time, break the thing it watches before believing it.
 
 ---
 
-## 14. Technical architecture
-
-### 14.1 The two failure modes being avoided
-
-Глина is a single HTML file of some 7,700 lines. It works, and its one-file discipline is the reason
-it still runs untouched years after it was written. But it is at the limit: every substantial change
-now means navigating a file too large to hold in view, which is where quiet mistakes are made. Багра
-is materially larger — seven modules, a bilingual dictionary, calculators with real chemistry,
-reference packs, a seed library. A single file would not survive it.
-
-The opposite failure is worse and more common: a modern toolchain. A project with npm, a bundler and
-a framework is pleasant for six months and unmaintainable after three years, when the build no
-longer runs and an application that otherwise works can no longer be changed. For a personal tool
-expected to last a decade, the build step is the liability.
-
-### 14.2 The decision: native ES modules, no build step
-
-Multiple files, loaded directly by the browser as ES modules. What is edited is what runs. No
-compilation, no dependencies, nothing to go stale.
-
-```
-index.html            shell, styles, module entry point
-app.js                bootstrap, routing, shared render loop
-db.js                 IndexedDB, schema, migrations
-i18n.js               dictionary, language switching
-vocab.js              controlled vocabularies and band definitions
-modules/plants.js     one file per module
-modules/fabrics.js
-modules/materials.js
-modules/recipes.js
-modules/techniques.js
-modules/combinations.js
-modules/trials.js
-modules/packs.js      reference pack import/export with merge preview
-calc/                 calculators — pure functions, independently testable
-seed/*.json           the reference library, versioned as packs
-sw.js                 service worker
-```
-
-**No framework.** Vanilla JavaScript, as in Глина, for the same reason: there is nothing to break.
-With seven modules, however, a single shared rendering pattern must be fixed at the outset —
-otherwise each module ends up looking as though a different person wrote it.
-
-**Calculators are pure functions in their own directory.** The aluminium acetate arithmetic, the
-%WOF scaling and the reverse limiting-ingredient mode carry real chemistry and real consequences
-when wrong. Isolated from the interface, they can be verified directly.
-
-**Seed data ships as JSON, not as code.** Reference packs are already specified as JSON files
-(§10), so the initial load is simply the import of a base pack — one mechanism rather than two, and
-the library can be revised without touching the application.
-
-### 14.3 The two costs, accepted knowingly
-
-1. **The service worker caches a file list, not a file.** Every release must keep that list correct.
-   This is where the first deployment mistakes will happen, and it needs a check before publishing.
-2. **`file://` no longer works.** ES modules require a server, so local testing needs a one-line
-   command. On GitHub Pages nothing changes.
-
-### 14.4 Unchanged from Глина
-
-Offline-first with IndexedDB as the sole source of truth. Backward compatibility on every release.
-Migrations that only ever add. Export and import as the safety net. Deployment as static files.
-
----
-
-## 15. Visual identity and naming
-
-### 15.1 Names
-- **Bulgarian:** Багра
-- **English:** Rubia — after *Rubia tinctorum*, madder, one of the two oldest dyes in the world
-- **Attribution:** *by Crafty Place*
-
-A bilingual app may carry two names. Багра follows the same logic as Глина — an ordinary Bulgarian
-noun naming the substance of the craft — so the two read as siblings. Rubia carries the same
-register outward without being a literal translation.
-
-### 15.2 Palette — indigo and madder
-
-Grounded in real dyes, and deliberately away from Глина's sage and terracotta. The two apps should
-look related — both earthen, muted, in a craft register — without being mistaken for each other.
-
-| Role | Colour | Use |
-|---|---|---|
-| Ground | unbleached linen `#F7F4EC` | page background, working surface |
-| Surface | near-white warm `#FFFDF8` | cards, panels |
-| Ink | `#2A2724` | primary text |
-| Muted | `#5C574E` | secondary text, labels |
-| Line | `#DED8CA` | hairline borders |
-| Primary — indigo | `#2C3B57` | navigation, active states, primary buttons |
-| Accent — madder | `#A03D3B` | accents, emphasis, destructive actions |
-| Highlight — weld | `#C9A227` | sparingly: warnings, unsaved state |
-| Iron | `#3A3733` | dark neutral, chips |
-
-**Discipline is the whole point.** Indigo is a strong colour: navigation and active states only.
-Madder for accents only. The working surface stays neutral.
-
-### 15.3 Why the interface must stay muted
-This is an application about colour. Every screen carries swatches and photographs of results, and
-the user judges from them whether a print came out grey-green or olive. A saturated interface
-shifts that judgement — adjacent colour changes perception, which is physiology, not taste, and the
-reason image-editing software is grey. The interface is the ground against which the work is read;
-it must not compete.
-
-### 15.4 Icons
-Real SVG icons, not typographic glyphs. Dingbat flowers (✦ ❈ ✽ ❀ ❋) are indistinguishable from one
-another at navigation size and defeat icon-based wayfinding entirely. Icons must differ in
-silhouette, not only in detail.
-
-### 15.5 Prototype review — outstanding gaps
-Reviewed against the first two prototypes (July 2026). Correctly captured: sidebar plus bottom-nav
-for the two form factors; partial-match reference search with an explanation of why a result is
-partial; confidence indicators; the combination suggestion; the bilingual form with a 2/2 status
-and collapsible translation; the pack import preview.
-
-Still missing:
-
-1. **Medium modification cannot be entered.** It appears as a search filter but has no field in the
-   trial steps. Data that cannot be entered cannot be searched.
-2. **Photographs are nearly absent.** Placements have no photo field, though the per-plant result is
-   exactly what needs photographing.
-3. **The fabric lifecycle is reduced to a table column.** The "what is in the mordanted box" view —
-   the actual inventory — is missing.
-4. **Recipe source attribution is not shown anywhere.** Seed badges exist; credit does not.
-5. **Calculators are the three generic ones.** Recipe scaling to WOF and the aluminium acetate
-   preparation — the two named as most useful — are absent.
-
----
-
-## 16. Open questions
-
-00. **The other three states of a number.** "About" is built (§13ai); **unknown**
-   and **not applicable** are not, and "empty" still carries both of them plus
-   "not got to it yet". The open question is not whether the distinction is real
-   — the seeded library proves it is, with `liquorRatio` blank on all forty-eight
-   plants for at least two different reasons — but whether the cost is worth it.
-
-   Against building it: three more states on every numeric field is a form that
-   asks four questions where the person wanted to type a number, and the
-   application would then have to decide what an unknown means everywhere a
-   number is used — the scaling calculators, the ceiling checks, the reference
-   matcher. A field that can be "unknown" is a field every consumer of it must
-   handle, and there are many.
-
-   For: the application's whole claim is to say what is known and how firmly.
-   "Not applicable" in particular is not a gap but a fact — cold dyeing has no
-   temperature, and showing an empty temperature suggests one was never
-   recorded. Export makes this sharper: a pack sent to someone else carries
-   blanks with no way to read them.
-
-   A middle path worth considering before the full four: only **"not
-   applicable"** as a second mark, since it is the one that is a positive
-   statement rather than an absence, and it needs no new handling downstream —
-   a field that does not apply is simply not shown.
-
-0. **Does season belong in the combination key?** Every plant profile in Chandra Rice's guides
-   distinguishes spring from autumn leaves — autumn oak is loaded with tannin and prints boldly,
-   spring oak is thin and prints softly. If season is not part of the key, the reference will merge
-   two genuinely different results and report an unhelpfully wide "variation". If it is, the number
-   of combinations roughly doubles and each fills more slowly. Provisional answer: an optional
-   dimension on the key, set when it is known to matter for that plant, blank otherwise.
-
-1. ~~Per-plant observations inside a multi-plant eco print bundle~~ — **resolved**: placements (§8.4).
-2. ~~Blanket as recipe or field~~ — **resolved**: a recipe type (§5, type 8).
-3. ~~Plant-chemistry granularity~~ — **resolved**: fixed vocabulary with levels (§4).
-4. ~~Combination creation~~ — **resolved**: user-created, with app suggestions from accumulated
-   placements; outcome always authored by the user, matching on bands (§7).
-5. ~~Fabric identity~~ — **resolved**: one record is one physical piece, with a treatment lifecycle
-   mirroring the storage boxes (§3, A.1).
-
-6. **Does attribution move onto the record?** §13.1 keeps the Sources register separate on purpose:
-   proportions and sequences pass from hand to hand and their origin is usually unknown, so
-   pretending every record has an owner misrepresents how the craft travels. That reasoning holds
-   for a private library and inverts for a distributed one (§13l). Asked of the owner, not yet
-   answered.
-
-7. **Do literature colours carry a swatch?** A hex derived from a colour name is an illustration.
-   The owner has asked for them to be loaded, marked as literature-sourced — the alternative, a
-   colour with text and no swatch until she has dyed it herself, is stricter and slower and leaves
-   the column that makes people open the list empty. Proceeding as she asked; noted here because it
-   is the one place the reference asserts something nobody has seen.
-
-8. **Pigment extraction and watercolour.** The recipe model is a percentage of the weight of goods,
-   and a pigment has no cloth: it has a binder, a filler, ratios by mass, and its output is a
-   *substance* rather than a dyed textile. Neither recipes nor substances covers this today.
-
-9. **"Unknown" and "approximate" as legitimate values.** From the review, and the most principled
-   item in it: the application should not make someone invent a number because there is a number
-   field. Affects the composition of recycled cloth, quantities of leaves, water hardness, the
-   concentration of an old blanket. Not a field — a stance, and it would touch many.
-
-10. **Does "Рецепта" survive as a plant section?** Fourteen plants, real content, and the only one
-    of five doubtful headings with substance. The owner is still thinking about it.
-
----
-
 ## 13bt. The Library: glossary, pH, sources (1.0.0-rc7)
 
 `modules/sources.js` became `modules/library.js`, and attribution became one of three tabs rather
@@ -7603,5 +7671,207 @@ Every record names a real plant, a part and a process; no band without a mordant
 strength of nothing; every pH says where it was measured, since an alkaline extraction is not an
 alkaline bath; no key answered twice, which §13br had to clean up once already; and every record in
 the pack reaches the database.
+
+---
+
+## 13cm. The specification put in order, and nothing renumbered (1.0.0-rc24)
+
+The document had grown by appending for a year and three things had drifted. Not the numbering —
+the arrangement.
+
+**§14, §15 and §16 had ended up in the middle**, at line 6135, with twenty-seven later sections
+after them. Anyone reading to the end passed the closing chapters two-thirds of the way through and
+then carried on through another thousand lines. §13j and §13k sat before §13a; §13u sat after §13z;
+§13.2a sat between the data model and the decision record, belonging to neither.
+
+### Nothing is renumbered, and that is not tidiness
+
+The code cites section numbers **443 times across 93 sections** — `§13bd` alone 49 times, `§11b` 32,
+`§13q` 28. Renumbering would invalidate every one of them at once and in silence: the comments would
+still read plausibly and point at the wrong decision.
+
+**The identifiers are part of the interface between the code and this document.** The numbering is
+therefore historical rather than positional, and the document now says so at the top: §13cl follows
+§13ck because it was decided later, not because it sits below it.
+
+### Six parts, and an index by subject
+
+    I    The product          §1, §2, §12, §15
+    II   The modules          §3 – §11b
+    III  The data model       §13, §13.2a
+    IV   Architecture         §14
+    V    Decisions and faults §13a – §13cl, 89 sections, in sequence
+    VI   Open questions       §16
+
+Part V stays chronological because that is what it is — a record. Reading it by theme would hide
+that several of the same fault recurred months apart, which is the most useful thing it has to say.
+
+So the subject index is separate, and **written by hand**: half the titles in Part V name the FAULT
+rather than the subject („Работа, която сочи към никакъв плат" is a Trials section), so an index
+generated from the headings would file them under nothing. A section appears under as many headings
+as it belongs to.
+
+### `scripts/order-spec.py`, and what it refuses
+
+It moves sections and never edits one. After writing, it re-splits its own output and compares every
+section against the original, character for character; if any differs it exits without writing.
+
+That check earned its place three times in one sitting:
+
+- the contents list used `##` headings, and **entered the document as two new sections** called
+  „How" and „By";
+- the `---` rule before each part heading landed *inside* the previous section's text;
+- `# Part …` is one hash, so the section pattern does not see it, and it did the same.
+
+Each was found by the verification refusing, not by reading the result. A script that reorganises
+seventy thousand words has to be able to prove it changed none of them.
+
+### §13ax does not exist
+
+Noticed in passing: the sequence runs §13aw, §13ay. Nothing is missing — the letter was skipped when
+the section was numbered. Recorded here so the next person to notice does not go looking for it.
+
+---
+
+## 13cn. Six corrections from the audit (1.0.0-rc25)
+
+Worked from `DOCUMENTATION_DECISIONS_NEEDED.md` and the owner's answers.
+
+### A button that did nothing, for as long as the Library has existed
+
+The home screen's „Източници" tile rendered `data-go="sources"`. There is no module with
+that id — the register moved into the Library's third tab at §13bt and the tile stayed
+behind, looking exactly like the seven around it that work.
+
+„Наличности" went with it: it pointed at `materials`, which is in `HIDDEN_MODULES` — the
+old Stock address kept alive so saved links resolve (§11b) — and so offered a destination
+deliberately taken out of the sidebar. The Library takes the place of both, which is where
+someone pressing either was trying to arrive.
+
+### `plant.harvestMonths` retired, and a default that outlived the field
+
+§13ce superseded it and said it would go **one version later**, as `FabricStateEvent` did
+(§13bd). That was rc16; it was still on 44 plants at rc24. The condition had been met long
+since: all 118 parts answer, and the fallback was reached zero times in every month.
+
+`scripts/retire-plant-harvest-months.py` checks that condition rather than assuming it, and
+refuses if any part answers neither way.
+
+**Removing it from the pack was not enough.** The guard went red on 57 records — because
+`seed.js` carried `defaults: { harvestMonths: [], … }`, which put the field back on every
+plant at install time. The field was absent from the file and present in the database. **A
+default outlives the field it defaults**, and nothing else would have found it: the pack was
+clean, and every check that read the pack agreed.
+
+The form was resurrecting it too — `blank()` created it, twelve checkboxes wrote it, and
+the record read it. The plant record now shows the months **per part**, which is the answer
+the data has, with „не се бере — купува се" where a part is bought.
+
+`windowOf` no longer reads the plant. `viaPlant` stays in the shape and is now produced only
+by a plant that records no parts at all — a plant entered before its parts, which the
+library expansion will create.
+
+### A guard whose subject was removed
+
+Check 6 of guard 24e tested that a plant-level month was not passed off as the part's own
+answer. With the fallback gone it had nothing to test and would have passed for ever.
+Replaced by what is now true: a plant with no parts recorded cannot be in season.
+
+### `character` and `seasonality` marked in the model block
+
+§13's data model still listed both. `character` was retired at §13cg; `seasonality` is
+stranger — it was specified as `{ harvestMonths: [int], note {bg,en} }` and **was never
+built that way.** The code carried a flat `plant.harvestMonths` and no `note` at all, so the
+specification described a shape that never existed, for a year.
+
+Both are struck through in place rather than deleted. The model block is read as a whole and
+a silently missing field looks like an omission; a crossed-out one says a decision was taken.
+
+### ROADMAP B1 was written from the specification, not from the code
+
+It claimed the diary had no way to record a second trial on a finished piece. **It has had
+one since 0.99.2** — `trials.workAgain` on the finished card, a picker that excludes busy
+cloth, and the earlier runs listed with dates. §13bj records both faults found on the way.
+
+That is the failure the rc23 audit existed to prevent, appearing inside the audit's own
+output. What is genuinely open is smaller and was kept: a re-working and a first dyeing look
+identical in the diary list, and a trial read on its own does not know it was one.
+
+### Two items left the blocking set, by decision
+
+**Imperial units** and **library expansion** were in Part A as though they were conditions
+of taking money. Neither is, unless it is decided that they are. Metric-only is defensible
+for a European buyer, and 57 plants is a library. Both remain listed — the point is that the
+decision is now taken deliberately rather than inherited from a list.
+
+---
+
+
+# Part VI. Open questions
+
+## 16. Open questions
+
+00. **The other three states of a number.** "About" is built (§13ai); **unknown**
+   and **not applicable** are not, and "empty" still carries both of them plus
+   "not got to it yet". The open question is not whether the distinction is real
+   — the seeded library proves it is, with `liquorRatio` blank on all forty-eight
+   plants for at least two different reasons — but whether the cost is worth it.
+
+   Against building it: three more states on every numeric field is a form that
+   asks four questions where the person wanted to type a number, and the
+   application would then have to decide what an unknown means everywhere a
+   number is used — the scaling calculators, the ceiling checks, the reference
+   matcher. A field that can be "unknown" is a field every consumer of it must
+   handle, and there are many.
+
+   For: the application's whole claim is to say what is known and how firmly.
+   "Not applicable" in particular is not a gap but a fact — cold dyeing has no
+   temperature, and showing an empty temperature suggests one was never
+   recorded. Export makes this sharper: a pack sent to someone else carries
+   blanks with no way to read them.
+
+   A middle path worth considering before the full four: only **"not
+   applicable"** as a second mark, since it is the one that is a positive
+   statement rather than an absence, and it needs no new handling downstream —
+   a field that does not apply is simply not shown.
+
+0. **Does season belong in the combination key?** Every plant profile in Chandra Rice's guides
+   distinguishes spring from autumn leaves — autumn oak is loaded with tannin and prints boldly,
+   spring oak is thin and prints softly. If season is not part of the key, the reference will merge
+   two genuinely different results and report an unhelpfully wide "variation". If it is, the number
+   of combinations roughly doubles and each fills more slowly. Provisional answer: an optional
+   dimension on the key, set when it is known to matter for that plant, blank otherwise.
+
+1. ~~Per-plant observations inside a multi-plant eco print bundle~~ — **resolved**: placements (§8.4).
+2. ~~Blanket as recipe or field~~ — **resolved**: a recipe type (§5, type 8).
+3. ~~Plant-chemistry granularity~~ — **resolved**: fixed vocabulary with levels (§4).
+4. ~~Combination creation~~ — **resolved**: user-created, with app suggestions from accumulated
+   placements; outcome always authored by the user, matching on bands (§7).
+5. ~~Fabric identity~~ — **resolved**: one record is one physical piece, with a treatment lifecycle
+   mirroring the storage boxes (§3, A.1).
+
+6. **Does attribution move onto the record?** §13.1 keeps the Sources register separate on purpose:
+   proportions and sequences pass from hand to hand and their origin is usually unknown, so
+   pretending every record has an owner misrepresents how the craft travels. That reasoning holds
+   for a private library and inverts for a distributed one (§13l). Asked of the owner, not yet
+   answered.
+
+7. **Do literature colours carry a swatch?** A hex derived from a colour name is an illustration.
+   The owner has asked for them to be loaded, marked as literature-sourced — the alternative, a
+   colour with text and no swatch until she has dyed it herself, is stricter and slower and leaves
+   the column that makes people open the list empty. Proceeding as she asked; noted here because it
+   is the one place the reference asserts something nobody has seen.
+
+8. **Pigment extraction and watercolour.** The recipe model is a percentage of the weight of goods,
+   and a pigment has no cloth: it has a binder, a filler, ratios by mass, and its output is a
+   *substance* rather than a dyed textile. Neither recipes nor substances covers this today.
+
+9. **"Unknown" and "approximate" as legitimate values.** From the review, and the most principled
+   item in it: the application should not make someone invent a number because there is a number
+   field. Affects the composition of recycled cloth, quantities of leaves, water hardness, the
+   concentration of an old blanket. Not a field — a stance, and it would touch many.
+
+10. **Does "Рецепта" survive as a plant section?** Fourteen plants, real content, and the only one
+    of five doubtful headings with substance. The owner is still thinking about it.
 
 ---
