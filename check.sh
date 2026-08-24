@@ -247,6 +247,13 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     seed/plants.json at all, and a photograph the owner chose must survive a
   #     migration that cannot tell which is which except by comparing hashes.
   node scripts/try-boot-and-photos.mjs || exit 1
+  # 5f. A fast start must not mean „the library is up to date" (§13cu). rc28 kept
+  #     one version per pack and answered two questions with it, so booting past
+  #     a new pack retired an update the owner had never been shown. Also asks
+  #     whether attribution is protected like the rest of the history (§13ct):
+  #     a source credited by a glossary term, a recipe or a colour swatch is
+  #     matched on its CODE, not its id.
+  node scripts/try-pack-lifecycle.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by

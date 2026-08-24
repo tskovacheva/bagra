@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc28 · 115 sections
+**Status:** 1.0.0-rc29 · 117 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -8042,10 +8042,10 @@ what this release is about.
 Neither is mechanical. Growing the link to 44px moves the heading row it sits
 in; letting a tile shrink means letting a figure wrap, and these are the figures
 meant to be read at a glance over a pot (§13bs). Both are layout decisions and
-both want the owner's eye, so they are the first work of 1.0.0-rc28.
+both want the owner's eye, so they are the first work of 1.0.0-rc30.
 
 Until they are done `sh check.sh --release` refuses the candidate. That is the
-gate doing exactly what it was built to do, and 1.0.0-rc27 is therefore a
+gate doing exactly what it was built to do, and 1.0.0-rc29 is therefore a
 candidate that passes five of its six layers and says so, rather than one that
 passes six by not running one.
 
@@ -8250,6 +8250,125 @@ what transfers.
 The structural claim is the one that matters and it is checked rather than
 timed: **an unchanged boot does not fetch `seed/plants.json` at all.** The guard
 counts the fetches and names them, and the whole start reads one file.
+
+## 13ct. Attribution is part of the history (1.0.0-rc29)
+
+`refs.js` closed the delete hole for workflow records (§13cq) and left the
+sources register open: `modules/library.js` still deleted a source outright,
+while other records went on crediting it.
+
+It is the same fault, and for a library meant to be given away it is also a
+licence problem rather than only an integrity one. The claim stays on the
+screen; the credit it rests on is gone.
+
+### The paths
+
+| Credits a source through | Where |
+|---|---|
+| `sourceCode` | glossary terms |
+| `sourceCode` | recipes |
+| **`colours[].source`** | every colour swatch on a plant |
+
+The third was not in the audit's list and is the largest: 57 plants carry
+swatches, and **four of the ten sources are named nowhere else**. Checking only
+the two obvious fields would have left those four freely deletable while
+reporting that the register was protected.
+
+### A target key that is not the id
+
+A source reference does not name an id. A seeded source has the id
+`seed:boutrup-ellis`; the records that credit it write
+`sourceCode: 'boutrup-ellis'` — the code, unprefixed. That was deliberate
+(§13bt): a credit survives its source record being reseeded.
+
+So the checker takes the key from the target instead of assuming `id`:
+
+```js
+const TARGET_KEY = {
+  sources: (row) => row.code ?? String(row.id || '').replace(/^seed:/, ''),
+};
+```
+
+Every other entity keeps the identity function and behaves exactly as before,
+which is checked — an alternate key that quietly broke id matching would trade
+one hole for a worse one. The source references are NOT migrated to ids; that
+would be a model migration with nothing to show for it.
+
+### The false positive worth naming
+
+`trials.water.sourceCode` holds a `water_source` vocabulary code — rain, tap,
+well — and has nothing whatever to do with the sources register. A checker that
+matched on field name would refuse to delete a source because somebody had
+written down where the water came from. The paths are enumerated by hand for
+exactly this reason, and the guard asserts the water case explicitly.
+
+Policy is unchanged from §13cq: an uncited source deletes, a cited one is
+refused with an honest count per kind, no cascade, no blanking of `sourceCode`.
+
+---
+
+## 13cu. A fast start is not a reviewed library (1.0.0-rc29)
+
+The boot gate (§13cs) recorded one `version` per pack and used it to answer two
+different questions.
+
+Booting against a newer pack, `ensurePacks` fetched it, `seedPack` added the
+genuinely new records, and the changed ones were correctly left alone — and then
+the shipped version was written down as installed. `packsWithNewVersion()`
+compared the manifest against that same field and answered: **nothing new.**
+
+So opening the application could silently retire an update the owner had never
+been shown. The changed records were still the old ones. The withdrawn ones were
+still there. The notice that would have told her had been switched off by the
+act of starting up. A fast start had come to mean „the library is up to date",
+which it never was — and the failure is invisible, because everything on the
+screen looks settled.
+
+### Two fields
+
+```js
+packState[name] = {
+  seededVersion,    // what the boot gate has handled well enough not to refetch
+  appliedVersion,   // what the owner has been shown and has applied
+  fingerprint,
+}
+```
+
+The gate reads `seededVersion`. „Is there something new" reads `appliedVersion`.
+A boot moves the first and **never** touches the second.
+
+`recordApplied()` writes `appliedVersion`, and is called from the preview and
+from nowhere else. A version becomes applied by being reviewed, never by being
+booted past.
+
+**A fresh install is the one case where seeding IS applying** — there was
+nothing to review, because there was nothing there. A pack installed from empty
+counts as applied; anything else keeps whatever the owner has actually reviewed,
+which may be nothing.
+
+**A partial apply leaves the pack pending.** If she ticked some entries and left
+others, those others are precisely what the notice exists to keep offering — a
+withdrawal above all, which is never performed except by a choice (§13cb).
+
+### The lifecycle, in order
+
+1. **Fresh install** — pack loaded; both fields set to the shipped version.
+2. **Unchanged start** — versions match, fingerprint matches, nothing fetched.
+   The whole start reads one file, the 534-byte manifest.
+3. **A seeded record deleted by hand** — the fingerprint differs, the gate
+   opens, `seedPack` puts it back. Unchanged from §13cs.
+4. **A newer pack ships** — the gate opens once. Truly new records are seeded;
+   changed, edited and withdrawn records are untouched. `seededVersion` moves,
+   `appliedVersion` does not, and the pack **stays pending**.
+5. **The preview applies** — `recordApplied` moves `appliedVersion` if she
+   applied all of it. The pack stops being pending.
+
+### What the gate still does not detect
+
+A pack whose CONTENT changes while its VERSION stays the same. That is a
+packaging error rather than a case to guess at, and guessing would mean fetching
+every pack on every start, which is the thing §13cs removed. Noted because a
+regression test found it while being written, not while failing.
 
 ---
 

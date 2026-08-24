@@ -135,6 +135,31 @@ export const PACKS = {
 // UPDATES still go through `diffPack` and the preview (§10), and the explicit
 // „check the library" button calls `diffPack` directly, so it fetches whatever
 // the gate decided — a person asking to be shown the pack is always shown it.
+//
+// TWO VERSIONS, NOT ONE (§13cu).
+//
+// rc28 recorded one `version` per pack and used it for two different questions.
+// After a boot against a newer pack, `seedPack` had added the genuinely new
+// records and correctly left the changed ones alone — and then the version was
+// written down as installed. `packsWithNewVersion()` compared the manifest
+// against that same field and answered: nothing new.
+//
+// So a start could silently retire an update the owner had never been shown.
+// The changed records were still the old ones, the withdrawn ones were still
+// there, and the notice that would have told her had been switched off by the
+// act of booting. A fast start had come to mean „the library is up to date",
+// which it never was.
+//
+// The two questions are therefore two fields:
+//
+//   seededVersion  — what the boot gate has already handled well enough not to
+//                    fetch the pack again. Written by `ensurePacks`.
+//   appliedVersion — what the owner has actually been shown and has applied.
+//                    Written ONLY by `recordApplied`, from the preview.
+//
+// The gate reads the first. The „is there something new" question reads the
+// second. Adding a genuinely new record does not make the rest of a version
+// reviewed, so a boot moves `seededVersion` and never touches `appliedVersion`.
 
 const MANIFEST = 'seed/manifest.json';
 
@@ -178,7 +203,7 @@ export async function ensurePacks() {
     const known = state[name];
     const store = PACKS[name].store;
 
-    if (shipped && known && known.version === shipped.version) {
+    if (shipped && known && known.seededVersion === shipped.version) {
       const now = fingerprint(await keys(store));
       if (now === known.fingerprint) { out.skipped.push(name); continue; }
     }
@@ -187,7 +212,14 @@ export async function ensurePacks() {
       await loadPack(name);
       out.loaded.push(name);
       next[name] = {
-        version: shipped?.version ?? null,
+        // Moved: this boot has seen this version and added what was absent, so
+        // the next start need not fetch the pack to learn that again.
+        seededVersion: shipped?.version ?? null,
+        // NOT moved. A fresh install is the one case where seeding IS applying
+        // — there was nothing to review, because there was nothing there — so a
+        // pack installed from empty counts as applied. Anything else keeps
+        // whatever the owner has actually reviewed, which may be nothing.
+        appliedVersion: known ? (known.appliedVersion ?? null) : (shipped?.version ?? null),
         fingerprint: fingerprint(await keys(store)),
       };
     } catch (err) {
@@ -217,8 +249,46 @@ export async function packsWithNewVersion() {
   if (!manifest) return [];
 
   const state = await packState();
+  // Reads `appliedVersion`. A pack the boot gate has seeded but the owner has
+  // never been shown is still pending, and stays pending until the preview
+  // applies it — that is the whole of §13cu.
   return Object.keys(PACKS).filter(name =>
-    manifest[name] && state[name] && state[name].version !== manifest[name].version);
+    manifest[name] && state[name] && state[name].appliedVersion !== manifest[name].version);
+}
+
+/**
+ * The owner has been shown this pack's update and has applied her choices.
+ *
+ * Called from the preview, and from nowhere else — a version becomes „applied"
+ * by being reviewed, never by being booted past.
+ *
+ * `full` is false when she ticked only some of what was offered. A partial
+ * apply leaves the pack pending, because the entries she did not tick are
+ * exactly the ones the notice exists to keep offering; withdrawals in
+ * particular are never applied by anything but a choice (§13cb).
+ */
+export async function recordApplied(name, { full = true } = {}) {
+  const cfg = PACKS[name];
+  if (!cfg) return;
+  let manifest = null;
+  try {
+    const res = await fetch(MANIFEST);
+    if (res.ok) manifest = (await res.json()).packs || null;
+  } catch { return; }
+  const shipped = manifest?.[name];
+  if (!shipped) return;
+
+  const state = await packState();
+  const known = state[name] || {};
+  await setSetting('packState', {
+    ...state,
+    [name]: {
+      ...known,
+      seededVersion: shipped.version,
+      appliedVersion: full ? shipped.version : (known.appliedVersion ?? null),
+      fingerprint: fingerprint(await keys(cfg.store)),
+    },
+  });
 }
 
 export function loadPack(name) {

@@ -12,6 +12,42 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc29 — 24 August 2026
+
+Two corrections closing the rc28 optimisation, from the independent re-review. Nothing
+else touched — the two known screen defects are still open and still deferred.
+
+- **A fast start had come to mean „the library is up to date", and it never was.** The boot
+  gate kept one version per pack and answered two questions with it: after booting past a
+  newer pack, the shipped version was recorded as installed, and the „is there something
+  new" notice compared against that same field and said no. So opening the application
+  silently retired an update the owner had never been shown — the changed records still the
+  old ones, the withdrawn ones still there, everything on screen looking settled. Two
+  fields now: `seededVersion`, moved by the boot, and `appliedVersion`, written only by the
+  preview. A version becomes applied by being reviewed, never by being booted past. A
+  partial apply leaves the pack pending, because the entries she left unticked are exactly
+  what the notice exists to keep offering. §13cu
+- **Sources could still be deleted while the library credited them.** `refs.js` closed the
+  hole for workflow records in rc28 and left the attribution register open. Same fault, and
+  for a library meant to be given away it is a licence problem as well as an integrity one.
+  §13ct
+- **A third source path the review had not listed** — `colours[].source`, on every colour
+  swatch of every plant. It is the largest: four of the ten sources are named nowhere else,
+  so checking only `glossary.sourceCode` and `recipes.sourceCode` would have left those
+  four freely deletable while reporting the register protected. §13ct
+- **The checker takes a target key rather than assuming `id`.** A source is credited by its
+  code, unprefixed, and always was (§13bt) — migrating those references to ids would be a
+  model change with nothing to show for it. Every other entity keeps id matching, and that
+  is asserted, because an alternate key that quietly broke it would trade one hole for a
+  worse one. §13ct
+- **`trials.water.sourceCode` is not a citation** — it holds a `water_source` vocabulary
+  code, rain or tap or well. A checker matching on field name would have refused to delete
+  a source because somebody wrote down where the water came from. The guard asserts it.
+- **New layer**: `scripts/try-pack-lifecycle.mjs`, covering the update lifecycle end to end
+  and the source paths. Every guard was watched failing against the rc28 state model.
+
+---
+
 ## 1.0.0-rc28 — 24 August 2026
 
 An integrity and weight iteration, from the second independent audit. Three subjects and

@@ -101,11 +101,11 @@ are corrected in rc26. Two are real and are **not**:
 Neither is a mechanical application of a rule the project already states, which is why
 they were left. They want an eye on a real phone.
 
-**What needs deciding.** Whether rc28 is these two and nothing else — which would keep the
+**What needs deciding.** Whether rc30 is these two and nothing else — which would keep the
 discipline of this release and make it as easy to regression-test — or whether they ride
 along with the next piece of real work.
 
-**Suggested.** rc28 is the two, on its own. The last time layout faults were bundled with
+**Suggested.** rc30 is the two, on its own. The last time layout faults were bundled with
 something else they were found by the owner on a phone rather than by a check.
 
 ---

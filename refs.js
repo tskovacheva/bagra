@@ -25,7 +25,23 @@
 // data loss. The only two answers here are „nothing points at this" and „these
 // do".
 
-import { all, STORES } from './db.js';
+import { all, get, STORES } from './db.js';
+
+// WHAT NAMES A RECORD OF THIS KIND.
+//
+// Almost everything is named by its `id`. Sources are not: a seeded source has
+// the id `seed:boutrup-ellis`, and the records that credit it write
+// `sourceCode: 'boutrup-ellis'` — the CODE, without the prefix. Attribution was
+// written that way deliberately (§13bt), so that a credit survives a record
+// being reseeded, and turning every source reference into an id would be a
+// model migration this iteration has no reason to perform.
+//
+// So the checker takes the key from the target rather than assuming `id`. Every
+// other entity keeps the identity function and behaves exactly as before.
+const TARGET_KEY = {
+  sources: (row) => row.code ?? String(row.id || '').replace(/^seed:/, ''),
+};
+const keyOf = (store, row) => (TARGET_KEY[store] ? TARGET_KEY[store](row) : row.id);
 
 // Where the ids live, written out rather than discovered, because a path this
 // file does not know about is a path that silently permits a delete. Each entry
@@ -77,6 +93,22 @@ const INCOMING = {
           n + (ing.options || []).filter(o => o.substanceId === id).length, 0) },
     { store: 'stock',   label: 'refs.stock',   count: (r, id) => (r.substanceId === id ? 1 : 0) },
   ],
+  // ATTRIBUTION IS PART OF THE HISTORY TOO (§13ct). A source is not a workflow
+  // record and deleting one does the same damage: the claim stays, the credit
+  // it rests on is gone, and a knowledge record goes on naming a source that no
+  // longer exists. For a library meant to be given away that is also a licence
+  // problem, not only an integrity one.
+  //
+  // Matched on the CODE, not the id — see TARGET_KEY above.
+  sources: [
+    { store: 'glossary', label: 'refs.glossary', count: (r, code) => (r.sourceCode === code ? 1 : 0) },
+    { store: 'recipes',  label: 'refs.recipes',  count: (r, code) => (r.sourceCode === code ? 1 : 0) },
+    // Not in the audit's list and real: every colour swatch on a plant credits
+    // where the colour was read from. 57 plants carry these, and four of the ten
+    // sources are named only here.
+    { store: 'plants',   label: 'refs.colours',  count: (r, code) =>
+        (r.colours || []).filter(c => c.source === code).length },
+  ],
   // A trial WRITES actions onto cloth (§13an), and those actions carry its id.
   // Deleting the trial would leave a piece of cloth saying it was dyed by
   // something that no longer exists.
@@ -99,6 +131,10 @@ const INCOMING = {
  */
 export async function findReferences(store, id) {
   const paths = INCOMING[store] || [];
+  // Sources are matched on their code. Read the record to learn it rather than
+  // deriving it from the id, so a user-written source — which has a uid for an
+  // id and its own code — is matched the same way a seeded one is.
+  const target = TARGET_KEY[store] ? keyOf(store, (await get(store, id)) || { id }) : id;
   const byStore = [];
   let total = 0;
 
@@ -109,7 +145,7 @@ export async function findReferences(store, id) {
       // A record cannot hold itself: guard the one case where the pointing
       // store and the pointed-at store are the same kind.
       if (path.store === store && row.id === id) continue;
-      const n = path.count(row, id);
+      const n = path.count(row, target);
       if (n > 0) { records++; count += n; }
     }
     if (records) { byStore.push({ ...path, records, count }); total += records; }
@@ -139,7 +175,7 @@ export async function danglingReferences() {
   const out = [];
   const present = {};
   for (const store of Object.keys(INCOMING)) {
-    present[store] = new Set((await all(store)).map(r => r.id));
+    present[store] = new Set((await all(store)).map(r => keyOf(store, r)));
   }
 
   const seen = new Map();   // 'store:id' -> where it was seen
@@ -190,6 +226,15 @@ function pointersIn(row, target) {
       row.substanceId,
     ];
     case 'trials':       return (row.actions || []).map(a => a.trialId);
+    // The codes a record credits. `trials.water.sourceCode` is deliberately NOT
+    // here: it holds a `water_source` vocabulary code — rain, tap, well — and
+    // has nothing to do with the sources register. A checker that matched on
+    // field name alone would have blocked the deletion of a source because
+    // somebody once wrote down where the water came from.
+    case 'sources': return [
+      row.sourceCode,
+      ...(row.colours || []).map(c => c.source),
+    ];
     default:             return [];
   }
 }

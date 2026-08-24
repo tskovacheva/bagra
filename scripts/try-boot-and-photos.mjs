@@ -122,10 +122,14 @@ console.log('\na newer shipped pack is detectable without opening it');
 
 is(await packsWithNewVersion(), [], 'nothing is new right now');
 
+// Two fields since rc29 (§13cu): what the boot has seeded, and what the owner
+// has reviewed. The gate reads the first; „is there something new" reads the
+// second, so that booting past an update cannot retire it.
 const state = await db.getSetting('packState');
-state.plants.version = '0.0.1-older';
+state.plants.seededVersion = '0.0.1-older';
+state.plants.appliedVersion = '0.0.1-older';
 await db.setSetting('packState', state);
-is(await packsWithNewVersion(), ['plants'], 'an older installed version is seen from the manifest alone');
+is(await packsWithNewVersion(), ['plants'], 'an older reviewed version is seen from the manifest alone');
 
 mark = since();
 const fourth = await ensurePacks();
@@ -140,7 +144,7 @@ edited.nameCommon = { bg: 'моето име', en: 'my name' };
 edited.editedByUser = true;
 await db.put('plants', edited);
 const st2 = await db.getSetting('packState');
-st2.plants.version = '0.0.1-older';
+st2.plants.seededVersion = '0.0.1-older';
 await db.setSetting('packState', st2);
 await ensurePacks();
 is((await db.get('plants', 'seed:quercus_robur')).nameCommon.bg, 'моето име',

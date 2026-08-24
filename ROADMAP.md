@@ -125,6 +125,9 @@ None of this is a feature; all of it is a condition of taking money.
   deleted (§13cq). What is NOT done, and is now a decision rather than a task: whether cloth
   gets a *retired* state, and whether reference entities get archiving at all. Both are in
   `DOCUMENTATION_DECISIONS_NEEDED.md`.
+- **Attribution is protected like the rest of the history — done at rc29.** A source that
+  glossary terms, recipes or colour swatches credit cannot be deleted (§13ct). Four of the
+  ten sources are named only by colour swatches, which the review had not listed.
 - **Numerical tests on the calculators.** A disclaimer does not cover an unchecked formula.
   The aluminium acetate stoichiometry has still not been compared against an independent
   source; it is written out openly in `calc/alum-acetate.js` for exactly that.
@@ -141,7 +144,7 @@ None of this is a feature; all of it is a condition of taking money.
   measuring the home screen and reporting its faults under another name. That is corrected.
   **Two real faults remain**: „Виж всички →" at 23px on the home screen, and the *use now*
   tiles overflowing on an opened plant. Both are layout decisions rather than mechanical
-  corrections and both want the owner's eye. They are the first work of rc28; until then
+  corrections and both want the owner's eye. They are the first work of rc30; until then
   `sh check.sh --release` refuses the candidate, which is the point of having it.
 - **A release run is now a different run.** `sh check.sh --release` fails where a
   development run skips a layer for a missing dependency. The invariant: a candidate cannot

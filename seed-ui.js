@@ -6,7 +6,7 @@
 
 import { t } from './i18n.js';
 import { page, panel, esc, label } from './ui.js';
-import { diffPack, applyDiff } from './seed.js';
+import { diffPack, applyDiff, recordApplied } from './seed.js';
 
 let state = null;   // { name, diff, chosen:Set }
 
@@ -101,9 +101,18 @@ export async function render(root, onDone) {
     }
 
     if (e.target.closest('[data-apply]')) {
-      const all = [...diff.added, ...diff.changed, ...diff.edited, ...diff.withdrawn]
-        .filter(x => state.chosen.has(x.id));
+      const offered = [...diff.added, ...diff.changed, ...diff.edited, ...diff.withdrawn];
+      const all = offered.filter(x => state.chosen.has(x.id));
       const n = await applyDiff(diff.store, all, diff.pack);
+      // This is the ONLY place a pack version becomes „applied" (§13cu). A boot
+      // may seed missing records and must never retire an update the owner has
+      // not seen — so the version she has actually reviewed is written here,
+      // from the screen that showed it to her.
+      //
+      // Only a full apply closes it. If she left entries unticked, those are
+      // precisely the ones the notice exists to keep offering — a withdrawal
+      // above all, which is never performed except by a choice (§13cb).
+      await recordApplied(state.name, { full: all.length === offered.length });
       close();
       alert(t('seed.applied', { n }));
       return onDone();
