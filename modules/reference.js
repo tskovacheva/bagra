@@ -247,6 +247,51 @@ const swatch = (hex, cls = 'refswatch') => hex
 // populated on none of them (decision 12), and a section standing empty on
 // every record reads as a screen that is broken rather than as a field nobody
 // has filled. Absent until there is something to put in it.
+// The sources a record rests on — the list, the single older value, and the one
+// an influence cites of its own. Resolved through the register rather than
+// printed as prose, so a name on the screen is a record somebody can open
+// (§13dg).
+async function sourceList(record) {
+  const codes = [...new Set([
+    ...(record.sourceCodes || []),
+    record.learnedFrom,
+    ...(record.influences || []).map(i => i.sourceCode),
+  ].filter(Boolean))];
+  if (!codes.length) return '';
+  const reg = new Map((await all('sources')).map(x => [x.code, x]));
+  return codes.map(c => {
+    const src = reg.get(c);
+    if (!src) return esc(c);            // prose from an older record, shown as it is
+    const name = esc(text(src.name) || src.code);
+    return src.url ? `<a href="${esc(src.url)}" target="_blank" rel="noopener">${name}</a>` : name;
+  }).join(' · ');
+}
+
+// WHAT MOVES THE RESULT (§13dg).
+//
+// Thirty-seven records carry an explanation of what changes them — the fibre,
+// the mordant, the medium, the species, the dose, the preparation — each with
+// the source that says so. They came back across three rounds of the data
+// workbook and had nowhere to go until now.
+//
+// Grouped by factor, because „mordant" said three times about one record is one
+// thing being explained, not three.
+async function influenceBlock(record) {
+  const list = record.influences || [];
+  if (!list.length) return '';
+  const reg = new Map((await all('sources')).map(x => [x.code, x]));
+  const rows = await Promise.all(list.map(async (i) => {
+    const src = reg.get(i.sourceCode);
+    return `<div class="influence">
+      <b>${esc(await label('influence_factor', i.factor))}</b>
+      <span>${esc(text(i.text))}</span>
+      ${src ? `<span class="hint">${esc(text(src.name) || src.code)}</span>` : ''}
+    </div>`;
+  }));
+  return `<div class="influences">
+    <h2>${t('ref.influences')}</h2>${rows.join('')}</div>`;
+}
+
 async function detailPane(record, plantsById) {
   if (!record) return '';
   const k = record.key || {};
@@ -285,6 +330,13 @@ async function detailPane(record, plantsById) {
 
       ${text(e.variation) ? `<p class="hint">${esc(text(e.variation))}</p>` : ''}
       ${text(record.notes) ? prose(record.notes) : ''}
+
+      ${await influenceBlock(record)}
+
+      ${''}${(await sourceList(record))
+        ? `<div class="detailsources"><h2>${t('ref.sources')}</h2>
+             <p class="hint">${await sourceList(record)}</p></div>`
+        : ''}
 
       <div class="detailtrials">
         <h2>${t('ref.myPlacements')}</h2>
@@ -822,6 +874,13 @@ export default {
   id: 'reference',
   title: () => t('reference.title'),
   sub: () => t('reference.sub'),
+
+  // Exposed for the guard. Which record the panel shows is module state rather
+  // than an address (§13q applies to the SCREEN, and the panel is a selection
+  // within one), so a guard that wanted a particular record could only get
+  // there by clicking whichever row a question happened to rank first — which
+  // is testing the ranking by accident.
+  selectForTest(id) { selectedId = id; },
 
   // The address decides what is on screen (§13q). Called on every route change,
   // with nothing when the address names no record, which is how the list comes

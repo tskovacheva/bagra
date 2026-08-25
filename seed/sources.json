@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": 8,
+ "packVersion": 9,
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -507,6 +507,72 @@
    "note": {
     "bg": "Работено в ателието и проверено на ръка. Различава се от ръководството: ръководството е написано, а това е правено. Където записът носи и двете, книгата дава числата, а практиката потвърждава, че вършат работа.",
     "en": "Worked in the studio and checked by hand. Distinct from the published guide: the guide is written, this is done. Where a record carries both, the book supplies the figures and the practice confirms they work."
+   }
+  },
+  {
+   "code": "plants-2023-origanum",
+   "kind": "reference",
+   "name": "Historical dye use of Origanum vulgare",
+   "author": "Plants",
+   "url": "",
+   "note": {
+    "bg": "Регистриран при внасянето на обясненията.",
+    "en": "Registered when the explanatory texts were imported."
+   }
+  },
+  {
+   "code": "kocak-rosmarinus-2025",
+   "kind": "reference",
+   "name": "Rosmarinus officinalis leaves on wool",
+   "author": "Koçak & Yılmaz",
+   "url": "",
+   "note": {
+    "bg": "Регистриран при внасянето на обясненията.",
+    "en": "Registered when the explanatory texts were imported."
+   }
+  },
+  {
+   "code": "jenny-dean-anglosaxon",
+   "kind": "site",
+   "name": "Anglo-Saxon Dye Experiments",
+   "author": "Jenny Dean",
+   "url": "https://www.jennydean.co.uk/anglo-saxon-dye-experiments-part-2/",
+   "note": {
+    "bg": "Регистриран при внасянето на обясненията от работните книги. Цитиран за какво променя резултата, не за самия цвят.",
+    "en": "Registered when the explanatory texts were imported from the workbooks. Cited for what moves the result, not for the colour itself."
+   }
+  },
+  {
+   "code": "jenny-dean-solar",
+   "kind": "site",
+   "name": "Solar Dye Pots",
+   "author": "Jenny Dean",
+   "url": "https://www.jennydean.co.uk/category/general-dye-information/page/2/",
+   "note": {
+    "bg": "Регистриран при внасянето на обясненията от работните книги. Цитиран за какво променя резултата, не за самия цвят.",
+    "en": "Registered when the explanatory texts were imported from the workbooks. Cited for what moves the result, not for the colour itself."
+   }
+  },
+  {
+   "code": "jenny-dean-brown-grey",
+   "kind": "site",
+   "name": "Dyeing brown and grey wool fibres",
+   "author": "Jenny Dean",
+   "url": "https://www.jennydean.co.uk/dyeing-brown-and-grey-wool-fibres/",
+   "note": {
+    "bg": "Регистриран при внасянето на обясненията от работните книги. Цитиран за какво променя резултата, не за самия цвят.",
+    "en": "Registered when the explanatory texts were imported from the workbooks. Cited for what moves the result, not for the colour itself."
+   }
+  },
+  {
+   "code": "jenny-dean-tannin",
+   "kind": "site",
+   "name": "Focus on Tannin",
+   "author": "Jenny Dean",
+   "url": "https://www.jennydean.co.uk/focus-on-tannin/",
+   "note": {
+    "bg": "Регистриран при внасянето на обясненията от работните книги. Цитиран за какво променя резултата, не за самия цвят.",
+    "en": "Registered when the explanatory texts were imported from the workbooks. Cited for what moves the result, not for the colour itself."
    }
   }
  ]

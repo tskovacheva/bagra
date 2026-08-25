@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.7.0",
+ "packVersion": "0.8.0",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -41,7 +41,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "quercus_robur_fruit_alum_potassium_plain_immersion",
@@ -78,7 +81,10 @@
    "notes": {
     "bg": "Жълъди и шапчици.",
     "en": "Acorns and cups."
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "quercus_robur_bark_iron_plain_immersion",
@@ -115,7 +121,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "quercus_robur_leaf_iron_plain_ecoprint",
@@ -152,7 +161,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "betula_pendula_leaf_alum_potassium_plain_immersion",
@@ -189,7 +201,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "betula_pendula_bark_alum_potassium_plain_immersion",
@@ -226,7 +241,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "betula_pendula_leaf_iron_plain_immersion",
@@ -263,7 +281,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "betula_pendula_leaf_alum_potassium_alkaline_immersion",
@@ -303,7 +324,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cotinus_coggygria_leaf_alum_potassium_plain_immersion",
@@ -340,7 +364,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cotinus_coggygria_bark_alum_potassium_plain_immersion",
@@ -377,7 +404,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cotinus_coggygria_leaf_iron_plain_immersion",
@@ -414,7 +444,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "juglans_regia_hull_none_plain_immersion",
@@ -451,7 +484,10 @@
    "notes": {
     "bg": "Орехът е субстантивен — хваща без мордант.",
     "en": "Walnut is substantive — it holds without a mordant."
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "juglans_regia_hull_iron_plain_immersion",
@@ -488,7 +524,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "juglans_regia_hull_none_alkaline_immersion",
@@ -528,7 +567,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "hypericum_perforatum_flower_alum_potassium_plain_immersion",
@@ -565,7 +607,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "hypericum_perforatum_flower_iron_plain_immersion",
@@ -602,7 +647,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "achillea_millefolium_flower_alum_potassium_plain_immersion",
@@ -639,7 +687,10 @@
    "notes": {
     "bg": "Цветните кошнички дават най-жълт тон; листата — зеленикав оттенък.",
     "en": "The flower heads give the yellowest tone; the leaves a greenish cast."
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "achillea_millefolium_flower_iron_plain_immersion",
@@ -676,7 +727,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_alum_potassium_acid_immersion",
@@ -716,7 +770,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_alum_potassium_alkaline_immersion",
@@ -756,7 +813,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_iron_plain_immersion",
@@ -793,7 +853,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rubia_tinctorum_root_alum_potassium_alkaline_immersion",
@@ -833,7 +896,10 @@
    "notes": {
     "bg": "Малиново вместо ярко червено — повече алкалност и по-дълго време.",
     "en": "Raspberry rather than bright red — more alkalinity and longer."
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rubia_root_alum_pink",
@@ -870,7 +936,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rubia_tinctorum_root_iron_plain_immersion",
@@ -907,7 +976,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "persicaria_tinctoria_leaf_none_plain_immersion",
@@ -944,7 +1016,10 @@
    "notes": {
     "bg": "Нежно синьо вместо наситено индиго — при по-ниска температура.",
     "en": "Soft blue rather than deep indigo — at a lower temperature."
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "persicaria_tinctoria_leaf_none_alkaline_immersion",
@@ -984,7 +1059,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rhus_coriaria_leaf_alum_potassium_plain_immersion",
@@ -1021,7 +1099,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rhus_coriaria_leaf_iron_plain_immersion",
@@ -1058,7 +1139,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "alkanna_tinctoria_root_nomordant_protein_immersion",
@@ -1095,7 +1179,10 @@
    "notes": {
     "bg": "алкохолен извлек, протеиново влакно",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "alkanna_tinctoria_root_iron_immersion",
@@ -1126,13 +1213,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "цветът варира от сиво до пурпурно, без мордант повече в сивата гама, с алум отива към лилаво и пурпурно",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-wild-colour"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с железни соли",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "sambucus_nigra_bark_alum_potassium_immersion",
@@ -1163,13 +1263,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "При модификация с желязо цветът се променя от светлобежовата гама към светло сиво при протеинови влакна, до тъмно сиво при целулозните.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-wild-colour"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "кора, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "sambucus_nigra_leaf_nomordant_ecoprint",
@@ -1206,7 +1319,10 @@
    "notes": {
     "bg": "лист върху мордантиран плат",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "sambucus_nigra_leaf_nomordant_ironblanket_ecoprint",
@@ -1243,7 +1359,10 @@
    "notes": {
     "bg": "лист с желязно одеало · Желязното одеало е blanket/enhancement, не mordant; оставено е извън колоната „Байц“.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "sambucus_nigra_fruit_nomordant_immersion",
@@ -1274,13 +1393,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "ph",
+     "text": {
+      "bg": "багрилото от плодовете подлежи на модификация, алкалната модификация със сода или натриев карбонат води променв в сиво, докато киселинната (лимонена киселина, оцет) променя в по-виолетово червената гама.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-wild-colour"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "плод, с желязо или алкално | плод, студена или хладка баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "salix_alba_bark_nomordant_immersion",
@@ -1317,7 +1449,10 @@
    "notes": {
     "bg": "от кора",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "salvia_officinalis_leaf_alum_potassium_immersion",
@@ -1348,13 +1483,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "При Salvia officinalis alum дава най-висока цветова сила върху вълна; на памук alum увеличава яркостта.",
+      "en": ""
+     },
+     "sourceCode": "eser-salvia-2017"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "eser-salvia-2017"
+   ]
   },
   {
    "code": "salvia_officinalis_leaf_iron_immersion",
@@ -1385,13 +1533,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "При Salvia officinalis най-високата цветова сила в изследването е получена върху памук с железен мордант; желязото потъмнява тона.",
+      "en": ""
+     },
+     "sourceCode": "eser-salvia-2017"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "желязо, дълга баня | с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "eser-salvia-2017"
+   ]
   },
   {
    "code": "salvia_officinalis_leaf_nomordant_immersion",
@@ -1422,13 +1583,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Salvia officinalis е изследвана върху вълна и без мордант; мордантите променят цветната сила и нюанса.",
+      "en": ""
+     },
+     "sourceCode": "eser-salvia-2017"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "eser-salvia-2017"
+   ]
   },
   {
    "code": "dahlia_pinnata_leaf_iron_immersion",
@@ -1465,7 +1639,10 @@
    "notes": {
     "bg": "листа, с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "dahlia_pinnata_flower_nomordant_ecoprint",
@@ -1502,7 +1679,10 @@
    "notes": {
     "bg": "съцветие върху мордантиран плат",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cornus_mas_leaf_nomordant_immersion",
@@ -1539,7 +1719,10 @@
    "notes": {
     "bg": "от листа и кора · Разделено от общия запис „от листа и кора“. Цветът е наблюдаван за двете части заедно; този ред пази отделния ключ, но самостоятелният резултат за частта не е независимо потвърден.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cornus_mas_bark_nomordant_immersion",
@@ -1576,7 +1759,10 @@
    "notes": {
     "bg": "от листа и кора · Разделено от общия запис „от листа и кора“. Цветът е наблюдаван за двете части заедно; този ред пази отделния ключ, но самостоятелният резултат за частта не е независимо потвърден.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "eucalyptus_spp_leaf_nomordant_immersion",
@@ -1607,13 +1793,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "species",
+     "text": {
+      "bg": "Немордантираната вълна поема евкалипта добре; видът е решаващ — E. cinerea може да даде червено-оранжево, E. globulus по-кафяво.",
+      "en": ""
+     },
+     "sourceCode": "ellis-natural-dye"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "някои видове | слаба баня | средна баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "ellis-natural-dye"
+   ]
   },
   {
    "code": "eucalyptus_spp_leaf_iron_immersion",
@@ -1644,13 +1843,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "При FeSO₄ върху памук евкалиптовият екстракт се измества към сиви/синьо-сиви тонове.",
+      "en": ""
+     },
+     "sourceCode": "eucalyptus-cotton-jti"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "eucalyptus-cotton-jti"
+   ]
   },
   {
    "code": "frangula_alnus_bark_alum_potassium_immersion",
@@ -1687,7 +1899,10 @@
    "notes": {
     "bg": "кора, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "frangula_alnus_bark_nomordant_immersion",
@@ -1718,13 +1933,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "preparation",
+     "text": {
+      "bg": "Frangula alnus bark е документирана за директно багрене на вълнена прежда; подготовката на кората силно влияе върху оттенъка.",
+      "en": ""
+     },
+     "sourceCode": "luhamaa-frangula-2025"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "кора, обикновена отвара | отлежала или ферментирала кора",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "luhamaa-frangula-2025"
+   ]
   },
   {
    "code": "frangula_alnus_bark_nomordant_alkalinedye_bath_immersion",
@@ -1758,13 +1986,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "ph",
+     "text": {
+      "bg": "Алкалната обработка/ферментация на кората е традиционен път към по-червени тонове; цветът е силно pH-чувствителен.",
+      "en": ""
+     },
+     "sourceCode": "luhamaa-frangula-2025"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "отлежала кора, алкална обработка",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "luhamaa-frangula-2025"
+   ]
   },
   {
    "code": "rhamnus_cathartica_bark_nomordant_immersion",
@@ -1801,7 +2042,10 @@
    "notes": {
     "bg": "от кора",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rhamnus_cathartica_fruit_nomordant_immersion",
@@ -1838,7 +2082,10 @@
    "notes": {
     "bg": "от плодове",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cosmos_sulphureus_flower_alum_potassium_immersion",
@@ -1869,13 +2116,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "ph",
+     "text": {
+      "bg": "За вълна е описано предварително мордантиране с алуминиев сулфат; pH може да измества оранжевото към по-червено.",
+      "en": ""
+     },
+     "sourceCode": "cosmos-sulphureus-textiles"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "cosmos-sulphureus-textiles"
+   ]
   },
   {
    "code": "cosmos_sulphureus_flower_nomordant_immersion",
@@ -1912,7 +2172,10 @@
    "notes": {
     "bg": "изчерпана баня | по-концентрирана баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "cosmos_sulphureus_flower_iron_immersion",
@@ -1943,13 +2206,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "При памук са изпитвани различни морданти, включително ferrous sulfate, който по принцип потъмнява и приглушава нюанса.",
+      "en": ""
+     },
+     "sourceCode": "cosmos-sulphureus-textiles"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с железен сулфат",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "cosmos-sulphureus-textiles"
+   ]
   },
   {
    "code": "allium_cepa_hull_alum_potassium_immersion",
@@ -1986,7 +2262,11 @@
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "openlearn-natural-dyes"
+   ]
   },
   {
    "code": "allium_cepa_hull_nomordant_immersion",
@@ -2023,7 +2303,11 @@
    "notes": {
     "bg": "по-концентрирана баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "openlearn-natural-dyes"
+   ]
   },
   {
    "code": "lawsonia_inermis_leaf_nomordant_protein_immersion",
@@ -2060,7 +2344,10 @@
    "notes": {
     "bg": "върху протеиново влакно",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "lawsonia_inermis_leaf_nomordant_immersion",
@@ -2091,13 +2378,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Къната е субстантивна върху протеинови влакна; целулозните влакна имат по-нисък естествен афинитет.",
+      "en": ""
+     },
+     "sourceCode": "bhuiyan-henna-2017"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня | по-дълга баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "bhuiyan-henna-2017"
+   ]
   },
   {
    "code": "rubus_fruticosus_leaf_nomordant_ironblanket_ecoprint",
@@ -2134,7 +2434,10 @@
    "notes": {
     "bg": "лист с желязно одеало · Желязното одеало е blanket/enhancement, не mordant; оставено е извън колоната „Байц“.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rubus_fruticosus_leaf_alum_potassium_immersion",
@@ -2165,13 +2468,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Bramble leaves са тествани върху вълна; alum дава по-чист кафеникаво-жълт резултат, а желязото го измества към маслинено.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-anglosaxon"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "листа, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-anglosaxon"
+   ]
   },
   {
    "code": "rubus_fruticosus_leaf_iron_immersion",
@@ -2202,13 +2518,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "При вълна желязото потъмнява bramble leaf dye към маслинени/зеленикави тонове.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-anglosaxon"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "листа, с железни соли",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-anglosaxon"
+   ]
   },
   {
    "code": "rubus_fruticosus_fruit_nomordant_immersion",
@@ -2245,7 +2574,10 @@
    "notes": {
     "bg": "плод, хладка баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "corylus_avellana_leaf_nomordant_immersion",
@@ -2282,7 +2614,10 @@
    "notes": {
     "bg": "от листа",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "corylus_avellana_hull_nomordant_immersion",
@@ -2319,7 +2654,10 @@
    "notes": {
     "bg": "от плодова обвивка",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "melissa_officinalis_leaf_alum_potassium_immersion",
@@ -2350,13 +2688,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Публикувано е багрене на вълнена прежда с Melissa officinalis и метални морданти; alum дава една от групите светли жълти нюанси.",
+      "en": ""
+     },
+     "sourceCode": "safapour-melissa-2024"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "safapour-melissa-2024"
+   ]
   },
   {
    "code": "melissa_officinalis_leaf_iron_immersion",
@@ -2387,13 +2738,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "При Melissa officinalis металният мордант съществено променя оттенъка и цветната сила; редът е вързан към вълна.",
+      "en": ""
+     },
+     "sourceCode": "safapour-melissa-2024"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "safapour-melissa-2024"
+   ]
   },
   {
    "code": "melissa_officinalis_leaf_nomordant_immersion",
@@ -2430,7 +2794,10 @@
    "notes": {
     "bg": "слаба баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "mentha_spp_leaf_nomordant_immersion",
@@ -2461,13 +2828,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Mentha spicata е изследвана и върху вълна, и върху памук без мордант; този ред е вързан към protein, за да не смесва две влакна в един ключ.",
+      "en": ""
+     },
+     "sourceCode": "kuwait-mentha-2025"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "свежи листа",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "kuwait-mentha-2025"
+   ]
   },
   {
    "code": "pelargonium_zonale_leaf_nomordant_ecoprint",
@@ -2504,7 +2884,10 @@
    "notes": {
     "bg": "лист върху мордантиран плат",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "pelargonium_zonale_leaf_nomordant_ironblanket_ecoprint",
@@ -2541,7 +2924,10 @@
    "notes": {
     "bg": "лист с желязно одеало · Желязното одеало е blanket/enhancement, не mordant; оставено е извън колоната „Байц“.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "pelargonium_zonale_leaf_alum_potassium_immersion",
@@ -2578,7 +2964,10 @@
    "notes": {
     "bg": "листа, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "pelargonium_zonale_leaf_nomordant_immersion",
@@ -2615,7 +3004,10 @@
    "notes": {
     "bg": "листа, прясна баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "pelargonium_zonale_flower_nomordant_immersion",
@@ -2652,7 +3044,10 @@
    "notes": {
     "bg": "цветове",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "punica_granatum_hull_alum_potassium_immersion",
@@ -2683,13 +3078,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "На памук алуминиевият мордант дава по-светли и по-ярки жълти нюанси.",
+      "en": ""
+     },
+     "sourceCode": "molecules-peel-cotton-2022"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "molecules-peel-cotton-2022"
+   ]
   },
   {
    "code": "punica_granatum_hull_nomordant_immersion",
@@ -2720,13 +3128,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Нарът е таниново, субстантивно багрило и може да багри памук и без метален мордант.",
+      "en": ""
+     },
+     "sourceCode": "molecules-peel-cotton-2022"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "по-дълга баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "molecules-peel-cotton-2022"
+   ]
   },
   {
    "code": "punica_granatum_hull_iron_immersion",
@@ -2757,13 +3178,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "На памук желязото потъмнява към тъмно сиво/ниска хрома; алуминиевият мордант дава по-светло жълто.",
+      "en": ""
+     },
+     "sourceCode": "molecules-peel-cotton-2022"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с железни соли",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "molecules-peel-cotton-2022"
+   ]
   },
   {
    "code": "calendula_officinalis_flower_alum_potassium_immersion",
@@ -2794,13 +3228,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Calendula е документирана върху alum-мордантирана вълна; резултатът е в жълтата гама.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-solar"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-solar"
+   ]
   },
   {
    "code": "calendula_officinalis_flower_nomordant_immersion",
@@ -2837,7 +3284,10 @@
    "notes": {
     "bg": "концентрирана баня | много цвят в банята",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "calendula_officinalis_flower_iron_immersion",
@@ -2868,13 +3318,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "При alum-мордантирана вълна добавянето на желязо приглушава и потъмнява жълтото към маслинено.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-solar"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-solar"
+   ]
   },
   {
    "code": "rhamnus_tinctoria_fruit_alum_potassium_immersion",
@@ -2911,7 +3374,10 @@
    "notes": {
     "bg": "неузрели плодове, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rhamnus_tinctoria_fruit_nomordant_immersion",
@@ -2948,7 +3414,10 @@
    "notes": {
     "bg": "по-дълга баня | сушени плодове",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rheum_rhabarbarum_root_nomordant_alkalinedye_bath_immersion",
@@ -2982,13 +3451,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "ph",
+     "text": {
+      "bg": "Немордантираната вълна с ревенов корен реагира отчетливо на алкален модификатор; алкалността задълбочава/измества оттенъка.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-brown-grey"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "корен, алкална баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-brown-grey"
+   ]
   },
   {
    "code": "rheum_rhabarbarum_root_alum_potassium_immersion",
@@ -3019,13 +3501,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Ревеновият корен багри вълна/коприна по-добре от целулозни влакна; може да се използва и с alum.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-rhubarb"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "корен, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-rhubarb"
+   ]
   },
   {
    "code": "rheum_rhabarbarum_root_nomordant_immersion",
@@ -3056,13 +3551,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Ревеновият корен фиксира добре върху вълна и без мордант; целулозните влакна са по-слабо оцветени.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-rhubarb"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "корен, по-концентрирана баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-rhubarb"
+   ]
   },
   {
    "code": "rheum_rhabarbarum_root_iron_immersion",
@@ -3099,7 +3607,10 @@
    "notes": {
     "bg": "корен, с железни соли",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rosa_spp_leaf_iron_immersion",
@@ -3130,13 +3641,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "species",
+     "text": {
+      "bg": "Rosa canina leaf extract е изследван върху вълна с Fe mordant; при Rosa spp. очаквай видова вариабилност.",
+      "en": ""
+     },
+     "sourceCode": "cuce-rosa-canina"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "листа с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "cuce-rosa-canina"
+   ]
   },
   {
    "code": "rosa_spp_leaf_nomordant_immersion",
@@ -3167,13 +3691,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "species",
+     "text": {
+      "bg": "Rosa canina leaf extract е изследван и върху немордантирана вълна; стойността е приложима като доказан пример в рамките на Rosa spp.",
+      "en": ""
+     },
+     "sourceCode": "cuce-rosa-canina"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "от листа | от листа, слаба баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "cuce-rosa-canina"
+   ]
   },
   {
    "code": "prunus_domestica_bark_nomordant_immersion",
@@ -3210,7 +3747,10 @@
    "notes": {
     "bg": "по-концентрирана баня | слаба баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "malus_domestica_bark_nomordant_immersion",
@@ -3247,7 +3787,10 @@
    "notes": {
     "bg": "от кора",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "malus_domestica_leaf_nomordant_immersion",
@@ -3284,7 +3827,10 @@
    "notes": {
     "bg": "от листа",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "fraxinus_excelsior_bark_alum_potassium_immersion",
@@ -3321,7 +3867,10 @@
    "notes": {
     "bg": "кора, алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "fraxinus_excelsior_bark_nomordant_immersion",
@@ -3358,7 +3907,10 @@
    "notes": {
     "bg": "кора, воден извлек",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "fraxinus_excelsior_leaf_nomordant_ecoprint",
@@ -3395,7 +3947,10 @@
    "notes": {
     "bg": "лист върху мордантиран плат",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "fraxinus_excelsior_leaf_iron_immersion",
@@ -3432,7 +3987,10 @@
    "notes": {
     "bg": "листа, с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "rubia_tinctorum_root_nomordant_alkalinedye_bath_immersion",
@@ -3466,13 +4024,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "ph",
+     "text": {
+      "bg": "Jenny Dean документира unmordanted wool с madder и alkaline modifier; алкалният модификатор измества/задълбочава цвета.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-anglosaxon"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алкална среда",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-anglosaxon"
+   ]
   },
   {
    "code": "rubia_tinctorum_root_alum_potassium_immersion",
@@ -3503,13 +4074,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "concentration",
+     "text": {
+      "bg": "При вълна alum е класически мордант за ясни червени/скарлетови тонове; видът и концентрацията на морданта променят нюанса.",
+      "en": ""
+     },
+     "sourceCode": "rubia-wool-2022"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант, 70–75 °C",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "rubia-wool-2022"
+   ]
   },
   {
    "code": "rubia_tinctorum_root_nomordant_immersion",
@@ -3540,13 +4124,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Брош може да даде цвят и върху немордантирана вълна, макар alum да дава по-класическите чисти червени.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-anglosaxon"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "мека вода, ниска температура | твърда вода",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-anglosaxon"
+   ]
   },
   {
    "code": "betula_pendula_bark_nomordant_immersion",
@@ -3577,13 +4174,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Jenny Dean показва немордантирани проби от брезова кора върху linen/cotton; модификаторите дават допълнителни отклонения.",
+      "en": ""
+     },
+     "sourceCode": "jenny-dean-tannin"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "от кора",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "jenny-dean-tannin"
+   ]
   },
   {
    "code": "betula_pendula_leaf_nomordant_immersion",
@@ -3620,7 +4230,10 @@
    "notes": {
     "bg": "от листа",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide"
+   ]
   },
   {
    "code": "quercus_robur_bark_nomordant_immersion",
@@ -3651,13 +4264,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Танините в дъбовата кора позволяват директно багрене на протеинови влакна; памукът обичайно има по-нисък афинитет.",
+      "en": ""
+     },
+     "sourceCode": "george-weil-oak"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "от кора",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "george-weil-oak"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_alum_potassium_immersion",
@@ -3688,13 +4314,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "concentration",
+     "text": {
+      "bg": "При памук alum дава по-светли/ясни жълти тонове; цветът зависи от концентрацията и метода на мордантиране.",
+      "en": ""
+     },
+     "sourceCode": "lohar-tagetes-2019"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алуминиев мордант",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "lohar-tagetes-2019"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_nomordant_immersion",
@@ -3725,13 +4364,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Памук може да се багри с екстракт от Tagetes erecta и без метален мордант; мордантирането подобрява фиксацията/устойчивостта.",
+      "en": ""
+     },
+     "sourceCode": "ultrasound-marigold"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня | по-дълга баня",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "ultrasound-marigold"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_iron_immersion",
@@ -3762,13 +4414,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "mordant",
+     "text": {
+      "bg": "Ferrous sulfate е изследван върху памук и дава по-тъмни/приглушени оттенъци; при post-mordanting се отчита по-добра устойчивост.",
+      "en": ""
+     },
+     "sourceCode": "farooq-tagetes-2013"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с желязо",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "farooq-tagetes-2013"
+   ]
   },
   {
    "code": "persicaria_tinctoria_leaf_nomordant_immersion",
@@ -3799,13 +4464,26 @@
     "lightfastness": "",
     "washfastness": ""
    },
-   "influences": [],
+   "influences": [
+    {
+     "factor": "fibre",
+     "text": {
+      "bg": "Ватът багри и протеинови, и целулозни влакна; в изследването вълна/коприна изглеждат по-жълтеникаво-сини. Този ред е попълнен за cellulose.",
+      "en": ""
+     },
+     "sourceCode": "colorants-persicaria-2025"
+    }
+   ],
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "дълга серия потапяния | едно потапяне | многократно потапяне",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-guide",
+    "colorants-persicaria-2025"
+   ]
   },
   {
    "code": "genista_tinctoria_flower_alum_potassium_immersion",
@@ -3842,7 +4520,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "anthemis_tinctoria_flower_alum_potassium_immersion",
@@ -3879,7 +4560,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "denver-dye-garden"
+   ]
   },
   {
    "code": "isatis_tinctoria_leaf_none_immersion",
@@ -3916,7 +4600,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "denver-dye-garden"
+   ]
   },
   {
    "code": "tanacetum_vulgare_flower_alum_potassium_immersion",
@@ -3953,7 +4640,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "alnus_glutinosa_bark_iron_immersion",
@@ -3990,7 +4680,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "reseda_luteola_whole_alum_potassium_immersion",
@@ -4027,7 +4720,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "senegalia_catechu_heartwood_none_immersion",
@@ -4064,7 +4760,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "cameo-mfa"
+   ]
   },
   {
    "code": "coreopsis_tinctoria_flower_alum_potassium_immersion",
@@ -4101,7 +4800,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "denver-dye-garden"
+   ]
   },
   {
    "code": "paubrasilia_echinata_heartwood_alum_potassium_immersion",
@@ -4138,7 +4840,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "kirby-brazilwood-2025"
+   ]
   },
   {
    "code": "carthamus_tinctorius_flower_none_immersion",
@@ -4175,7 +4880,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "jenny-dean-wild-colour"
+   ]
   },
   {
    "code": "anthemis_tinctoria_flower_alum_potassium_ecoprint",
@@ -4212,7 +4920,10 @@
    "notes": {
     "bg": "Кръгли ярки петна от кошничките; нарязаните листа оставят ефирен силует.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "anthemis_tinctoria_flower_iron_ecoprint",
@@ -4249,7 +4960,10 @@
    "notes": {
     "bg": "Кръгли ярки петна от кошничките; нарязаните листа оставят ефирен силует.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "betula_pendula_leaf_alum_potassium_ecoprint",
@@ -4286,7 +5000,10 @@
    "notes": {
     "bg": "Фини линии на жилките. Тънките листа искат силно притискане в рулото.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "betula_pendula_leaf_iron_ecoprint",
@@ -4323,7 +5040,10 @@
    "notes": {
     "bg": "Фини линии на жилките. Тънките листа искат силно притискане в рулото.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "achillea_millefolium_leaf_alum_potassium_ecoprint",
@@ -4360,7 +5080,10 @@
    "notes": {
     "bg": "Перестите листа дават дантелен силует, наподобяващ папрат.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "achillea_millefolium_leaf_iron_ecoprint",
@@ -4397,7 +5120,10 @@
    "notes": {
     "bg": "Перестите листа дават дантелен силует, наподобяващ папрат.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "tanacetum_vulgare_leaf_alum_potassium_ecoprint",
@@ -4434,7 +5160,10 @@
    "notes": {
     "bg": "Нарязаните листа дават графичен назъбен отпечатък; цветните бутони правят кръгове.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "tanacetum_vulgare_leaf_iron_ecoprint",
@@ -4471,7 +5200,10 @@
    "notes": {
     "bg": "Нарязаните листа дават графичен назъбен отпечатък; цветните бутони правят кръгове.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "crataegus_monogyna_leaf_alum_potassium_ecoprint",
@@ -4508,7 +5240,10 @@
    "notes": {
     "bg": "Малките нарязани листа дават отчетливи контури.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "crataegus_monogyna_leaf_iron_ecoprint",
@@ -4545,7 +5280,10 @@
    "notes": {
     "bg": "Малките нарязани листа дават отчетливи контури.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "salvia_officinalis_leaf_alum_potassium_ecoprint",
@@ -4582,7 +5320,10 @@
    "notes": {
     "bg": "Релефните пухкави листа дават ясна мрежа от жилки.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "salvia_officinalis_leaf_iron_ecoprint",
@@ -4619,7 +5360,10 @@
    "notes": {
     "bg": "Релефните пухкави листа дават ясна мрежа от жилки.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cornus_mas_leaf_alum_potassium_ecoprint",
@@ -4656,7 +5400,10 @@
    "notes": {
     "bg": "Дъговидните жилки се изписват перфектно.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cornus_mas_leaf_iron_ecoprint",
@@ -4693,7 +5440,10 @@
    "notes": {
     "bg": "Дъговидните жилки се изписват перфектно.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "eucalyptus_spp_leaf_alum_potassium_ecoprint",
@@ -4730,7 +5480,10 @@
    "notes": {
     "bg": "Едно от най-мощните растения за еко принт. И двете страни печатат силно, поради обилните етерични масла.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "hypericum_perforatum_leaf_alum_potassium_ecoprint",
@@ -4767,7 +5520,10 @@
    "notes": {
     "bg": "Малки листа с фини полупрозрачни жлези; цветчетата оставят нежни петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "hypericum_perforatum_leaf_iron_ecoprint",
@@ -4804,7 +5560,10 @@
    "notes": {
     "bg": "Малки листа с фини полупрозрачни жлези; цветчетата оставят нежни петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "geranium_macrorrhizum_leaf_alum_potassium_ecoprint",
@@ -4841,7 +5600,10 @@
    "notes": {
     "bg": "Широките длановидни листа правят големи силуети; жилките излизат при стегнато руло.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "geranium_macrorrhizum_leaf_iron_ecoprint",
@@ -4878,7 +5640,10 @@
    "notes": {
     "bg": "Широките длановидни листа правят големи силуети; жилките излизат при стегнато руло.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "castanea_sativa_leaf_alum_potassium_ecoprint",
@@ -4915,7 +5680,10 @@
    "notes": {
     "bg": "Големите назъбени листа дават скелетен отпечатък на зъбците и централната жилка.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "castanea_sativa_leaf_iron_ecoprint",
@@ -4952,7 +5720,10 @@
    "notes": {
     "bg": "Големите назъбени листа дават скелетен отпечатък на зъбците и централната жилка.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "urtica_dioica_leaf_alum_potassium_ecoprint",
@@ -4989,7 +5760,10 @@
    "notes": {
     "bg": "Подробна назъбена текстура. Парещите власинки омекват под парата.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "urtica_dioica_leaf_iron_ecoprint",
@@ -5026,7 +5800,10 @@
    "notes": {
     "bg": "Подробна назъбена текстура. Парещите власинки омекват под парата.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "coreopsis_tinctoria_flower_alum_potassium_ecoprint",
@@ -5063,7 +5840,10 @@
    "notes": {
     "bg": "Цветовете се разстилат под натиска и оставят експлозивни ярки петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "coreopsis_tinctoria_flower_iron_ecoprint",
@@ -5100,7 +5880,10 @@
    "notes": {
     "bg": "Цветовете се разстилат под натиска и оставят експлозивни ярки петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cosmos_sulphureus_flower_alum_potassium_ecoprint",
@@ -5137,7 +5920,10 @@
    "notes": {
     "bg": "Цели притиснати цветове дават звездовидни петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cosmos_sulphureus_flower_iron_ecoprint",
@@ -5174,7 +5960,10 @@
    "notes": {
     "bg": "Цели притиснати цветове дават звездовидни петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "corylus_avellana_leaf_alum_potassium_ecoprint",
@@ -5211,7 +6000,10 @@
    "notes": {
     "bg": "Широките мъхести листа имат подчертан релеф и дават чист отпечатък.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "corylus_avellana_leaf_iron_ecoprint",
@@ -5248,7 +6040,10 @@
    "notes": {
     "bg": "Широките мъхести листа имат подчертан релеф и дават чист отпечатък.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "tilia_cordata_leaf_alum_potassium_ecoprint",
@@ -5285,7 +6080,10 @@
    "notes": {
     "bg": "Сърцевидните листа дават фини, нежни отпечатъци.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "tilia_cordata_leaf_iron_ecoprint",
@@ -5322,7 +6120,10 @@
    "notes": {
     "bg": "Сърцевидните листа дават фини, нежни отпечатъци.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "calendula_officinalis_flower_alum_potassium_ecoprint",
@@ -5359,7 +6160,10 @@
    "notes": {
     "bg": "Разпръснати слънчеви петна или ясен кръгъл отпечатък от цвета.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "calendula_officinalis_flower_iron_ecoprint",
@@ -5396,7 +6200,10 @@
    "notes": {
     "bg": "Разпръснати слънчеви петна или ясен кръгъл отпечатък от цвета.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "juglans_regia_leaf_alum_potassium_ecoprint",
@@ -5433,7 +6240,10 @@
    "notes": {
     "bg": "Дебелите жилки правят перфектни линии. Зелената черупка на плода също печата силно.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "juglans_regia_leaf_iron_ecoprint",
@@ -5470,7 +6280,10 @@
    "notes": {
     "bg": "Дебелите жилки правят перфектни линии. Зелената черупка на плода също печата силно.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "rosa_spp_leaf_alum_potassium_ecoprint",
@@ -5507,7 +6320,10 @@
    "notes": {
     "bg": "Сложните листа с назъбен край правят изящни отпечатъци. Цветовете от тъмни рози могат да оставят лилави или синкави петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "rosa_spp_leaf_iron_ecoprint",
@@ -5544,7 +6360,10 @@
    "notes": {
     "bg": "Сложните листа с назъбен край правят изящни отпечатъци. Цветовете от тъмни рози могат да оставят лилави или синкави петна.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cotinus_coggygria_leaf_alum_potassium_ecoprint",
@@ -5581,7 +6400,10 @@
    "notes": {
     "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cotinus_coggygria_leaf_iron_ecoprint",
@@ -5618,7 +6440,10 @@
    "notes": {
     "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "rhus_coriaria_leaf_alum_potassium_ecoprint",
@@ -5655,7 +6480,10 @@
    "notes": {
     "bg": "Сложните перести листа дават графичен ред от малки листенца.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "rhus_coriaria_leaf_iron_ecoprint",
@@ -5692,7 +6520,10 @@
    "notes": {
     "bg": "Сложните перести листа дават графичен ред от малки листенца.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_alum_potassium_ecoprint",
@@ -5729,7 +6560,10 @@
    "notes": {
     "bg": "Цветовете правят плътни жълти петна; листата дават ясни тънки контури.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "tagetes_erecta_flower_iron_ecoprint",
@@ -5766,7 +6600,10 @@
    "notes": {
     "bg": "Цветовете правят плътни жълти петна; листата дават ясни тънки контури.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cornus_sanguinea_leaf_alum_potassium_ecoprint",
@@ -5803,7 +6640,10 @@
    "notes": {
     "bg": "Красиви дъговидни жилки. Летораслите и есенните листа съдържат антоцианини.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "cornus_sanguinea_leaf_iron_ecoprint",
@@ -5840,7 +6680,10 @@
    "notes": {
     "bg": "Красиви дъговидни жилки. Летораслите и есенните листа съдържат антоцианини.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "malus_domestica_leaf_alum_potassium_ecoprint",
@@ -5877,7 +6720,10 @@
    "notes": {
     "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "malus_domestica_leaf_iron_ecoprint",
@@ -5914,7 +6760,10 @@
    "notes": {
     "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "crafty-place-ecoprint"
+   ]
   },
   {
    "code": "persea_americana_seed_alum_potassium_immersion",
@@ -5951,7 +6800,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "avocado-fastness-2022"
+   ]
   },
   {
    "code": "thymus_vulgaris_leaf_iron_immersion",
@@ -5988,7 +6840,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "kuwait-mentha-2025"
+   ]
   },
   {
    "code": "origanum_vulgare_whole_alum_potassium_immersion",
@@ -6025,7 +6880,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "plants-2023-origanum"
+   ]
   },
   {
    "code": "rosmarinus_officinalis_leaf_alum_potassium_immersion",
@@ -6062,7 +6920,10 @@
    "notes": {
     "bg": "",
     "en": ""
-   }
+   },
+   "sourceCodes": [
+    "kocak-rosmarinus-2025"
+   ]
   }
  ]
 }
