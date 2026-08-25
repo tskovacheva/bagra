@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.6.0",
+ "packVersion": "0.7.0",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -1291,7 +1291,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1513,7 +1513,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1550,7 +1550,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1775,7 +1775,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1812,7 +1812,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1886,7 +1886,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2219,7 +2219,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2256,7 +2256,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2293,7 +2293,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2404,7 +2404,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2439,9 +2439,9 @@
      "plantId": "seed:mentha_spp",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2589,7 +2589,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2626,7 +2626,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2811,7 +2811,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2922,7 +2922,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3184,7 +3184,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3221,7 +3221,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3258,7 +3258,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3332,7 +3332,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3594,7 +3594,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -5913,6 +5913,154 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
+    "en": ""
+   }
+  },
+  {
+   "code": "persea_americana_seed_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:persea_americana",
+     "partCode": "seed"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "прасковено до розово-кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "семето/кората имат по-силен афинитет към протеинови влакна; желязото променя цвета и подобрява светлоустойчивостта",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "Üren 2022, Journal of Natural Fibers — avocado seed/peel on wool and cotton with alum/Fe; https://doi.org/10.1080/15440478.2022.2106340 ; цветова формулировка: текущата библиотека на Багра",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "thymus_vulgaris_leaf_iron_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:thymus_vulgaris",
+     "partCode": "leaf"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "кафяво до приглушено виолетово-сиво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "видът на мордантиране променя нюанса; FeSO₄ върху вълна дава най-висока цветова сила в изследването",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "kuwait-mentha-2025",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "origanum_vulgare_whole_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:origanum_vulgare",
+     "partCode": "whole"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "червеникаво до червено-кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "исторически е документирано като багрило за вълна; нюансът зависи от морданта",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "Plants 2023 — historical dye use of Origanum vulgare / 'macierzanka'; https://doi.org/10.3390/plants12071482 ; Natural Colors to Dye For — oregano, alum, wool",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "rosmarinus_officinalis_leaf_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rosmarinus_officinalis",
+     "partCode": "leaf"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "жълто-зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "розмаринът дава меки жълто-зелени тонове; желязото измества към маслинено",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "Koçak & Yılmaz 2025 — Rosmarinus officinalis leaves can color wool; https://doi.org/10.1007/s12221-025-01092-y ; practical wool+alum colour reference: https://survivalschool.com/natural-dye-colors-from-plants/",
+   "notes": {
+    "bg": "",
     "en": ""
    }
   }

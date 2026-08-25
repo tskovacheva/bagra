@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": 6,
+ "packVersion": 7,
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -485,6 +485,17 @@
    "note": {
     "bg": "Собствен преглед на еко принт поведението на двайсет и пет растения, съставен от практика и от публикувани отпечатъци. Описва отпечатък и цвят; не назовава влакно, затова записите оттук мълчат по този въпрос.",
     "en": "An in-house review of how twenty-five plants behave in eco print, assembled from practice and from published prints. It describes the print and the colour; it does not name a fibre, so records from it stay silent on that."
+   }
+  },
+  {
+   "code": "kuwait-mentha-2025",
+   "kind": "reference",
+   "name": "Mentha spicata on wool and cotton",
+   "author": "Kuwait Journal of Science",
+   "url": "https://doi.org/10.1016/j.kjs.2024.100316",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
+    "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
    }
   }
  ]
