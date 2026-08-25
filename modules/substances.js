@@ -14,6 +14,7 @@ import { jarState, jarLeft, jarsFor, stateOfSubstance, STOCK_STATES } from '../s
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
+import { tempWith } from '../units.js';
 import { markClean } from '../dirty.js';
 import { page, panel, field, options, label, esc, empty, pairField, readPairs, icon, navigate, fieldGroup,
          readBlock, facts, fact, prose, fmtDate, flash, backTo, actionBtn, deleteGuarded } from '../ui.js';
@@ -377,7 +378,7 @@ async function renderRead(root, r) {
     fact(t('materials.formula'), r.formula ? `<span class="mono">${esc(r.formula)}</span>` : ''),
     fact(t('materials.standardWof'), r.standardPercentWof != null ? r.standardPercentWof + '%' : ''),
     fact(t('substances.maxWof'), r.maxPercentWof != null ? r.maxPercentWof + '%' : ''),
-    fact(t('materials.maxTemp'), r.maxTempC != null ? r.maxTempC + ' °C' : ''),
+    fact(t('materials.maxTemp'), r.maxTempC != null ? tempWith(r.maxTempC) : ''),
   ]);
 
   const handling = (r.handling || []).map(h => t('materials.handling.' + h)).join(' · ');

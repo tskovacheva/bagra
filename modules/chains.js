@@ -10,6 +10,7 @@
 
 import { all, get, put, newRecord, uid } from '../db.js';
 import { t, text } from '../i18n.js';
+import { tempWith } from '../units.js';
 import { page, panel, field, options, label, esc, empty, note, pairField, readPairs, navigate , fieldGroup, actionBtn, backTo, deleteGuarded } from '../ui.js';
 import { expandChain } from '../calc/scale.js';
 
@@ -156,7 +157,7 @@ async function planBlock(c, recipes, substances) {
     }));
 
     const conditions = [
-      st.recipe.tempC != null ? `${st.recipe.tempC} °C` : '',
+      st.recipe.tempC != null ? tempWith(st.recipe.tempC) : '',
       st.recipe.heldMinutes ? `${st.recipe.heldMinutes} ${t('common.min')}` : '',
       st.recipe.restMinutes ? `+ ${st.recipe.restMinutes}` : '',
       st.scaled?.bathLitres != null ? `${st.scaled.bathLitres} ${t('tools.litres')}` : '',

@@ -9,6 +9,7 @@ import { all, get, put, newRecord, toggleFavorite, uid } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text, getLang } from '../i18n.js';
+import { tempSpan, tempWith } from '../units.js';
 import { markClean } from '../dirty.js';
 import { inSeason as seasonOf } from './season.js';
 import { page, panel, field, options, vocabList, label, describe, favStar, esc, empty, pairField, readPairs, segmented, levelBar,
@@ -522,6 +523,13 @@ async function useNowCard(p) {
   const span = (v) => v && (v.min != null || v.max != null)
     ? (v.max != null && v.max !== v.min ? `${v.min}–${v.max}` : `${v.min ?? v.max}`) : '';
 
+  // The same span, converted and carrying its unit (§13dc). `span` stays as it
+  // is because the „does it say anything at all" test above is asked of the
+  // stored value, and asking it of a formatted string would make an empty range
+  // and the string '' indistinguishable.
+  const spanU = (v) => (v && (v.min != null || v.max != null))
+    ? tempSpan(v.min, v.max ?? v.min) : '';
+
   const temps = (p.parts || []).map(pt => ({
     part: pt.partCode,
     raw: pt,
@@ -529,9 +537,9 @@ async function useNowCard(p) {
     // which one was used (§13cc). Joined for comparison so that two parts
     // permitting the same set still count as agreeing.
     mode: (pt.extractionModes || []).join('+'),
-    line: [span(pt.tempExtractC) && `${t('plants.tempExtract')} ${approxNumber(span(pt.tempExtractC), pt.approx?.tempExtractC, '°C')}`,
-           span(pt.tempDyeC) && `${t('plants.tempDye')} ${approxNumber(span(pt.tempDyeC), pt.approx?.tempDyeC, '°C')}`,
-           pt.softMaxTempC && `${t('plants.softMaxTemp')} ${approxNumber(pt.softMaxTempC, pt.approx?.softMaxTempC, '°C')}`,
+    line: [span(pt.tempExtractC) && `${t('plants.tempExtract')} ${approxNumber(spanU(pt.tempExtractC), pt.approx?.tempExtractC)}`,
+           span(pt.tempDyeC) && `${t('plants.tempDye')} ${approxNumber(spanU(pt.tempDyeC), pt.approx?.tempDyeC)}`,
+           pt.softMaxTempC && `${t('plants.softMaxTemp')} ${approxNumber(tempWith(pt.softMaxTempC), pt.approx?.softMaxTempC)}`,
           ].filter(Boolean).join(' · '),
   })).filter(x => x.line || x.mode);
 
@@ -552,11 +560,11 @@ async function useNowCard(p) {
     // different moments, and reading them as one sentence hides that.
     const ex = span(x.raw?.tempExtractC), dy = span(x.raw?.tempDyeC);
     rows.push(tile('i-flask', `${t('plants.tempExtract')}${same ? '' : ' · ' + esc(heading)}`,
-      ex ? nb(esc(ex) + ' °C') : '', mode));
+      ex ? nb(esc(ex)) : '', mode));
     rows.push(tile('i-temp', `${t('plants.tempDye')}${same ? '' : ' · ' + esc(heading)}`,
-      dy ? nb(esc(dy) + ' °C') : ''));
+      dy ? nb(esc(dy)) : ''));
     rows.push(tile('i-alert', t('plants.softMaxTemp'),
-      x.raw?.softMaxTempC ? nb(esc(String(x.raw.softMaxTempC)) + ' °C') : ''));
+      x.raw?.softMaxTempC ? nb(esc(tempWith(x.raw.softMaxTempC))) : ''));
   }
 
   rows.push(tile('i-bath', t('plants.liquorRatio'),
@@ -687,7 +695,10 @@ async function renderRead(root, p) {
       const pt = (p.parts || []).find(x => x.partCode === s.partCode);
       const v = pt?.tempDyeC;
       if (!v || (v.min == null && v.max == null)) return '';
-      return v.max != null && v.max !== v.min ? `${v.min}–${v.max} °C` : `${v.min ?? v.max} °C`;
+      // Converted for display, canonical in storage (§13dc). tempSpan writes
+      // the unit once and joins with a non-breaking space, so a range never
+      // breaks across a line (§13cz).
+      return tempSpan(v.min, v.max ?? v.min);
     })();
 
     const ctx = s.combo

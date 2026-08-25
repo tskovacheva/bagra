@@ -6,6 +6,7 @@
 
 import { all, get, put, newRecord, uid, getSetting, setSetting, toggleFavorite } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
+import { tempWith } from '../units.js';
 import {
   page, panel, field, options, label, favStar, esc, empty, note,
   pairField, readPairs, fact, facts, prose, readBlock, searchBox, matches, navigate, flash,
@@ -30,6 +31,26 @@ const FIBRE_CLASSES = ['cellulose', 'protein'];
 // how a screen ends up shaped for whichever case was built first.
 const MAKES_SUBSTANCE = ['pigment', 'paste'];
 const worksOnCloth = (type) => !MAKES_SUBSTANCE.includes(type);
+
+// WHICH QUESTION THE WORK VIEW ASKS BEFORE IT CAN SCALE ANYTHING.
+//
+// `SHOWS` was applied to the edit form and nowhere else, so §13ca reported the
+// screen as following its type while the WORK view — the one opened to be
+// followed at the bench — went on asking „for how many grams of cloth?" and
+// „which fibre?" of a watercolour recipe (§13de).
+//
+// Three questions, because there are three kinds of answer:
+//   weight — cloth, and the fibre it is made of
+//   volume — a standing bath measured in litres
+//   raw    — how much raw material is in front of you: gum arabic, or pigment
+//
+// `raw` was in seed/recipes.json before it was in the code, and was being
+// treated as weight-of-cloth because anything that was not 'volume' was.
+const scaleModeOf = (r) =>
+  r.scaleBy === 'volume' ? 'volume'
+  : r.scaleBy === 'raw' ? 'raw'
+  : MAKES_SUBSTANCE.includes(r.type) ? 'raw'   // a substance recipe never means cloth
+  : 'weight';
 
 // Panel by panel, so the answer to "why is this not on screen" is one lookup.
 const SHOWS = {
@@ -68,7 +89,7 @@ let query = '';
 let favOnly = false;
 let openId = null;
 let draft = null;
-let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null };
+let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null, rawG: null };
 let scaleChoices = {};
 let returnTo = null;
 let editing = false;
@@ -124,7 +145,7 @@ async function fibreText(appliesTo) {
 // the temperature down a column of twenty recipes without reading any of them.
 function conditionsOf(r) {
   return [
-    r.tempC != null ? `<span class="cond">${icon('i-temp')}${r.tempC} °C</span>` : '',
+    r.tempC != null ? `<span class="cond">${icon('i-temp')}${tempWith(r.tempC)}</span>` : '',
     r.heldMinutes ? `<span class="cond">${icon('i-time')}${r.heldMinutes} ${t('common.min')}</span>` : '',
     r.restMinutes ? `<span class="cond">${icon('i-time')}+${r.restMinutes} ${t('common.min')}</span>` : '',
   ].filter(Boolean).join('') || '—';
@@ -319,7 +340,8 @@ function stepRows(r) {
 }
 
 async function scaleBlock(r, substances) {
-  const byVolume = r.scaleBy === 'volume';
+  const mode = scaleModeOf(r);
+  const byVolume = mode === 'volume';
   const scaled = scaleRecipe(r, {
     ...scaleCtx, choices: scaleChoices,
     bathLitres: byVolume ? (scaleCtx.bathLitres ?? r.defaultLitres) : null,
@@ -375,8 +397,10 @@ async function scaleBlock(r, substances) {
   }))).join('');
 
   return `
-    ${byVolume
+    ${mode === 'volume'
       ? field(t('recipes.forLitres'), `<input type="number" step="0.5" min="0" data-scale="bathLitres" value="${scaleCtx.bathLitres ?? r.defaultLitres ?? ''}">`)
+      : mode === 'raw'
+      ? field(t('recipes.forRaw'), `<input type="number" step="1" min="0" data-scale="rawG" value="${scaleCtx.rawG ?? ''}">`)
       : field(t('recipes.forWeight'), `<input type="number" step="1" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}">`) +
         field(t('recipes.forFibre'), `<select data-scale="fibreClass">${await options('fibre_class', scaleCtx.fibreClass, '')}</select>`)}
     ${r.type === 'blanket' ? note(t('recipes.blanketBasisWarn'), 'warn') : ''}
@@ -416,6 +440,7 @@ async function renderRead(root, r) {
   const scaled = scaleRecipe(r, {
     ...scaleCtx, choices: scaleChoices,
     bathLitres: r.scaleBy === 'volume' ? (scaleCtx.bathLitres ?? r.defaultLitres) : null,
+    rawG: scaleCtx.rawG,
     substancesById: new Map(substances.map(sx => [sx.id, sx])),
   });
 
@@ -444,7 +469,7 @@ async function renderRead(root, r) {
   const amounts = await weighLines(scaled.ingredients);
 
   const conditions = [
-    r.tempC != null ? `<span class="cond">${icon('i-temp')}${r.tempC} °C</span>` : '',
+    r.tempC != null ? `<span class="cond">${icon('i-temp')}${tempWith(r.tempC)}</span>` : '',
     r.heldMinutes ? `<span class="cond">${icon('i-time')}${r.heldMinutes} ${t('common.min')}</span>` : '',
     r.restMinutes ? `<span class="cond">${icon('i-time')}+ ${r.restMinutes} ${t('common.min')}</span>` : '',
     scaled.bathLitres != null ? `<span class="cond">${icon('i-beaker')}${scaled.bathLitres} ${t('tools.litres')}</span>` : '',
@@ -471,7 +496,7 @@ async function renderRead(root, r) {
         bathLitres: fr.defaultLitres ?? null,
       });
       const cond = [
-        fr.tempC != null ? `${fr.tempC} °C` : '',
+        fr.tempC != null ? tempWith(fr.tempC) : '',
         fr.heldMinutes ? `${fr.heldMinutes} ${t('common.min')}` : '',
         fs.bathLitres != null ? `${fs.bathLitres} ${t('tools.litres')}` : '',
       ].filter(Boolean).join(' · ');
@@ -499,9 +524,12 @@ async function renderRead(root, r) {
         <h2>${t('recipes.workView')}</h2>
         <p class="note">${t('recipes.workHint')}</p>
         <div class="workhead">
-          ${r.scaleBy === 'volume'
+          ${scaleModeOf(r) === 'volume'
             ? `<label class="inlinefield"><span>${t('recipes.forLitres')}</span>
                  <input type="number" step="0.5" min="0" data-scale="bathLitres" value="${scaleCtx.bathLitres ?? r.defaultLitres ?? ''}"></label>`
+            : scaleModeOf(r) === 'raw'
+            ? `<label class="inlinefield"><span>${t('recipes.forRaw')}</span>
+                 <input type="number" step="1" min="0" data-scale="rawG" value="${scaleCtx.rawG ?? ''}"></label>`
             : `<label class="inlinefield"><span>${t('recipes.forWeight')}</span>
                  <input type="number" step="10" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}"></label>
                <label class="inlinefield"><span>${t('recipes.forFibre')}</span>
@@ -521,10 +549,30 @@ async function renderRead(root, r) {
       <div class="gap"></div>
 
       ${readBlock('', facts([
-        fact(t('recipes.appliesTo'), (await Promise.all((r.appliesTo || []).map(c => label('fibre_class', c)))).join(', ')),
+        SHOWS.appliesTo(r.type)
+          ? fact(t('recipes.appliesTo'), (await Promise.all((r.appliesTo || []).map(c => label('fibre_class', c)))).join(', '))
+          : '',
+        // Attribution was stored on every seeded recipe and shown on none of
+        // them. For a library meant to be given away that is not a display
+        // gap, it is the condition of shipping (§13at) going unmet on a screen.
+        fact(t('recipes.source'), await sourceNames(r.sourceCode)),
         r.distributable === false ? fact(t('recipes.notDistributable'), '✓') : '',
       ]) + prose(r.notes))}`,
   });
+}
+
+// One code or several. A recipe may rest on more than one source and they are
+// not the same claim: for the watercolour binder the book supplies the figures
+// and the studio's practice confirms they work (§13de).
+async function sourceNames(sourceCode) {
+  const codes = (Array.isArray(sourceCode) ? sourceCode : [sourceCode]).filter(Boolean);
+  if (!codes.length) return '';
+  const sources = await all('sources');
+  const byCode = new Map(sources.map(s => [s.code, s]));
+  return codes.map(c => {
+    const s = byCode.get(c);
+    return s ? text(s.name) || s.code : c;
+  }).join(' · ');
 }
 
 async function renderForm(root, r) {
@@ -589,6 +637,7 @@ async function renderForm(root, r) {
             ${field(t('recipes.scaleBy'), `<select data-f="scaleBy">
                 <option value="weight"${r.scaleBy !== 'volume' ? ' selected' : ''}>${t('recipes.scaleBy.weight')}</option>
                 <option value="volume"${r.scaleBy === 'volume' ? ' selected' : ''}>${t('recipes.scaleBy.volume')}</option>
+                <option value="raw"${r.scaleBy === 'raw' ? ' selected' : ''}>${t('recipes.scaleBy.raw')}</option>
               </select>`, t('recipes.scaleByHint'))}
             ${!SHOWS.liquorRatio(r.type) ? ''
               : r.scaleBy === 'volume'

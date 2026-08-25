@@ -2,6 +2,7 @@
 
 import { all, get, put, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t } from '../i18n.js';
+import { massWith, gsmWith } from '../units.js';
 import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
          fact, facts, readBlock, navigate, icon, flash, searchBox, matches, backTo, actionBtn, deleteGuarded } from '../ui.js';
@@ -338,9 +339,9 @@ async function renderRead(root, r) {
             fact(t('fabrics.col.class'), esc(await label('fibre_class', cls))),
             fact(t('fabrics.structure'), esc(await label('fabric_structure', r.structure))),
             fact(t('fabrics.form'), esc(await label('fabric_form', r.form))),
-            fact(t('fabrics.weightG'), r.weightG ? `<b>${r.weightG} г</b>` : ''),
+            fact(t('fabrics.weightG'), r.weightG ? `<b>${massWith(r.weightG)}</b>` : ''),
             fact(t('fabrics.dimensions'), esc(r.dimensions || '')),
-            fact(t('fabrics.gsm'), r.weightGsm ? `${r.weightGsm} г/м²` : ''),
+            fact(t('fabrics.gsm'), r.weightGsm ? gsmWith(r.weightGsm) : ''),
             fact(t('fabrics.origin'), esc(r.origin === 'reclaimed'
               ? [t('fabrics.origin.reclaimed'), r.originDetail?.wasA, r.originDetail?.condition].filter(Boolean).join(' · ')
               : [t('fabrics.origin.new'), r.originDetail?.supplier].filter(Boolean).join(' · '))),

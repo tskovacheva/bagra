@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.1.0",
+ "packVersion": "0.2.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -16,40 +16,79 @@
    },
    "appliesTo": [],
    "scaleBy": "raw",
-   "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
+   "target": {
+    "percentWof": null,
+    "basisRefersTo": "dyestuff"
+   },
    "ingredients": [
-    { "roleCode": "dyestuff", "basis": "absolute", "note": {
+    {
+     "roleCode": "dyestuff",
+     "basis": "absolute",
+     "note": {
       "bg": "Спрямо тежестта на стипцата, не на тъкан. Виж таблицата с проценти: брош 500%, жълтениче 180%, кампешово дърво 50%.",
-      "en": "Against the weight of the alum, not of cloth. See the ratios chart: madder 500%, weld 180%, logwood 50%." } },
-    { "roleCode": "mordant", "basis": "absolute", "note": {
+      "en": "Against the weight of the alum, not of cloth. See the ratios chart: madder 500%, weld 180%, logwood 50%."
+     }
+    },
+    {
+     "roleCode": "mordant",
+     "basis": "absolute",
+     "note": {
       "bg": "10 г стипца — алуминиев сулфат или калиева стипца.",
-      "en": "10 g alum — aluminium sulphate or potassium alum." } },
-    { "roleCode": "alkali", "basis": "absolute", "note": {
+      "en": "10 g alum — aluminium sulphate or potassium alum."
+     }
+    },
+    {
+     "roleCode": "alkali",
+     "basis": "absolute",
+     "note": {
       "bg": "5 г калцинирана сода.",
-      "en": "5 g soda ash." } }
+      "en": "5 g soda ash."
+     }
+    }
    ],
    "steps": [
-    { "text": {
+    {
+     "text": {
       "bg": "Претегли растителния материал спрямо стипцата и извлечи цвета — гореща отвара, освен ако растението иска друго.",
-      "en": "Weigh the plant material against the alum and draw the colour out — a hot decoction, unless the plant wants otherwise." } },
-    { "text": {
+      "en": "Weigh the plant material against the alum and draw the colour out — a hot decoction, unless the plant wants otherwise."
+     }
+    },
+    {
+     "text": {
       "bg": "Прецеди старателно. Ситно смляното иска няколко прецеждания и накрая хартиен филтър.",
-      "en": "Strain thoroughly. Finely ground material wants several passes and a paper filter at the end." } },
-    { "text": {
+      "en": "Strain thoroughly. Finely ground material wants several passes and a paper filter at the end."
+     }
+    },
+    {
+     "text": {
       "bg": "Разтвори стипцата в топла вода и я добави бавно към извлека.",
-      "en": "Dissolve the alum in warm water and add it slowly to the extract." } },
-    { "text": {
+      "en": "Dissolve the alum in warm water and add it slowly to the extract."
+     }
+    },
+    {
+     "text": {
       "bg": "Разтвори содата и я добави. Ще запени и утайката ще започне да пада.",
-      "en": "Dissolve the soda and add it. It will foam and the precipitate will begin to fall." } },
-    { "text": {
+      "en": "Dissolve the soda and add it. It will foam and the precipitate will begin to fall."
+     }
+    },
+    {
+     "text": {
       "bg": "Остави да се утаи, отлей бистрото и промивай с чиста вода, докато водата над утайката стане почти бистра.",
-      "en": "Let it settle, pour off the clear liquid, and wash with clean water until what stands above the sediment is nearly clear." } },
-    { "text": {
+      "en": "Let it settle, pour off the clear liquid, and wash with clean water until what stands above the sediment is nearly clear."
+     }
+    },
+    {
+     "text": {
       "bg": "Филтрирай през хартиен филтър и разстели филтрите да съхнат на сянка.",
-      "en": "Filter through paper and lay the filters out to dry in the shade." } },
-    { "text": {
+      "en": "Filter through paper and lay the filters out to dry in the shade."
+     }
+    },
+    {
+     "text": {
       "bg": "Изсушения пигмент стържи и стрий на фин прах. С маска — всеки прах се вдишва.",
-      "en": "Scrape the dried pigment and grind it to a fine powder. With a mask — any powder is breathed." } }
+      "en": "Scrape the dried pigment and grind it to a fine powder. With a mask — any powder is breathed."
+     }
+    }
    ],
    "notes": {
     "bg": "Пропорцията решава наситеността, не силата на цвета: малко багрило върху много основа дава пастелен тон, а не по-блед вариант на същия цвят. По-ниският процент — по-светъл пигмент.",
@@ -68,28 +107,53 @@
    },
    "appliesTo": [],
    "scaleBy": "raw",
-   "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
+   "target": {
+    "percentWof": null,
+    "basisRefersTo": "dyestuff"
+   },
    "ingredients": [
-    { "roleCode": "pigment", "basis": "absolute", "note": {
+    {
+     "roleCode": "pigment",
+     "basis": "absolute",
+     "note": {
       "bg": "Готов пигмент, стрит на фин прах.",
-      "en": "Finished pigment, ground fine." } },
-    { "roleCode": "binder", "basis": "ratio_to_dyestuff", "note": {
+      "en": "Finished pigment, ground fine."
+     }
+    },
+    {
+     "roleCode": "binder",
+     "basis": "ratio_to_dyestuff",
+     "note": {
       "bg": "Свързващ разтвор — гума арабика, мед, глицерин — в съотношение 1:1 към пигмента.",
-      "en": "Binder — gum arabic, honey, glycerine — one to one with the pigment." } }
+      "en": "Binder — gum arabic, honey, glycerine — one to one with the pigment."
+     }
+    }
    ],
    "steps": [
-    { "text": {
+    {
+     "text": {
       "bg": "Изсипи няколко чаени лъжички пигмент върху гладка стъклена плоскост.",
-      "en": "Tip a couple of teaspoons of pigment onto a smooth glass slab." } },
-    { "text": {
+      "en": "Tip a couple of teaspoons of pigment onto a smooth glass slab."
+     }
+    },
+    {
+     "text": {
       "bg": "Добави свързващия разтвор 1:1 и разбъркай с шпакла.",
-      "en": "Add the binder one to one and combine with a palette knife." } },
-    { "text": {
+      "en": "Add the binder one to one and combine with a palette knife."
+     }
+    },
+    {
+     "text": {
       "bg": "Разтрий със стъклено пестило до гладка, течна смес без зърна.",
-      "en": "Mull with a glass muller until smooth and fluid, with no grain left." } },
-    { "text": {
+      "en": "Mull with a glass muller until smooth and fluid, with no grain left."
+     }
+    },
+    {
+     "text": {
       "bg": "Напълни панички и остави да съхнат бавно, покрити от прах.",
-      "en": "Fill pans and let them dry slowly, covered from dust." } }
+      "en": "Fill pans and let them dry slowly, covered from dust."
+     }
+    }
    ],
    "notes": {
     "bg": "Приложението не води направените акварели — това е рецепта за четене и следване, не работа със запис. Записва се пигментът, от който тръгва.",
@@ -108,34 +172,181 @@
    },
    "appliesTo": [],
    "scaleBy": "raw",
-   "target": { "percentWof": null, "basisRefersTo": "dyestuff" },
+   "target": {
+    "percentWof": null,
+    "basisRefersTo": "dyestuff"
+   },
    "ingredients": [
-    { "roleCode": "pigment", "basis": "absolute", "note": {
+    {
+     "roleCode": "pigment",
+     "basis": "absolute",
+     "note": {
       "bg": "Готов пигмент, стрит на фин прах.",
-      "en": "Finished pigment, ground fine." } },
-    { "roleCode": "filler", "basis": "ratio_to_dyestuff", "note": {
+      "en": "Finished pigment, ground fine."
+     }
+    },
+    {
+     "roleCode": "filler",
+     "basis": "ratio_to_dyestuff",
+     "note": {
       "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел.",
-      "en": "Filler — chalk or kaolin. More filler, a softer and paler pastel." } },
-    { "roleCode": "binder", "basis": "absolute", "note": {
+      "en": "Filler — chalk or kaolin. More filler, a softer and paler pastel."
+     }
+    },
+    {
+     "roleCode": "binder",
+     "basis": "absolute",
+     "note": {
       "bg": "Слаб разтвор на гума трагакант или метилцелулоза, добавян капка по капка.",
-      "en": "A weak solution of gum tragacanth or methyl cellulose, added drop by drop." } }
+      "en": "A weak solution of gum tragacanth or methyl cellulose, added drop by drop."
+     }
+    }
    ],
    "steps": [
-    { "text": {
+    {
+     "text": {
       "bg": "Смеси пигмента с пълнителя на сухо, докато цветът стане равномерен.",
-      "en": "Mix the pigment with the filler dry, until the colour is even." } },
-    { "text": {
+      "en": "Mix the pigment with the filler dry, until the colour is even."
+     }
+    },
+    {
+     "text": {
       "bg": "Добавяй свързващия разтвор на капки, докато сместа се събере на топка, която не лепне.",
-      "en": "Add the binder in drops until the mixture gathers into a ball that does not stick." } },
-    { "text": {
+      "en": "Add the binder in drops until the mixture gathers into a ball that does not stick."
+     }
+    },
+    {
+     "text": {
       "bg": "Разточи пръчици и ги остави да съхнат на въздух няколко дни, върху попивателна хартия.",
-      "en": "Roll sticks and leave them to dry in air for several days, on absorbent paper." } }
+      "en": "Roll sticks and leave them to dry in air for several days, on absorbent paper."
+     }
+    }
    ],
    "notes": {
     "bg": "Съотношението пигмент към пълнител прави гамата: чист пигмент дава наситен и трошлив пастел, повече пълнител — по-светъл и по-твърд. Не се води; записва се пигментът.",
     "en": "The pigment-to-filler ratio makes the range: pure pigment gives a saturated, crumbly pastel, more filler a paler and harder one. Not logged; what is recorded is the pigment."
    },
    "sourceCode": "natalie-stopka-pigment",
+   "distributable": true
+  },
+  {
+   "code": "watercolour-binder",
+   "type": "paste",
+   "output": "none",
+   "name": {
+    "bg": "Свързващо за акварел",
+    "en": "Watercolour binder"
+   },
+   "appliesTo": [],
+   "scaleBy": "raw",
+   "target": {
+    "percentWof": null,
+    "basisRefersTo": "dyestuff"
+   },
+   "ingredients": [
+    {
+     "roleCode": "binder",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Гума арабика на прах, добре натъпкана в мерителната чаша. Течната гума не върши работа тук — прахът е това, което позволява гъстотата да се нагласи.",
+      "en": "Gum arabic powder, well packed into the measure. Liquid gum will not do here: it is the powder that lets the thickness be adjusted."
+     },
+     "quantity": 42
+    },
+    {
+     "roleCode": "solvent",
+     "basis": "ratio_to_dyestuff",
+     "unit": "ml",
+     "note": {
+      "bg": "Вряла вода, около 240 мл на 42 г гума. Сипва се БАВНО върху праха и се разбива леко. Ще се образуват бучки — те се разтварят сами. Пяната отгоре или се обира, или се изчаква.",
+      "en": "Boiling water, about 240 ml to 42 g of gum. Poured SLOWLY onto the powder and whisked gently. Lumps will form and will dissolve on their own. The foam is either skimmed off or left to subside."
+     },
+     "quantity": 5.71
+    },
+    {
+     "roleCode": "humectant",
+     "basis": "ratio_to_dyestuff",
+     "unit": "ml",
+     "note": {
+      "bg": "Глицерин, около 15 мл на 42 г гума. Задържа влага в изсъхналата боя и ѝ дава гладък, леко лъскав вид.",
+      "en": "Glycerine, about 15 ml to 42 g of gum. It holds moisture in the dried paint and gives it a smooth, slightly glossy surface."
+     },
+     "quantity": 0.357
+    },
+    {
+     "roleCode": "humectant",
+     "basis": "ratio_to_dyestuff",
+     "unit": "ml",
+     "note": {
+      "bg": "Мед, непастьоризиран, около 15 мл на 42 г гума. Той е причината засъхналата боя да се събужда веднага под мокра четка, и пази слоя от напукване при съхнене. Може да се пропусне — тогава свързващото е веганско, а боята се разтваря по-бавно.",
+      "en": "Honey, unpasteurised, about 15 ml to 42 g of gum. It is why a dry pan wakes at once under a wet brush, and it keeps the cake from cracking as it dries. It can be left out — the binder is then vegan, and the paint is slower to lift."
+     },
+     "quantity": 0.357
+    },
+    {
+     "roleCode": "preservative",
+     "basis": "absolute",
+     "unit": "drop",
+     "note": {
+      "bg": "Карамфилово масло, пет капки. Не се пропуска: то е единственото в сместа, което наистина консервира — противогъбично и антибактериално — и без него свързващото и боите от него мухлясват.",
+      "en": "Clove oil, five drops. Not to be skipped: it is the only thing here that actually preserves — antifungal and antibacterial — and without it the binder and every paint made from it will spoil."
+     },
+     "quantity": 5
+    }
+   ],
+   "steps": [
+    {
+     "text": {
+      "bg": "Сложи гумата арабика на прах в тенджера или купа.",
+      "en": "Put the gum arabic powder into a saucepan or bowl."
+     }
+    },
+    {
+     "text": {
+      "bg": "Излей врялата вода много бавно върху праха, като разбиваш леко. Бучките се разтварят сами — не ги гони.",
+      "en": "Pour the boiling water very slowly onto the powder, whisking gently. The lumps dissolve on their own; do not chase them."
+     }
+    },
+    {
+     "text": {
+      "bg": "Обери пяната отгоре или изчакай да спадне.",
+      "en": "Skim the foam or wait for it to subside."
+     }
+    },
+    {
+     "text": {
+      "bg": "Добави глицерина и меда и разбъркай, докато се съединят.",
+      "en": "Add the glycerine and the honey and stir until combined."
+     }
+    },
+    {
+     "text": {
+      "bg": "Накапи карамфиловото масло и разбъркай.",
+      "en": "Add the drops of clove oil and stir."
+     }
+    },
+    {
+     "text": {
+      "bg": "Прелей в съд, който се затваря. Забърсвай капака след всяка употреба — става лепкав.",
+      "en": "Pour into a container that seals. Wipe the lid after each use: it becomes sticky."
+     }
+    },
+    {
+     "text": {
+      "bg": "Съхранявай в хладилник. Издържа около два месеца.",
+      "en": "Keep it in the fridge. It lasts about two months."
+     }
+    }
+   ],
+   "notes": {
+    "bg": "Свързващото е лепилото на акварела: то обгръща зърната пигмент и ги кара да текат като боя. Тази рецепта прави количество, което стига за много бои — малко свързващо върши много работа.\n\nГъстотата се нагласява след това: повече гума на прах я сгъстява, повече свързващо или разреждане със спирт я прави по-течна, към мастило. Затова прахът е задължителен, а не течната гума.\n\nПриложението не води направените акварели — това е рецепта за четене и следване. Записва се пигментът, от който тръгва.",
+    "en": "The binder is the glue of a watercolour: it coats the grains of pigment and makes them flow as paint. This quantity makes enough for a great many paints — a little goes a long way.\n\nThe thickness is adjusted afterwards: more gum powder thickens it, more binder or thinning with alcohol takes it towards an ink. That is why the powder is required and liquid gum is not.\n\nThe application does not log watercolours made — this is a recipe to read and follow. What is recorded is the pigment it starts from."
+   },
+   "sourceCode": [
+    "joanne-green-watercolour",
+    "crafty-place-practice"
+   ],
    "distributable": true
   }
  ]

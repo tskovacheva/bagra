@@ -15,6 +15,7 @@
 
 import { all, get, put, remove, uid, newRecord, getSetting, setSetting } from '../db.js';
 import { t } from '../i18n.js';
+import { massWith } from '../units.js';
 import { page, panel, field, label, esc, empty, note, today, fmtDate,
          navigate, icon, flash, searchBox, matches, backTo, actionBtn } from '../ui.js';
 import { markClean } from '../dirty.js';
@@ -301,7 +302,7 @@ async function renderBatch(root, batch) {
         <ul class="history">${mine.map(f =>
           `<li data-open="${f.id}" style="cursor:pointer">
              <span class="mono">${esc(f.label || '')}</span> ${esc(f.name || '')}
-             <span class="hint">${f.weightG ? f.weightG + ' г' : ''}</span>
+             <span class="hint">${f.weightG ? massWith(f.weightG) : ''}</span>
            </li>`).join('')}</ul>
         <p>${t('batch.totalWas', { g: batch.totalWeightG ?? '—' })}</p>
         ${recipe ? `<p>${esc(recipe.name?.bg || recipe.name || '')}</p>` : ''}

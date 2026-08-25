@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": 7,
+ "packVersion": 8,
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -496,6 +496,17 @@
    "note": {
     "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
     "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
+   }
+  },
+  {
+   "code": "crafty-place-practice",
+   "kind": "person",
+   "name": "Практиката на ателието",
+   "author": "Цвети Ковачева, Crafty Place",
+   "url": "",
+   "note": {
+    "bg": "Работено в ателието и проверено на ръка. Различава се от ръководството: ръководството е написано, а това е правено. Където записът носи и двете, книгата дава числата, а практиката потвърждава, че вършат работа.",
+    "en": "Worked in the studio and checked by hand. Distinct from the published guide: the guide is written, this is done. Where a record carries both, the book supplies the figures and the practice confirms they work."
    }
   }
  ]

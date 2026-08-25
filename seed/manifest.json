@@ -18,7 +18,7 @@
   },
   "sources": {
    "packId": "bagra-core",
-   "version": "7"
+   "version": "8"
   },
   "glossary": {
    "packId": "bagra-glossary",
@@ -26,7 +26,7 @@
   },
   "recipes": {
    "packId": "bagra-recipes",
-   "version": "0.1.0"
+   "version": "0.2.0"
   }
  }
 }
