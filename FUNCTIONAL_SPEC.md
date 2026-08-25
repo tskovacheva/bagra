@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc40 · 129 sections
+**Status:** 1.0.0-rc41 · 130 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -9184,6 +9184,97 @@ have its influences read in the panel. It has them; there is no way to see them.
 
 Not fixed here: this release is the data, and the Reference presentation is the
 next one. Recorded so it is not rediscovered as a surprise.
+
+## 13dh. What the plant screen was losing (1.0.0-rc41)
+
+The owner said the plant page held less than it should, having compared it
+against a prototype. She was right, and the cause was not the one either of us
+expected: the fields were all rendering. What the screen was dropping was
+COMBINATION knowledge, and it was dropping it in three ways.
+
+### Four probes that lied before one told the truth
+
+Worth recording, because the same mistake was made four times in one sitting and
+each time it looked like a finding.
+
+1. A probe searched the rendered text for „адективно" and reported `dyeClass`
+   missing. It was on the screen.
+2. The next probe printed the markup and found `shape_printer`, `tree`, `dye`
+   where labels should be — apparently a rendering fault. It was the probe:
+   `label()` reads the vocabulary from the DATABASE, which `app.js` seeds at
+   boot and the probe never did, so every label fell back to its code.
+3. The third searched for „Пералноустойчивост". The screen says „Устойчивост при
+   пране". Reported missing; present.
+4. The fourth searched for „Източник" in the text. The provenance block had no
+   heading, so the words were there and the label was not.
+
+**A check that invents the string it looks for measures the author's memory.**
+Guard 24k reads every label from `i18n` by key. It cannot be wrong about a word
+without being wrong about the screen.
+
+### A combination with no measured colour was not on the page at all
+
+`plantColourSources` required a hex. Sixty-one records have none — their sources
+describe the colour in words and give no figure (§13ax) — and every one of them
+was silently absent from the plant it belongs to.
+
+| plant | combinations | on the screen before |
+|---|---|---|
+| Дъб | 5 | 2 |
+| Евкалипт | 3 | 2 |
+| Роза | 4 | 2 |
+| Багрилна лайка | 3 | **0** |
+
+The colour NAME is the knowledge — „ярко до слънчево жълто" is what somebody
+wants to read. The swatch is what is missing, not the answer. They draw now,
+with the outlined empty square §13df introduced, and every one is on the screen.
+
+This is the same fault as the default brown, in the other direction: the
+Reference invented a colour it did not have, and Plants dropped the record for
+not having one. Both came from treating the swatch as the record.
+
+A plant's OWN swatch still requires a hex: `p.colours` is a list of measured
+colours, and an entry there with none is an empty row rather than a record
+described in prose.
+
+### The explanations were on the wrong screen
+
+The 37 texts imported at rc40 live on combination records and were reaching the
+Reference panel only. A plant's combinations are its answers, so they belong on
+its page too — read from the canonical record at render, never copied into the
+plant seed, which is what stops the two screens disagreeing.
+
+Grouped by FACTOR across the whole plant rather than repeated per record: „the
+mordant", said by three of oak's combinations, is one thing being explained
+about oak, and three identical headings would read as three findings.
+
+### Provenance
+
+The plant page showed the sections that name a source and not the register codes
+its combinations cite — so the Reference credited Catharine Ellis for eucalyptus
+and the eucalyptus page did not. Both now, resolved through the register and
+linked where the register holds a URL, under a heading: an unlabelled row of
+names at the foot of a page reads as a footer rather than as provenance, and
+provenance is the condition of giving the library away (§13at).
+
+### One layout, three densities
+
+Guard 24k draws oak (a full profile, 5 combinations), eucalyptus (middling, and
+the eco print case) and rose (short) and compares each against its record. The
+colour cards are a `minmax(240px, 1fr)` grid, so 2, 4 and 8 results all fill the
+row rather than a fixed count breaking at one of them. The swatch is 64px on
+this screen against 52 in a search result: here the colour IS the answer, where
+in a result the words are what is being scanned.
+
+### The guard needed a guard's discipline of its own
+
+24k passed alone and failed beside its neighbour. `reset()` on the Reference
+module puts the tab back and leaves the QUERY alone, so guard 24j was inheriting
+whatever state the guard before it had left — and which of them was at fault
+depended on the order they had been written in. 24j clears the query itself now.
+
+A guard that depends on the one before it is testing the order they were written
+in.
 
 ---
 

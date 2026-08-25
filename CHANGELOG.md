@@ -12,6 +12,40 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc41 — 25 August 2026
+
+What the plant screen was losing. The owner said the page held less than it should; the
+fields were all rendering, and what was being dropped was combination knowledge.
+
+- **A combination with no measured colour was not on the page at all.** `plantColourSources`
+  required a hex, and 61 records have none — dyer's chamomile has three combinations and
+  showed zero, oak has five and showed two. The colour NAME is the knowledge; the swatch is
+  what is missing, not the answer. All of them draw now, with the outlined empty square. This
+  is the default-brown fault in the other direction: the Reference invented a colour it did
+  not have, Plants dropped the record for not having one. §13dh
+- **The 37 explanations were reaching the Reference panel only.** A plant's combinations are
+  its answers, so they are on its page too — read from the canonical record at render, never
+  copied into the plant seed, which is what stops the two screens disagreeing. Grouped by
+  factor across the plant: „the mordant" said by three of oak's records is one thing being
+  explained about oak.
+- **Provenance.** The Reference credited Catharine Ellis for eucalyptus and the eucalyptus
+  page did not. Both now, resolved through the register, linked, and under a heading.
+- **One layout, three densities.** Guard 24k draws oak, eucalyptus and rose and compares each
+  against its record. Colour cards are a `minmax(240px,1fr)` grid, so 2, 4 and 8 results all
+  fill the row; the swatch is 64px here against 52 in a search result, because on this screen
+  the colour is the answer.
+- **Four probes lied before one told the truth**, and each looked like a finding: a searched
+  word that was never on the screen, labels falling back to codes because the probe had not
+  seeded the vocabulary, a remembered label where the screen says another, and a heading that
+  did not exist. Guard 24k reads every label from i18n by key — it cannot be wrong about a
+  word without being wrong about the screen. §13dh
+- **The new guard passed alone and failed beside its neighbour.** `reset()` leaves the query
+  alone, so guard 24j was inheriting state from whatever ran before it. It clears its own
+  query now. A guard that depends on the one before it is testing the order they were
+  written in.
+
+---
+
 ## 1.0.0-rc40 — 25 August 2026
 
 The knowledge three rounds of the data workbook returned and the model could not hold. Data

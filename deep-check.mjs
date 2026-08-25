@@ -4603,6 +4603,93 @@ const dirty = await import('./dirty.js');
   root.remove();
 }
 
+// ---- 24k. The plant screen loses nothing the record holds (§13dh) ---------
+//
+// The screen is DRAWN and then compared against the records behind it, field by
+// field, with every label read from i18n rather than typed here. Four earlier
+// versions of this comparison searched for words that had been remembered
+// rather than looked up — „Пералноустойчивост" where the screen says
+// „Устойчивост при пране" — and each reported a field as missing that had been
+// on the screen the whole time. A check that invents the string it looks for
+// measures the author's memory.
+{
+  const plantsMod = (await import('./modules/plants.js')).default;
+  const { t } = await import('./i18n.js');
+  const root = document.createElement('div');
+  document.body.appendChild(root);
+  const wrong = [];
+
+  const combos = await db.all('combinations');
+
+  // Three densities on purpose: oak is a full profile, eucalyptus a middling one
+  // that matters for eco print, rose a short one. One layout has to hold all
+  // three or it is a layout for oak.
+  for (const code of ['quercus_robur', 'eucalyptus_spp', 'rosa_spp']) {
+    const id = 'seed:' + code;
+    const rec = await db.get('plants', id);
+    if (!rec) { wrong.push(`${code}: not in the database`); continue; }
+
+    plantsMod.reset?.();
+    plantsMod.open(id);
+    await plantsMod.render(root);
+    await settle();
+    const txt = root.textContent.replace(/\s+/g, ' ');
+    const shows = (key) => txt.includes(t(key));
+
+    const need = [
+      [rec.dyeClass, 'plants.dyeClass'],
+      [rec.lightfastness, 'plants.lightfastness'],
+      [rec.washfastness, 'plants.washfastness'],
+      [(rec.compositionalRole || []).length, 'plants.compositional'],
+      [(rec.habitat || []).length, 'plants.habitat'],
+      [rec.plantType, 'plants.plantType'],
+      [rec.toxicity?.level, 'plants.readCareful'],
+    ];
+    for (const [present, key] of need) {
+      if (present && !shows(key)) wrong.push(`${code}: ${t(key)} is in the record and not on the screen`);
+    }
+
+    // EVERY combination, including the ones with no measured colour. Sixty-one
+    // records describe their colour in words and give no figure, and the plant
+    // screen dropped all of them because it keyed on the hex — dyer's chamomile
+    // had three combinations and showed none.
+    const mine = combos.filter(c => c.key?.dyeSource?.plantId === id);
+    const missing = mine.filter(c => {
+      const name = (c.expected?.colourText?.bg || '').slice(0, 14);
+      return name && !txt.includes(name);
+    });
+    if (missing.length) {
+      wrong.push(`${code}: ${missing.length} of ${mine.length} combinations are not on the screen`);
+    }
+
+    // And the same colour the Reference would give for that record: two screens
+    // reading one canonical record cannot disagree, and this is what stops them
+    // being copied apart.
+    for (const c of mine) {
+      if (!c.expected?.swatchHex) continue;
+      if (!root.innerHTML.includes(c.expected.swatchHex)) {
+        wrong.push(`${code}: ${c.code} draws a colour other than the record's`);
+        break;
+      }
+    }
+
+    const infl = mine.filter(c => (c.influences || []).length);
+    if (infl.length && !shows('ref.influences'))
+      wrong.push(`${code}: ${infl.length} records carry an explanation and none is on the screen`);
+
+    if (!root.querySelector('.sourcenote'))
+      wrong.push(`${code}: no provenance on the page`);
+
+    // An encoding fault is invisible in a diff and obvious on a screen.
+    if (/\uFFFD/.test(root.innerHTML)) wrong.push(`${code}: a replacement character on the page`);
+  }
+
+  if (wrong.length) fail('plants', new Error(wrong.join('; ')));
+  else console.log('  plants: every field, every combination and every explanation reaches the screen');
+
+  root.remove();
+}
+
 // ---- 24j. The reference answers a colour question on one screen (§13df) ----
 //
 // `#/reference` carries no query — the question lives in the module, not in the
@@ -4637,9 +4724,15 @@ const dirty = await import('./dirty.js');
   await mk('zz-c-measured', '#A03D3B', 'ярко червено');
   await mk('zz-c-unmeasured', '', 'наситено златисто жълто');
 
+  // START FROM NOTHING ASKED. `reset()` puts the tab back and leaves the query
+  // alone, so this guard was inheriting whatever the guard before it had left
+  // in the module — and passed alone, failed beside its neighbour. A guard that
+  // depends on the one before it is testing the order they were written in.
   reference.reset?.();
   reference.open();
   await reference.render(root);
+  await settle();
+  root.querySelector('[data-clear]')?.click();
   await settle();
 
   // Ask by colour, the way pressing a family chip does.

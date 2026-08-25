@@ -453,6 +453,11 @@ td.favcell,th.favcell{width:28px;padding-left:6px;padding-right:0;text-align:cen
 /* One explanation, one line of its own. The factor leads because „which factor
    is this about" is what is being scanned for; the source closes it because a
    claim without one is not evidence. */
+/* One factor, its explanations under it. The factor leads because „which factor
+   is this about" is what is scanned for; the source closes each line because a
+   claim without one is not evidence. */
+.influencegroup{margin-bottom:12px}
+.influencegroup > b{color:var(--indigo);display:block;margin-bottom:4px}
 .influence{margin-bottom:9px;font-size:13px;line-height:1.45}
 .influence b{color:var(--indigo);margin-right:5px}
 .influence .hint{display:block;margin-top:2px}
@@ -1155,6 +1160,13 @@ label.btn{cursor:pointer}
 .termfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:9px}
 .termfoot .hint{margin:0}
 .refswatch{width:52px;height:52px;border-radius:4px;flex:0 0 52px;border:1px solid var(--line)}
+/* On the plant screen the colour IS the answer, so it carries more of the card
+   than it does in a search result, where the words are being scanned. Not a
+   large empty area either: a swatch big enough to judge and no bigger (§13n). */
+.colourcards .refswatch{width:64px;height:64px;flex:0 0 64px}
+.colourcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.colourcards .refcard{min-width:0}
+.sourcenote h2{margin:0 0 6px}
 /* The question is four short answers; the reply is long. Two columns on a desk,
    one on a phone — never four selects stacked down half the screen. */
 .askgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
