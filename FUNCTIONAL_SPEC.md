@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc38 · 127 sections
+**Status:** 1.0.0-rc39 · 128 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -8974,6 +8974,111 @@ unmet on a screen. The read view shows it now, one code or several.
 ingredient's note — rather than in the quantity field. So the calculator shows
 nothing for it, correctly, because nothing was entered. That is data rather than
 code and it belongs to the owner.
+
+## 13df. The reference, rebuilt around the question (1.0.0-rc39)
+
+Reworked from a v0 prototype used as a reference for arrangement, not copied.
+The search model, the ranking and every search semantic are unchanged: nothing
+below adds a filter, a field or a way of matching.
+
+### Colour families are a shortcut to a hex
+
+The model holds one `colourHex` and `rankByColour` orders records by distance
+from it. A family chip sets that same hex to a representative nuance, so
+pressing „Розово" is exactly pressing pink in the picker with the picker's
+difficulty removed. Nothing about the ranking changes.
+
+The nine hexes sit where a dyer means the word, not at the centre of the sRGB
+region: yellow from a dye pot is nearer to ochre than to a screen's pure yellow,
+and ranking against the pure one would put every real result at a distance.
+
+**„+ Точен нюанс" is an action, not a tenth family**, so it carries no swatch of
+its own — a coloured square beside it would read as one more colour to choose
+from. The picker is still there for when the answer IS a nuance: a thread to
+match, a swatch on the bench.
+
+**No „any colour" chip.** Nothing chosen already means nothing asked, and a chip
+whose job is to be pressed by default teaches people to press things that change
+nothing. What is needed after a choice is a way out, and there are two: the
+clear button, and pressing the chosen chip again.
+
+### A panel that starts with an answer
+
+Results on the left, the chosen one on the right, one column below 820px. The
+FIRST result is shown rather than the panel waiting to be clicked — a panel that
+starts empty asks to be clicked before it says anything, and the first result is
+the one the ranking already put first. A new question resets the selection: a
+panel still showing the answer to a question nobody is asking is worse than an
+empty one.
+
+Twelve results, which is what `rankByColour` already returns. The prototype
+shows five because it is a mock.
+
+**„Влияния" is not on the panel.** `influences` is declared on all 163 records
+and populated on none (decision 12). A section standing empty on every record
+reads as a screen that is broken rather than as a field nobody has filled.
+Absent until there is something to put in it. Settled with the owner.
+
+### Nobody has measured this
+
+Sixty-one of the 163 records carry no `swatchHex`: their source described the
+colour in words and gave no figure, and inventing one would be the application
+manufacturing a measurement (§13ax).
+
+Every one of them drew `#8C7B6B` — a default brown, on six code paths — which
+looks exactly like a colour somebody measured. **An outlined empty square
+instead.** „Nobody has measured this" is a state the screen can show, and
+showing it is the difference between a reference and a decoration.
+
+Three places the same fault was hiding:
+
+- **A new record started at that brown.** Every record ever created carried a
+  figure nobody chose. It starts empty now.
+- **The edit form showed the brown in the picker**, and saving without touching
+  it stamped it on as a measurement. A colour input cannot hold nothing, so the
+  form carries a „no measured colour" checkbox, which is what that state looks
+  like in a form. The checkbox wins over the picker.
+- **Both pickers opened on that brown**, which leans on a colour judgement
+  before one has been made (§13n). They open neutral.
+
+**A record with no measured colour cannot appear in a colour search at all** —
+`rankByColour` cannot order a colour that is not there. That is correct and it
+is worth knowing: the colour question reaches 102 records, and the other 61 are
+found by their conditions. Found while writing the guard below, which is the
+only reason it is written down.
+
+### The guard, and why its first two versions proved nothing
+
+`#/reference` carries no query — the question lives in the module, not in the
+address — so the screen layer only ever draws the search with nothing asked and
+has never seen a result. Guard 24j drives the module directly.
+
+**Version one broke the swatch helper deliberately and passed.** The record it
+was watching had no colour, so it was not in the colour results at all: the
+guard was inspecting a screen the fault could not appear on. The same shape as
+the harness that measured the dashboard under the name of Sources.
+
+**Version two cleared the tab and not the question**, so the screen stayed on
+the colour path and the record was still not on it. `reset()` puts the tab back
+and leaves the query alone.
+
+**Version three matched the raw HTML for the old brown** and caught the colour
+picker's starting value, which is a legitimate thing for a picker to hold. It
+inspects elements now.
+
+Three ways for a guard to look like it is working. The fourth version is asked
+in four directions and fails in all four.
+
+### Not changed
+
+The ranking, `compare()`, the exact/open/near distinction (§13ck), the record
+list, the read view, the form's fields. Typography, spacing, the sidebar and the
+CSS system are the existing ones; nothing from v0 or shadcn came across.
+
+A heading in the new panel set its own font size and the static guard caught it
+on the first run. It reuses `.headlinebody h2` — the record title in the panel
+is the same thing as the record title on the read view, and a second size would
+be a second answer to a settled question, which is how a scale stops being one.
 
 ---
 

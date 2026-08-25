@@ -4603,6 +4603,113 @@ const dirty = await import('./dirty.js');
   root.remove();
 }
 
+// ---- 24j. The reference answers a colour question on one screen (§13df) ----
+//
+// `#/reference` carries no query — the question lives in the module, not in the
+// address — so the screen layer only ever draws the search with nothing asked
+// and has never seen a result. This draws the state that matters.
+//
+// The claim being checked is not that the markup exists. It is that a record
+// with NO measured colour does not draw one. Sixty-one of the 163 describe
+// their colour in words and give no figure, and every one of them used to paint
+// a default brown, which looks exactly like a measurement.
+{
+  const reference = (await import('./modules/reference.js')).default;
+  const root = document.createElement('div');
+  document.body.appendChild(root);
+  const wrong = [];
+
+  const made = [];
+  const mk = async (id, hex, colour) => {
+    await db.put('combinations', db.newRecord({
+      id,
+      key: { dyeSource: { plantId: null, partCode: 'leaf' }, fibreClass: null,
+             mordantCode: 'iron', mordantBand: null, processCode: 'ecoprint',
+             blanket: null, medium: null },
+      expected: { colourText: { bg: colour, en: colour }, swatchHex: hex,
+                  variation: { bg: '', en: '' }, printQuality: null,
+                  lightfastness: '', washfastness: '' },
+      influences: [], confidence: 'literature', learnedFrom: 'x',
+      notes: { bg: '', en: '' },
+    }));
+    made.push(id);
+  };
+  await mk('zz-c-measured', '#A03D3B', 'ярко червено');
+  await mk('zz-c-unmeasured', '', 'наситено златисто жълто');
+
+  reference.reset?.();
+  reference.open();
+  await reference.render(root);
+  await settle();
+
+  // Ask by colour, the way pressing a family chip does.
+  const chip = root.querySelector('[data-family="red"]');
+  if (!chip) wrong.push('no colour family chips on the search screen');
+  else {
+    chip.click();
+    await settle();
+  }
+
+  const html = root.innerHTML;
+
+  if (!html.includes('data-pick=')) wrong.push('a colour question produced no selectable rows');
+
+  // The chosen family reads as chosen. Asked HERE, while it is still chosen —
+  // asking after the clear below would assert nothing.
+  const pressed = root.querySelector('[data-family="red"]');
+  if (pressed && pressed.getAttribute('aria-pressed') !== 'true')
+    wrong.push('the chosen family chip does not read as pressed');
+  if (!html.includes('refdetail')) wrong.push('no detail panel beside the results');
+
+  // The first result is shown, rather than the panel waiting to be clicked.
+  const first = root.querySelector('tr[data-pick]');
+  if (first && !first.classList.contains('on'))
+    wrong.push('the first result is not selected — the panel starts empty');
+
+  // AND THE OTHER PATH, which is where an unmeasured record can actually be
+  // seen. `rankByColour` cannot order a colour that is not there, so the 61
+  // records with no swatch never appear in a COLOUR search at all — the first
+  // version of this guard broke the swatch helper and passed, because the
+  // record it was watching was not on the screen (§13df).
+  // Clear the colour FIRST. `reset()` puts the tab back and leaves the question
+  // alone, so without this the screen stays on the colour path and the record
+  // being watched is still not on it — which is how the first version of this
+  // guard passed against a deliberately broken swatch helper.
+  root.querySelector('[data-nocolour]')?.click();
+  await settle();
+  const proc = root.querySelector('[data-q="processCode"]');
+  if (!proc) wrong.push('no process filter on the search screen');
+  else {
+    proc.value = 'ecoprint';
+    proc.dispatchEvent(new window.Event('change', { bubbles: true }));
+    await settle();
+  }
+  const byCondition = root.innerHTML;
+
+  if (!byCondition.includes('unmeasured'))
+    wrong.push('a record with no measured colour draws no empty swatch');
+  // Inspected as ELEMENTS, not as a string. A colour picker legitimately holds
+  // a starting value, and matching the raw HTML confused that with a swatch
+  // somebody would read as a measurement.
+  const painted = [...root.querySelectorAll('.thumb, .refswatch')]
+    .filter(el => !el.classList.contains('unmeasured'))
+    .filter(el => !/background:\s*#/.test(el.getAttribute('style') || ''));
+  if (painted.length)
+    wrong.push(`${painted.length} swatch(es) neither measured nor marked unmeasured`);
+
+  // „Влияния" is not offered, because `influences` is populated on no record
+  // (decision 12). A section standing empty on every record reads as a broken
+  // screen rather than as a field nobody has filled.
+  if (/influences/i.test(html)) wrong.push('an influences section is drawn from a field nothing fills');
+
+
+  if (wrong.length) fail('reference', new Error(wrong.join('; ')));
+  else console.log('  reference: a colour question draws rows, a panel, and no colour nobody measured');
+
+  for (const id of made) await db.remove('combinations', id);
+  root.remove();
+}
+
 // ---- 25. A placement finds the right reference record ---------------------
 //
 // The other half of §13bp. The matcher read plant, part and process and nothing

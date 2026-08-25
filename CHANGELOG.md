@@ -12,6 +12,42 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc39 — 25 August 2026
+
+The Reference rebuilt around the question, from a v0 prototype used for arrangement and not
+copied. **No new filter, no new field, no change to the ranking or to any search semantic.**
+
+- **Colour families replace the picker as the way in.** A chip sets the same `colourHex` the
+  picker sets, so the ranking is untouched — pressing „Розово" is pressing pink with the
+  picker's difficulty removed. „+ Точен нюанс" is an action and carries no swatch of its own;
+  the picker is still there for when the answer really is a nuance. §13df
+- **A detail panel that starts with an answer.** First result shown rather than the panel
+  waiting to be clicked; one column below 820px; the selection resets when the question
+  changes. Twelve results, which is what the ranking already returns.
+- **„Влияния" is not on the panel.** `influences` is declared on all 163 records and
+  populated on none. A section standing empty on every record reads as a broken screen.
+- **Sixty-one records drew a colour nobody measured.** Their sources describe the colour in
+  words and give no figure, and every one of them painted a default brown on six code paths.
+  An outlined empty square instead. §13df
+- **And the same fault in three more places**: a new record started at that brown; the edit
+  form showed it in the picker, so saving without touching it stamped it on as a measurement;
+  and both pickers opened on it, leaning on a colour judgement before one was made. New
+  records start empty, the form carries a „no measured colour" checkbox that wins over the
+  picker, and the pickers open neutral.
+- **A record with no measured colour cannot appear in a colour search at all** —
+  `rankByColour` cannot order a colour that is not there. Correct, and worth knowing: the
+  colour question reaches 102 records and the other 61 are found by their conditions.
+- **New guard 24j**, and its first three versions each proved nothing: one broke the swatch
+  helper and passed because the record it watched was not on the screen; one cleared the tab
+  and not the question; one matched raw HTML and caught a colour picker's starting value. The
+  fourth is asked in four directions and fails in all four.
+- A heading in the new panel set its own font size; the static guard caught it on the first
+  run. It reuses the existing one.
+
+Release check and screen check pass at both widths.
+
+---
+
 ## 1.0.0-rc38 — 25 August 2026
 
 The owner asked whether anything about Pigments was unfinished, and said she still saw a
