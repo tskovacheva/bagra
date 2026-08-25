@@ -381,15 +381,29 @@ export function plantColourSources(plant, combinations = [], { max = 6, distinct
   // black under iron in a print, and one row of circles cannot say which is
   // which.
   const add = (hex, caption, from, combo, own) => {
-    if (!hex) return;
+    // A COMBINATION WITH NO MEASURED COLOUR IS STILL AN ANSWER (§13dh).
+    //
+    // This required a hex, so sixty-one records — every eco print one among
+    // them — were dropped from the plant screen entirely. Dyer's chamomile has
+    // three combinations and showed none of them; oak has five and showed two.
+    // Their sources describe the colour in WORDS and give no figure, and the
+    // words are the knowledge: „ярко до слънчево жълто" is what somebody wants
+    // to read. The swatch is what is missing, not the answer.
+    //
+    // A plant's own swatch still needs one: `p.colours` IS a list of measured
+    // colours, and an entry there with no hex is an empty row rather than a
+    // record described in prose.
+    if (!hex && !(combo && caption)) return;
     const process = combo ? combo.key?.processCode : own?.process;
     const partCode = combo ? combo.key?.dyeSource?.partCode : own?.partCode;
     const ctx = combo ? [combo.key?.dyeSource?.partCode, combo.key?.fibreClass,
                          combo.key?.mordantCode, combo.key?.processCode].filter(Boolean).join('/') : '';
-    const key = hex.toLowerCase() + (distinctContext ? '|' + ctx : '');
+    const key = (hex ? hex.toLowerCase() : 'unmeasured:' + (caption || '')) +
+                (distinctContext ? '|' + ctx : '');
     if (seen.has(key) || out.length >= max) return;
     seen.add(key);
-    out.push({ hex, caption, from, combo, process, partCode, conditions: own ? text(own.conditions) : '' });
+    out.push({ hex: hex || '', caption, from, combo, process, partCode,
+               conditions: own ? text(own.conditions) : '' });
   };
 
   for (const c of plant.colours || [])
@@ -664,6 +678,74 @@ async function safetyBlock(p) {
     <p class="hint">${t('plants.safetyScope')}</p>`;
 }
 
+// WHAT MOVES THE RESULT, on the plant screen (§13dh).
+//
+// The explanations imported at rc40 live on combination records, and a plant's
+// combinations are its answers — so they belong here too. Not copied into the
+// plant: read from the canonical record at render, which is why the two screens
+// cannot disagree.
+//
+// Grouped by factor across the whole plant rather than repeated per record: „the
+// mordant" said by three of oak's combinations is one thing being explained
+// about oak, and three identical headings would read as three findings.
+async function influencesFor(plantId, combinations) {
+  const mine = combinations.filter(c => c.key?.dyeSource?.plantId === plantId);
+  const byFactor = new Map();
+  for (const c of mine) {
+    for (const i of c.influences || []) {
+      if (!byFactor.has(i.factor)) byFactor.set(i.factor, []);
+      byFactor.get(i.factor).push(i);
+    }
+  }
+  if (!byFactor.size) return '';
+
+  const reg = new Map((await all('sources')).map(x => [x.code, x]));
+  const blocks = await Promise.all([...byFactor].map(async ([factor, list]) => {
+    const lines = list.map(i => {
+      const src = reg.get(i.sourceCode);
+      return `<div class="influence">
+        <span>${esc(text(i.text))}</span>
+        ${src ? `<span class="hint">${esc(text(src.name) || src.code)}</span>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="influencegroup">
+      <b>${esc(await label('influence_factor', factor))}</b>${lines}</div>`;
+  }));
+  return `<div class="influences">${blocks.join('')}</div>`;
+}
+
+// Everything the profile rests on: the sections that name a source, and the
+// register codes the plant's combinations cite. Attribution is a condition of
+// shipping (§13at), and the combination sources were reaching the Reference and
+// not this screen.
+async function sourcesFor(plant, combinations, sections) {
+  const mine = combinations.filter(c => c.key?.dyeSource?.plantId === plant.id);
+  const codes = [...new Set(mine.flatMap(c => [
+    ...(c.sourceCodes || []),
+    ...(c.influences || []).map(i => i.sourceCode),
+  ]).filter(Boolean))];
+  const reg = new Map((await all('sources')).map(x => [x.code, x]));
+  const names = codes.map(c => {
+    const src = reg.get(c);
+    if (!src) return '';
+    const name = esc(text(src.name) || src.code);
+    return src.url ? `<a href="${esc(src.url)}" target="_blank" rel="noopener">${name}</a>` : name;
+  }).filter(Boolean);
+
+  const written = sections.map(sec =>
+    `<span class="sourcelabel">${esc(text(sec.title))}</span> ${esc(text(sec.body))}`);
+
+  if (!names.length && !written.length) return '';
+  // Headed, because an unlabelled row of names at the foot of a page reads as
+  // a footer rather than as provenance — and provenance is the condition of
+  // giving the library away (§13at).
+  return `<div class="sourcenote">
+    <h2>${t('ref.sources')}</h2>
+    ${written.join('<br>')}
+    ${names.length ? `<div class="hint">${names.join(' · ')}</div>` : ''}
+  </div>`;
+}
+
 async function renderRead(root, p) {
   // The list derives its swatches from the plant and from the combinations
   // both; reading only `p.colours` here is what made every seeded record open
@@ -707,7 +789,9 @@ async function renderRead(root, p) {
           .filter(Boolean).join(' · ');
     return `
     <div class="refcard" style="cursor:default">
-      <div class="refswatch" style="background:${esc(s.hex || '#8C7B6B')}"></div>
+      ${s.hex
+        ? `<div class="refswatch" style="background:${esc(s.hex)}"></div>`
+        : `<div class="refswatch unmeasured" title="${esc(t('ref.noSwatch'))}"></div>`}
       <div class="refbody">
         <b>${esc(s.caption || '—')}</b>
         ${ctx ? `<div class="hint">${esc(ctx)}</div>` : ''}
@@ -806,6 +890,10 @@ async function renderRead(root, p) {
     readBlock(t('plants.read.why'),
       [chem, subs(asSubs(grouped.why))].filter(Boolean).join('')),
 
+    // Beside „why it works" and not inside it: the chemistry says why the plant
+    // gives colour at all, and this says what makes that colour move.
+    readBlock(t('ref.influences'), await influencesFor(p.id, combinations)),
+
     readBlock(t('plants.read.gathering'),
       [facts([
         partMonths,
@@ -818,10 +906,7 @@ async function renderRead(root, p) {
 
   // Attribution is not a section among sections: it says where the whole
   // profile came from, and §"Sources and authorship" requires it be visible.
-  const sourceNote = grouped.sources.length
-    ? `<div class="sourcenote">${grouped.sources.map(sec =>
-        `<span class="sourcelabel">${esc(text(sec.title))}</span> ${esc(text(sec.body))}`).join('<br>')}</div>`
-    : '';
+  const sourceNote = await sourcesFor(p, combinations, grouped.sources);
 
   root.innerHTML = page({
     title: text(p.nameCommon) || t('plants.one'),
