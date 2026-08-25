@@ -8,7 +8,7 @@
 import { all, get, put, newRecord, toggleFavorite } from '../db.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
-import { rankByColour, colourDifference } from '../calc/colour.js';
+import { rankByColour, colourDifference, colourDistance } from '../calc/colour.js';
 import { bandRange } from '../vocab.js';
 import { t, text } from '../i18n.js';
 import { markClean } from '../dirty.js';
@@ -47,7 +47,10 @@ function blank() {
       processCode: 'immersion', blanket: null, medium: null,
     },
     expected: {
-      colourText: { bg: '', en: '' }, swatchHex: '#8C7B6B',
+      // No colour, not a brown one. A new record has not been measured yet,
+      // and starting it at a default means every record ever created carries a
+      // figure nobody chose (§13df).
+      colourText: { bg: '', en: '' }, swatchHex: '',
       variation: { bg: '', en: '' }, printQuality: null,
       lightfastness: '', washfastness: '',
     },
@@ -156,6 +159,11 @@ async function sourceLine(record, plantsById) {
 
 let placementCounts = new Map();
 
+// Which result the detail panel is showing. Null means „the first one", not
+// „none": a panel that starts empty asks to be clicked before it says anything,
+// and the first result is the one the ranking already put first (§13df).
+let selectedId = null;
+
 // The conditions of a record, as chips rather than one line joined with
 // middots — §13s·3. Each is a fact of its own and reads as one.
 async function conditionChips(record) {
@@ -175,6 +183,118 @@ async function conditionChips(record) {
   return out.filter(Boolean).map(x => `<span class="chip">${esc(x)}</span>`).join('');
 }
 
+// COLOUR FAMILIES ARE A SHORTCUT TO A HEX, not a new dimension (§13df).
+//
+// The search model holds one `colourHex` and `rankByColour` orders records by
+// distance from it. A family chip sets that same hex to a representative
+// nuance, so nothing about the ranking changes — pressing „Розово" is exactly
+// pressing pink in the colour picker, with the picker's difficulty removed.
+//
+// The hexes are chosen to sit in the middle of what a dyer means by the word,
+// not at the centre of the sRGB region: „жълто" from a dye pot is nearer to
+// ochre than to a screen's pure yellow, and ranking against the pure one would
+// put every real result at a distance.
+// Where a colour picker opens when nothing has been chosen. Neutral on purpose:
+// it opened on a warm brown, and the workspace must not lean on a colour
+// judgement before one has been made (§13n).
+const PICKER_NEUTRAL = '#7E7A73';
+
+const FAMILIES = [
+  ['yellow', '#D8B33A'],
+  ['ochre',  '#B08D2E'],
+  ['orange', '#C4703A'],
+  ['red',    '#A03D3B'],
+  ['pink',   '#C98A93'],
+  ['green',  '#6E7A42'],
+  ['blue',   '#2C3B57'],
+  ['brown',  '#7A5B42'],
+  ['grey',   '#7E7A73'],
+];
+
+// Which family the current hex belongs to, so a chip can show as pressed after
+// a reload. Compared by the same distance the ranking uses, rather than by
+// string equality: the exact picker sets a hex no chip carries, and none should
+// then look pressed.
+function familyOf(hex) {
+  if (!hex) return null;
+  let best = null, bestD = Infinity;
+  for (const [code, h] of FAMILIES) {
+    const d = colourDistance(hex, h);
+    if (d != null && d < bestD) { bestD = d; best = code; }
+  }
+  return bestD <= 1 ? best : null;
+}
+
+// A swatch, or the absence of one.
+//
+// Sixty-one records carry no measured colour: their source described the print
+// and the colour in WORDS and never gave a figure, and inventing a hex from
+// „наситено златисто жълто" would be the application manufacturing a
+// measurement (§13ax). Until now every one of them drew a default brown, which
+// is worse than nothing — it looks exactly like a colour somebody measured.
+//
+// An outlined empty square instead. „Nobody has measured this" is a state the
+// screen can show, and showing it is the whole difference between a reference
+// and a decoration.
+const swatch = (hex, cls = 'refswatch') => hex
+  ? `<span class="${cls}" style="background:${esc(hex)}"></span>`
+  : `<span class="${cls} unmeasured" title="${esc(t('ref.noSwatch'))}"></span>`;
+
+// The detail panel — the same facts the read view carries, beside the results
+// rather than a page away.
+//
+// „Влияния" is NOT here. `influences` is declared on all 163 records and
+// populated on none of them (decision 12), and a section standing empty on
+// every record reads as a screen that is broken rather than as a field nobody
+// has filled. Absent until there is something to put in it.
+async function detailPane(record, plantsById) {
+  if (!record) return '';
+  const k = record.key || {};
+  const e = record.expected || {};
+  const mine = await placementsFor(record);
+
+  const trials = mine.slice(0, 4).map(({ trial, placement }) => `
+    <div class="detailtrial">
+      <b>${esc(placement.resultColour || '—')}</b>
+      <span class="hint">${esc(fmtDate(trial.date))}</span>
+      ${placement.observation ? `<p class="hint">${esc(placement.observation)}</p>` : ''}
+    </div>`).join('');
+
+  return `
+    <div class="refdetail">
+      <div class="detailhead">
+        ${swatch(e.swatchHex, 'refswatch')}
+        <div class="headlinebody">
+          <h2>${esc(text(e.colourText) || '—')}</h2>
+          <div class="hint">${esc(await sourceLine(record, plantsById))}</div>
+        </div>
+      </div>
+
+      ${!e.swatchHex ? `<p class="hint">${t('ref.noSwatchLong')}</p>` : ''}
+
+      ${facts([
+        fact(t('ref.fibre'), esc(await label('fibre_class', k.fibreClass))),
+        fact(t('ref.mordant'), esc(k.mordantCode === 'none'
+          ? t('ref.none') : await label('mordant_type', k.mordantCode))),
+        fact(t('ref.band'), esc(await label('mordant_strength', k.mordantBand))),
+        fact(t('ref.process'), esc(await label('process', k.processCode))),
+        fact(t('ref.ph'), k.medium?.phCode
+          ? esc(await label('ph', k.medium.phCode)) : t('ref.unspecified')),
+        fact(t('ref.confidence'), esc(await label('confidence', record.confidence || 'unverified'))),
+      ])}
+
+      ${text(e.variation) ? `<p class="hint">${esc(text(e.variation))}</p>` : ''}
+      ${text(record.notes) ? prose(record.notes) : ''}
+
+      <div class="detailtrials">
+        <h2>${t('ref.myPlacements')}</h2>
+        ${trials || `<p class="hint">${t('ref.noPlacements')}</p>`}
+      </div>
+
+      <a class="btn quiet" href="#/reference/${record.id}">${t('ref.openFull')}</a>
+    </div>`;
+}
+
 async function resultCard(record, plantsById, match) {
   const e = record.expected || {};
   const k = record.key || {};
@@ -192,7 +312,7 @@ async function resultCard(record, plantsById, match) {
 
   return `
     <div class="refcard" data-open="${record.id}">
-      <div class="refswatch" style="background:${esc(e.swatchHex || '#8C7B6B')}"></div>
+      ${swatch(e.swatchHex)}
       <div class="refbody">
         <div class="refhead">
           <b>${esc(await sourceLine(record, plantsById))}</b>
@@ -330,14 +450,21 @@ async function renderSearch(root) {
   //
   // On a phone it becomes stacked rows without anything further, because the
   // rule from §13ae is against `.grid` rather than against any one list.
+  // Which record the panel shows. The first result unless one has been picked,
+  // and back to the first when the question changes — a panel still showing the
+  // answer to a question nobody is asking any more is worse than an empty one.
+  const ranked = byColour.map(x => x.r);
+  const shownId = (selectedId && ranked.some(r => r.id === selectedId))
+    ? selectedId
+    : (ranked[0]?.id || null);
+  const shown = ranked.find(r => r.id === shownId) || null;
+
   const colourRows = (await Promise.all(byColour.map(async ({ r }) => {
     const diff = colourDifference(query.colourHex, r.expected?.swatchHex);
     const conf = r.confidence || 'unverified';
     return `
-      <tr data-open="${r.id}">
-        <td class="swatchcell">
-          <span class="thumb" style="background:${esc(r.expected?.swatchHex || '#8C7B6B')}"></span>
-        </td>
+      <tr data-pick="${r.id}"${r.id === shownId ? ' class="on"' : ''}>
+        <td class="swatchcell">${swatch(r.expected?.swatchHex, 'thumb')}</td>
         <td>${esc(diff && diff.code !== 'same' ? t('ref.diff.' + diff.code) : t('ref.diff.same'))}</td>
         <td>${esc(text(r.expected?.colourText) || '—')}</td>
         <td><b>${esc(await sourceLine(r, plantsById))}</b></td>
@@ -346,19 +473,24 @@ async function renderSearch(root) {
       </tr>`;
   }))).join('');
 
+  // Results on the left, the chosen one on the right — and one column on a
+  // phone, where the panel follows the list rather than fighting it for width.
   const colourTable = colourRows ? `
-    <div class="panel flush">
-      <table class="grid">
-        <thead><tr>
-          <th class="swatchcell"></th>
-          <th>${t('ref.col.diff')}</th>
-          <th>${t('ref.col.colour')}</th>
-          <th>${t('ref.col.source')}</th>
-          <th>${t('ref.col.conditions')}</th>
-          <th></th>
-        </tr></thead>
-        <tbody>${colourRows}</tbody>
-      </table>
+    <div class="refsplit">
+      <div class="panel flush">
+        <table class="grid">
+          <thead><tr>
+            <th class="swatchcell"></th>
+            <th>${t('ref.col.diff')}</th>
+            <th>${t('ref.col.colour')}</th>
+            <th>${t('ref.col.source')}</th>
+            <th>${t('ref.col.conditions')}</th>
+            <th></th>
+          </tr></thead>
+          <tbody>${colourRows}</tbody>
+        </table>
+      </div>
+      <aside class="refaside">${await detailPane(shown, plantsById)}</aside>
     </div>` : '';
 
   const resultsPane = !asked
@@ -396,15 +528,39 @@ async function renderSearch(root) {
           ${field(t('ref.plant'), `<select data-q="plantId">${plantOptions}</select>`)}
           ${field(t('ref.part'), `<select data-q="partCode"${partCodes && !partCodes.length ? ' disabled' : ''}>${partOptions}</select>`)}
           ${field(t('ref.fibre'), `<select data-q="fibreClass">${await options('fibre_class', query.fibreClass, t('ref.anyFibre'))}</select>`)}
-          ${field(t('ref.colour'), `
-            <span class="askcolour">
-              <input type="color" data-q="colourHex" value="${esc(query.colourHex || '#8C7B6B')}"
-                     aria-label="${esc(t('ref.colour'))}">
-              ${query.colourHex
-                ? `<button class="btn quiet" data-nocolour>${t('ref.anyColour')}</button>`
-                : `<span class="hint">${t('ref.anyColour')}</span>`}
-            </span>`, t('ref.colourHint'))}
+          ${/* Chips replace the colour picker as the way in; see below. */ ''}
           ${field(t('ref.process'), `<select data-q="processCode">${await options('process', query.processCode, t('ref.anyProcess'))}</select>`)}
+        </div>
+
+        ${/* Chips rather than a colour picker as the way in. A picker asks for
+              a nuance nobody has in mind yet; a family is the question actually
+              being asked, and the picker stays for when the answer IS a nuance
+              — a thread to match, a swatch on the bench.
+
+              No „any colour" chip: nothing chosen already means nothing asked,
+              and a chip whose job is to be pressed by default teaches people to
+              press things that change nothing. What is needed after a choice is
+              a way OUT, which is the last item in the row. */ ''}
+        <div class="askcolour">
+          <span class="asklabel">${t('ref.colour')}</span>
+          <div class="chipset">
+            ${(await Promise.all(FAMILIES.map(async ([code, hex]) => {
+              const on = familyOf(query.colourHex) === code;
+              return `<button class="colourchip${on ? ' on' : ''}" data-family="${code}"
+                        aria-pressed="${on}">
+                        <span class="colourdot" style="background:${hex}"></span>
+                        ${esc(t('colour_family.' + code))}
+                      </button>`;
+            }))).join('')}
+            ${/* An ACTION, not a tenth family, so no dot of its own. */ ''}
+            <label class="colourchip exactnuance${query.colourHex && !familyOf(query.colourHex) ? ' on' : ''}">
+              + ${t('ref.exactNuance')}
+              <input type="color" data-q="colourHex" value="${esc(query.colourHex || PICKER_NEUTRAL)}"
+                     aria-label="${esc(t('ref.exactNuance'))}">
+            </label>
+            ${query.colourHex
+              ? `<button class="btn quiet" data-nocolour>${t('ref.clearColour')}</button>` : ''}
+          </div>
         </div>
 
         <details class="pairalt"${showMore ? ' open' : ''}>
@@ -441,7 +597,7 @@ async function renderList(root) {
   const rows = await Promise.all(records.map(async r => `
     <tr data-open="${r.id}">
       <td class="favcell">${favStar(r)}</td>
-      <td class="withthumb"><span class="thumb" style="background:${esc(r.expected?.swatchHex || '#8C7B6B')}"></span>
+      <td class="withthumb">${swatch(r.expected?.swatchHex, 'thumb')}
         ${esc(text(r.expected?.colourText) || '—')}</td>
       <td>${esc(await sourceLine(r, plantsById))}</td>
       <td>${esc(await conditionLine(r))}</td>
@@ -533,7 +689,7 @@ async function renderRead(root, r) {
               ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
     body: `
       <div class="headline">
-        <div class="refswatch" style="background:${esc(e.swatchHex || '#8C7B6B')};width:96px;height:96px;flex:0 0 96px"></div>
+        <span class="refswatch${e.swatchHex ? '' : ' unmeasured'}" style="${e.swatchHex ? `background:${esc(e.swatchHex)};` : ''}width:96px;height:96px;flex:0 0 96px"></span>
         <div class="headlinebody">
           <h2>${esc(text(e.colourText) || '—')}</h2>
           <div class="latin">${esc(await conditionLine(r))}</div>
@@ -602,7 +758,19 @@ async function renderForm(root, r) {
         <div class="col">
           ${panel(`
             <h2>${t('ref.expected')}</h2>
-            ${field(t('ref.swatch'), `<input type="color" data-e="swatchHex" value="${esc(r.expected?.swatchHex || '#8C7B6B')}">`)}
+            ${/* A colour input cannot hold nothing, so opening one of the
+                  sixty-one records with no measured colour showed a default
+                  brown — and saving without touching it stamped that brown on
+                  as a measurement. The checkbox is what „nobody has measured
+                  this" looks like in a form (§13df). */ ''}
+            ${field(t('ref.swatch'), `
+              <span class="askcolour">
+                <input type="color" data-e="swatchHex" value="${esc(r.expected?.swatchHex || PICKER_NEUTRAL)}"
+                       ${r.expected?.swatchHex ? '' : 'disabled'}>
+                <label class="check"><input type="checkbox" data-noswatch
+                  ${r.expected?.swatchHex ? '' : 'checked'}>
+                  <span>${t('ref.noSwatch')}</span></label>
+              </span>`)}
             ${pairField(t('ref.colour'), 'colourText', r.expected?.colourText)}
             ${pairField(t('ref.variation'), 'variation', r.expected?.variation, { multiline: true })}
             ${field(t('ref.printQuality'), `<select data-e="printQuality">${await options('print_quality', r.expected?.printQuality)}</select>`)}
@@ -638,6 +806,9 @@ function readForm(root) {
   else draft.key.medium.whereCode = draft.key.medium.whereCode || 'dye_bath';
 
   for (const el of root.querySelectorAll('[data-e]')) draft.expected[el.dataset.e] = el.value || null;
+  // The checkbox wins over the picker: a picker always has a value, and that
+  // value is not a claim unless somebody made it one.
+  if (root.querySelector('[data-noswatch]')?.checked) draft.expected.swatchHex = '';
   for (const el of root.querySelectorAll('[data-f]')) draft[el.dataset.f] = el.value;
 
   const pairs = {};
@@ -732,15 +903,39 @@ export default {
       if (e.target.closest('[data-clear]')) {
         query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
                   mordantCode: '', mordantBand: '', phCode: '', colourHex: '' };
+        selectedId = null;
         return this.render(root);
       }
       const quick = e.target.closest('[data-quick]');
       if (quick) { query.plantId = quick.dataset.quick; return this.render(root); }
 
       // A colour input cannot be empty, so "any colour" needs a way back out.
-      if (e.target.closest('[data-nocolour]')) { query.colourHex = ''; return this.render(root); }
+      if (e.target.closest('[data-nocolour]')) { query.colourHex = ''; selectedId = null; return this.render(root); }
+
+      // A family chip sets the same `colourHex` the picker sets (§13df).
+      // Pressing the one already chosen clears it, so a chip is its own way out
+      // as well as its way in.
+      const fam = e.target.closest('[data-family]');
+      if (fam) {
+        const hex = (FAMILIES.find(([c]) => c === fam.dataset.family) || [])[1] || '';
+        query.colourHex = (familyOf(query.colourHex) === fam.dataset.family) ? '' : hex;
+        selectedId = null;
+        return this.render(root);
+      }
 
       if (e.target.closest('[data-more]')) { showMore = !showMore; return; }
+
+      const noswatch = e.target.closest('[data-noswatch]');
+      if (noswatch) {
+        const picker = root.querySelector('[data-e="swatchHex"]');
+        if (picker) picker.disabled = noswatch.checked;
+        return;
+      }
+
+      // Picking a row fills the panel beside it. Not navigation: the whole
+      // point is to compare without leaving the list (§13df).
+      const pick = e.target.closest('[data-pick]');
+      if (pick) { selectedId = pick.dataset.pick; return this.render(root); }
 
       if (e.target.closest('[data-sync]')) {
         try {
@@ -782,6 +977,8 @@ export default {
       if (e.target.dataset.q) {
         query[e.target.dataset.q] = e.target.value;
         if (e.target.dataset.q === 'plantId') query.partCode = '';
+        // A new question means a new first answer (§13df).
+        selectedId = null;
         return this.render(root);
       }
     };
