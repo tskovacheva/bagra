@@ -4568,8 +4568,36 @@ const dirty = await import('./dirty.js');
   for (const keep of ['data-ing-add', 'data-step-add'])
     if (!subst.includes(keep)) wrong.push(`${keep} missing from a pigment recipe`);
 
+  // AND THE WORK VIEW, which is the screen a recipe is actually followed on.
+  //
+  // This guard drew only the edit form, so §13ca was reported as done while the
+  // work view went on asking „for how many grams of cloth?" and „which fibre?"
+  // of a watercolour recipe. A guard that covers half a screen reports the
+  // half it covers and says nothing about the other, which is worse than no
+  // guard: it produces a section in the specification saying the work is
+  // finished (§13de).
+  const work = async (id) => {
+    recipes.reset?.();
+    recipes.open(id);            // no 'edit' — the read/work view
+    await recipes.render(root);
+    await settle();
+    return root.innerHTML;
+  };
+
+  const clothWork = await work('zz-r-cloth');
+  const substWork = await work('zz-r-subst');
+
+  if (!clothWork.includes('data-scale="weightG"'))
+    wrong.push('the work view of a cloth recipe does not ask for a weight of goods');
+  if (substWork.includes('data-scale="weightG"'))
+    wrong.push('the work view of a pigment recipe asks for a weight of cloth');
+  if (substWork.includes('data-scale="fibreClass"'))
+    wrong.push('the work view of a pigment recipe asks which fibre');
+  if (!substWork.includes('data-scale="rawG"'))
+    wrong.push('the work view of a pigment recipe does not ask how much raw material');
+
   if (wrong.length) fail('recipes', new Error(wrong.join('; ')));
-  else console.log('  recipes: the fields on screen follow the recipe type');
+  else console.log('  recipes: the fields follow the type, on the form AND on the work view');
 
   for (const id of made) await db.remove('recipes', id);
   root.remove();

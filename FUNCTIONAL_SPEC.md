@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc36 · 124 sections
+**Status:** 1.0.0-rc38 · 127 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -6874,6 +6874,11 @@ It failed on its first run for a reason worth keeping: it called `open(id)`, whi
 view, and the fields live in the edit form. A guard pointed at the wrong screen reports absence
 correctly and means nothing.
 
+**And then it was left pointed at only one of the two screens.** The work view — where a recipe is
+actually followed — kept asking for a weight of cloth on a watercolour recipe until 1.0.0-rc38
+(§13de). This section reported the work finished because the guard covered the half it had been
+written for.
+
 ---
 
 ## 13cb. The glossary edited down, and a pack that can withdraw (1.0.0-rc13)
@@ -8764,6 +8769,211 @@ of them is foundation; all of them are enrichment.
 **The library is no longer what stands between the application and 1.0.** What
 does is `A6` — the legal and safety texts, units, and the numerical tests on the
 calculators — and the interface, which is now where the value is.
+
+## 13dc. One system stored, another shown (1.0.0-rc37)
+
+Every figure in the database is in one system and one only — grams,
+millilitres, degrees Celsius, grams per square metre. The field names have
+always said so: `weightG`, `tempC`, `weightGsm`. Nothing about this release
+changes what is written.
+
+**Why canonical, and not a unit on each record.** A record carrying its own
+unit is a record that must be read twice: once for the number and once to find
+out what the number means. Two trials become incomparable. An export becomes
+ambiguous. And a backup taken on a device set to ounces restores onto one set
+to grams and is quietly wrong by a factor of twenty-eight — quietly, because
+every figure still looks like a figure. Storing canonically makes that
+impossible rather than unlikely.
+
+So `units.js` is a DISPLAY layer, and it is symmetrical: what it renders on the
+way out it parses on the way back in. A person working in ounces types ounces
+and the database still holds grams.
+
+### The round trip has to close, and at first it did not
+
+`mass()` used a fixed two decimal places. One gram of iron — a real quantity in
+a real recipe — came out as „0.04 oz", and reading that back gave 1.13 g. A
+thirteen per cent error, produced by somebody opening a record and saving it
+without touching the weight.
+
+Places now follow the size of the number, three significant figures, capped at
+four: `0.0353`, `3.53`, `27.2`, `250`. The guard walks six magnitudes from one
+gram to twelve kilograms and requires every one to close within half a per cent.
+
+Temperature stays whole degrees. Nobody sets a pot to 176.4 °F, and the extra
+figure would claim a precision the thermometer does not have.
+
+### What never converts, said out loud
+
+A ratio is not a measurement. Percent WOF, a liquor ratio of 1 : 20, a
+percentage solution strength — the same number in every system. Converting one
+would be the worst kind of bug in this file, because the output would look
+entirely plausible.
+
+`wof()`, `ratio()` and `percent()` exist for that reason. A call site could
+print the number directly; going through a named function says out loud that it
+knows better, and silence would be indistinguishable from having forgotten. The
+guard asserts each of them in both systems.
+
+### A property of the device
+
+Like the language (§13co): it travels with the person, not with the work. A
+snapshot restore leaves it alone, so a phone's backup does not put the laptop
+into ounces. `units` joins `language` in the short list of settings that survive
+a restore, and `fabricLabelCounter` stays on the other side of that line because
+it is state rather than preference.
+
+The switch sits beside the language switch, in both places the language switch
+appears, and changing it redraws every open screen — the change is entirely in
+what is displayed.
+
+---
+
+## 13dd. The calculators, checked against somebody else (1.0.0-rc37)
+
+The calculators had no numerical test. Every other layer of the suite asks
+whether the application still WORKS; none asked whether it is CORRECT. A
+disclaimer does not cover a formula nobody has checked, and the aluminium
+acetate calculator tells a person how much of a chemical to weigh out.
+
+The module's own comment had said so since it was written: *„the stoichiometry
+below is stated openly so it can be checked rather than trusted. Verify against
+a known-good source before relying on it."* That verification is this section.
+
+### Two kinds of check, and the second is the point
+
+**Against first principles.** Every molar mass in the substance pack is
+recomputed here from IUPAC atomic weights, with each formula's composition
+written out by hand — a parser for „KAl(SO₄)₂·12H₂O" would be a second thing to
+get wrong. All twelve agree to within 0.05%.
+
+**Against published recipes**, which is the check that cannot be passed by being
+consistently wrong. Three independent sources each give an alum quantity AND a
+sodium acetate quantity. Ours must reproduce the second from the first.
+
+| source | given | we compute | |
+|---|---|---|---|
+| Earth Guild | 120 g alum → 100 g sodium acetate | 103.3 g | **3.3% off** |
+| Maiwa / naturaldyes.ca | 150 g alum → 150 g sodium acetate | 129.1 g | 16% excess |
+| Maiwa, vinegar route | 20 g alum → 10 g soda ash, 200 ml vinegar | 6.7 g, 152 ml | 49% / 32% excess |
+
+The Earth Guild figure is the striking one: 103.3 against 100, from a recipe
+written by somebody who has never seen this code.
+
+**Two things the comparison established that were not known before.**
+
+First, the published recipes only agree with the stoichiometry when their sodium
+acetate is read as the **trihydrate**. Read as anhydrous, Earth Guild's 100 g
+would be a 60% excess. Neither recipe says which — and this application makes
+hydration a field, which is exactly the difference between a recipe and a
+calculation.
+
+Second, published recipes run 16–49% ABOVE the stoichiometric floor, deliberately,
+to drive the reaction to completion. What the calculator returns is the minimum.
+That is the honest number to compute and it is not the number to weigh out, and
+the tolerances in the guard are one-sided to say so.
+
+### And that the chemistry behaves as chemistry
+
+- Aluminium sulfate carries two aluminium atoms per formula unit, so half the
+  moles are needed. Getting `alPerUnit` backwards would double every dose and
+  the number would still look plausible.
+- The acetate requirement does not change with the aluminium source: it follows
+  the aluminium, not its salt.
+- Sodium acetate needs no acid step; soda ash does. The role, not the material
+  (§5.1).
+- Trihydrate against anhydrous comes out as the ratio of their molar masses —
+  the „hydration alone can double it" claim, checked rather than asserted.
+- Reverse mode round-trips: 60 g of alum in the cupboard, back to 60 g.
+
+Every one was watched failing. Breaking the 3:1 acetate ratio fails against all
+three published recipes at once, which is what having three of them is for.
+
+## 13de. A recipe that is not measured against cloth (1.0.0-rc38)
+
+The owner asked whether anything about Pigments was unfinished, and said she
+still saw a weight-of-cloth calculation on a pigment recipe. She was right, and
+§13ca said otherwise.
+
+### A section that reported the work done, about the wrong screen
+
+`SHOWS` — the table saying which fields each kind of recipe has — was applied to
+the EDIT FORM and to nothing else. The WORK VIEW, which is the screen a recipe
+is opened on to be followed at the bench, went on asking „for how many grams of
+cloth?" and „which fibre?" of a watercolour recipe.
+
+Guard 24i drew the form and only the form, so it reported the half it covered
+and said nothing about the other. That is worse than no guard at all: it
+produced a section in this specification saying the work was finished.
+
+### A third way to scale, which the data already used
+
+`seed/recipes.json` carried `scaleBy: "raw"` on the watercolour recipe. The code
+knew `weight` and `volume` and nothing else, so `raw` was silently treated as
+weight-of-cloth — the dropdown did not offer it, the work view did not read it,
+and the scaling engine did not implement it.
+
+Three questions now, because there are three kinds of answer:
+
+| | asks for |
+|---|---|
+| `weight` | cloth, and the fibre it is made of |
+| `volume` | a standing bath, in litres |
+| `raw` | how much raw material is in front of you — gum arabic, or pigment |
+
+A recipe of type `pigment` or `paste` falls to `raw` whatever its `scaleBy`
+says, because a substance recipe never means cloth.
+
+**`ratio_to_dyestuff` had nowhere to look.** It resolved against a cloth weight
+and a `dyestuff` ingredient, and a watercolour has neither — its roles are
+`pigment` and `binder`. „One to one with the pigment" is the whole of the
+recipe, and it showed nothing. On a raw-scaled recipe the thing everything is
+measured against IS the raw amount.
+
+**And the unit was forced to grams.** A basis computed against cloth yields
+grams, always, so the default was written that way. A basis computed against raw
+material is a plain multiplication and keeps the ingredient's own unit —
+otherwise 15 ml of glycerine becomes 15 g, which is a 26% error on a liquid.
+
+### Three roles a binder needs
+
+`solvent`, `humectant`, `preservative`. They could all have gone under
+`assistant`, and then four things doing four different jobs would read as one
+thing: the water dissolves, the glycerine keeps the cake from drying hard, the
+honey wakes it under a wet brush, and the clove oil is the only one actually
+preserving anything. Approved by the owner before they were added, because the
+vocabulary describes what the studio does.
+
+`drop` joins the units for the same reason. Clove oil is counted in drops and
+always has been; writing it as 0.25 ml would claim a precision nobody has.
+
+### A recipe may rest on more than one source
+
+The watercolour binder cites Joanne Green's book AND the studio's own practice,
+and they are not the same claim: the book supplies the figures and the practice
+confirms they work. `sourceCode` accepts a list.
+
+**This is the trap it opened, and it is the fault §13ct exists to prevent
+returning by the back door.** `refs.js` compared `sourceCode === code`, which
+matches nothing against a list — so a source cited only by a two-source record
+would have read as uncited and been freely deletable. Both the reference check
+and the dangling-reference check read the list now.
+
+`crafty-place-practice` is registered as a source of kind `person`, and its note
+says what distinguishes it from the published guide: the guide is written, this
+is done.
+
+**Attribution on a recipe was stored and never shown.** Every seeded recipe
+carried `sourceCode` and no screen displayed it. For a library meant to be given
+away that is not a display gap; it is the condition of shipping (§13at) going
+unmet on a screen. The read view shows it now, one code or several.
+
+### Found on the way and not fixed
+
+`pigment-lake-master` states its quantities in prose — „10 г стипца" inside an
+ingredient's note — rather than in the quantity field. So the calculator shows
+nothing for it, correctly, because nothing was entered. That is data rather than
+code and it belongs to the owner.
 
 ---
 

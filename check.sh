@@ -268,6 +268,14 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     absences out of DOCUMENTATION_DECISIONS_NEEDED.md, so an exemption
   #     cannot outlive its explanation.
   node scripts/audit-library.mjs || exit 1
+  # 5i. The numbers themselves (§13dd). Every other layer asks whether the
+  #     application still WORKS; this one asks whether it is CORRECT. The
+  #     aluminium acetate stoichiometry is checked against three independently
+  #     published recipes — Maiwa, Earth Guild, Botanical Colors — because a
+  #     calculation can be consistently wrong and pass any test written from
+  #     the same source as itself. It also covers the unit system: the round
+  #     trip must close at every magnitude, and a ratio must never convert.
+  node scripts/try-calculators.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by

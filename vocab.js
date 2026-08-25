@@ -273,6 +273,9 @@ export const VOCABULARY = [
   V('unit', 'kg', 'кг', 'kg', 2),
   V('unit', 'ml', 'мл', 'ml', 3),
   V('unit', 'l',  'л',  'L', 4),
+  // A real unit of this craft. Clove oil is counted in drops and always has
+  // been; writing it as 0.25 ml would be a precision nobody has (§13de).
+  V('unit', 'drop', 'капки', 'drops', 5),
 
   V('tannin_type', 'gallo',    'галотанин',   'gallotannin', 1),
   V('tannin_type', 'ellagi',   'елаготанин',  'ellagitannin', 2),
@@ -336,6 +339,16 @@ export const VOCABULARY = [
   V('ingredient_role', 'pigment',          'пигмент',            'pigment', 11),
   V('ingredient_role', 'binder',           'свързващо',          'binder', 12),
   V('ingredient_role', 'filler',           'пълнител',           'filler', 13),
+
+  // Roles a BINDER recipe needs, which neither dyeing nor pigment-making has
+  // (§13de). They could all have gone under `assistant`, and then four things
+  // that do four different jobs would read as one thing on the screen: the
+  // water dissolves, the glycerine keeps the cake from drying hard, the honey
+  // wakes it up under a wet brush, and the clove oil is the only one actually
+  // preserving anything.
+  V('ingredient_role', 'solvent',          'разтворител',        'solvent', 14),
+  V('ingredient_role', 'humectant',        'задържа влага',      'humectant', 15),
+  V('ingredient_role', 'preservative',     'консервант',         'preservative', 16),
 
   V('basis', 'percent_wof',      '% WOF',            '% WOF', 1),
   V('basis', 'percent_of_bath',  '% от банята',      '% of bath', 2),

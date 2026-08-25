@@ -11,6 +11,7 @@
 import { open, all, putSystem, putMigration, get, count, getSetting, setSetting } from './db.js';
 import { icon, labelCells, navigate } from './ui.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
+import { initUnits, setSystem, getSystem } from './units.js';
 import { VOCABULARY, BANDS } from './vocab.js';
 import { ensurePacks, PACKS } from './seed.js';
 import { runMigrations } from './migrations.js';
@@ -164,6 +165,10 @@ function renderNav() {
     `<div class="langrow">
        <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
        <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
+     </div>
+     <div class="langrow">
+       <button class="langbtn" data-units="metric" aria-pressed="${getSystem() === 'metric'}">${t('units.metric')}</button>
+       <button class="langbtn" data-units="imperial" aria-pressed="${getSystem() === 'imperial'}">${t('units.imperial')}</button>
        <span class="version" title="${esc(t('app.version'))}">v${VERSION}</span>
      </div>`;
 
@@ -270,6 +275,10 @@ function renderSheet() {
       <div class="morelang">
         <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
         <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
+      </div>
+      <div class="langrow">
+        <button class="langbtn" data-units="metric" aria-pressed="${getSystem() === 'metric'}">${t('units.metric')}</button>
+        <button class="langbtn" data-units="imperial" aria-pressed="${getSystem() === 'imperial'}">${t('units.imperial')}</button>
         <span class="version">v${VERSION}</span>
       </div>
     </div>`;
@@ -371,6 +380,17 @@ document.addEventListener('click', async (e) => {
     // which is exactly what happened when returning to a module from a detail.
     if (location.hash === target) await route(true);
     else location.hash = target;
+    return;
+  }
+
+  // Units, beside the language and for the same reason: both are properties of
+  // the DEVICE rather than of the work (§13dc), and both need every open screen
+  // redrawn, because the change is entirely in what is displayed.
+  const units = e.target.closest('[data-units]');
+  if (units) {
+    await setSystem(units.dataset.units);
+    if (!$('#moresheet').hidden) renderSheet();
+    await route();
     return;
   }
 
@@ -488,6 +508,7 @@ function watchLists() {
 (async function start() {
   await open();
   await initLang();
+  await initUnits();
   await seedIfEmpty();
   // Every declared pack, derived from PACKS rather than listed here. The list
   // was written by hand and `sources` was left out of it: the pack was declared,

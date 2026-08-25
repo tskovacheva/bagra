@@ -68,18 +68,19 @@ combination, more combinations per plant.
     phrase by phrase. §13cb did this for the glossary; nothing else has had it.
 - Personal notes are never translated.
 
-## A4. Units — **a decision, not automatically a blocker**
+## A4. Units — **DONE at rc37**
 
-- **A language switch is a blocker.** The application is bilingual and both languages are
-  already written; a buyer must be able to choose.
-- **Imperial units are NOT**, unless it is decided that they are. It is a real piece of work
-  — it touches every calculator, every dose, every temperature and every recipe, and wants
-  numerical tests — and it buys nothing for a Bulgarian or European buyer. Shipping 1.0
-  metric-only is a defensible position and possibly the right one.
-  **Moved out of the blocking set at the owner's instruction, rc25**, so the decision is
-  taken deliberately rather than inherited from a list.
-- If it is built: metric / imperial stored canonically in g, ml, °C, cm and rendered per
-  preference. Two switches, not a preferences system.
+Built, having been moved out of the blocking set at rc25 so the decision could be taken
+deliberately rather than inherited from a list — and then taken.
+
+- **Metric / imperial, stored canonically** in grams, millilitres, degrees Celsius and
+  grams per square metre, rendered per preference (§13dc). Two switches beside the two
+  language switches, not a preferences system.
+- **The choice belongs to the device**, like the language, and survives a snapshot restore.
+- **A ratio never converts** — percent WOF, liquor ratio, solution strength — and the code
+  says so through named functions rather than by staying silent.
+- The round trip closes at every magnitude from one gram to twelve kilograms, which it did
+  not at first: a fixed two decimal places turned 1 g into „0.04 oz" and back into 1.13 g.
 
 ## A5. Where the data lives
 
@@ -122,7 +123,11 @@ None of this is a feature; all of it is a condition of taking money.
 - **A release run can be made by a machine — done at rc30.** `check.sh --release` runs on
   push to main, on pull requests and on demand (§13cy). It does not deploy; a gate and a
   deployment are separate decisions. It stays red until the two screen defects are fixed.
-- **Numerical tests on the calculators.** A disclaimer does not cover an unchecked formula.
+- **Numerical tests on the calculators — DONE at rc37.** The aluminium acetate
+  stoichiometry is verified against three independently published recipes, and every molar
+  mass recomputed from atomic weights (§13dd). `scripts/try-calculators.mjs` runs it.
+
+- ~~**Numerical tests on the calculators.**~~ A disclaimer does not cover an unchecked formula.
   The aluminium acetate stoichiometry has still not been compared against an independent
   source; it is written out openly in `calc/alum-acetate.js` for exactly that.
 - **Release process:** `main` plus short-lived branches, release tags, semantic versioning.

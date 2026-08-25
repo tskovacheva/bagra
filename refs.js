@@ -43,6 +43,16 @@ const TARGET_KEY = {
 };
 const keyOf = (store, row) => (TARGET_KEY[store] ? TARGET_KEY[store](row) : row.id);
 
+// `sourceCode` is one code on most records and a LIST on any record that credits
+// more than one — the watercolour binder cites both a published book and the
+// studio's own practice, and they are not the same claim (§13de). Compared with
+// `===` a list matches nothing, so a source cited only by a two-source record
+// would have read as uncited and been freely deletable, which is the fault
+// §13ct exists to prevent, returning by the back door.
+const codesOf = (row) =>
+  (Array.isArray(row.sourceCode) ? row.sourceCode : [row.sourceCode]).filter(Boolean);
+const cites = (row, code) => codesOf(row).includes(code);
+
 // Where the ids live, written out rather than discovered, because a path this
 // file does not know about is a path that silently permits a delete. Each entry
 // says: which store holds the pointers, and how to count the ones aimed at a
@@ -101,8 +111,8 @@ const INCOMING = {
   //
   // Matched on the CODE, not the id — see TARGET_KEY above.
   sources: [
-    { store: 'glossary', label: 'refs.glossary', count: (r, code) => (r.sourceCode === code ? 1 : 0) },
-    { store: 'recipes',  label: 'refs.recipes',  count: (r, code) => (r.sourceCode === code ? 1 : 0) },
+    { store: 'glossary', label: 'refs.glossary', count: (r, code) => (cites(r, code) ? 1 : 0) },
+    { store: 'recipes',  label: 'refs.recipes',  count: (r, code) => (cites(r, code) ? 1 : 0) },
     // Not in the audit's list and real: every colour swatch on a plant credits
     // where the colour was read from. 57 plants carry these, and four of the ten
     // sources are named only here.
@@ -232,7 +242,7 @@ function pointersIn(row, target) {
     // field name alone would have blocked the deletion of a source because
     // somebody once wrote down where the water came from.
     case 'sources': return [
-      row.sourceCode,
+      ...codesOf(row),
       ...(row.colours || []).map(c => c.source),
     ];
     default:             return [];

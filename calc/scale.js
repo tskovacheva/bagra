@@ -43,6 +43,12 @@ function convert(quantity, basis, ctx) {
     case 'percent_of_bath':
       return ctx.litres != null ? ctx.litres * 1000 * (quantity / 100) : null;
     case 'ratio_to_dyestuff': {
+      // A recipe scaled by RAW MATERIAL has no cloth and no dyestuff — the
+      // thing everything else is measured against IS the raw amount. „One to
+      // one with the pigment" is the whole of a watercolour recipe, and it went
+      // through a cloth weight that does not exist and a role that is not
+      // there, so the binder line simply showed nothing (§13de).
+      if (ctx.byRaw) return ctx.rawG != null ? ctx.rawG * quantity : null;
       const dye = (ctx.recipe.ingredients || []).find(x => x.roleCode === 'dyestuff');
       if (!dye) return null;
       const dyeRange = quantityRange(dye.options?.[0], dye);
@@ -62,16 +68,27 @@ export function scaleRecipe(recipe, {
   liquorRatio = null,
   choices = null,        // { [ingredientId]: optionId } — which alternative is used
   bathLitres = null,     // used when the recipe is scaled by volume, not by cloth
+  rawG = null,           // used when the recipe is scaled by raw material (§13de)
   substancesById = null, // needed only by a recipe the chemistry computes (§13ak)
 } = {}) {
   if (!recipe) return { ingredients: [], bathLitres: null, dropped: [] };
 
-  const effectiveWeight = (weightG || 0) * (receptiveFraction / 100);
+  // For a raw-scaled recipe the base quantity is the raw material itself, so a
+  // percentage means „of the gum arabic" rather than „of the cloth".
+  const effectiveWeight = recipe.scaleBy === 'raw'
+    ? (rawG || 0)
+    : (weightG || 0) * (receptiveFraction / 100);
 
   // Some recipes are not scaled against cloth at all. A chalk finishing bath
   // is a standing solution — 10 g per litre, five litres of it — and the cloth
   // simply goes in. Treating volume as derived from weight distorts these.
   const byVolume = recipe.scaleBy === 'volume';
+  // A THIRD WAY TO SCALE, which the seed data already used and the code did not
+  // know. A binder or a watercolour is not measured against cloth or against a
+  // bath: it is measured against how much raw material is in front of you —
+  // gum arabic, or pigment. `scaleBy: 'raw'` was sitting in seed/recipes.json
+  // and being silently treated as weight-of-cloth (§13de).
+  const byRaw = recipe.scaleBy === 'raw';
   const ratio = liquorRatio ?? recipe.liquorRatio ?? null;
   const litres = byVolume
     ? (bathLitres ?? recipe.defaultLitres ?? null)
@@ -98,7 +115,7 @@ export function scaleRecipe(recipe, {
 
     const range = quantityRange(option, ing);
     const scaled = range.map(q => (q == null ? null : convert(q, ing.basis, {
-      effectiveWeight, litres, recipe, fibreClass, choices,
+      effectiveWeight, litres, recipe, fibreClass, choices, byRaw, rawG,
     })));
 
     ingredients.push({
@@ -112,7 +129,12 @@ export function scaleRecipe(recipe, {
       // A single figure when the range has collapsed, so callers that only
       // want one number do not have to decide which end to show.
       scaledAmount: scaled[0] === scaled[1] ? round(scaled[0], 2) : null,
-      scaledUnit: ing.basis === 'absolute' ? (ing.unit || 'g') : 'g',
+      // A basis computed against CLOTH yields grams, always. A basis computed
+      // against RAW MATERIAL is a plain multiplication and keeps whatever unit
+      // the ingredient declares — forcing grams would put 15 g of glycerine
+      // where the recipe means 15 ml, which is a 26% error on a liquid,
+      // produced by a default written for dye powders (§13de).
+      scaledUnit: (ing.basis === 'absolute' || byRaw) ? (ing.unit || 'g') : 'g',
       basisRefersTo: ing.basisRefersTo || null,
     });
   }

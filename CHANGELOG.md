@@ -12,6 +12,78 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc38 — 25 August 2026
+
+The owner asked whether anything about Pigments was unfinished, and said she still saw a
+weight-of-cloth calculation on a pigment recipe. She was right; §13ca said otherwise.
+
+- **`SHOWS` was applied to the edit form and to nothing else.** The work view — the screen a
+  recipe is opened on to be followed — went on asking „for how many grams of cloth?" and
+  „which fibre?" of a watercolour recipe. Guard 24i drew the form and only the form, so it
+  reported the half it covered and produced a specification section saying the work was
+  done. §13de
+- **`scaleBy: 'raw'` was in the seed data before it was in the code**, and was silently
+  treated as weight-of-cloth. Three scaling questions now: cloth, bath volume, or the amount
+  of raw material in front of you. A `pigment` or `paste` recipe falls to `raw` whatever its
+  field says. §13de
+- **`ratio_to_dyestuff` had nowhere to look** on a watercolour: it resolved against a cloth
+  weight and a `dyestuff` ingredient, and the recipe has neither. „One to one with the
+  pigment" showed nothing. On a raw-scaled recipe the raw amount is what everything is
+  measured against.
+- **The unit was forced to grams** for any non-absolute basis, which turned 15 ml of
+  glycerine into 15 g — a 26% error on a liquid, from a default written for dye powders.
+- **New vocabulary, approved first**: roles `solvent`, `humectant`, `preservative`, and the
+  unit `drop`. Four things doing four different jobs would have read as one under
+  `assistant`, and clove oil written as 0.25 ml would claim a precision nobody has.
+- **A recipe may cite more than one source.** The watercolour binder rests on Joanne Green's
+  book and on the studio's own practice — the book supplies the figures, the practice
+  confirms they work. `sourceCode` accepts a list, and `refs.js` reads it: compared with
+  `===` a list matches nothing, so a source cited only by a two-source record would have been
+  freely deletable. That is §13ct's fault returning by the back door.
+- **Attribution on a recipe was stored and never shown.** Every seeded recipe carried
+  `sourceCode`; no screen displayed it. The read view shows it now.
+- **New recipe**: the watercolour binder, written in Claude's words from the book's figures
+  and the owner's practice.
+- Guard 24i now draws the work view too; `try-calculators.mjs` scales the binder end to end.
+
+---
+
+## 1.0.0-rc37 — 24 August 2026
+
+Two of the remaining release-hygiene items: units, and the first numerical test the
+calculators have ever had.
+
+- **Metric or imperial, chosen on the device, stored canonically.** Every figure stays in
+  grams, millilitres and degrees Celsius; `units.js` converts on the way out and parses on
+  the way back in. A record carrying its own unit has to be read twice, and a backup taken in
+  ounces restoring onto a device set to grams would be quietly wrong by a factor of
+  twenty-eight. §13dc
+- **The round trip did not close and now does.** A fixed two decimal places turned one gram
+  of iron into „0.04 oz", which read back as 1.13 g — a 13% error produced by opening a
+  record and saving it without touching the weight. Places now follow the size of the number.
+  §13dc
+- **A ratio never converts, and the code says so out loud.** Percent WOF, a liquor ratio, a
+  solution strength — the same number in every system. `wof()`, `ratio()` and `percent()`
+  exist so a call site cannot be silently confused with one that forgot. §13dc
+- **The unit system survives a snapshot restore**, like the language: it belongs to the
+  device, not to the work.
+- **The aluminium acetate stoichiometry is verified against three independent published
+  recipes.** Earth Guild give 120 g alum → 100 g sodium acetate; we compute 103.3 g. Maiwa's
+  two recipes agree within their deliberate excess. A calculation can be consistently wrong
+  and pass any test written from the same source as itself — three outside recipes cannot all
+  be wrong the same way. §13dd
+- **Two things the comparison established.** The published recipes only agree when their
+  sodium acetate is read as the trihydrate, and neither says which — hydration is a field
+  here, which is the difference between a recipe and a calculation. And published recipes run
+  16–49% above the stoichiometric floor to drive the reaction; what the calculator returns is
+  the minimum, and the tolerances are one-sided to say so.
+- **Every molar mass recomputed** from IUPAC atomic weights, each formula written out by
+  hand. Twelve substances, all within 0.05%.
+- **New layer**: `scripts/try-calculators.mjs`. Breaking the 3:1 acetate ratio fails against
+  all three published recipes at once, which is what having three of them is for.
+
+---
+
 ## 1.0.0-rc36 — 24 August 2026
 
 **Plant Library v1 — done.** Phase 4 merged and the owner's Definition of Done turned into a

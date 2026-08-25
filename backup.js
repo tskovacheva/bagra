@@ -137,11 +137,17 @@ export async function importBackup(payload, mode = 'merge') {
     // default (i18n.js), so restoring one where there was none would change the
     // language just as surely.
     const language = await get('settings', 'language');
+    // The unit system travels with the person, not with the work — same
+    // argument as the language, and the same trap: restoring a phone's backup
+    // must not put the laptop into ounces (§13dc).
+    const units = await get('settings', 'units');
 
     const { written } = await replaceStores(subset);
 
     if (language) await putRaw('settings', language);
     else await removeSystem('settings', 'language');
+    if (units) await putRaw('settings', units);
+    else await removeSystem('settings', 'units');
 
     const report = { added: 0, replaced: 0, skipped: 0, removed: 0, restored: written, byStore: {} };
     for (const name of stores) {

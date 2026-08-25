@@ -263,6 +263,10 @@ citation for each — and it is not a correction. The guide taught the COLOUR; t
 taught which FIBRE and MORDANT that colour was got on. Two sources, two different claims,
 one field.
 
+**Partly settled at rc38.** `sourceCode` on a recipe now accepts a list, and `refs.js` reads
+it — the same shape, on the neighbouring field. `learnedFrom` on a combination is unchanged
+and the argument below still stands for it.
+
 **Recommended: `learnedFrom` becomes a list of source codes.** Small — a seed field and one
 render — and it also turns free-text attribution into codes that resolve in the register,
 which §13ct already protects from deletion. The thirteen new sources are registered and
