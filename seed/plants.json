@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.11.0",
+ "packVersion": "0.12.0",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -185,7 +185,8 @@
     "en": "Onion is a biennial cultivated plant grown worldwide as a staple vegetable. The dry outer skins of yellow onions are a kitchen by-product, but they have also long been used as an accessible natural dye material."
    },
    "photoHash": "2c4d88a90be928bf7ef61b884dd63bb1c3566441fb59f546d744c63454446543",
-   "photoSrc": "seed/images/plants/allium_cepa.jpg"
+   "photoSrc": "seed/images/plants/allium_cepa.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "alnus_glutinosa",
@@ -300,7 +301,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 200,
+       "max": 300,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -450,7 +457,8 @@
     "en": "Black alder is a deciduous tree of wet habitats, native across Europe, western Asia and North Africa. It grows along rivers, in marshes and wet woodland, where its roots enrich the soil through symbiosis with nitrogen-fixing microorganisms."
    },
    "photoHash": "ed5dfc9fed9c5c1cbc59033449b83962a9d7fae47f563b4ff587a7739b9793e6",
-   "photoSrc": "seed/images/plants/alnus_glutinosa.jpg"
+   "photoSrc": "seed/images/plants/alnus_glutinosa.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "betula_pendula",
@@ -696,7 +704,8 @@
     "en": "Silver birch is a light-loving deciduous tree with distinctive white bark, widespread across the cooler and temperate parts of Europe and Asia. It is often a pioneer on poor soils and has long been valued in traditional crafts and folk medicine."
    },
    "photoHash": "d065bdfef8b2d6ddece21c2aa729f69a23d5dcb85c8e7c678023c757407e36bb",
-   "photoSrc": "seed/images/plants/betula_pendula.jpg"
+   "photoSrc": "seed/images/plants/betula_pendula.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "carthamus_tinctorius",
@@ -712,7 +721,7 @@
     "filler"
    ],
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "flower",
@@ -903,7 +912,8 @@
     "en": "Safflower is a spiny annual in the daisy family, cultivated since antiquity in dry parts of Asia, the Middle East and the Mediterranean. It is grown for seed oil and for its petals, historically used as both yellow and red colourants."
    },
    "photoHash": "1b152d73f61d9f94f4efd84da149c459afe01d1c01375ff88b6339beea6124b4",
-   "photoSrc": "seed/images/plants/carthamus_tinctorius.jpg"
+   "photoSrc": "seed/images/plants/carthamus_tinctorius.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "coreopsis_tinctoria",
@@ -976,7 +986,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 200,
+       "max": 300,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 85
@@ -1136,7 +1152,8 @@
     "en": "Dyer’s coreopsis is an annual member of the daisy family native to North America. It is easy to grow in sunny sites and produces abundant yellow-and-burgundy flower heads valued both ornamentally and for natural dyeing."
    },
    "photoHash": "406d92d8dc7eea3f142e072d91313a61b8d7716cb3e18eab34997c87a8e174c9",
-   "photoSrc": "seed/images/plants/coreopsis_tinctoria.jpg"
+   "photoSrc": "seed/images/plants/coreopsis_tinctoria.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "cosmos_sulphureus",
@@ -1351,7 +1368,8 @@
     "en": "Sulphur cosmos is a warm-season annual in the daisy family, native to Mexico and Central America. It flowers freely through summer and autumn and readily self-seeds in sunny gardens."
    },
    "photoHash": "42b08e4ac6a644e6b1a0cbf5c0ee9540e6193ddeb02f39c3d6251bc326bddef6",
-   "photoSrc": "seed/images/plants/cosmos_sulphureus.jpg"
+   "photoSrc": "seed/images/plants/cosmos_sulphureus.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "cotinus_coggygria",
@@ -1462,7 +1480,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 150,
+       "max": 200,
+       "condition": "dried"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 90
@@ -1618,7 +1642,8 @@
     "en": "Smoke bush is a deciduous shrub in the cashew family, native to southern Europe and parts of Asia. It grows on dry, rocky, sunny slopes and is conspicuous for its cloud-like flower plumes and vivid autumn colour."
    },
    "photoHash": "6e013d78b48eb5ff64ebc16599f1c7841036f6e1c7cbe6974cc5d6b637648170",
-   "photoSrc": "seed/images/plants/cotinus_coggygria.jpg"
+   "photoSrc": "seed/images/plants/cotinus_coggygria.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "cornus_mas",
@@ -1633,7 +1658,7 @@
    ],
    "compositionalRole": [],
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "leaf",
@@ -1843,7 +1868,8 @@
     "en": "Cornelian cherry is a deciduous shrub or small tree in the dogwood family, native to southern and central Europe and western Asia. It flowers very early with yellow blossoms and produces edible red fruits in late summer."
    },
    "photoHash": "14cf7049d7da56f68e47ed6f8fe57dfafab2d536e4935de6afcfc07126b93458",
-   "photoSrc": "seed/images/plants/cornus_mas.jpg"
+   "photoSrc": "seed/images/plants/cornus_mas.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "cornus_sanguinea",
@@ -1857,7 +1883,7 @@
     "ecoprint"
    ],
    "compositionalRole": [],
-   "lightfastness": "",
+   "lightfastness": "good",
    "washfastness": "moderate",
    "parts": [
     {
@@ -2071,7 +2097,8 @@
     "en": "Common dogwood is a deciduous shrub in the dogwood family, widespread in Europe and western Asia. It grows in scrub and woodland margins; young twigs often turn reddish and its dark fruits ripen towards the end of summer."
    },
    "photoHash": "8d01c0b922285a4f00a74c0dedcded5500defc823b2289100dca9fcc281b9744",
-   "photoSrc": "seed/images/plants/cornus_sanguinea.jpg"
+   "photoSrc": "seed/images/plants/cornus_sanguinea.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "crataegus_monogyna",
@@ -2142,7 +2169,13 @@
        "level": "moderate"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 200,
+       "max": 300,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -2173,7 +2206,13 @@
        "level": "moderate"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 50,
+       "max": 80,
+       "condition": "dried"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -2202,7 +2241,13 @@
        "level": "moderate"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 150,
+       "max": 200,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -2334,7 +2379,8 @@
     "en": "Hawthorn is a thorny deciduous shrub or small tree in the rose family, widespread across Europe. It grows in scrub, woodland edges and hedgerows; its white spring flowers and red fruits are characteristic of traditional rural landscapes."
    },
    "photoHash": "acf5499da71ed33654f6b897091d4fc417d808831575fa9224c7073f20d00054",
-   "photoSrc": "seed/images/plants/crataegus_monogyna.jpg"
+   "photoSrc": "seed/images/plants/crataegus_monogyna.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "geranium_macrorrhizum",
@@ -2351,7 +2397,7 @@
     "shape_printer"
    ],
    "lightfastness": "excellent",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "root",
@@ -2563,7 +2609,8 @@
     "en": "Bigroot geranium is an aromatic perennial with thick creeping rhizomes, native to the Balkans and southeastern Europe. It forms dense clumps on rocky and partly shaded ground and is traditionally valued in Bulgaria for its fragrance and ornamental qualities."
    },
    "photoHash": "ad35dc87ab0037a2e7f08178a9a64de6727cebcc899cdcfc944184f11e9faad9",
-   "photoSrc": "seed/images/plants/geranium_macrorrhizum.jpg"
+   "photoSrc": "seed/images/plants/geranium_macrorrhizum.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "hypericum_perforatum",
@@ -2674,7 +2721,13 @@
        "level": "moderate"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 300,
+       "max": 400,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -2838,7 +2891,8 @@
     "en": "St John’s wort is a perennial herb with bright yellow flowers, widespread in Europe and temperate Asia. It grows in dry meadows, pastures and roadsides and is one of the most familiar plants in European herbal tradition."
    },
    "photoHash": "fb13a1d10f28e7b9eeb21b54e7514989ffdee65b8ae19722ac34bedd10e0c867",
-   "photoSrc": "seed/images/plants/hypericum_perforatum.jpg"
+   "photoSrc": "seed/images/plants/hypericum_perforatum.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "isatis_tinctoria",
@@ -2885,7 +2939,15 @@
       7,
       8,
       9
-     ]
+     ],
+     "tempExtractC": {
+      "min": 70,
+      "max": 80
+     },
+     "tempDyeC": {
+      "min": 80
+     },
+     "softMaxTempC": 85
     }
    ],
    "colours": [
@@ -3015,7 +3077,8 @@
     "en": "Woad is a biennial plant in the cabbage family, native to southeastern and eastern Europe and occurring naturally in Bulgaria. For centuries it was Europe’s principal source of blue before imported tropical indigo became widely available."
    },
    "photoHash": "008400dc168a9d79f99320b3ae7919f6116ccf7672724f3f8469e5fbe36ad732",
-   "photoSrc": "seed/images/plants/isatis_tinctoria.jpg"
+   "photoSrc": "seed/images/plants/isatis_tinctoria.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "juglans_regia",
@@ -3306,7 +3369,8 @@
     "en": "Common walnut is a large deciduous tree native to parts of southeastern Europe and Asia and widely cultivated for its nuts and valuable timber. Its green husks, leaves and woody tissues are rich in phenolic compounds."
    },
    "photoHash": "34f16d2ee11abf13d9c00d2a80437c892641bf955b91ba87053c5930eada980f",
-   "photoSrc": "seed/images/plants/juglans_regia.jpg"
+   "photoSrc": "seed/images/plants/juglans_regia.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "lavandula_angustifolia",
@@ -3320,7 +3384,7 @@
    ],
    "compositionalRole": [],
    "lightfastness": "poor",
-   "washfastness": "",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "flower",
@@ -3519,7 +3583,9 @@
     "en": "English lavender is an evergreen aromatic subshrub native to the Mediterranean region. It prefers dry, sunny and well-drained sites and is widely cultivated for essential oil, fragrance, medicine and ornament."
    },
    "photoHash": "5d334783b206dd2fae65fda121982b421a84eba84e2a5762535a71e438601d37",
-   "photoSrc": "seed/images/plants/lavandula_angustifolia.jpg"
+   "photoSrc": "seed/images/plants/lavandula_angustifolia.jpg",
+   "family": "Lamiaceae",
+   "dyeClass": "adjective"
   },
   {
    "code": "malus_domestica",
@@ -3791,7 +3857,8 @@
     "en": "The cultivated apple is a deciduous fruit tree in the rose family, derived from wild ancestors in Central Asia and shaped by millennia of selection. It is now one of the most widespread orchard trees of temperate climates."
    },
    "photoHash": "6b774e1d4752c7383cb684521f86de6741bc570d34f04dfb03252cbc1de0f01e",
-   "photoSrc": "seed/images/plants/malus_domestica.jpg"
+   "photoSrc": "seed/images/plants/malus_domestica.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "mespilus_germanica",
@@ -3807,7 +3874,7 @@
     "filler"
    ],
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "good",
    "parts": [
     {
      "partCode": "leaf",
@@ -4000,7 +4067,8 @@
     "en": "Medlar is a deciduous fruit tree or large shrub native to southeastern Europe and western Asia. It has been cultivated since antiquity; its brownish fruits are harvested late in autumn and soften after storage."
    },
    "photoHash": "2d39162c5ed280cec4b4284fe859553c0e5b66caf7bfb9f60d96d75c43b23d18",
-   "photoSrc": "seed/images/plants/mespilus_germanica.jpg"
+   "photoSrc": "seed/images/plants/mespilus_germanica.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "origanum_vulgare",
@@ -4102,7 +4170,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 250,
+       "max": 300,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 95
@@ -4239,7 +4313,8 @@
     "en": "Oregano is an aromatic perennial in the mint family, widespread in Europe and western Asia. It grows in dry grasslands, scrub and woodland edges, and its flowering tops are valued as a culinary herb, medicinal plant and nectar source."
    },
    "photoHash": "da4a1d01bdc6b0ca6dd8fc6b90f585d33751e17cffad0745548d095243f77c88",
-   "photoSrc": "seed/images/plants/origanum_vulgare.jpg"
+   "photoSrc": "seed/images/plants/origanum_vulgare.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "prunus_domestica",
@@ -4257,7 +4332,16 @@
    "parts": [
     {
      "partCode": "bark",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "tannin",
+       "level": "dominant"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "high"
+      }
+     ],
      "dosing": [
       {
        "condition": "dried",
@@ -4417,7 +4501,8 @@
     "en": "European plum is a deciduous fruit tree in the rose family, an ancient cultivated group widely grown across Europe. It flowers early in spring and bears fleshy fruits from summer into autumn depending on the cultivar."
    },
    "photoHash": "8fb414487a3b3bbd34730334d3310f7080c29b8e9657438f3fa78100c37411e8",
-   "photoSrc": "seed/images/plants/prunus_domestica.jpg"
+   "photoSrc": "seed/images/plants/prunus_domestica.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "punica_granatum",
@@ -4615,7 +4700,8 @@
     "en": "Pomegranate is a deciduous shrub or small tree native from Iran towards northern India and cultivated around the Mediterranean since antiquity. It is known for vivid flowers and fruits with a leathery rind rich in tannins."
    },
    "photoHash": "d8e4cce7cf5936f12c54b1ff0858626b3acea8c9093bfc2795abc40784fea8b5",
-   "photoSrc": "seed/images/plants/punica_granatum.jpg"
+   "photoSrc": "seed/images/plants/punica_granatum.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "quercus_robur",
@@ -4770,7 +4856,13 @@
        "level": "dominant"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 20,
+       "max": 30,
+       "condition": "dried"
+      }
+     ],
      "tempExtractC": {
       "min": 90,
       "max": 95
@@ -4938,7 +5030,8 @@
     "en": "English oak is a long-lived deciduous tree characteristic of European lowlands and mixed woodland. It is a keystone forest species and a centuries-old source of timber, wildlife food and tannin-rich materials such as bark and galls."
    },
    "photoHash": "b9da48b2a4f85f2f36fa76223d8a5b304e990817ff42bded7719984022643be2",
-   "photoSrc": "seed/images/plants/quercus_robur.jpg"
+   "photoSrc": "seed/images/plants/quercus_robur.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "reseda_luteola",
@@ -5208,7 +5301,8 @@
     "en": "Weld is a tall biennial herb native to Europe, the Mediterranean and western Asia. It grows in dry, sunny and disturbed places and is one of the classic European sources of lightfast yellow dye."
    },
    "photoHash": "4e66c601763a0879816e550b26fdec6f4bd6ac68083b1d22e30626132887e48f",
-   "photoSrc": "seed/images/plants/reseda_luteola.jpg"
+   "photoSrc": "seed/images/plants/reseda_luteola.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "rhamnus_cathartica",
@@ -5223,7 +5317,7 @@
    ],
    "compositionalRole": [],
    "lightfastness": "good",
-   "washfastness": "",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "fruit",
@@ -5447,7 +5541,8 @@
     "en": "Common buckthorn is a thorny deciduous shrub or small tree native to Europe, northwestern Africa and western Asia. It grows in scrub and woodland margins and is known both for its dark fruits and for the historical use of several parts as dye materials."
    },
    "photoHash": "12ff13e3de59196d1a8685567ef2a8019696ef30c00c54975e10c8bb77e7c2ad",
-   "photoSrc": "seed/images/plants/rhamnus_cathartica.jpg"
+   "photoSrc": "seed/images/plants/rhamnus_cathartica.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "rhus_coriaria",
@@ -5673,7 +5768,8 @@
     "en": "Sicilian sumac is a deciduous shrub in the cashew family, native to the Mediterranean and western Asia. Its leaves and tart red fruits are rich in tannins, and the plant has a long history in tanning, cooking and dyeing."
    },
    "photoHash": "3ad39589dfb9fad2d5ba540ec04f6d787c90daa848a28fe18fa5873246f9db1f",
-   "photoSrc": "seed/images/plants/rhus_coriaria.jpg"
+   "photoSrc": "seed/images/plants/rhus_coriaria.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "rosmarinus_officinalis",
@@ -5687,7 +5783,7 @@
    ],
    "compositionalRole": [],
    "lightfastness": "moderate",
-   "washfastness": "",
+   "washfastness": "moderate",
    "parts": [
     {
      "partCode": "leaf",
@@ -5894,7 +5990,9 @@
     "en": "Rosemary is an evergreen aromatic shrub in the mint family, native to the Mediterranean. It thrives in sun, dry air and well-drained soils and is a classic culinary, medicinal and ornamental plant."
    },
    "photoHash": "4959860b942bada8548314d8ab167c7176411fd1dc6ac095b0bdc73077e8eb41",
-   "photoSrc": "seed/images/plants/rosmarinus_officinalis.jpg"
+   "photoSrc": "seed/images/plants/rosmarinus_officinalis.jpg",
+   "family": "Lamiaceae",
+   "dyeClass": "adjective"
   },
   {
    "code": "rubia_tinctorum",
@@ -6120,7 +6218,8 @@
     "en": "Dyer’s madder is a perennial scrambling herb in the coffee family, native from southeastern Europe into western Asia. It has been cultivated since antiquity for its roots, among the oldest and most important sources of durable red dye."
    },
    "photoHash": "c726dca6077a3a8356ae655427bcc069b67806ebae7856a22b4d4cd68da2062e",
-   "photoSrc": "seed/images/plants/rubia_tinctorum.jpg"
+   "photoSrc": "seed/images/plants/rubia_tinctorum.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "salix_alba",
@@ -6190,7 +6289,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 200,
+       "max": 300,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -6340,7 +6445,8 @@
     "en": "White willow and related willows are fast-growing deciduous trees and shrubs associated with moist soils, riverbanks and floodplains. Their flexible shoots and salicylate-rich bark have been used for centuries in basketry and traditional medicine."
    },
    "photoHash": "bba47c01030b5a1c55b3d953103c2f5c7ddb76f384688ba5f2484c5c71680929",
-   "photoSrc": "seed/images/plants/salix_alba.jpg"
+   "photoSrc": "seed/images/plants/salix_alba.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "tagetes_erecta",
@@ -6562,7 +6668,8 @@
     "en": "African marigold is an annual garden plant in the daisy family, native to Mexico and Central America. It flowers abundantly from summer until frost and is valued for its bright yellow and orange blooms and long ornamental tradition."
    },
    "photoHash": "46441c3ff929ca966faa501fc821be0aade6296dda332a8e338ec5a360ff70ff",
-   "photoSrc": "seed/images/plants/tagetes_erecta.jpg"
+   "photoSrc": "seed/images/plants/tagetes_erecta.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "thymus_vulgaris",
@@ -6666,7 +6773,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 150,
+       "max": 200,
+       "condition": "dried"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 95
@@ -6817,7 +6930,8 @@
     "en": "Thymes are low aromatic subshrubs and herbs in the mint family, characteristic of dry, sunny habitats. Different species occur naturally across Europe and the Mediterranean and are valued as culinary herbs, medicinal plants and nectar sources."
    },
    "photoHash": "2a1398cce5aa3da8d7c4b4c96460f6f9030a6a8c61bf75c0c1a63d1b8e5539f1",
-   "photoSrc": "seed/images/plants/thymus_vulgaris.jpg"
+   "photoSrc": "seed/images/plants/thymus_vulgaris.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "tilia_cordata",
@@ -7033,7 +7147,8 @@
     "en": "Small-leaved lime is a long-lived deciduous tree native to Europe and parts of western Asia. It occurs in broadleaved woodland and is commonly planted in towns; its fragrant summer flowers are important to bees and herbal traditions."
    },
    "photoHash": "27fcebe3a9223093c0bd184427e688d7953f9b5586bbc27b94ff5c84e18c3851",
-   "photoSrc": "seed/images/plants/tilia_cordata.jpg"
+   "photoSrc": "seed/images/plants/tilia_cordata.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "urtica_dioica",
@@ -7266,7 +7381,8 @@
     "en": "Stinging nettle is a perennial herb widespread through temperate regions of the Northern Hemisphere. It thrives on nitrogen-rich soils near settlements, water and woodland edges and has long served as food, fibre, medicine and dye."
    },
    "photoHash": "17384637eb26ab333c2c36acbbe3fbbde800da20aa0fd551457e85e64cbe8b51",
-   "photoSrc": "seed/images/plants/urtica_dioica.jpg"
+   "photoSrc": "seed/images/plants/urtica_dioica.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "persicaria_tinctoria",
@@ -7322,7 +7438,12 @@
       7,
       8,
       9
-     ]
+     ],
+     "tempExtractC": {
+      "min": 45,
+      "max": 50
+     },
+     "softMaxTempC": 50
     }
    ],
    "colours": [
@@ -7465,7 +7586,8 @@
     "en": "Japanese indigo is an annual plant in the knotweed family, native to East Asia and cultivated for centuries as a source of blue dye. In temperate climates it is grown as a fast-growing seasonal crop whose leaves contain indigo precursors."
    },
    "photoHash": "985f449dcb1e80552a7c132abed84d1602aebaeff89791b1f716c4398b8fde02",
-   "photoSrc": "seed/images/plants/persicaria_tinctoria.jpg"
+   "photoSrc": "seed/images/plants/persicaria_tinctoria.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "tanacetum_vulgare",
@@ -7538,7 +7660,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 300,
+       "max": 400,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 90
@@ -7719,7 +7847,8 @@
     "en": "Tansy is a tall aromatic perennial in the daisy family, native across much of Europe and temperate Asia. It grows on roadsides, banks and disturbed ground and is easily recognised by its flat clusters of yellow button-like flower heads."
    },
    "photoHash": "726f026dd2ebd2b01491908e42a8e52d63d7ae0279e3670cf401fe180c87b624",
-   "photoSrc": "seed/images/plants/tanacetum_vulgare.jpg"
+   "photoSrc": "seed/images/plants/tanacetum_vulgare.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "anthemis_tinctoria",
@@ -7767,8 +7896,7 @@
       "max": 80
      },
      "tempDyeC": {
-      "min": 80,
-      "max": 80
+      "min": 80
      },
      "softMaxTempC": 85,
      "confidence": {
@@ -7791,14 +7919,19 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 300,
+       "max": 400,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 70,
       "max": 80
      },
      "tempDyeC": {
-      "min": 80,
-      "max": 80
+      "min": 80
      },
      "softMaxTempC": 85,
      "confidence": {
@@ -8223,7 +8356,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 25,
+       "max": 50,
+       "condition": "dried"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -8453,7 +8592,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 15,
+       "max": 20,
+       "condition": "dried"
+      }
+     ],
      "tempExtractC": {
       "min": 85,
       "max": 95
@@ -8870,7 +9015,8 @@
    "toxicity": {
     "level": "caution",
     "precautions": [
-     "gloves"
+     "gloves",
+     "dust_mask"
     ],
     "note": {
      "bg": "Отнася се за сладък кестен, Castanea sativa. Да не се бърка с конски кестен (Aesculus hippocastanum), който има различен профил.",
@@ -9165,7 +9311,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 300,
+       "max": 400,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 95
@@ -9200,7 +9352,13 @@
        "level": "high"
       }
      ],
-     "dosing": [],
+     "dosing": [
+      {
+       "min": 200,
+       "max": 250,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 95
@@ -9376,7 +9534,8 @@
     "en": "Yarrow is an aromatic perennial herb widespread across Europe, Asia and North America. It grows in meadows, pastures and roadsides and is one of the best-known plants of European folk medicine."
    },
    "photoHash": "f44f0010943eea3a463e9b672a7177e97c90153627244fba95c1a0f466787b23",
-   "photoSrc": "seed/images/plants/achillea_millefolium.jpg"
+   "photoSrc": "seed/images/plants/achillea_millefolium.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "salvia_officinalis",
@@ -9390,7 +9549,7 @@
     "dye"
    ],
    "compositionalRole": [],
-   "lightfastness": "",
+   "lightfastness": "moderate",
    "washfastness": "moderate",
    "parts": [
     {
@@ -9595,7 +9754,8 @@
     "en": "Common sage is an evergreen aromatic subshrub in the mint family, native to the Mediterranean region. It prefers dry, sunny, well-drained sites and is widely grown as a culinary, medicinal and ornamental plant."
    },
    "photoHash": "81ef924f8c1820225e23ede3a8fc0028ae3316d6f47ee31e8e121efbb9615c3c",
-   "photoSrc": "seed/images/plants/salvia_officinalis.jpg"
+   "photoSrc": "seed/images/plants/salvia_officinalis.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "mentha_spp",
@@ -9610,7 +9770,7 @@
    "compositionalRole": [
     "filler"
    ],
-   "lightfastness": "",
+   "lightfastness": "moderate",
    "washfastness": "moderate",
    "parts": [
     {
@@ -9663,8 +9823,23 @@
     },
     {
      "partCode": "whole",
-     "chemistry": [],
-     "dosing": [],
+     "chemistry": [
+      {
+       "classCode": "flavonoid",
+       "level": "dominant"
+      },
+      {
+       "classCode": "tannin",
+       "level": "moderate"
+      }
+     ],
+     "dosing": [
+      {
+       "min": 300,
+       "max": 400,
+       "condition": "fresh"
+      }
+     ],
      "tempExtractC": {
       "min": 80,
       "max": 95
@@ -9827,7 +10002,8 @@
     "en": "Mints are aromatic perennial plants in the mint family, widespread in temperate regions and often associated with moist ground. They spread readily by underground stems and are widely cultivated for tea, cooking and essential oils."
    },
    "photoHash": "e46c1adbc55022ff621b3096a5b74fc8d0e3e9e9859f145fcf92ee9a39dc18dd",
-   "photoSrc": "seed/images/plants/mentha_spp.jpg"
+   "photoSrc": "seed/images/plants/mentha_spp.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "melissa_officinalis",
@@ -9842,7 +10018,7 @@
    "compositionalRole": [
     "filler"
    ],
-   "lightfastness": "",
+   "lightfastness": "moderate",
    "washfastness": "moderate",
    "parts": [
     {
@@ -10010,7 +10186,9 @@
    "family": "Lamiaceae",
    "toxicity": {
     "level": "low",
-    "precautions": [],
+    "precautions": [
+     "concentrate_differs"
+    ],
     "note": {
      "bg": "",
      "en": ""
@@ -10033,7 +10211,8 @@
     "en": "Lemon balm is an aromatic perennial in the mint family, native to the Mediterranean and western Asia. Its leaves have a distinctive lemon scent and it is widely cultivated in gardens, from which it can readily escape."
    },
    "photoHash": "947ef62afb22d51253bc0d217405de47edef7ff6c2edcd69e40949f867f4940a",
-   "photoSrc": "seed/images/plants/melissa_officinalis.jpg"
+   "photoSrc": "seed/images/plants/melissa_officinalis.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "calendula_officinalis",
@@ -10254,7 +10433,8 @@
     "en": "Calendula is an annual or short-lived herb in the daisy family, cultivated for centuries in European gardens. Its bright yellow to orange flower heads bloom over a long season and are used in herbal medicine, cosmetics and cooking."
    },
    "photoHash": "dd73d88156de066beddcb8e8f421af74e946712cc5622417632d55dcd525f8de",
-   "photoSrc": "seed/images/plants/calendula_officinalis.jpg"
+   "photoSrc": "seed/images/plants/calendula_officinalis.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "eucalyptus_spp",
@@ -10488,7 +10668,8 @@
     "en": "Eucalypts are a large group of evergreen trees and shrubs native mainly to Australia. Many species are cultivated in warm climates for timber, essential oils and ornamental foliage; in Bulgaria they are most often encountered as imported greenery or container plants."
    },
    "photoHash": "df88d47b5ae8e9dc297e9d00219b362d8eb58ec8a91c3c7a69bcf7b30fba18ae",
-   "photoSrc": "seed/images/plants/eucalyptus_spp.jpg"
+   "photoSrc": "seed/images/plants/eucalyptus_spp.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "persea_americana",
@@ -10734,7 +10915,8 @@
     "en": "Avocado is an evergreen subtropical tree in the laurel family, native to Mexico and Central America. It is now widely cultivated in warm regions for its rich, oily fruit; in Bulgaria it is mainly encountered as an imported material or a container plant."
    },
    "photoHash": "3bc2b28181ff7b97ccf3b34d46d18884f158f9bbecf6154f688faedeecca8000",
-   "photoSrc": "seed/images/plants/persea_americana.jpg"
+   "photoSrc": "seed/images/plants/persea_americana.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "rosa_spp",
@@ -10980,7 +11162,8 @@
     "en": "Roses are deciduous or evergreen thorny shrubs in the rose family, native mainly to the temperate Northern Hemisphere. Wild and cultivated forms have been grown for millennia for fragrance, flowers, hips and ornamental value."
    },
    "photoHash": "c3eaaff5835f99a477472cb9d7dcd02feb747332b776d6bb59da4e840b70d850",
-   "photoSrc": "seed/images/plants/rosa_spp.jpg"
+   "photoSrc": "seed/images/plants/rosa_spp.jpg",
+   "dyeClass": "adjective"
   },
   {
    "code": "corylus_avellana",
@@ -11318,7 +11501,8 @@
     "en": "Common hazel is a deciduous shrub or small tree widespread across Europe and western Asia. It grows in woodland margins and scrub and is best known for its edible hazelnuts, which ripen in late summer and early autumn."
    },
    "photoHash": "1f843588fd4e112dda518e4ca2ebeb3070294de27f5d58b7ad7862df5387fe0e",
-   "photoSrc": "seed/images/plants/corylus_avellana.jpg"
+   "photoSrc": "seed/images/plants/corylus_avellana.jpg",
+   "dyeClass": "substantive"
   },
   {
    "code": "pelargonium_zonale",
@@ -11369,7 +11553,20 @@
     },
     {
      "partCode": "leaf",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "flavonoid",
+       "level": "dominant"
+      },
+      {
+       "classCode": "anthocyanin",
+       "level": "high"
+      },
+      {
+       "classCode": "tannin",
+       "level": "high"
+      }
+     ],
      "dosing": [
       {
        "condition": "fresh",
@@ -11573,7 +11770,15 @@
     "en": "Zonal pelargonium is a perennial subshrub native to South Africa and widely grown as a pot and balcony plant. It is recognised by rounded leaves with a darker zone and showy flower clusters that bloom throughout the warm season."
    },
    "photoHash": "505eec8769721489787b8e0756c967414fb13b28f2242745d6af07015f1c96c1",
-   "photoSrc": "seed/images/plants/pelargonium_zonale.jpg"
+   "photoSrc": "seed/images/plants/pelargonium_zonale.jpg",
+   "family": "Geraniaceae",
+   "dyeClass": "adjective",
+   "toxicity": {
+    "level": "low",
+    "precautions": [
+     "contact_allergy"
+    ]
+   }
   },
   {
    "code": "sambucus_nigra",
@@ -11890,7 +12095,16 @@
     "en": "Elder is a deciduous shrub or small tree widespread in Europe and western Asia. It grows along woodland edges, roads and settlements; its fragrant flowers and dark berries have a long history of culinary and medicinal use."
    },
    "photoHash": "e99f1577e6ed0af0090127125bace2124134af8cc2eb6b060e050675ae272955",
-   "photoSrc": "seed/images/plants/sambucus_nigra.jpg"
+   "photoSrc": "seed/images/plants/sambucus_nigra.jpg",
+   "family": "Viburnaceae",
+   "dyeClass": "adjective",
+   "toxicity": {
+    "level": "caution",
+    "precautions": [
+     "gloves",
+     "no_ingestion"
+    ]
+   }
   },
   {
    "code": "rubus_fruticosus",
@@ -11981,7 +12195,16 @@
     },
     {
      "partCode": "bark",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "tannin",
+       "level": "dominant"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
      "dosing": [
       {
        "condition": "dried",
@@ -12001,6 +12224,12 @@
      "harvestNote": {
       "bg": "Практично е да се взема при зимна резитба на стари стъбла.",
       "en": ""
+     },
+     "tempExtractC": {
+      "min": 85
+     },
+     "tempDyeC": {
+      "min": 90
      }
     }
    ],
@@ -12166,7 +12395,15 @@
     "en": "Blackberries are thorny perennial shrubs of the genus Rubus, widespread in Europe and other temperate regions. They form dense thickets along woodland edges, clearings and roadsides and produce edible dark fruits in late summer."
    },
    "photoHash": "725ce431345abaf5163844d603f6c6c8090818ce4ea5ecdb300e58236e3c4fb1",
-   "photoSrc": "seed/images/plants/rubus_fruticosus.jpg"
+   "photoSrc": "seed/images/plants/rubus_fruticosus.jpg",
+   "family": "Rosaceae",
+   "dyeClass": "adjective",
+   "toxicity": {
+    "level": "low",
+    "precautions": [
+     "gloves"
+    ]
+   }
   },
   {
    "code": "dahlia_pinnata",
@@ -12232,7 +12469,12 @@
     },
     {
      "partCode": "leaf",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "flavonoid",
+       "level": "dominant"
+      }
+     ],
      "dosing": [
       {
        "condition": "fresh",
@@ -12419,7 +12661,15 @@
     "en": "Dahlias are tuberous perennial plants native to Mexico and Central America and widely grown in Europe as garden flowers. Modern cultivars vary enormously in form and colour and flower for a long season from summer until the first frosts."
    },
    "photoHash": "2d28be97425fffe154a94f672f5df7d0f83bed4559946c32f0fa728b3ab0fdfa",
-   "photoSrc": "seed/images/plants/dahlia_pinnata.jpg"
+   "photoSrc": "seed/images/plants/dahlia_pinnata.jpg",
+   "family": "Asteraceae",
+   "dyeClass": "adjective",
+   "toxicity": {
+    "level": "low",
+    "precautions": [
+     "contact_allergy"
+    ]
+   }
   },
   {
    "code": "genista_tinctoria",
@@ -12656,7 +12906,16 @@
     "en": "Dyer’s greenweed is a low deciduous shrub in the pea family, native across Europe and western Asia. It grows in sunny grasslands, open woodland and scrub and has a long history as a local source of yellow dye."
    },
    "photoHash": "ef55e284682fe8c37c18bc72ad55164ac72d5d071b60f39414655a0ffbcd921a",
-   "photoSrc": "seed/images/plants/genista_tinctoria.jpg"
+   "photoSrc": "seed/images/plants/genista_tinctoria.jpg",
+   "family": "Fabaceae",
+   "dyeClass": "adjective",
+   "toxicity": {
+    "level": "caution",
+    "precautions": [
+     "gloves",
+     "no_ingestion"
+    ]
+   }
   },
   {
    "code": "alkanna_tinctoria",
@@ -12687,8 +12946,7 @@
       }
      ],
      "tempDyeC": {
-      "min": 60,
-      "max": 60
+      "min": 60
      },
      "softMaxTempC": 60,
      "extractionModes": [
@@ -12702,6 +12960,10 @@
      "harvestNote": {
       "bg": "При култивирани растения коренът се вади след края на активния сезон; избягвай събиране от диви популации.",
       "en": ""
+     },
+     "tempExtractC": {
+      "min": 60,
+      "max": 70
      }
     }
    ],
@@ -12852,7 +13114,18 @@
     "en": "Dyer’s alkanet is a perennial herb in the borage family, characteristic of dry, rocky habitats in the Mediterranean and southeastern Europe. Since antiquity it has been valued for the reddish pigment in its roots, used to colour textiles, oils and cosmetics."
    },
    "photoHash": "a1f4ffa3418a910b83ccfa7bb60421ef7aec874915954e13d3764218164010a2",
-   "photoSrc": "seed/images/plants/alkanna_tinctoria.jpg"
+   "photoSrc": "seed/images/plants/alkanna_tinctoria.jpg",
+   "family": "Boraginaceae",
+   "dyeClass": "adjective",
+   "toxicity": {
+    "level": "caution",
+    "precautions": [
+     "gloves",
+     "dust_mask",
+     "no_ingestion",
+     "separate_vessels"
+    ]
+   }
   },
   {
    "code": "rheum_rhabarbarum",
@@ -12868,7 +13141,16 @@
    "parts": [
     {
      "partCode": "leaf",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "anthraquinone",
+       "level": "dominant"
+      },
+      {
+       "classCode": "tannin",
+       "level": "moderate"
+      }
+     ],
      "dosing": [
       {
        "condition": "fresh",
@@ -13080,7 +13362,16 @@
     "en": "Garden rhubarb is a large herbaceous perennial in the dock family, cultivated for its fleshy leaf stalks. Cultivated forms derive from Asian Rheum species; their underground crowns overwinter and produce vigorous new foliage each spring."
    },
    "photoHash": "1f4d8bda54e48f02b1b89f08769924db94435f1ff48e24665573ab0e70bfb188",
-   "photoSrc": "seed/images/plants/rheum_rhabarbarum.jpg"
+   "photoSrc": "seed/images/plants/rheum_rhabarbarum.jpg",
+   "family": "Polygonaceae",
+   "dyeClass": "substantive",
+   "toxicity": {
+    "level": "caution",
+    "precautions": [
+     "gloves",
+     "no_ingestion"
+    ]
+   }
   },
   {
    "code": "fraxinus_excelsior",
@@ -13334,7 +13625,15 @@
     "en": "European ash is a tall deciduous tree native to much of Europe and western Asia. It grows in moist, fertile broadleaved woodland and is valued for its strong, elastic timber."
    },
    "photoHash": "c087312b03584b4cf5968f73fa9de1b01a442ea05e982d5aff9b2e65a7478df8",
-   "photoSrc": "seed/images/plants/fraxinus_excelsior.jpg"
+   "photoSrc": "seed/images/plants/fraxinus_excelsior.jpg",
+   "family": "Oleaceae",
+   "dyeClass": "substantive",
+   "toxicity": {
+    "level": "low",
+    "precautions": [
+     "contact_allergy"
+    ]
+   }
   },
   {
    "code": "frangula_alnus",
@@ -13385,7 +13684,20 @@
     },
     {
      "partCode": "leaf",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "anthraquinone",
+       "level": "high"
+      },
+      {
+       "classCode": "tannin",
+       "level": "high"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
      "dosing": [
       {
        "condition": "fresh",
@@ -13412,7 +13724,20 @@
     },
     {
      "partCode": "fruit",
-     "chemistry": [],
+     "chemistry": [
+      {
+       "classCode": "anthraquinone",
+       "level": "high"
+      },
+      {
+       "classCode": "tannin",
+       "level": "high"
+      },
+      {
+       "classCode": "flavonoid",
+       "level": "moderate"
+      }
+     ],
      "dosing": [
       {
        "condition": "fresh",
@@ -13584,7 +13909,17 @@
     "en": "Alder buckthorn is a deciduous shrub or small tree native to Europe, North Africa and western Asia. It favours damp woodland, scrub and peatland; its bark has a long history in herbal medicine and traditional dye practice."
    },
    "photoHash": "bd866ff56dd24307e8b407cb440836865f429565e4edf65258e3c3387094f90b",
-   "photoSrc": "seed/images/plants/frangula_alnus.jpg"
+   "photoSrc": "seed/images/plants/frangula_alnus.jpg",
+   "family": "Rhamnaceae",
+   "dyeClass": "substantive",
+   "toxicity": {
+    "level": "elevated",
+    "precautions": [
+     "gloves",
+     "no_ingestion",
+     "separate_vessels"
+    ]
+   }
   }
  ],
  "harvestRegion": "BG"

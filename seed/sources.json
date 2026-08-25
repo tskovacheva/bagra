@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": 3,
+ "packVersion": 4,
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -111,6 +111,171 @@
    "note": {
     "bg": "Собственото ръководство: български растения, беритба по нашия климат, изпробвани пропорции. Където приложението и ръководството се разминават, разминаването е нарочно и е отбелязано.",
     "en": "The studio's own guide: Bulgarian plants, harvest in this climate, proportions actually tested. Where the application and the guide differ, the difference is deliberate and noted."
+   }
+  },
+  {
+   "code": "aatcc-natural-dyes",
+   "kind": "reference",
+   "name": "Natural Dyes Revisited",
+   "author": "AATCC",
+   "url": "https://www.aatcc.org/news-read/insights/natural-dyes-revisited",
+   "note": {
+    "bg": "Определя разликата между субстантивни и адективни багрила и дава индиго за пример. Използван за полето dyeClass, не за цвят.",
+    "en": "Defines the substantive/adjective distinction and gives indigo as the example. Used here for the dyeClass field, not for colour."
+   }
+  },
+  {
+   "code": "uchicago-origins-color",
+   "kind": "reference",
+   "name": "Organic Dyes and Lakes — The Origins of Color",
+   "author": "University of Chicago Library",
+   "url": "https://www.lib.uchicago.edu/collex/exhibits/originsof-color/organic-dyes-and-lakes/",
+   "note": {
+    "bg": "Изложба за произхода на цвета, която разграничава танинно богатите субстантивни багрила от каците. Използван за класификация, не за рецепта.",
+    "en": "An exhibition on the origins of colour, distinguishing tannin-rich substantive dyes from vat dyes. Used for classification, never for a recipe."
+   }
+  },
+  {
+   "code": "natural-dye-store-mordants",
+   "kind": "site",
+   "name": "Mordants and tannins. Assists and modifiers",
+   "author": "Natural Dye Store",
+   "url": "https://naturaldyestore.com/blogs/blog/mordants-and-tannins-assists-and-modifiers",
+   "note": {
+    "bg": "Търговски наръчник с изричен списък на субстантивните багрила. Търговски източник — приет за класификация, но не за дозиране.",
+    "en": "A trade guide with an explicit list of substantive dyes. A commercial source: taken for classification, not for dosing."
+   }
+  },
+  {
+   "code": "george-weil-oak",
+   "kind": "site",
+   "name": "Oak Bark natural dye",
+   "author": "George Weil",
+   "url": "https://www.georgeweil.com/dyes-and-assistants/natural-dyes/natural-dye-oak-bark-100g/",
+   "note": {
+    "bg": "Описание на продукт, което определя дъбовата кора като субстантивна. Единично твърдение от продавач — потвърждава класа, нищо повече.",
+    "en": "A product description classing oak bark as substantive. A single claim from a seller: it confirms the class and nothing else."
+   }
+  },
+  {
+   "code": "eucalyptus-substantive-study",
+   "kind": "reference",
+   "name": "Wash Fastness of Textile Fibers Dyed with Natural Dye from Eucalyptus Wood Steaming Waste",
+   "author": "—",
+   "url": "https://zenodo.org/record/1108753/files/10002337.pdf",
+   "note": {
+    "bg": "Изследване от 2015, което класифицира евкалиптовия екстракт като субстантивен и мери пералноустойчивост.",
+    "en": "A 2015 study classing eucalyptus extract as substantive and measuring wash fastness."
+   }
+  },
+  {
+   "code": "usda-home-dyeing",
+   "kind": "book",
+   "name": "Home Dyeing with Natural Dyes",
+   "author": "U.S. Department of Agriculture",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Home_dyeing_with_natural_dyes_%28IA_CAT31039642%29.pdf",
+   "note": {
+    "bg": "Историческо ръководство на Министерството на земеделието на САЩ. Рецептите му са от друга епоха и други материали — използван за потвърждение, че дадено растение е било багрилно, не за числа.",
+    "en": "A historical guide from the US Department of Agriculture. Its recipes are from another era and other materials: used to confirm that a plant was dyed with, not for figures."
+   }
+  },
+  {
+   "code": "dyeman-natural",
+   "kind": "site",
+   "name": "Natural dyes — Alkanet Root",
+   "author": "Dyeman",
+   "url": "https://www.dyeman.com/products/dyes/natural",
+   "note": {
+    "bg": "Продавач, който изрично определя алканата като адективна. Използван само за това.",
+    "en": "A seller explicitly labelling alkanet as adjective. Used for that alone."
+   }
+  },
+  {
+   "code": "fastness-review-cristea",
+   "kind": "reference",
+   "name": "Improving light fastness of natural dyes on cotton yarn",
+   "author": "Daniela Cristea, Gerard Vilarem",
+   "url": "https://www.sciencedirect.com/science/article/abs/pii/S0143720805001282",
+   "note": {
+    "bg": "Рецензирано изследване от 2006, което свързва светлоустойчивостта с химичния клас. Основата, върху която лежат оценките за светлоустойчивост тук.",
+    "en": "A peer-reviewed 2006 study relating light fastness to chemical class. The basis for the light fastness ratings recorded here."
+   }
+  },
+  {
+   "code": "dermnet-asteraceae",
+   "kind": "reference",
+   "name": "Compositae allergy",
+   "author": "DermNet",
+   "url": "https://dermnetnz.org/topics/compositae-allergy",
+   "note": {
+    "bg": "Дерматологичен справочник за контактната алергия към сложноцветните. Източникът за предпазните мерки при лайка, вратига, невен и останалите от семейството.",
+    "en": "A dermatology reference on contact allergy to the daisy family. The source for the precautions on chamomile, tansy, marigold and the rest of that family."
+   }
+  },
+  {
+   "code": "ema-frangula",
+   "kind": "reference",
+   "name": "Frangulae cortex",
+   "author": "European Medicines Agency",
+   "url": "https://www.ema.europa.eu/en/medicines/herbal/frangulae-cortex",
+   "note": {
+    "bg": "Монография на Европейската агенция по лекарствата за кората на зърнастеца. Регулаторен източник — приет за безопасност, не за багрилни свойства.",
+    "en": "A European Medicines Agency monograph on alder buckthorn bark. A regulatory source: taken for safety, not for dye behaviour."
+   }
+  },
+  {
+   "code": "pubmed-hypericum-safety",
+   "kind": "reference",
+   "name": "Safety assessment of Hypericum perforatum extract and oil",
+   "author": "—",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/11558639/",
+   "note": {
+    "bg": "Оценка на безопасността от 2001, документираща фоточувствителността на жълтия кантарион.",
+    "en": "A 2001 safety assessment documenting the photosensitivity of St John’s wort."
+   }
+  },
+  {
+   "code": "pubmed-madder-carcinogenicity",
+   "kind": "reference",
+   "name": "Madder color: a two-year rat carcinogenicity study",
+   "author": "—",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/19032970/",
+   "note": {
+    "bg": "Двугодишно изследване върху плъхове от 2009, заради което брошът носи повишено ниво на риск. Изследване върху животни при поемане през устата — не описва работа с багрилна баня, но е причината за предпазните мерки.",
+    "en": "A two-year rat study from 2009, and the reason madder carries an elevated risk level. An animal ingestion study: it does not describe working with a dye bath, but it is why the precautions are there."
+   }
+  },
+  {
+   "code": "avocado-fastness-2022",
+   "kind": "reference",
+   "name": "Eco-Friendly Dyeing of Cotton and Wool Fabrics with Avocado Seed and Peel Extracts",
+   "author": "—",
+   "url": "https://www.tandfonline.com/doi/abs/10.1080/15440478.2022.2106340",
+   "note": {
+    "bg": "Измерена устойчивост за авокадо върху памук и вълна, 2022.",
+    "en": "Measured fastness for avocado on cotton and wool, 2022."
+   }
+  },
+  {
+   "code": "mint-thyme-fastness-2024",
+   "kind": "reference",
+   "name": "Mint and thyme extracts as eco-friendly natural dyes",
+   "author": "—",
+   "url": "https://www.sciencedirect.com/science/article/pii/S230741082400141X",
+   "note": {
+    "bg": "Измерена устойчивост за мента и мащерка, 2024.",
+    "en": "Measured fastness for mint and thyme, 2024."
+   }
+  },
+  {
+   "code": "pomegranate-fastness-2020",
+   "kind": "reference",
+   "name": "Green Dyeing and Antibacterial Treatment of Hemp Fabrics Using Punica granatum Peel Extracts",
+   "author": "—",
+   "url": "https://onlinelibrary.wiley.com/doi/10.1155/2020/6084127",
+   "note": {
+    "bg": "Измерена устойчивост за нар върху коноп, 2020.",
+    "en": "Measured fastness for pomegranate on hemp, 2020."
    }
   }
  ]
