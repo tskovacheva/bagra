@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc39 · 128 sections
+**Status:** 1.0.0-rc40 · 129 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -9079,6 +9079,111 @@ A heading in the new panel set its own font size and the static guard caught it
 on the first run. It reuses `.headlinebody h2` — the record title in the panel
 is the same thing as the record title on the read view, and a second size would
 be a second answer to a settled question, which is how a scale stops being one.
+
+## 13dg. What moves the result, and who says so (1.0.0-rc40)
+
+Three rounds of the data workbook came back with two kinds of thing the model
+could not hold, and both were HELD at import rather than dropped: an explanation
+of what changes a result, and a second source for a record that already had one.
+Thirty-nine texts, every one with a citation. They are in now.
+
+This is not new research. Every sentence below was written by the owner into a
+workbook; the only judgement added here is which FACTOR each is about, and that
+was made by reading the sentence, thirty-nine times.
+
+### A record may rest on more than one source
+
+`learnedFrom` held one value and a combination accumulates claims from different
+places: the guide taught the COLOUR, the paper taught which fibre and mordant it
+was got on. Those are not the same claim and one is not a correction of the
+other.
+
+```js
+sourceCodes: ['crafty-place-guide', 'ellis-natural-dye']
+```
+
+**`learnedFrom` is unchanged**, on every record, and still read. Rewriting 163
+records to tidy a new field would be a migration performed for the field's
+benefit. Records that carry only the old value go on working: the audit checks
+that none was left citing nothing.
+
+**105 records held prose where the register holds a code.** „Ръководство
+НАТУРАЛНИ БАГРИЛА, Crafty Place" appeared on 102 of them and `crafty-place-guide`
+has been in the register throughout. Left as prose, `sourceCodes` would be a list
+of sentences resolving to nothing, and the integrity guard would be checking
+punctuation. The prose is mapped to its code in `sourceCodes` and left alone in
+`learnedFrom`.
+
+### Influences, with a closed list of factors
+
+```js
+influences: [{ factor, text: { bg, en }, sourceCode }]
+```
+
+The field has been declared on every record since the model was written and
+populated on none of them (decision 12). Six factors, and the list is closed:
+
+| factor | records |
+|---|---|
+| the mordant | 16 |
+| the fibre | 10 |
+| the medium | 5 |
+| the species | 3 |
+| dose and time | 2 |
+| preparation | 1 |
+
+A free-text factor would be a second `notes` field wearing a label, and `notes`
+is the field this material was kept out of because it was already occupied by
+two different kinds of thing.
+
+**An influence cites its own source.** The paper that says what moves a result
+is not always the one that gave the colour, and `refs.js` counts it — otherwise
+the one record citing Catharine Ellis would have read as citing nobody and been
+freely deletable, which is §13ct's fault arriving for the third time by a new
+door.
+
+### The eucalyptus case
+
+Set by the owner as the test of whether the collected knowledge survived, and
+asserted by name in the audit:
+
+- unmordanted, protein fibre
+- the species is what decides — *E. cinerea* towards red-orange, *E. globulus*
+  browner
+- Catharine Ellis cited as the evidence
+- and the original colour source **kept**, not replaced
+
+Each of the four fails on its own if broken.
+
+### On the screen
+
+The detail panel draws „Какво влияе на резултата" — factor, sentence, source —
+and a sources line whose names resolve through the register and link out where
+the register holds a URL. A name on the screen is a record somebody can open.
+
+### The guards
+
+Six integrity checks in `audit-library.mjs`: every combination names a plant
+that exists and a part that plant has; every source code cited by a record or by
+an influence resolves; every factor is in the closed list and no influence is
+empty; the eucalyptus case in four parts; and no record left citing nothing. All
+six seen failing.
+
+And one in `deep-check`, which draws the panel and reads it. It needed
+`selectForTest` on the module: which record the panel shows is module state
+rather than an address, so a guard wanting a PARTICULAR record could otherwise
+only get there by clicking whichever row a question happened to rank first —
+which is testing the ranking by accident.
+
+### Found while writing that guard
+
+**The detail panel only exists on the colour path.** A question asked by
+conditions alone produces cards, not rows, and no panel. So a record with no
+measured colour — which cannot be ranked by colour at all (§13df) — can never
+have its influences read in the panel. It has them; there is no way to see them.
+
+Not fixed here: this release is the data, and the Reference presentation is the
+next one. Recorded so it is not rediscovered as a surprise.
 
 ---
 

@@ -4654,6 +4654,7 @@ const dirty = await import('./dirty.js');
 
   if (!html.includes('data-pick=')) wrong.push('a colour question produced no selectable rows');
 
+
   // The chosen family reads as chosen. Asked HERE, while it is still chosen —
   // asking after the clear below would assert nothing.
   const pressed = root.querySelector('[data-family="red"]');
@@ -4703,8 +4704,38 @@ const dirty = await import('./dirty.js');
   if (/influences/i.test(html)) wrong.push('an influences section is drawn from a field nothing fills');
 
 
+  // WHAT THE PANEL MUST CARRY (§13dg). The explanations came back from three
+  // rounds of the workbook and were held for want of a field; a field that
+  // exists and a panel that does not draw it is the same loss with one more
+  // step in it.
+  //
+  // The eucalyptus record is asked for by NAME rather than found by clicking:
+  // which row a question happens to rank first is not what is under test here,
+  // and a guard that depends on it tests the ranking by accident.
+  reference.reset?.();
+  reference.open();
+  await reference.render(root);
+  await settle();
+  // The panel lives on the colour path, so a colour is asked. „Оранжево" is
+  // where this record's own swatch sits, which puts it among the results
+  // without the guard depending on it being FIRST.
+  root.querySelector('[data-family="orange"]')?.click();
+  await settle();
+  reference.selectForTest?.('seed:eucalyptus_spp_leaf_nomordant_immersion');
+  await reference.render(root);
+  await settle();
+  const panel = root.querySelector('.refdetail')?.textContent || '';
+
+  if (!/влияе на резултата/i.test(panel))
+    wrong.push('the panel does not draw what moves the result');
+  if (!/Източници/i.test(panel))
+    wrong.push('the panel does not draw the sources');
+  if (!/\uFFFD/.test(panel)) { /* no replacement characters — see below */ }
+  if (/\uFFFD/.test(root.innerHTML))
+    wrong.push('a replacement character is on the screen — an encoding fault');
+
   if (wrong.length) fail('reference', new Error(wrong.join('; ')));
-  else console.log('  reference: a colour question draws rows, a panel, and no colour nobody measured');
+  else console.log('  reference: rows, a panel with its evidence and sources, and no invented colour');
 
   for (const id of made) await db.remove('combinations', id);
   root.remove();

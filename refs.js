@@ -49,8 +49,17 @@ const keyOf = (store, row) => (TARGET_KEY[store] ? TARGET_KEY[store](row) : row.
 // `===` a list matches nothing, so a source cited only by a two-source record
 // would have read as uncited and been freely deletable, which is the fault
 // §13ct exists to prevent, returning by the back door.
-const codesOf = (row) =>
-  (Array.isArray(row.sourceCode) ? row.sourceCode : [row.sourceCode]).filter(Boolean);
+const codesOf = (row) => [
+  ...(Array.isArray(row.sourceCode) ? row.sourceCode : [row.sourceCode]),
+  // A combination's sources (§13dg): `sourceCodes` is the list, `learnedFrom`
+  // is the single value older records carry and still do. An INFLUENCE cites a
+  // source of its own — the paper that says what moves the result is not
+  // always the one that gave the colour — and it must count too, or the one
+  // record citing Catharine Ellis would read as citing nobody.
+  ...(row.sourceCodes || []),
+  ...(row.influences || []).map(i => i.sourceCode),
+  row.learnedFrom,
+].filter(Boolean);
 const cites = (row, code) => codesOf(row).includes(code);
 
 // Where the ids live, written out rather than discovered, because a path this
@@ -111,8 +120,9 @@ const INCOMING = {
   //
   // Matched on the CODE, not the id — see TARGET_KEY above.
   sources: [
-    { store: 'glossary', label: 'refs.glossary', count: (r, code) => (cites(r, code) ? 1 : 0) },
-    { store: 'recipes',  label: 'refs.recipes',  count: (r, code) => (cites(r, code) ? 1 : 0) },
+    { store: 'glossary',     label: 'refs.glossary', count: (r, code) => (cites(r, code) ? 1 : 0) },
+    { store: 'recipes',      label: 'refs.recipes',  count: (r, code) => (cites(r, code) ? 1 : 0) },
+    { store: 'combinations', label: 'refs.combos',   count: (r, code) => (cites(r, code) ? 1 : 0) },
     // Not in the audit's list and real: every colour swatch on a plant credits
     // where the colour was read from. 57 plants carry these, and four of the ten
     // sources are named only here.
@@ -244,7 +254,7 @@ function pointersIn(row, target) {
     case 'sources': return [
       ...codesOf(row),
       ...(row.colours || []).map(c => c.source),
-    ];
+    ].filter(c => c && !/\s/.test(c));   // prose is not a code and never resolved
     default:             return [];
   }
 }

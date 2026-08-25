@@ -12,6 +12,36 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc40 — 25 August 2026
+
+The knowledge three rounds of the data workbook returned and the model could not hold. Data
+and integrity only; the Reference and Plants presentation is the next two releases.
+
+- **37 explanatory texts imported**, each with its source — what the fibre, the mordant, the
+  medium, the species, the dose or the preparation does to a result. They had been held at
+  every previous import because `influences` was declared and never filled and `notes` was
+  already occupied by two different kinds of thing. Not new research: every sentence came out
+  of a workbook the owner filled. §13dg
+- **A closed list of six factors.** A free-text factor would be a second notes field wearing
+  a label.
+- **`sourceCodes` — a record may rest on more than one source.** The guide taught the colour,
+  the paper taught which fibre and mordant. Not the same claim, and one is not a correction
+  of the other. `learnedFrom` is unchanged on all 163 records and still read; records with
+  only the old value go on working, and the audit checks none was left citing nothing.
+- **105 records held prose where the register holds a code** — the guide on 102 of them.
+  Mapped to codes in `sourceCodes`, left alone in `learnedFrom`: rewriting 163 records to
+  tidy a new field would be a migration performed for the field's benefit.
+- **An influence cites its own source, and `refs.js` counts it.** Otherwise the single record
+  citing Catharine Ellis would have read as uncited and been freely deletable — §13ct's fault
+  arriving a third time by a new door.
+- **Eucalyptus, the case the owner set**: unmordanted protein, the species deciding, Ellis
+  cited, the colour source kept. Asserted by name in four parts, each failing on its own.
+- **Six new integrity guards** and one that draws the panel and reads it. All seen failing.
+- **Found and not fixed**: the detail panel exists only on the colour path, so a record with
+  no measured colour has influences that cannot be seen. Recorded rather than rediscovered.
+
+---
+
 ## 1.0.0-rc39 — 25 August 2026
 
 The Reference rebuilt around the question, from a v0 prototype used for arrangement and not

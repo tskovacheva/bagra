@@ -350,6 +350,23 @@ export const VOCABULARY = [
   V('ingredient_role', 'humectant',        'задържа влага',      'humectant', 15),
   V('ingredient_role', 'preservative',     'консервант',         'preservative', 16),
 
+  // WHAT CHANGES A RESULT (§13dg).
+  //
+  // Thirty-nine explanatory texts came back across three rounds of the data
+  // workbook and had nowhere to go, because a combination could say WHAT to
+  // expect and not WHY it moves. They were held rather than dropped into
+  // `notes`, which was already occupied and by two different kinds of thing.
+  //
+  // A closed list, and short. „Which factor is this about" is a question with a
+  // handful of answers in this craft, and a free-text factor would be a second
+  // notes field wearing a label.
+  V('influence_factor', 'fibre',         'влакното',          'the fibre', 1),
+  V('influence_factor', 'mordant',       'мордантът',         'the mordant', 2),
+  V('influence_factor', 'ph',            'средата',           'the medium', 3),
+  V('influence_factor', 'species',       'видът',             'the species', 4),
+  V('influence_factor', 'concentration', 'дозата и времето',  'dose and time', 5),
+  V('influence_factor', 'preparation',   'подготовката',      'preparation', 6),
+
   V('basis', 'percent_wof',      '% WOF',            '% WOF', 1),
   V('basis', 'percent_of_bath',  '% от банята',      '% of bath', 2),
   V('basis', 'grams_per_litre',  'г/л',              'g/L', 3),

@@ -192,6 +192,89 @@ invalid.length === 0
   ? ok(`${combos.length} combinations, no code outside the vocabulary`)
   : bad(`${invalid.length}: ${invalid.slice(0, 6).join('; ')}`);
 
+// ---------------------------------------------------------------- integrity
+console.log('\nnothing points at anything that is not there');
+
+const plantCodes = new Set(plants.map(p => p.code));
+const partsOf = new Map(plants.map(p => [p.code, new Set((p.parts || []).map(x => x.partCode))]));
+
+const orphanPlant = combos.filter(r => !plantCodes.has(plantOf(r)));
+orphanPlant.length === 0
+  ? ok(`every one of the ${combos.length} combinations names a plant that exists`)
+  : bad(`${orphanPlant.length} name no such plant: ${orphanPlant.slice(0, 4).map(r => r.code).join(', ')}`);
+
+// A part is a claim about the plant, not a convenience for the record. A
+// combination naming a part its plant does not have is the alder buckthorn
+// question (decision 14) arriving unnoticed.
+const orphanPart = combos.filter(r => {
+  const set = partsOf.get(plantOf(r));
+  const part = r.key.dyeSource?.partCode;
+  return set && part && !set.has(part);
+});
+orphanPart.length === 0
+  ? ok('and a part its plant actually has')
+  : bad(`${orphanPart.length} name a part the plant has not: ` +
+        orphanPart.slice(0, 4).map(r => `${r.code}`).join(', '));
+
+const sourceCodes = new Set(sources.map(s => s.code));
+const badSource = [];
+for (const r of combos) {
+  for (const c of r.sourceCodes || []) if (!sourceCodes.has(c)) badSource.push(`${r.code}→${c}`);
+  for (const i of r.influences || []) {
+    if (i.sourceCode && !sourceCodes.has(i.sourceCode)) badSource.push(`${r.code}→${i.sourceCode}`);
+  }
+}
+badSource.length === 0
+  ? ok('every source code cited by a record or an influence resolves in the register')
+  : bad(`${badSource.length} orphan source reference(s): ${badSource.slice(0, 4).join(', ')}`);
+
+// A closed list, checked. A factor outside it is a free-text field wearing a
+// label, which is what `influences` was built to stop being.
+const FACTORS = V.influence_factor || new Set();
+const badFactor = [];
+let influenceCount = 0;
+for (const r of combos) {
+  for (const i of r.influences || []) {
+    influenceCount++;
+    if (!FACTORS.has(i.factor)) badFactor.push(`${r.code}: ${i.factor}`);
+    if (!(i.text?.bg || '').trim()) badFactor.push(`${r.code}: an influence with no text`);
+  }
+}
+badFactor.length === 0
+  ? ok(`${influenceCount} influences across ${combos.filter(r => (r.influences || []).length).length} records, every factor known`)
+  : bad(`${badFactor.length}: ${badFactor.slice(0, 4).join('; ')}`);
+
+// The eucalyptus case, named because it is the one the owner set as the test of
+// whether the collected knowledge survived: unmordanted protein fibre, and the
+// species being what decides the colour.
+{
+  const euc = combos.find(r => r.code === 'eucalyptus_spp_leaf_nomordant_immersion');
+  const problems = [];
+  if (!euc) problems.push('the record is missing');
+  else {
+    if (euc.key.fibreClass !== 'protein') problems.push(`fibre is ${euc.key.fibreClass}`);
+    if (euc.key.mordantCode !== 'none') problems.push(`mordant is ${euc.key.mordantCode}`);
+    const sp = (euc.influences || []).find(i => i.factor === 'species');
+    if (!sp) problems.push('no species influence');
+    else {
+      if (!/cinerea/.test(sp.text?.bg || '')) problems.push('the species note does not name the species');
+      if (sp.sourceCode !== 'ellis-natural-dye') problems.push(`the evidence source is ${sp.sourceCode}`);
+    }
+    if (!(euc.sourceCodes || []).includes('crafty-place-guide'))
+      problems.push('the original colour source was replaced rather than joined');
+  }
+  problems.length === 0
+    ? ok('eucalyptus: unmordanted protein, the species decides, Ellis cited, the colour source kept')
+    : bad('eucalyptus: ' + problems.join('; '));
+}
+
+// The single-source records still work. A list that broke them would be a
+// migration that fixed one thing and quietly cost 126 others.
+const noSources = combos.filter(r => !(r.sourceCodes || []).length && !r.learnedFrom);
+noSources.length === 0
+  ? ok('and no record was left without a source by the change')
+  : bad(`${noSources.length} records now cite nothing`);
+
 // ---------------------------------------------------------------- the tally
 console.log('\n— the tally the Definition asks for —');
 line(`plants with a full basic profile     ${plants.length - incomplete.length}/${plants.length}`);

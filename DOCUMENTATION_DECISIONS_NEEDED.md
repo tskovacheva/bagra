@@ -263,9 +263,8 @@ citation for each — and it is not a correction. The guide taught the COLOUR; t
 taught which FIBRE and MORDANT that colour was got on. Two sources, two different claims,
 one field.
 
-**Partly settled at rc38.** `sourceCode` on a recipe now accepts a list, and `refs.js` reads
-it — the same shape, on the neighbouring field. `learnedFrom` on a combination is unchanged
-and the argument below still stands for it.
+**Settled at rc40.** `sourceCodes` on a combination is a list, `learnedFrom` is untouched and
+still read, and an influence carries a source of its own (§13dg).
 
 **Recommended: `learnedFrom` becomes a list of source codes.** Small — a seed field and one
 render — and it also turns free-text attribution into codes that resolve in the register,
@@ -278,7 +277,16 @@ one. Recommend the list first.
 
 ---
 
-## 12. „How does it differ" has three candidate homes and no chosen one
+## 12. „How does it differ" — SETTLED at rc40
+
+`influences` is the home, with a closed list of six factors and a source per entry (§13dg).
+37 texts imported. `notes` was left alone; the 22 condition labels sitting in it are still
+there and still look like an old import landing in the wrong field, which is a tidy-up
+rather than a decision.
+
+---
+
+## 12a. The original wording of the question
 
 **Raised by 1.0.0-rc34.** Twenty-two rows came back with a sentence about how the result
 changes. All three plausible fields are already spoken for or ambiguous:
