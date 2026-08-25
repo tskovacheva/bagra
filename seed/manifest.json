@@ -6,7 +6,7 @@
   },
   "combinations": {
    "packId": "bagra-combinations",
-   "version": "0.4.0"
+   "version": "0.6.0"
   },
   "substances": {
    "packId": "bagra-base",
@@ -18,7 +18,7 @@
   },
   "sources": {
    "packId": "bagra-core",
-   "version": "4"
+   "version": "6"
   },
   "glossary": {
    "packId": "bagra-glossary",

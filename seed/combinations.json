@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.4.0",
+ "packVersion": "0.6.0",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -1104,7 +1104,7 @@
      "plantId": "seed:alkanna_tinctoria",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -1180,7 +1180,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "ecoprint",
     "blanket": null,
@@ -1217,7 +1217,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "ecoprint",
     "blanket": "iron",
@@ -1254,7 +1254,7 @@
     },
     "fibreClass": null,
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1326,7 +1326,7 @@
      "plantId": "seed:salvia_officinalis",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -1363,7 +1363,7 @@
      "plantId": "seed:salvia_officinalis",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -1400,9 +1400,9 @@
      "plantId": "seed:salvia_officinalis",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1585,9 +1585,9 @@
      "plantId": "seed:eucalyptus_spp",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1622,7 +1622,7 @@
      "plantId": "seed:eucalyptus_spp",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -1696,9 +1696,9 @@
      "plantId": "seed:frangula_alnus",
      "partCode": "bark"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1733,9 +1733,9 @@
      "plantId": "seed:frangula_alnus",
      "partCode": "bark"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -1847,7 +1847,7 @@
      "plantId": "seed:cosmos_sulphureus",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -1921,7 +1921,7 @@
      "plantId": "seed:cosmos_sulphureus",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -1958,7 +1958,7 @@
      "plantId": "seed:allium_cepa",
      "partCode": "hull"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -1995,9 +1995,9 @@
      "plantId": "seed:allium_cepa",
      "partCode": "hull"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2069,9 +2069,9 @@
      "plantId": "seed:lawsonia_inermis",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2143,7 +2143,7 @@
      "plantId": "seed:rubus_fruticosus",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -2180,7 +2180,7 @@
      "plantId": "seed:rubus_fruticosus",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -2328,7 +2328,7 @@
      "plantId": "seed:melissa_officinalis",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -2365,7 +2365,7 @@
      "plantId": "seed:melissa_officinalis",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -2661,7 +2661,7 @@
      "plantId": "seed:punica_granatum",
      "partCode": "hull"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -2698,9 +2698,9 @@
      "plantId": "seed:punica_granatum",
      "partCode": "hull"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2735,7 +2735,7 @@
      "plantId": "seed:punica_granatum",
      "partCode": "hull"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -2772,7 +2772,7 @@
      "plantId": "seed:calendula_officinalis",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -2846,7 +2846,7 @@
      "plantId": "seed:calendula_officinalis",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -2957,9 +2957,9 @@
      "plantId": "seed:rheum_rhabarbarum",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -2997,7 +2997,7 @@
      "plantId": "seed:rheum_rhabarbarum",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -3034,9 +3034,9 @@
      "plantId": "seed:rheum_rhabarbarum",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3108,7 +3108,7 @@
      "plantId": "seed:rosa_spp",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -3145,9 +3145,9 @@
      "plantId": "seed:rosa_spp",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3441,9 +3441,9 @@
      "plantId": "seed:rubia_tinctorum",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3481,7 +3481,7 @@
      "plantId": "seed:rubia_tinctorum",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -3518,9 +3518,9 @@
      "plantId": "seed:rubia_tinctorum",
      "partCode": "root"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3555,9 +3555,9 @@
      "plantId": "seed:betula_pendula",
      "partCode": "bark"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3629,9 +3629,9 @@
      "plantId": "seed:quercus_robur",
      "partCode": "bark"
     },
-    "fibreClass": null,
+    "fibreClass": "protein",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3666,7 +3666,7 @@
      "plantId": "seed:tagetes_erecta",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "alum_potassium",
     "mordantBand": null,
@@ -3703,9 +3703,9 @@
      "plantId": "seed:tagetes_erecta",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3740,7 +3740,7 @@
      "plantId": "seed:tagetes_erecta",
      "partCode": "flower"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
     "mordantCode": "iron",
     "mordantBand": null,
@@ -3777,9 +3777,9 @@
      "plantId": "seed:persicaria_tinctoria",
      "partCode": "leaf"
     },
-    "fibreClass": null,
+    "fibreClass": "cellulose",
     "fibreCode": null,
-    "mordantCode": null,
+    "mordantCode": "none",
     "mordantBand": null,
     "processCode": "immersion",
     "blanket": null,
@@ -3804,6 +3804,2115 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "дълга серия потапяния | едно потапяне | многократно потапяне",
+    "en": ""
+   }
+  },
+  {
+   "code": "genista_tinctoria_flower_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:genista_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "без мордант е значително по-бледо; желязо след багрене измества към мъхесто зелено",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "jenny-dean-wild-colour",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "anthemis_tinctoria_flower_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:anthemis_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко до топло жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "желязото потъмнява към маслинено/зелено",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "denver-dye-garden",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "isatis_tinctoria_leaf_none_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:isatis_tinctoria",
+     "partCode": "leaf"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "синьо",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "дълбочината се изгражда с повторни потапяния; не изисква мордант",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "denver-dye-garden",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "tanacetum_vulgare_flower_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tanacetum_vulgare",
+     "partCode": "flower"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "алкален модификатор може да задълбочи/изсветли жълтото според банята",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "jenny-dean-wild-colour",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "alnus_glutinosa_bark_iron_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:alnus_glutinosa",
+     "partCode": "bark"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмнокафяво до черно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "танинът в кората с желязо изгражда много тъмни тонове; прекомерното желязо може да увреди вълната",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "jenny-dean-wild-colour",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "reseda_luteola_whole_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:reseda_luteola",
+     "partCode": "whole"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "желязото измества към кафеникаво/маслинено; без мордант е по-бледо",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "jenny-dean-wild-colour",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "senegalia_catechu_heartwood_none_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:senegalia_catechu",
+     "partCode": "heartwood"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "светло до канелено кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "alum изчиства и засилва канеленото; желязо измества към шоколадово/сиво-кафяво",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "cameo-mfa",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "coreopsis_tinctoria_flower_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:coreopsis_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "жълто до златисто-кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "алкален модификатор може да измести към оранжево-червено",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "denver-dye-garden",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "paubrasilia_echinata_heartwood_alum_potassium_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:paubrasilia_echinata",
+     "partCode": "heartwood"
+    },
+    "fibreClass": "protein",
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "червено до пурпурночервено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "алкалност може да измести към пурпурно; желязото към тъмно пурпурно/сиво",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "kirby-brazilwood-2025",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "carthamus_tinctorius_flower_none_immersion",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:carthamus_tinctorius",
+     "partCode": "flower"
+    },
+    "fibreClass": "cellulose",
+    "fibreCode": null,
+    "mordantCode": "none",
+    "mordantBand": null,
+    "processCode": "immersion",
+    "blanket": null,
+    "medium": "acid"
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко розово до червено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "червеното се извлича алкално, после банята се подкиселява до около pH 6; без мордант",
+     "en": ""
+    },
+    "printQuality": null,
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "jenny-dean-wild-colour",
+   "notes": {
+    "bg": "",
+    "en": ""
+   }
+  },
+  {
+   "code": "anthemis_tinctoria_flower_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:anthemis_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко до слънчево жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Кръгли ярки петна от кошничките; нарязаните листа оставят ефирен силует.",
+    "en": ""
+   }
+  },
+  {
+   "code": "anthemis_tinctoria_flower_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:anthemis_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслиненозелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Кръгли ярки петна от кошничките; нарязаните листа оставят ефирен силует.",
+    "en": ""
+   }
+  },
+  {
+   "code": "betula_pendula_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:betula_pendula",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко жълто-зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Фини линии на жилките. Тънките листа искат силно притискане в рулото.",
+    "en": ""
+   }
+  },
+  {
+   "code": "betula_pendula_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:betula_pendula",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ръждиво-кафяво или сиво-синкаво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Фини линии на жилките. Тънките листа искат силно притискане в рулото.",
+    "en": ""
+   }
+  },
+  {
+   "code": "achillea_millefolium_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:achillea_millefolium",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "светложълто до тревистозелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Перестите листа дават дантелен силует, наподобяващ папрат.",
+    "en": ""
+   }
+  },
+  {
+   "code": "achillea_millefolium_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:achillea_millefolium",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмно маслинено или сиво-зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Перестите листа дават дантелен силует, наподобяващ папрат.",
+    "en": ""
+   }
+  },
+  {
+   "code": "tanacetum_vulgare_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tanacetum_vulgare",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "наситено златисто жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Нарязаните листа дават графичен назъбен отпечатък; цветните бутони правят кръгове.",
+    "en": ""
+   }
+  },
+  {
+   "code": "tanacetum_vulgare_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tanacetum_vulgare",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "дълбоко тъмнозелено до кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Нарязаните листа дават графичен назъбен отпечатък; цветните бутони правят кръгове.",
+    "en": ""
+   }
+  },
+  {
+   "code": "crataegus_monogyna_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:crataegus_monogyna",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко бежово, охра, жълтеникаво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Малките нарязани листа дават отчетливи контури.",
+    "en": ""
+   }
+  },
+  {
+   "code": "crataegus_monogyna_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:crataegus_monogyna",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмносиво до черно по жилките",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Малките нарязани листа дават отчетливи контури.",
+    "en": ""
+   }
+  },
+  {
+   "code": "salvia_officinalis_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:salvia_officinalis",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко жълто-сиво или зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Релефните пухкави листа дават ясна мрежа от жилки.",
+    "en": ""
+   }
+  },
+  {
+   "code": "salvia_officinalis_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:salvia_officinalis",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "драматично тъмносиво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Релефните пухкави листа дават ясна мрежа от жилки.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cornus_mas_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cornus_mas",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "светлозелено или жълтеникаво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Дъговидните жилки се изписват перфектно.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cornus_mas_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cornus_mas",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмно кафяво-сиво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Дъговидните жилки се изписват перфектно.",
+    "en": ""
+   }
+  },
+  {
+   "code": "eucalyptus_spp_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:eucalyptus_spp",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "наситено червено, оранжево, ръждиво и шоколадово кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Едно от най-мощните растения за еко принт. И двете страни печатат силно, поради обилните етерични масла.",
+    "en": ""
+   }
+  },
+  {
+   "code": "hypericum_perforatum_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:hypericum_perforatum",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "червеникаво, бордо или маслинено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Малки листа с фини полупрозрачни жлези; цветчетата оставят нежни петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "hypericum_perforatum_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:hypericum_perforatum",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмнозелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Малки листа с фини полупрозрачни жлези; цветчетата оставят нежни петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "geranium_macrorrhizum_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:geranium_macrorrhizum",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "нежно зелено до кафяво-зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Широките длановидни листа правят големи силуети; жилките излизат при стегнато руло.",
+    "en": ""
+   }
+  },
+  {
+   "code": "geranium_macrorrhizum_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:geranium_macrorrhizum",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "сиво-черно, графитно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Широките длановидни листа правят големи силуети; жилките излизат при стегнато руло.",
+    "en": ""
+   }
+  },
+  {
+   "code": "castanea_sativa_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:castanea_sativa",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "златисто-кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Големите назъбени листа дават скелетен отпечатък на зъбците и централната жилка.",
+    "en": ""
+   }
+  },
+  {
+   "code": "castanea_sativa_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:castanea_sativa",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "дълбоко мастилено черно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Големите назъбени листа дават скелетен отпечатък на зъбците и централната жилка.",
+    "en": ""
+   }
+  },
+  {
+   "code": "urtica_dioica_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:urtica_dioica",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "бутилково или маслинено зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Подробна назъбена текстура. Парещите власинки омекват под парата.",
+    "en": ""
+   }
+  },
+  {
+   "code": "urtica_dioica_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:urtica_dioica",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмно мастилено зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Подробна назъбена текстура. Парещите власинки омекват под парата.",
+    "en": ""
+   }
+  },
+  {
+   "code": "coreopsis_tinctoria_flower_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:coreopsis_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "огнено оранжево, теракота, наситено жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "diffuse",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Цветовете се разстилат под натиска и оставят експлозивни ярки петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "coreopsis_tinctoria_flower_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:coreopsis_tinctoria",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмно кафяво-оранжево",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "diffuse",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Цветовете се разстилат под натиска и оставят експлозивни ярки петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cosmos_sulphureus_flower_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cosmos_sulphureus",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "ярко мандаринено оранжево",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Цели притиснати цветове дават звездовидни петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cosmos_sulphureus_flower_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cosmos_sulphureus",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинено-кафяви земни тонове",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Цели притиснати цветове дават звездовидни петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "corylus_avellana_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:corylus_avellana",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко бежово и кремаво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Широките мъхести листа имат подчертан релеф и дават чист отпечатък.",
+    "en": ""
+   }
+  },
+  {
+   "code": "corylus_avellana_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:corylus_avellana",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "сиво-кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Широките мъхести листа имат подчертан релеф и дават чист отпечатък.",
+    "en": ""
+   }
+  },
+  {
+   "code": "tilia_cordata_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tilia_cordata",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "светло деликатно жълто до кремаво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Сърцевидните листа дават фини, нежни отпечатъци.",
+    "en": ""
+   }
+  },
+  {
+   "code": "tilia_cordata_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tilia_cordata",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко сиво по жилките",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Сърцевидните листа дават фини, нежни отпечатъци.",
+    "en": ""
+   }
+  },
+  {
+   "code": "calendula_officinalis_flower_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:calendula_officinalis",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко жълто до нежно оранжево",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Разпръснати слънчеви петна или ясен кръгъл отпечатък от цвета.",
+    "en": ""
+   }
+  },
+  {
+   "code": "calendula_officinalis_flower_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:calendula_officinalis",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "маслинен нюанс",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Разпръснати слънчеви петна или ясен кръгъл отпечатък от цвета.",
+    "en": ""
+   }
+  },
+  {
+   "code": "juglans_regia_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:juglans_regia",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмнокафяво и шоколадово",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Дебелите жилки правят перфектни линии. Зелената черупка на плода също печата силно.",
+    "en": ""
+   }
+  },
+  {
+   "code": "juglans_regia_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:juglans_regia",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "почти гарваново черно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Дебелите жилки правят перфектни линии. Зелената черупка на плода също печата силно.",
+    "en": ""
+   }
+  },
+  {
+   "code": "rosa_spp_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rosa_spp",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "кафяво-зелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Сложните листа с назъбен край правят изящни отпечатъци. Цветовете от тъмни рози могат да оставят лилави или синкави петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "rosa_spp_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rosa_spp",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "силно тъмнозелено до черно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Сложните листа с назъбен край правят изящни отпечатъци. Цветовете от тъмни рози могат да оставят лилави или синкави петна.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cotinus_coggygria_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cotinus_coggygria",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "златисто жълто до оранжево",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cotinus_coggygria_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cotinus_coggygria",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмносиво, лилаво-черно или графитно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
+    "en": ""
+   }
+  },
+  {
+   "code": "rhus_coriaria_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rhus_coriaria",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "светлокафяво до сиво-жълто",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Сложните перести листа дават графичен ред от малки листенца.",
+    "en": ""
+   }
+  },
+  {
+   "code": "rhus_coriaria_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:rhus_coriaria",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "дълбоко сиво-черно",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Сложните перести листа дават графичен ред от малки листенца.",
+    "en": ""
+   }
+  },
+  {
+   "code": "tagetes_erecta_flower_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tagetes_erecta",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "интензивно ярко жълто и оранжево",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Цветовете правят плътни жълти петна; листата дават ясни тънки контури.",
+    "en": ""
+   }
+  },
+  {
+   "code": "tagetes_erecta_flower_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:tagetes_erecta",
+     "partCode": "flower"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "дълбоко маслинено или тъмнозелено",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Цветовете правят плътни жълти петна; листата дават ясни тънки контури.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cornus_sanguinea_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cornus_sanguinea",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "розово-кафяво или червеникаво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Красиви дъговидни жилки. Летораслите и есенните листа съдържат антоцианини.",
+    "en": ""
+   }
+  },
+  {
+   "code": "cornus_sanguinea_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:cornus_sanguinea",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "тъмно кафяво-сиво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "sharp",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Красиви дъговидни жилки. Летораслите и есенните листа съдържат антоцианини.",
+    "en": ""
+   }
+  },
+  {
+   "code": "malus_domestica_leaf_alum_potassium_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:malus_domestica",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "alum_potassium",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "меко жълто до охра",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
+    "en": ""
+   }
+  },
+  {
+   "code": "malus_domestica_leaf_iron_ecoprint",
+   "key": {
+    "dyeSource": {
+     "plantId": "seed:malus_domestica",
+     "partCode": "leaf"
+    },
+    "fibreClass": null,
+    "fibreCode": null,
+    "mordantCode": "iron",
+    "mordantBand": null,
+    "processCode": "ecoprint",
+    "blanket": null,
+    "medium": null
+   },
+   "expected": {
+    "colourText": {
+     "bg": "земно кафяво",
+     "en": ""
+    },
+    "swatchHex": "",
+    "variation": {
+     "bg": "",
+     "en": ""
+    },
+    "printQuality": "soft",
+    "lightfastness": "",
+    "washfastness": ""
+   },
+   "influences": [],
+   "confidence": "literature",
+   "learnedFrom": "crafty-place-ecoprint",
+   "notes": {
+    "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
     "en": ""
    }
   }

@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": 4,
+ "packVersion": 6,
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -276,6 +276,215 @@
    "note": {
     "bg": "Измерена устойчивост за нар върху коноп, 2020.",
     "en": "Measured fastness for pomegranate on hemp, 2020."
+   }
+  },
+  {
+   "code": "eser-salvia-2017",
+   "kind": "reference",
+   "name": "Dyeing of wool with Salvia officinalis and metal mordants",
+   "author": "Eser et al., Journal of Natural Fibers",
+   "url": "https://doi.org/10.1080/15440478.2016.1240637",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "eucalyptus-cotton-jti",
+   "kind": "reference",
+   "name": "Eucalyptus leaf extract on cotton",
+   "author": "Journal of the Textile Institute",
+   "url": "https://doi.org/10.1080/00405000.2023.2291849",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "cosmos-sulphureus-textiles",
+   "kind": "reference",
+   "name": "Natural Dyes for Textiles — Cosmos sulphureus",
+   "author": "—",
+   "url": "https://www.sciencedirect.com/book/9780081012741/natural-dyes-for-textiles",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "openlearn-natural-dyes",
+   "kind": "course",
+   "name": "Experiments with Natural Dyes",
+   "author": "OpenLearn",
+   "url": "https://www.open.edu/openlearn/science-maths-technology/science/chemistry/diy-experiments-natural-dyes",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "bhuiyan-henna-2017",
+   "kind": "reference",
+   "name": "Henna on protein fibres",
+   "author": "Bhuiyan et al., Journal of Cleaner Production",
+   "url": "https://doi.org/10.1016/j.jclepro.2017.08.142",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "safapour-melissa-2024",
+   "kind": "reference",
+   "name": "Dyeing of wool yarn with Melissa officinalis",
+   "author": "Safapour & Rather, Journal of the Textile Institute",
+   "url": "https://doi.org/10.1080/00405000.2022.2157941",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "molecules-peel-cotton-2022",
+   "kind": "reference",
+   "name": "Onion and pomegranate peel extracts on cotton",
+   "author": "Molecules",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9320219/",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "jenny-dean-rhubarb",
+   "kind": "site",
+   "name": "Rhubarb Root — More Dye Extracts",
+   "author": "Jenny Dean",
+   "url": "https://www.jennydean.co.uk/page/25/",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "rubia-wool-2022",
+   "kind": "reference",
+   "name": "Rubia tinctorum on wool with alum",
+   "author": "—",
+   "url": "https://doi.org/10.1080/15440478.2022.2157923",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "lohar-tagetes-2019",
+   "kind": "reference",
+   "name": "Tagetes erecta on cotton",
+   "author": "Lohar & Majumder",
+   "url": "https://www.chemijournal.com/archives/?ArticleId=6372&issue=4&si=false&vol=7&year=2019",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "ultrasound-marigold",
+   "kind": "reference",
+   "name": "Ultrasound-assisted dyeing of cotton with marigold",
+   "author": "—",
+   "url": "https://doi.org/10.1080/00405000.2020.1779907",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "farooq-tagetes-2013",
+   "kind": "reference",
+   "name": "Tagetes erecta on cotton",
+   "author": "Farooq et al.",
+   "url": "https://asianpubs.org/index.php/ajchem/article/view/25_12_16",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "colorants-persicaria-2025",
+   "kind": "reference",
+   "name": "Persicaria tinctoria indigo on multifibre textiles",
+   "author": "Colorants",
+   "url": "https://doi.org/10.3390/colorants4010002",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 2. Цитиран за конкретна двойка влакно и мордант, не за цвят.",
+    "en": "Registered when phase 2 was merged. Cited for one fibre-and-mordant pairing, never for colour."
+   }
+  },
+  {
+   "code": "ellis-natural-dye",
+   "kind": "book",
+   "name": "Natural Dye: Experiments and Results",
+   "author": "Catharine Ellis",
+   "url": "https://blog.ellistextiles.com/category/dyes-specific/eucalyptus/",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
+    "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
+   }
+  },
+  {
+   "code": "luhamaa-frangula-2025",
+   "kind": "reference",
+   "name": "Alder buckthorn bark on wool",
+   "author": "Luhamaa et al., Heritage",
+   "url": "https://doi.org/10.3390/heritage8060220",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
+    "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
+   }
+  },
+  {
+   "code": "cuce-rosa-canina",
+   "kind": "reference",
+   "name": "Rosa canina leaf extract on wool",
+   "author": "Cuce, Journal of Natural Fibers",
+   "url": "https://doi.org/10.1080/15440478.2021.1990179",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
+    "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
+   }
+  },
+  {
+   "code": "denver-dye-garden",
+   "kind": "site",
+   "name": "Dye Garden",
+   "author": "Denver Botanic Gardens",
+   "url": "https://navigate.botanicgardens.org/weboi/oecgi2.exe/INET_ECM_DispTour?TOURCODE=DYE_GARDEN",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
+    "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
+   }
+  },
+  {
+   "code": "kirby-brazilwood-2025",
+   "kind": "reference",
+   "name": "Brazilwood on alum-mordanted wool",
+   "author": "Kirby & Saunders, Heritage",
+   "url": "https://doi.org/10.3390/heritage8070260",
+   "note": {
+    "bg": "Регистриран при сливането на фаза 3. Цитиран за конкретна двойка влакно и мордант.",
+    "en": "Registered when phase 3 was merged. Cited for one fibre-and-mordant pairing."
+   }
+  },
+  {
+   "code": "crafty-place-ecoprint",
+   "kind": "reference",
+   "name": "Еко принт библиотека — преглед на 25 растения",
+   "author": "Crafty Place",
+   "url": "",
+   "note": {
+    "bg": "Собствен преглед на еко принт поведението на двайсет и пет растения, съставен от практика и от публикувани отпечатъци. Описва отпечатък и цвят; не назовава влакно, затова записите оттук мълчат по този въпрос.",
+    "en": "An in-house review of how twenty-five plants behave in eco print, assembled from practice and from published prints. It describes the print and the colour; it does not name a fibre, so records from it stay silent on that."
    }
   }
  ]
