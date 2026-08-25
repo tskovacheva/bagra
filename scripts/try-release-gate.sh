@@ -59,5 +59,33 @@ else
   fail=1
 fi
 
+
+# The CI workflow is only useful if it runs the same command this file guards,
+# with a browser it has actually found. Two things worth a static check, and no
+# more: a workflow asserting its own YAML indentation would be a test written to
+# raise a number.
+WF=.github/workflows/release-check.yml
+if [ -f "$WF" ]; then
+  grep -q "check.sh --release" "$WF" \
+    && echo "  ok   CI runs the release command, not the development one" \
+    || { echo "  FAIL CI does not run check.sh --release"; fail=1; }
+  grep -q "BAGRA_CHROME" "$WF" \
+    && echo "  ok   CI names the browser it drives" \
+    || { echo "  FAIL CI leaves the browser to chance"; fail=1; }
+  grep -q "npm ci" "$WF" \
+    && echo "  ok   CI installs from the lockfile" \
+    || { echo "  FAIL CI does not install from the lockfile"; fail=1; }
+  # A permanent allow-failure would turn the gate into decoration. Matched on
+  # `continue-on-error` alone: `|| true` appears legitimately on a line that
+  # prints a browser version and means nothing about whether the job may fail.
+  if grep -q "continue-on-error" "$WF"; then
+    echo "  FAIL CI is allowed to fail — the gate would be decoration"; fail=1
+  else
+    echo "  ok   CI is not allowed to pass a failing run"
+  fi
+else
+  echo "  FAIL no CI workflow"; fail=1
+fi
+
 [ $fail = 0 ] && echo "release gate holds" || echo "RELEASE GATE FAILED"
 exit $fail

@@ -8,15 +8,14 @@
 // `put` is deliberately absent: nothing app.js does at boot is the user's own
 // edit. Everything here seeds, migrates or repairs, and all of it goes through
 // `putSystem` so it stays out of the backup counter.
-import { open, all, putSystem, get, count, getSetting, setSetting } from './db.js';
+import { open, all, putSystem, putMigration, get, count, getSetting, setSetting } from './db.js';
 import { icon, labelCells, navigate } from './ui.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { VOCABULARY, BANDS } from './vocab.js';
 import { ensurePacks, PACKS } from './seed.js';
-import { migratePlantPhotos } from './migrate-photos.js';
+import { runMigrations } from './migrations.js';
 import { VERSION } from './version.js';
 import * as dirty from './dirty.js';
-import { migrateAll } from './migrate-actions.js';
 
 import dashboard  from './modules/dashboard.js';
 import reference  from './modules/reference.js';
@@ -342,102 +341,6 @@ export async function seedIfEmpty() {
   }
 }
 
-// One work, one mark on a piece — repairing what the fault already wrote.
-//
-// Finishing pushed a state event every time screen 4 was saved, and the date
-// opened at today, so editing the result of an old piece of work stamped the
-// piece a second time with today's date (§13au). Three pieces in the owner's
-// own diary claim to have been finished twice.
-//
-// The earliest of the duplicates is kept, because the later one is always the
-// re-visit: the original carries the day she chose, the duplicate carries the
-// day she happened to open the record. That date is also the honest answer to
-// "when did this work finish", so it fills `finishedOn` where the work has
-// none — which recovers dates that were otherwise lost.
-//
-// Idempotent: with no duplicates left it changes nothing and says nothing.
-export async function healDoubleStateEvents() {
-  const trials = await all('trials');
-  const byId = new Map(trials.map(tr => [tr.id, tr]));
-  let pieces = 0;
-
-  for (const f of await all('fabrics')) {
-    const events = f.stateEvents || [];
-    const seen = new Map();
-    const keep = [];
-    let dropped = 0;
-
-    for (const e of events) {
-      if (!e.trialId) { keep.push(e); continue; }
-      const prev = seen.get(e.trialId);
-      if (!prev) { seen.set(e.trialId, e); keep.push(e); continue; }
-      // Whichever is earlier is the one that was meant.
-      if ((e.date || '') < (prev.date || '')) {
-        prev.date = e.date;
-        prev.stateCode = e.stateCode || prev.stateCode;
-      }
-      dropped++;
-    }
-
-    if (!dropped) continue;
-    f.stateEvents = keep;   // legacy: repairs records written before §13bd
-    await putSystem('fabrics', f);
-    pieces++;
-  }
-
-  // The recovered dates, applied only where the work has none of its own.
-  for (const f of await all('fabrics')) {
-    for (const e of f.stateEvents || []) {
-      const tr = e.trialId && byId.get(e.trialId);
-      if (tr && !tr.finishedOn && e.date) {
-        tr.finishedOn = e.date;
-        await putSystem('trials', tr);
-      }
-    }
-  }
-
-  if (pieces) console.info(`healed doubled state events on ${pieces} piece(s)`);
-}
-
-
-// `stateEvents` become `actions`, and each batch becomes a record of its own
-// (§13bd). Runs at every boot and is a no-op once done.
-//
-// The old list is NOT removed. Migrations only add, and for a fortnight the two
-// lists coexist deliberately: `actions` is the only one the application reads
-// or writes, and `stateEvents` stays as a way back if the mapping turns out to
-// be wrong. It comes out in a later version, on purpose, not by drift.
-//
-// Ordered after `healDoubleStateEvents` and not before it: migrating first
-// would copy the duplicates into the new list and the repair would then only
-// fix the old one, leaving the two disagreeing about how many times a piece
-// was finished.
-export async function migrateFabricActions() {
-  const fabrics = await all('fabrics');
-  const { fabrics: migrated, batches, report } = migrateAll(fabrics);
-  if (!report.actions && !fabrics.some(f => !Array.isArray(f.actions))) return;
-
-  let touched = 0;
-  for (let i = 0; i < fabrics.length; i++) {
-    if (Array.isArray(fabrics[i].actions)) continue;
-    await putSystem('fabrics', migrated[i]);
-    touched++;
-  }
-  for (const b of batches) {
-    // `add` semantics by hand: a batch whose id already exists was written by
-    // an earlier run, and overwriting it would discard a weight or a deviation
-    // she has since filled in by hand.
-    if (await get('batchActions', b.id)) continue;
-    await putSystem('batchActions', b);
-  }
-
-  if (touched) {
-    console.info(`migrated ${report.actions} action(s) on ${touched} piece(s), ` +
-                 `${batches.length} batch(es)`);
-  }
-}
-
-
 
 
 document.addEventListener('click', async (e) => {
@@ -597,9 +500,9 @@ function watchLists() {
   // start no longer fetches and parses the plant pack to discover that all 57
   // records are already there.
   await ensurePacks();
-  await migratePlantPhotos();
-  await healDoubleStateEvents();
-  await migrateFabricActions();
+  // Each historical repair runs once for this database, and the marker travels
+  // in the backup with the data it describes (§13cw).
+  await runMigrations();
   dirty.install(() => confirm(t('common.discardUnsaved')));
   watchLists();
   await route();

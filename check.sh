@@ -254,6 +254,12 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     a source credited by a glossary term, a recipe or a colour swatch is
   #     matched on its CODE, not its id.
   node scripts/try-pack-lifecycle.mjs || exit 1
+  # 5g. Production hardening (§13cv–§13cx): a historical repair runs once for a
+  #     database rather than at every start, a structural migration does not
+  #     restamp records the owner has not touched, and the backup warning counts
+  #     the photographs that exist nowhere else — it read a store nothing has
+  #     ever written to, so it told everybody they had none to lose.
+  node scripts/try-hardening.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by

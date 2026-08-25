@@ -4,7 +4,7 @@
 // gives: nothing here touches the DOM, so it can be run and tested on its own
 // instead of only as a side effect of booting the whole application.
 
-import { all, putSystem, getSetting, setSetting } from './db.js';
+import { all, putMigration, getSetting, setSetting } from './db.js';
 
 // The shipped plant photographs leave the record (§13cr).
 //
@@ -58,7 +58,10 @@ export async function migratePlantPhotos() {
     delete plant.photoData;
     plant.photoSrc = shipped.src;
     plant.photoHash = shipped.hash;
-    await putSystem('plants', plant);
+    // Structural (§13cv). Moving a photograph out of the record and into a
+    // file changes nothing she would recognise as content, so the plant
+    // does not become a plant edited today.
+    await putMigration('plants', plant);
     moved++;
   }
 

@@ -1016,11 +1016,30 @@ label.btn{cursor:pointer}
   border-bottom:1px solid var(--line);color:var(--muted);line-height:1.55;
 }
 .plantintro p{margin:0}
-.seasonhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+/* „Виж всички →" sits to the right of the heading, and that is where it
+   belongs: it is a way out of this block, not an action of its own, and turning
+   it into a button would give it the weight of one.
+
+   It failed the finger target at 23px (§13ac). The rule is about the area a
+   thumb has to hit, not about how loud the thing looks — so the LINK stays 13px
+   and light and the BOX around it becomes 44px. The negative block margin gives
+   that height back to the layout: the extra is padding for a finger, not space
+   in the design, and without it the heading row would grow by twenty pixels on
+   every screen that carries one. */
+.seasonhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 .seasonhead h2{margin:0}
 .seasonhead .hint{margin:3px 0 0}
-.seasonall{font-size:13px;color:var(--indigo);text-decoration:none;white-space:nowrap;padding-top:3px}
+.seasonall{
+  font-size:13px;color:var(--indigo);text-decoration:none;white-space:nowrap;
+  display:inline-flex;align-items:center;min-height:44px;margin-block:-10px;
+}
 .seasonall:hover{text-decoration:underline}
+/* `flex-wrap` is the fallback, and only that. Where the heading and the link
+   cannot share a line honestly the link drops to its own — which is better than
+   either of them being squeezed. Driven by whether they fit rather than by a
+   breakpoint: a number would be wrong for one heading or another, and there is
+   no reason to have two mechanisms deciding the same thing. Side by side stays
+   the layout everywhere there is room for it. */
 .seasoncards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .seasoncard{
   display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
@@ -1328,11 +1347,38 @@ td.swatchcell,th.swatchcell{white-space:nowrap;width:1%}
   gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;
   overflow:hidden;margin-bottom:14px;
 }
-.usetile{display:flex;flex-direction:column;gap:3px;padding:11px 13px;background:var(--surface)}
-.usehead{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);
-  letter-spacing:.04em;text-transform:uppercase}
-.usehead svg{width:14px;height:14px;flex:none}
-.useval{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+/* `min-width:0` is the whole of the overflow fix. A grid item's minimum width
+   is `auto`, which means its own content — so a tile whose value was wider than
+   the track pushed the track out with it, the row grew past the viewport, and
+   the strip was clipped rather than scrollable (337px of content in 322px). The
+   track was never the problem: 108px is legible and stays.
+
+   A long value now takes a second line instead of a wider tile. What it must
+   not do is take a smaller typeface or a horizontal scroll: these are the
+   figures somebody reads at a glance standing over a pot (§13bs). */
+.usetile{display:flex;flex-direction:column;gap:3px;padding:11px 13px;background:var(--surface);min-width:0}
+/* The label was a bare text node in a flex row, which makes it an ANONYMOUS
+   flex item — and an anonymous item's `min-width:auto` cannot be reached by any
+   selector. So it could not shrink below its longest word, and one Bulgarian
+   compound („Светлоустойчивост", 163px in a 121px tile) pushed the whole strip
+   past the viewport. That is why `min-width:0` on the tile changed nothing: the
+   tile was never the item that refused to shrink.
+
+   Wrapped in a span it is a real item, and can be told to wrap. `hyphens:auto`
+   first so a break lands where the language allows one; `break-word` is the
+   last resort for a word with nowhere good to break. The mark still accompanies
+   the label and does not replace it (§13ac). */
+.usehead{display:flex;align-items:flex-start;gap:5px;font-size:11.5px;color:var(--muted);
+  letter-spacing:.04em;text-transform:uppercase;min-width:0}
+.usehead svg{width:14px;height:14px;flex:none;margin-top:1px}
+.uselabel{min-width:0;overflow-wrap:break-word;hyphens:auto}
+/* Strong and scannable, and allowed to wrap. `overflow-wrap:break-word` is the
+   last resort for a single word longer than the tile — a wrapped word is worse
+   than a short line and better than a clipped one. Figures never reach it: they
+   are joined with non-breaking spaces at the point they are built, so `80–90 °C`
+   and `1 : 20` stay whole and wrap around themselves, not through themselves. */
+.useval{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;
+  overflow-wrap:break-word;min-width:0}
 .usetile .hint{font-size:11.5px}
 @media (max-width:640px){
   .usenow{grid-template-columns:repeat(auto-fit,minmax(108px,1fr))}

@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc29 · 117 sections
+**Status:** 1.0.0-rc31 · 122 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -8042,12 +8042,15 @@ what this release is about.
 Neither is mechanical. Growing the link to 44px moves the heading row it sits
 in; letting a tile shrink means letting a figure wrap, and these are the figures
 meant to be read at a glance over a pot (§13bs). Both are layout decisions and
-both want the owner's eye, so they are the first work of 1.0.0-rc30.
+both wanted the owner's eye. Corrected in 1.0.0-rc31 (§13cz).
 
-Until they are done `sh check.sh --release` refuses the candidate. That is the
-gate doing exactly what it was built to do, and 1.0.0-rc29 is therefore a
-candidate that passes five of its six layers and says so, rather than one that
-passes six by not running one.
+Both were corrected in 1.0.0-rc31 and nothing else was in that release (§13cz).
+`sh check.sh --release` passes all six layers.
+
+For the six releases in between, the gate refused the candidate — which is the
+gate doing exactly what it was built to do. Each of those was a candidate that
+passed five of its six layers and said so, rather than one that passed six by
+not running one.
 
 ## 13cq. The history cannot be orphaned by a delete (1.0.0-rc28)
 
@@ -8369,6 +8372,239 @@ A pack whose CONTENT changes while its VERSION stays the same. That is a
 packaging error rather than a case to guess at, and guessing would mean fetching
 every pack on every start, which is the thing §13cs removed. Noted because a
 regression test found it while being written, not while failing.
+
+## 13cv. A write says what kind of write it is (1.0.0-rc30)
+
+Three write paths became four. `putSystem` was doing two jobs that look alike
+and are not: revising the CONTENT of a record, and reshaping its STRUCTURE.
+
+| | stamps `updatedAt` | counts as her work | for |
+|---|---|---|---|
+| `put` | yes | yes | she edited it |
+| `putSystem` | yes | no | a pack revised the content; a library correction |
+| `putMigration` | **no** | no | a structural conversion or repair |
+| `putRaw` | no | no | restored verbatim from a file |
+
+**Why a structural write must not stamp.** Converting a piece of cloth's old
+state list into actions (§13bd), or moving a photograph out of a record and into
+a file (§13cr), is the application tidying up after itself. It is not something
+that happened to the cloth. Stamping it moves a piece last touched two summers
+ago to the top of every list ordered by recency — and it does it to whichever
+records happened to need converting, so the order of her work is rearranged by
+the shape of a migration.
+
+The call sites, and why each is where it is:
+
+- **`seedPack`, `applyDiff`, vocabulary and bands** — `putSystem`. A shipped
+  revision genuinely changes what the record says; that the change came from a
+  pack rather than from her hand does not make it not a change.
+- **`healDoubleStateEvents`** — `putMigration`. Removing a duplicate event and
+  recovering a date the record had lost are repairs of a fault, not edits.
+- **`migrateFabricActions`** — `putMigration`. A batch reconstructed from an
+  event dated two summers ago takes the time of what it was built from; where
+  the source carried no date there is nothing to inherit and the conversion is
+  the only time it can honestly claim.
+- **`migratePlantPhotos`** — `putMigration`. Nothing she would recognise as
+  content changes, so the plant does not become a plant edited today.
+
+`putMigration` and `putRaw` carry the same flags today and are separate names on
+purpose. A call site should say what it is doing; a restore and a migration are
+not the same act, and code in which they are indistinguishable is code in which
+the next change to one silently changes the other.
+
+---
+
+## 13cw. A repair runs once for a database (1.0.0-rc30)
+
+`healDoubleStateEvents` and `migrateFabricActions` walked every piece of cloth on
+every single opening of the application, for ever, to establish that there was
+nothing left to do. Both were written to be safe to re-run and both were — but
+safe is not free, and a pass that can only ever do nothing is a pass that should
+not be made.
+
+```js
+settings.migrations = { doubleStateEvents: 1, fabricActions: 1, plantPhotos: 1 }
+```
+
+Order still matters and is why these are not three independent passes run in any
+order: migrating first would copy the duplicates into the new list.
+
+**The marker is a control, not a crutch.** Every pass remains safe to run twice
+by hand, and the guard checks that it is, because a marker that has become
+load-bearing is a marker one bad restore away from corrupting a database.
+
+**Written only after the pass returns.** A pass that throws leaves no marker and
+will be tried again. That is the whole reason it is written at the end.
+
+### Why `if (marker) return` is enough here
+
+A snapshot restore brings back a whole database as it was (§11.4), and that
+includes `settings`. So restoring a backup taken before a migration restores the
+state before it AND the absence of its marker, together. The marker is data and
+it travels with the data it describes.
+
+Nothing was built for this — it falls out of a snapshot being a snapshot, which
+is exactly why the guard asserts it instead of assuming it. Restore a modern
+backup and no redundant pass runs; restore an old one and the migration becomes
+eligible again and runs.
+
+The passes moved to `migrations.js`, for the reason `migrate-actions` and
+`migrate-photos` already give: a migration that can only be exercised by
+starting the whole program is a migration nobody exercises.
+
+---
+
+## 13cx. The backup warning counts the photographs that exist (1.0.0-rc30)
+
+The warning read `count('photos')`.
+
+**Nothing has ever written to the `photos` store.** Not once, by anything. So
+the sentence that tells a person what she stands to lose said „0 photographs" to
+somebody with two hundred of them — and said it in the one place designed to
+make her take a backup seriously.
+
+`countUserPhotos()` counts every image that exists nowhere else:
+
+| Where | Counted |
+|---|---|
+| `fabric.photoData` | one per piece |
+| `trial.resultPhotos[]` | each |
+| `trial.steps[].photos[]` | each |
+| `pigmentBatch.photos[]` and `stages[].photos[]` | each |
+| a plant's personal `photoData` override | one per plant |
+| the `photos` store | each, and it is empty |
+
+**Images, not records.** A trial with five result photographs is five.
+
+**A shipped plant photograph is not counted.** `photoSrc` names a file the
+application carries and can lay down again from the pack (§13cr). It is not at
+risk, and counting it would inflate the warning — which is its own kind of lie.
+A warning that overstates gets ignored at exactly the speed it deserves.
+
+One helper, used by both screens that warn, because the reason this drifted is
+that each of them counted for itself. The `photos` store is still added in, last
+and deliberately: if photographs are ever moved into it, the warning follows them
+instead of quietly going back to zero.
+
+---
+
+## 13cy. The release gate runs where it can be run (1.0.0-rc30)
+
+`check.sh --release` refuses to pass when a mandatory layer cannot start
+(§13cp), and three of the six layers need Node packages and a browser. The owner
+works through the GitHub web interface and has no terminal — so in practice the
+release run could only happen inside a development session, which meant the one
+check deciding whether a candidate may ship depended on somebody remembering to
+ask for it.
+
+`.github/workflows/release-check.yml` runs it on push to main, on every pull
+request, and on demand.
+
+**It does not deploy.** A gate and a deployment are separate decisions, and
+joining them would mean a green check pushing code to the owner's phone without
+her asking.
+
+**Pinned, in `test/`.** Багра ships as vanilla ES modules with no build step and
+no runtime packages, and that is fixed. The test dependencies live in `test/`
+so the root of the repository stays free of a manifest that would suggest
+otherwise, and CI copies them up only because Node resolves `node_modules` by
+walking upwards. `npm ci`, not `npm install`: it installs the lockfile exactly
+and fails if the two disagree. The point of pinning is that this environment in
+six months is this environment today.
+
+**The browser is named, not hoped for.** The workflow searches known paths and
+sets `BAGRA_CHROME` — the same variable `check-deps.mjs` reads, so the gate and
+the layer it gates cannot disagree about which browser they mean. `screen-check`
+reads it too now. A runner with no browser stops the job at that step rather
+than three layers later.
+
+**The workflow is checked, lightly.** `try-release-gate.sh` asserts four things
+about it: that it runs the release command and not the development one, that it
+names its browser, that it installs from the lockfile, and that it carries no
+`continue-on-error`. A permanent allow-failure would turn the gate into
+decoration. Nothing else is checked — a test asserting YAML indentation would be
+a test written to raise a number.
+
+**It will be red at first**, on the two known screen defects, and that is
+honest. They are the next piece of work and the gate turns green when they are
+fixed, which is the correct order: the gate reports the state of the code rather
+than being shaped to fit it.
+
+## 13cz. The two screen defects (1.0.0-rc31)
+
+The two faults the release gate found on its first run (§13cp), corrected on
+their own and with nothing else in the release. Both are layout, both wanted the
+owner's eye, and both are now green — `check.sh --release` passes all six layers
+for the first time.
+
+### „Виж всички →" — a finger target, not a bigger button
+
+23px tall, against the 44px rule (§13ac).
+
+The place is right and stays: to the right of the heading, on the same line. It
+is a way out of the block, not an action of its own, and turning it into a
+button would give it the weight of one.
+
+So the LINK stays 13px and light, and the BOX around it becomes 44px. The rule
+is about the area a thumb has to hit, not about how loud the thing looks.
+
+```css
+.seasonall{ display:inline-flex; align-items:center;
+            min-height:44px; margin-block:-10px; }
+```
+
+The negative block margin gives the height back to the layout: the extra is
+padding for a finger, not space in the design. Without it every heading row
+carrying one of these would grow by twenty pixels. Measured at four widths — the
+box is 44px everywhere and the heading row is unchanged at 41px on the desk.
+
+**Wrapping is the fallback and only that.** `flex-wrap` on `.seasonhead` lets
+the link drop to its own line where the two cannot share one honestly. Driven by
+whether they fit and not by a breakpoint: a number would be wrong for one
+heading or another, and there is no reason to have two mechanisms deciding the
+same thing. Side by side stays the layout everywhere there is room.
+
+### The *use now* tiles — and why the obvious fix did nothing
+
+337px of content in 322px, clipped rather than scrollable.
+
+The obvious reading is that a grid item would not shrink, so `min-width:0` on
+`.usetile` should fix it. **It changed nothing**, and the measurement is why the
+guess was not trusted: the tracks were already fine at 146.5px each, and the
+overflow was inside the tile.
+
+The label was a bare text node in a flex row — which makes it an **anonymous
+flex item**, and an anonymous item's `min-width:auto` cannot be reached by any
+selector. It could not shrink below its longest word, and one Bulgarian compound
+(„Светлоустойчивост", 163px in a 121px tile) pushed the whole strip past the
+viewport.
+
+Wrapped in a span it is a real item and can be told to wrap:
+
+```css
+.uselabel{ min-width:0; overflow-wrap:break-word; hyphens:auto; }
+```
+
+`hyphens:auto` first, so a break lands where the language allows one — it
+follows `documentElement.lang`, which i18n already keeps current, so the
+hyphenation follows the interface language. `break-word` is the last resort for
+a word with nowhere good to break. The mark still accompanies the label and does
+not replace it (§13ac).
+
+**The figures are unchanged and stay strong.** No smaller typeface, no
+horizontal scroll, no clipped value, no tile wider than the viewport. The track
+minimum stays at 108px, because it was never the problem.
+
+A long value may take a second line. A figure may not be split across one: unit
+and number are joined with non-breaking spaces where they are built, so
+`80–90 °C`, `20% WOF` and `1 : 20` wrap around themselves rather than through
+themselves. `80–90` and a lonely `°C` on the next line read as two facts.
+
+### No new guard
+
+The screen layer is the regression test here. It found both, it fails on both if
+they return, and it is part of release policy — a second check asserting the
+same CSS would be a test written to raise a number.
 
 ---
 

@@ -43,3 +43,59 @@ export const shrinkThumb = (file) => shrink(file, MAX_THUMB);
 /** Rough size of a data URL in kilobytes, for anything that wants to warn. */
 export const dataUrlKb = (dataUrl) =>
   dataUrl ? Math.round((dataUrl.length * 3 / 4) / 1024) : 0;
+
+
+/**
+ * How many photographs would be lost — the real ones (§13cx).
+ *
+ * The backup warning counted `count('photos')`, and the `photos` store has
+ * never been written to. Not once, by anything. So the sentence that tells a
+ * person what she stands to lose said „0 photographs" to somebody with two
+ * hundred of them, and said it in the one place designed to make her take a
+ * backup seriously.
+ *
+ * WHAT COUNTS. An image that exists nowhere else. If it is gone, it is gone.
+ *
+ * WHAT DOES NOT. A shipped plant photograph. `photoSrc` names a file the
+ * application carries and can lay down again from the pack — it is not at risk
+ * and counting it would inflate the warning, which is its own kind of lie. A
+ * warning that overstates gets ignored at exactly the speed it deserves.
+ *
+ * Counts IMAGES, not records: a trial with five result photographs is five.
+ *
+ * One helper, used everywhere the warning appears, because the reason this
+ * drifted in the first place is that two screens each counted for themselves.
+ */
+export async function countUserPhotos() {
+  const { all } = await import('./db.js');
+  const n = (list) => (Array.isArray(list) ? list.length : 0);
+  let total = 0;
+
+  for (const f of await all('fabrics')) {
+    if (f.photoData) total += 1;
+  }
+
+  for (const tr of await all('trials')) {
+    total += n(tr.resultPhotos);
+    for (const st of tr.steps || []) total += n(st.photos);
+  }
+
+  for (const b of await all('pigmentBatches')) {
+    total += n(b.photos);
+    for (const st of b.stages || []) total += n(st.photos);
+  }
+
+  // A plant photograph counts only when it is HERS. `photoData` on a plant is
+  // an override the owner put there; the shipped one lives in `photoSrc` and
+  // is replaceable (§13cr).
+  for (const p of await all('plants')) {
+    if (p.photoData) total += 1;
+  }
+
+  // Kept last and deliberately: the store is empty today and is the one the
+  // count used to read. If photographs are ever moved into it, this line means
+  // the warning follows them instead of quietly going back to zero.
+  total += (await all('photos')).length;
+
+  return total;
+}

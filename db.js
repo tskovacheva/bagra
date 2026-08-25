@@ -178,6 +178,27 @@ export async function putRaw(store, record) {
   return write(store, record, { stamp: false, count: false });
 }
 
+/**
+ * A STRUCTURAL write — a migration or a repair reshaping a record the owner
+ * wrote, without changing anything she would recognise as its content (§13cv).
+ *
+ * `putSystem` stamped these, and stamping them is wrong. Converting a piece of
+ * cloth's old state list into actions, or moving a photograph out of a record
+ * and into a file, is the application tidying up after itself. It is not a
+ * thing that happened to the cloth. Stamping it moves a piece last touched two
+ * summers ago to the top of every list ordered by recency, and it does it to
+ * whichever records happen to need converting — so the order of her work is
+ * rearranged by the shape of a migration.
+ *
+ * The flags coincide with `putRaw` today, and it is a separate name on purpose:
+ * a call site should say what it is doing. A restore and a migration are not
+ * the same act, and code in which they are indistinguishable is code in which
+ * the next change to one silently changes the other.
+ */
+export async function putMigration(store, record) {
+  return write(store, record, { stamp: false, count: false });
+}
+
 // Deleting a trial is her work leaving the database, and it did not count at
 // all — so the surest way to have unbacked-up changes read as zero was to
 // spend the afternoon deleting things.

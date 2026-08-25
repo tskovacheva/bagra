@@ -128,6 +128,9 @@ None of this is a feature; all of it is a condition of taking money.
 - **Attribution is protected like the rest of the history — done at rc29.** A source that
   glossary terms, recipes or colour swatches credit cannot be deleted (§13ct). Four of the
   ten sources are named only by colour swatches, which the review had not listed.
+- **A release run can be made by a machine — done at rc30.** `check.sh --release` runs on
+  push to main, on pull requests and on demand (§13cy). It does not deploy; a gate and a
+  deployment are separate decisions. It stays red until the two screen defects are fixed.
 - **Numerical tests on the calculators.** A disclaimer does not cover an unchecked formula.
   The aluminium acetate stoichiometry has still not been compared against an independent
   source; it is written out openly in `calc/alum-acetate.js` for exactly that.
@@ -135,17 +138,13 @@ None of this is a feature; all of it is a condition of taking money.
   Never release from the working copy — development, then a candidate the owner uses for a
   while, then production.
 - **The documents ship inside the release ZIP**, at the same version as the code.
-- **The screen check has now run — and it failed.** It needed `puppeteer-core`, which was
-  never installed, so every layout decision from rc13 to rc25 was verified by reading rather
-  than by rendering, and `check.sh` left with status 0 regardless. The release gate added in
-  rc26 (§13cp) closed that, and the first release run turned up six failures present in rc25
-  byte for byte. Four were one stale route in the harness — it still asked for `#/sources`,
-  a module that has not existed since attribution folded into the Library, so it was
-  measuring the home screen and reporting its faults under another name. That is corrected.
-  **Two real faults remain**: „Виж всички →" at 23px on the home screen, and the *use now*
-  tiles overflowing on an opened plant. Both are layout decisions rather than mechanical
-  corrections and both want the owner's eye. They are the first work of rc30; until then
-  `sh check.sh --release` refuses the candidate, which is the point of having it.
+- **The screen check runs, and the code passes it — done at rc31.** It needed
+  `puppeteer-core`, which was never installed, so every layout decision from rc13 to rc25
+  was verified by reading rather than by rendering and `check.sh` left with status 0
+  regardless. The release gate (§13cp) closed that; the first release run turned up six
+  failures present in rc25 byte for byte, four of them one stale route in the harness. The
+  remaining two — the finger target on „Виж всички →" and the overflowing *use now* tiles —
+  were corrected in rc31 (§13cz). **`sh check.sh --release` now passes all six layers.**
 - **A release run is now a different run.** `sh check.sh --release` fails where a
   development run skips a layer for a missing dependency. The invariant: a candidate cannot
   be called checked if a layer of its release policy never started. §13cp

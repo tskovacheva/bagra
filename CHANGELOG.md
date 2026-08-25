@@ -12,6 +12,73 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc31 — 24 August 2026
+
+The two screen defects, on their own. Nothing else is in this release, deliberately: they
+are the only thing standing between the code and a green release gate, and a package that
+also moved something else would not prove that.
+
+**`check.sh --release` passes all six layers for the first time.**
+
+- **„Виж всички →" reaches the finger target without becoming a button.** It was 23px
+  against the 44px rule. The link stays 13px and light and the box around it becomes 44px,
+  with a negative block margin giving the height back to the layout — the extra is padding
+  for a finger, not space in the design. It keeps its place beside the heading, and drops
+  to its own line only where the two cannot share one honestly, driven by whether they fit
+  rather than by a breakpoint. §13cz
+- **The *use now* tiles no longer overflow, and the obvious fix was not the fix.**
+  `min-width:0` on the tile changed nothing: the tracks were already right and the overflow
+  was inside. The label was a bare text node in a flex row — an anonymous flex item, whose
+  `min-width:auto` no selector can reach — so it could not shrink below its longest word,
+  and one Bulgarian compound pushed the whole strip past the viewport. Wrapped in a span it
+  can wrap. §13cz
+- **The figures are unchanged.** No smaller typeface, no horizontal scroll, no clipped
+  value. A long value may take a second line; a figure may not be split across one, so unit
+  and number are joined with non-breaking spaces where they are built. §13cz
+- **No new guard.** The screen layer found both, fails on both if they return, and is part
+  of release policy. A second check asserting the same CSS would be a test written to raise
+  a number.
+
+---
+
+## 1.0.0-rc30 — 24 August 2026
+
+Production hardening before a commercial 1.0. Four subjects from the third independent
+audit, no new features and no further performance work — the startup is where rc29 left it.
+
+- **A historical repair no longer runs at every start.** Two passes walked every piece of
+  cloth on every single opening, for ever, to establish there was nothing left to do. Each
+  now records a marker, written only after the pass returns, so a failure is retried rather
+  than forgotten. The marker is a control and not a crutch: every pass is still safe to run
+  twice, and the guard checks it. §13cw
+- **An old backup makes a migration eligible again**, and nothing was built for it: the
+  marker lives in `settings`, so a snapshot restore brings back the absence of the marker
+  along with the state that needs it. Asserted rather than assumed. §13cw
+- **A structural migration no longer restamps records she has not touched.** `putSystem`
+  was doing two jobs that look alike — revising a record's content, and reshaping its
+  structure — and stamping the second moved a piece last touched two summers ago to the top
+  of every list ordered by recency, according to whichever records a migration happened to
+  convert. New `putMigration` for structural writes; `putSystem` keeps stamping shipped
+  content revisions, which genuinely are changes. §13cv
+- **The backup warning said „0 photographs" to everybody.** It counted the `photos` store,
+  and nothing has ever written to that store — so the one sentence designed to make a person
+  take a backup seriously told her she had nothing to lose. `countUserPhotos()` counts
+  images rather than records, across cloth, trials, steps, pigment batches and personal
+  plant overrides. A shipped plant photograph is deliberately not counted: it can be laid
+  down again from the pack, and overstating a warning is its own kind of lie. §13cx
+- **The release gate runs in CI.** `check.sh --release` needs Node packages and a browser,
+  and the owner has no terminal — so the check deciding whether a candidate may ship
+  depended on somebody remembering to ask for it. A workflow now runs it on push to main,
+  on pull requests and on demand, with pinned dependencies in `test/` and the browser named
+  rather than hoped for. It does not deploy. It will be red until the two known screen
+  defects are fixed, which is the correct order. §13cy
+- **New file `migrations.js`** — the passes left app.js, because a migration that can only
+  be exercised by starting the whole program is a migration nobody exercises.
+- **New layer**: `scripts/try-hardening.mjs`. Every guard was watched failing against rc29 —
+  including the photo count, which returned zero for every case.
+
+---
+
 ## 1.0.0-rc29 — 24 August 2026
 
 Two corrections closing the rc28 optimisation, from the independent re-review. Nothing

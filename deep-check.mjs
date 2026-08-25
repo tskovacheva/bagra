@@ -2898,7 +2898,7 @@ const dirty = await import('./dirty.js');
   // one work keeps the earlier stamp — the later one is always the re-visit —
   // and the day it names fills the work's missing `finishedOn`.
   {
-    const { healDoubleStateEvents } = await import('./app.js');
+    const { healDoubleStateEvents } = await import('./migrations.js');
     const tr = db.newRecord({
       id: 'zz-heal', status: 'complete', title: 'стара работа', date: '2026-08-13',
       processCode: 'immersion', fabricIds: ['zz-healcloth'], placements: [], steps: [],

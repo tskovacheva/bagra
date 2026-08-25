@@ -23,12 +23,25 @@ import puppeteer from 'puppeteer-core';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 
-const CHROME = ['/opt/google/chrome/chrome', '/usr/bin/chromium',
-  '/usr/bin/chromium-browser', '/usr/bin/google-chrome'].find(p => fs.existsSync(p));
+// `BAGRA_CHROME` names one browser and overrides the search — the same variable
+// check-deps.mjs reads, so the gate and the layer it gates cannot disagree about
+// which browser they are talking about (§13cy). CI sets it explicitly rather
+// than hoping a path happens to exist on the runner image.
+const CHROME = (process.env.BAGRA_CHROME
+  ? [process.env.BAGRA_CHROME]
+  : ['/opt/google/chrome/chrome', '/usr/bin/chromium',
+     '/usr/bin/chromium-browser', '/usr/bin/google-chrome']).find(p => fs.existsSync(p));
 if (!CHROME) {
+  // A development run may skip this. A release run may not, and check-deps.mjs
+  // has already refused before reaching here — so this exit is only ever the
+  // convenience path, never the release one.
   console.log('screen check skipped (no chromium found)');
+  if (process.env.BAGRA_CHROME) {
+    console.log(`  BAGRA_CHROME is set to ${process.env.BAGRA_CHROME} and there is nothing there.`);
+  }
   process.exit(0);
 }
+console.log(`  screen: driving ${CHROME}`);
 
 const PORT = 8749;
 const PHONE = { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 };
