@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc31 · 122 sections
+**Status:** 1.0.0-rc33 · 123 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -8605,6 +8605,79 @@ themselves. `80–90` and a lonely `°C` on the next line read as two facts.
 The screen layer is the regression test here. It found both, it fails on both if
 they return, and it is part of release policy — a second check asserting the
 same CSS would be a test written to raise a number.
+
+## 13da. Phase 1 of the library: 130 facts, 16 held (1.0.0-rc32)
+
+The first return of the data workbook: sheets 4 and 5, plant-level fields and
+part-level fields. Merged by `scripts/merge-phase1.py`, which is idempotent and
+run again reports nothing to do.
+
+```
+FILLED   130   empty → value
+ALREADY  399   the workbook agrees with the pack
+TIDIED     3   80–80 written as 80
+HELD      16   would change or contradict a recorded value — NOT applied
+```
+
+`dyeClass` went from 6 of 57 to **57 of 57**, and all **118 parts** now carry
+chemistry, dosing and temperatures. Fifteen new sources joined the register,
+which is where the provenance for this phase lives (§13bt).
+
+### Fills only
+
+The workbook is a draft to be checked against the model, never a decision. A
+cell that would change something already recorded is held and printed. Sixteen
+were: eight safety and fastness values where the pack and the workbook disagree,
+two on alkanet's ceiling, and six on safflower.
+
+### The rule that was not enough
+
+„Only fill what is empty" caught twelve of them and missed four, and the four it
+missed are the instructive ones.
+
+Safflower's DYEING temperature was empty. So 70–75 °C arrived as a fill, passed
+the vocabulary check, passed the fills-only rule, and was written. And the same
+record's `extractionModes` says `cold`, and its own colour note says the red
+comes from an alkaline extraction — carthamin is drawn out cold and heat
+destroys it. Every value legal, every code known, and the record no longer
+agreeing with itself.
+
+This is the shape of fault a data merge produces that a vocabulary check cannot
+see. A new guard in `deep-check` asks the one question the model can state:
+
+> does a part restricted to COLD extraction carry a hot temperature?
+
+It found the four immediately, in the merge that had just been run. The same
+test is repeated inside the merge script, because a merge that writes a fault
+and leaves a later layer to notice is a merge that has to be undone by hand.
+
+**Deliberately narrow.** It is not a plausibility check on temperatures in
+general. Inventing a range and failing the build against it would be the guard
+manufacturing the knowledge it exists to protect (§13ax).
+
+### 80–80 is not a range
+
+Three degenerate spans were already in the pack and one arrived in the workbook.
+On screen „80–80 °C" reads as a range somebody measured twice rather than as one
+figure. Written as `{min: 80}` it says what it means. Not a change of meaning,
+and the merge no longer reports it as a disagreement — a merge that cries wolf
+gets its warnings skimmed.
+
+### Two other things the return recorded
+
+`article` was used as a source kind and the application does not have one — its
+kinds are book, course, person, site, reference, other. The eight papers are
+`reference`. Caught by the existing guard, which is what it is for.
+
+The workbook left the per-row source column empty by decision, and that is
+consistent with the model: attribution lives in the Sources register rather than
+on each field (§13bt). The fifteen sources are the provenance for the phase as a
+whole, which is a weaker claim than a citation per figure, and it is the claim
+actually being made.
+
+### Held, awaiting the owner
+
+Recorded in `DOCUMENTATION_DECISIONS_NEEDED.md`. None is applied.
 
 ---
 

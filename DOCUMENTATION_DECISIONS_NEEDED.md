@@ -147,3 +147,108 @@ An archived record would leave the list and keep the history.
 
 **Suggested.** Decide it after the library is filled, not before. The list is short enough
 that the cost is theoretical today, and the concept would touch every reference module.
+
+---
+
+## 9. Sixteen values where the workbook and the pack disagree
+
+**Raised by 1.0.0-rc32.** The phase 1 merge fills only; these were held. Nothing is applied
+and nothing will be until each is decided. Grouped by what kind of decision it is.
+
+**SETTLED at rc33.** Alkanet stays at 60 — the owner has no data for a higher ceiling and
+the recorded figure stands. Chestnut keeps `gloves` AND gains `dust_mask`: the workbook
+replaced one with the other, which reads as a swap and is a loss; dried bark ground to
+powder wants both. The chestnut risk LEVEL stays `caution` — nothing was offered to justify
+lowering it, and the safe direction is the one to hold when nobody has a reason.
+
+Safflower is not a disagreement about a number. It is the model being wrong, and it has its
+own section below.
+
+**Still open (6):** the five additive safety values and the one fastness rating.
+
+---
+
+**Contradicts the record itself — recommend REFUSE (6).** Safflower, flower and leaf:
+extraction and dyeing at 70–75 °C with a ceiling of 75. The record's `extractionModes` says
+`cold` and its colour note says the red comes from an alkaline extraction. Carthamin is
+drawn out cold; heat destroys it. Accepting these would lose the red the plant is in the
+library for.
+
+**Raises a ceiling — needs a reason (2).** Alkanet root: dyeing 60 → 60–70 and the ceiling
+60 → 70. Alkannin is heat-sensitive. Raising a limit is a claim, and a limit is the field
+where a wrong claim costs a dye pot.
+
+**Lowers a stated risk — needs a reason (2).** Henna: `elevated` → `caution`. Chestnut:
+`caution` → `low`, and `gloves` replaced by `dust_mask`. Dropping gloves from chestnut is
+a loss rather than a swap; dried bark powder wants both.
+
+**Raises a stated risk, or adds a precaution — recommend ACCEPT (5).** Dyer's chamomile:
+`low` → `caution`, and `gloves` added to `contact_allergy`. Lavender: `contact_allergy`
+added. Henna: `dust_mask` added. These are additive and the notes cite DermNet on Compositae
+allergy. Raising a caution is the safe direction.
+
+**A fastness rating moved (1).** Dyer's chamomile: light `good` → `moderate`, with a
+peer-reviewed source (Cristea & Vilarem 2006) behind the new value and nothing recorded
+behind the old one. **Recommend ACCEPT.**
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 10. Safflower has two extraction routes, and the model has room for one
+
+**Raised by 1.0.0-rc33, and it is a model question rather than a data one.**
+
+The workbook returned safflower at 70–75 °C. The pack said cold, 20–25 °C. Both are right,
+and they describe different routes from the same petals:
+
+| | Hot water, first | Cold alkaline, after |
+|---|---|---|
+| temperature | 70–75 °C, 45–60 min | room temperature, 2 hours |
+| pH | neutral | 11, then brought down to 6 |
+| mordant | required — alum or alum acetate | none |
+| `dyeClass` | **adjective** | **substantive** |
+| chemistry | flavonoid — safflower yellow A and B | quinone — carthamin |
+| colour | lemon to mustard | pink, coral, red |
+
+Two things follow that the current shape cannot hold.
+
+**`dyeClass` is on the PLANT.** Safflower is adjective by one route and substantive by the
+other. Fifty-one plants had this field filled in phase 1 as one fact about the plant; for
+safflower it is a fact about the route.
+
+**The routes are sequential, not alternative.** The yellow must be washed out — four to six
+rinses — before the red can be got at all. The model has a concept for a sequence (chains),
+and it does not live on a plant part.
+
+### Two shapes
+
+**A. The route becomes a thing on the part.**
+
+```js
+part.routes = [{ mode, tempExtractC, tempDyeC, softMaxTempC, dyeClass, chemistry, yields }]
+```
+
+One home for every figure. 113 parts get a single unnamed route by mechanical migration;
+five keep the mode they already declare; safflower's flower gets two. Costs: the *use now*
+tiles must decide what to show when a part has two routes (a UI question), and `deep-check`,
+the cold-extraction guard and the workbook all follow.
+
+**B. The part keeps one set of figures and the second route lives in the combination.**
+
+Cheaper, and it puts a temperature in two places. That is the fault removed from the CSS in
+rc31 — two mechanisms deciding one thing eventually decide differently.
+
+**Recommended: A**, as a session of its own. Phase 2 of the workbook does not wait for it:
+none of the three remaining sheets touches this field.
+
+### What the reference half already handles
+
+The two colours are ALREADY expressible as two combination records — same plant, same part,
+different pH and mordant, different expected colour — and safflower's `colours[]` already
+records both in words. So it is only the FIGURES that have nowhere to go, not the knowledge.
+
+### Meanwhile
+
+Safflower's part still says `cold, 20–25 °C`, which describes the red route only. Incomplete
+rather than wrong, and left alone rather than half-corrected.

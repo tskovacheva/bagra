@@ -12,6 +12,48 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc33 — 24 August 2026
+
+Three of the sixteen held values decided, and one of them turned out not to be a value at all.
+
+- **Alkanet stays at 60 °C** — no data was offered for a higher ceiling, and a ceiling is the
+  field where a wrong claim costs a dye pot.
+- **Chestnut keeps `gloves` and gains `dust_mask`.** The workbook replaced one with the other,
+  which reads as a swap and is a loss; dried bark ground to powder wants both. The risk level
+  stays `caution`: nothing was offered to justify lowering it.
+- **Safflower is a model fault, not a disagreement about a number.** Its petals give yellow by
+  hot water and red by cold alkaline extraction, and the two routes differ in temperature, pH,
+  mordant requirement, chemistry AND `dyeClass` — which is a field on the plant. Safflower is
+  adjective one way and substantive the other. The routes are also sequential rather than
+  alternative: the yellow must be washed out before the red can be got. No code written; two
+  shapes for the fix are in `DOCUMENTATION_DECISIONS_NEEDED.md` §10, awaiting the owner.
+- The record still says `cold, 20–25 °C` — the red route only. Incomplete rather than wrong,
+  and left alone rather than half-corrected.
+
+---
+
+## 1.0.0-rc32 — 24 August 2026
+
+The first return of the data workbook: plant-level and part-level fields. 130 fills, 16
+held, no other change to the application.
+
+- **`dyeClass` went from 6 of 57 to 57 of 57**, and all 118 parts now carry chemistry,
+  dosing and temperatures. Fifteen new sources joined the register. §13da
+- **Fills only.** A cell that would change a recorded value is held and printed, never
+  applied. Sixteen were.
+- **A fill can contradict a record too, and „only fill what is empty" did not see it.**
+  Safflower's dyeing temperature was empty, so 70–75 °C arrived as a fill and was written —
+  while the same record says its extraction is COLD and its red comes from an alkaline
+  extraction. Every value legal, every code known, the record no longer agreeing with
+  itself. A new deep-check guard asks whether a part restricted to cold extraction carries
+  a hot temperature; it found all four at once, in the merge just run. §13da
+- **`80–80` is written as `80`** — three were already in the pack. A degenerate span reads
+  as a range somebody measured twice.
+- **`article` is not a source kind** the application has; the eight papers are `reference`.
+  Caught by the existing guard.
+
+---
+
 ## 1.0.0-rc31 — 24 August 2026
 
 The two screen defects, on their own. Nothing else is in this release, deliberately: they

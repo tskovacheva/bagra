@@ -5190,6 +5190,52 @@ const dirty = await import('./dirty.js');
 }
 
 // ---- 24k. The enlarged combination library holds together (§13cl)
+
+// A NUMBER THAT ARGUES WITH ITS OWN RECORD (§13da).
+//
+// The phase 1 workbook returned safflower's extraction temperature as 70–75 °C.
+// The plant's own `extractionModes` says `cold`, and its own colour note says
+// the red comes from an alkaline extraction — carthamin is drawn out cold and
+// heat destroys it. So the figure would have contradicted two other fields of
+// the same record, and it would have done it silently: nothing on the screen
+// distinguishes a temperature somebody checked from one that was filled in by
+// pattern.
+//
+// This is the shape of fault a data merge produces and a vocabulary check
+// cannot see: every value legal, every code known, and the record no longer
+// agreeing with itself. Held at the merge and guarded here so it cannot arrive
+// by another route.
+//
+// Deliberately narrow. It asks one question — does a part restricted to COLD
+// extraction carry a hot temperature — because that is a contradiction the
+// model can state. It is not a plausibility check on temperatures in general;
+// inventing a range and failing the build against it would be the guard
+// making up the knowledge it exists to protect.
+{
+  const HOT = 40;   // above a warm room: anything a cold extraction is not
+  const wrong = [];
+  for (const plant of await db.all('plants')) {
+    for (const part of plant.parts || []) {
+      const modes = part.extractionModes || [];
+      if (!modes.length || !modes.every(m => m === 'cold')) continue;
+      for (const field of ['tempExtractC', 'tempDyeC']) {
+        const v = part[field];
+        if (v && (v.min ?? 0) > HOT) {
+          // `code` is stripped by the pack and becomes `seed:<code>` in the id.
+          // Reading `plant.code` off a stored record returns undefined and the
+          // failure names nothing — the §13aw lesson, met again here.
+          wrong.push(`${plant.id}/${part.partCode} ${field} ${v.min}`);
+        }
+      }
+    }
+  }
+  if (wrong.length) {
+    fail('plants', new Error(`cold extraction with a hot temperature: ${wrong.join(', ')}`));
+  } else {
+    console.log('  plants: no part restricted to cold extraction carries a hot temperature');
+  }
+}
+
 {
   const combos = await db.all('combinations');
   const plants = new Set((await db.all('plants')).map(p => p.id));
