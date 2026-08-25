@@ -5,6 +5,7 @@
 // in calc/ as pure functions; this file only collects input and shows results.
 
 import { t, plural } from '../i18n.js';
+import { countUserPhotos } from '../photo.js';
 import { page, panel, field, fact, note, esc, icon, navigate, backTo } from '../ui.js';
 import { wofGrams, solutionGrams, bathLitres, freshFromDried, exhaustBath } from '../calc/basic.js';
 import { aluminiumAcetate, fromAvailable, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
@@ -408,7 +409,10 @@ export default {
       plants: await count('plants'), trials: await count('trials'),
       // Counted so the warning can name them. Photographs are the part nobody
       // can reconstruct, and they were absent from the tally.
-      photos: await count('photos'),
+      // Every image that exists nowhere else (§13cx). This read `count('photos')`,
+      // and nothing has ever written to that store — so the line meant to make a
+      // person take a backup seriously told her she had none to lose.
+      photos: await countUserPhotos(),
     };
     render(root);
 

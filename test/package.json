@@ -1,0 +1,10 @@
+{
+  "name": "bagra-test-environment",
+  "private": true,
+  "description": "Test dependencies for the release check. NOT dependencies of the application: Багра ships as vanilla ES modules with no build step and no runtime packages, and that is a fixed decision. These exist only so check.sh can run its boot, deep and screen layers, and they are pinned exactly so that the environment six months from now is the environment today.",
+  "devDependencies": {
+    "fake-indexeddb": "6.2.2",
+    "jsdom": "26.1.0",
+    "puppeteer-core": "24.15.0"
+  }
+}

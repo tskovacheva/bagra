@@ -19,6 +19,7 @@
 import { all, count } from '../db.js';
 import { backupState } from '../backup.js';
 import { t, text, plural } from '../i18n.js';
+import { countUserPhotos } from '../photo.js';
 import { page, panel, label, esc, note } from '../ui.js';
 import { currentState, STATE_ORDER } from '../fabric-logic.js';
 import { seasonPanel } from './season.js';
@@ -232,7 +233,7 @@ export default {
     const goBackup = `<button class="btn quiet" data-go="tools">${t('dash.goBackup')}</button>`;
 
     if (b.never && (counts.plants || counts.fabrics)) {
-      const photos = await count('photos');
+      const photos = await countUserPhotos();
       const lost = [];
       const say = (n, key) => plural(n, t(`${key}.one`), t(`${key}.many`));
       if (counts.trials) lost.push(say(counts.trials, 'dash.lostTrials'));

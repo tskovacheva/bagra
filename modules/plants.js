@@ -508,7 +508,7 @@ async function useNowCard(p) {
       const mode = d.extractionMode ? await label('extraction_mode', d.extractionMode) : '';
       rows.push(tile('i-plant', t('plants.partAndCondition'),
         `${esc(partName)}${cond ? ', ' + esc(cond) : ''}`));
-      rows.push(tile('i-wof', t('plants.dose'), `${esc(amount)} WOF`, mode));
+      rows.push(tile('i-wof', t('plants.dose'), nb(`${esc(amount)} WOF`), mode));
     }
   }
 
@@ -552,17 +552,17 @@ async function useNowCard(p) {
     // different moments, and reading them as one sentence hides that.
     const ex = span(x.raw?.tempExtractC), dy = span(x.raw?.tempDyeC);
     rows.push(tile('i-flask', `${t('plants.tempExtract')}${same ? '' : ' · ' + esc(heading)}`,
-      ex ? esc(ex) + ' °C' : '', mode));
+      ex ? nb(esc(ex) + ' °C') : '', mode));
     rows.push(tile('i-temp', `${t('plants.tempDye')}${same ? '' : ' · ' + esc(heading)}`,
-      dy ? esc(dy) + ' °C' : ''));
+      dy ? nb(esc(dy) + ' °C') : ''));
     rows.push(tile('i-alert', t('plants.softMaxTemp'),
-      x.raw?.softMaxTempC ? esc(String(x.raw.softMaxTempC)) + ' °C' : ''));
+      x.raw?.softMaxTempC ? nb(esc(String(x.raw.softMaxTempC)) + ' °C') : ''));
   }
 
   rows.push(tile('i-bath', t('plants.liquorRatio'),
-    p.liquorRatio ? approxNumber(`1 : ${p.liquorRatio}`, p.approx?.liquorRatio) : ''));
+    p.liquorRatio ? approxNumber(nb(`1 : ${p.liquorRatio}`), p.approx?.liquorRatio) : ''));
   rows.push(tile('i-drying', t('plants.dryingRatio'),
-    p.dryingRatio ? near('dryingRatio', `× ${p.dryingRatio}`) : ''));
+    p.dryingRatio ? near('dryingRatio', nb(`× ${p.dryingRatio}`)) : ''));
   rows.push(tile('i-time', t('plants.steamNote'), p.steamNote ? esc(p.steamNote) : ''));
 
   // Fastness used to sit under "in the garden", which was a bucket for whatever
@@ -584,12 +584,18 @@ async function useNowCard(p) {
   return rows.length ? `<div class="usenow">${rows.join('')}</div>` : '';
 }
 
+// A figure and its unit are one thing to read, so they are one thing to wrap.
+// The space between them is non-breaking: `80–90 °C` breaking after the range
+// leaves a lonely `°C` on a line of its own, which reads as a second fact. The
+// tile may take two lines; a number may not be split across them (§13cz).
+const nb = (s) => String(s).replace(/ /g, '\u00A0');
+
 // One figure, marked. The mark accompanies the label and never replaces it
 // (§13ac): five icons in a row with no words is an instrument panel nobody can
 // read the first time.
 const tile = (mark, label, value, hint = '') => value ? `
   <div class="usetile">
-    <span class="usehead">${mark ? icon(mark) : ''}${esc(label)}</span>
+    <span class="usehead">${mark ? icon(mark) : ''}<span class="uselabel">${esc(label)}</span></span>
     <span class="useval">${value}</span>
     ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}
   </div>` : '';
