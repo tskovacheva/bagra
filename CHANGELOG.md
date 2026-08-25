@@ -12,6 +12,58 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc35 — 24 August 2026
+
+Phase 3 of the library, and the eco print half of the reference finally has something in it.
+
+- **Combinations: 102 → 159.** Fifty-seven new records, forty-seven of them eco print.
+- **Eco print records: 8 → 55.** Twenty-four of the twenty-five plants in the owner's eco
+  print review are now in the reference, each with what the print looks like, what it gives
+  with alum and what it gives with iron. This is the half no book could supply — it comes
+  from bundles — and it is the half the application exists for.
+- **The review was read by hand, not parsed.** Twenty-five entries is few enough to read,
+  and each needed a decision no regular expression makes: which part the source means,
+  whether a colour belongs to alum or to no mordant, which sentences describe the PRINT
+  rather than the colour. A parser would have produced fifty records and no judgement.
+- **No swatch colours.** The review describes colour in words. Turning „наситено златисто
+  жълто" into a hex value would be the application inventing a measurement nobody made
+  (§13ax), so the swatch does not draw — which is the honest rendering of „nobody measured
+  this".
+- **„The back of the leaf prints better" was NOT written down.** It has no field — `facing`
+  is a dimension of a placement in a trial, not a property of a leaf — and the existing word
+  is ambiguous in a way that would invert the advice: `face_down` means the leaf's face
+  toward the cloth, so „the back prints" is `face_up`. A rule recorded backwards is worse
+  than a rule not recorded, because it would be followed. The print behaviour is in the
+  record's notes in the owner's own words. §13 of the decisions file.
+- **One of twenty-five skipped**: alder buckthorn prints from a leaf its record does not
+  have, and the library holds three buckthorns of which a different one has the leaf.
+- 23 fills on existing records; 28 held, all of them the same two model questions raised at
+  rc34 — `learnedFrom` is one string, and `notes` is occupied.
+
+---
+
+## 1.0.0-rc34 — 24 August 2026
+
+Phase 2, group 2 of the library merged: the fibre and mordant a recorded result was got on.
+
+- **32 fills across 26 combination records.** Records without a fibre class went from 72 to
+  50; records without a mordant from 46 to 36. Thirteen citations registered as sources.
+- **`none` is an answer, not a blank.** Ten records carried a code saying `nomordant` and a
+  key that had never said so. Writing `none` turns „does not say" into „says: no mordant" —
+  the §13ck distinction, now recorded where the engine can read it.
+- **The owner corrected five of her own earlier rows before sending**, and one of the
+  corrections is the same class of fault as safflower: `none` written against a record whose
+  key already said `alum_potassium`. She caught it; the merge would have held it.
+- **46 held, and they are two model questions rather than 46 disagreements.**
+  `learnedFrom` is one string and a combination accumulates claims from different sources —
+  the guide taught the colour, the paper taught the fibre pairing, and there is room for one.
+  `notes` is occupied on all 22 rows that carry a sentence, and occupied by two different
+  things: real prose on some records, condition labels on others. `influences` is declared
+  everywhere and populated nowhere. Three candidate homes, no clear one, so nothing was
+  guessed. Both in `DOCUMENTATION_DECISIONS_NEEDED.md`.
+
+---
+
 ## 1.0.0-rc33 — 24 August 2026
 
 Three of the sixteen held values decided, and one of them turned out not to be a value at all.

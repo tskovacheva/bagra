@@ -252,3 +252,100 @@ records both in words. So it is only the FIGURES that have nowhere to go, not th
 
 Safflower's part still says `cold, 20–25 °C`, which describes the red route only. Incomplete
 rather than wrong, and left alone rather than half-corrected.
+
+---
+
+## 11. A combination has one attribution slot and several sources
+
+**Raised by 1.0.0-rc34.** Every one of the 24 records filled in phase 2 already said
+`learnedFrom: "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place"`. The workbook brought a second
+citation for each — and it is not a correction. The guide taught the COLOUR; the paper
+taught which FIBRE and MORDANT that colour was got on. Two sources, two different claims,
+one field.
+
+**Recommended: `learnedFrom` becomes a list of source codes.** Small — a seed field and one
+render — and it also turns free-text attribution into codes that resolve in the register,
+which §13ct already protects from deletion. The thirteen new sources are registered and
+currently cited by nothing, which is why nothing yet points at them.
+
+**Also open:** whether a source code should attach to the CLAIM rather than the record —
+„this source is why the fibre says cellulose" — which is the fuller answer and a much larger
+one. Recommend the list first.
+
+---
+
+## 12. „How does it differ" has three candidate homes and no chosen one
+
+**Raised by 1.0.0-rc34.** Twenty-two rows came back with a sentence about how the result
+changes. All three plausible fields are already spoken for or ambiguous:
+
+- **`notes`** is occupied on all 22. And occupied by two different KINDS of thing: real
+  prose on some records („Орехът е субстантивен — хваща без мордант"), and what are plainly
+  condition labels on others („с железни соли", „кора, алуминиев мордант") — which look like
+  the `conditions` text from an earlier import landing in the wrong field.
+- **`expected.variation`** carries what the reference engine writes when it compares
+  records. A sentence written by hand sitting there would be indistinguishable from one the
+  engine produced, which is the fault §13.1 exists to prevent.
+- **`influences`** is declared on all 102 records and populated on none.
+
+**Recommended:** clean `notes` first — find how many of the 79 are condition labels rather
+than prose, and whether they duplicate a field that already exists. Then decide whether
+`influences` is the home for „what changes it" or should be removed as a field that was
+declared and never used. Nothing was written into any of the three.
+
+---
+
+## 13. „The back of the leaf prints better" has nowhere to go, and the word for it is a trap
+
+**Raised by 1.0.0-rc35.** The owner set the rule: for roughly nine plants in ten the BACK of
+the leaf gives the stronger print, with exceptions — eucalyptus prints strongly from both
+sides. It is a good rule and the library needs it. It cannot be written down yet, for two
+separate reasons.
+
+**It has no field.** `facing` exists in the vocabulary but it is a dimension of a PLACEMENT
+in a trial — where a leaf was laid on a particular day — and it is not part of a combination
+key. „This plant prints better from the back" is not a fact about one trial; it is a fact
+about the leaf, true whatever the mordant. It belongs beside `compositionalRole` on the
+plant or its part, and there is no such field.
+
+**And the existing word is ambiguous in a way that would silently invert the advice.**
+`face_down` reads „с лицето надолу" — the leaf's FACE toward the cloth. „The back prints
+better" therefore means the back should touch the cloth, which is `face_up`. Anyone reading
+the field name will assume the opposite at least half the time, and a rule recorded
+backwards is worse than a rule not recorded: it would be followed.
+
+**Recommended:** a new part-level field naming the side that PRINTS, not the side that
+points somewhere — `printingSide: 'back' | 'face' | 'either'`. It says the thing directly
+and cannot be read upside down. `either` covers eucalyptus, and `facing` stays what it is:
+what was done on a particular day.
+
+Until then the print behaviour is in the record's `notes`, in the owner's own words, which
+is where it can be read without being misinterpreted. Nothing was written into `facing`.
+
+---
+
+## 14. Alder buckthorn prints from a leaf the record does not have
+
+**Raised by 1.0.0-rc35.** The eco print library describes `rhamnus_cathartica` printing from
+its leaves. The plant record has `fruit` and `bark` and no `leaf`, so the record was not
+written — one of twenty-five, and the only one skipped.
+
+Either the leaf is a real dye part the plant record is missing, or the entry means a
+different species. The library holds THREE buckthorns:
+
+| code | botanical | parts |
+|---|---|---|
+| `rhamnus_cathartica` | Rhamnus cathartica | fruit, bark |
+| `rhamnus_tinctoria` | Rhamnus tinctoria / saxatilis | fruit |
+| `frangula_alnus` | Frangula alnus (syn. Rhamnus frangula) | bark, **leaf**, fruit |
+
+`frangula_alnus` is the one with a leaf, and it is also the one the phase 3 workbook cites
+Luhamaa 2025 for. The eco print entry mentions „сап-зелено" from the FRUIT, which is
+Rhamnus cathartica's famous colour — so the entry may be describing one species' fruit and
+another's leaves under one heading.
+
+**Recommended:** check the source of the entry before anything is written. If the leaves are
+Frangula, the record moves; if Rhamnus cathartica genuinely dyes from its leaves, the plant
+gains a part — and a part is a claim about the plant, not a convenience for the record.
+
+**Not decided. Asked of the owner.**
