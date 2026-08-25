@@ -12,6 +12,36 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc36 — 24 August 2026
+
+**Plant Library v1 — done.** Phase 4 merged and the owner's Definition of Done turned into a
+layer of the check suite.
+
+- **21 fills and 4 new records.** Twenty of the fills restore a mordant the record's own code
+  had been claiming all along: `nomordant` in the code, nothing in the key. Not a new
+  assumption — recorded information the key had never carried.
+- **Avocado, thyme, oregano and rosemary** each gained a first working combination.
+- **`scripts/audit-library.mjs`** runs all ten clauses. It holds the distinction the whole
+  thing turns on: an intentional null is a FINISHED field. 54 eco print records do not name a
+  fibre because the review never mentioned cloth, and counting those as outstanding is how a
+  finished library looks unfinished for ever — and how the 28 real gaps get lost among them.
+  §13db
+- **The audit's own first version was wrong** in the same way, and failed seven parts for
+  having no harvest season. Brazilwood, cutch and henna are bought, `sourcedNotGathered` says
+  so, and there is no month to name. „Unknown" and „not applicable" are different states.
+- **Lavender and medlar have no combination and will not get one.** For lavender the accounts
+  never resolve into one key; for medlar the only historical combination uses bismuth, which
+  will not be added to the vocabulary to close a gap. Both keep a full plant profile. The
+  audit reads their reasons out of `DOCUMENTATION_DECISIONS_NEEDED.md`, so an exemption
+  cannot outlive its explanation.
+- **Clause 5 checks four semantic traps**: an iron blanket recorded as an iron mordant, a pH
+  modifier in the mordant field, `mixed` used to mean „works on both", and two records
+  answering one question. All clear; all seen failing first.
+
+The library is no longer what stands between the application and 1.0.
+
+---
+
 ## 1.0.0-rc35 — 24 August 2026
 
 Phase 3 of the library, and the eco print half of the reference finally has something in it.

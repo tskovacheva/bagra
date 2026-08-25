@@ -20,33 +20,24 @@ outstanding unless a line says otherwise.
 
 # Part A — required before a paid v1.0
 
-## A1. The shipped data
+## A1. The library — **DONE at rc36**
 
-This is the product. The JavaScript is not the moat; the library is.
+Plant Library v1 meets every clause of the Definition of Done, and
+`scripts/audit-library.mjs` runs it as a layer of the check suite so it stays met (§13db).
 
-- **Combinations: the fibre column.** 102 records now cover 35 of 57 plants (§13cl), but
-  91 do not name the fibre and 93 do not name the mordant strength. The guide records
-  neither — it was written for someone who knows what is on the bench. **Only the owner can
-  answer this**, and it is one column against her own swatches. It turns 91 records from
-  „does not state the fibre" into answers about cotton or wool.
-- **Combinations: protein.** Every record is cellulose or silent. Wool and silk are a
-  second pass and were always understood to be.
-- **Two groups set aside** because the key cannot carry the extraction method: woad leaf
-  (immersion against a reduction vat) and alkanet root (bath against an alcohol extract).
-  Either the key gains the dimension or these stay swatches. §13cl, §13cc
-- **Seed recipes.** Three ship. A buyer opening Recipes finds three records. The studio
-  database holds more; which are fit to distribute has not been decided.
-- **Eco print is the weakest half of the library.** 25 plants are marked for it and none
-  records which leaf surface prints better; 18 carry a compositional role marked *needs
-  testing*. No book supplies these — they come from bundles, recorded.
-- **Six fields are empty for a reason:** drying ratio, preferred leaf surface, years to
-  maturity, and the rest. They need a scale and a bundle. Either fill them or say plainly
-  in the application that they are unfilled.
-- **Library expansion** from Nicola Cliffe's book — complete records only, never partial.
-  **Not a release blocker by default.** 57 plants is a library; more is better and is not a
-  condition of selling. Whether 1.0 ships with 57 or waits for more is a product decision,
-  and it is listed here so it is taken rather than assumed. Moved out of A1's blocking set
-  at the owner's instruction, rc25.
+```
+plants with a full basic profile      57/57
+plants with at least one combination   55/57   (lavender and medlar documented)
+combination records                    163     (55 eco print)
+intentional nulls                       54     eco print records with no fibre named
+unresolved gaps                         28     immersion records with no fibre named
+sources registered                      45
+invalid codes                            0
+```
+
+**Post-v1, continuous enrichment** — none of it foundation: the compositional role for the
+remaining 24 plants, `printingSide`, a bibliography per row, a swatch for every literature
+combination, more combinations per plant.
 
 ## A2. Sources and attribution
 

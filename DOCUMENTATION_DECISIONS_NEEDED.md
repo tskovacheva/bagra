@@ -349,3 +349,52 @@ Frangula, the record moves; if Rhamnus cathartica genuinely dyes from its leaves
 gains a part — and a part is a claim about the plant, not a convenience for the record.
 
 **Not decided. Asked of the owner.**
+
+---
+
+## 15. Two plants have no combination, and that is the finished state
+
+**Settled at 1.0.0-rc36**, against clause 4 of the Definition of Done: a plant without a
+reliable combination is a DOCUMENTED absence, not unfinished work.
+
+**Лавандула — `lavandula_angustifolia`.** There is scattered information about dyeing with
+lavender and none of it resolves into a clean key for this model: the accounts do not agree
+on the part, and where a colour is reported the fibre and the mordant are usually left out.
+A record would have to be assembled from fragments that were never about the same
+experiment.
+
+**Мушмула — `mespilus_germanica`.** The one historical combination found uses **bismuth**,
+which is not in the vocabulary and is not a mordant this application will teach. Adding a
+code for it in order to close a gap would be the tail wagging the dog: the vocabulary
+describes what the studio does.
+
+Both remain in the library with a full plant profile — they are real dye plants and the
+profile is what the plant screen shows. What is absent is the reference answer, and the
+application says so rather than guessing.
+
+**These two are why the audit reads the reasons out of THIS file.** An exemption whose
+reason lives somewhere else is an exemption nobody can check; if either name is removed from
+this section, `audit-library.mjs` fails again the same day.
+
+---
+
+## 16. Plant Library v1 — DONE
+
+**1.0.0-rc36.** Every clause of the owner's Definition of Done holds, and `check.sh` runs
+the audit as a layer so it goes on holding.
+
+```
+plants with a full basic profile      57/57
+plants with at least one combination   55/57
+plants without one                       2  — lavender and medlar, both documented above
+combination records                    163
+  of them eco print                     55
+intentional nulls (eco print fibre)     54
+unresolved gaps (other fibre)           28
+sources registered                      45
+invalid codes                            0
+```
+
+Moved to post-v1 continuous enrichment, by clause 8 and the owner's own list: the
+compositional role for the remaining 24 plants, `printingSide` (§13), a bibliography per
+row, a swatch for every literature combination, and more combinations per plant.

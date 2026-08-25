@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc35 · 123 sections
+**Status:** 1.0.0-rc36 · 124 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -8678,6 +8678,92 @@ actually being made.
 ### Held, awaiting the owner
 
 Recorded in `DOCUMENTATION_DECISIONS_NEEDED.md`. None is applied.
+
+## 13db. Plant Library v1 — done, by a definition that can be re-run (1.0.0-rc36)
+
+The owner wrote a Definition of Done for the plant library. `audit-library.mjs`
+runs it, and `check.sh` runs that — because a definition of done which cannot be
+re-run is a claim made once about a moment that has passed.
+
+### The distinction the whole thing turns on
+
+**An intentional null is a finished field.** Fifty-four eco print records do not
+name a fibre, because the review they came from described the print and the
+colour and never mentioned the cloth. That is the completed state of that field,
+not a blank waiting to be filled.
+
+Counting those as work outstanding does two kinds of damage. A library that is
+finished goes on looking unfinished for ever; and the twenty-eight real gaps —
+immersion records that could still be answered — get lost among fifty-four that
+never will be. So the audit counts them apart and reports only the second as
+outstanding. Clause 6 of the Definition says this in the owner's own words.
+
+The same distinction, met again: seven parts carry no harvest months, and the
+first version of this audit failed all seven. Brazilwood, cutch and henna are
+BOUGHT — `sourcedNotGathered` says so on the record — and there is no month to
+name because the question does not apply. „Unknown" and „not applicable" are
+different states (§16.00), and an audit that conflates them manufactures work.
+
+### Two documented absences
+
+Lavender and medlar have no combination and will not get one. For lavender the
+accounts do not resolve into a clean key: they disagree on the part, and where a
+colour is reported the fibre and the mordant are usually left out. For medlar
+the only historical combination uses **bismuth**, which is not in the vocabulary
+and will not be added to close a gap — the vocabulary describes what the studio
+does, and adding a code to make a number look better is the tail wagging the
+dog.
+
+Both keep a full plant profile. What is absent is the reference answer, and the
+application says so rather than guessing.
+
+**The audit reads their reasons out of `DOCUMENTATION_DECISIONS_NEEDED.md`
+rather than holding a list of its own.** An exemption whose reason lives
+somewhere else is an exemption nobody can check: remove either name from that
+file and the audit fails the same day. Seen failing, in that direction and two
+others.
+
+### What it checks
+
+| clause | asked as |
+|---|---|
+| 1 | every plant carries all nine profile fields and a risk level |
+| 2 | every GATHERED part has a known code and a season |
+| 3 | no `mixed` fibre class, no combination without an expected colour |
+| 4 | every plant has a combination or a written reason |
+| 5 | iron blanket ≠ iron mordant · no pH in the mordant field · no two records with one key |
+| 6 | eco print silence counted apart from a real gap |
+| 7 | every cited code resolves in the register |
+| 10 | no code outside the vocabulary |
+
+Clause 5 is the one worth naming: an iron BLANKET is a cloth soaked in iron
+water and laid against the work; an iron MORDANT is iron the fibre took up
+beforehand. They give different results, and a record confusing them tells
+somebody to do the wrong thing in a studio.
+
+### The tally
+
+```
+plants with a full basic profile      57/57
+plants with at least one combination   55/57
+combination records                    163
+  of them eco print                     55
+intentional nulls (eco print fibre)     54
+unresolved gaps (other fibre)           28
+sources registered                      45
+invalid codes                            0
+```
+
+### Moved to post-v1
+
+By clause 8 and the owner's own list: the compositional role for the remaining
+24 plants, `printingSide` (§13 of the decisions file), a bibliography per row, a
+swatch for every literature combination, and more combinations per plant. None
+of them is foundation; all of them are enrichment.
+
+**The library is no longer what stands between the application and 1.0.** What
+does is `A6` — the legal and safety texts, units, and the numerical tests on the
+calculators — and the interface, which is now where the value is.
 
 ---
 

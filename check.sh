@@ -260,6 +260,14 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     the photographs that exist nowhere else — it read a store nothing has
   #     ever written to, so it told everybody they had none to lose.
   node scripts/try-hardening.mjs || exit 1
+  # 5h. The owner's Definition of Done for Plant Library v1, run rather than
+  #     remembered (§13db). It holds the one distinction the whole thing turns
+  #     on: a gap the source will never fill is a FINISHED field, and counting
+  #     it as work outstanding is how a library that is done goes on looking
+  #     undone for ever. It also reads the reasons for the two documented
+  #     absences out of DOCUMENTATION_DECISIONS_NEEDED.md, so an exemption
+  #     cannot outlive its explanation.
+  node scripts/audit-library.mjs || exit 1
   # 6. jsdom has no layout engine: nothing has a size, so nothing can overflow,
   #    overlap, or be clipped, and a stylesheet that failed to apply looks
   #    exactly like one that did. Every fault of *shape* has had to be found by
