@@ -198,9 +198,17 @@ async function renderList(root) {
           </span>
         </div>
       </td>
-      <td class="swatchcell">${sw.length
+      <td class="swatchcell">${sw.some(x => x.hex)
         ? `<span class="swatchrow">${sw.map(x =>
-            `<span class="miniswatch" style="background:${esc(x.hex)}" title="${esc(x.caption || '')}"></span>`).join('')}</span>`
+            // A record with no measured colour reached the list for the first
+            // time in rc41, and this drew `background:` with nothing after it —
+            // a blank square that reads as a fault rather than as an absence.
+            // The row is a glance at what a plant gives, so an unmeasured
+            // record contributes its NAME to the tooltip and no square at all:
+            // an empty box in a row of colours is noise.
+            x.hex
+              ? `<span class="miniswatch" style="background:${esc(x.hex)}" title="${esc(x.caption || '')}"></span>`
+              : '').join('')}</span>`
         : ''}</td>
       <td>${esc(roleNames)}</td>
       <td>${esc(parts)}</td>
