@@ -519,29 +519,19 @@ function sectionRows(p) {
 async function useNowCard(p) {
   const rows = [];
 
-  for (const part of p.parts || []) {
-    const partName = await label('plant_part', part.partCode);
-    for (const d of part.dosing || []) {
-      const cond = d.condition ? await label('placement_condition', d.condition) : '';
-      const amount = d.max && d.max !== d.min ? `${d.min}–${d.max}%` : `${d.min}%`;
-      // Which method this dose is the dose FOR (§13cc). Named only when the
-      // record says — a dose recorded without a method is not a decoction dose,
-      // it is a dose nobody wrote the method down for, and labelling it would
-      // invent the missing half.
-      const mode = d.extractionMode ? await label('extraction_mode', d.extractionMode) : '';
-      rows.push(tile('i-plant', t('plants.partAndCondition'),
-        `${esc(partName)}${cond ? ', ' + esc(cond) : ''}`));
-      rows.push(tile('i-wof', t('plants.dose'), nb(`${esc(amount)} WOF`), mode));
-    }
-  }
-
-  // Temperatures, per part (§13az). A number somebody estimated reads as an
-  // estimate, here as everywhere (§13ai).
+  // ONE ROW PER PART, not a flat strip of tiles (§13dk).
   //
-  // Repeated per part only where the parts disagree. Elder leaf and elder fruit
-  // want different heat and both must be sayable; a plant whose parts all cook
-  // the same says it once, because the same number under four headings reads as
-  // four separate findings.
+  // Part-and-condition and its dose were pushed as two separate tiles into an
+  // auto-fitting grid, so a plant with three dosings produced „ЧАСТ И
+  // СЪСТОЯНИЕ · ПРЕПОРЪЧИТЕЛНА ДОЗА" three times across one row — the same two
+  // headings repeating, reading as a table that had come apart. Worse, the
+  // wrapping could put a part in one row and its dose in the next.
+  //
+  // A part's figures belong together because they are read together: which
+  // part, in what state, how much of it, how hot to draw it and how hot to dye.
+  // That is a specification line, and a line is what it is drawn as.
+  const partRows = [];
+
   const span = (v) => v && (v.min != null || v.max != null)
     ? (v.max != null && v.max !== v.min ? `${v.min}–${v.max}` : `${v.min ?? v.max}`) : '';
 
@@ -552,6 +542,37 @@ async function useNowCard(p) {
   const spanU = (v) => (v && (v.min != null || v.max != null))
     ? tempSpan(v.min, v.max ?? v.min) : '';
 
+
+  for (const part of p.parts || []) {
+    const partName = await label('plant_part', part.partCode);
+    for (const d of part.dosing || []) {
+      const cond = d.condition ? await label('placement_condition', d.condition) : '';
+      const amount = d.max && d.max !== d.min ? `${d.min}–${d.max}%` : `${d.min}%`;
+      // Which method this dose is the dose FOR (§13cc). Named only when the
+      // record says — a dose recorded without a method is not a decoction dose,
+      // it is a dose nobody wrote the method down for, and labelling it would
+      // invent the missing half.
+      const mode = d.extractionMode ? await label('extraction_mode', d.extractionMode) : '';
+      partRows.push({
+        part: part.partCode,
+        who: `${partName}${cond ? ', ' + cond : ''}`,
+        dose: nb(`${amount} WOF`),
+        mode,
+        tE: spanU(part.tempExtractC),
+        tD: spanU(part.tempDyeC),
+        max: part.softMaxTempC ? tempWith(part.softMaxTempC) : '',
+      });
+    }
+  }
+
+  // Temperatures, per part (§13az). A number somebody estimated reads as an
+  // estimate, here as everywhere (§13ai).
+  //
+  //
+  // Repeated per part only where the parts disagree. Elder leaf and elder fruit
+  // want different heat and both must be sayable; a plant whose parts all cook
+  // the same says it once, because the same number under four headings reads as
+  // four separate findings.
   const temps = (p.parts || []).map(pt => ({
     part: pt.partCode,
     raw: pt,
@@ -568,7 +589,12 @@ async function useNowCard(p) {
   const same = temps.length > 1
     && temps.every(x => x.line === temps[0].line && x.mode === temps[0].mode);
 
-  for (const x of same ? temps.slice(0, 1) : temps) {
+  // Only the parts a dosing line does not already carry. A part with a dose has
+  // its temperatures on that line; repeating them as tiles would put the same
+  // figure on the screen twice under two different headings, which reads as two
+  // findings (the same argument as `same` below, one level up).
+  const covered = new Set(partRows.map(r => r.part));
+  for (const x of (same ? temps.slice(0, 1) : temps).filter(x => !covered.has(x.part))) {
     const heading = same ? t('plants.temperatures')
       : `${await label('plant_part', x.part)}`;
     // Named only where the part is restricted. An unrestricted part says
@@ -611,7 +637,32 @@ async function useNowCard(p) {
   // to dye, and the line not to cross.
   //
   // The order is the order of use, not the order of the record.
-  return rows.length ? `<div class="usenow">${rows.join('')}</div>` : '';
+  const spec = partRows.length ? `
+    <div class="panel flush">
+      <table class="grid usespec">
+        <thead><tr>
+          <th>${t('plants.partAndCondition')}</th>
+          <th>${t('plants.dose')}</th>
+          <th>${t('plants.tempExtract')}</th>
+          <th>${t('plants.tempDye')}</th>
+          <th>${t('plants.softMaxTemp')}</th>
+        </tr></thead>
+        <tbody>${partRows.map(r => `
+          <tr>
+            <td class="leadcell">${esc(r.who)}${r.mode ? ` <span class="hint">${esc(r.mode)}</span>` : ''}</td>
+            <td>${r.dose}</td>
+            <td>${r.tE || '—'}</td>
+            <td>${r.tD || '—'}</td>
+            <td>${r.max || '—'}</td>
+          </tr>`).join('')}</tbody>
+      </table>
+    </div>` : '';
+
+  // The figures that belong to the PLANT rather than to a part stay tiles: they
+  // are single values with no row to sit in, and a one-row table of five
+  // unrelated numbers is a worse thing than five tiles.
+  const strip = rows.length ? `<div class="usenow">${rows.join('')}</div>` : '';
+  return spec + strip;
 }
 
 // A figure and its unit are one thing to read, so they are one thing to wrap.
@@ -795,11 +846,22 @@ async function renderRead(root, p) {
       ? await swatchContext(s.combo)
       : [s.partCode ? await label('plant_part', s.partCode) : '', s.conditions, partTemp]
           .filter(Boolean).join(' · ');
+    // NO BOX WHERE THERE IS NO MEASUREMENT (§13dk).
+    //
+    // rc42 drew an outlined, crossed square for a record whose colour was never
+    // measured. The reasoning was that an absence should be visible — and it was
+    // wrong here, because the colour is NOT absent. „Ярко до слънчево жълто" is
+    // written beside the square, and the square says the opposite: an empty hole
+    // where the answer should be, arguing with the answer next to it.
+    //
+    // The mark still belongs where a swatch is expected and one is missing — a
+    // row of colours in the Reference table, where every other cell holds a
+    // colour and this one cannot. On a card the words carry the answer, so the
+    // card gives them the width instead of reserving space for a picture that is
+    // never coming.
     return `
-    <div class="refcard" style="cursor:default">
-      ${s.hex
-        ? `<div class="refswatch" style="background:${esc(s.hex)}"></div>`
-        : `<div class="refswatch unmeasured" title="${esc(t('ref.noSwatch'))}"></div>`}
+    <div class="refcard${s.hex ? '' : ' nowatch'}" style="cursor:default">
+      ${s.hex ? `<div class="refswatch" style="background:${esc(s.hex)}"></div>` : ''}
       <div class="refbody">
         <b>${esc(s.caption || '—')}</b>
         ${ctx ? `<div class="hint">${esc(ctx)}</div>` : ''}

@@ -73,6 +73,20 @@ function blank() {
  * made a eucalyptus record surface under a search for oak merely because both
  * were on cotton. Useful sometimes, but not an answer.
  */
+// The dimensions the ranking works by, named once. `compare` builds its
+// criteria from this and the detail panel draws it, so the two cannot come
+// apart: a panel showing six of seven conditions means somebody is being ranked
+// by a field they were never shown (§13dk).
+export const CRITERIA = [
+  ['plantId',     'ref.plant'],
+  ['partCode',    'ref.part'],
+  ['processCode', 'ref.process'],
+  ['fibreClass',  'ref.fibre'],
+  ['mordantCode', 'ref.mordant'],
+  ['mordantBand', 'ref.band'],
+  ['phCode',      'ref.ph'],
+];
+
 export function compare(record, q) {
   const k = record.key || {};
 
@@ -317,12 +331,24 @@ async function detailPane(record, plantsById) {
 
       ${!e.swatchHex ? `<p class="hint">${t('ref.noSwatchLong')}</p>` : ''}
 
+      ${/* EVERY CONDITION THE RANKING USES, named, and named even where the
+            record is silent (§13dk). `fact()` renders nothing for an empty
+            value, so a record that does not state its fibre simply had no fibre
+            line — and a reader could not tell cotton from nobody-wrote-it-down,
+            which is the §13ck distinction disappearing on the one screen built
+            to show it. */ ''}
       ${facts([
-        fact(t('ref.fibre'), esc(await label('fibre_class', k.fibreClass))),
+        fact(t('ref.plant'), esc(text(plantsById.get(k.dyeSource?.plantId)?.nameCommon)
+          || t('ref.unspecified'))),
+        fact(t('ref.part'), esc(await label('plant_part', k.dyeSource?.partCode)
+          || t('ref.unspecified'))),
+        fact(t('ref.fibre'), esc(await label('fibre_class', k.fibreClass) || t('ref.unspecified'))),
         fact(t('ref.mordant'), esc(k.mordantCode === 'none'
-          ? t('ref.none') : await label('mordant_type', k.mordantCode))),
-        fact(t('ref.band'), esc(await label('mordant_strength', k.mordantBand))),
-        fact(t('ref.process'), esc(await label('process', k.processCode))),
+          ? t('ref.none')
+          : (await label('mordant_type', k.mordantCode) || t('ref.unspecified')))),
+        fact(t('ref.band'), esc(await label('mordant_strength', k.mordantBand)
+          || t('ref.unspecified'))),
+        fact(t('ref.process'), esc(await label('process', k.processCode) || t('ref.unspecified'))),
         fact(t('ref.ph'), k.medium?.phCode
           ? esc(await label('ph', k.medium.phCode)) : t('ref.unspecified')),
         fact(t('ref.confidence'), esc(await label('confidence', record.confidence || 'unverified'))),
