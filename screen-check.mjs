@@ -303,6 +303,23 @@ try {
               + (el.textContent.trim() ? ` "${el.textContent.trim().slice(0, 16)}"` : ''),
           });
         }
+        // A SQUARE THAT SAYS „NOBODY MEASURED THIS" HAS TO LOOK DIFFERENT FROM
+        // ONE THAT HOLDS A COLOUR (§13di). The rule that draws it lived four
+        // hundred lines above `.refswatch` and the later `border:1px solid`
+        // simply won, so for two releases the mark was in the stylesheet and
+        // never once on a screen. A cascade fault is invisible to every layer
+        // but this one: it needs a real browser to be seen at all.
+        const unmarked = [];
+        for (const el of document.querySelectorAll('.unmeasured')) {
+          const cs = getComputedStyle(el);
+          if (cs.display === 'none') continue;
+          const dashed = cs.borderTopStyle === 'dashed' || cs.borderStyle === 'dashed';
+          const painted = cs.backgroundImage !== 'none';
+          if (!dashed && !painted) {
+            unmarked.push(el.className);
+          }
+        }
+
         // Text wider than the box it sits in. The plate on the dashboard tiles
         // pushed the name into the count — "Справо31ик" — and no off-screen
         // measurement can see it, because the collision happens in the middle
@@ -351,7 +368,7 @@ try {
             labelShown: labelled ? getComputedStyle(labelled, '::before').content !== 'none' : null,
           };
         }
-        return { over, small, buried, clipped, collided, table, docW: document.documentElement.scrollWidth, W };
+        return { over, small, unmarked, buried, clipped, collided, table, docW: document.documentElement.scrollWidth, W };
       });
 
       if (seen.docW > seen.W + 1)
@@ -363,6 +380,10 @@ try {
         fail(`${name} ${route}`, `text overruns its box: ${c}`);
       for (const c of seen.clipped)
         fail(`${name} ${route}`, `content is clipped, not scrollable: ${c}`);
+      if ((seen.unmarked || []).length)
+        fail(`${name} ${route}`,
+          `${seen.unmarked.length} unmeasured swatch(es) look exactly like measured ones — ` +
+          `the rule is being overridden`);
       if (seen.table) {
         if (name === 'phone') {
           if (seen.table.rowDisplay !== 'block')

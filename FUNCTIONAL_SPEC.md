@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc41 · 130 sections
+**Status:** 1.0.0-rc42 · 131 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -9275,6 +9275,77 @@ depended on the order they had been written in. 24j clears the query itself now.
 
 A guard that depends on the one before it is testing the order they were written
 in.
+
+## 13di. A square with no colour in it (1.0.0-rc42)
+
+Two faults the owner saw on a real screen, and both were introduced by the
+release before them.
+
+### The mark that says „nobody measured this" has never once been visible
+
+`.unmeasured` — the dashed outline introduced in §13df — sits at line 475 of the
+stylesheet. `.refswatch` sits at 1162 and sets `border:1px solid`. The later
+rule simply won.
+
+So for two releases the rule was in the file, described in the specification,
+asserted by a guard that read the class name, and **absent from every screen**.
+What appeared instead was a plain empty box, which reads as a picture that
+failed to load.
+
+It is written after the rules it has to beat now, and it names every place a
+swatch is drawn — `.thumb` in the records table was missed by a rule written for
+`.refswatch`, which is how a mark meant to be unmissable was absent from a whole
+screen while looking present in the CSS. A faint diagonal was added: an outline
+alone still reads as an empty container, and a line through it reads as
+deliberate.
+
+**No layer could see this.** A class-name check passes on a class name. Only a
+real browser resolves a cascade, so the assertion is in `screen-check`, which
+compares the computed border and background of every `.unmeasured` element
+against the ones beside it. It found 61 on a screen this release had not thought
+to look at.
+
+### The list drew fifty colourless squares
+
+§13dh let records with no measured colour reach the plant screen, which was
+right. The LIST writes `background:${hex}` with no test, and `hex` is now an
+empty string for sixty-one of them — `background:` followed by nothing.
+
+A row of swatches in a list is a glance at what a plant gives. An unmeasured
+record contributes its name to the tooltip and no square at all: an empty box in
+a row of colours is noise, where on the detail screen — one card, one answer —
+the absence is the answer and is worth drawing.
+
+Guard 24k drew the detail view and not the list, and passed against a
+deliberately broken list. It draws both now. **A screen that is not drawn is a
+screen that is not checked**, which is §13df's own lesson arriving in the module
+that had just been given it.
+
+### Prose has a measure, and the measure was a number
+
+`--measure: 672px` did two wrong things at once: on a narrow column it could
+overflow, and on a wide one it left four hundred empty pixels beside a strip of
+text.
+
+```css
+--measure: min(100%, 74ch);
+```
+
+`ch` tracks the typeface and the size, so the measure is stated as what it
+actually is — about seventy-four characters — and `min()` lets it give way when
+there is less room than that.
+
+**The ceiling stays, because the ceiling is the point.** Text is not more
+readable for being wider: at 1080px and 14.5px a line runs to about 130
+characters and the eye loses the return sweep. „Use the available width" cannot
+mean „set body text in 130-character lines".
+
+The way a wide screen is used for prose is a second column of SECTIONS, not a
+longer line. Above 1100px the narrative sub-blocks — „Багрилни качества",
+„Багрилна съставка", „Как се държи" — flow into two columns, each still at its
+own measure. Sections, never paragraphs: splitting one passage into columns
+makes it read bottom-left to top-right, which is a newspaper trick and wrong for
+something consulted rather than read through.
 
 ---
 

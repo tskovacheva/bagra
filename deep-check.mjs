@@ -4682,7 +4682,31 @@ const dirty = await import('./dirty.js');
 
     // An encoding fault is invisible in a diff and obvious on a screen.
     if (/\uFFFD/.test(root.innerHTML)) wrong.push(`${code}: a replacement character on the page`);
+
+    // A SQUARE WITH NO COLOUR IN IT (§13di). Making unmeasured records visible
+    // in rc41 meant `background:` with nothing after it in one place and a
+    // colourless box in another — which reads as a picture that failed to load
+    // rather than as a colour nobody measured. Either the square carries a
+    // colour or it carries the mark that says it has none.
+    const blanks = [...root.querySelectorAll('.refswatch, .miniswatch, .thumb')]
+      .filter(el => !el.classList.contains('unmeasured') && !el.classList.contains('empty'))
+      .filter(el => el.tagName !== 'IMG')
+      .filter(el => !/background:\s*(#|rgb|var)/.test(el.getAttribute('style') || ''));
+    if (blanks.length) wrong.push(`${code}: ${blanks.length} swatch(es) with neither a colour nor the unmeasured mark`);
   }
+
+  // THE LIST TOO. The first version of this guard drew only the detail view and
+  // passed against a deliberately broken list — the fault the owner had actually
+  // seen. A screen that is not drawn is a screen that is not checked, which is
+  // §13df's lesson arriving in a module that had just been given it.
+  plantsMod.reset?.();
+  plantsMod.open();
+  await plantsMod.render(root);
+  await settle();
+  const listBlanks = [...root.querySelectorAll('.miniswatch')]
+    .filter(el => !/background:\s*(#|rgb|var)/.test(el.getAttribute('style') || ''));
+  if (listBlanks.length)
+    wrong.push(`the list draws ${listBlanks.length} colourless square(s)`);
 
   if (wrong.length) fail('plants', new Error(wrong.join('; ')));
   else console.log('  plants: every field, every combination and every explanation reaches the screen');

@@ -12,6 +12,33 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc42 — 25 August 2026
+
+Two faults the owner saw on a real screen, both introduced by the release before them.
+
+- **The dashed „no measured colour" mark has never once been visible.** The rule sat 700
+  lines above `.refswatch`, whose `border:1px solid` simply won — so for two releases it was
+  in the file, in the specification, asserted by a guard that read the class name, and on no
+  screen at all. What appeared was a plain empty box, which reads as an image that failed to
+  load. Written after the rules it has to beat now, naming every place a swatch is drawn, and
+  with a faint diagonal so it reads as deliberate. §13di
+- **No layer could see that.** A class-name check passes on a class name; only a real browser
+  resolves a cascade. `screen-check` now compares the computed border of every `.unmeasured`
+  element — and found 61 on a screen this release had not thought to look at.
+- **The list drew fifty colourless squares.** rc41 let unmeasured records reach the plant
+  screen, which was right; the list writes `background:${hex}` with no test. In a list a row
+  of swatches is a glance, so an unmeasured record gives its name to the tooltip and no square
+  — an empty box among colours is noise. On the detail screen the absence is the answer and
+  is drawn.
+- **Guard 24k drew the detail view and not the list**, and passed against a deliberately
+  broken list. It draws both now. A screen that is not drawn is a screen that is not checked.
+- **`--measure` was a number and is now a measure**: `min(100%, 74ch)`, which tracks the
+  typeface and gives way on a narrow column. The ceiling stays — a 130-character line is not
+  more readable for being wider. Above 1100px the narrative sections flow into two columns,
+  each at its own measure: sections, never paragraphs. §13di
+
+---
+
 ## 1.0.0-rc41 — 25 August 2026
 
 What the plant screen was losing. The owner said the page held less than it should; the
