@@ -457,9 +457,10 @@ async function renderSearch(root) {
     byColour = rankByColour(allowed.length ? allowed : records, query.colourHex);
   }
 
-  const exactCards = await Promise.all([...exact, ...open].slice(0, 40)
-    .map(x => resultCard(x.r, plantsById, x.m)));
-  const nearCards = await Promise.all(near.slice(0, 12).map(x => resultCard(x.r, plantsById, x.m)));
+  // Kept: `resultCard` still renders the records tab, which is a browse rather
+  // than an answer and reads better as cards.
+  const exactList = [...exact, ...open].slice(0, 40);
+  const nearList = near.slice(0, 12);
 
   // Which parts to offer depends on the plant: avocado has stones and skins,
   // not roots and bark, and offering the whole vocabulary invites dead queries.
@@ -505,45 +506,77 @@ async function renderSearch(root) {
   // Which record the panel shows. The first result unless one has been picked,
   // and back to the first when the question changes — a panel still showing the
   // answer to a question nobody is asking any more is worse than an empty one.
-  const ranked = byColour.map(x => x.r);
+  // Whatever the question was, these are its answers in order, and the panel
+  // shows one of them. Previously only the colour path had a `ranked` list, so
+  // only the colour path could have a panel.
+  const ranked = query.colourHex
+    ? byColour.map(x => x.r)
+    : [...exact, ...open, ...near].map(x => x.r);
   const shownId = (selectedId && ranked.some(r => r.id === selectedId))
     ? selectedId
     : (ranked[0]?.id || null);
   const shown = ranked.find(r => r.id === shownId) || null;
 
-  const colourRows = (await Promise.all(byColour.map(async ({ r }) => {
-    const diff = colourDifference(query.colourHex, r.expected?.swatchHex);
+  // ONE PRESENTATION FOR BOTH QUESTIONS (§13dj).
+  //
+  // The colour question drew rows with a panel; the conditions question drew
+  // cards with none. So a record with no measured colour — which cannot be
+  // ranked by colour at all — carried influences and sources that could never
+  // be read, and which half of the screen you got depended on which field you
+  // had filled in. The badge changes with the question, because the question
+  // changes what „how close is this" means; nothing else does.
+  const rowFor = async (r, badge) => {
     const conf = r.confidence || 'unverified';
     return `
       <tr data-pick="${r.id}"${r.id === shownId ? ' class="on"' : ''}>
         <td class="swatchcell">${swatch(r.expected?.swatchHex, 'thumb')}</td>
-        <td>${esc(diff && diff.code !== 'same' ? t('ref.diff.' + diff.code) : t('ref.diff.same'))}</td>
-        <td>${esc(text(r.expected?.colourText) || '—')}</td>
-        <td><b>${esc(await sourceLine(r, plantsById))}</b></td>
+        <td>
+          <b>${esc(text(r.expected?.colourText) || '—')}</b>
+          <div class="hint">${esc(await sourceLine(r, plantsById))}</div>
+        </td>
         <td>${esc(await conditionLine(r))}</td>
-        <td><span class="confdot ${esc(conf)}" title="${esc(await label('confidence', conf))}"></span></td>
+        <td class="rowbadge">
+          ${badge ? `<span class="chip near">${esc(badge)}</span>` : ''}
+          <span class="confdot ${esc(conf)}" title="${esc(await label('confidence', conf))}"></span>
+        </td>
       </tr>`;
+  };
+
+  const colourRows = (await Promise.all(byColour.map(async ({ r }) => {
+    const diff = colourDifference(query.colourHex, r.expected?.swatchHex);
+    return rowFor(r, diff && diff.code !== 'same' ? t('ref.diff.' + diff.code) : t('ref.diff.same'));
   }))).join('');
 
   // Results on the left, the chosen one on the right — and one column on a
   // phone, where the panel follows the list rather than fighting it for width.
-  const colourTable = colourRows ? `
+  const panelHtml = await detailPane(shown, plantsById);
+
+  const split = (bodyHtml) => bodyHtml ? `
     <div class="refsplit">
       <div class="panel flush">
         <table class="grid">
           <thead><tr>
             <th class="swatchcell"></th>
-            <th>${t('ref.col.diff')}</th>
             <th>${t('ref.col.colour')}</th>
-            <th>${t('ref.col.source')}</th>
             <th>${t('ref.col.conditions')}</th>
             <th></th>
           </tr></thead>
-          <tbody>${colourRows}</tbody>
+          <tbody>${bodyHtml}</tbody>
         </table>
       </div>
-      <aside class="refaside">${await detailPane(shown, plantsById)}</aside>
+      <aside class="refaside">${panelHtml}</aside>
     </div>` : '';
+
+  const colourTable = split(colourRows);
+
+  // The conditions question, in the same shape. „Exact" and „near" stay apart —
+  // that distinction is the whole of §13ck and a badge cannot carry it — but
+  // they are rows in one table with one panel beside them, not two galleries
+  // of cards with nothing beside them at all.
+  const exactRows = (await Promise.all(exactList.map(x => rowFor(x.r,
+    x.m.exact ? '' : (x.m.plantMatches ? t('ref.samePlant') : t('ref.openBadge')))))).join('');
+  const nearRows = (await Promise.all(nearList.map(x => rowFor(x.r,
+    x.m.plantMatches ? t('ref.samePlant') : t('ref.sameConditions'))))).join('');
 
   const resultsPane = !asked
     ? `${panel(`<p class="note">${t('ref.startHint')}</p><div class="boxes">${quick}</div>`)}`
@@ -558,11 +591,11 @@ async function renderSearch(root) {
         ${(await Promise.all(['practice', 'literature', 'confirmed', 'unverified'].map(async c =>
           `<span><i class="confdot ${c}"></i>${esc(await label('confidence', c))}</span>`))).join('')}
       </div>
-      ${exactCards.length ? exactCards.join('') : note(t('ref.noExact'), 'warn')}
-      ${nearCards.length ? `
+      ${exactRows ? split(exactRows) : note(t('ref.noExact'), 'warn')}
+      ${nearRows ? `
         <h2 class="nearhead">${t('ref.nearSection')}</h2>
         <p class="hint">${t('ref.nearHint')}</p>
-        ${nearCards.join('')}` : ''}`;
+        <div class="panel flush"><table class="grid"><tbody>${nearRows}</tbody></table></div>` : ''}`;
 
   root.innerHTML = page({
     title: t('reference.title'),

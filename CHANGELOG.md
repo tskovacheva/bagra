@@ -12,6 +12,33 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc43 — 25 August 2026
+
+The Reference gives one answer however the question was asked, and the screen layer checks
+four widths instead of two.
+
+- **Two presentations became one.** A colour question drew rows with a detail panel; a
+  conditions question drew cards with nothing beside them. So a record with no measured
+  colour — which cannot be ranked by colour at all — carried influences and sources readable
+  on no screen. Sixty-one records, every eco print one among them. Recorded as a finding at
+  rc40, closed here. §13dj
+- **Four columns instead of six.** Difference and source had columns of their own; the
+  difference qualifies an answer rather than being one and is a badge at the end, and the
+  source belongs under the colour it produced. The badge changes with the question, because
+  the question changes what „how close is this" means. Nothing else does.
+- **Exact and near stay apart** — that is the whole of §13ck and a badge cannot carry it. Two
+  tables, two headings, one panel beside the first.
+- **A tablet at 834px failed on eight views immediately.** The sidebar disappears at ≤820px
+  and the table's scroll rule ALSO ended at ≤820px, so just above the breakpoint the sidebar
+  took its width and a wide table simply ran past the edge. Neither of the two widths being
+  tested could show it: the fault lived exactly in the gap between them. The rule applies at
+  every width now, and there is no breakpoint left to be on the wrong side of. §13dj
+- **`screen-check` runs phone (390), tablet (834), desk (1280) and wide (1680).** The tablet
+  is where a two-column split gives way and the wide is where prose stops being a strip —
+  neither visible to the two original widths, and both changed the release before.
+
+---
+
 ## 1.0.0-rc42 — 25 August 2026
 
 Two faults the owner saw on a real screen, both introduced by the release before them.

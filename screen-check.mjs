@@ -46,6 +46,11 @@ console.log(`  screen: driving ${CHROME}`);
 const PORT = 8749;
 const PHONE = { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 };
 const DESK = { width: 1280, height: 900, deviceScaleFactor: 1 };
+// Two widths were never four. A tablet is where a two-column split has to give
+// way and a wide desk is where prose stops being a strip — neither of which the
+// phone or the 1280 desk can show, and both of which changed in rc42 (§13di).
+const TABLET = { width: 834, height: 1112, deviceScaleFactor: 2 };
+const WIDE = { width: 1680, height: 1000, deviceScaleFactor: 1 };
 
 let failed = false;
 const fail = (what, why) => { failed = true; console.log(`FAIL ${what}: ${why}`); };
@@ -200,7 +205,8 @@ try {
     return false;
   };
 
-  for (const [name, viewport] of [['phone', PHONE], ['desk', DESK]]) {
+  for (const [name, viewport] of [['phone', PHONE], ['tablet', TABLET],
+                                  ['desk', DESK], ['wide', WIDE]]) {
     await page.setViewport(viewport);
     let worst = null;
 

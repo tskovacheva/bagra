@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc42 · 131 sections
+**Status:** 1.0.0-rc43 · 132 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -9182,8 +9182,9 @@ conditions alone produces cards, not rows, and no panel. So a record with no
 measured colour — which cannot be ranked by colour at all (§13df) — can never
 have its influences read in the panel. It has them; there is no way to see them.
 
-Not fixed here: this release is the data, and the Reference presentation is the
-next one. Recorded so it is not rediscovered as a surprise.
+Closed at 1.0.0-rc43 (§13dj): both questions draw the same rows with the same
+panel. Recorded here rather than left to be rediscovered, which is why it was
+closed three releases later instead of found again by somebody on a screen.
 
 ## 13dh. What the plant screen was losing (1.0.0-rc41)
 
@@ -9346,6 +9347,68 @@ longer line. Above 1100px the narrative sub-blocks — „Багрилни ка�
 own measure. Sections, never paragraphs: splitting one passage into columns
 makes it read bottom-left to top-right, which is a newspaper trick and wrong for
 something consulted rather than read through.
+
+## 13dj. One answer, however the question was asked (1.0.0-rc43)
+
+The Reference had two presentations and which one you got depended on which
+field you had filled in.
+
+**A colour question** drew rows with a detail panel beside them. **A conditions
+question** drew a gallery of cards with nothing beside them at all.
+
+So a record with no measured colour — which cannot be ranked by colour, because
+there is no colour to rank (§13df) — carried influences and sources that could
+be read on no screen. Sixty-one records, every eco print one among them, and the
+knowledge imported at rc40 was reachable for some of them and not others
+depending on a field they did not have. Recorded as a finding at rc40; closed
+here.
+
+### One row builder, one panel
+
+```
+swatch · colour name and where it came from · conditions · badge and confidence
+```
+
+Four columns instead of six. „Difference" and „source" had columns of their own;
+the difference is a secondary thing — it qualifies the answer rather than being
+it — and belongs as a badge at the end, and the source belongs under the colour
+it produced.
+
+**The badge changes with the question, because the question changes what „how
+close is this" means.** By colour it is the difference in nuance; by conditions
+it is whether the record matched exactly, kept the plant, or kept the
+conditions. Nothing else about the row changes.
+
+**Exact and near stay apart.** That distinction is the whole of §13ck and a
+badge cannot carry it — a record that says something else and a record that says
+nothing are not degrees of the same thing. They are two tables under two
+headings, with one panel beside the first.
+
+`resultCard` is kept: the records tab is a browse rather than an answer, and a
+browse reads better as cards.
+
+### Four widths, and the third one found something
+
+The screen layer checked a phone and a 1280px desk. The owner asked for four,
+and a tablet at 834px failed immediately on eight views.
+
+The sidebar disappears at ≤820px. `.panel.flush{overflow-x:auto}` also ended at
+≤820px. So just above the breakpoint the sidebar was present, taking its width,
+and a wide table had no way out — it simply ran past the edge, and the content
+was clipped rather than scrollable.
+
+Neither of the two widths being tested could ever show it: below the breakpoint
+the table scrolls, above it there is room. **The fault lived exactly in the gap
+between the two things being measured.**
+
+The rule applies at every width now. A table that fits does not scroll, so it
+costs nothing where it is not needed, and there is no breakpoint left to be on
+the wrong side of.
+
+`screen-check` runs phone (390), tablet (834), desk (1280) and wide (1680). The
+tablet is where a two-column split has to give way and the wide is where prose
+stops being a strip — neither of which the two original widths could show, and
+both of which had changed the release before.
 
 ---
 

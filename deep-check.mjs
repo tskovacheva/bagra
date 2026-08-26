@@ -4806,6 +4806,16 @@ const dirty = await import('./dirty.js');
 
   if (!byCondition.includes('unmeasured'))
     wrong.push('a record with no measured colour draws no empty swatch');
+
+  // AND A PANEL, on this path too (§13dj). The conditions question used to draw
+  // cards and nothing beside them, so a record that cannot be ranked by colour
+  // — because it has none — carried influences and sources that could not be
+  // read anywhere. Which half of the screen you got depended on which field you
+  // had filled in.
+  if (!byCondition.includes('refdetail'))
+    wrong.push('a question asked by conditions alone gets no detail panel');
+  if (!byCondition.includes('data-pick='))
+    wrong.push('a question asked by conditions alone produces no selectable rows');
   // Inspected as ELEMENTS, not as a string. A colour picker legitimately holds
   // a starting value, and matching the raw HTML confused that with a swatch
   // somebody would read as a measurement.
