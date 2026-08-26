@@ -12,6 +12,31 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc44 — 25 August 2026
+
+- **The empty square argued with the words beside it.** rc42 drew an outlined, crossed box
+  for a record whose colour was never measured. On a card that is wrong: „ярко до слънчево
+  жълто" is written next to it, so the colour is not missing and the box reads as a hole
+  where the answer should be. No box on a card; the words take the width. The mark stays in
+  the Reference table, where the column promises a colour and has to say why there is none —
+  three places, three different right answers. §13dk
+- **The specification strip had come apart.** Part-and-condition and its dose were separate
+  tiles in an auto-fitting grid, so three dosings printed the same two headings three times
+  across a row, and wrapping could separate a part from its own dose. One row per part and
+  condition now: which part, how much, how hot to draw it, how hot to dye, the ceiling.
+  Plant-wide figures stay tiles — a one-row table of five unrelated numbers is worse.
+- **The panel names all seven conditions the ranking uses**, and names them even where the
+  record is silent. It showed three, because `fact()` renders nothing for an empty value — so
+  a reader could not tell cotton from nobody-wrote-it-down, which is §13ck disappearing on
+  the screen built to show it. `CRITERIA` is exported and the guard reads it, so the two
+  cannot come apart.
+- **Two guards were chasing a class name again.** The elder-temperature guard asked
+  `.usetile, .fact` and had already been moved once for the same reason at §13bs; the
+  working-figures guard asked whether `.usenow` held „WOF". Both reported a failure that was
+  true and was not the question. Both ask the page now.
+
+---
+
 ## 1.0.0-rc43 — 25 August 2026
 
 The Reference gives one answer however the question was asked, and the screen layer checks

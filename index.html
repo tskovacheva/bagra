@@ -1201,6 +1201,10 @@ label.btn{cursor:pointer}
 }
 .colourcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
 .colourcards .refcard{min-width:0}
+/* A card whose colour was described rather than measured. The words are the
+   answer, so they take the width a swatch would have had — no reserved gap, no
+   hole, nothing to read as a picture that failed to arrive (§13dk). */
+.refcard.nowatch .refbody{padding-left:2px}
 .sourcenote h2{margin:0 0 6px}
 /* The question is four short answers; the reply is long. Two columns on a desk,
    one on a phone — never four selects stacked down half the screen. */
@@ -1334,6 +1338,12 @@ label.btn{cursor:pointer}
 }
 .headlinebody h2{margin:0 0 6px}
 .latin{font-style:italic;color:var(--muted);font-size:13.5px}
+/* A specification line per part: which part, in what state, how much, how hot
+   to draw it, how hot to dye, and the ceiling. Read across, one part at a time
+   (§13dk). */
+.usespec td{font-variant-numeric:tabular-nums;white-space:nowrap}
+.usespec td.leadcell{white-space:normal}
+.usespec .hint{display:block;font-size:11.5px}
 .usenow{background:var(--ground);border-radius:var(--radius);padding:12px 14px;margin-top:10px}
 
 .timeline{list-style:none;margin:0;padding:0 0 0 4px}

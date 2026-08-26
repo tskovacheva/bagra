@@ -3128,11 +3128,17 @@ const dirty = await import('./dirty.js');
     // The rows that actually carry degrees, not the page as a whole: „40" also
     // occurs in a dosing percentage, and a check satisfied by another row's
     // number is a check that proves nothing (§13aw).
-    // `.usetile` since §13bs, where the working figures became a strip of
-    // tiles. `.fact` is still used elsewhere on the screen, so this asked a
-    // question about a part of the page that no longer holds the answer — and
-    // reported zero rather than reporting that it could not tell.
-    const degrees = [...root.querySelectorAll('.usetile, .fact')]
+    // ASKED OF THE SCREEN, not of a class name. This has now chased the
+    // figures twice: `.fact` when they became `.usetile` at §13bs, and
+    // `.usetile` when a part's line became a specification row at §13dk. Each
+    // time it reported „zero temperature rows" — which is indistinguishable
+    // from the temperatures being gone, and is the reason it looked like a
+    // regression both times.
+    //
+    // What is being asked is whether both of elder's temperatures are legible
+    // to somebody looking at the page. So the page is what is read, split into
+    // the cells that hold text, whatever those cells happen to be called.
+    const degrees = [...root.querySelectorAll('td, .usetile, .fact, li, p')]
       .map(el => el.textContent || '')
       .filter(x => x.includes('°C'));
     const distinct = new Set(degrees.map(x => x.replace(/\s+/g, ' ').trim()));
@@ -4812,6 +4818,19 @@ const dirty = await import('./dirty.js');
   // — because it has none — carried influences and sources that could not be
   // read anywhere. Which half of the screen you got depended on which field you
   // had filled in.
+  // THE PANEL SHOWS WHAT THE RANKING USES (§13dk). A record is ordered by seven
+  // dimensions; if the panel names six of them, somebody is being ranked by a
+  // field they were never shown, and the answer becomes unarguable rather than
+  // checkable.
+  {
+    const { CRITERIA } = await import('./modules/reference.js');
+    const { t } = await import('./i18n.js');
+    const panelText = root.querySelector('.refdetail')?.textContent || '';
+    const absent = CRITERIA.map(([, key]) => t(key)).filter(lbl => !panelText.includes(lbl));
+    if (panelText && absent.length)
+      wrong.push(`the panel omits ${absent.length} of the ${CRITERIA.length} conditions the ranking uses: ${absent.join(', ')}`);
+  }
+
   if (!byCondition.includes('refdetail'))
     wrong.push('a question asked by conditions alone gets no detail panel');
   if (!byCondition.includes('data-pick='))
@@ -5054,8 +5073,12 @@ const dirty = await import('./dirty.js');
         fail('usenow', new Error('a tile was rendered with nothing in it'));
       else console.log('  usenow: nothing empty is shown');
 
-      // The three that decide whether a bath works, present by name.
-      const text = strip.textContent || '';
+      // The three that decide whether a bath works, present by name — ON THE
+      // PAGE, not inside one container. A part's dose and temperatures became a
+      // specification row at §13dk and left the strip, and this reported that
+      // the strip carried no WOF, which is true and is not the question. The
+      // question is whether somebody standing over a pot can read them.
+      const text = root.textContent || '';
       const missing = ['WOF', '°C'].filter(x => !text.includes(x));
       if (missing.length)
         fail('usenow', new Error(`the strip carries no ${missing.join(' and no ')}`));

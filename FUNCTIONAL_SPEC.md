@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc43 · 132 sections
+**Status:** 1.0.0-rc44 · 133 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -9409,6 +9409,81 @@ the wrong side of.
 tablet is where a two-column split has to give way and the wide is where prose
 stops being a strip — neither of which the two original widths could show, and
 both of which had changed the release before.
+
+## 13dk. A square that argued with the words beside it (1.0.0-rc44)
+
+### The mark was right in one place and wrong in the other
+
+§13df introduced an outlined square for a record whose colour was never
+measured, and §13di made it visible. On the plant screen the owner saw it beside
+„ярко до слънчево жълто" and said what should have been obvious: **the colour is
+not missing.** It is right there, in words.
+
+The reasoning had been that an absence should be shown rather than hidden. That
+is true where a swatch is EXPECTED and cannot be supplied — a row in the
+Reference table, where every other cell holds a colour and this one has none, so
+the reader needs to know the cell is not broken.
+
+On a card it is the opposite. The card's job is to say what the plant gives, the
+words say it, and an empty crossed box beside them reads as a hole where the
+answer should be. It argues with its own caption.
+
+So: no box. The words take the width the swatch would have had. The mark stays
+in the table, where the column makes the promise.
+
+Three places, three right answers, and they are not the same answer:
+
+| where | a record with no measured colour |
+|---|---|
+| the plants LIST | no square at all — a row of swatches is a glance, and a gap in it is noise |
+| the Reference TABLE | the outlined mark — the column promises a colour and must say why there is none |
+| a colour CARD | no square — the words are the answer and the box contradicts them |
+
+### The specification strip had come apart
+
+Part-and-condition and its dose were pushed as two separate tiles into an
+auto-fitting grid. A plant with three dosings produced „ЧАСТ И СЪСТОЯНИЕ ·
+ПРЕПОРЪЧИТЕЛНА ДОЗА" three times across one row — the same two headings
+repeating, reading as a table that had lost its structure. Worse, the wrapping
+could put a part in one row and its dose in the next.
+
+A part's figures are read together: which part, in what state, how much, how hot
+to draw it, how hot to dye, and the ceiling not to cross. That is a
+specification line, so it is drawn as one — one row per part and condition.
+
+The figures that belong to the PLANT rather than to a part stay tiles: they are
+single values with no row to sit in, and a one-row table of five unrelated
+numbers is worse than five tiles.
+
+### The panel names every condition the ranking uses
+
+A record is ordered by seven dimensions. The panel showed three of them, because
+`fact()` renders nothing for an empty value — so a record silent about its fibre
+simply had no fibre line, and a reader could not tell „cotton" from „nobody
+wrote it down". That is the §13ck distinction disappearing on the one screen
+built to show it.
+
+`CRITERIA` is exported from `reference.js`; `compare()` builds its criteria from
+it and the guard reads it. The two cannot come apart, and every condition is
+named even where the record says nothing — as „не е уточнено", which is an
+answer.
+
+### Two guards were chasing a class name, again
+
+Both broke on this change and neither had found a fault:
+
+- The elder-temperature guard asked `.usetile, .fact`. The temperatures had
+  moved into a specification row. It reported „0 temperature rows", which is
+  indistinguishable from the temperatures being gone. **It had already been
+  moved once**, from `.fact` to `.usetile`, for the same reason at §13bs.
+- The working-figures guard asked whether `.usenow` contained „WOF". The dose
+  had left the strip. Also true, also not the question.
+
+Both ask the PAGE now. What is being checked is whether somebody standing over a
+pot can read the figures, and that question has nothing to do with which
+container they are in. A check written against a container is a check that has
+to be rewritten every time the layout improves, and that reports a false failure
+each time until somebody does.
 
 ---
 
