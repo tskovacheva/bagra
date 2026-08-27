@@ -2,7 +2,7 @@
 
 *Natural dye and eco print notebook, by Crafty Place*
 
-**Status:** 1.0.0-rc44 · 133 sections
+**Status:** 1.0.0-rc45 · 134 sections
 **Scope:** Functional modules, data model, technical architecture, and the record of
 decisions taken and faults found.
 
@@ -9484,6 +9484,79 @@ pot can read the figures, and that question has nothing to do with which
 container they are in. A check written against a container is a check that has
 to be rewritten every time the layout improves, and that reports a false failure
 each time until somebody does.
+
+## 13dl. An indicative colour, and three releases spent on the wrong question (1.0.0-rc45)
+
+### What went wrong, first
+
+Forty-seven eco print combinations were written at rc35 from a review that
+describes colour in words and gives no figure, so they carry no `swatchHex`.
+Refusing to invent one was right and stays right.
+
+What followed was not. §13df drew an outlined square for the absence, §13di made
+it visible, §13dk removed it from cards — **three releases arranging a hole**,
+each one a reasonable answer to „how should an absence be drawn" and none of
+them asking the question that mattered: *does this absence have to exist?*
+
+For half of them it does not, and the data said so all along. Тансy's plant
+record holds four measured colours with their conditions — „алуминиев мордант"
+`#D6B03E`, „с желязо" `#5F6238`. Its combinations describe the same plant under
+the same mordants and carried nothing.
+
+The lesson is not about swatches. **When a rendering decision has been revisited
+three times, the fault is in the data or the model, not in the rendering.**
+
+### The rule
+
+A combination with no measured colour takes the colour its own plant measured
+under the same mordant. Not invention: same plant, same mordant, the owner's own
+figure.
+
+It is also not a measurement OF THAT COMBINATION, and that difference is kept in
+the DATA rather than in the drawing:
+
+```js
+swatchHex:    '#5F6238'
+swatchApprox: true
+swatchFrom:   'маслинено зелено'
+```
+
+The model already had this shape for numbers — `approx` on a temperature,
+§13ai, „a number somebody estimated reads as an estimate". A colour is the same
+kind of claim and gets the same treatment.
+
+| | |
+|---|---|
+| measured | 102 |
+| **indicative** | **33** — 21 under alum, 12 under iron |
+| still nothing | 28 |
+
+**The 28 stay empty.** Their plant never measured that mordant, so there is
+nothing to take, and a near-enough colour would be exactly the invention this
+refuses. Mostly eco print under iron, where the plant record has no iron colour
+of its own.
+
+### On the screen
+
+A soft inset edge: the colour reads at full strength, and the block does not
+read as solid fact. The panel says in words where it came from — „цветът идва от
+собственото измерване на растението при същия мордант (маслинено зелено)".
+
+The outlined empty square stays for the 28, in the Reference table only, where
+the column promises a colour and owes an explanation (§13dk).
+
+### The guard
+
+Three questions, each failing on its own: every borrowed colour is marked as
+indicative; every marked one names the measurement it came from; and the plant
+it cites still holds that colour. The third matters most — a borrowed hex whose
+provenance no longer checks out is worse than none, because it is a figure that
+looks sourced.
+
+### What would close it properly
+
+The owner measuring the 61. This is an interim that is honest about being one,
+and the field name says so on every record that uses it.
 
 ---
 

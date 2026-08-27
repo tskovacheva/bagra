@@ -1187,6 +1187,15 @@ label.btn{cursor:pointer}
 /* Every place a swatch is drawn, named. `.thumb` sits in the records table and
    was missed by a rule written for `.refswatch` — which is how a mark meant to
    be unmissable was absent from a whole screen. */
+/* AN INDICATIVE COLOUR (§13dl). Taken from the plant's own measurement under the
+   same mordant, so it is the owner's figure and not an invention — and it is
+   still not a measurement OF THIS RECORD, which the swatch has to say without a
+   word. A soft inset edge: the colour reads at full strength, and the block does
+   not read as solid fact. */
+.refswatch.approx,.thumb.approx,.miniswatch.approx{
+  box-shadow:inset 0 0 0 2px var(--surface), inset 0 0 0 3px var(--line);
+}
+
 .unmeasured,.colourcards .unmeasured,.thumb.unmeasured,.miniswatch.unmeasured{
   background:transparent;
   border:1px dashed var(--line);

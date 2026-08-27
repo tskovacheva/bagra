@@ -275,6 +275,42 @@ noSources.length === 0
   ? ok('and no record was left without a source by the change')
   : bad(`${noSources.length} records now cite nothing`);
 
+// ---------------------------------------------------------------- indicative
+console.log('\nan indicative colour says so, and comes from somewhere');
+
+// A colour taken from the plant's own measurement under the same mordant is the
+// owner's figure and not an invention — and it is still not a measurement OF
+// THIS RECORD. Both halves are checked: that every indicative swatch is marked,
+// and that every marked one names where it came from.
+const approx = combos.filter(r => r.expected?.swatchApprox);
+const unmarked = combos.filter(r => r.expected?.swatchFrom && !r.expected?.swatchApprox);
+unmarked.length === 0
+  ? ok(`${approx.length} indicative swatches, every one marked as indicative`)
+  : bad(`${unmarked.length} borrowed a colour without saying so: ${unmarked.slice(0, 3).map(r => r.code).join(', ')}`);
+
+const unsourced = approx.filter(r => !(r.expected.swatchFrom || '').trim());
+unsourced.length === 0
+  ? ok('and every one names the measurement it came from')
+  : bad(`${unsourced.length} are marked indicative and name no origin`);
+
+// The plant it borrowed from really holds that colour. A borrowed hex that no
+// longer matches its plant is worse than none: it is a figure with a provenance
+// that does not check out.
+const wrongOrigin = [];
+for (const r of approx) {
+  const plant = byCode[plantOf(r)];
+  const hexes = new Set((plant?.colours || []).map(c => c.hex).filter(Boolean));
+  if (!hexes.has(r.expected.swatchHex)) wrongOrigin.push(r.code);
+}
+wrongOrigin.length === 0
+  ? ok('and the plant it came from still holds that colour')
+  : bad(`${wrongOrigin.length} cite a colour their plant does not have: ${wrongOrigin.slice(0, 3).join(', ')}`);
+
+// The ones with nothing stay with nothing. A near-enough colour for a record
+// whose plant never measured that mordant is the invention this refuses.
+const stillNone = combos.filter(r => !r.expected?.swatchHex);
+line(`${stillNone.length} records still carry no colour, which is the honest state for them`);
+
 // ---------------------------------------------------------------- the tally
 console.log('\n— the tally the Definition asks for —');
 line(`plants with a full basic profile     ${plants.length - incomplete.length}/${plants.length}`);

@@ -12,6 +12,28 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc45 — 25 August 2026
+
+- **Thirty-three combinations gained an indicative colour**, taken from their own plant's
+  measurement under the same mordant. Not invention — same plant, same mordant, the owner's
+  own figure — and not a measurement of that combination either, which is kept in the data
+  as `swatchApprox` and `swatchFrom`, the shape the model already uses for an estimated
+  number (§13ai). Measured 102, indicative 33, still nothing 28. §13dl
+- **The 28 stay empty.** Their plant never measured that mordant, so there is nothing to
+  take and a near-enough colour would be the invention this refuses.
+- **Three releases were spent on the wrong question.** rc39 drew an outlined square for the
+  absence, rc42 made it visible, rc44 removed it from cards — each a reasonable answer to
+  „how should an absence be drawn", none of them asking whether the absence had to exist. It
+  did not, and the data had said so since rc35. When a rendering decision has been revisited
+  three times, the fault is in the data or the model. §13dl
+- **A soft inset edge** on an indicative swatch: the colour reads at full strength and the
+  block does not read as solid fact. The panel says in words where it came from.
+- **Three new guards**, each failing on its own: every borrowed colour is marked, every
+  marked one names its origin, and the plant it cites still holds that colour — a borrowed
+  hex whose provenance does not check out is worse than none, because it looks sourced.
+
+---
+
 ## 1.0.0-rc44 — 25 August 2026
 
 - **The empty square argued with the words beside it.** rc42 drew an outlined, crossed box
