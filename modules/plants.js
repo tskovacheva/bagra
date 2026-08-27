@@ -411,6 +411,12 @@ export function plantColourSources(plant, combinations = [], { max = 6, distinct
     if (seen.has(key) || out.length >= max) return;
     seen.add(key);
     out.push({ hex: hex || '', caption, from, combo, process, partCode,
+               // Indicative rather than measured (§13dl): the colour came from
+               // this plant's own record under the same mordant, not from this
+               // combination being measured. Carried as data so the screen can
+               // say so, rather than the screen deciding it looks about right.
+               approx: !!(combo && combo.expected?.swatchApprox),
+               approxFrom: (combo && combo.expected?.swatchFrom) || '',
                conditions: own ? text(own.conditions) : '' });
   };
 
@@ -861,7 +867,11 @@ async function renderRead(root, p) {
     // never coming.
     return `
     <div class="refcard${s.hex ? '' : ' nowatch'}" style="cursor:default">
-      ${s.hex ? `<div class="refswatch" style="background:${esc(s.hex)}"></div>` : ''}
+      ${s.hex
+        ? `<div class="refswatch${s.approx ? ' approx' : ''}"
+                style="background:${esc(s.hex)}"
+                title="${esc(s.approx ? t('ref.approxSwatch', { from: s.approxFrom }) : '')}"></div>`
+        : ''}
       <div class="refbody">
         <b>${esc(s.caption || '—')}</b>
         ${ctx ? `<div class="hint">${esc(ctx)}</div>` : ''}

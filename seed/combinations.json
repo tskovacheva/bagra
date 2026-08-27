@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.8.0",
+ "packVersion": "0.9.0",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -4505,14 +4505,16 @@
      "bg": "ярко жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#E4C94D",
     "variation": {
      "bg": "без мордант е значително по-бледо; желязо след багрене измества към мъхесто зелено",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "лимонено жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -4545,14 +4547,16 @@
      "bg": "ярко до топло жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#DDC248",
     "variation": {
      "bg": "желязото потъмнява към маслинено/зелено",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "лимоненожълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -4625,14 +4629,16 @@
      "bg": "жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#D6B03E",
     "variation": {
      "bg": "алкален модификатор може да задълбочи/изсветли жълтото според банята",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "ясно жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -4705,14 +4711,16 @@
      "bg": "ярко жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#DCC148",
     "variation": {
      "bg": "желязото измества към кафеникаво/маслинено; без мордант е по-бледо",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "лимонено жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -4785,14 +4793,16 @@
      "bg": "жълто до златисто-кафяво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#C2622C",
     "variation": {
      "bg": "алкален модификатор може да измести към оранжево-червено",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "червено-оранжево"
    },
    "influences": [],
    "confidence": "literature",
@@ -4825,14 +4835,16 @@
      "bg": "червено до пурпурночервено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#A83A3C",
     "variation": {
      "bg": "алкалност може да измести към пурпурно; желязото към тъмно пурпурно/сиво",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "червено"
    },
    "influences": [],
    "confidence": "literature",
@@ -4905,14 +4917,16 @@
      "bg": "ярко до слънчево жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#DDC248",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "лимоненожълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -4945,14 +4959,16 @@
      "bg": "маслиненозелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#67653A",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "маслинено"
    },
    "influences": [],
    "confidence": "literature",
@@ -5065,14 +5081,16 @@
      "bg": "светложълто до тревистозелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#D2BC63",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "меко жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -5105,14 +5123,16 @@
      "bg": "тъмно маслинено или сиво-зелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#67653C",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "маслинено"
    },
    "influences": [],
    "confidence": "literature",
@@ -5145,14 +5165,16 @@
      "bg": "наситено златисто жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#D6B03E",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "ясно жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -5185,14 +5207,16 @@
      "bg": "дълбоко тъмнозелено до кафяво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#5F6238",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "маслинено зелено"
    },
    "influences": [],
    "confidence": "literature",
@@ -5225,14 +5249,16 @@
      "bg": "меко бежово, охра, жълтеникаво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#8F5A44",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "кафяво-червеникаво"
    },
    "influences": [],
    "confidence": "literature",
@@ -5305,14 +5331,16 @@
      "bg": "меко жълто-сиво или зелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#C1A855",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "приглушено жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -5345,14 +5373,16 @@
      "bg": "драматично тъмносиво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#5C6440",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "мъхесто зелено"
    },
    "influences": [],
    "confidence": "literature",
@@ -5505,14 +5535,16 @@
      "bg": "червеникаво, бордо или маслинено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#A8A24E",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "жълто-зелено"
    },
    "influences": [],
    "confidence": "literature",
@@ -5545,14 +5577,16 @@
      "bg": "тъмнозелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#6A5540",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "кафяво"
    },
    "influences": [],
    "confidence": "literature",
@@ -5705,14 +5739,16 @@
      "bg": "дълбоко мастилено черно",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#6B5C4C",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "сиво-кафяво"
    },
    "influences": [],
    "confidence": "literature",
@@ -5745,14 +5781,16 @@
      "bg": "бутилково или маслинено зелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#8E9A52",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "жълто-зелено"
    },
    "influences": [],
    "confidence": "literature",
@@ -5825,14 +5863,16 @@
      "bg": "огнено оранжево, теракота, наситено жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#C2622C",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "diffuse",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "червено-оранжево"
    },
    "influences": [],
    "confidence": "literature",
@@ -5905,14 +5945,16 @@
      "bg": "ярко мандаринено оранжево",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#E0A63A",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "слънчево жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -5945,14 +5987,16 @@
      "bg": "маслинено-кафяви земни тонове",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#6E6A42",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "маслинено"
    },
    "influences": [],
    "confidence": "literature",
@@ -6025,14 +6069,16 @@
      "bg": "сиво-кафяво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#655A4C",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "сиво-кафяво"
    },
    "influences": [],
    "confidence": "literature",
@@ -6065,14 +6111,16 @@
      "bg": "светло деликатно жълто до кремаво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#C6AE79",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "бежово-жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -6145,14 +6193,16 @@
      "bg": "меко жълто до нежно оранжево",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#DFB742",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "маслено жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -6185,14 +6235,16 @@
      "bg": "маслинен нюанс",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#6B6739",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "приглушено маслинено"
    },
    "influences": [],
    "confidence": "literature",
@@ -6345,14 +6397,16 @@
      "bg": "силно тъмнозелено до черно",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#6B6055",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "сиво-кафяво"
    },
    "influences": [],
    "confidence": "literature",
@@ -6465,14 +6519,16 @@
      "bg": "светлокафяво до сиво-жълто",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#9C7B45",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "sharp",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "жълто-кафяво"
    },
    "influences": [],
    "confidence": "literature",
@@ -6545,14 +6601,16 @@
      "bg": "интензивно ярко жълто и оранжево",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#DFA936",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "слънчево жълто"
    },
    "influences": [],
    "confidence": "literature",
@@ -6585,14 +6643,16 @@
      "bg": "дълбоко маслинено или тъмнозелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#6C6840",
     "variation": {
      "bg": "",
      "en": ""
     },
     "printQuality": "soft",
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "маслинено"
    },
    "influences": [],
    "confidence": "literature",
@@ -6825,14 +6885,16 @@
      "bg": "кафяво до приглушено виолетово-сиво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#5E4E38",
     "variation": {
      "bg": "видът на мордантиране променя нюанса; FeSO₄ върху вълна дава най-висока цветова сила в изследването",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "по-тъмно"
    },
    "influences": [],
    "confidence": "literature",
@@ -6865,14 +6927,16 @@
      "bg": "червеникаво до червено-кафяво",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#8E5A44",
     "variation": {
      "bg": "исторически е документирано като багрило за вълна; нюансът зависи от морданта",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "червеникаво-кафяво"
    },
    "influences": [],
    "confidence": "literature",
@@ -6905,14 +6969,16 @@
      "bg": "жълто-зелено",
      "en": ""
     },
-    "swatchHex": "",
+    "swatchHex": "#9C9A55",
     "variation": {
      "bg": "розмаринът дава меки жълто-зелени тонове; желязото измества към маслинено",
      "en": ""
     },
     "printQuality": null,
     "lightfastness": "",
-    "washfastness": ""
+    "washfastness": "",
+    "swatchApprox": true,
+    "swatchFrom": "жълто-зелено"
    },
    "influences": [],
    "confidence": "literature",

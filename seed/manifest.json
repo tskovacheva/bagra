@@ -6,7 +6,7 @@
   },
   "combinations": {
    "packId": "bagra-combinations",
-   "version": "0.8.0"
+   "version": "0.9.0"
   },
   "substances": {
    "packId": "bagra-base",

@@ -250,8 +250,9 @@ function familyOf(hex) {
 // An outlined empty square instead. „Nobody has measured this" is a state the
 // screen can show, and showing it is the whole difference between a reference
 // and a decoration.
-const swatch = (hex, cls = 'refswatch') => hex
-  ? `<span class="${cls}" style="background:${esc(hex)}"></span>`
+const swatch = (hex, cls = 'refswatch', approx = false) => hex
+  ? `<span class="${cls}${approx ? ' approx' : ''}" style="background:${esc(hex)}"
+       ${approx ? `title="${esc(t('ref.approxSwatch', { from: '' }))}"` : ''}></span>`
   : `<span class="${cls} unmeasured" title="${esc(t('ref.noSwatch'))}"></span>`;
 
 // The detail panel — the same facts the read view carries, beside the results
@@ -322,7 +323,7 @@ async function detailPane(record, plantsById) {
   return `
     <div class="refdetail">
       <div class="detailhead">
-        ${swatch(e.swatchHex, 'refswatch')}
+        ${swatch(e.swatchHex, 'refswatch', e.swatchApprox)}
         <div class="headlinebody">
           <h2>${esc(text(e.colourText) || '—')}</h2>
           <div class="hint">${esc(await sourceLine(record, plantsById))}</div>
@@ -330,6 +331,8 @@ async function detailPane(record, plantsById) {
       </div>
 
       ${!e.swatchHex ? `<p class="hint">${t('ref.noSwatchLong')}</p>` : ''}
+      ${e.swatchApprox
+        ? `<p class="hint">${esc(t('ref.approxSwatchLong', { from: e.swatchFrom || '' }))}</p>` : ''}
 
       ${/* EVERY CONDITION THE RANKING USES, named, and named even where the
             record is silent (§13dk). `fact()` renders nothing for an empty
@@ -555,7 +558,7 @@ async function renderSearch(root) {
     const conf = r.confidence || 'unverified';
     return `
       <tr data-pick="${r.id}"${r.id === shownId ? ' class="on"' : ''}>
-        <td class="swatchcell">${swatch(r.expected?.swatchHex, 'thumb')}</td>
+        <td class="swatchcell">${swatch(r.expected?.swatchHex, 'thumb', r.expected?.swatchApprox)}</td>
         <td>
           <b>${esc(text(r.expected?.colourText) || '—')}</b>
           <div class="hint">${esc(await sourceLine(r, plantsById))}</div>
