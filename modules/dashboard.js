@@ -31,6 +31,10 @@ const REFERENCE_TILES = [
   { id: 'recipes',    icon: 'i-recipe',    store: 'recipes' },
   { id: 'substances', icon: 'i-substance', store: 'substances' },
   { id: 'techniques', icon: 'i-technique', store: 'techniques' },
+  // Reads `nav.tools`, which now says „Калкулатори" — the same word the
+  // sidebar, the screen title and the browser tab say. It read „Инструменти"
+  // and led to a screen the navigation called „Калкулатори", so pressing it
+  // lit nothing a person could recognise (§13dm).
   { id: 'tools',      icon: 'i-tools',     store: null },
   { id: 'library',    icon: 'i-source',    store: 'glossary' },
 ];
@@ -215,7 +219,12 @@ export default {
           <div class="btnrow">
             ${counts.plants
               ? `<button class="btn primary" data-go="plants">${t('dash.browsePlants')}</button>`
-              : `<button class="btn primary" data-go="tools">${t('dash.installPacks')}</button>`}
+              // `plants`, not `tools`. There has never been a packs screen in
+              // the calculators — „провери библиотеката" is a button inside
+              // each reference module (§10), and Plants is the one this
+              // branch is about, because the branch only fires when there are
+              // no plants. Same fault as the backup button beside it (§13dm).
+              : `<button class="btn primary" data-go="plants">${t('dash.installPacks')}</button>`}
             <button class="btn quiet" data-go="trials/new">${t('dash.quick.trial')}</button>
           </div>`),
       });
@@ -230,7 +239,12 @@ export default {
     const alerts = [];
     const b = await backupState();
     const mark = `<span class="notemark" aria-hidden="true">!</span>`;
-    const goBackup = `<button class="btn quiet" data-go="tools">${t('dash.goBackup')}</button>`;
+    // `tools/backup`, not `tools`. The button said „Направи архив" and landed
+    // on the list of calculators, because the backup has its own address and
+    // this line did not use it (§13dm). The one warning on this screen that
+    // can cost work which cannot be got back was the one that did not arrive
+    // where it promised.
+    const goBackup = `<button class="btn quiet" data-go="tools/backup">${t('dash.goBackup')}</button>`;
 
     if (b.never && (counts.plants || counts.fabrics)) {
       const photos = await countUserPhotos();

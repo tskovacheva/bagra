@@ -329,7 +329,10 @@ function render(root) {
   root.innerHTML = page({
     title: isBackup ? t('backup.title') : t('tools.short.' + active),
     sub: isBackup ? t('backup.when') : t('tools.when.' + active),
-    actions: `${backTo('#/tools', t('nav.calculators'))}`,
+    // `nav.tools`, the one key that names this destination. It read
+    // `nav.calculators`, a second key holding the same word — which is how the
+    // sidebar and the dashboard came to disagree in the first place (§13dm).
+    actions: `${backTo('#/tools', t('nav.tools'))}`,
     body: `
       <div class="calcpane">
         ${panel(`
