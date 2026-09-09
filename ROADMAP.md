@@ -221,8 +221,40 @@ at a hidden module — the old Stock address kept alive so saved links resolve (
 are gone and the Library takes their place, which is where a person pressing either was
 trying to arrive.
 
+**Two more of the same shape, found at rc46 and fixed (§13dm).** „Направи архив" in the
+attention block carried `data-go="tools"` and landed on the calculators; the backup has its
+own address and the button did not use it. „Инсталирай пакетите" on a first launch had a
+worse target — there has never been a packs screen in the calculators at all — and now goes
+to Plants. Neither was a rendering fault: both buttons drew correctly and arrived at a real
+wrong screen, which no layer that asks whether a screen is real can see.
+
+**„Инструменти" versus „Калкулатори" is settled (§13dm).** One destination had three words
+across four places, because `nav.tools` and `nav.calculators` were both live and
+`t('nav.' + id)` is built at run time, so layer 3b could not see the duplication. One key
+now, saying „Калкулатори" everywhere. This was the terminology pass reaching one word;
+the rest of A3 stands.
+
 What remains here is the wider question, and it belongs with the terminology pass (A3): the
 screen still speaks the shape the model had two versions ago, in more places than these.
+
+## B6a. Requested at rc46, after 1.0
+
+Four items, none of which loses knowledge by waiting.
+
+- **A pH scale that is a scale.** The Library's pH tab draws five rows, each a small square
+  beside a range. It is a list wearing the words of a table. The colours are fixed in
+  `PH_BANDS` and are **ours, from the palette** — deliberately not the colours a test strip
+  prints, which belong to whoever printed it, and deliberately not the colours a dye turns,
+  which belong to the plant. Any prototype for this must keep those nine values; they are
+  the one place the interface is allowed to be coloured and they are argued (§13bt).
+- **Sorting the columns in Fabrics.** Eight columns, fixed on last-changed. The sort has to
+  survive the tick boxes for a group action (§13bd) — selecting five pieces and then
+  re-sorting must not silently change which five are selected.
+- **Cleaning the combination notes.** Twenty-two condition labels — „с железни соли",
+  „кора, алуминиев мордант" — landed in the prose field from an old import. The text is
+  correct; it is in the wrong field.
+- **The eco print block on the plant screen.** Waits on the `printingSide` decision
+  (`DOCUMENTATION_DECISIONS_NEEDED.md`, item 13).
 
 ## B7. Smaller, accepted, not built
 

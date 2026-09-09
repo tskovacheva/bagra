@@ -12,6 +12,57 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc46 — 9 September 2026
+
+Three faults reported in one sitting, and they were one shape: a name or an address
+written in a second place, with nothing holding the two against each other. §13dm
+
+- **„Направи архив" now goes to the backup.** It carried `data-go="tools"` and landed on
+  the list of calculators. The backup has had its own address since §11 — `#/tools/backup`,
+  given to it so it could be bookmarked — and the one warning on the home screen that can
+  cost work which cannot be got back was the one that did not arrive where it promised.
+- **„Инсталирай пакетите" now goes to Plants.** Same fault, worse target: there has never
+  been a packs screen in the calculators. „Провери библиотеката" is a button inside each
+  reference module (§10), and this branch only fires when there are no plants.
+- **One word for one destination.** „Инструменти" on the dashboard tile, „Калкулатори" in
+  the sidebar, „Инструменти" in the screen title and the browser tab, „Калкулатори" on the
+  back button inside a calculator. Two keys held one word — `nav.tools` and
+  `nav.calculators` — and `t('nav.' + id)` is built at run time, so layer 3b could not see
+  the duplication. `nav.calculators` is gone; `nav.tools` says „Калкулатори" and everything
+  reads it. The module id stays `tools`, which is code.
+- **The subtitle stopped promising справки**, which moved into the Library at rc25 and had
+  been listed on this screen for twenty releases.
+- **The browser tab is named after the navigation entry, not the module**, reusing
+  `activeNav()`. `#/tools/backup` no longer says „Калкулатори" while showing the backup.
+- **A new static layer, 3e: which module does nobody measure.**
+  `scripts/try-screen-coverage.mjs` holds the `MODULES` registry in `app.js` against the
+  route list in `screen-check.mjs` and a declared `UNMEASURED_MODULES`.
+  - Why it is general rather than two lines added by hand: `#/pigments` was **absent** from
+    the route list — not disabled, not skipped, not reported — so the pigment batch screen
+    had been rendered at no width at all since it was written, while the suite said „all
+    held" every release. A guard aimed at the wrong screen at least reports something that
+    can be doubted; a guard aimed at no screen looks exactly like a pass. Adding the two
+    lines would have fixed the pigments and left the hole.
+  - Run before anything was fixed it named **three**: `pigments`, `batch` — exempt by
+    accident because it is reached from the fabrics list rather than the sidebar, which is
+    a fact about navigation and not a reason its layout is unchecked — and `packs`,
+    fourteen lines and unbuilt, now the only exemption and with its reason written beside
+    it.
+  - Static on purpose: two files read as text, no browser, no shim, so it runs on a laptop
+    with nothing installed — which is when a new module is written and the sixth layer is
+    being skipped for a missing Chrome.
+  - Seen to fail in four directions before being accepted: no exemption list declared, a
+    module in neither list, an exemption naming a module that is also routed, and an
+    exemption naming something that is no longer a module.
+- **`#/pigments`, `#/pigments/new` and `#/batch` are now measured at all four widths**, with
+  a fixture for a finished madder batch so the list has a row to open. These screens have
+  never been checked at any width, so the sixth layer may turn up geometry faults that have
+  been shipping for several releases. That is the guard working, not a regression.
+- **The pigment findings are recorded, not fixed** — `DOCUMENTATION_DECISIONS_NEEDED.md`
+  item 17. The pigment recipes name roles that no shipped substance fills, three of them
+  carry no quantities at all, and a batch shows a recipe's name and none of its amounts.
+  These are model decisions and belong to the owner.
+
 ## 1.0.0-rc45 — 25 August 2026
 
 - **Thirty-three combinations gained an indicative colour**, taken from their own plant's

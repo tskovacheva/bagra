@@ -142,6 +142,21 @@ try {
       name: { bg: 'подготовка на памук от суров плат до готов за печат', en: 'cotton' },
       appliesTo: ['cellulose'], steps: [{ recipeId: 'fixture:recipes' }],
     });
+    // A finished batch rather than a planned one: `renderList` groups by plant
+    // and part and shows the swatch of the most recent successful batch, so a
+    // planned record would draw the emptier of the two arrangements and leave
+    // the one with a colour in it unmeasured.
+    await seeded('pigmentBatches', {
+      status: 'done', date: '2026-07-02', finishedOn: '2026-07-09',
+      plantId: 'seed:rubia_tinctorum', partCode: 'root', rawWeightG: 300,
+      viaKind: 'recipe', viaId: 'fixture:recipes',
+      stages: ['extraction', 'laking', 'washing', 'filtering', 'drying', 'grinding']
+        .map((code, i) => ({ id: 'fx-stage-' + i, code, date: '',
+          note: { bg: 'три часа на слаб огън, без да завира', en: '' }, photos: [] })),
+      yieldG: 18, quality: 'good', swatchHex: '#A03D3B',
+      swatchName: { bg: 'марена, топла и малко мътна', en: '' },
+      photos: [], notes: { bg: '', en: '' },
+    });
     await seeded('trials', {
       status: 'planned', title: 'дъб и клен върху коприна, къс сноп',
       intent: 'проба за роклята', date: '2026-08-10', processCode: 'ecoprint',
@@ -154,6 +169,21 @@ try {
   // `open` names a module whose records have no address of their own yet
   // (§13q): until they do, the record is reached the only way a person can
   // reach it — by pressing the first row.
+  // A module named here is NOT rendered at the four widths, and the reason is
+  // written rather than assumed. `scripts/try-screen-coverage.mjs` holds this
+  // list against the registry in app.js and fails on a module that is in
+  // neither — which is how `#/pigments` came to exist for four releases and be
+  // measured at no width at all (§13dm).
+  //
+  // `packs` is fourteen lines and unbuilt, out of the 1.0 plan. It renders a
+  // placeholder; measuring the geometry of a placeholder measures nothing and
+  // would have to be redone the day it is written.
+  //
+  // NOTHING ELSE. `batch` was in this position by accident and is measured
+  // below: it is reached from the fabrics list rather than the sidebar, which
+  // is a fact about the navigation and not a reason its layout is exempt.
+  const UNMEASURED_MODULES = ['packs'];
+
   const routes = [
     '#/dashboard',
     '#/reference', '#/reference/records',
@@ -183,6 +213,21 @@ try {
     '#/library/sources', { route: '#/library/sources', open: true },
     '#/fabrics', { route: '#/fabrics', open: true },
     '#/trials', '#/trials/new', { route: '#/trials', open: true },
+    // Making a pigment is work on a substance (§13bx), and until now it was
+    // work nobody looked at: the batch screen puts a wide column of six stages
+    // beside a folding aside, which is the arrangement most likely to break at
+    // 390px, and it had never been drawn there.
+    //
+    // The empty form as well as an opened record, because the two are
+    // different screens — `renderBatch` draws a heading of „Нова партида" and
+    // a plant picker with 57 options, and the list draws grouped tables.
+    '#/pigments', '#/pigments/new', { route: '#/pigments', open: true },
+    // One bath, several pieces (§13bd). Reached from the fabrics list rather
+    // than the sidebar, which is why it was never listed here — but the way in
+    // has nothing to do with whether the way it looks was checked. Without a
+    // `?pieces=` query it draws the picker, which is the screen a person meets
+    // first.
+    '#/batch',
   ];
 
   // A fixed delay is a guess, and the guess was 280ms. The plants list renders

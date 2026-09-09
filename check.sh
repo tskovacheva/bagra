@@ -195,6 +195,18 @@ echo "chips name, boxes are pressed."
 #     good. Needs nothing installed, so it sits with the static guards.
 sh scripts/try-release-gate.sh || exit 1
 
+# 3e. Which module does nobody measure. The sixth layer renders a list of
+#     addresses written by hand, and nothing ever compared that list to the
+#     application: `#/pigments` was absent from it for four releases, so the
+#     module was drawn at no width at all and the suite said „all held\" every
+#     time. This is worse than a guard aimed at the wrong screen — that one at
+#     least reports something. See scripts/try-screen-coverage.mjs (§13dm).
+#
+#     Static, so it runs on a laptop with nothing installed — which is exactly
+#     when a new module is written and the sixth layer is being skipped for a
+#     missing browser.
+node scripts/try-screen-coverage.mjs || exit 1
+
 # 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
 #    which gives a blank page.

@@ -66,7 +66,12 @@ const NAV = [
   // the screen — because addresses already saved must not break.
   // { id: 'materials',  icon: 'i-stock' },
   { id: 'techniques', icon: 'i-technique' },
-  { id: 'tools',      icon: 'i-tools', label: 'nav.calculators' },
+  // No `label` of its own any more. It carried `nav.calculators` while the
+  // dashboard tile, the screen title and the browser tab all read `nav.tools`
+  // — four places, three words, one destination. The module id stays `tools`
+  // because that is code; the word a person reads is „Калкулатори"
+  // everywhere, and it is written once (§13dm).
+  { id: 'tools',      icon: 'i-tools' },
   { id: 'library',    icon: 'i-source' },
 
   { heading: 'diary' },
@@ -240,7 +245,14 @@ async function draw(fresh = false) {
   await MODULES[id].render(view);
   labelCells(view);
   view.focus({ preventScroll: true });
-  document.title = `${t('nav.' + id)} · ${t('app.name')}`;
+  // The tab is named after the navigation ENTRY, not the module. Two entries
+  // point at `tools`, so `#/tools/backup` said „Калкулатори" in the tab while
+  // showing the backup — the same one-thing-two-names fault as the sidebar
+  // label above (§13dm). `activeNav()` already works this out for the
+  // highlight; it is reused rather than reasoned out a second time.
+  const active = activeNav();
+  const entry = navItems().find(n => navRoute(n) === active);
+  document.title = `${entry ? navLabel(entry) : t('nav.' + id)} · ${t('app.name')}`;
 }
 
 // The sheet is grouped like the sidebar, because the phone is where a person is

@@ -9560,6 +9560,118 @@ and the field name says so on every record that uses it.
 
 ---
 
+## 13dm. Two buttons that arrived elsewhere, one destination with three names, and the module nobody measured (1.0.0-rc46)
+
+Three faults reported in one sitting, and they turned out to be one shape:
+**a name or an address written in a second place, where nothing held the two
+against each other.**
+
+### The backup button did not go to the backup
+
+The home screen's attention block is the only thing in the application that can
+cost work which cannot be got back. It warns that no backup exists, names what
+would be lost, and offers „Направи архив".
+
+That button carried `data-go="tools"`. The backup has its own address —
+`#/tools/backup`, given to it deliberately at §11 so it can be bookmarked and
+linked to, which for a backup is worth more than for anything else here. The
+button used the module instead, so pressing it landed on the list of
+calculators, with no backup in sight and no explanation.
+
+The button beside it, „Инсталирай пакетите" on a first launch, had the same
+form of the fault and a worse target: **there has never been a packs screen in
+the calculators at all.** „Провери библиотеката" is a button inside each
+reference module (§10). It now goes to Plants, which is the module the branch
+is about — it only fires when there are no plants.
+
+Neither is a rendering fault, and neither could be seen by reading the screen:
+both buttons draw correctly, sit in the right place, say the right words and
+go somewhere real. **A link that arrives at a real wrong screen is invisible to
+every check that asks whether the screen is real.**
+
+### One destination, four places, three words
+
+| where | what it said |
+|---|---|
+| dashboard tile | Инструменти |
+| sidebar and the phone sheet | Калкулатори |
+| the screen's own title | Инструменти |
+| the browser tab | Инструменти |
+| the back button inside a calculator | Калкулатори |
+
+Press „Инструменти", arrive at a screen the navigation calls „Калкулатори",
+and nothing in the bar carries the word that was pressed. Reported from the
+phone as „Инструменти stands there pointing nowhere", which is exactly what it
+is to a reader: the destination it names does not exist under that name.
+
+The cause is two keys holding one word. `nav.tools` and `nav.calculators` were
+both live, and `t('nav.' + id)` is built at run time, so layer 3b — which reads
+literal keys — could not see that two of them meant the same thing.
+
+**One key now: `nav.tools`, which says „Калкулатори".** The sidebar entry has no
+`label` of its own, the dashboard tile reads the same key, `tools.title` matches
+it, and `nav.calculators` is gone. The module id stays `tools`, because that is
+code and not a word anybody reads.
+
+`tools.sub` also promised „справки", which moved into the Library at rc25. A
+subtitle listing what a screen holds is a second inventory of that screen, and
+this one had been wrong for twenty releases.
+
+The browser tab is now named after the navigation ENTRY rather than the module,
+reusing `activeNav()`, so `#/tools/backup` no longer says „Калкулатори" while
+showing the backup.
+
+### The module nobody measured
+
+`screen-check.mjs` renders every address at four widths. Its route list is
+written by hand, and **nothing had ever compared that list to the application.**
+
+`#/pigments` was not in it. Not disabled, not skipped, not reported — absent.
+The pigment batch screen puts a wide column of six stages beside a folding
+aside, which is the arrangement most likely to break at 390px, and it had been
+drawn at no width at all since it was written, while the suite said „all held"
+every release.
+
+This is the fourth way a guard lies, and the worst of the four. A guard aimed
+at the wrong screen at least reports something that can be read and doubted
+(§13cz). A guard aimed at no screen reports nothing, and the absence looks
+exactly like a pass.
+
+**Adding two lines to the list would have fixed the pigments and left the
+hole.** `scripts/try-screen-coverage.mjs` asks the general question instead:
+which module does nobody measure. It reads the `MODULES` registry in `app.js`
+and the route list in `screen-check.mjs` as text, and fails on any module in
+neither that list nor a declared `UNMEASURED_MODULES`.
+
+Run before anything was fixed, it named **three**:
+
+- `pigments` — the reported one
+- `batch` — a second hole nobody knew about, exempt by accident because it is
+  reached from the fabrics list rather than the sidebar. How a screen is
+  reached is a fact about the navigation and not a reason its layout is
+  unchecked. Now measured.
+- `packs` — fourteen lines and unbuilt, out of the 1.0 plan. The only
+  exemption, and its reason is written beside it.
+
+It is **static** on purpose: it reads two files and needs no browser and no
+shim, so it runs on a laptop with nothing installed — which is precisely when a
+new module is written and the sixth layer is being skipped for a missing
+Chrome.
+
+It fails in four directions, each seen to fail before it was accepted: no
+exemption list declared, a module in neither list, an exemption naming a module
+that is also routed (an unpruned excuse is permission), and an exemption naming
+something that is no longer a module.
+
+### What this costs, stated
+
+`#/pigments` and `#/batch` have never been rendered at any width. Bringing them
+under the sixth layer may turn up geometry faults that have been shipping for
+several releases. **That is the guard working, not a regression**, and the
+faults were there before the guard could see them.
+
+---
+
 
 # Part VI. Open questions
 

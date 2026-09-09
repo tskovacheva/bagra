@@ -154,7 +154,7 @@ separate — but two things will destroy it, and both are avoidable:
 2. **Clearing site data** wipes the database. Necessary occasionally during development; make a
    backup first.
 
-Tools → Backup downloads everything as a dated JSON file, and shows how many edits have happened
+Калкулатори → Резервно копие downloads everything as a dated JSON file, and shows how many edits have happened
 since the last one. The app also asks the browser for persistent storage so the database is not
 evicted when space runs short.
 
@@ -198,6 +198,11 @@ Six layers, each of which exists because something got through:
    user's own records did not.
 6. **Screen rendering** — every address drawn in a real browser at a phone width,
    checking geometry: nothing overflowing sideways, no control smaller than a finger.
+   **Which addresses it draws is itself checked**, statically, by
+   `scripts/try-screen-coverage.mjs`: the route list is written by hand, and `#/pigments`
+   was absent from it for several releases, so a module was measured at no width at all
+   while the suite reported „all held". A module must be routed or named in
+   `UNMEASURED_MODULES` with a reason (§13dm).
 
 Anything timed in the deep check waits on a condition, never on a duration, and any
 new guard is tested in both directions — a guard never seen to fail has not been tested.
@@ -219,7 +224,7 @@ number that increments for everything communicates nothing; from 0.55 onward the
 
 Installed copies do not need to be closed and reopened: the app checks for a new worker whenever
 it becomes visible, when the network returns, and every fifteen minutes, and offers a *new version
-— update* bar rather than swapping code mid-edit. Tools → Backup also has a manual check. A module missing from that list is a module that silently stops
+— update* bar rather than swapping code mid-edit. Калкулатори → Резервно копие also has a manual check. A module missing from that list is a module that silently stops
 updating — the one mistake this architecture invites.
 
 ## Documents

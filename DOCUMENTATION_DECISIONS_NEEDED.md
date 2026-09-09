@@ -410,3 +410,77 @@ invalid codes                            0
 Moved to post-v1 continuous enrichment, by clause 8 and the owner's own list: the
 compositional role for the remaining 24 plants, `printingSide` (§13), a bibliography per
 row, a swatch for every literature combination, and more combinations per plant.
+
+---
+
+## 17. The pigment recipes name roles that no substance fills
+
+Raised at 1.0.0-rc46 from a screenshot of „Свързващо за акварел" in the working view.
+**Nothing has been changed.** Five findings, and the first two are one decision.
+
+### What the screen showed
+
+The working view of the binder recipe listed five lines: свързващо · разтворител ·
+задържа влага · задържа влага · консервант. Two of them are identical, three of them
+had a dash where a quantity belongs, and none of them named a substance.
+
+### 17a. The substances do not exist
+
+`seed/substances.json` holds 26 records and every one of them is for dyeing — alums,
+tannins, sodas, acids. **Gum arabic, glycerine, honey, clove oil, gum tragacanth,
+methylcellulose and kaolin are not among them.** The pigment recipes reference roles
+that nothing in the shipped library can fill.
+
+### 17b. So the fallback prints a role, and it looks like a recipe
+
+`nameOf()` in `modules/recipes.js` falls back to `label('ingredient_role', roleCode)`
+when a line has no substance. The output is plausible — „свързващо", „разтворител" —
+and plausible output hides the fault it covers for, which is a named failure mode in
+this project. Its ugliest form is here: **two lines reading „задържа влага" one under
+the other**, which are glycerine and honey and are indistinguishable on screen. Their
+real names are buried in `note`, which the working view does not draw.
+
+**The decision:** do the seven pigment substances join `seed/substances.json` as
+records, so the lines can name them — or do pigment recipes name substances some other
+way? They are not dye materials and a buyer opening Материали would meet them among the
+mordants. Bearing on this: fabrics and materials are already separate stores because
+they are different kinds of thing (§13.4).
+
+### 17c. The numbers are in the prose
+
+The other three pigment recipes — лаков пигмент, акварелна боя, меки пастели — carry
+`quantity: null` and `unit: null` on **every** ingredient. Their working view is
+entirely dashes. „10 г стипца" and „5 г сода" exist only as sentences inside `note`.
+
+This is the same fault as the 22 condition labels sitting in the combination notes:
+correct content in the field for prose. The difference is that here the correct field
+is empty, so the screen has nothing to say.
+
+### 17d. The binder does not scale with itself
+
+The recipe is `scaleBy: 'raw'` and the raw material is the gum arabic. But the gum is
+written `absolute: 42 g` while the water, glycerine and honey are ratios against the
+raw amount. Type 100 into the field and the water and honey move; the gum still says 42.
+
+**This is asserted deliberately** — `scripts/try-calculators.mjs` holds „the gum itself
+is absolute and unchanged — 42". So it is a decision already taken, not an oversight,
+and the question is whether it was the right one. Either the gum is a line and is not
+the base, or it is the base and is not a line. It is currently both, and the screen
+cannot show which.
+
+### 17e. A batch shows the recipe's name and none of its quantities
+
+`modules/pigments.js` puts the recipe in a dropdown in the folding aside. Standing over
+the pot, the batch screen says which recipe and not how much of anything; the amounts
+are on another screen. `rawWeightG` is entered on the batch **and** again in the
+recipe's working view — one number in two places, free to disagree.
+
+This runs against „one screen owns finishing, and every route leads to it". Whether the
+batch should scale the recipe it names is a model question, not a layout one.
+
+### And one thing that is not a defect
+
+**Four seed recipes ship and none of them is for dyeing.** A buyer opens Рецепти in an
+application for natural dyeing and finds lake pigment, watercolour, pastels and a
+binder. That is item 2 above — which recipes ship — and it is sharper now than when it
+was written.
