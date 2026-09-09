@@ -46,6 +46,23 @@ export async function seedPack(file, store, listKey, defaults = {}) {
   return added;
 }
 
+export // A pack named here has NO „Обнови от библиотеката" button, so a CHANGE to one
+// of its shipped records can never reach a copy that is already installed —
+// only an addition can, because `loadPack` adds what is absent at boot.
+// `scripts/try-pack-reachability.mjs` holds this list against PACKS and against
+// the modules, and fails on a pack in neither (§13dn).
+//
+// Both of these live inside the Library, which is a reading screen with tabs
+// and no list of records to stand a button beside. Where that button goes — the
+// tab, the Library's own head, or somewhere else entirely — is a layout
+// decision that has not been taken, and inventing a place for it here would be
+// taking it quietly. It is on the roadmap as B7.
+//
+// This is an EXCUSE, not a verdict: both packs are as unreachable as `recipes`
+// was, and a correction to a source or a glossary term today goes out in the
+// ZIP and reaches nobody. Writing it down is the whole point of the list.
+const UNREACHABLE_PACKS = ['sources', 'glossary'];
+
 export const PACKS = {
   substances: {
     file: 'seed/substances.json', store: 'substances', listKey: 'substances',

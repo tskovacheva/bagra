@@ -25,10 +25,10 @@ longer reads it, so the transitional fallback is gone. `viaPlant` survives in th
 is now produced only by a plant that records **no parts at all** — a plant entered before
 its parts, which the library expansion will create.
 
-**What is left to decide.** Should such a plant appear in the seasonal panel at all? It
-currently does not: the months live on the part and it has none. That is defensible and it
-is also the kind of silence that reads as a bug from the outside. The guard states the
-present behaviour so a change to it has to be deliberate.
+**Settled at 1.0.0-rc46.** Such a plant does NOT appear in the seasonal panel, which is the
+present behaviour. The months live on the part; a plant with no parts has no months, and the
+panel says nothing rather than guessing. The guard states this so a change to it has to be
+deliberate.
 
 ---
 
@@ -69,9 +69,9 @@ model, the product decisions, and the record of faults found and how they were f
 third is by now the largest, and it is the most valuable part of the document — but it
 makes the first two hard to find.
 
-**Suggested.** Leave it alone for the audit ahead. A reviewer being asked to judge
-commercial readiness benefits from the fault record sitting next to the decision it
-corrected. Revisit after.
+**Settled at 1.0.0-rc46: leave it as one document.** A reviewer asked to judge commercial
+readiness benefits from the fault record sitting next to the decision it corrected. Revisit
+after that review, not before.
 
 ---
 
@@ -477,6 +477,177 @@ recipe's working view — one number in two places, free to disagree.
 
 This runs against „one screen owns finishing, and every route leads to it". Whether the
 batch should scale the recipe it names is a model question, not a layout one.
+
+### What the owner settled, 1.0.0-rc46
+
+Answered in full. **Recorded, not yet built** — the shape below is a proposal awaiting
+agreement, but these answers are decisions and stand on their own.
+
+- **Practice.** Pigment-making is real but rare — about twice a year, and laborious. It does
+  not need to be elaborate. What it must do: link a pigment recipe, the choice of binder and
+  the binder's own recipe; hold the materials and substances; let a plant be chosen; and end
+  in a photograph and a written result — which colours were got, and what to conclude.
+- **17b — honey and glycerine are two roles, not one.** They substitute for each other in
+  some cases and not in general; the jobs differ. Glycerine wants a role of its own.
+- **17a — the seven substances join the library under a NEW category**, and the owner does
+  want a jar of gum arabic. Not folded into `auxiliary`.
+- **17c/17d — one master lake recipe, modified in the BATCH.** Not a recipe per plant, which
+  was the owner's first answer and was then withdrawn in favour of this. The plant lives on
+  the batch, where it already lives. Every specific pigment uses the master and departs from
+  it, and the departure is the batch's business.
+- **A batch line may carry a substance the master never had** — soda for one plant and not
+  another. „That is the point of it": the owner has experimented by modifying and adding.
+- **17e — watercolour and pastel stay recipes.** No second record kind. Both start from a
+  finished pigment, both have a standard recipe, and one batch of pigment can become both.
+  The results — photographs of the colour got from that pigment — attach to the BATCH.
+- **The shipped binder keeps the glycerine.** The owner has made watercolours by nearly this
+  recipe. Ox gall is untried.
+- **The list of what a swatch can be is NOT closed.** Inks, and beyond them paints for other
+  purposes entirely, down to building paint. Out of scope now, but the list must not be shut.
+
+### Three things the sources corrected, and one of them was mine
+
+- **Ox gall does not replace glycerine.** The owner supposed it an equivalent substitute.
+  By Stopka's own text it is a **surfactant** — it makes the paint flow and mingle on the
+  page — while glycerine keeps the cake from drying hard. Stopka's medium carries honey and
+  clove oil and optional ox gall and **no glycerine at all**, so the two recipes differ by
+  two substances in two directions rather than by one standing in for another. Recorded so
+  that a binder made without a plasticiser and with added flow is not later a mystery.
+- **The basis is the CARRIER, not the alum — a correction to this document's own proposal.**
+  §17c had suggested a `percent_woa` basis, „per cent of the weight of the alum", because
+  Stopka's chart is exactly that. Nabil Ali's second madder recipe precipitates the dye onto
+  **chalk** — 6 g of dye to 3 g of chalk — with no alum anywhere. Naming the field after the
+  alum would have refused that recipe and invited a second field measuring the same thing.
+- **A swatch is not labelled by use alone.** Ali's swatch chart names three things at once:
+  which recipe, what the result was (dye, paint, glaze), and what it was on — safflower
+  appears as „potash on cotton" and again as „potash on leather", two colours from one
+  recipe. A closed list of three uses would have broken on the first real example.
+
+### The agreed model — AGREED at 1.0.0-rc46, NOT BUILT
+
+Seven parts. All of it sits after A6; none of it is in 1.0. It is written here rather than
+as a §13 section because those sections describe how the application works, and a
+specification that describes something unbuilt is a specification that lies. When it is
+built it gets a section of its own and this block is replaced by a pointer to it.
+
+**1. Categories say what a substance IS, and the category must be earned.**
+
+A category „for pigment-making" would have grouped seven substances by the book they appear
+in rather than by what they do — a bucket by context, which is what the existing five
+categories are not. The owner's rule, stated at rc46 and now general: *the category follows
+from understanding what the substance is for and what it does.*
+
+Applying it gives a different answer from the one first agreed:
+
+| new category | members |
+|---|---|
+| **binder** | gum arabic, gum tragacanth, methylcellulose |
+| **filler** | kaolin — and **chalk moves here** from `auxiliary` |
+
+Glycerine, honey and clove oil stay in the existing **`auxiliary`**. They neither bind nor
+fill; they improve how the paint handles and keeps, which is what neutral soap and
+Synthrapol already sit there for.
+
+So it is **six new substances, not seven** — calcium carbonate is already in the library.
+
+**Moving chalk is a migration, not a merge.** The merge scripts only fill what is empty and
+print what they hold back; changing a category is not filling an empty field. If the owner
+has edited that record, the owner's value is held and printed.
+
+**Slaked lime is reviewed in the same pass.** `calcium_hydroxide` sits under `auxiliary` and
+is a strong alkali that raises pH in an indigo vat and in safflower's alkaline extraction.
+The `modifier` category exists and has six members. Agreed at rc46: it moves.
+
+**2. Two new roles, not one.**
+
+- **`plasticiser`** — glycerine. Keeps the cake from drying hard and cracking. Honey stays
+  `humectant`: it draws moisture so the paint rewets. The vocabulary comment at
+  `ingredient_role` already argued that four different jobs must not read as one thing on
+  screen, and then two of them were given the same code. This closes that.
+- **`carrier`** — the thing a lake precipitates ONTO. Required by part 3: the new basis has
+  to point at a line, and there was no line it could honestly point at.
+
+Ox gall is `surfactant`, chalk and kaolin are `filler`, a finished pigment is `pigment` —
+all three roles exist and nothing is added for them.
+
+**3. A new basis: per cent of the CARRIER's weight.**
+
+Not „of the alum". Stopka's chart is a percentage of the alum — madder root 500%, greater
+celandine 180% — but Ali's second madder recipe precipitates onto **chalk**, 6 g of dye to
+3 g of chalk, with no alum anywhere. A field named after the alum refuses that recipe and
+invites a second field measuring the same thing, which is the two-mechanisms fault removed
+from the CSS at rc31.
+
+**The lake recipe's alum line is corrected to `carrier`.** It currently says `mordant`, and
+the alum there mordants nothing — the pigment forms on it. True of Stopka's recipe by
+accident and false of Ali's.
+
+Guard: a recipe with a per-cent-of-carrier line and no carrier line is refused.
+
+This is why the three pigment recipes carry `quantity: null` on every ingredient. The
+numbers were not forgotten at data entry. They had nowhere to go, and the source register's
+own note for Stopka says so — „a chart of plant material as a percentage of the weight of
+alum (WOA, not WOF)" — documented when the source was entered, and the field never grew.
+
+**4. A fourth scale mode: by OUTPUT.**
+
+The owner: *„you make a binder, and how much gum you need follows from how much binder you
+are making."* The three existing modes scale by cloth weight, bath volume, or raw input.
+None of them is what a paste recipe does.
+
+A paste recipe declares what it yields — Stopka's medium about 225 ml, which she calls
+twenty pans; the watercolour one to two pans; the pastel per stick — and the field asks how
+much you want to get. Every line moves together, the gum with them.
+
+The three dyeing modes are untouched.
+
+**`scripts/try-calculators.mjs` asserts „the gum itself is absolute and unchanged — 42".**
+That assertion describes a decision taken when there was no fourth mode. It will fail, and
+it must be seen to fail before it is rewritten.
+
+**5. The batch holds what was actually put in — and what differed.**
+
+The master lake recipe is one recipe. A batch takes its lines at the start, every line is
+then editable, and a line may be added for a substance the master never had — soda for one
+plant and not another. The owner: *„that is the point of it."*
+
+**And the batch remembers which lines depart from the master.** A batch that only holds
+lines gives back a list and no knowledge; a batch that marks its departures answers „what
+did I do differently for madder", which is the thing the owner was recording when she
+experimented in the first place.
+
+This also closes §17e: standing over the pot, the batch shows quantities rather than the
+name of a recipe on another screen.
+
+**6. Swatches on the batch become a list.**
+
+Each swatch carries: which recipe, what the result was, what it was on when there is a
+substrate, the colour, and photographs. Measured or indicative follows §13dl.
+
+One batch of madder becomes powder, watercolour and pastel, each its own colour — which is
+how Ali's chart shows madder, as three swatches, and safflower as „potash on cotton" and
+again as „potash on leather", two colours from one recipe.
+
+**7. The list of what a swatch can be is CLOSED for now, and this is a constraint, not a
+preference.**
+
+Seeded: dye, pigment, watercolour, pastel, ink, glaze. The owner asked for an open list and
+was right to; the application cannot keep one today.
+
+`vocab.js` opens by saying that adding a term is a data change rather than a code change and
+that the seeded terms are editable in the `vocabulary` store. Neither half holds:
+
+- **There is no screen for adding a term.** The store is filled on first run and nothing
+  writes to it afterwards.
+- **`backup.js` skips `vocabulary`.** A term added by any means does not survive a restore —
+  at exactly the moment a person believes they have everything back.
+
+So „editable there" was true as an intention and never became true. Not a fault rc46
+introduced; nobody had asked until now.
+
+**A vocabulary editor goes on the roadmap after 1.0** (B6a), with the reason recorded: it is
+the preferred answer and is deferred only because it needs the backup to change too.
+Otherwise a later reader meets „closed list" and concludes it was the design.
 
 ### And one thing that is not a defect
 

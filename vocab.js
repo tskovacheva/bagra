@@ -261,6 +261,28 @@ export const VOCABULARY = [
   V('material_category', 'modifier',  'pH модификатор', 'pH modifier', 4),
   V('material_category', 'auxiliary', 'помощно',        'auxiliary', 5),
 
+  // PIGMENT-MAKING, CATEGORISED BY WHAT A SUBSTANCE DOES (§13dn).
+  //
+  // The first plan was one category for „pigment-making materials", and it was
+  // wrong: it would have grouped seven substances by the book they appear in
+  // rather than by their job, which is a bucket by context and is exactly what
+  // the five above are not. The owner's rule, and it governs the twenty-six
+  // already seeded as much as the new ones: the category follows from
+  // understanding what the substance is for and what it does.
+  //
+  // Only two are earned. Gum arabic, gum tragacanth and methylcellulose all do
+  // one thing — hold the grain onto the paper. Kaolin and chalk do another.
+  // Glycerine, honey and clove oil earn nothing new: they neither bind nor
+  // fill, they improve how the paint handles and keeps, which is what neutral
+  // soap and Synthrapol are already in `auxiliary` for.
+  //
+  // A filler and a CARRIER are the same substance doing different work — chalk
+  // fills out a pastel, and chalk is also what a lake precipitates onto. That
+  // difference belongs to the role a line plays in one recipe, not to what the
+  // substance is. See `carrier` below.
+  V('material_category', 'binder',    'свързващо',      'binder', 6),
+  V('material_category', 'filler',    'пълнител',       'filler', 7),
+
   V('mordant_type', 'alum_potassium',  'калиева стипца',    'potassium alum', 1),
   V('mordant_type', 'alum_acetate',    'алуминиев ацетат',  'aluminium acetate', 2),
   V('mordant_type', 'alum_sulfate',    'алуминиев сулфат',  'aluminium sulfate', 3),
@@ -349,6 +371,28 @@ export const VOCABULARY = [
   V('ingredient_role', 'solvent',          'разтворител',        'solvent', 14),
   V('ingredient_role', 'humectant',        'задържа влага',      'humectant', 15),
   V('ingredient_role', 'preservative',     'консервант',         'preservative', 16),
+
+  // The comment above this block argued that four different jobs must not read
+  // as one thing on screen — and then glycerine and honey were both given
+  // `humectant`, so the working view drew „задържа влага" twice, one under the
+  // other, for two substances doing two things. The reasoning was right and the
+  // data did not follow it (§13dn).
+  //
+  // Glycerine keeps the cake from drying hard and cracking. Honey draws
+  // moisture so the paint rewets under a wet brush. They stand in for each
+  // other sometimes and not in general.
+  V('ingredient_role', 'plasticiser',      'омекотител',         'plasticiser', 17),
+
+  // WHAT A LAKE PRECIPITATES ONTO. Stopka's is alum, Nabil Ali's is chalk —
+  // 6 g of dye to 3 g of chalk, with no alum anywhere. The lake recipe called
+  // its alum line `mordant`, which is true of nothing: the alum there mordants
+  // no fibre, the pigment forms on it.
+  //
+  // Needed as a role of its own because the „per cent of the carrier's weight"
+  // basis has to point at a line, and naming that line after the alum would
+  // have refused Ali's recipe and invited a second field measuring the same
+  // thing.
+  V('ingredient_role', 'carrier',          'носител',            'carrier', 18),
 
   // WHAT CHANGES A RESULT (§13dg).
   //

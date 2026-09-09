@@ -207,6 +207,24 @@ sh scripts/try-release-gate.sh || exit 1
 #     missing browser.
 node scripts/try-screen-coverage.mjs || exit 1
 
+# 3f. Which pack can no screen update. A pack reaches an installed copy two
+#     ways, and only one is automatic: `loadPack` ADDS an absent record at boot,
+#     but a CHANGE travels solely through the „Обнови от библиотеката" button.
+#     Four packs had that button and three did not, so a corrected recipe went
+#     out in the ZIP and reached nobody who already had the application — §13cb
+#     word for word, with the mechanism built and three packs left outside it.
+#     See scripts/try-pack-reachability.mjs (§13dn).
+node scripts/try-pack-reachability.mjs || exit 1
+
+# 3g. Does the manifest still say what the packs say. `seed/manifest.json` is a
+#     second copy of each pack's own version, and `ensurePacks` reads only the
+#     manifest to decide whether to load. A manifest left behind makes an
+#     installed copy conclude it already has the new pack and skip it, with
+#     nothing logged — a bumped pack that ships to nobody. Third
+#     hand-maintained list in two releases found drifted from the code it
+#     describes. See scripts/try-manifest-agrees.mjs (§13dn).
+node scripts/try-manifest-agrees.mjs || exit 1
+
 # 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
 #    which gives a blank page.

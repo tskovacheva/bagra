@@ -1756,6 +1756,15 @@ const dirty = await import('./dirty.js');
       }
     }
 
+    // Materials were walked by nothing. A recipe's `roleCode` was checked and
+    // the substance's own `category` was not, so a category that exists in no
+    // vocabulary passed the whole suite — found at rc47 by typing one, while
+    // moving chalk into `filler` and slaked lime into `modifier` (§13dn). Both
+    // of those moves would have shipped a code nothing could read, and the
+    // Materials screen filters by category, so the record would have vanished
+    // from every tab without ever being deleted.
+    for (const sx of await db.all('substances')) check('material_category', sx.category);
+
     if (orphan.size)
       fail('vocabulary', new Error(`codes used but not in the vocabulary: ${[...orphan].join(', ')}`));
     else console.log('  vocabulary: every code in the seeded data has a term');

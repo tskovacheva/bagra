@@ -12,6 +12,48 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc47 — 9 September 2026
+
+First release of the pigment model agreed in `DOCUMENTATION_DECISIONS_NEEDED.md` item 17.
+The vocabulary and the seeded records; no screen behaviour changes except one button. §13dn
+
+- **Two substance categories, earned rather than convenient.** `binder` and `filler`. The
+  first plan was one category for „pigment-making materials" and it grouped substances by
+  the book they appear in rather than by their job. Glycerine, honey and clove oil earn
+  nothing new — they belong in `auxiliary` beside neutral soap and Synthrapol.
+- **Chalk moves from `auxiliary` to `filler`**, and it turns out to have been in the library
+  all along, so six substances are still to come and not seven.
+- **Slaked lime moves from `auxiliary` to `modifier`.** A strong alkali that raises pH in an
+  indigo vat and in safflower's alkaline extraction. The rule is retrospective: it governs
+  the twenty-six already seeded.
+- **Two ingredient roles.** `plasticiser` for glycerine, which had been sharing `humectant`
+  with honey so the working view drew „задържа влага" twice for two different jobs — the
+  exact collapse the role block's own comment was written to prevent. And `carrier` for what
+  a lake precipitates onto: Stopka's is alum, Nabil Ali's is chalk, and the lake recipe's
+  alum line said `mordant`, which mordants nothing.
+- **The lake recipe's alum line is `carrier`.** `seed/recipes.json` to 0.3.0,
+  `seed/substances.json` to 0.2.0.
+- **„Обнови от библиотеката" in Recipes, and a guard asking which pack no screen can
+  update.** A pack ADDS an absent record by itself at boot and can only CHANGE one through
+  that button. Four packs had it; `recipes`, `sources` and `glossary` did not — so this
+  release's own correction would have gone out in the ZIP and reached nobody who already had
+  the application. `sources` and `glossary` are excused with the reason written down: both
+  live inside the Library, which has no list of records to stand a button beside, and where
+  it goes has not been decided. `scripts/try-pack-reachability.mjs`.
+- **A guard that the manifest still says what the packs say.** `ensurePacks` reads only
+  `seed/manifest.json` to decide whether to load, so a manifest left behind makes an
+  installed copy skip a pack it does not have — silently, shipping the records to nobody.
+  Three packs are bumped by hand in this release, so the guard travels with the change it
+  protects. `scripts/try-manifest-agrees.mjs`.
+- **`deep-check` now walks a substance's `category`.** A recipe's `roleCode` was checked
+  against the vocabulary and the substance's own category was not. Found by typing one that
+  exists nowhere while making the two moves above, and the whole suite passed. The Materials
+  screen filters by category, so such a record would have vanished from every tab without
+  ever being deleted.
+- **Scope grew by three, each dragged in by the declared change rather than chosen beside
+  it** — the test being whether the change could be delivered without it. Every guard was
+  watched failing first, eleven distinct failures across the three.
+
 ## 1.0.0-rc46 — 9 September 2026
 
 Three faults reported in one sitting, and they were one shape: a name or an address
@@ -58,10 +100,19 @@ written in a second place, with nothing holding the two against each other. §13
   a fixture for a finished madder batch so the list has a row to open. These screens have
   never been checked at any width, so the sixth layer may turn up geometry faults that have
   been shipping for several releases. That is the guard working, not a regression.
-- **The pigment findings are recorded, not fixed** — `DOCUMENTATION_DECISIONS_NEEDED.md`
-  item 17. The pigment recipes name roles that no shipped substance fills, three of them
-  carry no quantities at all, and a batch shows a recipe's name and none of its amounts.
-  These are model decisions and belong to the owner.
+- **A fifty-third source: Nabil Ali, *Gold from Newton's Apple Tree*.** Historical recipes
+  read out of manuscripts and then carried out, each printed beside a swatch the author
+  painted from it. `seed/sources.json` goes to packVersion 10. Cited by nothing yet, which
+  is the normal order — the register is filled before the records that lean on it.
+- **The pigment findings are recorded, and the model that answers them is agreed and NOT
+  built** — `DOCUMENTATION_DECISIONS_NEEDED.md` item 17, with the work listed in ROADMAP
+  B6b and B6c. Two substance categories, two ingredient roles, a basis of per cent of the
+  carrier's weight, a fourth scale mode by output, batch lines that may depart from the
+  master and say so, and swatches as a list. Nothing is in the code. It is written in the
+  decisions document rather than as a §13 section because those sections describe how the
+  application works, and a specification that describes something unbuilt is one that lies.
+  Three things the sources corrected along the way, one of them this document's own earlier
+  proposal, are recorded in the same item.
 
 ## 1.0.0-rc45 — 25 August 2026
 

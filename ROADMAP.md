@@ -256,6 +256,49 @@ Four items, none of which loses knowledge by waiting.
 - **The eco print block on the plant screen.** Waits on the `printingSide` decision
   (`DOCUMENTATION_DECISIONS_NEEDED.md`, item 13).
 
+## B6b. The pigment module, finished — agreed at rc46, after A6
+
+The model is written out in full in `DOCUMENTATION_DECISIONS_NEEDED.md` item 17 and is
+agreed. It is not built. In rough order of dependency:
+
+- ~~**Two substance categories**~~ — **DONE at rc47.** `binder` and `filler`, chalk moved out
+  of `auxiliary` into `filler`, slaked lime into `modifier`. The six new substances are NOT
+  done and are deliberately not in that release: a substance record carries hazard, handling
+  and purpose, and writing those is making claims that need a source. They start as a
+  workbook, the way the plants did.
+- ~~**Two ingredient roles**~~ — **DONE at rc47.** `plasticiser` and `carrier`.
+- **A basis of per cent of the carrier's weight.** The lake recipe's alum line was corrected
+  from `mordant` to `carrier` at rc47; the basis itself is not built. This is why the three
+  pigment recipes have no quantities: the numbers had nowhere to go.
+- **A fourth scale mode, by output**, for paste recipes only. Expect
+  `scripts/try-calculators.mjs` to fail on the gum — that assertion predates the mode and
+  must be seen to fail before it is rewritten.
+- **The batch holds the lines actually used**, may add lines the master never had, and marks
+  which lines depart from the master.
+- **Swatches on the batch become a list** — recipe, kind, substrate, colour, photographs.
+
+## B6c. A vocabulary editor
+
+`vocab.js` says adding a term is a data change and that the seeded terms are editable in the
+`vocabulary` store. There is no screen that writes to that store, and `backup.js` skips it,
+so a term added by any means is lost on restore.
+
+This is the preferred answer to the open swatch-kind list and was deferred at rc46 only
+because it needs the backup to change as well. Recorded so that a later reader meets the
+reason rather than concluding that a closed list was the design.
+
+## B6d. An update button for Sources and the Glossary
+
+Both packs can gain a record at boot and can never have one corrected: nothing calls
+`seedUI.open` for them, so a fixed source or a reworded glossary term goes out in the ZIP and
+reaches nobody who already has the application. `scripts/try-pack-reachability.mjs` excuses
+them by name at rc47 and the excuse says exactly this.
+
+Deferred rather than done because both live inside the Library, a reading screen with tabs
+and no list of records to stand a button beside. Where it goes — a tab, the Library's own
+head, somewhere else — is a layout decision nobody has taken, and inventing a place for it
+inside a guard's exemption list would have been taking it quietly.
+
 ## B7. Smaller, accepted, not built
 
 - **The visual pass deferred at 0.98.2.** Density, rhythm, the weight of headings. The

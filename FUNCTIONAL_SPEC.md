@@ -9672,6 +9672,109 @@ faults were there before the guard could see them.
 
 ---
 
+## 13dn. The vocabulary earns its categories, and three lists that had drifted (1.0.0-rc47)
+
+First release of the pigment model agreed in `DOCUMENTATION_DECISIONS_NEEDED.md` item 17.
+Declared scope: the vocabulary, the two migrations of seeded records, and the lake recipe's
+alum line. It grew by two guards and one check, each dragged in by the scope rather than
+chosen beside it, and each is named below with what dragged it.
+
+### The category follows from what a substance does
+
+The first plan was a single new category for „pigment-making materials". It was wrong, and
+the owner said why: **the category has to be earned by understanding what the substance is
+for.** One category for seven substances groups them by the book they appear in — a bucket
+by context, which is exactly what the five existing categories are not.
+
+Applying the rule gives two, not one:
+
+- **`binder`** — gum arabic, gum tragacanth, methylcellulose. One job: hold the grain onto
+  the paper.
+- **`filler`** — kaolin, and **chalk, which was already in the library** under `auxiliary`.
+  So it is six new substances to come, not seven.
+
+Glycerine, honey and clove oil earn nothing new. They neither bind nor fill; they improve
+how the paint handles and keeps, which is what neutral soap and Synthrapol are already in
+`auxiliary` for.
+
+**Slaked lime moves to `modifier`.** It sat in `auxiliary` and is a strong alkali that raises
+pH in an indigo vat and in safflower's alkaline extraction. The rule is retrospective: it
+governs the twenty-six substances already seeded as much as the ones arriving.
+
+### Two roles, because two jobs were reading as one
+
+`plasticiser` for glycerine. The comment above the role block already argued that four
+different jobs must not read as one thing on screen — and then glycerine and honey were both
+given `humectant`, so the working view drew „задържа влага" twice, one line under the other,
+for two substances doing two things. The reasoning was right and the data did not follow it.
+
+`carrier` for what a lake precipitates onto. The lake recipe called its alum line `mordant`,
+which is true of nothing there: the alum mordants no fibre, the pigment forms on it. Stopka's
+carrier is alum and Nabil Ali's is chalk — 6 g of dye to 3 g of chalk, no alum anywhere — so
+the role cannot be named after the alum without refusing the second recipe.
+
+### The three lists that had drifted
+
+Everything below is the same fault in three places: **a second copy of a fact, with nothing
+holding the two together.** All three were found while trying to deliver the change above,
+and all three were static and cheap once asked as a general question.
+
+**1. A pack no screen can update.** A pack reaches an installed copy two ways and only one
+is automatic. `loadPack` ADDS an absent record at boot; a CHANGE travels solely through
+`diffPack`, which is the „Обнови от библиотеката" button. **Four packs had that button and
+three did not** — `recipes`, `sources`, `glossary`.
+
+So the alum-to-carrier correction, the whole point of this release, would have gone out in
+the ZIP and reached nobody who already had the application. Visible only on a fresh install.
+That is §13cb word for word, with the mechanism built at rc13 and three of the seven packs
+left outside it, which nothing noticed because nothing asked.
+
+Recipes gets the button. `sources` and `glossary` are excused **with the reason written**:
+both live inside the Library, a reading screen with tabs and no list of records to stand a
+button beside, and where that button goes is a layout decision nobody has taken. It is an
+excuse, not a verdict — a correction to a source or a glossary term still reaches nobody
+today, and that is on the roadmap. `scripts/try-pack-reachability.mjs` holds the excuse
+list against PACKS and against the modules.
+
+**2. A manifest that disagrees with its packs.** `seed/manifest.json` restates each pack's
+own version, and `ensurePacks` reads **only the manifest** to decide whether to load:
+
+    if (shipped && known && known.seededVersion === shipped.version) skip
+
+A manifest left behind makes an installed copy conclude it already has the new pack and skip
+it. Nothing logged, nothing failed, the records never arrive — **a bumped pack that ships to
+nobody.** This release bumps three packs by hand, so the guard protects the very change it
+travels with. `scripts/try-manifest-agrees.mjs` checks version and packId, in both
+directions.
+
+Noted and not enforced: six packs carry semver strings and `sources` carries a bare number.
+Harmless, because manifest versions are only ever compared with each other. A guard that
+fails on something it was not written to police is a guard that gets switched off.
+
+**3. A coded field nothing read.** A recipe's `roleCode` was checked against the vocabulary
+and a substance's own `category` was not. Found by typing a category that exists nowhere
+while making the two moves above — **and the suite passed.** Both moves could have shipped a
+code nothing could read, and since the Materials screen filters by category, the record
+would have vanished from every tab without ever being deleted. Now walked in `deep-check`.
+
+### On the scope growing
+
+Three additions beyond the declared scope, and the test applied to each was whether the
+declared change could be delivered without it. The button: no — the correction reaches
+nobody. The manifest guard: no — three hand edits in this release, any of which silently
+voids it. The category check: no — the two moves are exactly the edit it validates. None of
+them is a feature and none was chosen because it was nearby.
+
+### Seen to fail
+
+Every guard here was watched failing before it was accepted, each with its own message:
+no exemption list declared · a pack in neither list · an excuse for a pack that is reachable
+· an excuse for a pack that does not exist · a button pointing at a pack that is not declared
+· a manifest version behind its pack · a manifest entry missing · a manifest entry orphaned ·
+a wrong packId · an invented substance category · an invented ingredient role.
+
+---
+
 
 # Part VI. Open questions
 
@@ -9701,12 +9804,22 @@ faults were there before the guard could see them.
    statement rather than an absence, and it needs no new handling downstream —
    a field that does not apply is simply not shown.
 
-0. **Does season belong in the combination key?** Every plant profile in Chandra Rice's guides
-   distinguishes spring from autumn leaves — autumn oak is loaded with tannin and prints boldly,
-   spring oak is thin and prints softly. If season is not part of the key, the reference will merge
-   two genuinely different results and report an unhelpfully wide "variation". If it is, the number
-   of combinations roughly doubles and each fills more slowly. Provisional answer: an optional
-   dimension on the key, set when it is known to matter for that plant, blank otherwise.
+0. ~~**Does season belong in the combination key?**~~ — **CLOSED at 1.0.0-rc46: no.** Season is
+   not part of the combination key and will not become part of it. The 163 records already written
+   are therefore complete rather than missing a dimension, and the doubling this would have cost
+   the library is not paid.
+
+   **What this leaves without a home, stated rather than glossed.** „Autumn oak is loaded with
+   tannin and prints boldly, spring oak is thin and prints softly" is a true and useful sentence
+   and there is now no field for it. `influences` (§13dg) is the mechanism for „what moves this
+   result", but its factor list is closed and holds six — fibre, mordant, medium, species, dose
+   and time, preparation. **Season is not among them.** So the knowledge lives in a
+   combination's `notes`, in the owner's own words, exactly as `printingSide` does until §13
+   is settled. Whether `season` becomes a seventh influence factor is a smaller question than
+   the one just closed and is not asked here.
+
+   *Kept rather than deleted, because it was the one open question with teeth in a library that is
+   otherwise frozen, and a reader of §13db is entitled to know it was asked and answered.*
 
 1. ~~Per-plant observations inside a multi-plant eco print bundle~~ — **resolved**: placements (§8.4).
 2. ~~Blanket as recipe or field~~ — **resolved**: a recipe type (§5, type 8).
