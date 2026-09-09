@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.2.0",
+ "packVersion": "0.3.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -30,7 +30,7 @@
      }
     },
     {
-     "roleCode": "mordant",
+     "roleCode": "carrier",
      "basis": "absolute",
      "note": {
       "bg": "10 г стипца — алуминиев сулфат или калиева стипца.",

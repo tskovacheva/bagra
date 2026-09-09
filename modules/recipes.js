@@ -12,6 +12,7 @@ import {
   pairField, readPairs, fact, facts, prose, readBlock, searchBox, matches, navigate, flash,
   fieldGroup, icon, backTo, actionBtn, deleteGuarded } from '../ui.js';
 import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
+import * as seedUI from '../seed-ui.js';
 import chains from './chains.js';
 
 const TYPES = ['scour', 'tannin', 'mordant', 'dye', 'ecoprint', 'blanket', 'pigment', 'paste'];
@@ -229,7 +230,7 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('recipes.title'),
     sub: t('recipes.sub'),
-    actions: `${returnBar()}${host.tabs()}${actionBtn('add', t('recipes.new'), 'data-new', 'primary')}`,
+    actions: `${returnBar()}${host.tabs()}<button class="btn quiet" data-sync>${t('seed.sync')}</button>${actionBtn('add', t('recipes.new'), 'data-new', 'primary')}`,
     body: `
       ${chainCards ? panel(`<h2>${t('chains.tab')}</h2>
         <div class="chaincards">${chainCards}</div>`) : ''}
@@ -868,6 +869,19 @@ export default {
     }
 
     root.onclick = async (e) => {
+      // The recipes pack had no way in. `loadPack` adds an absent record at
+      // boot, but a CHANGE to a shipped recipe travels only through
+      // `diffPack`, which is this button — so a correction went out in the ZIP
+      // and reached nobody who already had the application (§13dn). Four packs
+      // had the button and three did not.
+      if (e.target.closest('[data-sync]')) {
+        try {
+          await seedUI.open('recipes');
+          return seedUI.render(root, () => this.render(root));
+        } catch (err) { alert(err.message); }
+        return;
+      }
+
       if (e.target.closest('[data-returnto]')) {
         const target = returnTo;
         await setSetting('returnTo', null);
