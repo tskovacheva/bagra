@@ -61,6 +61,44 @@ export async function runMigrations() {
   await runOnce('doubleStateEvents', 1, healDoubleStateEvents);
   await runOnce('fabricActions', 1, migrateFabricActions);
   await runOnce('plantPhotos', 1, migratePlantPhotos);
+  await runOnce('recipeTempRange', 1, migrateRecipeTempRange);
+}
+
+
+// A recipe's temperature becomes a RANGE (§13dq).
+//
+// `tempC` held one number. Both of the sources the owner works from give two —
+// Stopka's madder digestion is 66–76 °C, Joanne Green's extraction 50–80 °C —
+// and for madder the CEILING is the half that matters, because above it the red
+// goes brown. The plant record has carried `tempDyeC.min` and `.max` all along;
+// only the recipe was flat, and `tempSpan` sat unused in units.js.
+//
+// A single figure is not wrong, it is a range whose ends agree, so an existing
+// value moves into BOTH — 70 becomes 70 to 70 and reads as „70 °C" exactly as
+// before. Nothing is guessed: no ceiling is invented for a recipe that never
+// had one.
+//
+// `tempC` IS NOT REMOVED. The same reasoning as `stateEvents` at §13bd:
+// migrations add, the application reads and writes only the new pair, and the
+// old field stays a way back if the mapping proves wrong. It comes out in a
+// later version on purpose rather than by drift.
+//
+// Idempotent: a recipe that already has either end is left alone, so a second
+// run changes nothing — including for a recipe where the owner has since
+// widened the range by hand.
+export async function migrateRecipeTempRange() {
+  let touched = 0;
+  for (const r of await all('recipes')) {
+    if (r.tempC == null) continue;
+    if (r.tempMinC != null || r.tempMaxC != null) continue;
+    r.tempMinC = r.tempC;
+    r.tempMaxC = r.tempC;
+    // Structural, not her doing (§13cv): reshaping a field must not move a
+    // recipe untouched since spring to the top of a list ordered by recency.
+    await putMigration('recipes', r);
+    touched++;
+  }
+  if (touched) console.info(`gave ${touched} recipe(s) a temperature range`);
 }
 
 

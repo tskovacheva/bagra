@@ -12,6 +12,39 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc50 — 10 September 2026
+
+Fourth release of the pigment model (item 17): two real recipes, and a temperature that is a
+range. §13dq
+
+- **Two madder lake recipes ship, cited, with every figure from the page.** Natalie Stopka's
+  fermentation extraction — sauerkraut juice, one to two weeks, 66–76 °C digestion, alum and
+  a soda ash solution metered to pH 7 — and Joanne Green's hot extraction, 50–80 °C for at
+  least three hours, then 10 ml of alum and 5 ml of chalk per jar. `seed/recipes.json` to
+  0.7.0.
+- **They are recipes, not departures from the master.** They differ in kind: one has a
+  two-week biological stage and one does not, one precipitates with a strong alkali and one
+  with a mild one. A batch's departures are for the smaller differences inside one route —
+  the owner's own practice, Green's with a 24-hour presoak, is exactly that.
+- **A recipe's temperature is a range: `tempMinC` and `tempMaxC`.** Both sources give two
+  figures, and for madder the ceiling is the half that matters — above it the red goes brown,
+  which is why the plant already carries a `softMaxTempC` of 82. The plant record had held a
+  range all along, `tempSpan(min, max)` was already written in `units.js` and never called
+  from the recipes module, and pre-filling a recipe from a plant part took `.min` and dropped
+  the ceiling three lines under a comment arguing that one number hands the elder fruit the
+  elder leaf's boil. All three now read the same helper.
+- **`tempC` survives, deliberately.** Migrations add; the old field is the way back if the
+  mapping proves wrong, and it comes out later on purpose rather than by drift — the same
+  reasoning as `stateEvents` at §13bd.
+- **The migration refuses four things, and each is asserted.** It invents no ceiling for a
+  recipe that had no temperature, does not narrow a range entered by hand, leaves „never
+  above 80" without an invented floor, and does not move `updatedAt` — reshaping a field is
+  not the owner touching a record. Watched failing all four ways before being accepted.
+- **One thing left as a question rather than answered:** which of chalk and soda ash gives
+  the better result. The owner has used both, they behave differently, and she does not
+  remember which she preferred. That is not a fact about a recipe — it is what a batch is
+  for, and it is the clearest argument yet for rc51.
+
 ## 1.0.0-rc49 — 9 September 2026
 
 Third release of the pigment model (item 17). §13dp

@@ -9941,6 +9941,97 @@ same lesson as the 54 eco print records that name no fibre (§13db).
 
 ---
 
+## 13dq. Two recipes that differ in kind, and a field that could hold one end (1.0.0-rc50)
+
+Fourth release of the pigment model (item 17). The owner supplied two full recipes from her
+own shelf — Natalie Stopka's madder root fermentation extraction and Joanne Green's madder
+root (red) — with every figure on the page.
+
+### They are two recipes, not a master and a departure
+
+The decision at rc46 was one master lake recipe, departed from in the batch. These two are
+not that.
+
+**Stopka** ferments the root for one to two weeks with sauerkraut juice, discards the
+fermentation liquid, then extracts hot at 66–76 °C and precipitates with 10 g of alum and a
+soda ash solution, metering pH to 7 with leeway of 6 to 8.
+
+**Green** has no fermentation at all: hot extraction at 50–80 °C for at least three hours,
+filtering, then 10 ml of dissolved alum and 5 ml of dissolved chalk per jar.
+
+They differ **in kind, not in degree** — one has a two-week biological stage and one does
+not; one precipitates with a strong alkali and one with a mild one. A departure recorded on
+a batch cannot carry that. Both ship as recipes of their own, cited, beside the master, which
+stays what it is: a skeleton rather than a process.
+
+The owner's own practice — Green's route with a 24-hour presoak — is not a third recipe. It
+is a batch of Green's with one departure, which is precisely the case rc51 is for.
+
+**And a confirmation that rc47 was right to separate them.** Chalk is the CARRIER in Green's
+recipe and a mild alkali in the same breath; alum is the carrier in Stopka's and chalk does
+not appear. One substance, different roles in different recipes. The category says what a
+substance is; the role says what it does here. Had those been one field, this would have
+snagged on the first real pair.
+
+### A temperature is a range
+
+`tempC` held one number. Both sources give two, and for madder the CEILING is the half that
+matters: above it the red goes brown, which is why Green's instruction is a band and why the
+library already carries `softMaxTempC` of 82 on madder root.
+
+Three things had been true at once and none of them noticed the fourth:
+
+- the plant record has carried `tempDyeC.min` and `.max` all along;
+- `tempSpan(min, max)` was written in `units.js` for that range and **was never called from
+  the recipes module**;
+- pre-filling a recipe from a plant part took `.min` and dropped the ceiling — three lines
+  below a comment arguing that a single number hands the elder fruit the elder leaf's boil.
+
+So the recipe was flat in the middle of a model that knew better, and the display had the
+tool to draw both ends already.
+
+`tempMinC` and `tempMaxC`, drawn through the existing `tempSpan` in the three places that
+each carried their own copy of `r.tempC != null ? ... : ''`.
+
+**`tempC` is not removed.** The same reasoning as `stateEvents` at §13bd: a migration adds,
+the application reads and writes only the new pair, and the old field remains the way back
+if the mapping proves wrong. It comes out in a later version on purpose rather than by drift.
+
+### The migration, and what it refuses to do
+
+A single figure is not wrong, it is a range whose ends agree, so 70 becomes 70 to 70 and
+`tempSpan` renders it „70 °C" exactly as before.
+
+What it does **not** do matters more, and each is asserted:
+
+- a recipe with no temperature is given none. No ceiling is invented for a recipe that never
+  had one;
+- a range already entered by hand is left alone, so a band the owner widened is not narrowed
+  back to a legacy single figure;
+- „never above 80" — a ceiling with no floor — keeps its ceiling and gains no invented floor;
+- `updatedAt` does not move. Reshaping a field is not the owner touching a record (§13cv),
+  and stamping it would carry a recipe untouched since spring to the top of every list
+  ordered by recency.
+
+Watched failing four ways before being accepted: a version that invents 20–100 for a recipe
+with no temperature, one that overwrites a hand-entered range, one that overwrites a
+hand-entered ceiling, and one that uses `put` instead of `putMigration` and restamps the
+record. Four breaks, four distinct messages.
+
+### What the recipes now say that they could not before
+
+Green's line „maintain 50–80 °C" is in the field rather than in the prose. Stopka's pH target
+of 7 is in `phTarget`. Her digestion of 30 to 60 minutes is in `heldMinutes`. The 2.4 litres
+of „tea", the 720–840 ml a jar, the two grades of filter and the amber supernatant are in the
+steps, because they are instructions and not quantities.
+
+One thing is deliberately left as a question rather than answered: **which of chalk and soda
+ash gives the better result.** The owner has used both and does not remember which she
+preferred, and they behave differently. That is not a fact about a recipe. It is what a batch
+is for, and it is the clearest argument yet for rc51.
+
+---
+
 
 # Part VI. Open questions
 

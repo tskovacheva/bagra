@@ -290,6 +290,17 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     the photographs that exist nowhere else — it read a store nothing has
   #     ever written to, so it told everybody they had none to lose.
   node scripts/try-hardening.mjs || exit 1
+  # 5g'. A recipe's temperature becomes a RANGE (§13dq). Both sources give two
+  #      figures — 66–76 °C, 50–80 °C — and for madder the ceiling is the half
+  #      that matters, which the library already knew: the plant carries a
+  #      `softMaxTempC` of 82 so the red is not boiled brown. Only the recipe
+  #      was flat, and `tempSpan` sat unused in units.js while the pre-fill
+  #      from a plant part took `.min` and dropped the ceiling. Asks that a
+  #      single figure widens into a range whose ends agree, that nothing is
+  #      invented for a recipe with no temperature, that a range entered by
+  #      hand is not narrowed back, that `updatedAt` does not move, and that
+  #      `tempC` survives.
+  node scripts/try-recipe-temp-range.mjs || exit 1
   # 5h. The owner's Definition of Done for Plant Library v1, run rather than
   #     remembered (§13db). It holds the one distinction the whole thing turns
   #     on: a gap the source will never fill is a FINISHED field, and counting
