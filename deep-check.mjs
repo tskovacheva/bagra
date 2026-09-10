@@ -1765,6 +1765,25 @@ const dirty = await import('./dirty.js');
     // from every tab without ever being deleted.
     for (const sx of await db.all('substances')) check('material_category', sx.category);
 
+    // A LINE MEASURED AGAINST SOMETHING THAT IS NOT THERE (§13do). „500% of the
+    // carrier" is meaningless in a recipe with no carrier line, and
+    // `calc/scale.js` returns nothing rather than a plausible figure — so the
+    // fault would show as an empty line on the working view and read as a
+    // record somebody had not finished filling in. It is not that; it is a
+    // recipe that cannot be computed. Refused here so it never reaches a
+    // screen, and refused for a carrier that is a percentage of itself.
+    for (const r of await db.all('recipes')) {
+      const ings = r.ingredients || [];
+      const carrier = ings.find(x => x.roleCode === 'carrier');
+      const needsOne = ings.some(x => x.basis === 'percent_of_carrier');
+      if (needsOne && !carrier)
+        fail('recipes', new Error(`${r.code || r.id}: a line is a per cent of the carrier `
+                                + `and the recipe has no carrier line`));
+      if (carrier && carrier.basis === 'percent_of_carrier')
+        fail('recipes', new Error(`${r.code || r.id}: the carrier is a per cent of itself`));
+    }
+    console.log('  recipes: a per-cent-of-carrier line has a carrier to be a per cent of');
+
     if (orphan.size)
       fail('vocabulary', new Error(`codes used but not in the vocabulary: ${[...orphan].join(', ')}`));
     else console.log('  vocabulary: every code in the seeded data has a term');

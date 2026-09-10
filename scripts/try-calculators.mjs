@@ -371,7 +371,28 @@ if (binder) {
   const one = at(42);
   near(one['solvent:ml'].scaledMin, 240, 1, '42 g of gum → 240 ml of boiling water');
   near(one['humectant:ml'].scaledMin, 15, 2, 'and 15 ml of glycerine');
-  near(one['binder:g'].scaledMin, 42, 0.1, 'the gum itself is absolute and unchanged');
+  near(one['binder:g'].scaledMin, 42, 0.1, 'and the gum is the 42 g the recipe is written for');
+
+  // THIS ASSERTION USED TO READ „the gum itself is absolute and unchanged — 42"
+  // and it never checked either half (§13dp). The gum line was `absolute: 42`;
+  // it is now `ratio_to_dyestuff: 1` against the raw amount, which IS the gum.
+  // At 42 g both models return 42, so the old assertion passed before the
+  // change and after it, unmoved, having measured a number that is the same
+  // under both. A guard that cannot tell the two apart is not testing the thing
+  // it names.
+  //
+  // What separates them is what happens at any other amount. Doubling the gum
+  // has to double the whole recipe — which is the owner's own sentence about
+  // this recipe: you decide how much binder to make, and how much gum you need
+  // follows from it.
+  const twice = at(84);
+  near(twice['binder:g'].scaledMin, 84, 0.1, 'twice the gum is twice the gum, not still 42');
+  near(twice['solvent:ml'].scaledMin, 480, 1, 'and twice the water');
+  near(twice['humectant:ml'].scaledMin, 30, 2, 'and twice the glycerine');
+  // The clove oil is genuinely absolute — five drops preserve a jar of this,
+  // not a proportion of it — so it must NOT move. Asserted, because a change
+  // that swept every line onto a ratio would look right and be wrong here.
+  near(twice['preservative:drop'].scaledMin, 5, 0.1, 'and the clove oil, truly absolute, stays five drops');
   near(one['preservative:drop'].scaledMin, 5, 0.1, 'and the clove oil is five drops');
 
   // The unit is the ingredient's own. Forced to grams, 15 ml of glycerine
@@ -398,4 +419,58 @@ if (binder) {
 }
 
 console.log(failed ? '\nCALCULATOR CHECK FAILED' : '\nall held');
+
+// ---------------------------------------------------------------- the lake
+//
+// How much plant for how much carrier (§13do). Until rc48 this recipe carried
+// `quantity: null` on every line and its working view was three dashes: the
+// numbers were in the note as prose because no basis could hold them.
+const lake = recipes.find(r => r.code === 'pigment-lake-master');
+lake ? ok('the lake pigment recipe is in the pack') : bad('no lake pigment recipe');
+
+if (lake) {
+  const by = {};
+  for (const i of scaleRecipe(lake, {}).ingredients) by[i.roleCode] = i;
+
+  near(by.carrier.scaledMin, 10, 0.1, 'the carrier is 10 g of alum');
+  near(by.alkali.scaledMin, 5, 0.1, 'and 5 g of soda');
+  // 500% of the carrier, which is Stopka's figure for madder root. Not a
+  // per cent of cloth: there is no cloth in a lake pigment.
+  near(by.dyestuff.scaledMin, 50, 0.1, 'madder root at 500% of the carrier is 50 g');
+
+  // The carrier is what it is a per cent OF, so doubling it doubles the plant
+  // and leaves the soda alone. This is the whole point of the basis, and it is
+  // the assertion that would fail if the line ever went back to `absolute`.
+  const doubled = structuredClone(lake);
+  for (const i of doubled.ingredients) if (i.roleCode === 'carrier') i.quantity = 20;
+  const d = {};
+  for (const i of scaleRecipe(doubled, {}).ingredients) d[i.roleCode] = i;
+  near(d.dyestuff.scaledMin, 100, 0.1, 'twice the carrier is twice the plant material');
+  near(d.alkali.scaledMin, 5, 0.1, 'and the soda, being absolute, does not move');
+
+  // Refusal rather than a plausible number, in all three shapes. A fallback
+  // here would hide a broken recipe behind a figure somebody would weigh out.
+  const noCarrier = { ingredients: lake.ingredients.filter(i => i.roleCode !== 'carrier') };
+  const out1 = scaleRecipe(noCarrier, {}).ingredients.find(i => i.roleCode === 'dyestuff');
+  out1.scaledMin == null
+    ? ok('with no carrier line, the plant line shows nothing rather than a guess')
+    : bad(`a recipe with no carrier still produced ${out1.scaledMin}`);
+
+  const circular = structuredClone(lake);
+  for (const i of circular.ingredients) {
+    if (i.roleCode === 'carrier') { i.basis = 'percent_of_carrier'; i.quantity = 100; }
+  }
+  const out2 = scaleRecipe(circular, {}).ingredients.find(i => i.roleCode === 'dyestuff');
+  out2.scaledMin == null
+    ? ok('a carrier that is a per cent of itself is refused, not followed once')
+    : bad(`a circular carrier still produced ${out2.scaledMin}`);
+
+  const noAmount = structuredClone(lake);
+  for (const i of noAmount.ingredients) if (i.roleCode === 'carrier') i.quantity = null;
+  const out3 = scaleRecipe(noAmount, {}).ingredients.find(i => i.roleCode === 'dyestuff');
+  out3.scaledMin == null
+    ? ok('a carrier with no amount yields nothing, not a confident zero')
+    : bad(`a carrier with no amount still produced ${out3.scaledMin}`);
+}
+
 process.exit(failed ? 1 : 0);

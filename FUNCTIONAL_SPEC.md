@@ -9775,6 +9775,172 @@ a wrong packId · an invented substance category · an invented ingredient role.
 
 ---
 
+## 13do. How much plant for how much carrier, and a comment in the wrong basis (1.0.0-rc48)
+
+Second release of the pigment model (item 17). Declared scope: the basis, its arithmetic,
+its guards, and Stopka's figures turned from prose into data.
+
+### The numbers were not forgotten
+
+All three pigment recipes shipped with `quantity: null` on every ingredient, and their
+working view was a column of dashes. The reading „somebody entered these records and did not
+finish" is wrong. **There was no basis that could hold the figures.**
+
+The five bases are per cent of cloth, per cent of bath, grams per litre, ratio to the
+dyestuff, and absolute. A lake pigment is measured against none of them. It is measured
+against the thing it precipitates ONTO, and Stopka's table gives that as a percentage —
+madder root at 500% of the weight of the alum.
+
+So the figures stayed in the note as prose, where they were correct and could not be
+computed. This is the third time in this project that an absence has turned out to be a
+missing field rather than an unfinished record, and it is the same lesson as §13dl: when a
+gap has been arranged three times, ask whether the gap has to exist.
+
+### Named after the carrier, not after the alum
+
+`percent_of_carrier`, „% от носителя". Nabil Ali's second madder recipe precipitates onto
+**chalk** — 6 g of dye to 3 g of chalk, with no alum anywhere. A basis called „per cent of
+the alum" would have been true of Stopka's recipe by accident, refused Ali's, and invited a
+second field measuring the same thing — the two-mechanisms fault this project has removed
+before.
+
+The `carrier` role added at rc47 exists for this: the basis has to point at a line.
+
+### Refusal, not a plausible number
+
+`convert` returns nothing in three shapes, and none of them is a fallback:
+
+- no carrier line in the recipe — nothing to be a per cent OF;
+- a carrier that is itself a per cent of the carrier — a circle, refused rather than followed
+  one step and rounded off;
+- a carrier with no amount — nothing, not a confident zero.
+
+A figure invented here is a figure somebody weighs out. `deep-check` refuses the first two
+outright so such a recipe cannot reach a screen at all, and `try-calculators.mjs` asserts all
+three at the arithmetic.
+
+### One plant, and the reason written down
+
+Stopka's note lists three: madder 500%, „жълтениче" 180%, logwood 50%. **Only madder is
+entered.**
+
+- **Logwood is not in the library** — `Haematoxylum campechianum` is not among the 57, and
+  the owner's instruction is that no new plants are added. `Biancaea sappan` is present and
+  is a different species.
+- **„Жълтениче" is ambiguous.** The library holds `Reseda luteola` under „Жълта резеда", and
+  in Bulgarian „жълтениче" is used both for that and for *Chelidonium majus*, which is not
+  in the library. The owner's own reading is that it is more likely the second. A figure
+  entered against the wrong plant does not look like a doubt afterwards; it looks like data.
+
+The line therefore has one option — madder root at 500% — and its note says why the others
+are absent and what would bring them in. **An empty option list is not the same as a
+finished one**, and the record says which it is.
+
+### The comment that was in the wrong basis
+
+`modules/plants.js` carried, beside the plant's own dosing column: *„Stopka gives madder root
+500% by decoction and 50% by alkaline extraction."*
+
+That describes 500 as a **dose** — a per cent of the cloth, which is what every figure in
+that column is. It is not. The source register records what the table actually is: plant
+material as a per cent of the weight of the alum, for making a lake, with no cloth anywhere
+in it. Beside 50–100% dried madder, behind the same „%", it would have been read as ten times
+the dose.
+
+**The data was never wrong** — 500 never reached a plant record. The comment was, and a
+comment is followed. Two statements about one table existed in the repository, in different
+bases, and the register was right.
+
+### Still open, and deliberately not touched
+
+The lake recipe remains `scaleBy: 'raw'`, so the working view still offers a „Количество
+суровина" field. Every line is now computed without it: the carrier and the alkali are
+absolute and the plant is a per cent of the carrier. The field does nothing.
+
+That is the fourth scale mode's business (rc49) and expanding into it here was refused.
+
+---
+
+## 13dp. A guard that could not tell the two models apart (1.0.0-rc49)
+
+Third release of the pigment model (item 17). Declared scope: the fourth scale mode.
+**The fourth scale mode is not in it**, and the reason is the first section below.
+
+### The mode has no recipe that can use it
+
+`scaleBy: 'output'` needs a recipe to declare what it yields. **None of the three declares
+one, and no source gives one for the recipes we actually ship.** Stopka's watercolour medium
+makes „roughly 20 pans" — but that is 60 g of gum, 140 ml of water, 25 ml of honey, clove
+oil and optional ox gall, and ours is the owner's: 42 g of gum, 240 ml of water, 15 ml of
+glycerine, 15 ml of honey, five drops of clove oil. Two recipes differing by two substances.
+Stopka's yield is not ours.
+
+A yield could have been arrived at by adding the volumes up. Volumes are not additive when a
+gum dissolves, and the figure would have been an invention wearing a data field.
+
+So the mode waits on one line of a workbook, and building it now would have shipped a
+mechanism with no user — a thing that cannot be watched working on real data.
+
+### What was actually wrong, and it needed no new number
+
+The binder's gum line was `absolute: 42` while the water, glycerine and honey were ratios
+against the raw amount, and the raw amount IS the gum. Enter 84 and the water and glycerine
+doubled while the gum still said 42. One line did not move with the recipe it belonged to.
+
+The gum line is now `ratio_to_dyestuff: 1` against the raw amount, so the whole recipe scales
+together. This is the owner's own sentence about this recipe, in the model: *you decide how
+much binder to make, and how much gum you need follows from it.*
+
+The clove oil stays absolute and is asserted to stay absolute. Five drops preserve a jar of
+this, not a proportion of it, and a change that swept every line onto a ratio would have
+looked right and been wrong there.
+
+The watercolour recipe's own note already said „1:1 to the pigment" and both its lines
+carried `quantity: null`. The figure was in the prose beside the empty field it belonged in.
+
+### The guard that passed under both models
+
+`scripts/try-calculators.mjs` asserted, of the binder:
+
+> the gum itself is absolute and unchanged — 42
+
+It was cited in §17d and in rc46's own notes as evidence that the fixed gum was a decision
+taken deliberately rather than an oversight. It was expected to fail here, and it did not.
+
+**At 42 g of raw material both models return 42.** `absolute: 42` returns 42. A ratio of 1
+against a raw amount of 42 returns 42. The assertion measured a number that is identical
+under the model it was defending and the model that replaced it, so it passed before the
+change and after it, unmoved — having verified neither that the gum was absolute nor that it
+was unchanged.
+
+This is a **fifth way for a guard to lie**, and it is not any of the four already recorded
+(§13cz). It is not aimed at the wrong screen, it does not invent the string it looks for, it
+does not ask for a class name, and it inherits nothing from a neighbour. It is aimed at the
+right value, reads it correctly, and reports truthfully — at the single point where the two
+possibilities agree. **A guard that cannot distinguish the model it asserts from its
+opposite is not testing the thing it names**, however precisely it is worded and however
+green it stays.
+
+The general form: an assertion made at one sample of a function that differs elsewhere. The
+defence is to assert at a point where the models must disagree — here, at any amount other
+than the one the recipe is written for. Rewritten to check that twice the gum is twice the
+gum, twice the water, twice the glycerine, and still five drops of clove oil. Watched failing
+by putting the line back to `absolute: 42`: 42 against 84, which is what should have been
+visible all along.
+
+### Deliberate emptiness, said in words
+
+The pastel recipe's filler and binder keep `quantity: null`, and their notes now say so
+outright: the filler proportion is the choice that makes a pastel soft or hard and is made at
+the slab, and the binder goes in drop by drop until the mix is claylike. **Empty here means
+„decided at the slab", not „not yet entered."**
+
+Nothing counts empty quantities as outstanding work, so no total goes wrong today. The note
+is for the reader, who otherwise meets a blank and supplies the wrong reason for it — the
+same lesson as the 54 eco print records that name no fibre (§13db).
+
+---
+
 
 # Part VI. Open questions
 

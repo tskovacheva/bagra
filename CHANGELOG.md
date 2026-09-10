@@ -12,6 +12,72 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc49 — 9 September 2026
+
+Third release of the pigment model (item 17). §13dp
+
+- **The fourth scale mode is NOT in this release.** `scaleBy: 'output'` needs a recipe to
+  declare what it yields, and none of the three does. Stopka's medium makes „roughly 20
+  pans", but that is her recipe — 60 g of gum, honey, optional ox gall — and ours is the
+  owner's, with glycerine and no ox gall. Adding the volumes up would have produced a figure
+  that is an invention wearing a data field, since volumes are not additive when a gum
+  dissolves. It waits on one line of a workbook rather than shipping a mechanism with no user.
+- **The binder scales as one recipe now.** The gum line was `absolute: 42` while the water,
+  glycerine and honey were ratios against the raw amount — and the raw amount is the gum. At
+  84 g the water doubled and the gum still said 42. The gum is now the thing everything is
+  measured against, which is the owner's own sentence: you decide how much binder to make,
+  and the gum follows. The clove oil stays absolute and is asserted to stay absolute — five
+  drops preserve a jar, not a proportion of one.
+- **The watercolour recipe has its 1:1.** Its own note said „1:1 to the pigment" and both
+  lines carried `quantity: null`. `seed/recipes.json` to 0.6.0.
+- **A fifth way for a guard to lie, and it was one of ours.** The suite asserted „the gum
+  itself is absolute and unchanged — 42", cited twice as evidence the fixed gum was a
+  deliberate decision. It was expected to fail here and it did not: at 42 g both models
+  return 42, so it passed before the change and after it, having verified neither half of
+  what it claimed. It is none of the four already recorded — right screen, right value,
+  truthful report, taken at the single point where the two possibilities agree. Rewritten to
+  assert at 84, where they must disagree, and watched failing at 42 against 84.
+- **Deliberate emptiness said in words.** The pastel recipe's filler and binder keep no
+  figure, and their notes now say why: the filler proportion is the choice that makes a
+  pastel soft or hard and is made at the slab; the binder goes in drop by drop until the mix
+  is claylike. Empty there means „decided at the slab", not „not yet entered".
+
+## 1.0.0-rc48 — 9 September 2026
+
+Second release of the pigment model (item 17): how much plant for how much carrier. §13do
+
+- **A new basis, `percent_of_carrier` — „% от носителя".** A lake pigment is measured
+  against none of the five existing bases: not cloth, not bath, not the dyestuff. It is
+  measured against what it precipitates ONTO. Named after the carrier rather than the alum
+  because Nabil Ali's madder precipitates onto chalk with no alum anywhere, and a basis
+  called „per cent of the alum" would have refused that recipe.
+- **The lake recipe has numbers instead of dashes.** 10 g of alum as the carrier, 5 g of
+  soda, and madder root at 500% of the carrier, which computes to 50 g. All three lines had
+  `quantity: null` and the working view was a column of dashes — not because someone had
+  not finished the record, but because no basis could hold the figures, so they stayed in
+  the note as prose. `seed/recipes.json` to 0.4.0.
+- **Only madder is entered, of the three plants in Stopka's table.** Logwood is not in the
+  library and no new plants are being added; „жълтениче" is ambiguous in Bulgarian between
+  the `Reseda luteola` that is in the library and the *Chelidonium majus* that is not. A
+  figure against the wrong plant does not look like a doubt afterwards, it looks like data.
+  The line's note says why the others are missing and what would bring them in.
+- **Refusal rather than a plausible number, in three shapes** — no carrier line, a carrier
+  that is a per cent of itself, a carrier with no amount. Each returns nothing. A figure
+  invented here is a figure somebody weighs out. `deep-check` refuses the first two outright
+  so such a recipe cannot reach a screen; `try-calculators.mjs` asserts all three at the
+  arithmetic, plus that doubling the carrier doubles the plant and leaves the soda alone.
+  Verified by putting the line back to `absolute 50 g`: the everyday figure stays 50 and
+  three behaviour assertions fail, which is the point of asserting behaviour and not output.
+- **A comment in `modules/plants.js` was in the wrong basis.** It read „Stopka gives madder
+  root 500% by decoction", describing 500 as a dose — a per cent of cloth, which is what
+  every figure in that column is. The source register says what the table actually is: per
+  cent of the weight of the alum, with no cloth in it. Beside 50–100% dried madder, behind
+  the same „%", it would have been read as ten times the dose. The data was never wrong; 500
+  never reached a plant record. The comment was, and a comment is followed.
+- **Not touched, deliberately:** the lake recipe is still `scaleBy: 'raw'`, so the working
+  view offers a raw-amount field that now changes nothing, every line being computed without
+  it. That is rc49's scope.
+
 ## 1.0.0-rc47 — 9 September 2026
 
 First release of the pigment model agreed in `DOCUMENTATION_DECISIONS_NEEDED.md` item 17.

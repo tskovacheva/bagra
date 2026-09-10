@@ -417,6 +417,21 @@ export const VOCABULARY = [
   V('basis', 'ratio_to_dyestuff','спрямо багрилото', 'ratio to dyestuff', 4),
   V('basis', 'absolute',         'абсолютно',        'absolute', 5),
 
+  // HOW MUCH PLANT FOR HOW MUCH CARRIER (§13do). A lake pigment is not measured
+  // against cloth, a bath, or the dyestuff: it is measured against the thing it
+  // precipitates ONTO, which Stopka's table gives as a percentage — madder root
+  // 500% of the weight of the alum.
+  //
+  // Named after the CARRIER and not after the alum on purpose. Nabil Ali's
+  // second madder recipe precipitates onto chalk, 6 g of dye to 3 g of chalk,
+  // with no alum anywhere; a basis called „per cent of the alum" would have
+  // refused that recipe and invited a second field measuring the same thing.
+  //
+  // This is why the three pigment recipes shipped with `quantity: null` on
+  // every line. The numbers were not forgotten at data entry — there was no
+  // basis that could hold them, so they stayed in the note as prose.
+  V('basis', 'percent_of_carrier','% от носителя',    '% of carrier', 6),
+
   // The threefold trap: 5–8% of finished acetate vs 15–20% of raw alum (§5.1).
   V('basis_refers_to', 'finished_product', 'готов продукт', 'finished product', 1),
   V('basis_refers_to', 'raw_input',        'суровина',      'raw input', 2),

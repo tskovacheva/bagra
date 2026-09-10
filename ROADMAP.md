@@ -267,12 +267,18 @@ agreed. It is not built. In rough order of dependency:
   and purpose, and writing those is making claims that need a source. They start as a
   workbook, the way the plants did.
 - ~~**Two ingredient roles**~~ — **DONE at rc47.** `plasticiser` and `carrier`.
-- **A basis of per cent of the carrier's weight.** The lake recipe's alum line was corrected
-  from `mordant` to `carrier` at rc47; the basis itself is not built. This is why the three
-  pigment recipes have no quantities: the numbers had nowhere to go.
-- **A fourth scale mode, by output**, for paste recipes only. Expect
-  `scripts/try-calculators.mjs` to fail on the gum — that assertion predates the mode and
-  must be seen to fail before it is rewritten.
+- ~~**A basis of per cent of the carrier's weight**~~ — **DONE at rc48.** The lake recipe
+  computes: 10 g of alum, 5 g of soda, madder root at 500% of the carrier. Only madder of
+  Stopka's three figures — logwood is not in the library and „жълтениче" is ambiguous
+  between two species. The remaining figures wait on a workbook.
+- **A fourth scale mode, by output** — attempted at rc49 and **deferred, blocked on data**.
+  It needs a recipe to declare what it yields and none of the three does; Stopka's „roughly
+  20 pans" is for her recipe, not the one shipped. One workbook line unblocks it: how much
+  the owner's binder makes, in her own measure. The scaling defect it was meant to fix was
+  fixed without it — the gum is now the amount the recipe is measured against.
+
+  The assertion expected to fail here did not, and that is recorded as a fifth way for a
+  guard to lie (§13dp): at 42 g both models agree, so it had never tested what it named.
 - **The batch holds the lines actually used**, may add lines the master never had, and marks
   which lines depart from the master.
 - **Swatches on the batch become a list** — recipe, kind, substrate, colour, photographs.
