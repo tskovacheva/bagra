@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.6.0",
+ "packVersion": "0.7.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -366,6 +366,310 @@
     "joanne-green-watercolour",
     "crafty-place-practice"
    ],
+   "distributable": true
+  },
+  {
+   "code": "madder-lake-hot",
+   "type": "pigment",
+   "output": "pigment",
+   "name": {
+    "bg": "Брош — лаков пигмент, гореща екстракция",
+    "en": "Madder — lake pigment by hot extraction"
+   },
+   "appliesTo": [],
+   "scaleBy": "raw",
+   "target": {
+    "percentWof": null,
+    "basisRefersTo": "raw_input"
+   },
+   "tempMinC": 50,
+   "tempMaxC": 80,
+   "tempC": null,
+   "heldMinutes": 180,
+   "restMinutes": null,
+   "phTarget": null,
+   "ingredients": [
+    {
+     "roleCode": "dyestuff",
+     "basis": "absolute",
+     "quantity": 20,
+     "unit": "g",
+     "note": {
+      "bg": "20 г смлян корен от брош. С парчета корен — около 100 г, накиснати 24 часа предварително.",
+      "en": "20 g of ground madder root. With pieces of root, around 100 g, presoaked for 24 hours."
+     },
+     "options": [
+      {
+       "id": "opt-hot-madder",
+       "plantId": "seed:rubia_tinctorum",
+       "partCode": "root",
+       "qtyMin": 20,
+       "qtyMax": 20
+      }
+     ]
+    },
+    {
+     "roleCode": "solvent",
+     "basis": "absolute",
+     "quantity": 2900,
+     "unit": "ml",
+     "note": {
+      "bg": "2.9 л дестилирана вода.",
+      "en": "2.9 litres of distilled water."
+     }
+    },
+    {
+     "roleCode": "carrier",
+     "basis": "absolute",
+     "quantity": 10,
+     "unit": "ml",
+     "note": {
+      "bg": "Две чаени лъжички (10 мл) разтворена стипца НА БУРКАН, не общо. Извлекът се разделя по 720–840 мл на буркан.",
+      "en": "Two teaspoons (10 ml) of dissolved alum PER JAR, not in total. The extract is divided at 720–840 ml a jar."
+     }
+    },
+    {
+     "roleCode": "alkali",
+     "basis": "absolute",
+     "quantity": 5,
+     "unit": "ml",
+     "note": {
+      "bg": "Една чаена лъжичка (5 мл) разтворена креда на буркан. Кредата е слаба основа — тук няма мерене на pH, изчаква се утаяването.",
+      "en": "One teaspoon (5 ml) of dissolved chalk per jar. Chalk is a mild alkali — there is no pH metering here; you wait for the settling."
+     }
+    }
+   ],
+   "steps": [
+    {
+     "text": {
+      "bg": "Сложи корена и дестилираната вода в тенджера от неръждаема стомана и покрий с капак.",
+      "en": "Put the root and the distilled water in a stainless-steel pot and cover with a lid."
+     }
+    },
+    {
+     "text": {
+      "bg": "Дръж водата между 50 и 80 °C. Таванът е онова, което пази червеното: по-високото дава кафеникави тонове. Без термометър — просто не оставяй банята да заври.",
+      "en": "Keep the water between 50 and 80 °C. The ceiling is what protects the red: higher leads to more brownish hues. Without a thermometer, simply do not let the bath boil."
+     }
+    },
+    {
+     "text": {
+      "bg": "Нагрявай леко поне три часа, после остави да изстине докрай. Може и да престои в банята през нощта за по-дълбоко извличане.",
+      "en": "Heat gently for a minimum of three hours, then allow it to cool completely. It can also soak in the bath overnight for a deeper extraction."
+     }
+    },
+    {
+     "text": {
+      "bg": "Филтрирай старателно. Смляният корен иска няколко минавания през много фино сито, а за последното помагат хартиени филтри за кафе.",
+      "en": "Filter thoroughly. Ground root wants several rounds through a very fine mesh sieve, and paper coffee filters help for the final one."
+     }
+    },
+    {
+     "text": {
+      "bg": "Обикновено се получават около 2.4 л червен „чай“. Разлей поравно по големи буркани, по 720 до 840 мл на буркан. Твоето количество може да е друго и това е нормално.",
+      "en": "This typically yields around 2.4 litres of red liquid „tea\". Divide equally between large jars, 720 to 840 ml each. Your own amount may vary, which is perfectly fine."
+     }
+    },
+    {
+     "text": {
+      "bg": "Във всеки буркан добави 10 мл разтворена стипца и 5 мл разтворена креда. Ще протече реакция и пигментът ще започне да пада на дъното.",
+      "en": "To each jar add 10 ml of dissolved alum and 5 ml of dissolved chalk. A reaction will occur and the pigment solids will begin settling to the bottom."
+     }
+    },
+    {
+     "text": {
+      "bg": "Щом се утаи, промивай пигмента. Червената течност, отлята при първата промивка, може да се обработи повторно и дава розово-червени тонове — не я изхвърляй веднага.",
+      "en": "Once it has settled, wash the pigment. The red liquid poured off at the first wash can be processed again for pinkish-red hues — do not discard it straight away."
+     }
+    },
+    {
+     "text": {
+      "bg": "Филтрирай промития пигмент през фунии или цедки, постлани с хартиени филтри за кафе. Разстели филтрите плоско върху попиваща кърпа и остави да изсъхнат напълно.",
+      "en": "Filter the washed pigment through funnels or sieves lined with paper coffee filters. Lay the filters flat on an absorbent towel and allow the pigment to dry fully."
+     }
+    },
+    {
+     "text": {
+      "bg": "С маска за прах остържи сухия пигмент в хаван и стрий на фин прах.",
+      "en": "Wearing a dust mask, scrape the dried pigment into a mortar and grind it into a fine powder."
+     }
+    }
+   ],
+   "notes": {
+    "bg": "По-простият от двата маршрута: без ферментация и без мерене на pH. Разликата с рецептата на Стопка не е в степента, а по вид — там има двуседмичен биологичен етап и утаяване с калцинирана сода до pH 7, тук няма нито едното. Кредата и содата се държат различно, защото кредата е слаба основа, а содата силна. Кои от двете дава по-добър резултат при кой брош е въпрос, на който отговаря партидата, не рецептата. Ръкавици при работа с растението, проветрение при извличането, маска при работа с прахове.",
+    "en": "The simpler of the two routes: no fermentation and no pH metering. Its difference from Stopka's is one of kind rather than degree — hers has a two-week biological stage and precipitation with soda ash to pH 7, and this has neither. Chalk and soda ash behave differently because chalk is a mild alkali and soda ash a strong one. Which of the two gives the better result with which madder is a question a batch answers, not a recipe. Gloves while handling the plant, ventilation during the extraction, a dust mask for powders."
+   },
+   "sourceCode": "joanne-green-watercolour",
+   "distributable": true
+  },
+  {
+   "code": "madder-lake-fermentation",
+   "type": "pigment",
+   "output": "pigment",
+   "name": {
+    "bg": "Брош — лаков пигмент чрез ферментация",
+    "en": "Madder — lake pigment by fermentation"
+   },
+   "appliesTo": [],
+   "scaleBy": "raw",
+   "target": {
+    "percentWof": null,
+    "basisRefersTo": "raw_input"
+   },
+   "tempMinC": 66,
+   "tempMaxC": 76,
+   "tempC": null,
+   "heldMinutes": 30,
+   "restMinutes": null,
+   "phTarget": 7,
+   "ingredients": [
+    {
+     "roleCode": "dyestuff",
+     "basis": "absolute",
+     "quantity": 30,
+     "unit": "g",
+     "note": {
+      "bg": "30 г сух корен от брош, цял или смлян.",
+      "en": "30 g dried madder root, whole or ground."
+     },
+     "options": [
+      {
+       "id": "opt-ferm-madder",
+       "plantId": "seed:rubia_tinctorum",
+       "partCode": "root",
+       "qtyMin": 30,
+       "qtyMax": 30
+      }
+     ]
+    },
+    {
+     "roleCode": "carrier",
+     "basis": "absolute",
+     "quantity": 10,
+     "unit": "g",
+     "note": {
+      "bg": "10 г стипца, разтворена в горещия извлек.",
+      "en": "10 g alum, dissolved into the hot extract."
+     }
+    },
+    {
+     "roleCode": "alkali",
+     "basis": "absolute",
+     "quantity": 10,
+     "unit": "g",
+     "note": {
+      "bg": "10 г калцинирана сода, разтворена в 200 мл гореща вода. Не се сипва наведнъж — виж стъпките.",
+      "en": "10 g soda ash dissolved in 200 ml hot water. Not added all at once — see the steps."
+     }
+    },
+    {
+     "roleCode": "assistant",
+     "basis": "absolute",
+     "quantity": 7.5,
+     "unit": "ml",
+     "note": {
+      "bg": "Половин супена лъжица суров сок от кисело зеле или друга непастьоризирана лактоферментирала течност. Той засява микробите, за да изпреварят плесента.",
+      "en": "Half a tablespoon of raw sauerkraut juice or other unpasteurized lacto-ferment liquid. It seeds the microbes so they get a head start over mould."
+     }
+    }
+   ],
+   "steps": [
+    {
+     "text": {
+      "bg": "Претегли 30 г сух корен. Залей с около 1 л вряла вода и остави 5 минути — това убива спорите на плесента и изтегля мътните цветове. Прецеди през фина мрежа и изхвърли кафеникавата течност.",
+      "en": "Weigh out 30 g of dried root. Douse with roughly 1 litre of boiling water and steep for five minutes — this neutralises mould spores and draws out the off-colours. Filter through fine mesh and discard the brownish liquid."
+     }
+    },
+    {
+     "text": {
+      "bg": "Върни корените в чист буркан от 0.5–1 л. Покрий ги с 2–5 см вода — около 300–400 мл, стайна температура. Изворна, дъждовна или дестилирана: чешмяната вода нарочно потиска микроби. Добави сока от кисело зеле.",
+      "en": "Return the roots to a clean 0.5–1 litre jar. Cover them by an inch or two with roughly 300–400 ml of room-temperature water. Well, rain or distilled: municipal water purposefully inhibits microbes. Add the sauerkraut juice."
+     }
+    },
+    {
+     "text": {
+      "bg": "Притисни корените под водата с тежест — без въздух плесента не стига до тях. Покрий гърлото с плат или филтър за кафе, така че въглеродният диоксид да излиза.",
+      "en": "Weigh the roots down below the water — without air the mould cannot reach them. Cover the mouth with a scrap of fabric or a coffee filter so the carbon dioxide can escape."
+     }
+    },
+    {
+     "text": {
+      "bg": "Остави на стайна температура 18–21 °C, на сянка, далеч от пряко слънце. След ден-два ще видиш мехурчета. Проверявай всеки ден и доливай вода, ако нивото падне.",
+      "en": "Leave at room temperature, 18–21 °C, in a shady spot out of direct sunlight. After a day or two you will see bubbles. Check daily and add water if the level drops."
+     }
+    },
+    {
+     "text": {
+      "bg": "Ферментирай една до две седмици. През това време pH-то трябва да е около 5, а миризмата — влажна пръст и тръпчиво-сладък оцет. Ако изглежда и мирише здраво, може да продължи, докато мехурчетата спрат и pH-то тръгне към неутрално. Появила се плесен по повърхността се обира и се продължава; ако стане упорита, мини нататък.",
+      "en": "Ferment for one to two weeks. The pH should be about 5 and the scent a combination of damp earth and tangy-sweet vinegar. If it looks and smells healthy you can keep it going until the bubbles cease and the pH rises toward neutral. Scrape off surface mould and stay the course; if it becomes persistent, move on."
+     }
+    },
+    {
+     "text": {
+      "bg": "Прецеди корените от ферментационната течност през фина синтетична мрежа, като пазиш всяка утайка от багрилото. Течността носи кафеникаво-розови цветове и се изхвърля или компостира. По желание може и тя да се утаи с 5 г стипца и 3 г сода.",
+      "en": "Filter the roots from the fermentation liquid through fine synthetic mesh, preserving every bit of dyestuff. The liquid carries brownish-pink colourants and is composted or discarded. Optionally it can itself be laked with 5 g alum and 3 g soda ash."
+     }
+    },
+    {
+     "text": {
+      "bg": "Прехвърли ферментиралите корени в тенджера с 1 л прясна вода. Изплакни и филтъра през водата, за да пуснеш всичко.",
+      "en": "Transfer the fermented roots to a 1-litre pot of fresh water. Swish the filter through the water too, releasing every bit of sediment."
+     }
+    },
+    {
+     "text": {
+      "bg": "Нагрей до 66–76 °C и задръж 30 до 60 минути. Пари, но не ври — билкарите наричат това бавно извличане „дигестия“.",
+      "en": "Heat to 66–76 °C and hold for 30 to 60 minutes. Steaming hot but below a simmer — herbalists call this slow process a digestion."
+     }
+    },
+    {
+     "text": {
+      "bg": "Филтрирай, докато е горещо и ализаринът е в разтвор, през фина синтетична мрежа. Корените се компостират или се пазят за втора екстракция, ако се съмняваш, че са изчерпани.",
+      "en": "Filter while it is hot and the alizarin is in solution, through fine synthetic mesh. Compost the roots, or save them for a secondary extraction if you doubt they are exhausted."
+     }
+    },
+    {
+     "text": {
+      "bg": "Долей вода до 500 мл, ако трябва, и дръж 43–76 °C. Добави 10 г стипца и бъркай, докато се разтвори. Може да забележиш как багрилото се събира.",
+      "en": "Add water to equal 500 ml if needed and hold at 43–76 °C. Add 10 g of alum, stirring until dissolved. You might notice the colourant coalescing."
+     }
+    },
+    {
+     "text": {
+      "bg": "Разтвори 10 г сода в 200 мл гореща вода. Сипи 100 мл — половината — в багрилото.",
+      "en": "Dissolve 10 g of soda ash in 200 ml of hot water. Pour 100 ml, half of it, into the madder dye."
+     }
+    },
+    {
+     "text": {
+      "bg": "Ферментацията е свалила pH-то, така че вероятно трябва още сода. Добави 20 мл от останалия разтвор и разбъркай леко.",
+      "en": "The fermentation has left a low pH, so more soda ash is likely needed. Add 20 ml of the remaining solution and stir gently."
+     }
+    },
+    {
+     "text": {
+      "bg": "Мери pH и повтаряй, докато стигне 7, с допустимо от 6 до 8.",
+      "en": "Test the pH and repeat as needed until it reaches 7, with leeway of 6 to 8."
+     }
+    },
+    {
+     "text": {
+      "bg": "Мини на фини хартиени филтри за кафе и отдели пигмента от бистрото отгоре. Нормално е то да остане кехлибарено — това са цветове, които не се свързват с морданта.",
+      "en": "Switch to superfine paper coffee filters and filter the pigment from the supernatant. It is normal for the supernatant to keep an amber shade from non-mordant colourants."
+     }
+    },
+    {
+     "text": {
+      "bg": "Изхвърли течността и промивай пигмента, както в общата лакова рецепта.",
+      "en": "Discard the liquid and wash the pigment as in the master lake recipe."
+     }
+    }
+   ],
+   "notes": {
+    "bg": "Ферментацията разгражда дървесната структура на корена и разгражда захарите му, така че цветът се освобождава чрез хидролиза — корените стигат до горещото извличане вече предварително сдъвкани. Стопка отбелязва, че същият подход си струва да се пробва и с други видове брош (Rubia cordifolia, R. akane, R. peregrina), както и с корени на еньовче — Galium verum, G. aparine, G. saxatile, G. odoratum.",
+    "en": "Fermentation breaks down the woody structure of the root and digests its sugars, so colour is released by hydrolysis — the roots reach the hot extraction already predigested. Stopka notes the same approach is worth trying with other madders (Rubia cordifolia, R. akane, R. peregrina) and with the roots of bedstraws — Galium verum, G. aparine, G. saxatile, G. odoratum."
+   },
+   "sourceCode": "natalie-stopka-pigment",
    "distributable": true
   }
  ]

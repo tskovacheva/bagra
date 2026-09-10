@@ -6,7 +6,7 @@
 
 import { all, get, put, newRecord, uid, getSetting, setSetting, toggleFavorite } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
-import { tempWith } from '../units.js';
+import { tempSpan } from '../units.js';
 import {
   page, panel, field, options, label, favStar, esc, empty, note,
   pairField, readPairs, fact, facts, prose, readBlock, searchBox, matches, navigate, flash,
@@ -116,6 +116,14 @@ function blank() {
     vinegarPercent: null,
     defaultLitres: null,
     liquorRatio: null,
+    // A RANGE, because both sources give one and a single number throws half
+    // of it away (§13dq). Stopka's madder digestion is 66–76 °C; Joanne Green's
+    // extraction is 50–80 °C, and for madder the CEILING is the half that
+    // matters — above it the red goes brown. `tempC` is the legacy single
+    // figure, migrated into these two and no longer read or written here; it
+    // comes out in a later version on purpose, the way `stateEvents` did.
+    tempMinC: null,
+    tempMaxC: null,
     tempC: null,
     heldMinutes: null,
     restMinutes: null,
@@ -144,9 +152,19 @@ async function fibreText(appliesTo) {
 // A thermometer before a temperature and a timer before a duration (§13bh). The
 // icons do not replace the unit — 70 °C still says °C — they let the eye find
 // the temperature down a column of twenty recipes without reading any of them.
+// One place that turns a recipe's temperature into words, because there were
+// three copies of `r.tempC != null ? ... : ''` and a range has to read the same
+// in all of them.
+//
+// `tempSpan` was already in units.js, written for the plant's own range and
+// never called from here — which is why the recipe drew a single figure while
+// the plant beside it drew both ends. A point and a range are the same field:
+// min and max equal, and `tempSpan` already says so.
+const tempTextOf = (r) => tempSpan(r.tempMinC ?? null, r.tempMaxC ?? null);
+
 function conditionsOf(r) {
   return [
-    r.tempC != null ? `<span class="cond">${icon('i-temp')}${tempWith(r.tempC)}</span>` : '',
+    tempTextOf(r) ? `<span class="cond">${icon('i-temp')}${tempTextOf(r)}</span>` : '',
     r.heldMinutes ? `<span class="cond">${icon('i-time')}${r.heldMinutes} ${t('common.min')}</span>` : '',
     r.restMinutes ? `<span class="cond">${icon('i-time')}+${r.restMinutes} ${t('common.min')}</span>` : '',
   ].filter(Boolean).join('') || '—';
@@ -470,7 +488,7 @@ async function renderRead(root, r) {
   const amounts = await weighLines(scaled.ingredients);
 
   const conditions = [
-    r.tempC != null ? `<span class="cond">${icon('i-temp')}${tempWith(r.tempC)}</span>` : '',
+    tempTextOf(r) ? `<span class="cond">${icon('i-temp')}${tempTextOf(r)}</span>` : '',
     r.heldMinutes ? `<span class="cond">${icon('i-time')}${r.heldMinutes} ${t('common.min')}</span>` : '',
     r.restMinutes ? `<span class="cond">${icon('i-time')}+ ${r.restMinutes} ${t('common.min')}</span>` : '',
     scaled.bathLitres != null ? `<span class="cond">${icon('i-beaker')}${scaled.bathLitres} ${t('tools.litres')}</span>` : '',
@@ -497,7 +515,7 @@ async function renderRead(root, r) {
         bathLitres: fr.defaultLitres ?? null,
       });
       const cond = [
-        fr.tempC != null ? tempWith(fr.tempC) : '',
+        tempTextOf(fr),
         fr.heldMinutes ? `${fr.heldMinutes} ${t('common.min')}` : '',
         fs.bathLitres != null ? `${fs.bathLitres} ${t('tools.litres')}` : '',
       ].filter(Boolean).join(' · ');
@@ -632,7 +650,8 @@ async function renderForm(root, r) {
 
           ${panel(`
             <h2>${t('recipes.conditions')}</h2>
-            ${field(t('recipes.tempC'), `<input type="number" step="1" data-f="tempC" value="${r.tempC ?? ''}">`)}
+            ${field(t('recipes.tempMinC'), `<input type="number" step="1" data-f="tempMinC" value="${r.tempMinC ?? ''}">`)}
+            ${field(t('recipes.tempMaxC'), `<input type="number" step="1" data-f="tempMaxC" value="${r.tempMaxC ?? ''}">`)}
             ${field(t('recipes.heldMinutes'), `<input type="number" step="5" min="0" data-f="heldMinutes" value="${r.heldMinutes ?? ''}">`, t('recipes.heldHint'))}
             ${field(t('recipes.restMinutes'), `<input type="number" step="10" min="0" data-f="restMinutes" value="${r.restMinutes ?? ''}">`, t('recipes.restHint'))}
             ${field(t('recipes.scaleBy'), `<select data-f="scaleBy">
@@ -983,7 +1002,14 @@ export default {
         // The temperature of THIS part, not of the plant (§13az). Elder leaf
         // wants 80–90 and elder fruit 50–70; taking the plant's one number
         // would have handed the fruit the leaf's boil.
-        if (part?.tempDyeC?.min != null && draft.tempC == null) draft.tempC = part.tempDyeC.min;
+        // BOTH ENDS. This took `.min` alone while the comment above it argued
+        // that a single number hands the fruit the leaf's boil — and for madder
+        // the ceiling is the half that protects the red (§13dq). The plant knew
+        // the range and the recipe threw the top of it away at the door.
+        if (draft.tempMinC == null && draft.tempMaxC == null) {
+          if (part?.tempDyeC?.min != null) draft.tempMinC = part.tempDyeC.min;
+          if (part?.tempDyeC?.max != null) draft.tempMaxC = part.tempDyeC.max;
+        }
         if (plant.liquorRatio && draft.liquorRatio == null) draft.liquorRatio = plant.liquorRatio;
 
         if (!dose) alert(t('recipes.noLibraryDose'));
