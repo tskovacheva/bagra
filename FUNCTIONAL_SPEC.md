@@ -10032,6 +10032,178 @@ is for, and it is the clearest argument yet for rc51.
 
 ---
 
+## 13dr. What actually went in, and what it departed from (1.0.0-rc51)
+
+Fifth release of the pigment model (item 17). A batch holds the lines that were really used,
+may hold lines the recipe never had, and remembers which of them departed.
+
+### The gap this closes
+
+The batch named a recipe in a dropdown and showed none of its amounts. Standing over the
+pot, the screen told you *which* recipe and not *how much of anything*; the figures were on
+another screen. §17e recorded this and rc51 is where it is paid.
+
+The second half matters more. The owner's own open question about her madder — whether chalk
+or soda ash served her better, having used both and not remembered which — is a **departure
+she made and had nowhere to write down.** A recipe cannot answer it. Only a record of what
+was actually put in can.
+
+### Amounts, not a reference
+
+The lines resolve when they are taken: 50 g of root against 10 g of carrier, computed once
+and stored. Not a pointer to the recipe's percentage.
+
+Because 50 g is what went in the pot. If the recipe's figure is revised next year, last
+summer's batch must still say 50 g — a batch that recomputes itself is a batch that changes
+its own history.
+
+### `was` freezes what the recipe said on the day
+
+Every taken line carries what the recipe stated at the moment of taking, and the departure is
+measured against **that**, never against the recipe as it stands now.
+
+Written the other way, a pack update would silently rewrite what a batch departed from: a
+faithful batch would become a departure, or a real departure would vanish, without anybody
+touching the batch. This is the same fault family caught in five consecutive releases — a
+second copy of a fact with nothing holding the two together — and here the copy is
+deliberate, frozen, and the freezing is the point.
+
+The recipe's NAME is copied into `linesFrom` for the same reason: the departure must stay
+readable if the recipe is later renamed or withdrawn.
+
+### Four departures, and one of them is not a deletion
+
+`added` · `changed` · `swapped` · `removed`, computed and never stored (§13.6) — storing a
+comparison the data already answers gives two things that disagree the first time an amount
+is edited.
+
+**A line taken from the recipe and left out is STRUCK, not deleted.** „I did not put the soda
+in" is knowledge, and deleting the row makes it indistinguishable from never having followed
+a recipe at all. A line the owner added herself has no such history, so hers is simply
+removed — there is nothing for it to be a departure from.
+
+### Taking happens once
+
+The button is not drawn once lines exist, and the handler asks the same question again rather
+than trusting that it was not drawn. Both call one exported `canTakeLines`, because a
+condition written twice is how a control that looks disabled turns out to be clickable.
+
+One click must not be able to replace an evening's entries.
+
+### The migration reconstructs nothing
+
+An existing batch gets an **empty** list and no `linesFrom`.
+
+Filling the rows in from the recipe it names would have been easy — read `viaId`, scale it,
+write the lines. It would also have been an invention with a data field around it. **The
+whole reason the list exists is that what was done differs from the recipe**, so a
+reconstructed row claims she followed it exactly, which is the one thing the record cannot
+know. A batch made last summer has no lines because there was nowhere to write them, not
+because nothing went into the pot, and the panel's wording carries that: it invites the lines
+to be taken rather than reporting that there are none.
+
+### A guard that asks the module rather than the source
+
+`scripts/try-pigment-lines.mjs` imports `departureOf` and `canTakeLines` instead of restating
+them. A restated copy passes while the screen does something else, and a source-text search
+for the rule is the guard that invents the string it looks for (§13cz). Both were watched
+failing by breaking the rule in place.
+
+One of those breaks did not produce a readable failure: with the „no history" test removed,
+`departureOf` read an amount off nothing and **threw**, stopping the suite with a stack trace
+instead of a sentence. Exit 1 either way, but a guard that crashes reports that something is
+wrong without reporting what. The order of the checks was changed so the function answers
+rather than trips, and a line with no `was` key at all — a record written before the field
+existed — is now asserted to answer „added".
+
+### What is not here
+
+The application does not judge a departure. It does not say more, or less, or unwise. It
+shows what the recipe said and what was done; the conclusion is written by the owner. That
+was fixed at the outset and holds here.
+
+---
+
+## 13ds. Three colours from one batch (1.0.0-rc52)
+
+Sixth and last release of the pigment model agreed in item 17. A batch's colour becomes a
+list of swatches, each saying what it is, what it is on, and by which recipe.
+
+### One field held one of three things
+
+A batch carried `swatchHex` and `swatchName`. One colour.
+
+One batch of madder becomes powder, and watercolour made from that powder, and pastel made
+from the same powder, and **the three are different colours.** The field could hold one of
+them and made the other two things that cannot be said.
+
+Nabil Ali's chart is the shape of the answer: madder appears as three swatches, and safflower
+as „potash on cotton" and again as „potash on leather" — two colours from one recipe on two
+substrates. A swatch is named by three things at once, not one.
+
+So a swatch carries what it is, what it is on when there is a substrate, and **a recipe of
+its own**: the pigment came from this batch's recipe, the watercolour from the watercolour
+recipe, the pastel from the pastel one. The batch's own dropdown filters to recipes that
+output a pigment (§13by) and the swatch's does not — naming a recipe beside a swatch is not
+logging a making, it is saying what the swatch is of.
+
+### The hex is optional, and the absence draws as one
+
+A colour described in words has no hex (§13dl). „Прашно розово — не съм го мерила" is a
+**finished** record.
+
+A colour input cannot be empty: it always holds something, and it opens on a grey. So a
+„no measured colour" box is read AFTER the picker and clears it, because otherwise a swatch
+the owner described in words would be handed whatever grey the control happened to open on —
+an invented measurement wearing a data field. The swatch then draws with a dashed outline: an
+absence that says it is one.
+
+### The list is closed, and says why
+
+`swatch_kind`: dye · pigment · watercolour · pastel · ink · glaze.
+
+The owner asked for an open list and was right to — people make paints for other purposes
+entirely, down to building paint. **The application cannot keep one today.** There is no
+screen that writes to the `vocabulary` store, and `backup.js` skips it, so a term added by
+any means does not survive a restore — at exactly the moment a person believes they have
+everything back. The editor that would open it is ROADMAP B6c, and the reason is written
+beside the terms so a later reader does not conclude that a closed list was the design.
+
+### The migration reads the pair honestly
+
+The existing colour becomes one swatch of kind `pigment`, which is the true reading: what a
+batch recorded was the colour of the ground pigment, because there was nowhere to record
+anything else. **No watercolour row is added on the grounds that one might exist.**
+
+Half a pair is still a swatch. A name with no hex is kept and given no invented colour; a hex
+with no name is a measurement. Only a batch that recorded neither gets an empty list. Watched
+failing three ways: a version that hands the unmeasured swatch a default grey, one that drops
+it for having no hex, and one that gives every batch a blank swatch.
+
+`swatchHex` and `swatchName` survive, as `tempC` and `stateEvents` do — the way back if the
+mapping proves wrong, out in a later version on purpose.
+
+### A helper that could not be reused, and the silent failure it would have caused
+
+The swatch name wanted `pairField`, and the field's control name would have had to be a PATH
+— `0.name` — rather than a name. `readPairs` splits on the first dot and would have written
+every swatch's name to one key called „name", on the batch itself, for all swatches at once,
+without error. Caught by reading the helper rather than by running it. The swatch fields use
+the same `data-w` path handling the lines already use.
+
+### What this closes
+
+Item 17 is finished. Six releases: the vocabulary and two migrations of seeded records
+(§13dn), the carrier basis (§13do), the scaling that was already wrong and the guard that
+could not see it (§13dp), two real recipes and a temperature that is a range (§13dq), the
+lines a batch actually used (§13dr), and the colours that came out.
+
+What remains of the model is the six new substances, which are content rather than code: a
+substance record carries hazard, handling and purpose, and writing those is making claims
+that need a source. They start as a workbook, the way the plants did.
+
+---
+
 
 # Part VI. Open questions
 

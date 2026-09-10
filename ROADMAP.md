@@ -279,9 +279,15 @@ agreed. It is not built. In rough order of dependency:
 
   The assertion expected to fail here did not, and that is recorded as a fifth way for a
   guard to lie (§13dp): at 42 g both models agree, so it had never tested what it named.
-- **The batch holds the lines actually used**, may add lines the master never had, and marks
-  which lines depart from the master.
-- **Swatches on the batch become a list** — recipe, kind, substrate, colour, photographs.
+- ~~**The batch holds the lines actually used**~~ — **DONE at rc51.** Lines resolve to
+  amounts, carry what the recipe said on the day, and report four departures. A line left
+  out is struck rather than deleted.
+- ~~**Swatches on the batch become a list**~~ — **DONE at rc52.** Kind, substrate, recipe,
+  colour, name. The hex is optional and an unmeasured swatch says so.
+
+**B6b is complete except for the six substances**, which are content rather than code and
+wait on a workbook: a substance record carries hazard, handling and purpose, and writing
+those is making claims that need a source.
 
 ## B6c. A vocabulary editor
 

@@ -15,7 +15,7 @@ export const DIMENSIONS = [
   'dye_class', 'recipe_type', 'ingredient_role', 'basis', 'basis_refers_to',
   'process', 'enhancement', 'bundle_role', 'step_type', 'medium_where',
   'placement_condition', 'facing', 'print_quality', 'confidence',
-  'technique_category', 'assessment', 'water_source', 'season',
+  'technique_category', 'assessment', 'water_source', 'season', 'swatch_kind',
   'trial_status', 'trial_stage',
 ];
 
@@ -555,6 +555,28 @@ export const VOCABULARY = [
   V('claim_confidence', 'own_trial',   'мой тест',           'confirmed here', 2),
   V('claim_confidence', 'practice',    'практика',           'practitioner advice', 3),
   V('claim_confidence', 'unverified',  'нуждае се от тест',  'needs testing', 4),
+
+  // WHAT A SWATCH IS A SWATCH OF (§13ds).
+  //
+  // One batch of madder becomes powder, and watercolour, and pastel, and each
+  // is a different colour — which is how Nabil Ali's chart shows madder, as
+  // three swatches, and safflower as „potash on cotton" and again as „potash on
+  // leather": two colours from one recipe on two substrates.
+  //
+  // CLOSED, and this is a constraint rather than a preference. The owner asked
+  // for an open list and was right to — people make paints for other purposes
+  // entirely, down to building paint. The application cannot keep one today:
+  // there is no screen that writes to the `vocabulary` store, and `backup.js`
+  // skips it, so a term added by any means does not survive a restore. The
+  // editor that would open it is ROADMAP B6c, and this comment exists so a
+  // later reader meets the reason rather than concluding a closed list was the
+  // design.
+  V('swatch_kind', 'dye',        'багрило',   'dye', 1),
+  V('swatch_kind', 'pigment',    'пигмент',   'pigment', 2),
+  V('swatch_kind', 'watercolour','акварел',   'watercolour', 3),
+  V('swatch_kind', 'pastel',     'пастел',    'pastel', 4),
+  V('swatch_kind', 'ink',        'мастило',   'ink', 5),
+  V('swatch_kind', 'glaze',      'глазура',   'glaze', 6),
 
   V('confidence', 'unverified',   'непроверено',      'unverified', 1),
   V('confidence', 'literature',   'от литература',    'literature only', 2),

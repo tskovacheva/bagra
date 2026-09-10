@@ -12,6 +12,83 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc52 — 10 September 2026
+
+Sixth and last release of the pigment model (item 17): three colours from one batch. §13ds
+
+- **A batch's colour becomes a list of swatches.** One batch of madder becomes powder, and
+  watercolour made from it, and pastel made from the same powder — three different colours,
+  where `swatchHex` could hold one and made the other two things that cannot be said.
+- **A swatch names three things at once**: what it is, what it is on, and by which recipe.
+  Nabil Ali's chart is the shape of it — madder as three swatches, safflower as „potash on
+  cotton" and again as „potash on leather". The swatch's recipe dropdown is unfiltered while
+  the batch's is not: naming a recipe beside a swatch is saying what the swatch is of, not
+  logging a making.
+- **The hex is optional and the absence draws as one.** „Dusty pink — I did not measure it"
+  is a finished record. A colour input can never be empty, so the „no measured colour" box is
+  read after the picker and clears it — otherwise a swatch described in words gets whatever
+  grey the control opened on, which is an invented measurement wearing a data field. Such a
+  swatch draws with a dashed outline.
+- **`swatch_kind` is closed: dye, pigment, watercolour, pastel, ink, glaze.** The owner asked
+  for an open list and was right to; the application cannot keep one today, because nothing
+  writes to the `vocabulary` store and `backup.js` skips it, so an added term is lost on
+  restore. The reason is written beside the terms and the editor is ROADMAP B6c.
+- **The migration reads the old pair honestly.** It becomes one swatch of kind `pigment`,
+  which is what a batch was actually recording. No watercolour row is invented on the grounds
+  that one might exist. A name with no hex is kept and given no colour; only a batch that
+  recorded neither gets an empty list. Watched failing three ways — a default grey for the
+  unmeasured swatch, dropping it for having no hex, and a blank swatch on every batch.
+- **A helper that could not be reused, and the silent failure avoided.** The swatch name
+  wanted `pairField`, whose control name would have had to be a path rather than a name;
+  `readPairs` splits on the first dot and would have written every swatch's name to one key
+  on the batch, for all swatches at once, without error. Caught by reading the helper rather
+  than by running it.
+- **The screen fixture carries three swatches, one of them unmeasured**, so the row and its
+  dashed absence are drawn at all four widths rather than only reasoned about.
+
+**Item 17 is finished.** What remains of the pigment model is the six new substances, which
+are content and not code — a substance record carries hazard, handling and purpose, and
+writing those is making claims that need a source. They start as a workbook, as the plants did.
+
+## 1.0.0-rc51 — 10 September 2026
+
+Fifth release of the pigment model (item 17): the batch records what actually went in. §13dr
+
+- **A batch holds the lines that were really used.** Take them from the recipe and they
+  resolve to amounts — 50 g of root against 10 g of carrier — then correct them at the pot.
+  The batch named a recipe and showed none of its figures, so over the pot the screen told
+  you which recipe and not how much of anything.
+- **Amounts, not a reference.** If the recipe's percentage is revised next year, last
+  summer's batch still says 50 g, because 50 g is what went in. A batch that recomputes
+  itself is a batch that changes its own history.
+- **Every taken line remembers what the recipe said ON THE DAY.** The departure is measured
+  against that and never against the recipe as it stands now — otherwise a pack update
+  quietly turns a faithful batch into a departure, or hides a real one, without anybody
+  touching the record. The recipe's name is copied too, so the departure stays readable if
+  it is later renamed or withdrawn.
+- **Four departures: added, changed, swapped, left out.** Computed, never stored. A line
+  taken from the recipe and left out is struck through rather than deleted — „I did not put
+  the soda in" is knowledge, and deleting the row makes it indistinguishable from never
+  having followed a recipe. A line the owner added herself simply goes; there is nothing for
+  it to depart from.
+- **This is what answers the chalk-or-soda question.** The owner has used both and does not
+  remember which served her better. A recipe cannot hold that. A record of what was actually
+  put in can.
+- **Taking happens once.** The button is not drawn while lines exist and the handler asks
+  again rather than trusting that, both through one exported `canTakeLines` — a condition
+  written twice is how a control that looks disabled turns out to be clickable. One click
+  must not replace an evening's entries.
+- **The migration reconstructs nothing.** An existing batch gets an empty list and no
+  `linesFrom`. Filling the rows in from `viaId` would have been easy and would have claimed
+  she followed the recipe exactly, which is the one thing the record cannot know.
+- **The guard imports the rule rather than restating it**, so a copy cannot pass while the
+  screen does something else. Watched failing by breaking the rule in place — and one of
+  those breaks threw instead of reporting, stopping the suite with a stack trace rather than
+  a sentence. The checks were reordered so the function answers, and a line with no history
+  field at all is now asserted to answer „added" rather than crash.
+- **The screen fixture carries one line of each kind**, so the panel is measured at all four
+  widths with its chips and its struck row drawn rather than empty.
+
 ## 1.0.0-rc50 — 10 September 2026
 
 Fourth release of the pigment model (item 17): two real recipes, and a temperature that is a

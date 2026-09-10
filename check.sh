@@ -301,6 +301,17 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #      hand is not narrowed back, that `updatedAt` does not move, and that
   #      `tempC` survives.
   node scripts/try-recipe-temp-range.mjs || exit 1
+  # 5g''. What a batch says about what actually WENT IN (§13dr). The batch named
+  #       a recipe and showed none of its amounts, so over the pot you were told
+  #       which recipe and not how much of anything; and a departure — the
+  #       owner's own chalk-or-soda question — had nowhere to be written. Asks
+  #       that lines resolve to amounts rather than to a reference, that `was`
+  #       freezes what the recipe said ON THE DAY so a later pack update cannot
+  #       rewrite what a batch departed from, that an added line reads as added
+  #       and a line left out is struck rather than deleted, that taking is
+  #       refused once there is work to lose, and that the migration backfills
+  #       an EMPTY list and reconstructs nothing from `viaId`.
+  node scripts/try-pigment-lines.mjs || exit 1
   # 5h. The owner's Definition of Done for Plant Library v1, run rather than
   #     remembered (§13db). It holds the one distinction the whole thing turns
   #     on: a gap the source will never fill is a FINISHED field, and counting

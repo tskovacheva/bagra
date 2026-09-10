@@ -153,7 +153,40 @@ try {
       stages: ['extraction', 'laking', 'washing', 'filtering', 'drying', 'grinding']
         .map((code, i) => ({ id: 'fx-stage-' + i, code, date: '',
           note: { bg: 'три часа на слаб огън, без да завира', en: '' }, photos: [] })),
-      yieldG: 18, quality: 'good', swatchHex: '#A03D3B',
+      // Lines with one of each departure, so the panel is measured with its
+      // chips and its struck row drawn rather than empty (§13dr). An empty
+      // table at 390px tells you nothing about a full one.
+      linesFrom: { recipeId: 'fixture:recipes', recipeName: { bg: 'Лаков пигмент — основна рецепта', en: '' },
+                   takenOn: '2026-07-02' },
+      lines: [
+        { id: 'fx-l1', roleCode: 'dyestuff', substanceId: '', name: 'Бояджийски брош, корен',
+          amount: 50, unit: 'g', removed: false, note: { bg: '', en: '' },
+          was: { name: 'Бояджийски брош, корен', amount: 50, unit: 'g', roleCode: 'dyestuff' } },
+        { id: 'fx-l2', roleCode: 'carrier', substanceId: '', name: 'Стипца',
+          amount: 14, unit: 'g', removed: false, note: { bg: 'сипах повече, водата беше мека', en: '' },
+          was: { name: 'Стипца', amount: 10, unit: 'g', roleCode: 'carrier' } },
+        { id: 'fx-l3', roleCode: 'alkali', substanceId: '', name: 'Калциев карбонат (креда)',
+          amount: 5, unit: 'g', removed: false, note: { bg: '', en: '' },
+          was: { name: 'Калцинирана сода', amount: 5, unit: 'g', roleCode: 'alkali' } },
+        { id: 'fx-l4', roleCode: '', substanceId: '', name: 'Винен камък',
+          amount: 2, unit: 'g', removed: false, note: { bg: '', en: '' }, was: null },
+        { id: 'fx-l5', roleCode: 'alkali', substanceId: '', name: 'Калцинирана сода',
+          amount: 5, unit: 'g', removed: true, note: { bg: '', en: '' },
+          was: { name: 'Калцинирана сода', amount: 5, unit: 'g', roleCode: 'alkali' } },
+      ],
+      yieldG: 18, quality: 'good',
+      // Three swatches from one batch, which is the whole claim of §13ds — and
+      // one of them with no measured colour, so the dashed absence is drawn at
+      // all four widths rather than only reasoned about.
+      swatches: [
+        { id: 'fx-w1', kind: 'pigment', substrate: { bg: '', en: '' }, viaId: '',
+          hex: '#A03D3B', name: { bg: 'марена, топла и малко мътна', en: '' }, photos: [] },
+        { id: 'fx-w2', kind: 'watercolour', substrate: { bg: 'хартия', en: '' }, viaId: '',
+          hex: '#C4585A', name: { bg: 'по-светла на четка', en: '' }, photos: [] },
+        { id: 'fx-w3', kind: 'pastel', substrate: { bg: 'зърнеста хартия', en: '' }, viaId: '',
+          hex: '', name: { bg: 'прашно розово — не съм го мерила', en: '' }, photos: [] },
+      ],
+      swatchHex: '#A03D3B',
       swatchName: { bg: 'марена, топла и малко мътна', en: '' },
       photos: [], notes: { bg: '', en: '' },
     });

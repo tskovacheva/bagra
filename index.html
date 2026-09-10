@@ -2008,6 +2008,36 @@ a,.sourcenote{overflow-wrap:anywhere}
 .morelang{display:flex;gap:6px;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* A batch line that departs from the recipe it came from (§13dr). The chip
+   carries the word; colour is a second signal and never the only one, because
+   the palette is deliberately narrow and a reader in strong studio light
+   should not have to see a tint to know what a row says. */
+.dep-added   { background: var(--madder); color: #fff; }
+.dep-changed { background: var(--weld);   color: var(--ink); }
+.dep-swapped { background: var(--weld);   color: var(--ink); }
+.dep-removed { background: var(--line);   color: var(--muted); }
+/* Struck out, not hidden: „I left the soda out" is knowledge and stays legible. */
+.lineout td       { opacity: .55; }
+.lineout td:first-child input { text-decoration: line-through; }
+table.lines input[type=text]   { width: 100%; }
+table.lines input[type=number] { width: 6em; }
+
+/* A batch's swatches (§13ds). The colour patch sits beside the fields rather
+   than above them, so a row reads as one thing at a glance down a column of
+   three. A swatch with no measured colour draws a dashed outline — an absence
+   that says it is one, never a grey standing in for a measurement. */
+.swatchrow        { display:flex; gap:12px; align-items:flex-start; }
+.swatchrow .swatch{ width:44px; height:44px; border-radius:4px; flex:0 0 auto; }
+.swatchfields     { flex:1 1 auto; min-width:0; }
+.swatchfields .field input[type=text],
+.swatchfields .field select { width:100%; }
+label.inline      { display:inline-flex; gap:6px; align-items:center; margin-left:10px;
+                    font-size:12.5px; color:var(--muted); }
+@media (max-width: 560px) {
+  .swatchrow { flex-wrap:wrap; }
+  .swatchfields { flex-basis:100%; }
+}
 </style>
 </head>
 <body>

@@ -6,7 +6,7 @@
 // of booting the whole application. A migration that can only be exercised by
 // starting the program is a migration nobody exercises.
 
-import { all, get, putMigration, getSetting, setSetting } from './db.js';
+import { all, get, putMigration, getSetting, setSetting, uid } from './db.js';
 import { migrateAll } from './migrate-actions.js';
 import { migratePlantPhotos } from './migrate-photos.js';
 
@@ -62,6 +62,74 @@ export async function runMigrations() {
   await runOnce('fabricActions', 1, migrateFabricActions);
   await runOnce('plantPhotos', 1, migratePlantPhotos);
   await runOnce('recipeTempRange', 1, migrateRecipeTempRange);
+  await runOnce('pigmentBatchLines', 1, migratePigmentBatchLines);
+  await runOnce('pigmentSwatchList', 1, migratePigmentSwatchList);
+}
+
+
+// One colour becomes a list of them (§13ds).
+//
+// A batch had `swatchHex` and `swatchName`: one colour, when a single batch of
+// madder becomes powder, watercolour and pastel and each is a different one.
+//
+// The existing pair moves into the list as a swatch of kind `pigment`, which is
+// the honest reading — the colour a batch recorded was the colour of the ground
+// pigment, because there was nowhere to record any other. Nothing else is
+// invented: no watercolour row is added on the grounds that one might exist.
+//
+// A batch that recorded NEITHER a colour nor a name gets an empty list. Half a
+// pair is still a swatch: a name with no hex is a finished record, not an
+// unfinished one (§13dl), and a hex with no name is a measurement.
+//
+// `swatchHex` and `swatchName` are NOT removed — migrations add, and the old
+// pair is the way back if the mapping proves wrong.
+export async function migratePigmentSwatchList() {
+  let touched = 0;
+  for (const b of await all('pigmentBatches')) {
+    if (Array.isArray(b.swatches)) continue;
+    const hex = b.swatchHex || '';
+    const name = b.swatchName || { bg: '', en: '' };
+    const hasName = !!(name.bg || name.en);
+    b.swatches = (hex || hasName)
+      ? [{ id: uid(), kind: 'pigment', substrate: { bg: '', en: '' }, viaId: '',
+           hex, name: { ...name }, photos: [] }]
+      : [];
+    await putMigration('pigmentBatches', b);
+    touched++;
+  }
+  if (touched) console.info(`gave ${touched} pigment batch(es) a swatch list`);
+}
+
+
+// A batch gains the list of what actually went in (§13dr).
+//
+// Backfill only: an existing batch gets an EMPTY list and no `linesFrom`. That
+// is the honest state and it must not be mistaken for a claim. A batch made
+// last summer has no lines because there was nowhere to write them, not because
+// nothing went into the pot, and the screen's own wording carries that — the
+// panel invites the lines to be taken rather than reporting that none exist.
+//
+// Nothing is reconstructed from the recipe the batch names. It would have been
+// easy: read `viaId`, scale it, fill the rows in. It would also have been an
+// invention with a data field around it — the recipe says what to do, and the
+// whole reason this list exists is that what was done differs from it. A
+// reconstructed row would claim she followed the recipe exactly, which is the
+// one thing the record cannot know.
+//
+// Idempotent: a batch that already has the field is skipped, so a second run
+// changes nothing and a batch whose lines the owner has since filled in is
+// never emptied.
+export async function migratePigmentBatchLines() {
+  let touched = 0;
+  for (const b of await all('pigmentBatches')) {
+    if (Array.isArray(b.lines)) continue;
+    b.lines = [];
+    b.linesFrom = null;
+    // Structural (§13cv): giving a record a field is not the owner touching it.
+    await putMigration('pigmentBatches', b);
+    touched++;
+  }
+  if (touched) console.info(`gave ${touched} pigment batch(es) a line list`);
 }
 
 
