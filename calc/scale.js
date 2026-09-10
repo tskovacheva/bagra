@@ -55,6 +55,26 @@ function convert(quantity, basis, ctx) {
       const dyeAmount = ctx.effectiveWeight * (dyeRange[0] / 100);
       return dyeAmount * quantity;
     }
+    // HOW MUCH PLANT FOR HOW MUCH CARRIER (§13do). The line is a percentage of
+    // whatever the pigment precipitates onto — alum in Stopka's lake, chalk in
+    // Nabil Ali's — so it reads the carrier line's own amount rather than a
+    // cloth weight that a pigment recipe does not have.
+    case 'percent_of_carrier': {
+      const carrier = (ctx.recipe.ingredients || []).find(x => x.roleCode === 'carrier');
+      // Not a fallback. A recipe with this basis and no carrier line has
+      // nothing to be a percentage OF, and the honest output is nothing —
+      // a plausible number here would hide the missing line for ever, which is
+      // the failure mode this project has named. `deep-check` refuses such a
+      // recipe outright so it cannot reach a screen at all.
+      if (!carrier) return null;
+      // A carrier measured as a percentage of the carrier is a circle. Refused
+      // rather than followed one step and rounded off.
+      if (carrier.basis === 'percent_of_carrier') return null;
+      const [carrierMin] = quantityRange(carrier.options?.[0], carrier);
+      if (carrierMin == null) return null;
+      const carrierAmount = convert(carrierMin, carrier.basis, ctx);
+      return carrierAmount == null ? null : carrierAmount * (quantity / 100);
+    }
     case 'absolute':
     default:
       return quantity;

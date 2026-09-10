@@ -292,9 +292,22 @@ async function partRows(p) {
 
     // `await` inside, so Promise.all rather than a plain map — the dose now
     // carries which method it is the dose FOR, and that select needs the
-    // vocabulary (§13cc). Stopka gives madder root 500% by decoction and 50%
-    // by alkaline extraction; without this column the record can hold one of
-    // them and makes the other a thing that cannot be said.
+    // vocabulary (§13cc): one plant part can have a different dose by decoction
+    // than by alkaline extraction, and without this column the record holds one
+    // of them and makes the other a thing that cannot be said.
+    //
+    // THE FIGURE THIS COMMENT USED TO CITE WAS IN THE WRONG BASIS (§13do). It
+    // read „Stopka gives madder root 500% by decoction", which describes 500 as
+    // a DOSE — a per cent of the cloth, which is what every number in this
+    // column is. It is not. The source register records what that table
+    // actually is: plant material as a per cent of the weight of the ALUM, for
+    // making a lake pigment, with no cloth anywhere in it. Sitting in the same
+    // column beside 50–100% dried madder, behind the same „%", it would have
+    // been read as ten times the dose.
+    //
+    // The data was never wrong — 500 never reached a plant record. The comment
+    // was, and a comment is followed. The lake figure lives on the lake recipe,
+    // in the `percent_of_carrier` basis written for it.
     const dosing = (await Promise.all((pt.dosing || []).map(async (d, j) => `
       <div class="dosingrow">
         <select data-dose="${i}.${j}.condition">

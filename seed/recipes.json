@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.3.0",
+ "packVersion": "0.6.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -23,11 +23,22 @@
    "ingredients": [
     {
      "roleCode": "dyestuff",
-     "basis": "absolute",
+     "basis": "percent_of_carrier",
      "note": {
-      "bg": "Спрямо тежестта на стипцата, не на тъкан. Виж таблицата с проценти: брош 500%, жълтениче 180%, кампешово дърво 50%.",
-      "en": "Against the weight of the alum, not of cloth. See the ratios chart: madder 500%, weld 180%, logwood 50%."
-     }
+      "bg": "Спрямо тежестта на носителя, не на тъкан. Стопка дава таблица с процент за всяко растение; тук е вписан само брошът, защото другите две растения в таблицата не са в библиотеката или името им е двусмислено. Останалите се добавят като опции, когато процентът им е потвърден.",
+      "en": "Per cent of the weight of the carrier, not of cloth. Stopka gives a table with a figure per plant; only madder is entered here, because the other two plants in the table are not in the library or their name is ambiguous. The rest are added as options once their figure is confirmed."
+     },
+     "unit": "g",
+     "quantity": null,
+     "options": [
+      {
+       "id": "opt-lake-madder",
+       "plantId": "seed:rubia_tinctorum",
+       "partCode": "root",
+       "qtyMin": 500,
+       "qtyMax": 500
+      }
+     ]
     },
     {
      "roleCode": "carrier",
@@ -35,7 +46,9 @@
      "note": {
       "bg": "10 г стипца — алуминиев сулфат или калиева стипца.",
       "en": "10 g alum — aluminium sulphate or potassium alum."
-     }
+     },
+     "quantity": 10,
+     "unit": "g"
     },
     {
      "roleCode": "alkali",
@@ -43,7 +56,9 @@
      "note": {
       "bg": "5 г калцинирана сода.",
       "en": "5 g soda ash."
-     }
+     },
+     "quantity": 5,
+     "unit": "g"
     }
    ],
    "steps": [
@@ -114,11 +129,13 @@
    "ingredients": [
     {
      "roleCode": "pigment",
-     "basis": "absolute",
+     "basis": "ratio_to_dyestuff",
      "note": {
       "bg": "Готов пигмент, стрит на фин прах.",
       "en": "Finished pigment, ground fine."
-     }
+     },
+     "quantity": 1,
+     "unit": "g"
     },
     {
      "roleCode": "binder",
@@ -126,7 +143,9 @@
      "note": {
       "bg": "Свързващ разтвор — гума арабика, мед, глицерин — в съотношение 1:1 към пигмента.",
       "en": "Binder — gum arabic, honey, glycerine — one to one with the pigment."
-     }
+     },
+     "quantity": 1,
+     "unit": "ml"
     }
    ],
    "steps": [
@@ -189,16 +208,16 @@
      "roleCode": "filler",
      "basis": "ratio_to_dyestuff",
      "note": {
-      "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел.",
-      "en": "Filler — chalk or kaolin. More filler, a softer and paler pastel."
+      "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел. Съотношението нарочно няма число: то е изборът, с който правиш пастела мек или твърд, и се решава при всяка партида. Празно тук значи „решава се на място\", не „още не е вписано\".",
+      "en": "Filler — chalk or kaolin. More filler makes a softer, paler pastel. The proportion is deliberately not a figure: it is the choice that makes the pastel soft or hard and is made batch by batch. Empty here means „decided at the slab\", not „not yet entered\"."
      }
     },
     {
      "roleCode": "binder",
      "basis": "absolute",
      "note": {
-      "bg": "Слаб разтвор на гума трагакант или метилцелулоза, добавян капка по капка.",
-      "en": "A weak solution of gum tragacanth or methyl cellulose, added drop by drop."
+      "bg": "Слаб разтвор на гум трагакант или метилцелулоза, добавян капка по капка, докато сместа стане ковка като глина. Броят капки не е число в рецептата — зависи от пигмента и се вижда с пръсти. Празно тук значи „до нужната консистенция\".",
+      "en": "A weak solution of gum tragacanth or methylcellulose, added drop by drop until the mix is malleable and claylike. The number of drops is not a figure in the recipe — it depends on the pigment and is judged by hand. Empty here means „until it feels right\"."
      }
     }
    ],
@@ -246,13 +265,13 @@
    "ingredients": [
     {
      "roleCode": "binder",
-     "basis": "absolute",
+     "basis": "ratio_to_dyestuff",
      "unit": "g",
      "note": {
-      "bg": "Гума арабика на прах, добре натъпкана в мерителната чаша. Течната гума не върши работа тук — прахът е това, което позволява гъстотата да се нагласи.",
-      "en": "Gum arabic powder, well packed into the measure. Liquid gum will not do here: it is the powder that lets the thickness be adjusted."
+      "bg": "Гума арабика на прах, добре натъпкана в мерителната чаша. Течната гума не върши работа тук — прахът е това, което се разтваря докрай. Тя Е количеството, спрямо което се мери всичко останало: напишеш 84 вместо 42 и цялата рецепта се удвоява заедно с нея.",
+      "en": "Powdered gum arabic, well packed into the measure. Liquid gum does not do this job — the powder is what dissolves completely. It IS the amount everything else is measured against: enter 84 instead of 42 and the whole recipe doubles with it."
      },
-     "quantity": 42
+     "quantity": 1
     },
     {
      "roleCode": "solvent",
