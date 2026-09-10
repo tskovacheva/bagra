@@ -19,6 +19,7 @@
 import { all, get, put, remove, newRecord, uid } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
+import { scaleRecipe } from '../calc/scale.js';
 import { page, panel, field, esc, empty, pairField, readPairs, navigate,
          backTo, actionBtn, label, today } from '../ui.js';
 
@@ -27,6 +28,8 @@ import { page, panel, field, esc, empty, pairField, readPairs, navigate,
 const STAGES = ['extraction', 'laking', 'washing', 'filtering', 'drying', 'grinding'];
 const STATUSES = ['planned', 'done', 'failed'];
 const QUALITIES = ['good', 'acceptable', 'poor'];
+// The closed list, and its being closed is argued in vocab.js beside the terms.
+const SWATCH_KINDS = ['dye', 'pigment', 'watercolour', 'pastel', 'ink', 'glaze'];
 
 let openId = null;
 let draft = null;
@@ -47,8 +50,42 @@ function blank() {
     viaKind: 'recipe',
     viaId: '',
     stages: STAGES.map(code => ({ id: uid(), code, note: { bg: '', en: '' }, date: '', photos: [] })),
+    // WHAT WAS ACTUALLY PUT IN (§13dr).
+    //
+    // A recipe is what to do; this is what was done. Empty until a recipe is
+    // taken from, and taken ONCE — never re-taken over the top of work already
+    // entered, because an evening at the pot is not something a dropdown gets
+    // to overwrite.
+    //
+    // Every line remembers what the recipe said AT THE TIME, in `was`. The
+    // departure is measured against that and not against the recipe as it
+    // stands today: a pack update next year must not quietly rewrite what last
+    // summer's batch departed from.
+    lines: [],
+    // Which recipe the lines came from, its name copied rather than only
+    // referenced, and when. The name is copied because the departure has to
+    // stay readable if the recipe is later renamed or withdrawn.
+    linesFrom: null,
     yieldG: null,
     quality: '',
+    // WHAT CAME OUT, IN THE PLURAL (§13ds).
+    //
+    // One batch of madder becomes powder, and watercolour, and pastel, and each
+    // is a different colour. A single `swatchHex` could hold one of the three
+    // and made the other two things that cannot be said.
+    //
+    // Each swatch may name a recipe OF ITS OWN: the pigment came from this
+    // batch's recipe, but the watercolour made from it came from the
+    // watercolour recipe, and the pastel from the pastel one.
+    //
+    // `hex` is optional on purpose. A colour described in words has no hex
+    // (§13dl), and a swatch with a name and no measurement is a finished
+    // record, not an unfinished one.
+    swatches: [],
+    // Kept, not read. The migration copies these into the list and the
+    // application writes only `swatches` from here on; the old pair stays the
+    // way back if the mapping proves wrong, and comes out in a later version
+    // on purpose rather than by drift — as `stateEvents` did at §13bd.
     swatchHex: '',
     swatchName: { bg: '', en: '' },
     photos: [],
@@ -84,16 +121,21 @@ async function renderList(root) {
 
     // The group's swatch is its most recent successful batch. A failed batch
     // has no colour to show and must not lend the group a blank one.
-    const shown = list.find(b => b.status !== 'failed' && b.swatchHex);
+    // The card shows the most recent successful batch's swatch. Read off the
+    // LIST now (§13ds); the legacy pair is migrated into it, so reading both
+    // would be two answers to one question.
+    const swatchOf = (x) => (x.swatches || []).find(w => w.hex) || null;
+    const shown = list.map(x => ({ b: x, w: swatchOf(x) }))
+      .find(({ b: x, w }) => x.status !== 'failed' && w)?.w || null;
 
     const rows = list.map(b => {
       const failed = b.status === 'failed';
       return `
         <tr data-open="${b.id}">
           <td>${failed ? `<span class="tag">${t('pigments.status.failed')}</span> ` : ''}${
-            b.swatchHex && !failed
-              ? `<span class="swatch sm" style="background:${esc(b.swatchHex)}"></span> `
-              : ''}${esc(text(b.swatchName) || '—')}</td>
+            swatchOf(b) && !failed
+              ? `<span class="swatch sm" style="background:${esc(swatchOf(b).hex)}"></span> `
+              : ''}${esc(text((b.swatches || [])[0]?.name) || '—')}</td>
           <td>${b.yieldG != null && !failed ? `${b.yieldG} g` : '—'}</td>
           <td>${b.quality && !failed ? esc(t('pigments.quality.' + b.quality)) : '—'}</td>
           <td>${esc(b.date || '')}</td>
@@ -103,8 +145,8 @@ async function renderList(root) {
     cards.push(panel(`
       <h2>${esc(name)}${part ? ` <span class="hint">${esc(part)}</span>` : ''}</h2>
       ${shown ? `<div class="swatchline">
-        <span class="swatch" style="background:${esc(shown.swatchHex)}"></span>
-        <span>${esc(text(shown.swatchName))}</span></div>` : ''}
+        <span class="swatch" style="background:${esc(shown.hex)}"></span>
+        <span>${esc(text(shown.name))}</span></div>` : ''}
       <table class="grid">
         <thead><tr>
           <th>${t('pigments.batch')}</th>
@@ -128,9 +170,82 @@ async function renderList(root) {
   });
 }
 
+// ---- what was actually put in ---------------------------------------------
+
+// A line's standing against the recipe it came from. Computed, never stored
+// (§13.6): storing it would be a second copy of a comparison the data already
+// answers, and the two would disagree the first time an amount was edited.
+export function departureOf(line) {
+  if (line.removed) return 'removed';
+  const w = line.was;
+  // No history means the owner put this line here herself. Tested before the
+  // comparison rather than assumed by it: written the other way round the
+  // function reads `w.amount` off nothing and throws, which stops the suite
+  // with a stack trace instead of a sentence — a guard that crashes reports
+  // that something is wrong and not what.
+  if (!w) return 'added';
+  if (line.amount !== w.amount || (line.unit || '') !== (w.unit || '')) return 'changed';
+  if ((line.name || '') !== (w.name || '')) return 'swapped';
+  return 'same';
+}
+
+// May the recipe's lines be taken? A function rather than a condition written
+// twice, because it is checked where the button is DRAWN and again where it is
+// clicked, and those two drifting apart is how a disabled control turns out to
+// be clickable. Exported so the guard can ask the same question the screen asks
+// instead of searching the source for a string it half remembers (§13cz).
+export function canTakeLines(batch, recipe) {
+  if (!recipe) return false;
+  if (batch.viaKind !== 'recipe') return false;
+  // The one that matters: an evening's entries are not replaced by one click.
+  if ((batch.lines || []).length) return false;
+  return true;
+}
+
+// Reading the recipe's lines into the batch, ONCE. Amounts are resolved here
+// rather than referenced: the batch has to keep saying 50 g next year even if
+// the recipe's percentage is revised, because 50 g is what went in the pot.
+async function linesFromRecipe(recipe, b, substances, plants) {
+  const byId = new Map(substances.map(sx => [sx.id, sx]));
+  const plantsById = new Map(plants.map(p => [p.id, p]));
+
+  const nameOfOption = async (o, roleCode) => {
+    if (o?.plantId) {
+      const p = plantsById.get(o.plantId);
+      const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
+      return (p ? text(p.nameCommon) : '—') + part;
+    }
+    const sub = byId.get(o?.substanceId);
+    return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
+  };
+
+  const scaled = scaleRecipe(recipe, { rawG: b.rawWeightG, weightG: b.rawWeightG || 0 });
+  return Promise.all(scaled.ingredients.map(async ing => {
+    const name = await nameOfOption(ing.option, ing.roleCode);
+    // A range keeps its lower end as the figure and says so in the note. The
+    // batch records one amount because one amount went in; which end of the
+    // range it was is the owner's to correct, and she will be looking at the
+    // line while she does it.
+    const amount = ing.scaledAmount != null ? ing.scaledAmount : ing.scaledMin;
+    const unit = ing.scaledUnit || '';
+    return {
+      id: uid(),
+      roleCode: ing.roleCode,
+      substanceId: ing.option?.substanceId || '',
+      name,
+      amount: amount ?? null,
+      unit,
+      removed: false,
+      // What the recipe said on the day. Frozen on purpose (§13dr).
+      was: { name, amount: amount ?? null, unit, roleCode: ing.roleCode },
+      note: { bg: '', en: '' },
+    };
+  }));
+}
+
 // ---- one batch ------------------------------------------------------------
 
-async function renderBatch(root, b, plants, recipes, chains) {
+async function renderBatch(root, b, plants, recipes, chains, recipesAll = recipes) {
   const plant = plants.find(p => p.id === b.plantId);
   const parts = (plant?.parts || []).map(x => x.partCode);
   const via = b.viaKind === 'chain'
@@ -168,6 +283,77 @@ async function renderBatch(root, b, plants, recipes, chains) {
   // The context sections fold. `contextstrip` already does this for a trial
   // (§13ab) and is reused rather than reinvented — the summary keeps its words
   // visible, so folded is not hidden.
+  // What was actually put in. Placed above the stages because it is the thing
+  // read while weighing, and the stages are read after.
+  const canTake = canTakeLines(b, b.viaKind === 'recipe' ? via : null);
+  const lineRows = (b.lines || []).map((ln, i) => {
+    const d = departureOf(ln);
+    const chip = d === 'same' ? ''
+      : `<span class="chip dep-${d}">${t('pigments.dep.' + d)}</span>`;
+    const wasText = ln.was && (d === 'changed' || d === 'swapped')
+      ? `<p class="hint">${t('pigments.wasLabel')}: ${esc(ln.was.name)} ${
+          ln.was.amount ?? '—'} ${esc(ln.was.unit || '')}</p>`
+      : '';
+    return `
+      <tr class="${ln.removed ? 'lineout' : ''}">
+        <td><input type="text" data-l="${i}.name" value="${esc(ln.name || '')}">${chip}${wasText}</td>
+        <td class="num"><input type="number" step="0.01" min="0" data-l="${i}.amount" value="${
+          ln.amount ?? ''}"></td>
+        <td><input type="text" data-l="${i}.unit" value="${esc(ln.unit || '')}" size="4"></td>
+        <td><input type="text" data-l="${i}.note" value="${esc(text(ln.note))}"></td>
+        <td><button class="btn quiet" data-line-out="${i}">${
+          ln.removed ? t('pigments.lineBack') : t('pigments.lineOut')}</button></td>
+      </tr>`;
+  }).join('');
+
+  // Each swatch may name a recipe of its own — the watercolour made from this
+  // pigment came from the watercolour recipe, not from the one that made the
+  // pigment. Any recipe is offerable here, not only those that output a
+  // pigment, because a pastel recipe outputs nothing the application records.
+  const swatchRecipes = recipesAll;
+  const swatchRows = (await Promise.all((b.swatches || []).map(async (sw, i) => panel(`
+    <div class="swatchrow">
+      <span class="swatch" style="background:${esc(sw.hex || 'transparent')};${
+        sw.hex ? '' : 'border:1px dashed var(--line)'}"></span>
+      <div class="swatchfields">
+        ${field(t('pigments.swatchKind'), `<select data-w="${i}.kind"><option value=""></option>${
+          (await Promise.all(SWATCH_KINDS.map(async k =>
+            `<option value="${k}"${sw.kind === k ? ' selected' : ''}>${
+              esc(await label('swatch_kind', k))}</option>`))).join('')}</select>`)}
+        ${field(t('pigments.swatchOn'), `<input type="text" data-w="${i}.substrate" value="${
+          esc(text(sw.substrate))}" placeholder="${esc(t('pigments.swatchOnHint'))}">`)}
+        ${field(t('pigments.swatchVia'), `<select data-w="${i}.viaId"><option value=""></option>${
+          swatchRecipes.map(r => `<option value="${r.id}"${sw.viaId === r.id ? ' selected' : ''}>${
+            esc(text(r.name))}</option>`).join('')}</select>`)}
+        ${field(t('pigments.colour'), `<input type="color" data-w="${i}.hex" value="${
+          esc(sw.hex || '#CCCCCC')}">
+          <label class="inline"><input type="checkbox" data-w="${i}.nohex"${
+            sw.hex ? '' : ' checked'}> ${t('pigments.swatchNoHex')}</label>`)}
+        ${field(t('pigments.colourName'), `<input type="text" data-w="${i}.name.bg" value="${
+          esc(sw.name?.bg || '')}" placeholder="${esc(t('pigments.swatchNameHint'))}">`)}
+      </div>
+      <button class="btn quiet" data-swatch-del="${i}" aria-label="×">×</button>
+    </div>
+  `)))).join('<div style="height:12px"></div>');
+
+  const linesPanel = panel(`
+    <h2>${t('pigments.linesTitle')}</h2>
+    <p class="note">${t('pigments.linesHint')}</p>
+    ${b.linesFrom ? `<p class="hint">${t('pigments.linesFrom')}: ${
+      esc(text(b.linesFrom.recipeName))}${b.linesFrom.takenOn ? ` · ${esc(b.linesFrom.takenOn)}` : ''}</p>` : ''}
+    ${b.lines.length ? `<table class="grid lines">
+      <thead><tr>
+        <th>${t('pigments.lineWhat')}</th><th class="num">${t('pigments.lineAmount')}</th>
+        <th>${t('pigments.lineUnit')}</th><th>${t('common.notes')}</th><th></th>
+      </tr></thead>
+      <tbody>${lineRows}</tbody></table>` : ''}
+    <div style="height:12px"></div>
+    ${actionBtn('add', t('pigments.lineAdd'), 'data-line-add')}
+    ${canTake ? `<button class="btn quiet" data-take-lines>${t('pigments.takeLines')}</button>` : ''}
+    ${!b.lines.length && !canTake && b.viaKind === 'recipe' && !via
+      ? `<p class="hint">${t('pigments.takeNeedsRecipe')}</p>` : ''}
+  `);
+
   root.innerHTML = page({
     title: heading,
     sub: '',
@@ -176,6 +362,8 @@ async function renderBatch(root, b, plants, recipes, chains) {
     body: `
       <div class="pigmentcols">
         <div class="col">
+          ${linesPanel}
+          <div style="height:16px"></div>
           ${panel(`
             <p class="note">${t('pigments.processHint')}</p>
             <div style="height:12px"></div>
@@ -192,9 +380,14 @@ async function renderBatch(root, b, plants, recipes, chains) {
             ${field(t('pigments.qualityLabel'), `<select data-f="quality"><option value=""></option>${
               QUALITIES.map(q => `<option value="${q}"${b.quality === q ? ' selected' : ''}>${
                 t('pigments.quality.' + q)}</option>`).join('')}</select>`)}
-            ${field(t('pigments.colour'), `<input type="color" data-f="swatchHex" value="${
-              esc(b.swatchHex || '#CCCCCC')}">`)}
-            ${pairField(t('pigments.colourName'), 'swatchName', b.swatchName)}
+          `)}
+          <div style="height:16px"></div>
+          ${failed ? '' : panel(`
+            <h2>${t('pigments.swatchesTitle')}</h2>
+            <p class="note">${t('pigments.swatchesHint')}</p>
+            ${swatchRows}
+            <div style="height:12px"></div>
+            ${actionBtn('add', t('pigments.swatchAdd'), 'data-swatch-add')}
           `)}
           <div style="height:16px"></div>
           ${panel(`
@@ -260,6 +453,34 @@ function readForm(root) {
       ? (el.value === '' ? null : Number(el.value))
       : el.value;
   }
+  for (const el of root.querySelectorAll('[data-l]')) {
+    const [i, key] = el.dataset.l.split('.');
+    const ln = draft.lines[Number(i)];
+    if (!ln) continue;
+    if (key === 'note') ln.note.bg = el.value;
+    else if (key === 'amount') ln.amount = el.value === '' ? null : Number(el.value);
+    else ln[key] = el.value;
+  }
+  // `data-w="0.name.bg"` — a path, not a name, so `readPairs` cannot serve it:
+  // that helper splits on the first dot and would have written the whole
+  // swatch's name under the key „name", silently, for every swatch at once.
+  for (const el of root.querySelectorAll('[data-w]')) {
+    const [idx, key, lang] = el.dataset.w.split('.');
+    const sw = draft.swatches[Number(idx)];
+    if (!sw) continue;
+    if (key === 'nohex') continue;          // read after the colour, below
+    else if (lang) { sw[key] = sw[key] || {}; sw[key][lang] = el.value.trim(); }
+    else if (key === 'substrate') { sw.substrate = sw.substrate || {}; sw.substrate.bg = el.value.trim(); }
+    else sw[key] = el.value;
+  }
+  // „No measurement" wins over the colour input, and is read second so it can.
+  // The picker always holds SOME colour — it cannot be empty — so a swatch
+  // described only in words would otherwise be given whatever grey the control
+  // opened on, and an invented measurement is worse than none (§13dl).
+  for (const el of root.querySelectorAll('[data-w$=".nohex"]')) {
+    const i = Number(el.dataset.w.split('.')[0]);
+    if (draft.swatches[i] && el.checked) draft.swatches[i].hex = '';
+  }
   for (const el of root.querySelectorAll('[data-s]')) {
     const [i, key] = el.dataset.s.split('.');
     if (key === 'note') draft.stages[Number(i)].note.bg = el.value;
@@ -298,7 +519,13 @@ export default {
       // offering it here would invite a batch that records the making of a
       // watercolour the owner does not count.
       await renderBatch(root, draft, plants,
-        recipes.filter(r => r.output === 'pigment' || r.output === 'extract'), chains);
+        recipes.filter(r => r.output === 'pigment' || r.output === 'extract'), chains,
+        // The full list, for the swatches: a watercolour made from this pigment
+        // came from the watercolour recipe, which outputs nothing the
+        // application records and so is filtered out of the batch's own
+        // dropdown for good reason (§13by) — but naming it beside a swatch is
+        // not logging a making, it is saying what the swatch is of.
+        recipes);
     } else {
       draft = null;
       await renderList(root);
@@ -317,6 +544,61 @@ export default {
         // departure from unsaved work (§13ad).
         markClean();
         return navigate('#/pigments');
+      }
+      // Taking the recipe's lines. Offered only while the list is empty, so
+      // there is no path by which one click replaces an evening's entries
+      // (§13dr) — the button is not drawn once lines exist, and this re-checks
+      // rather than trusting that.
+      if (e.target.closest('[data-take-lines]')) {
+        readForm(root);
+        const recipe = recipes.find(r => r.id === draft.viaId);
+        if (!canTakeLines(draft, recipe)) return;
+        draft.lines = await linesFromRecipe(recipe, draft, await all('substances'), plants);
+        draft.linesFrom = {
+          recipeId: recipe.id,
+          // Copied, not only referenced: the departure has to stay readable if
+          // the recipe is renamed or withdrawn later.
+          recipeName: { ...recipe.name },
+          takenOn: today(),
+        };
+        return this.render(root);
+      }
+      if (e.target.closest('[data-swatch-add]')) {
+        readForm(root);
+        draft.swatches.push({ id: uid(), kind: '', substrate: { bg: '', en: '' },
+                              viaId: '', hex: '', name: { bg: '', en: '' }, photos: [] });
+        return this.render(root);
+      }
+      const swDel = e.target.closest('[data-swatch-del]');
+      if (swDel) {
+        readForm(root);
+        // Deleted outright, unlike a recipe line. A swatch has no history to
+        // depart from — it is a thing the owner wrote down, and removing it is
+        // removing her own entry, not erasing a comparison (§13dr).
+        draft.swatches.splice(Number(swDel.dataset.swatchDel), 1);
+        return this.render(root);
+      }
+      if (e.target.closest('[data-line-add]')) {
+        readForm(root);
+        // `was: null` is what makes this line an ADDITION rather than a change.
+        // The soda that the recipe never mentioned is the case this exists for.
+        draft.lines.push({ id: uid(), roleCode: '', substanceId: '', name: '',
+                           amount: null, unit: '', removed: false, was: null,
+                           note: { bg: '', en: '' } });
+        return this.render(root);
+      }
+      const out = e.target.closest('[data-line-out]');
+      if (out) {
+        readForm(root);
+        const ln = draft.lines[Number(out.dataset.lineOut)];
+        if (!ln) return;
+        // A line taken from the recipe is struck out, never deleted: „I left
+        // the soda out" is knowledge, and removing the row would make it
+        // indistinguishable from never having followed a recipe at all. A line
+        // the owner added herself has no such history, so hers goes.
+        if (ln.was) ln.removed = !ln.removed;
+        else draft.lines.splice(Number(out.dataset.lineOut), 1);
+        return this.render(root);
       }
       if (e.target.closest('[data-newrecipe]')) {
         readForm(root);
