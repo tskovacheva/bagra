@@ -727,7 +727,18 @@ async function renderForm(root, r) {
 
 // ------------------------------------------------------------------ wiring
 
+// Reads the EDITOR into `draft`. Only the editor.
+//
+// It answers an absent form with empty arrays — `ings.filter(Boolean)` of
+// nothing is nothing — so called on the record it emptied the ingredients and
+// the steps, cleared `appliesTo` and set `distributable` back to true, all
+// without a word (§13dt). Refused loudly instead of returning quietly: a quiet
+// return would hide the caller that should not have been here, and the next
+// such caller would be found the same way this one was, by the owner.
 function readForm(root) {
+  if (!(editing || openId === 'new')) {
+    throw new Error('readForm called outside the editor — it would empty the record in memory');
+  }
   for (const el of root.querySelectorAll('[data-f]')) {
     const key = el.dataset.f;
     let value = el.value;
@@ -1178,6 +1189,12 @@ export default {
         return renderForm(root, draft);
       }
       if (e.target.dataset.scale || e.target.dataset.ing || e.target.dataset.opt) {
+        // On the record there is no form to read. The amount field stands there
+        // too, and its `change` — Enter, Tab, a click away, the spinner arrows —
+        // arrived here and emptied the record in memory (§13dt). The `input`
+        // handler has already taken the figure and redrawn the work view; a
+        // commit on the record has nothing left to do.
+        if (!(editing || openId === 'new')) return;
         readForm(root);
         const substances = await all('substances');
         const box = root.querySelector('.scaleblock');
