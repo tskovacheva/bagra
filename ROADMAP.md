@@ -100,6 +100,62 @@ The one item that is a decision rather than work.
   sync is worth becoming a data controller for. **Recommended: local-only for 1.0**, sync
   considered only if buyers ask. Sync should not be a prerequisite for selling anything.
 
+### What happened on 10 September 2026, and what it settles
+
+The owner's employer's proxy classified `tskovacheva.github.io` as **Newly Seen Domains** and
+blocked it. Глина would not open from the work laptop. Багра, on `bagra-ten.vercel.app`, kept
+working — a different origin, not yet caught by the same filter.
+
+The block lifted by itself on the 11th and everything was found intact. What it cost was a
+day, and what it proved is not what the list above assumes.
+
+**The two problems in this section are the wrong two.** They are about losing data and about
+carrying it between devices. Neither happened. The data sat whole on the disk the entire
+time — 10.7 MB, counted and seen — and could not be reached.
+
+**Availability, not integrity.** The owner put it plainly and the point is hers: data that
+exists and cannot be reached is not available, and a record you cannot open when you need it
+is no better than one you do not have. Everything else — the features, the interface, the
+library — rests on the application opening when it is wanted.
+
+**What this does NOT settle.** It is not an argument for a cloud. A server behind the same
+proxy fails the same way and takes the application AND the data with it; at least a local
+copy can be carried to another machine. The choice is not local versus cloud. It is whether
+a second copy exists **by design rather than by remembering**.
+
+**A third problem, found the same day and worse than either.** Chrome's storage listing
+showed Багра on **three origins**: `tskovacheva.github.io`, `bagra-ten.vercel.app`, and two
+Vercel preview addresses. Each origin is its own database. The github.io one held 23 fabrics,
+6 trials, 2 chains, 14 recipes and 4 batch actions — real work, invisible from the other.
+Nothing warned her. A link opened from history on a preview URL is an afternoon of records
+written into a database nobody will look in again. **This has nothing to do with the proxy
+and was there all along.**
+
+### What A5 becomes
+
+Four items. The first three are the work; the fourth is the decision that no longer needs
+taking.
+
+1. **A backup that does not depend on remembering.** Not a stronger warning — a file that
+   leaves the browser profile on its own, after N changes or once a day. Google Drive is
+   already permitted on the work laptop and already connected; falling back to Downloads when
+   it is not reachable. This breaks „no runtime dependencies", which is a fixed decision, and
+   that is the trade to be argued rather than assumed.
+2. **The backup file must be usable WITHOUT the application.** If Багра cannot open, a file
+   only Багра can read leaves you exactly where you started. Plain JSON with legible names
+   and a short header saying what it is and how to put it back. *Stated as a requirement by
+   the owner, and it is the right one.*
+3. **One declared origin.** The application knows which address it is meant to be served
+   from and says so, loudly, when it is opened from another. Silent divergence across three
+   databases is the fault that cost most and was noticed least.
+4. **Restore must merge, not overwrite.** Today a restore replaces. With records on a phone
+   and on a laptop, that makes combining them impossible and makes restoring dangerous. This
+   is independent of everything above and is wanted regardless of what is decided about
+   copies.
+
+Not decided here: whether any of the four ships before 1.0. Item 4 is the cheapest and the
+most clearly correct; item 1 is the largest and touches a fixed decision.
+
 ## A6. Release hygiene
 
 None of this is a feature; all of it is a condition of taking money.
@@ -285,9 +341,10 @@ agreed. It is not built. In rough order of dependency:
 - ~~**Swatches on the batch become a list**~~ — **DONE at rc52.** Kind, substrate, recipe,
   colour, name. The hex is optional and an unmeasured swatch says so.
 
-**B6b is complete except for the six substances**, which are content rather than code and
-wait on a workbook: a substance record carries hazard, handling and purpose, and writing
-those is making claims that need a source.
+**B6b is complete except for the six substances** — and they do NOT wait on a workbook; see
+B6e and item 18g. Three fields are required of a substance record and the sources already on
+hand support what each of the six is and does. Only the safety fields stay empty, which is
+the normal state for thirteen of the twenty-six records already shipped.
 
 ## B6c. A vocabulary editor
 
@@ -310,6 +367,29 @@ Deferred rather than done because both live inside the Library, a reading screen
 and no list of records to stand a button beside. Where it goes — a tab, the Library's own
 head, somewhere else — is a layout decision nobody has taken, and inventing a place for it
 inside a guard's exemption list would have been taking it quietly.
+
+## B6e. The working view — five defects found 11 September 2026
+
+Written up in `DOCUMENTATION_DECISIONS_NEEDED.md` item 18, with the code confirmed for each.
+
+~~**18a**~~ — **DONE at rc53** (§13dt). Changing the amount on the record emptied its
+ingredients and steps in memory. This entry used to say an Edit-then-Save would then write the
+emptied recipe to disk; it would not — Edit reloads the record from the database — and the
+claim is withdrawn. A screen fault, not a data-loss route.
+
+The rest — what the amount field IS, a scaling control on recipes that cannot scale, the
+caret jumping after the first digit, and a record that cannot say the library has a newer
+version of it — are ordinary work, but 18b is a decision before it is a fix.
+
+**Agreed order, all of item 18: 18e, 18f, 18g, then 18b, then 18c and 18d.** 18e is the day
+the owner lost to a record she could not tell was stale; 18f is a defect introduced at rc50 — the alum and soda ash were in the library
+all along and the recipe lines never pointed at them; 18g is the six substances, which turn
+out not to need a workbook at all.
+
+**18g corrects this roadmap.** Entries above said the six substances were content rather than
+code because „a substance record carries hazard, handling and purpose". The schema says
+otherwise: three fields are required, and `safetyNote` appears on three records out of
+twenty-six. The claim was made from memory and deferred work that nothing was blocking.
 
 ## B7. Smaller, accepted, not built
 

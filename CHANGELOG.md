@@ -12,6 +12,26 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc53 — 11 September 2026
+
+Item 18a, and one line of CSS the release gate could not pass without. §13dt
+
+- **The amount field no longer empties the recipe it stands on.** Committing the field on
+  the working view — Enter, Tab, a click away, the spinner — fired `change`, which called
+  `readForm` on a screen with no form; an absent form reads as empty ingredients and empty
+  steps. The weigh list and every step vanished the moment a figure was entered.
+- **`readForm` refuses to run outside the editor**, with an error that says what it would
+  have done. A quiet return would hide the next caller that should not be there.
+- **The damage was in memory only.** Item 18a said Edit-then-Save would write the emptied
+  recipe; Edit reloads from the database, and that was checked by running it. The claim is
+  withdrawn in the decisions document and the roadmap.
+- **A new deep-check guard, `workview-commit`**, sends `input` AND `change`, as a browser
+  does. The old one sent only `input`, which is why it passed. Seen failing on the old code
+  (2 lines, 2 steps → 0, 0) and on a half-fix (a named rejection).
+- **The batch screen's action row is 44px on a phone.** `.box.flat{min-height:38px}` out-
+  ranked the one-class phone rule at every width. Found by the screen layer on the untouched
+  rc52, in a run with Chrome present.
+
 ## 1.0.0-rc52 — 10 September 2026
 
 Sixth and last release of the pigment model (item 17): three colours from one batch. §13ds

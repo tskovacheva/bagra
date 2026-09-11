@@ -1063,6 +1063,86 @@ const dirty = await import('./dirty.js');
     recipes.reset?.();
   }
 
+  // 18a. Changing the amount on the RECORD must not empty it (§13dt).
+  //
+  // The guard above fires `input` and never `change`. A browser fires both: the
+  // first on every keystroke, the second when the field is committed — Enter,
+  // Tab, a click elsewhere, or a press on the spinner arrows. The `change`
+  // handler called `readForm()` on the read view, where there is no form to
+  // read, and `readForm` answers an absent form with empty arrays. Ingredients
+  // and steps went to nothing in memory and the next redraw showed a bare
+  // work view. A harness that sends half of what the browser sends checks half
+  // of what the person does.
+  //
+  // Held at the SCREEN, by what a person weighing would see: every ingredient
+  // named in the weigh list and every step still numbered, after the commit.
+  // Then the database, which must be untouched either way.
+  {
+    const recipes = (await import('./modules/recipes.js')).default
+      || await import('./modules/recipes.js');
+    await db.put('substances', { id: 'zz-gum18', name: { bg: 'Гума 18a', en: 'Gum 18a' } });
+    await db.put('substances', { id: 'zz-hon18', name: { bg: 'Мед 18a', en: 'Honey 18a' } });
+    await db.put('recipes', {
+      id: 'zz-18a', name: { bg: 'Свързващо 18a', en: 'Binder 18a' }, type: 'pigment',
+      version: 1, scaleBy: 'raw', requiredFollowOn: [], distributable: false,
+      ingredients: [
+        { id: 'a1', roleCode: 'binder', basis: 'absolute', unit: 'g',
+          options: [{ id: 'o1', substanceId: 'zz-gum18', qtyMin: 42, qtyMax: 42 }] },
+        { id: 'a2', roleCode: 'humectant', basis: 'absolute', unit: 'g',
+          options: [{ id: 'o2', substanceId: 'zz-hon18', qtyMin: 5, qtyMax: 5 }] },
+      ],
+      steps: [
+        { id: 's1', order: 0, text: { bg: 'Стъпка едно 18a', en: 'Step one 18a' } },
+        { id: 's2', order: 1, text: { bg: 'Стъпка две 18a', en: 'Step two 18a' } },
+      ],
+    });
+
+    recipes.reset?.();
+    recipes.open('zz-18a');
+    await recipes.render(root);
+    await settle();
+
+    const field = root.querySelector('[data-scale]');
+    const seen = () => ({
+      lines: root.querySelectorAll('.weighline').length,
+      steps: root.querySelectorAll('.workstep').length,
+      names: ['Гума 18a', 'Мед 18a'].filter(n => (root.textContent || '').includes(n)).length,
+    });
+    const before = seen();
+    if (!field) {
+      fail('workview-commit', new Error('the record has no amount field to commit'));
+    } else if (before.lines !== 2 || before.steps !== 2 || before.names !== 2) {
+      // The premise, checked, so a pass below cannot come from a record that
+      // was never drawn in full in the first place.
+      fail('workview-commit', new Error(`the record did not draw in full to begin with: ${JSON.stringify(before)}`));
+    } else {
+      field.value = '20';
+      field.dispatchEvent(new window.Event('input', { bubbles: true }));
+      await settle();
+      // The input handler redraws the page, so the element committed is the
+      // one on screen now — which is what the browser's `change` targets.
+      const now = root.querySelector('[data-scale]') || field;
+      now.dispatchEvent(new window.Event('change', { bubbles: true }));
+      await settle();
+      // And one more redraw, from the module's own copy of the record, because
+      // that is how the emptied copy reached the screen: the next keystroke.
+      await recipes.render(root);
+      await settle();
+      const after = seen();
+      const stored = await db.get('recipes', 'zz-18a');
+      if (after.lines !== 2 || after.steps !== 2 || after.names !== 2)
+        fail('workview-commit', new Error(`committing the amount emptied the work view: ${JSON.stringify(before)} → ${JSON.stringify(after)}`));
+      else if ((stored.ingredients || []).length !== 2 || (stored.steps || []).length !== 2 || stored.distributable !== false)
+        fail('workview-commit', new Error('committing the amount changed the stored record'));
+      else console.log('  workview-commit: the record keeps its ingredients and steps when the amount is committed');
+    }
+
+    await db.remove('recipes', 'zz-18a');
+    await db.remove('substances', 'zz-gum18');
+    await db.remove('substances', 'zz-hon18');
+    recipes.reset?.();
+  }
+
   // A band must render as a word. Bands are terms with a range attached and
   // live in their own store, which `label()` never read: chips said "калиева
   // стипца (medium)" in the middle of a Bulgarian row, and the band and pH

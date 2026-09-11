@@ -1971,6 +1971,11 @@ a,.sourcenote{overflow-wrap:anywhere}
   input:not([type=checkbox]):not([type=radio]),select,textarea{
     min-height:44px;
   }
+  /* Named on its own because `.box.flat{min-height:38px}` above is two classes
+     and `.box` here is one: the more specific rule won at every width, and the
+     action row on the batch screen stayed 40px on a phone (§13dt). Same
+     specificity, later in the sheet, so this one wins. */
+  .box.flat{min-height:44px}
   .btn,.tab,.box{display:inline-flex;align-items:center;justify-content:center}
   .box{align-items:center}
   /* The star is square: a 44px-tall target 22px wide is still missed. */

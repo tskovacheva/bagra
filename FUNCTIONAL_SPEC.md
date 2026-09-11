@@ -10202,6 +10202,83 @@ What remains of the model is the six new substances, which are content rather th
 substance record carries hazard, handling and purpose, and writing those is making claims
 that need a source. They start as a workbook, the way the plants did.
 
+## 13dt. The amount field emptied the record it stood on (1.0.0-rc53)
+
+Item 18a, and one line of CSS the release gate could not pass without. Nothing else.
+
+### What happened
+
+The working view of a recipe has an amount field — „Количество суровина", „За колко грама
+плат", „За колко литра". It stands on the RECORD, outside the editor. Typing in it fires
+`input`, which takes the figure and redraws the work view. That half worked.
+
+Committing it — Enter, Tab, a click elsewhere, the spinner arrows — fires `change`, and the
+last branch of `root.onchange` called `readForm(root)` before checking for anything.
+`readForm` reads the editor into `draft`. On the record there is no editor, and `readForm`
+answers an absent form without complaint: `ings.filter(Boolean)` of nothing is an empty
+list, and the same for the steps. It also cleared `appliesTo` and set `distributable` back to
+true, because the checkbox it reads was not there either.
+
+So the owner typed 20 and the weigh list and every step disappeared at once.
+
+### How far it went — and the first account was wrong
+
+Item 18a said an Edit-then-Save after this would write the emptied recipe to disk. **It
+would not, and the code shows why.** Edit is a change of address; every change of address
+calls `open()`, and `open()` sets `draft = null`, so the editor reads the recipe afresh from
+the database. Checked, not reasoned: after the emptying, the editor showed both ingredients
+and every step. Nothing on this path writes.
+
+So this was a screen that destroyed itself in front of the person using it, and not a route
+to losing data. Serious enough — the working view is the screen meant to be read over a pot,
+and it could not be used — but the claim in 18a was made from the code's shape rather than
+from running it. Corrected there and in the roadmap.
+
+### The fix, in two places
+
+**The caller.** The `change` branch returns at once on the record: the `input` handler has
+already taken the figure and redrawn, and a commit there has nothing left to do. In the
+editor it goes on as before, reading the form and redrawing the scaling block.
+
+**The helper.** `readForm` now throws when called outside the editor — `editing` false and
+not a new recipe — with a message that says what it would have done. A quiet early return
+was the alternative and was refused: it would have hidden the caller that should not have
+been there, and the next such caller would have been found the way this one was, by the
+owner. A named error fails the deep check as a rejection the first time it happens.
+
+### Why the existing guard did not see it
+
+The work-view guard written for §13de sends `input` and never `change`. A browser sends
+both. A harness that sends half of what the browser sends checks half of what the person
+does — and the half it skipped is the half that was broken.
+
+The new guard, `workview-commit` in `deep-check.mjs`, draws a recipe with two ingredients and
+two steps, checks that premise first so a pass cannot come from a record never drawn in full,
+types 20, sends `input`, then sends `change` to the element now on screen, redraws from the
+module's own copy, and asserts at the screen: both ingredients named in the weigh list, both
+steps numbered. Then that the stored record is untouched.
+
+Watched failing both ways: on the old code, `2 lines, 2 steps → 0, 0`; with only the refusal
+in `readForm` and the caller unchanged, a rejection naming `readForm`. Passes with both.
+
+### The one line of CSS
+
+Run with Chrome present, the screen layer failed on the **untouched rc52**: the action row on
+the batch screen measured 40px on a phone against 44px (§13ac). The cause is specificity, not
+fonts. `.box.flat{min-height:38px}` is two classes; the phone rule `.box{min-height:44px}` is
+one, so the flat box kept its 38px at every width. The phone block now names `.box.flat` on
+its own, at equal specificity and later in the sheet.
+
+It is in this release because the release gate cannot pass without it — the exception to
+declared scope that is said out loud rather than slipped in. Seen failing on rc52 with the
+four boxes named; passes at all four widths now.
+
+### What this leaves
+
+18b–18g are unchanged by this release. 18c and 18d live in the same field, and 18d — the
+caret thrown to the front after the first digit — is still there: this release stops the
+record being emptied, it does not make a two-digit number typeable.
+
 ---
 
 

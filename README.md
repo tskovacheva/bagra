@@ -72,7 +72,8 @@ together was the single biggest usability problem it has had.
 | **Editing library knowledge** | Behind an *Edit* button, never the default |
 
 Records open for reading. The form is one click away, and Back from it returns to reading the same
-record — one usually corrects a field and wants to see how it reads.
+record — one usually corrects a field and wants to see how it reads. The amount on a working view
+recalculates the figures and never touches the record.
 
 ## Principles
 
@@ -190,7 +191,9 @@ Six layers, each of which exists because something got through:
    module is reachable from the navigation.
 5. **Deep check** — opens every record, clicks through the flows, and asserts
    behaviour: that collapsed steps survive a save, that search narrows and clears,
-   that a record shows the colours its row promised.
+   that a record shows the colours its row promised. Events are sent as a browser
+   sends them — a field is typed with `input` AND committed with `change`; a guard
+   that sent only the first let the working view empty itself unseen (§13dt).
 5b. **A pack update against an installed copy.** Every layer above reads the shipped
    files, where a record removed from a pack is simply not there; on a real
    installation it is. This one seeds the previous pack into a database, applies

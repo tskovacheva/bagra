@@ -655,3 +655,169 @@ Otherwise a later reader meets „closed list" and concludes it was the design.
 application for natural dyeing and finds lake pigment, watercolour, pastels and a
 binder. That is item 2 above — which recipes ship — and it is sharper now than when it
 was written.
+
+---
+
+## 18. The working view is broken in five ways, found 11 September 2026
+
+Reported by the owner from `bagra-ten.vercel.app` at 1.0.0-rc52, with screenshots, after a
+day of trying to work in it. All five are confirmed in the code. **18a is fixed at rc53
+(§13dt); 18b–18g are not.**
+
+**No data was lost.** Her 11 September backup was read and checked: the lake recipe still
+carries its three ingredients and seven steps, and every other recipe is intact. Three of her
+own recipes have thin records — „Приготвяне на алуминиев ацетат" with no ingredients,
+„Изпиране на целулоза" and „Пигмент от брош" with no steps — but those were last touched in
+July and August and are unrelated.
+
+### 18a. The read view guts the record in memory — **SETTLED at rc53 (§13dt)**
+
+> **This entry was wrong about how far the damage went, and the correction matters.** It
+> said an Edit-then-Save would persist the emptied recipe. It would not: Edit is a change of
+> address, `open()` sets `draft = null`, and the editor reads the recipe afresh from the
+> database. Run, not reasoned — after the emptying the editor showed every ingredient and
+> step. Nothing on this path writes. It was a screen that destroyed itself in use, not a
+> route to losing data. The same path also cleared `appliesTo` and reset `distributable`, in
+> memory only. The entry is kept below as written.
+>
+> Fixed in two places: the `change` branch returns on the record, and `readForm` throws when
+> called outside the editor. The guard that missed it sent `input` and never `change`; the new
+> one sends both.
+
+`root.onchange`, last branch:
+
+    if (e.target.dataset.scale || e.target.dataset.ing || e.target.dataset.opt) {
+      readForm(root);                               // ← unconditional
+      const box = root.querySelector('.scaleblock');
+      if (box) box.innerHTML = await scaleBlock(...); // ← the guard is only here
+
+`readForm` ends with `draft.ingredients = ings.filter(Boolean)` and does the same for steps.
+In the READ view there are no `[data-ing]` elements — the editor has them — so it collects
+nothing and **empties both arrays on the draft**. There IS a `data-scale` input on the read
+view, so changing the amount fires this branch.
+
+That is the screenshot: type 20 into „Количество суровина", and the weigh list and every step
+vanish at once. The guard was placed on the redraw and not on the read.
+
+The damage is in memory only — nothing writes to the database on this path, and navigating
+away reloads the record. **But pressing Edit and then Save after this would persist an
+emptied recipe.** That is a real route to losing work and it is the reason this is the first
+thing to fix.
+
+### 18b. A read view that is also an editor, and neither
+
+The amount field sits on the record, outside edit mode, and changes as you type. Two readings
+are possible and the screen commits to neither: either a recipe is a fixed thing you read, or
+it is a calculator you drive. The field also keeps its value when you leave and come back —
+`scaleCtx` is module state, shared by every recipe, so a figure entered on one recipe is
+still there when the next one opens.
+
+**This is a decision, not a bug**, and it has to be taken before 18c and 18d can be judged.
+Three shapes:
+
+- the record is static and any scaling happens in a calculator of its own;
+- the record scales, and says so — the field is plainly a control, the recipe's own figures
+  stay visible beside the scaled ones, and the value is per recipe rather than global;
+- the record scales only for recipes where scaling means something (see 18c).
+
+### 18c. A scaling field on recipes that cannot scale
+
+`scaleModeOf` gives „raw" to anything with `scaleBy: 'raw'`. Both madder lake recipes have
+`scaleBy: 'raw'` and **every ingredient absolute** — 20 g of root, 2900 ml of water, 10 ml of
+alum, 5 ml of chalk — because that is what the books state. So the field is offered, accepts
+a number, and nothing below it moves. The owner tried 10 and then 100 and reasonably
+concluded the scaling was broken.
+
+Entered at rc50 by me. A recipe whose every line is absolute has nothing to scale BY, and the
+field should not be drawn.
+
+### 18d. The caret jumps to the front after the first digit
+
+The redraw restores the caret with `setSelectionRange`, inside a `try` that swallows the
+failure — and Chrome **throws** for `input type="number"`. The comment above it says a number
+typed digit by digit is unusable otherwise, which is exactly right and exactly what happens.
+Two- and three-digit numbers cannot be typed.
+
+The fix is not a better `try`: either the field is not of type `number`, or the redraw does
+not touch that input at all.
+
+### 18e. Corrections shipped and never arrived
+
+Her records are at mixed pack versions: the lake master at **0.3.0**, the binder at
+**0.2.0**, and the two madder recipes at **0.7.0**.
+
+The two madder recipes are NEW records, and `loadPack` adds what is absent at boot, so they
+came by themselves. The lake master's figures — the whole of rc48 — are a CHANGE to an
+existing record, and a change travels only through „Обнови от библиотеката".
+
+So the dashes she is looking at are rc47's record, and rc48, rc49 and rc50 never reached her.
+This is §13dn working exactly as designed and **it is still a fault**, because nothing tells
+her there is anything to press. The application knows the record's `packVersion` and the
+shipped manifest version and says nothing.
+
+**Suggested:** the record itself says when the library has a newer version of it, beside the
+button that fetches it. A stale record is indistinguishable from a broken feature, and she
+spent a day on that indistinguishability.
+
+### 18f. Substances that DO exist and were never pointed at — mine
+
+The fermentation recipe's lines read „носител", „алкали", „помощно". The owner asked why,
+and the answer is not §17a.
+
+**The alum, the soda ash and the chalk are all in the library**, with full records —
+`alum_potassium_12`, `soda_ash`, `calcium_carbonate`. When the two madder recipes were
+written at rc50 their lines were given a NOTE in prose — „10 г стипца", „10 г калцинирана
+сода" — and no `substanceId`. So `nameOf` falls back to the role, exactly as it does for a
+substance that is genuinely absent, and the two cases are indistinguishable on screen.
+
+That is a defect I introduced. It is a few lines of seed data: link the carrier and the
+alkali in all three pigment recipes — Stopka's carrier is alum and its alkali soda ash;
+Green's carrier is alum and its alkali chalk.
+
+**One thing in the fermentation recipe is genuinely absent:** the sauerkraut juice. It is
+food rather than a dye material, and whether it should be a substance at all or stay part of
+the description is a small question worth asking before answering it by habit.
+
+### 18g. The six new substances — and the workbook was the wrong answer
+
+Gum arabic, glycerine, honey, clove oil, gum tragacanth, methylcellulose, kaolin. (Chalk was
+already there, so six, not seven.)
+
+**This was deferred as needing a workbook and that was wrong.** The owner pushed back —
+having supplied several recipes, why can nothing be drawn from them — and she is right. The
+schema was checked:
+
+    code       26 of 26        formula      19 of 26
+    category   26 of 26        typicalUse    8 of 26
+    name       26 of 26        handling      4 of 26
+                               safetyNote    3 of 26
+
+**Three fields are required.** `safetyNote` appears on three records out of twenty-six.
+The claim that a substance record „carries hazard, handling and purpose" was made from
+memory and is not what the data says. Nothing was blocked.
+
+What the sources already on hand support, per substance:
+
+- **gum arabic** — binder. Stopka: the commonest binder in watercolour. The owner's own
+  recipe: powdered, not liquid, because the powder is what dissolves completely, and more
+  powder thickens.
+- **honey** — humectant. Stopka, in those words: it attracts moisture so the paint rewets.
+- **clove oil** — preservative. Stopka, in those words.
+- **glycerine** — plasticiser, keeping the cake from drying hard. From the owner's recipe and
+  §13dn, not from Stopka, who does not use it.
+- **gum tragacanth** — binder for pastels. Stopka calls it the more traditional binder, which
+  she replaces with oat water.
+- **methylcellulose** — binder, the alternative to tragacanth. From our own pastel recipe.
+- **kaolin** — filler. From our own pastel recipe: more filler, softer and paler pastel.
+
+And one attribute worth a field if ox gall is ever added: Stopka records that it is an
+**animal product**, which is why she marks it optional.
+
+**What will NOT be written:** a `safetyNote` for clove oil as a skin sensitiser, or
+`handling` for kaolin dust. Both are true and neither is on a page in hand. Thirteen of the
+twenty-six existing records carry no such field, so leaving it empty is the normal state and
+not a gap.
+
+Open, and it blocks nothing: **if the owner's books state anything about the safety of these
+six, it goes in with a citation.** Otherwise the field stays empty, which is honest.
+
