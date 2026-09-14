@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.7.0",
+ "packVersion": "0.8.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -48,7 +48,13 @@
       "en": "10 g alum — aluminium sulphate or potassium alum."
      },
      "quantity": 10,
-     "unit": "g"
+     "unit": "g",
+     "options": [
+      {
+       "id": "opt-lake-alum",
+       "substanceId": "seed:alum_potassium_12"
+      }
+     ]
     },
     {
      "roleCode": "alkali",
@@ -58,7 +64,13 @@
       "en": "5 g soda ash."
      },
      "quantity": 5,
-     "unit": "g"
+     "unit": "g",
+     "options": [
+      {
+       "id": "opt-lake-soda",
+       "substanceId": "seed:soda_ash"
+      }
+     ]
     }
    ],
    "steps": [
@@ -426,7 +438,13 @@
      "note": {
       "bg": "Две чаени лъжички (10 мл) разтворена стипца НА БУРКАН, не общо. Извлекът се разделя по 720–840 мл на буркан.",
       "en": "Two teaspoons (10 ml) of dissolved alum PER JAR, not in total. The extract is divided at 720–840 ml a jar."
-     }
+     },
+     "options": [
+      {
+       "id": "opt-hot-alum",
+       "substanceId": "seed:alum_potassium_12"
+      }
+     ]
     },
     {
      "roleCode": "alkali",
@@ -436,7 +454,13 @@
      "note": {
       "bg": "Една чаена лъжичка (5 мл) разтворена креда на буркан. Кредата е слаба основа — тук няма мерене на pH, изчаква се утаяването.",
       "en": "One teaspoon (5 ml) of dissolved chalk per jar. Chalk is a mild alkali — there is no pH metering here; you wait for the settling."
-     }
+     },
+     "options": [
+      {
+       "id": "opt-hot-chalk",
+       "substanceId": "seed:calcium_carbonate"
+      }
+     ]
     }
    ],
    "steps": [
@@ -550,7 +574,13 @@
      "note": {
       "bg": "10 г стипца, разтворена в горещия извлек.",
       "en": "10 g alum, dissolved into the hot extract."
-     }
+     },
+     "options": [
+      {
+       "id": "opt-ferm-alum",
+       "substanceId": "seed:alum_potassium_12"
+      }
+     ]
     },
     {
      "roleCode": "alkali",
@@ -560,7 +590,13 @@
      "note": {
       "bg": "10 г калцинирана сода, разтворена в 200 мл гореща вода. Не се сипва наведнъж — виж стъпките.",
       "en": "10 g soda ash dissolved in 200 ml hot water. Not added all at once — see the steps."
-     }
+     },
+     "options": [
+      {
+       "id": "opt-ferm-soda",
+       "substanceId": "seed:soda_ash"
+      }
+     ]
     },
     {
      "roleCode": "assistant",

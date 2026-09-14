@@ -749,7 +749,7 @@ async function renderList(root) {
     title: t('reference.title'),
     sub: t('reference.sub'),
     actions: `${host.tabs()}
-      <button class="btn quiet" data-sync>${t('seed.sync')}</button>
+      ${seedUI.syncButton('combinations')}
       ${actionBtn('add', t('ref.new'), 'data-new', 'primary')}`,
     body: `${chips}${panel(table, 'flush')}`,
   });
@@ -802,6 +802,7 @@ async function renderRead(root, r) {
               ${backTo('#/reference', t('nav.reference'))}
               ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
     body: `
+      ${seedUI.recordNote('combinations', r.id)}
       <div class="headline">
         <span class="refswatch${e.swatchHex ? '' : ' unmeasured'}" style="${e.swatchHex ? `background:${esc(e.swatchHex)};` : ''}width:96px;height:96px;flex:0 0 96px"></span>
         <div class="headlinebody">
@@ -1061,7 +1062,10 @@ export default {
       if (e.target.closest('[data-sync]')) {
         try {
           await seedUI.open('combinations');
-          return seedUI.render(root, () => this.render(root));
+          // The record may be the one just updated, and the module's copy of
+          // it is the old one: drawn again from the database, or the note
+          // would go and the screen would go on showing what it replaced (§13du).
+          return seedUI.render(root, () => { draft = null; return this.render(root); });
         } catch (err) { alert(err.message); }
         return;
       }

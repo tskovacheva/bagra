@@ -234,7 +234,7 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('plants.title'),
     sub: t('plants.sub'),
-    actions: `<button class="btn quiet" data-sync>${t('seed.sync')}</button>
+    actions: `${seedUI.syncButton('plants')}
               ${actionBtn('add', t('plants.new'), 'data-new', 'primary')}`,
     body: `
       <div class="boxes">
@@ -1007,6 +1007,7 @@ async function renderRead(root, p) {
     actions: `${backTo('#/plants', t('nav.plants'))}
               ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
     body: `
+      ${seedUI.recordNote('plants', p.id)}
       <div class="headline">
         ${photoOf(p) ? `
           <figure class="plantshot">
@@ -1381,7 +1382,10 @@ export default {
       if (e.target.closest('[data-sync]')) {
         try {
           await seedUI.open('plants');
-          return seedUI.render(root, () => this.render(root));
+          // The record may be the one just updated, and the module's copy of
+          // it is the old one: drawn again from the database, or the note
+          // would go and the screen would go on showing what it replaced (§13du).
+          return seedUI.render(root, () => { draft = null; return this.render(root); });
         } catch (err) { alert(err.message); }
         return;
       }

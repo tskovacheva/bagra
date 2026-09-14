@@ -248,7 +248,7 @@ async function renderList(root) {
   root.innerHTML = page({
     title: t('recipes.title'),
     sub: t('recipes.sub'),
-    actions: `${returnBar()}${host.tabs()}<button class="btn quiet" data-sync>${t('seed.sync')}</button>${actionBtn('add', t('recipes.new'), 'data-new', 'primary')}`,
+    actions: `${returnBar()}${host.tabs()}${seedUI.syncButton('recipes')}${actionBtn('add', t('recipes.new'), 'data-new', 'primary')}`,
     body: `
       ${chainCards ? panel(`<h2>${t('chains.tab')}</h2>
         <div class="chaincards">${chainCards}</div>`) : ''}
@@ -539,6 +539,7 @@ async function renderRead(root, r) {
               ${backTo('#/recipes', t('nav.recipes'))}
               ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
     body: `
+      ${seedUI.recordNote('recipes', r.id)}
       ${panel(`
         <h2>${t('recipes.workView')}</h2>
         <p class="note">${t('recipes.workHint')}</p>
@@ -907,7 +908,10 @@ export default {
       if (e.target.closest('[data-sync]')) {
         try {
           await seedUI.open('recipes');
-          return seedUI.render(root, () => this.render(root));
+          // The record may be the one just updated, and the module's copy of
+          // it is the old one: drawn again from the database, or the note
+          // would go and the screen would go on showing what it replaced (§13du).
+          return seedUI.render(root, () => { draft = null; return this.render(root); });
         } catch (err) { alert(err.message); }
         return;
       }
