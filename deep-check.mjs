@@ -5743,6 +5743,49 @@ const dirty = await import('./dirty.js');
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
 }
 
+// ---- 18h. The weigh list carries the first sentence of a line's note (§13dx)
+//
+// The line that mattered is Green's: „Калиева стипца 10 ml" is ten millilitres
+// of a DISSOLVED solution, per jar, and the weigh list said neither. Somebody
+// over a pot could weigh ten millilitres of powder.
+//
+// Held at the screen, in the shipped recipes rather than a made-up one, and at
+// the words that carry the meaning — not at a class name (the third way a
+// guard lies, §13dp).
+{
+  const recipes = (await import('./modules/recipes.js')).default;
+  const want = [
+    // recipe, the word the weigh list must carry, why
+    ['seed:madder-lake-hot', 'разтворена', 'the alum is a solution, not a powder'],
+    ['seed:madder-lake-hot', 'БУРКАН', 'the figure is per jar, not in total'],
+    ['seed:madder-lake-fermentation', 'кисело зеле', 'a line that names no substance shows its note, not „помощно"'],
+    ['seed:watercolour-binder', 'на прах', 'powdered gum, not the liquid'],
+  ];
+  const problems = [];
+  for (const [id, word, why] of want) {
+    recipes.reset?.(); recipes.open(id); await recipes.render(root); await settle();
+    const box = root.querySelector('.weighbox');
+    if (!box) { problems.push(`${id}: no weigh list on the work view`); continue; }
+    if (!box.textContent.includes(word)) problems.push(`${id}: „${word}" is not in the weigh list — ${why}`);
+  }
+
+  // And the other half: the FIRST sentence, not the whole note. The gum arabic
+  // line is the case — its note goes on to say why the liquid gum will not do,
+  // which is reasoning for the record below, not for the weigh list. Anchored
+  // at a note that HAS a second sentence, or the check would pass against a
+  // version that prints the lot.
+  recipes.reset?.(); recipes.open('seed:watercolour-binder'); await recipes.render(root); await settle();
+  const gum = [...root.querySelectorAll('.weighbox .weighnote')]
+    .find(n => n.textContent.includes('на прах'));
+  if (!gum) problems.push('the gum arabic line carries no note');
+  else if (gum.textContent.split(/[.!?]/).filter(x => x.trim()).length > 1)
+    problems.push(`more than one sentence under a weigh line: „${gum.textContent.slice(0, 90)}"`);
+
+  recipes.reset?.();
+  if (problems.length) fail('weighnote', new Error(problems.join('; ')));
+  else console.log('  weighnote: the weigh list says dissolved, per jar, powdered — and stops at the first sentence');
+}
+
 // ---- 18e. A seeded record says when the library has a different version (§13du)
 //
 // Five modules, four states each, and the first state is the one that matters:

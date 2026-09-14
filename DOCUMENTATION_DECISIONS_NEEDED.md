@@ -662,7 +662,8 @@ was written.
 
 Reported by the owner from `bagra-ten.vercel.app` at 1.0.0-rc52, with screenshots, after a
 day of trying to work in it. All five are confirmed in the code. **18a is fixed at rc53
-(§13dt), 18e at rc54 (§13du), 18f at rc55 (§13dv); 18b, 18c, 18d and 18g are not.**
+(§13dt), 18e at rc54 (§13du), 18f at rc55 (§13dv), 18g and 18h at rc56 (§13dw, §13dx);
+18b, 18c and 18d are not.**
 
 **No data was lost.** Her 11 September backup was read and checked: the lake recipe still
 carries its three ingredients and seven steps, and every other recipe is intact. Three of her
@@ -796,7 +797,14 @@ Green's carrier is alum and its alkali chalk.
 food rather than a dye material, and whether it should be a substance at all or stay part of
 the description is a small question worth asking before answering it by habit.
 
-### 18g. The six new substances — and the workbook was the wrong answer
+### 18g. The six new substances — and the workbook was the wrong answer — **SETTLED at rc56 (§13dw)**
+
+> **Seven, not six.** „Chalk was already there, so six, not seven" subtracted chalk from a
+> list that never held it; the names below are seven and all seven were written. Categories:
+> `binder` for the gums and methylcellulose, `filler` for kaolin, **`auxiliary` for glycerine,
+> honey and clove oil** — they neither bind nor fill. Safety fields left empty, as decided
+> below. The seven recipe lines now point at them. **Raised by it: 18i**, that a substance
+> record has no source field, so „Stopka says" is written in free text.
 
 Gum arabic, glycerine, honey, clove oil, gum tragacanth, methylcellulose, kaolin. (Chalk was
 already there, so six, not seven.)
@@ -839,7 +847,12 @@ not a gap.
 Open, and it blocks nothing: **if the owner's books state anything about the safety of these
 six, it goes in with a citation.** Otherwise the field stays empty, which is honest.
 
-### 18h. The weigh list does not show what a line's note says
+### 18h. The weigh list does not show what a line's note says — **SETTLED at rc56 (§13dx)**
+
+> Built as suggested: the first sentence of a line's note under the line; the note in place of
+> the role for a line that names nothing. **Left undone and worth a data pass:** several notes
+> restate the name and figure, so a line that needed nothing now carries „20 г смлян корен от
+> брош." under „20 g".
 
 **Raised by rc55.** A line names what goes in by its option, and the note beside it — in the
 editor — carries what the name cannot: „разтворена", „на буркан", „или алуминиев сулфат",
@@ -855,3 +868,21 @@ the screen read over a pot — it wants a plan and the owner's agreement.
 
 **Not decided. Asked of the owner.**
 
+---
+
+## 18i. A substance record has no source field
+
+**Raised by rc56.** The seven pigment substances each say where the reading comes from —
+Stopka for the honey and the clove oil, our own recipes for the kaolin and methylcellulose —
+and they say it in the prose of `typicalUse`, because the schema has nowhere else to put it.
+
+Every other reference entity has outgrown this. A combination carries `sourceCodes`, a list
+that resolves in the register, protected from deletion by §13ct; a recipe carries
+`sourceCode`. A substance carries nothing, so its attribution cannot be listed, checked, or
+followed to a book.
+
+**Suggested:** `sourceCodes` on a substance, the same shape as a combination's, with the 26
+existing records left as they are — an empty list is the honest state for a record whose
+reading nobody wrote down. Small, and it is the same change §11 already made once.
+
+**Not decided. Asked of the owner.**

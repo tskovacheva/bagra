@@ -1283,7 +1283,12 @@ label.btn{cursor:pointer}
 .weightitle{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
 .weighline{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0;border-bottom:1px solid var(--line)}
 .weighline:last-child{border-bottom:0}
+.weighnamecol{display:flex;flex-direction:column;gap:2px;min-width:0}
 .weighname{font-size:14px}
+/* The first sentence of the line's note (§13dx). Quiet enough that the figure
+   still wins the glance, large enough to read over a pot — 13px, the size the
+   phone rules already treat as the floor for reading. */
+.weighnote{font-size:13px;color:var(--muted);line-height:1.35}
 .weighamount{font-size:22px;font-weight:600;color:var(--indigo);font-variant-numeric:tabular-nums;white-space:nowrap}
 .weighamount small{font-size:13px;font-weight:400;color:var(--muted)}
 .conditions{font-size:14px;color:var(--muted);margin:0 0 14px}

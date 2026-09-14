@@ -389,8 +389,12 @@ with a button; the button counts what the preview would tick.
 the library's alum, soda ash and chalk. Raised by it: **18h**, whether the weigh list shows a
 line's note.
 
-**Agreed order for what remains of item 18: 18g, then 18b, then 18c and 18d.** 18h is new and
-unordered. 18f is a defect introduced at rc50 — the alum and soda ash were in the library
+~~**18g**~~, ~~**18h**~~ — **DONE at rc56** (§13dw, §13dx). Seven pigment substances, the
+seven recipe lines that named them in prose, and the first sentence of a line's note under
+each weigh line. Raised by them: **18i**, that a substance record has no source field.
+
+**What remains of item 18: 18b, then 18c and 18d** — all three in the amount field. 18i is new
+and unordered. 18f is a defect introduced at rc50 — the alum and soda ash were in the library
 all along and the recipe lines never pointed at them; 18g is the six substances, which turn
 out not to need a workbook at all.
 

@@ -12,6 +12,28 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc56 — 11 September 2026
+
+Items 18g and 18h. §13dw, §13dx
+
+- **Seven pigment substances** — gum arabic, gum tragacanth, methylcellulose, kaolin,
+  glycerine, honey, clove oil. Seven, not six: item 18g subtracted chalk from a list that
+  never held it. Substances pack 0.3.0.
+- **Categories:** `binder` for the gums, `filler` for kaolin, `auxiliary` for glycerine,
+  honey and clove oil — they neither bind nor fill. Safety fields left empty, which is the
+  state of thirteen of the twenty-six records already shipped.
+- **The seven recipe lines** that named these in prose now point at them; the pastel filler
+  and binder each carry two options, because the recipe offers a real choice. Recipes pack
+  0.9.0. The `awaits-18g` exemptions went stale and the guard failed on all seven, which is
+  how a temporary exemption is supposed to end.
+- **The weigh list carries the first sentence of each line's note.** „Калиева стипца 10 ml"
+  now says the alum is dissolved and the figure is per jar. A line that names no substance
+  shows its note instead of its role, so the fermentation recipe reads sauerkraut juice
+  rather than „помощно".
+- **Guard `weighnote`**, held at the words rather than a class name, seen failing with the
+  note suppressed and with the whole note printed.
+- **Raised: 18i** — a substance record has no source field, so „Stopka says" sits in prose.
+
 ## 1.0.0-rc55 — 11 September 2026
 
 Item 18f: the pigment recipes' lines name the substances the library already has. §13dv

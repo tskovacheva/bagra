@@ -10498,6 +10498,105 @@ a name. And „Калиева стипца 10 ml" on the hot lake is a volume of
 weigh list does not say and the note does. Both are the same question — whether the work
 view shows a line's note — and that is a layout decision, raised rather than taken here.
 
+## 13dw. The seven pigment substances (1.0.0-rc56)
+
+Item 18g. Seed data only.
+
+Gum arabic, gum tragacanth, methylcellulose, kaolin, glycerine, honey, clove oil.
+**Seven, not six** — item 18g says „chalk was already there, so six, not seven" after
+subtracting chalk from a list that never contained it. The entry's arithmetic was wrong; the
+list of names in it was right.
+
+Substances pack 0.3.0, recipes pack 0.9.0, both by idempotent merge scripts that fill only.
+
+### Categories
+
+`binder` for the three gums and methylcellulose's group — gum arabic, gum tragacanth,
+methylcellulose. `filler` for kaolin. **`auxiliary` for glycerine, honey and clove oil**,
+which is what `vocab.js` says when it explains why only two categories were earned at rc47:
+these three neither bind nor fill, they improve how the paint handles and keeps, which is
+what neutral soap and Synthrapol are already in `auxiliary` for.
+
+Note that `plasticiser`, `humectant` and `preservative` exist as ingredient ROLES and not as
+categories, which is the model working: the category says what the substance IS, the role
+what it does in this recipe (§13dn). Honey is an auxiliary; in the watercolour binder it is
+a humectant.
+
+### What was written, and what was not
+
+Three fields are required — code, category, name — and all seven carry `typicalUse` as well.
+`safetyNote` and `handling` are empty on all seven, which is the normal state: thirteen of
+the twenty-six records already shipped carry neither.
+
+**Deliberately not written:** a `safetyNote` for clove oil as a skin sensitiser, and
+`handling` for kaolin dust. Both are true and neither is on a page in hand. They go in when
+a source says so, with the citation.
+
+### The attribution problem this surfaced
+
+The substance schema has **no source field**. So „Stopka gives gum arabic as the commonest
+binder" is written into `typicalUse` as words — which is what §13ct and the sources register
+exist to avoid. It is not wrong here (the prose is ours, the source is named) but it is
+attribution in free text, and every other reference entity has outgrown that. Raised as
+item 18i; nothing invented.
+
+### The seven recipe lines
+
+With the substances in, the lines that named them only in prose now point at them:
+the watercolour binder's gum, glycerine, honey and clove oil; the pastel filler (chalk OR
+kaolin) and binder (tragacanth OR methylcellulose), each a real choice offered by the recipe,
+so each gets two options; and the watercolour's binder line.
+
+The `awaits-18g` exemptions in `try-recipe-lines-named.mjs` then went stale and the guard
+failed on all seven as „still excused" — which is the temporary exemption working as
+designed. It removed itself by failing rather than by being remembered. The reason is gone
+from the guard; two remain, `not-a-substance` and `made-elsewhere`.
+
+## 13dx. The weigh list carries the first sentence of a line's note (1.0.0-rc56)
+
+Item 18h, raised by rc55.
+
+### The line that mattered
+
+„Калиева стипца 10 ml" on Green's hot lake is ten millilitres of a DISSOLVED solution, per
+jar. The weigh list showed a name and a figure, and the note that said so sat on the record
+below. Somebody over a pot could measure ten millilitres of powder.
+
+### What it does
+
+Under each weigh line, **the first sentence of that line's note**, small and muted. A line
+that names no substance shows its note INSTEAD of the role, because „помощно" tells a person
+nothing and the note is the only place the sauerkraut juice is named at all (§13dv).
+
+**The first sentence only.** These notes run to three and four sentences — why the powder and
+not the liquid gum, what happens if the clove oil is left out — and the whole of that under
+every line turns the weigh list back into prose. The rest stays on the record below,
+unchanged.
+
+A sentence ends at a full stop, exclamation or question mark, or is the whole note if it has
+none. Deliberately simple: an abbreviation would split a note early, and a note cut a few
+words short is a smaller fault than a paragraph in the weigh list. If it shows up in real
+notes it wants a rule, not a longer regular expression.
+
+### What this does not fix
+
+Several notes **restate the name and the figure** — „20 г смлян корен от брош." under
+„Бояджийски брош, корен · 20 g". Read on screen, that is mild noise on a line that needed
+nothing, while „разтворена" was a real fault on a line that did. The notes are the seed
+data's, written before anything read them at a glance; rewriting them is a data pass and not
+this release's. Named here so the next data pass has it.
+
+### The guard
+
+`weighnote` in `deep-check.mjs`, held at the shipped recipes and at the WORDS, not at a class
+name (the third way a guard lies, §13dp): the weigh list must carry „разтворена" and „БУРКАН"
+for Green's lake, „кисело зеле" for the fermentation's unnamed line, and „на прах" for the
+gum. Then, that the gum arabic line carries ONE sentence — anchored at a note that has a
+second sentence, or a version printing the whole note would pass.
+
+Seen failing both ways: with the note suppressed (the rc55 behaviour), and with the whole
+note printed.
+
 ---
 
 

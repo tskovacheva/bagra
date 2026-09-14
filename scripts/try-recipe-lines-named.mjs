@@ -24,9 +24,10 @@
 //                      the binder solution out of another recipe. A substance
 //                      record for either would be a second copy of a thing the
 //                      application already makes.
-//   awaits-18g       — the six new substances (item 18g). Temporary, and this
-//                      is what makes it visible: when 18g lands these lines
-//                      resolve, and the exemption goes stale and fails.
+// A third reason, `awaits-18g`, covered seven lines at rc55 and is GONE at
+// rc56: 18g landed, the lines resolved, and the guard failed on every one of
+// them as „still excused". That is the temporary exemption working — it
+// removed itself by failing, rather than by being remembered.
 //
 // BOTH DIRECTIONS. An exemption for a line that now resolves, or for a line
 // that no longer exists, fails too. An excuse nobody prunes becomes permission.
@@ -49,15 +50,8 @@ const NAMED_IN_PROSE = {
   'watercolour-binder#1':       'not-a-substance',   // boiling water
   'watercolour-from-pigment#0': 'made-elsewhere',    // the pigment, from a batch
   'pastels-from-pigment#0':     'made-elsewhere',    // the pigment, from a batch
-  'watercolour-from-pigment#1': 'awaits-18g',        // the binder solution
-  'pastels-from-pigment#1':     'awaits-18g',        // filler — chalk or kaolin
-  'pastels-from-pigment#2':     'awaits-18g',        // gum tragacanth or methylcellulose
-  'watercolour-binder#0':       'awaits-18g',        // gum arabic
-  'watercolour-binder#2':       'awaits-18g',        // glycerine
-  'watercolour-binder#3':       'awaits-18g',        // honey
-  'watercolour-binder#4':       'awaits-18g',        // clove oil
 };
-const REASONS = new Set(['not-a-substance', 'made-elsewhere', 'awaits-18g']);
+const REASONS = new Set(['not-a-substance', 'made-elsewhere']);
 
 let bad = 0;
 const fail = (m) => { console.log('RECIPE LINES: ' + m); bad = 1; };
