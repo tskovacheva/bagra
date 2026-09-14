@@ -662,8 +662,8 @@ was written.
 
 Reported by the owner from `bagra-ten.vercel.app` at 1.0.0-rc52, with screenshots, after a
 day of trying to work in it. All five are confirmed in the code. **18a is fixed at rc53
-(§13dt), 18e at rc54 (§13du), 18f at rc55 (§13dv), 18g and 18h at rc56 (§13dw, §13dx);
-18b, 18c and 18d are not.**
+(§13dt), 18e at rc54 (§13du), 18f at rc55 (§13dv), 18g and 18h at rc56 (§13dw, §13dx), and
+18b, 18c and 18d at rc58 (§13dz). **Every item of 18 is settled.** 18i is open.**
 
 **No data was lost.** Her 11 September backup was read and checked: the lake recipe still
 carries its three ingredients and seven steps, and every other recipe is intact. Three of her
@@ -705,7 +705,11 @@ away reloads the record. **But pressing Edit and then Save after this would pers
 emptied recipe.** That is a real route to losing work and it is the reason this is the first
 thing to fix.
 
-### 18b. A read view that is also an editor, and neither
+### 18b. A read view that is also an editor, and neither — **SETTLED at rc58 (§13dz)**
+
+> The second shape was chosen: the record scales and says so. The figure is per recipe and
+> per session; the fibre class stays global, because it describes the cloth rather than the
+> recipe.
 
 The amount field sits on the record, outside edit mode, and changes as you type. Two readings
 are possible and the screen commits to neither: either a recipe is a fixed thing you read, or
@@ -721,7 +725,11 @@ Three shapes:
   stay visible beside the scaled ones, and the value is per recipe rather than global;
 - the record scales only for recipes where scaling means something (see 18c).
 
-### 18c. A scaling field on recipes that cannot scale
+### 18c. A scaling field on recipes that cannot scale — **SETTLED at rc58 (§13dz)**
+
+> Wider than this entry said: FOUR of the six, including the lake master, whose dyestuff is a
+> percentage of an absolute carrier. So the answer is computed — scale twice and compare —
+> not listed by basis or by type.
 
 `scaleModeOf` gives „raw" to anything with `scaleBy: 'raw'`. Both madder lake recipes have
 `scaleBy: 'raw'` and **every ingredient absolute** — 20 g of root, 2900 ml of water, 10 ml of
@@ -732,7 +740,11 @@ concluded the scaling was broken.
 Entered at rc50 by me. A recipe whose every line is absolute has nothing to scale BY, and the
 field should not be drawn.
 
-### 18d. The caret jumps to the front after the first digit
+### 18d. The caret jumps to the front after the first digit — **SETTLED at rc58 (§13dz)**
+
+> The field is `type="text" inputmode="decimal"` and the `try` is gone. A comma works now too.
+> **jsdom does not throw where Chrome does**, so this one is guarded in `screen-check.mjs`,
+> typing on a real keyboard.
 
 The redraw restores the caret with `setSelectionRange`, inside a `try` that swallows the
 failure — and Chrome **throws** for `input type="number"`. The comment above it says a number
@@ -870,7 +882,16 @@ the screen read over a pot — it wants a plan and the owner's agreement.
 
 ---
 
-## 18i. A substance record has no source field
+## 18i. A substance record has no source field — **SETTLED at rc59 (§13ea)**
+
+> Widened when the owner raised the compound mordant: Garcia's recipe, adapted by Kelly, and
+> Flint teaches something close. `sourceCodes` is now a LIST on recipes and substances, one
+> reader for all four callers, and the audit validates the codes — which it had never done for
+> a recipe. It found an old fault on the way: the recipe screen printed raw source codes,
+> because a seeded source keeps its code only in its id.
+>
+> **Not built, and deliberately:** who came first. That is a relationship between sources, not
+> a field, and it stays in the recipe's note.
 
 **Raised by rc56.** The seven pigment substances each say where the reading comes from —
 Stopka for the honey and the clove oil, our own recipes for the kaolin and methylcellulose —

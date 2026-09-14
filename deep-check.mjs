@@ -1104,8 +1104,11 @@ const dirty = await import('./dirty.js');
       id: 'zz-18a', name: { bg: 'Свързващо 18a', en: 'Binder 18a' }, type: 'pigment',
       version: 1, scaleBy: 'raw', requiredFollowOn: [], distributable: false,
       ingredients: [
-        { id: 'a1', roleCode: 'binder', basis: 'absolute', unit: 'g',
-          options: [{ id: 'o1', substanceId: 'zz-gum18', qtyMin: 42, qtyMax: 42 }] },
+        // `ratio_to_dyestuff` on a raw-scaled recipe, so the amount field is
+        // drawn at all: since §13dz a recipe whose every line is absolute is
+        // not offered one, and this section is about committing that field.
+        { id: 'a1', roleCode: 'binder', basis: 'ratio_to_dyestuff', unit: 'g',
+          options: [{ id: 'o1', substanceId: 'zz-gum18', qtyMin: 1, qtyMax: 1 }] },
         { id: 'a2', roleCode: 'humectant', basis: 'absolute', unit: 'g',
           options: [{ id: 'o2', substanceId: 'zz-hon18', qtyMin: 5, qtyMax: 5 }] },
       ],
@@ -4666,7 +4669,13 @@ const dirty = await import('./dirty.js');
     await db.put('recipes', db.newRecord({
       id, type, output: type === 'pigment' ? 'pigment' : 'none',
       name: { bg: 'Проба ' + type, en: 'Test ' + type },
-      lineageId: id, version: 1, ingredients: [], steps: [],
+      lineageId: id, version: 1, steps: [],
+      // A line that answers the scaling field, or since §13dz the field is not
+      // drawn and this section — which asks WHICH field each kind of recipe
+      // offers — would be testing an empty head on both.
+      ingredients: [{ id: 'zz-ri', roleCode: 'dyestuff',
+        basis: type === 'pigment' ? 'ratio_to_dyestuff' : 'percent_wof',
+        unit: 'g', quantity: 1, options: [] }],
       appliesTo: ['cellulose'], scaleBy: 'weight', requiredFollowOn: [],
       notes: { bg: '', en: '' }, target: {}, distributable: true,
     }));
@@ -5741,6 +5750,249 @@ const dirty = await import('./dirty.js');
     fail('combinations', new Error(
       `the pack holds ${packed.length} and the database ${combos.length} — records share a code`));
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
+}
+
+// ---- The three print pastes (§13eb)
+//
+// Held at the weigh list, because that is the screen the pastes exist for, and
+// at the figures the book gives rather than at a field name.
+//
+// The state that decides: these are BATCHES — „makes about 200 ml" — so every
+// figure must be on screen the moment the recipe opens, with NO amount field.
+// Written first as ratios, they showed a column of dashes until something was
+// typed, which is a recipe that cannot be read over a table.
+{
+  const recipes = (await import('./modules/recipes.js')).default;
+  const problems = [];
+  const open = async (id) => {
+    recipes.reset?.(); recipes.open(id); await recipes.render(root); await settle();
+    return root.querySelector('.weighbox')?.textContent.replace(/\s+/g, ' ') || '';
+  };
+
+  const mordant = await open('seed:mordant-print-paste');
+  if (root.querySelector('.workhead [data-scale]'))
+    problems.push('the mordant paste offers an amount field — it is a fixed batch');
+  for (const want of ['200 ml', '20 g', '10 g', '2 g'])
+    if (!mordant.includes(want)) problems.push(`the mordant paste does not show ${want}`);
+  // The marker: a line that names no substance shows its NOTE, and the note has
+  // to say the colour does not stay — otherwise it reads as a dye in a paste
+  // whose whole point is that it carries no dye (§13eb).
+  if (!mordant.includes('отмива')) problems.push('the marker line does not say its colour washes out');
+
+  // A thickener whose amount depends on WHICH thickener: the range is on the
+  // option, so the figure must change with the choice rather than being one
+  // number for both.
+  const dye = await open('seed:dye-print-paste');
+  if (!dye.includes('5–10 g')) problems.push(`the starch range is not shown: „${dye.slice(0, 90)}"`);
+
+  const both = await open('seed:dye-mordant-print-paste');
+  for (const want of ['5 g', '2–3 g'])
+    if (!both.includes(want)) problems.push(`the ready-to-use paste does not show ${want}`);
+  // Cliffe's, not Maiwa's: aluminium acetate, and no vinegar anywhere.
+  if (!both.includes('ацетат')) problems.push('the ready-to-use paste does not name aluminium acetate');
+  if (both.includes('Оцетна')) problems.push('the ready-to-use paste has vinegar in it — that is the recipe that was not chosen');
+
+  recipes.reset?.();
+  if (problems.length) fail('print-pastes', new Error(problems.join('; ')));
+  else console.log('  print-pastes: three batches, every figure on screen without a field, and the marker says it washes out');
+}
+
+// ---- 18i. One shape for what a record credits (§13ea)
+//
+// `sourceCode` was a string on five seeded recipes and a LIST on the sixth, and
+// a substance had no source field at all, so „Stopka gives this as the
+// commonest binder" sat inside the prose of `typicalUse`.
+//
+// Three things, and the first is the one that matters: the MIGRATION, because
+// it touches records the owner already has.
+{
+  const migrations = await import('./migrations.js');
+  const { t } = await import('./i18n.js');
+  const recipes = (await import('./modules/recipes.js')).default;
+  const substances = (await import('./modules/substances.js')).default;
+  const problems = [];
+
+  // A recipe as it was stored before this release: one code, as a string.
+  await db.put('recipes', db.newRecord({
+    id: 'zz-src-old', name: { bg: 'Стара рецепта', en: 'Old recipe' }, type: 'mordant',
+    version: 1, sourceCode: 'natalie-stopka-pigment', ingredients: [], steps: [],
+  }));
+  // And one that credits nobody, which is a finished state, not an unfinished one.
+  await db.put('recipes', db.newRecord({
+    id: 'zz-src-none', name: { bg: 'Моя рецепта', en: 'My recipe' }, type: 'mordant',
+    version: 1, ingredients: [], steps: [],
+  }));
+  const before = (await db.get('recipes', 'zz-src-old')).updatedAt;
+
+  await migrations.migrateRecipeSourceList();
+  const moved = await db.get('recipes', 'zz-src-old');
+  const none = await db.get('recipes', 'zz-src-none');
+
+  if (!Array.isArray(moved.sourceCodes) || moved.sourceCodes[0] !== 'natalie-stopka-pigment')
+    problems.push(`the string was not carried into the list: ${JSON.stringify(moved.sourceCodes)}`);
+  if (moved.sourceCode !== 'natalie-stopka-pigment')
+    problems.push('the old field was removed — a migration adds, so there is a way back');
+  if (!Array.isArray(none.sourceCodes) || none.sourceCodes.length !== 0)
+    problems.push(`a recipe crediting nobody did not get an empty list: ${JSON.stringify(none.sourceCodes)}`);
+  if (moved.updatedAt !== before)
+    problems.push('the migration moved updatedAt — a reshaping is not her doing (§13cv)');
+
+  // Safe twice, because the marker is a control and not the mechanism.
+  const twice = JSON.stringify(await db.get('recipes', 'zz-src-old'));
+  await migrations.migrateRecipeSourceList();
+  if (JSON.stringify(await db.get('recipes', 'zz-src-old')) !== twice)
+    problems.push('running the migration a second time changed a record');
+
+  // The screens read the LIST, through the one reader. Held at the name a
+  // person reads, not at a field: the watercolour binder credits two sources
+  // and both have to be on the screen.
+  recipes.reset?.(); recipes.open('seed:watercolour-binder');
+  await recipes.render(root); await settle();
+  const shown = root.textContent || '';
+  const { sourceCodeOf } = await import('./refs.js');
+  const reg = new Map((await db.all('sources')).map(x => [sourceCodeOf(x), x]));
+  for (const code of ['joanne-green-watercolour', 'crafty-place-practice']) {
+    const title = String(reg.get(code)?.name || code);
+    if (!shown.includes(title.slice(0, 18)))
+      problems.push(`the recipe does not name „${title.slice(0, 30)}"`);
+  }
+
+  // And a substance, which could credit nobody at all before this.
+  //
+  // Anchored at the SOURCES ROW, not at the word „Стопка" anywhere on the page:
+  // her name is also inside the record's prose, so a check on the page text
+  // passed with the row deleted. The second way a guard lies — it read the
+  // right screen and the wrong thing (§13dp).
+  substances.reset?.(); substances.open('seed:honey');
+  await substances.render(root); await settle();
+  const label = t('ref.sources');
+  const row = [...root.querySelectorAll('.fact')]
+    .find(f => f.querySelector('.factlabel')?.textContent.trim() === label);
+  const stopka = String(reg.get('natalie-stopka-pigment')?.name || '');
+  if (!row) problems.push('the honey record has no sources row');
+  else if (stopka && !row.textContent.includes(stopka.slice(0, 18)))
+    problems.push(`the sources row does not name the source: „${row.textContent.trim().slice(0, 60)}"`);
+
+  await db.remove('recipes', 'zz-src-old');
+  await db.remove('recipes', 'zz-src-none');
+  recipes.reset?.(); substances.reset?.();
+  if (problems.length) fail('source-list', new Error(problems.join('; ')));
+  else console.log('  source-list: one list per record, migrated without touching the date, and read on both screens');
+}
+
+// ---- 18b, 18c, 18d. The amount field on a recipe (§13dz)
+//
+// Four things, each one a fault the owner met:
+//   c. a field offered on a recipe where nothing moves — she typed 10, then
+//      100, and concluded the scaling was broken;
+//   d. a two-digit number could not be typed: the caret was thrown to the front
+//      after the first digit, because `setSelectionRange` throws on a number
+//      input in Chrome inside a `try` that swallowed it;
+//   b. the figure was global, so one typed on one recipe stood in the field of
+//      the next;
+//   and a comma, which is how a number is written here, was silently refused.
+//
+// Held at the screen and at the figures, never at a class name.
+{
+  const recipes = (await import('./modules/recipes.js')).default;
+  const problems = [];
+  const draw = async (id) => {
+    recipes.reset?.(); recipes.open(id); await recipes.render(root); await settle();
+  };
+  const field = () => root.querySelector('.workhead [data-scale]');
+  const firstAmount = () => root.querySelector('.weighbox .weighamount')?.textContent.trim() || '';
+
+  // c. Offered where it works, absent where it does not — both directions, or
+  // a version that never draws the field would pass.
+  await draw('seed:watercolour-binder');
+  if (!field()) problems.push('no amount field on a recipe that does scale');
+  await draw('seed:madder-lake-hot');
+  if (field()) problems.push('an amount field on a recipe where every quantity is absolute');
+  if (!(root.querySelector('.workhead')?.textContent || '').trim())
+    problems.push('the amount field is gone and nothing says why');
+
+  // d. A two-digit number, typed a digit at a time, the way a person types.
+  await draw('seed:watercolour-binder');
+  let el = field();
+  for (const v of ['4', '42']) {
+    el.value = v;
+    el.setSelectionRange(v.length, v.length);
+    el.dispatchEvent(new window.Event('input', { bubbles: true }));
+    await settle();
+    el = field();
+    if (!el) { problems.push('the field vanished while being typed into'); break; }
+  }
+  if (el) {
+    if (el.value !== '42') problems.push(`typing 4 then 42 left „${el.value}" in the field`);
+    if (el.selectionStart !== 2) problems.push(`the caret sits at ${el.selectionStart} after two digits, not after them`);
+    if (!firstAmount().startsWith('42')) problems.push(`the weigh list did not follow the figure: „${firstAmount()}"`);
+  }
+
+  // A comma is how the figure is written here.
+  if (el) {
+    el.value = '7,5';
+    el.dispatchEvent(new window.Event('input', { bubbles: true }));
+    await settle();
+    if (!firstAmount().startsWith('7.5')) problems.push(`a comma was refused: „${firstAmount()}"`);
+  }
+
+  // b. The figure belongs to the recipe it was typed on.
+  await draw('seed:pastel-binder-oat');
+  const other = field();
+  if (!other) problems.push('no amount field on the oat binder, which does scale');
+  else if (other.value !== '') problems.push(`a figure typed on another recipe is still in this one's field: „${other.value}"`);
+  await draw('seed:watercolour-binder');
+  if (field()?.value !== '7,5' && field()?.value !== '7.5')
+    problems.push(`coming back to the recipe lost its own figure: „${field()?.value}"`);
+
+  recipes.reset?.();
+  if (problems.length) fail('amount-field', new Error(problems.join('; ')));
+  else console.log('  amount-field: offered only where it moves something, typeable, comma-tolerant, and its own per recipe');
+}
+
+// ---- A recipe can be an ingredient of a recipe (§13dy)
+//
+// The pastel's binder is a solution another recipe makes, in two variants —
+// oat water and a gum solution. Before this the line named a SUBSTANCE, which
+// said gum arabic where the recipe means the whole binder solution.
+//
+// Held at the screen (the name a person reads on the work view) and at the
+// delete policy, which is where a new kind of pointer usually goes unnoticed:
+// §13cq refuses any record the history points at, and a recipe named by
+// another recipe's line is exactly that.
+{
+  const recipes = (await import('./modules/recipes.js')).default;
+  const refs = await import('./refs.js');
+  const problems = [];
+
+  recipes.reset?.(); recipes.open('seed:pastels-from-pigment');
+  await recipes.render(root); await settle();
+  const text0 = root.querySelector('.weighbox')?.textContent || '';
+  if (!text0.includes('овес')) problems.push('the pastel weigh list does not name the oat binder recipe');
+  if (text0.includes('Гума арабика')) problems.push('the pastel weigh list still names a substance for its binder');
+
+  recipes.reset?.(); recipes.open('seed:watercolour-from-pigment');
+  await recipes.render(root); await settle();
+  const text1 = root.querySelector('.weighbox')?.textContent || '';
+  if (!text1.includes('свързващ') && !text1.includes('Свързващ'))
+    problems.push(`the watercolour weigh list does not name the binder recipe: „${text1.replace(/\s+/g, ' ').trim().slice(0, 90)}"`);
+
+  // The delete policy. Asked of refs.js rather than of a screen, because that
+  // is the one place that decides, and a path it does not know about is a path
+  // that silently permits a delete.
+  const blocked = await refs.findReferences('recipes', 'seed:pastel-binder-oat');
+  if (!blocked || !blocked.total)
+    problems.push('a binder recipe used by the pastel recipe can be deleted — refs.js does not see the pointer');
+
+  // And the other direction: a recipe nothing points at is still deletable, or
+  // the check above would pass on a policy that simply refuses everything.
+  const free = await refs.findReferences('recipes', 'seed:madder-lake-hot');
+  if (free && free.total)
+    problems.push('a recipe no line names is refused deletion — the count is answering yes to everything');
+
+  recipes.reset?.();
+  if (problems.length) fail('recipe-as-ingredient', new Error(problems.join('; ')));
+  else console.log('  recipe-as-ingredient: the binder solutions are named on the work view and cannot be deleted from under it');
 }
 
 // ---- 18h. The weigh list carries the first sentence of a line's note (§13dx)

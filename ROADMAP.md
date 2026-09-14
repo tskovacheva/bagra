@@ -393,10 +393,22 @@ line's note.
 seven recipe lines that named them in prose, and the first sentence of a line's note under
 each weigh line. Raised by them: **18i**, that a substance record has no source field.
 
-**What remains of item 18: 18b, then 18c and 18d** — all three in the amount field. 18i is new
-and unordered. 18f is a defect introduced at rc50 — the alum and soda ash were in the library
-all along and the recipe lines never pointed at them; 18g is the six substances, which turn
-out not to need a workbook at all.
+**rc60** added the three Cliffe print pastes (§13eb). **Next, and agreed with the owner: the
+DIARY side of paste printing** — `process:paste` still says „скоро" and a trial cannot choose
+it, so the library now holds recipes the diary cannot record work against. To be planned
+before it is built.
+
+**rc59** settled 18i (§13ea): `sourceCodes` is a list on recipes and substances, checked by the
+audit. Next: the three print pastes from Nicola Cliffe, chosen by the owner on 14 September —
+mordant paste, dye paste without a mordant, ready-to-use dye paste with aluminium acetate.
+
+**rc57** settled the model question the pastel recipe raised: a recipe can be an ingredient of
+a recipe (§13dy). The owner is preparing more recipes; the seed pack is reviewed as a whole
+before 1.0, to decide what ships.
+
+~~**18b, 18c, 18d**~~ — **DONE at rc58** (§13dz). The amount field: offered only where it moves
+something, typeable, comma-tolerant, and its own per recipe. **Item 18 is closed.** 18i — a
+substance record has no source field — is the one open item left from it.
 
 **18g corrects this roadmap.** Entries above said the six substances were content rather than
 code because „a substance record carries hazard, handling and purpose". The schema says

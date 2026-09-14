@@ -38,7 +38,7 @@ material record are not, and are never distributed.
 |---|---|
 | Reference | The reference engine — combinations, searched by key |
 | Plants | 57 species, bilingual, each with a description, parts, chemistry and colours |
-| Recipes | Procedures with proportions; sequences inside |
+| Recipes | Procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
 | Materials | What a substance *is* — formula, ceiling, disposal — with the jars on the shelf |
 | Techniques | Controlled vocabulary — 21 records |
 | Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, reverse, timer |

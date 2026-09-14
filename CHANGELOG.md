@@ -12,6 +12,76 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc60 — 14 September 2026
+
+Three print pastes from Nicola Cliffe. §13eb
+
+- **Mordant print paste**, **dye paste with no mordant**, and **ready-to-use paste with a
+  mordant** — the last with aluminium acetate, Cliffe's times, steam fifteen to thirty minutes.
+- **The mordant paste credits both sources**: Cliffe's figures are Maiwa's, and Maiwa's mixing
+  warnings are in the steps. Cliffe's book and Maiwa's course are now in the register.
+- **Two roles:** `thickener` and `marker`. A marker is not an ingredient of the result — the
+  drop of extract that shows where the block printed washes out.
+- **Two substances:** guar gum and cornflour.
+- **Fixed batches, not ratios.** As ratios every figure read „—" until something was typed.
+  The book says „makes about 200 ml", so the quantities are absolute and no amount field is
+  offered. A thickener's range lives on the option: starch 5–10 g, gum 2–4 g.
+- **`dyer-chooses`**, a fourth reason a line names nothing: which dye is the dyer's to pick.
+- **Not done:** the diary still cannot record a paste print. `process:paste` still says „скоро".
+
+## 1.0.0-rc59 — 14 September 2026
+
+Item 18i: one list for what a record credits. §13ea
+
+- **`sourceCodes` is a list**, on recipes and on substances. It was a string on five seeded
+  recipes and a list on the sixth, and a substance had no source field at all — so the seven
+  pigment substances credited Stopka inside their prose.
+- **One reader**, `codesOf`, used by both screens, the audit and the delete policy.
+- **The audit now checks recipe and substance codes.** It had only ever checked the
+  combinations, so a recipe could cite a source that does not exist and the set passed.
+- **A migration** gives every stored recipe a list, keeps the old field, and does not move
+  `updatedAt`.
+- **Found on the way, and old:** every source on the recipe screen was printed as a raw code.
+  A seeded source keeps its code only in its id, and the lookup asked for a `code` field that
+  is stripped at install. Both screens now use one answer, `sourceCodeOf`.
+- **Not built:** who came first. „Garcia's, adapted by Kelly" is a relationship between
+  sources, not a field, and stays in the recipe's note.
+
+## 1.0.0-rc58 — 11 September 2026
+
+Items 18b, 18c and 18d — the amount field on a recipe. Item 18 is closed. §13dz
+
+- **The field is offered only where it changes something.** Four of the six recipes shipped at
+  rc55 accepted a number and moved nothing, the lake master among them. The answer is computed
+  — scale at two values and compare — not listed by type or basis, so it follows `convert`
+  rather than repeating it. Where it does not scale, the head says the quantities are fixed.
+- **A two-digit number can be typed.** The field was `type="number"`, and Chrome throws on the
+  caret restore for those, inside a `try` that hid it: „42" came out „24". It is a text field
+  with a decimal keypad now, and a comma works.
+- **The figure belongs to its recipe**, not to every recipe. The fibre class stays global,
+  because it describes the cloth.
+- **Guarded in two layers, because one cannot see it all:** jsdom does not throw where Chrome
+  does, so `deep-check` holds the rest and `screen-check` types „42" on a real keyboard. Put
+  back to a number input, it reports the owner's fault verbatim.
+
+## 1.0.0-rc57 — 11 September 2026
+
+A recipe can be an ingredient of a recipe. §13dy
+
+- **`option.recipeId`**, beside `plantId` and `substanceId`. A line whose content is made by
+  another recipe now names that recipe; several options on the line are variants of it.
+- **The pastel is a pair**, as the watercolour already was: `pastel-binder-oat` (Stopka,
+  7.5 g oats to 240 ml water) and `pastel-binder-gum` (tragacanth or methylcellulose, no
+  quantities recorded), with the pastel taking 3.5 ml of either.
+- **Corrected from rc56:** the watercolour's binder line named gum arabic, which is the powder
+  in the solution rather than the solution. It names `watercolour-binder` now.
+- **Oat groats** added as a substance, category `binder`. Substances 0.4.0, recipes 0.10.0.
+- **Refused:** a weight in grams for „two spoons of pigment", and a spoon unit in the
+  vocabulary. The pastel keeps the book's figures and does not scale.
+- **Delete protection follows the new pointer** — a binder recipe used by another recipe
+  cannot be deleted. Guard seen failing with the `refs.js` path removed and with the name
+  resolution removed.
+
 ## 1.0.0-rc56 — 11 September 2026
 
 Items 18g and 18h. §13dw, §13dx

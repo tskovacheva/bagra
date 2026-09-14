@@ -29,6 +29,8 @@ process.chdir(ROOT);
 const plants = JSON.parse(fs.readFileSync('seed/plants.json', 'utf8')).plants;
 const combos = JSON.parse(fs.readFileSync('seed/combinations.json', 'utf8')).combinations;
 const sources = JSON.parse(fs.readFileSync('seed/sources.json', 'utf8')).sources;
+const recipes = JSON.parse(fs.readFileSync('seed/recipes.json', 'utf8')).recipes;
+const substances = JSON.parse(fs.readFileSync('seed/substances.json', 'utf8')).substances;
 const vocabSrc = fs.readFileSync('vocab.js', 'utf8');
 
 const V = {};
@@ -218,6 +220,18 @@ orphanPart.length === 0
 
 const sourceCodes = new Set(sources.map(s => s.code));
 const badSource = [];
+// RECIPES AND SUBSTANCES TOO, since §13ea. This loop asked only the
+// combinations, so a recipe could credit a source that does not exist and the
+// audit said nothing — and the substances had no source field at all until
+// rc59. Both shapes are read: `sourceCodes` is the list every seeded record now
+// carries, `sourceCode` the single value older ones may still hold.
+const creditsOf = (row) => [
+  ...(Array.isArray(row.sourceCode) ? row.sourceCode : [row.sourceCode]),
+  ...(row.sourceCodes || []),
+].filter(Boolean);
+for (const r of [...recipes, ...substances]) {
+  for (const c of creditsOf(r)) if (!sourceCodes.has(c)) badSource.push(`${r.code}→${c}`);
+}
 for (const r of combos) {
   for (const c of r.sourceCodes || []) if (!sourceCodes.has(c)) badSource.push(`${r.code}→${c}`);
   for (const i of r.influences || []) {

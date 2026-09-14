@@ -394,6 +394,19 @@ export const VOCABULARY = [
   // thing.
   V('ingredient_role', 'carrier',          'носител',            'carrier', 18),
 
+  // Roles a PRINT PASTE needs (§13eb). Both were `assistant` until the pastes
+  // arrived, and `assistant` already carries a different job — the sauerkraut
+  // juice that starts a fermentation. A thickener is the whole reason a paste
+  // is a paste: it decides whether the print has a sharp edge or bleeds.
+  V('ingredient_role', 'thickener',        'сгъстител',          'thickener', 19),
+
+  // A MARKER IS NOT AN INGREDIENT OF THE RESULT. The mordant paste is
+  // colourless, so Cliffe adds a little dye extract purely to see where the
+  // block has printed; that colour washes out and none of it is in the finished
+  // cloth. Filed as a role of its own rather than as `dyestuff`, which would
+  // say the paste dyes — the opposite of what a mordant paste does.
+  V('ingredient_role', 'marker',           'маркер',             'marker', 20),
+
   // WHAT CHANGES A RESULT (§13dg).
   //
   // Thirty-nine explanatory texts came back across three rounds of the data

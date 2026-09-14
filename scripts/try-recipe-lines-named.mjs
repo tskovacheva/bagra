@@ -20,10 +20,14 @@
 //                      11 September 2026, of the sauerkraut juice: food, not a
 //                      dye material, and the vocabulary does not grow to hold
 //                      one recipe. Water follows the same reasoning.
-//   made-elsewhere   — the pigment a paint is made FROM comes out of a batch;
-//                      the binder solution out of another recipe. A substance
-//                      record for either would be a second copy of a thing the
-//                      application already makes.
+//   dyer-chooses     — the recipe leaves the choice open on purpose. „Any dye
+//                      extract" is what a print paste says, and how much
+//                      depends on which one; naming a plant would make an open
+//                      recipe a madder recipe.
+//   made-elsewhere   — the pigment a paint is made FROM comes out of a BATCH,
+//                      which is not a library record and has no id to point at.
+//                      A binder solution is NOT this: it is made by a recipe,
+//                      and since §13dy a line can name that recipe.
 // A third reason, `awaits-18g`, covered seven lines at rc55 and is GONE at
 // rc56: 18g landed, the lines resolved, and the guard failed on every one of
 // them as „still excused". That is the temporary exemption working — it
@@ -40,6 +44,7 @@ const pack = (f) => JSON.parse(readFileSync(new URL(`../seed/${f}.json`, import.
 const recipes = pack('recipes').recipes;
 const substances = new Set(pack('substances').substances.map(s => 'seed:' + s.code));
 const plants = new Set(pack('plants').plants.map(p => 'seed:' + p.code));
+const recipeIds = new Set(recipes.map(r => 'seed:' + r.code));
 
 // `recipe-code#line-index` → reason. Indexed by position on purpose: a line
 // moved or removed makes the entry point at something else, and the guard
@@ -48,10 +53,19 @@ const NAMED_IN_PROSE = {
   'madder-lake-fermentation#3': 'not-a-substance',   // sauerkraut juice — owner, 11 Sep 2026
   'madder-lake-hot#1':          'not-a-substance',   // distilled water
   'watercolour-binder#1':       'not-a-substance',   // boiling water
+  'pastel-binder-oat#1':        'not-a-substance',   // water
+  'pastel-binder-gum#1':        'not-a-substance',   // water
+  // The print pastes (§13eb). „Which dye" is the whole point of the paste and
+  // the recipe deliberately does not answer it: any extract will do, and the
+  // quantity depends on which. Naming one here would turn an open recipe into
+  // a madder one.
+  'dye-print-paste#0':          'dyer-chooses',      // any dye extract
+  'dye-mordant-print-paste#0':  'dyer-chooses',      // any dye extract
+  'mordant-print-paste#4':      'dyer-chooses',      // a marker; the colour washes out
   'watercolour-from-pigment#0': 'made-elsewhere',    // the pigment, from a batch
   'pastels-from-pigment#0':     'made-elsewhere',    // the pigment, from a batch
 };
-const REASONS = new Set(['not-a-substance', 'made-elsewhere']);
+const REASONS = new Set(['not-a-substance', 'made-elsewhere', 'dyer-chooses']);
 
 let bad = 0;
 const fail = (m) => { console.log('RECIPE LINES: ' + m); bad = 1; };
@@ -62,12 +76,20 @@ for (const r of recipes) {
     const key = `${r.code}#${i}`;
     seen.add(key);
     const opts = line.options || [];
-    const named = opts.filter(o => o.substanceId || o.plantId);
+    const named = opts.filter(o => o.substanceId || o.plantId || o.recipeId);
     for (const o of named) {
       if (o.substanceId && !substances.has(o.substanceId))
         fail(`${key} (${line.roleCode}) points at substance ${o.substanceId}, which the library does not have`);
       if (o.plantId && !plants.has(o.plantId))
         fail(`${key} (${line.roleCode}) points at plant ${o.plantId}, which the library does not have`);
+      // A line can be filled by another RECIPE (§13dy) — the pastel's binder is
+      // a solution the oat recipe makes. Two things to refuse: a recipe that is
+      // not in the pack, and a recipe that is itself, which the work view would
+      // follow in a circle.
+      if (o.recipeId && !recipeIds.has(o.recipeId))
+        fail(`${key} (${line.roleCode}) points at recipe ${o.recipeId}, which the pack does not have`);
+      if (o.recipeId === 'seed:' + r.code)
+        fail(`${key} (${line.roleCode}) names its own recipe as an ingredient`);
     }
     const excuse = NAMED_IN_PROSE[key];
     if (!named.length && !excuse)

@@ -496,6 +496,40 @@ try {
     // of them.
     if (!failed) console.log(`  screen (${name}): ${routes.length} views, all sound`);
   }
+
+  // 18d, AND IT NEEDS THIS LAYER. A two-digit amount could not be typed: the
+  // redraw restored the caret with `setSelectionRange`, which **Chrome throws
+  // for on `input type="number"`**, inside a `try` that swallowed it. jsdom
+  // does not throw, so `deep-check` types „42" happily on the broken code and
+  // reports nothing. The fix — a text input with a decimal keypad (§13dz) — is
+  // therefore only provable in a real browser, which is this file.
+  //
+  // Typed with the KEYBOARD, one key at a time, because that is the thing that
+  // failed. Setting `value` and firing `input` is not the same act.
+  await page.setViewport(PHONE);
+  await page.evaluate(() => { location.hash = '#/blank'; });
+  await new Promise(r => setTimeout(r, 150));
+  await page.evaluate(() => { location.hash = '#/recipes/seed:watercolour-binder'; });
+  await settled();
+  const typed = await (async () => {
+    const sel = '#view .workhead [data-scale]';
+    const there = await page.$(sel);
+    if (!there) return { ok: false, why: 'the amount field is not on the work view of a recipe that scales' };
+    await page.click(sel, { clickCount: 3 });
+    await page.type(sel, '42', { delay: 30 });
+    await new Promise(r => setTimeout(r, 250));
+    return page.evaluate((s2) => {
+      const el = document.querySelector(s2);
+      if (!el) return { ok: false, why: 'the field vanished while being typed into' };
+      const amount = document.querySelector('#view .weighbox .weighamount')?.textContent.trim() || '';
+      if (el.value !== '42') return { ok: false, why: `typing 4 then 2 left „${el.value}" in the field` };
+      if (el.selectionStart !== 2) return { ok: false, why: `the caret is at ${el.selectionStart}, not after the two digits` };
+      if (!amount.startsWith('42')) return { ok: false, why: `the weigh list did not follow: „${amount}"` };
+      return { ok: true };
+    }, sel);
+  })();
+  if (!typed.ok) fail('typing an amount', typed.why);
+  else console.log('  screen: a two-digit amount can be typed on a real keyboard');
 } finally {
   await browser.close();
   stop();

@@ -64,6 +64,42 @@ export async function runMigrations() {
   await runOnce('recipeTempRange', 1, migrateRecipeTempRange);
   await runOnce('pigmentBatchLines', 1, migratePigmentBatchLines);
   await runOnce('pigmentSwatchList', 1, migratePigmentSwatchList);
+  await runOnce('recipeSourceList', 1, migrateRecipeSourceList);
+}
+
+
+// One shape for what a recipe credits (§13ea).
+//
+// `sourceCode` was a string on most recipes and a LIST on the one that credits
+// two. Both were read, everywhere, by every screen that had remembered to check
+// — and `audit-library.mjs` had never checked a recipe's codes at all, so a
+// recipe could cite a source that does not exist and nothing said so.
+//
+// Two shapes for one fact is the most common cause of a fault in this project.
+// This gives every stored recipe a `sourceCodes` LIST.
+//
+// `sourceCode` is NOT removed. Migrations add: the old field is the way back if
+// the mapping proves wrong, and `codesOf` reads both, so nothing is lost either
+// way. A recipe that already has a list is left alone, so this is safe twice.
+export async function migrateRecipeSourceList() {
+  let touched = 0;
+  for (const r of await all('recipes')) {
+    if (Array.isArray(r.sourceCodes)) continue;
+    const old = r.sourceCode;
+    const codes = (Array.isArray(old) ? old : [old]).filter(Boolean);
+    if (!codes.length && r.sourceCodes == null && old == null) {
+      // A recipe of her own that credits nobody. An empty list is the honest
+      // finished state — „nobody is cited" rather than „nobody asked" (§13dl).
+      r.sourceCodes = [];
+    } else {
+      r.sourceCodes = codes;
+    }
+    // Structural, not her doing (§13cv): reshaping a field must not move a
+    // recipe untouched since spring to the top of a list ordered by recency.
+    await putMigration('recipes', r);
+    touched++;
+  }
+  if (touched) console.info(`gave ${touched} recipe(s) a source list`);
 }
 
 

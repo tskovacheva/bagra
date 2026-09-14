@@ -10597,6 +10597,309 @@ second sentence, or a version printing the whole note would pass.
 Seen failing both ways: with the note suppressed (the rc55 behaviour), and with the whole
 note printed.
 
+## 13dy. A recipe can be an ingredient of a recipe (1.0.0-rc57)
+
+A model change, asked for by the owner on 11 September 2026 while reading Stopka's pastel
+recipe, and agreed before it was built.
+
+### What she saw
+
+Stopka's pastel is two operations, not one. First a binder SOLUTION — 7.5 g of oat groats in
+240 ml of water — and then about 3.5 ml of that solution dripped onto roughly two spoons of
+pigment. The shipped recipe held only the second half, which is why it had no quantities at
+all: the figures that exist belong to the solution, and the solution was not a record.
+
+Her own reading: this is the same shape as the watercolour, which already ships as a pair —
+`watercolour-binder` makes the solution, `watercolour-from-pigment` uses it one to one.
+
+### The gap that exposed
+
+An ingredient option could name a **plant** or a **substance** and nothing else. So a line
+whose content is made by another recipe had no way to say so. At rc56 I linked the
+watercolour's binder line to `gum_arabic` (§13dw) — which is the powder IN the solution, not
+the solution. That was wrong, it was mine, and it is corrected here.
+
+### The change
+
+`option.recipeId`, beside `plantId` and `substanceId`. A line filled by a recipe names that
+recipe; several options on one line are several VARIANTS of it, which is the existing meaning
+of options and needed no new concept. The owner's decision: the oat solution and the gum
+solution are variants of one binder, not two separate pastel recipes.
+
+It is a forward pointer, like every other id in this model — no back-reference is stored, and
+„which recipes use this one" is derived when the record opens (fixed decision).
+
+Touched: `nameOf` in both render paths; the editor's source selector, which gains a „Made by
+a recipe" group; the write-back; and `refs.js` in both of its inventories — the delete policy
+and the dangling-reference scan. **The delete policy is the part a new pointer usually slips
+past.** §13cq refuses any record the history points at, and a recipe named by another
+recipe's line is exactly that.
+
+A recipe cannot name ITSELF: the editor leaves the open recipe out of the list, and the
+static guard refuses it in seed data. The work view would otherwise follow the circle.
+
+### The data
+
+Substances pack 0.4.0 — **oat groats**, category `binder`. Recipes pack 0.10.0:
+
+- **`pastel-binder-oat`** (Stopka) — 7.5 g oats to 240 ml water, a real ratio, so it scales;
+- **`pastel-binder-gum`** (Crafty Place) — tragacanth or methylcellulose, **no quantities**,
+  because „a weak solution" is what the recipe says and all it says;
+- **`pastels-from-pigment`** — its binder line now names both binder recipes, at 3.5 ml;
+- **`watercolour-from-pigment`** — its binder line names `watercolour-binder`, correcting rc56.
+
+### What was refused
+
+**A weight in grams for „two spoons of pigment".** A spoon is a volume of powder, and a
+madder lake and an ochre do not weigh the same. Converting would be inventing a measurement.
+So the pastel keeps the book's figures, absolute, and does not scale — which is consistent
+with 18c: the amount field should not be offered where nothing moves.
+
+A `tbsp` unit in the vocabulary was the alternative and was not taken: a unit added for one
+recipe, when the recipe can say the same thing in its own note.
+
+### The guard
+
+`recipe-as-ingredient` in `deep-check.mjs`. At the SCREEN: the pastel's weigh list names the
+oat solution and no longer names gum arabic; the watercolour's names its binder recipe. At
+the POLICY: `findReferences` sees the pointer, so a binder cannot be deleted from under the
+recipe using it — and, the other way, a recipe nothing names is still deletable, or the first
+half would pass against a policy that refuses everything.
+
+Seen failing on each: with the `refs.js` path removed, and with the name resolution removed
+in both render paths.
+
+`try-recipe-lines-named.mjs` also now accepts a recipe as naming, and refuses one that is not
+in the pack or is the line's own recipe.
+
+### Still open
+
+18b, 18c and 18d — the amount field — are next, and this release does not touch them. The
+pastel is now correct data that will stop offering a field the moment 18c lands.
+
+## 13dz. The amount field on a recipe (1.0.0-rc58)
+
+Items 18b, 18c and 18d, which are three faults in one field and had to be taken together.
+
+### 18b, the decision first
+
+The field sits on the record, outside edit mode, and changes what is shown as you type. Two
+readings were possible and the screen committed to neither. **Settled: the record scales, and
+says so.** It is a question asked OF a recipe — how much am I making today — and not a
+property of it, so nothing is stored and nothing is written to the record.
+
+Two consequences, which are 18b's actual content:
+
+**The figure belongs to the recipe it was typed on.** `scaleCtx` was one object shared by
+every recipe, so „За колко грама плат: 250" stood in the field of a recipe the person had
+never scaled. Now kept per recipe id, for the session.
+
+**The fibre class stays global**, deliberately. It is a fact about the cloth in front of her,
+not about the recipe, and asking it again for every recipe would be the same fault the other
+way round.
+
+### 18c. The field was offered where nothing moves
+
+The owner typed 10, then 100, and concluded the scaling was broken. It was not: those
+recipes have nothing to scale by.
+
+**Four of the six shipped at rc55** were like this — both madder lakes, the pastel, and the
+lake master. The last is why this is not a list: the lake master's dyestuff is a percentage
+of a CARRIER, and the carrier line is absolute, so whether it scales depends on what the
+other lines say. A whitelist of bases would have caught three and missed it.
+
+So `scalingMatters(recipe)` in `calc/scale.js` **computes the answer**: scale the recipe at
+two values that are neither zero, one, nor multiples of each other, and see whether any
+figure differs. If `convert` changes, this changes with it and nobody has to remember. A
+second copy of a fact is the most common cause of a fault in this project, and a list of
+which recipes scale would have been exactly that.
+
+Where it does not scale, the head says so — „фиксирани количества, така са дадени в
+източника" — rather than showing nothing, which reads as a missing feature.
+
+Of the eight recipes shipped now, three offer the field: the watercolour from pigment, the
+watercolour binder, and the oat pastel binder.
+
+### 18d. Two-digit numbers could not be typed
+
+The redraw restored the caret with `setSelectionRange`, inside a `try` that swallowed the
+failure, and **Chrome throws for that call on `input type="number"`**. So the caret went to
+the front after the first digit and „42" came out „24".
+
+The field is now `type="text" inputmode="decimal"`: the caret restore is defined for it, the
+`try` is gone, and a phone still shows a numeric keypad. **And a comma now works** — it is
+how a number is written here, and a number input had been silently refusing it all along.
+Something that is not a number at all leaves the last figure standing rather than blanking
+the weigh list mid-keystroke: „1." on the way to „1.5" is not an instruction to forget the 1.
+
+### Which layer sees which fault
+
+This is the point worth keeping. **jsdom does not throw** on `setSelectionRange` for a number
+input, so `deep-check` types „42" happily on the broken code and reports nothing. 18d is only
+provable in a real browser.
+
+So the guards are split:
+
+- **`amount-field` in `deep-check.mjs`**: the field is drawn on a recipe that scales and
+  absent on one that does not, with a line saying why; the weigh list follows the figure; a
+  comma is accepted; and a figure typed on one recipe is not in the next one's field, while
+  the recipe it was typed on still has it on return. Seen failing on each: the field forced
+  on always, the per-recipe store made shared, and the caret restore made wrong.
+- **`screen-check.mjs`**, in Chrome, typing „42" on a real keyboard one key at a time. Put
+  back to `type="number"`, it reports „typing 4 then 2 left „24" in the field" — the owner's
+  fault, reproduced by a machine.
+
+Two fixtures in `deep-check` had to gain a line that scales, because since this change a
+recipe whose every quantity is absolute is not offered the field at all, and both sections
+were about the field.
+
+## 13ea. One list for what a record credits (1.0.0-rc59)
+
+Item 18i, widened. Raised by the owner reading Kelly's compound mordant: the recipe is
+Garcia's, adapted by Kelly, and Flint teaches something close to it. Her words — it is rarely
+clear who a recipe belongs to. The model could record one name.
+
+### Three faults, one of them old
+
+**Two shapes.** `sourceCode` was a string on five seeded recipes and a LIST on the sixth, the
+watercolour binder, which credits a book and the studio's own practice. Every reader had to
+remember both. Two copies of one fact in two shapes is the fault this project meets most.
+
+**No field at all on a substance.** So the seven pigment substances of rc56 credited Stopka
+inside the prose of `typicalUse` — attribution in free text, which every other reference
+entity has outgrown (§13ct).
+
+**Nothing checked a recipe's codes.** `audit-library.mjs` validated the combinations only. A
+recipe could cite a source that does not exist and the whole set passed.
+
+### What changed
+
+`sourceCodes`, a list, on recipes and substances. Recipes pack 0.11.0, substances 0.5.0, and
+the eight pigment substances now name their source in the register rather than in a sentence.
+
+`codesOf` in `refs.js` is exported and is the ONE reader: the recipe screen, the substance
+screen, the audit and the delete policy all ask it. It still reads the old single field, so
+nothing is lost in either direction.
+
+`migrateRecipeSourceList` gives every stored recipe a list. It does not remove `sourceCode` —
+migrations add, and the old field is the way back. A recipe crediting nobody gets an empty
+list, which is the finished state rather than the unfinished one (§13dl). `putMigration`, so
+a reshaping does not move a recipe to the top of a list ordered by recency (§13cv).
+
+### A fault the guard found on the way
+
+**Every source on the recipe screen was printed as a raw code.** The lookup was
+`new Map(sources.map(s => [s.code, s]))`, and `s.code` is EMPTY on a seeded source: `loadPack`
+strips `code` from every row before storing it, and the code survives only inside the id. So
+the map missed all 53 of them and the fallback printed „joanne-green-watercolour" where a
+book's title belongs. It had been doing that since the screen was written.
+
+`sourceCodeOf` is exported from `refs.js` — `row.code ?? id without the seed prefix` — and
+both screens use it. One answer to „which record is this code".
+
+### What this does NOT do
+
+A list says these sources stand behind this record. It does not say **who came first**.
+„Garcia's, adapted by Kelly" is a claim about the relationship between two sources, and the
+register has no edge between them. It stays in the recipe's note, in the owner's words.
+Making it data would turn the register into a graph and is not for 1.0.
+
+### The guards
+
+**`audit-library.mjs`** now validates recipe and substance codes against the register. Seen
+failing on each: a recipe pointed at a code that does not exist, and a substance.
+
+**`source-list` in `deep-check.mjs`** — the migration first, because it touches records the
+owner already has: the string is carried into the list, the old field survives, a recipe
+crediting nobody gets an empty list, `updatedAt` does not move, and a second run changes
+nothing. Then both screens, at the NAME a person reads.
+
+The substance half is anchored at the sources ROW, not at the word „Стопка" anywhere on the
+page: her name is also in the record's prose, so a check on the page text passed with the row
+deleted. The second way a guard lies — right screen, wrong thing (§13dp).
+
+**`try-pack-field-labels.mjs`**, written at rc56, failed on this release before the labels
+were added: two packs carrying `sourceCodes` with no name, and `recipes.sourceCode` named and
+no longer carried. Both directions, working as built.
+
+## 13eb. The three print pastes (1.0.0-rc60)
+
+Seed data, two vocabulary codes and two substances. The owner chose the recipes on
+14 September 2026, having read both sources side by side.
+
+### Cliffe, and why
+
+For the **mordant paste** the two sources give the SAME recipe with the same figures —
+200 ml vinegar, 20 g alum, 10 g soda ash, 2 g gum. So nothing is lost by taking Cliffe, who
+carries the sequence through to the dye bath: dry it hard, neutralise in the chalk bath ten
+to twenty minutes, wash the thickener out BEFORE dyeing. Maiwa's mixing warnings are folded
+into the steps — a vessel four to five times the liquid, the soda ash a little at a time
+because of the froth, fifteen minutes for the gum. Both sources are credited, which §13ea
+made possible.
+
+For the **dye paste with no mordant**, Maiwa has two sentences and no quantities; Cliffe has
+both thickeners with figures and says which is for a block and which for a screen.
+
+For the **ready-to-use paste** the two are NOT the same recipe. Maiwa's is potassium alum
+held in solution with vinegar; Cliffe's is aluminium acetate with no acid. The owner chose
+aluminium acetate, and Cliffe's times with it: steam fifteen to thirty minutes, chalk bath,
+pH-neutral soap. Maiwa's remains a real alternative and is not in this release.
+
+### Two roles
+
+`thickener` and `marker`. Both would have gone under `assistant`, which already means
+something else — the sauerkraut juice that starts a fermentation. A thickener is why a paste
+is a paste: it decides whether the print has an edge or bleeds.
+
+A **marker is not an ingredient of the result.** The mordant paste is colourless, so Cliffe
+adds a little extract purely to see where the block has printed. Filed as its own role rather
+than as `dyestuff`, which would say the paste dyes — the opposite of what a mordant paste
+does.
+
+### Two substances, and two sources
+
+Guar gum and cornflour, both `binder`. And the register gains Cliffe's book and Maiwa's
+course, so the pastes cite records rather than names in prose.
+
+### Batches, not ratios — found by the guard
+
+Written first with the figures as ratios, so the pastes would scale. On screen every quantity
+read „—" until something was typed into the amount field. The book gives a BATCH: „makes
+about 200 ml". So the quantities are absolute, exactly as printed, the amount field is not
+offered (§13dz), and the figures are there the moment the recipe opens.
+
+A thickener whose amount depends on WHICH thickener carries its range on the OPTION — starch
+5–10 g, gum 2–4 g — which the model already supports and which keeps one line for one job.
+
+### The marker's note, and §13dx again
+
+The note first said what the drop is for in one sentence and that the colour washes out in
+the second. The weigh list shows the FIRST sentence only, so the fact that matters never
+reached the screen the line exists for. One sentence now, carrying both.
+
+### `dyer-chooses` — a fourth reason a line names nothing
+
+Three lines name no substance because the recipe deliberately leaves the choice open: any dye
+extract will do, and how much depends on which. Naming a plant would turn an open recipe into
+a madder recipe. Added to `try-recipe-lines-named.mjs` beside `not-a-substance` and
+`made-elsewhere`.
+
+### What this does NOT do
+
+**The diary still cannot record a paste print.** `process:paste` says „скоро" and that is
+still true: a trial cannot choose it, and nothing here changes that. The library knowing the
+recipes and the diary being able to use them are two pieces of work, and this is the first.
+The owner has it as the next thing to plan.
+
+### The guard
+
+`print-pastes` in `deep-check.mjs`, at the weigh list: no amount field on any of the three,
+every figure from the book on screen, the starch's range shown, the marker line saying its
+colour washes out, and the ready-to-use paste naming aluminium acetate with no vinegar
+anywhere — Cliffe's recipe and not the one set aside.
+
+Seen failing with the figures turned back into ratios, and with the per-option ranges removed.
+
 ---
 
 

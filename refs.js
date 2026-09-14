@@ -41,6 +41,12 @@ import { all, get, STORES } from './db.js';
 const TARGET_KEY = {
   sources: (row) => row.code ?? String(row.id || '').replace(/^seed:/, ''),
 };
+// A seeded source keeps its code in its ID and nowhere else — `loadPack` strips
+// `code` from every row before storing it — while a source the owner wrote
+// carries a `code` field and a uid. So „which record is this code" has one
+// answer, exported since §13ea, and a screen that looked up `row.code` on a
+// seeded source found nothing at all.
+export const sourceCodeOf = (row) => TARGET_KEY.sources(row);
 const keyOf = (store, row) => (TARGET_KEY[store] ? TARGET_KEY[store](row) : row.id);
 
 // `sourceCode` is one code on most records and a LIST on any record that credits
@@ -49,7 +55,10 @@ const keyOf = (store, row) => (TARGET_KEY[store] ? TARGET_KEY[store](row) : row.
 // `===` a list matches nothing, so a source cited only by a two-source record
 // would have read as uncited and been freely deletable, which is the fault
 // §13ct exists to prevent, returning by the back door.
-const codesOf = (row) => [
+// Exported since §13ea: the display, the audit and the delete policy all ask
+// „which sources does this record credit", and three answers to one question
+// is how `sourceCode` came to be a string on five recipes and a list on one.
+export const codesOf = (row) => [
   ...(Array.isArray(row.sourceCode) ? row.sourceCode : [row.sourceCode]),
   // A combination's sources (§13dg): `sourceCodes` is the list, `learnedFrom`
   // is the single value older records carry and still do. An INFLUENCE cites a
@@ -75,6 +84,13 @@ const INCOMING = {
     { store: 'fabrics',      label: 'refs.fabrics',  count: (r, id) => (r.actions || []).filter(a => a.recipeId === id).length },
     { store: 'batchActions', label: 'refs.batches',  count: (r, id) => (r.recipeId === id ? 1 : 0) },
     { store: 'chains',       label: 'refs.chains',   count: (r, id) => (r.steps || []).filter(s => s.recipeId === id).length },
+    // A recipe can be an INGREDIENT of another recipe (§13dy): the pastel's
+    // binder line names the oat solution, which is itself a recipe. Deleting
+    // the binder would leave the pastel's line pointing at nothing — the same
+    // fault as a deleted substance, one level up.
+    { store: 'recipes',      label: 'refs.recipes',  count: (r, id) =>
+        (r.ingredients || []).reduce((n, ing) =>
+          n + (ing.options || []).filter(o => o.recipeId === id).length, 0) },
   ],
   chains: [
     { store: 'trials',       label: 'refs.trials',   count: (r, id) => (r.steps || []).filter(s => s.chainId === id).length },
@@ -226,6 +242,8 @@ function pointersIn(row, target) {
       ...(row.steps || []).map(s => s.recipeId),
       ...(row.actions || []).map(a => a.recipeId),
       row.recipeId,
+      // A recipe as an ingredient of a recipe (§13dy).
+      ...(row.ingredients || []).flatMap(i => (i.options || []).map(o => o.recipeId)),
     ];
     case 'chains': return [
       ...(row.steps || []).map(s => s.chainId),
