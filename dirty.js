@@ -30,7 +30,11 @@ const SAVE = '[data-save]';
 
 // The ways out. Filters and tabs are not here: they belong to a list, and a
 // list is not showing while a form is.
-const LEAVE_SELECTOR = '[data-go],[data-back],[data-open],[data-new],[data-refmode]';
+//
+// `[data-sync]` joined at rc54: the library update now stands on a record, and
+// on Techniques the record IS the form, so opening the preview from there
+// leaves unsaved work behind like any other way out (§13du).
+const LEAVE_SELECTOR = '[data-go],[data-back],[data-open],[data-new],[data-refmode],[data-sync]';
 
 let dirty = false;
 let ask = () => true;          // replaced at install; kept injectable for tests

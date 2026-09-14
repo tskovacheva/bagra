@@ -17,6 +17,7 @@ import { ensurePacks, PACKS } from './seed.js';
 import { runMigrations } from './migrations.js';
 import { VERSION } from './version.js';
 import * as dirty from './dirty.js';
+import { watchLibraryMarks } from './seed-ui.js';
 
 import dashboard  from './modules/dashboard.js';
 import reference  from './modules/reference.js';
@@ -537,6 +538,9 @@ function watchLists() {
   // in the backup with the data it describes (§13cw).
   await runMigrations();
   dirty.install(() => confirm(t('common.discardUnsaved')));
+  // After the packs, so a list drawn on the way in does not count every
+  // seeded record as new (§13du).
+  watchLibraryMarks(document.body);
   watchLists();
   await route();
 

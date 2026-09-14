@@ -12,6 +12,52 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc55 — 11 September 2026
+
+Item 18f: the pigment recipes' lines name the substances the library already has. §13dv
+
+- **Six lines linked**, recipes pack 0.8.0: potassium alum and soda ash in Stopka's lake
+  master and fermentation recipe, potassium alum and chalk in Green's hot lake. The work view
+  read „носител", „алкали" — the same thing it shows for a missing substance.
+- **By an idempotent merge script** that fills only and stops if a line's role is not the
+  expected one. Notes untouched: they say what the link cannot.
+- **Not added: aluminium sulphate on Stopka's line.** Four hydrates in the library, none
+  stated in the book.
+- **The sauerkraut juice is not a substance** — the owner's decision. Water likewise.
+- **A guard, layer 3i**: every shipped recipe line names a plant or substance that exists, or
+  is listed with a reason. Seen failing on the rc54 data (the six lines and nothing else), on
+  a stale exemption, on an exemption for a line that does not exist, and on a dangling link.
+- **Raised: 18h** — the weigh list does not show a line's note, so „Калиева стипца 10 ml"
+  does not say the alum is dissolved.
+
+## 1.0.0-rc54 — 11 September 2026
+
+Item 18e: a record says when the library holds a different version of it. §13du
+
+- **The note on the record.** Plants, Substances, Techniques, Recipes and Reference records.
+  Nothing when the record matches its pack; otherwise which fields differ, in words, and
+  whether the record was edited or withdrawn — beside the same „Обнови от библиотеката"
+  button the list has. After an update the record is drawn again from the database.
+- **Compared by content, not by version.** The version on a record moves only when that
+  record is updated; the pack's moves with any change in it. A version test would flag
+  current records for ever. One comparison, `differingFields`, shared with the preview.
+- **The list button counts** what the preview ticks when it opens. Edited records are not
+  counted — the preview does not tick them. The rule is one function, `defaultChosen`,
+  used by both. No number when there is nothing to do.
+- **Drawn first, filled after.** The first version counted inside the render and delayed
+  every screen after it; the deep check showed it as `rework` and `prep` failing one run in
+  four or five. Marks are now filled by one watcher, 150 ms late and only while still on
+  screen, and each says when it is done. Twelve clean runs after.
+- **Field names in words for every pack.** The preview printed „ingredients, steps" for a
+  recipe update; the dictionary covered two packs of five. Now keyed by pack, with a static
+  guard (layer 3h) that every carried field is named, in both languages, and none is stale.
+- **Techniques:** the note stands on the form, and `[data-sync]` joined the ways out that
+  `dirty.js` guards.
+- **Guards**, each seen failing: a fresh install differs from its own packs (the boot
+  made to rewrite a field); a note that decides by version (all five modules); edited
+  records counted (all five); the module keeping its old copy after an update; the
+  library button leaving an unsaved technique form without asking.
+
 ## 1.0.0-rc53 — 11 September 2026
 
 Item 18a, and one line of CSS the release gate could not pass without. §13dt

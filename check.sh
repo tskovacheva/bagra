@@ -225,6 +225,22 @@ node scripts/try-pack-reachability.mjs || exit 1
 #     describes. See scripts/try-manifest-agrees.mjs (§13dn).
 node scripts/try-manifest-agrees.mjs || exit 1
 
+# 3h. Every field a pack carries is named in words. The preview, and from rc54
+#     the note on an open record, say WHICH fields differ; the dictionary
+#     behind them covered two packs and printed raw field names for the rest.
+#     Asked as „which field has no name", both ways. See
+#     scripts/try-pack-field-labels.mjs (§13du).
+node scripts/try-pack-field-labels.mjs || exit 1
+
+# 3i. Every shipped recipe line names what goes in — a plant or a library
+#     substance — or says why not. A line with its substance only in a prose
+#     note draws its ROLE on the work view, which is what a missing substance
+#     draws too; the pigment recipes shipped that way with
+#     the alum and the soda ash in the library all along. Both directions:
+#     an excuse for a line that now resolves fails. See
+#     scripts/try-recipe-lines-named.mjs (§13dv).
+node scripts/try-recipe-lines-named.mjs || exit 1
+
 # 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
 #    which gives a blank page.

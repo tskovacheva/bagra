@@ -978,6 +978,14 @@ const DICT = {
     'seed.upToDate': 'Всичко е актуално. Без промяна: {n}.',
     'seed.apply': 'Приложи ({n})',
     'seed.applied': 'Обновени са {n} записа.',
+    // A seeded record that no longer matches the shipped pack (§13du).
+    'seed.recordDiffers': 'Библиотеката има друга версия на този запис. Различава се в: {fields}.',
+    'seed.recordDiffersEdited': 'Библиотеката има друга версия на този запис. Твоят е редактиран, затова в прегледа е без отметка и остава, какъвто е, докато не го отметнеш. Различава се в: {fields}.',
+    'seed.recordWithdrawn': 'Библиотеката вече не съдържа този запис. Обновяването ще предложи да бъде премахнат.',
+    'seed.recordWithdrawnEdited': 'Библиотеката вече не съдържа този запис. Твоят е редактиран, затова обновяването не го маха, освен ако не го отметнеш.',
+    'seed.field.output': 'Какво се получава',
+    'seed.field.temperature': 'Температура',
+    'seed.field.maxPercentWof': 'Най-много % WOF',
 
 
     'techniques.new': 'Нова техника',
@@ -2358,6 +2366,13 @@ const DICT = {
     'seed.upToDate': 'Everything is current. Unchanged: {n}.',
     'seed.apply': 'Apply ({n})',
     'seed.applied': '{n} records updated.',
+    'seed.recordDiffers': 'The library has a different version of this record. It differs in: {fields}.',
+    'seed.recordDiffersEdited': 'The library has a different version of this record. Yours has been edited, so the preview leaves it unticked and it stays as it is unless you tick it. It differs in: {fields}.',
+    'seed.recordWithdrawn': 'The library no longer carries this record. The update will offer to remove it.',
+    'seed.recordWithdrawnEdited': 'The library no longer carries this record. Yours has been edited, so the update will not remove it unless you tick it.',
+    'seed.field.output': 'What it makes',
+    'seed.field.temperature': 'Temperature',
+    'seed.field.maxPercentWof': 'Maximum % WOF',
 
 
     'techniques.new': 'New technique',

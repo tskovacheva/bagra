@@ -10279,6 +10279,225 @@ four boxes named; passes at all four widths now.
 caret thrown to the front after the first digit — is still there: this release stops the
 record being emptied, it does not make a two-digit number typeable.
 
+## 13du. A record says when the library holds a different version of it (1.0.0-rc54)
+
+Item 18e. A seeded record now says, on its own screen, when the shipped library holds a
+different version of it, and each module's „Обнови от библиотеката" button says how many
+records it would change. Five modules: Plants, Substances, Techniques, Recipes and the
+Reference records. Sources and Glossary have no button (`UNREACHABLE_PACKS`) and are not
+touched.
+
+### What went wrong
+
+The owner spent a day looking at the lake recipe as it stood at rc47. rc48, rc49 and rc50
+had corrected it and never reached her copy. A NEW record arrives by itself — `loadPack`
+adds what is absent at boot — but a CHANGE to an existing one travels only through the
+button, and nothing said there was anything to press. A stale record looked exactly like a
+broken feature (§13dn working as designed, and still a fault).
+
+### Asked by content, not by version
+
+Item 18e suggested comparing the record's `packVersion` with the shipped one. **That is the
+wrong question.** A record's version is written only when that record is added or updated;
+the pack's version moves with every change to ANY record in it. So a recipe at 0.3.0 inside
+a 0.7.0 pack may be exactly current, and a version test would flag it for ever — a notice
+that never goes away and is soon not read.
+
+The question is whether the record differs from its row in the pack, which is what
+`diffPack` already computes for the preview. So there is one comparison —
+`differingFields` — and `recordStatus` calls `diffPack` itself rather than comparing on its
+own. The note and the preview cannot disagree about whether a record is out of date,
+because they are the same computation.
+
+### What the record says
+
+Nothing, when it matches the pack, and nothing on the person's own records. Otherwise one of
+four sentences, beside the same button the list has (one destination, one name — §13dm):
+
+- the library has a different version; it differs in: *the fields, in words*;
+- the same, and the record has been edited, so the preview leaves it unticked and it stays
+  as it is unless ticked;
+- the library no longer carries this record, and the update will offer to remove it;
+- the same, and the record has been edited, so the update will not remove it unless ticked.
+
+The button opens the whole pack's preview, as it does from the list. After an update the
+module draws the record again from the database — its own copy was the old one, and without
+this the note went away while the screen went on showing what had been replaced.
+
+On Techniques the record opens as its form, so the note stands on the form, and
+`[data-sync]` joined the ways out that `dirty.js` guards: pressing it with unsaved typing
+asks, like every other way out of a form.
+
+### What the button counts
+
+The count is **what the preview ticks when it opens** — what „Apply" would do if nobody
+touched a box: new records, changed records, and withdrawals of records nobody edited. The
+rule moved from `seed-ui.js` into `seed.js` as `defaultChosen`, used by both, so the button
+cannot say 3 in front of a preview offering 4.
+
+An edited record is never counted. The preview leaves it unticked, and a record the person
+edited on purpose would otherwise keep the number up for ever. Her record still says so when
+she opens it.
+
+No number when there is nothing to do.
+
+### Drawn first, filled after
+
+Working out a count is a whole `diffPack` — the pack fetched and parsed, half a megabyte for
+the plants, and every record of the store compared. The first version did it inside the
+render, and every render waits for the one before it (`renderView` in `app.js`), so a list
+with a count delayed whatever was asked for next.
+
+The deep check found this as two unrelated sections — `rework` and `prep` — failing one run
+in four or five, with rc53 failing none of nine. A slow render shows itself to a harness
+that waits for the screen to stop changing exactly that way, and that is the reason the
+harness was left alone: the fault was the load, not the waiting.
+
+So a module draws only a mark — the button with `data-sync-pack`, and an empty slot on the
+record — and one watcher, installed once in `app.js` after the packs load, fills them in:
+
+- **a moment late** (150 ms), and only for a mark still on screen. A render follows every
+  keystroke in a search box; filling each button at once started a comparison per keystroke
+  for buttons already thrown away;
+- **installed once**, for `dirty.js`'s reason: a rule five modules each have to remember is
+  a rule the sixth forgets. No module calls anything after drawing;
+- **stating when it is done** — `data-counted`, `data-checked` — so a check waits for the
+  answer rather than for a length of time. A failure is stated as `failed` and logged. The
+  button works without its number; what must not happen is a zero that was never counted.
+
+Twelve runs of the deep check after the change, no failures.
+
+The boot is untouched: §13cs still holds, and a normal start fetches no pack. The cost
+moved to opening a list, once per list actually left on screen.
+
+### The field names, which were wrong before this
+
+The preview names the fields a pack would change. Its dictionary covered plants and
+substances and printed the raw field name for everything else, so a recipe update read
+„ingredients, steps" in the middle of a Bulgarian screen. The note names fields too, so the
+gap would have shown twice.
+
+`FIELD_LABELS` in `seed-ui.js` is now keyed by pack — `name`, `category` and `description`
+mean different things in different packs — and repeated labels are shown once (three
+temperature fields read „Температура", not three times). Three new strings:
+`seed.field.output`, `seed.field.temperature`, `seed.field.maxPercentWof`.
+
+### The guards
+
+**`scripts/try-pack-field-labels.mjs`**, static, layer 3h. Every field any of the five
+packs carries has a name; every name resolves in both languages; and no entry names a field
+no row carries, so the dictionary is pruned rather than accumulating. Seen failing on each:
+the recipes' `steps` removed, and an invented `tempExtractC` pointing at a missing key.
+
+**Deep check, the premise**, run straight after boot: on a fresh install every count is
+zero. If a default, a migration or the boot rewrites a seeded field, every new user opens a
+list to „· 1" that nothing they do will clear. Seen failing with the boot made to empty the
+recipes' steps.
+
+**Deep check, `libdiffers`**, at the end of the file because applying writes every ticked
+record in a pack. Five modules, four states each:
+
+1. **stale version, same content → no note.** This is the state that decides between the
+   two models, and so the one the guard stands on (§13dp). Seen failing, in all five
+   modules, against a note that decided by `packVersion`;
+2. content differs → the note names the field, read from i18n by the dictionary's own key,
+   and the list count rises by exactly one;
+3. edited and differs → the note says so, and the count does not rise. Seen failing, in all
+   five, with edited records added to the default set;
+4. applied from the note's own button → the stored value is the pack's, the note is gone,
+   and the screen shows the new value. Seen failing, in Recipes, with the module keeping its
+   old copy.
+
+Plus, on Techniques, typing in the form and pressing the note's button asks first. Seen
+failing with `[data-sync]` taken out of `dirty.js`.
+
+### What this does not do
+
+It does not open the preview on the one record — the preview is the pack's, as before. And
+it does not reach Sources or the Glossary, which still have no button (ROADMAP B6d).
+
+## 13dv. Lines that named their substance only in prose (1.0.0-rc55)
+
+Item 18f. Seed data, a merge script and a guard. No code in the application changed.
+
+### What was wrong
+
+The owner asked why the fermentation recipe's lines read „носител", „алкали", „помощно".
+The alum, the soda ash and the chalk had been in the library all along, with full records.
+When the two madder recipes were written at rc50 — and the lake master before them — each
+line got a NOTE in prose, „10 г стипца", and no `substanceId`. The work view names a line by
+its option; with no option it falls back to the role. That is exactly what it shows for a
+substance that is genuinely missing, so two very different states looked the same.
+
+### What changed
+
+Six lines, in the recipes pack, now 0.8.0:
+
+| recipe | line | now names |
+|---|---|---|
+| pigment-lake-master (Stopka) | carrier · alkali | potassium alum · soda ash |
+| madder-lake-hot (Green) | carrier · alkali | potassium alum · chalk |
+| madder-lake-fermentation (Stopka) | carrier · alkali | potassium alum · soda ash |
+
+Through `scripts/merge-18f-substance-links.py`, which fills only, holds and prints a line
+that already names something, and stops if a line's role is not the one expected. A second
+run changes nothing. The option carries no quantity: `quantityRange` falls back to the
+line's own `quantity`, which is where the figure always was, so the lake master still
+computes 50 g of madder at 500% of 10 g of carrier.
+
+The notes are untouched. They carry what a link cannot: that Stopka accepts aluminium
+sulphate as well, and that Green's figures are per jar, of a dissolved solution.
+
+**Chalk as an alkali.** Calcium carbonate's category is `filler` (§13dn) and its role in the
+hot lake is `alkali`. That is the model working as intended: the category says what the
+substance IS, the role what it does in THIS recipe.
+
+### What was deliberately not added
+
+**An aluminium sulphate option on the Stopka line.** The library holds it in four hydrates,
+which differ in aluminium by weight, and the book does not say which. Choosing one would be
+inventing a figure. The note keeps the alternative in words.
+
+**Green's „alum" is read as potassium alum.** Unqualified, the chemical name means potassium
+aluminium sulphate. Recorded here so the reading can be corrected if her book says
+otherwise.
+
+### Lines that name nothing on purpose
+
+The owner decided on 11 September 2026 that the **sauerkraut juice is not a substance**: it is
+food, not a dye material, and the vocabulary does not grow to hold one recipe. It stays in
+the description. The same reasoning is applied to the two lines of **water**.
+
+Two more lines name nothing because the thing is **made elsewhere**: the pigment a
+watercolour or pastel is made from comes out of a batch, and a substance record for it would
+be a second copy of something the application already makes.
+
+Seven lines name nothing because they **await item 18g**, the six new substances.
+
+### The guard
+
+`scripts/try-recipe-lines-named.mjs`, static, layer 3i. It asks not „do the pigment recipes
+point at alum" but „which shipped line names nothing, and has anybody said why". A line
+passes when an option names a plant or substance that exists in the shipped packs;
+otherwise it must be in `NAMED_IN_PROSE` with one of three reasons — `not-a-substance`,
+`made-elsewhere`, `awaits-18g`. Keyed by position, so a line moved or removed fails rather
+than excusing the wrong one.
+
+Seen failing four ways: on the rc54 data, naming exactly the six lines above and nothing
+else; an exemption for a line that now resolves; an exemption for a line that does not
+exist; and a link to a substance the library does not have.
+
+The `awaits-18g` entries are temporary by construction: when 18g lands those lines resolve,
+the exemptions go stale, and the guard fails until they are removed.
+
+### What this leaves
+
+The fermentation recipe's weigh list still reads „помощно 7.5 ml", and the hot lake's
+„разтворител 2900 ml". Correct by the decision above, and still a role where a person expects
+a name. And „Калиева стипца 10 ml" on the hot lake is a volume of dissolved alum, which the
+weigh list does not say and the note does. Both are the same question — whether the work
+view shows a line's note — and that is a layout decision, raised rather than taken here.
+
 ---
 
 

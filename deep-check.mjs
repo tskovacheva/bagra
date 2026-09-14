@@ -59,6 +59,24 @@ const db = await import('./db.js');
 const { photoOf } = await import('./ui.js');
 const root = document.getElementById('view');
 
+// 18e, the premise (§13du). On a fresh install every library count is zero.
+// If a default, a migration or the boot itself rewrites a field of a seeded
+// record, the record no longer matches its pack — and every new user opens
+// the application to „Обнови от библиотеката · 1" on a screen they have
+// never touched, a number that nothing they do will clear. Asked here, before
+// any section below edits a seeded record.
+{
+  const { diffPack, defaultChosen } = await import('./seed.js');
+  const off = [];
+  for (const n of ['plants', 'substances', 'techniques', 'recipes', 'combinations']) {
+    const d = await diffPack(n);
+    const c = defaultChosen(d).size;
+    if (c) off.push(`${n} ${c} (${d.changed.slice(0, 3).map(e => e.id + ': ' + e.fields.join('+')).join(', ')})`);
+  }
+  if (off.length) fail('libdiffers', new Error(`a fresh install already differs from its own packs — ${off.join('; ')}`));
+  else console.log('  libdiffers: a fresh install matches every pack it was installed from');
+}
+
 // Give trials something to render: one legacy record (no status) and one new.
 const legacy = db.newRecord({ date:'2026-05-01', title:'стар запис без статус',
   processCode:'ecoprint', placements:[], steps:[], resultPhotos:[], assessment:'success' });
@@ -5723,6 +5741,169 @@ const dirty = await import('./dirty.js');
     fail('combinations', new Error(
       `the pack holds ${packed.length} and the database ${combos.length} — records share a code`));
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
+}
+
+// ---- 18e. A seeded record says when the library has a different version (§13du)
+//
+// Five modules, four states each, and the first state is the one that matters:
+//
+//   STALE VERSION, SAME CONTENT → no note.
+//     `packVersion` on a record moves only when the record is added or updated;
+//     the pack's moves with any change to any record in it. A version test says
+//     „out of date" here and is wrong. This is the point where the two models
+//     disagree, so it is where the guard has to stand (the fifth way, §13dp):
+//     at a record whose content changed, both models say „stale" and the check
+//     learns nothing about which one was built.
+//   CONTENT DIFFERS → the note names the field, in words, read from i18n by
+//     the same key the dictionary uses; and the list's count rises by one.
+//   EDITED AND DIFFERS → the note says so, and the count does NOT rise — the
+//     preview leaves it unticked, and the count is what the preview ticks.
+//   APPLIED FROM THE NOTE → the note goes, and the screen shows the pack's
+//     value rather than the module's stale copy of the record.
+//
+// At the end of the file on purpose: applying an update writes every ticked
+// record in the pack, and sections above must not inherit that.
+{
+  const { t } = await import('./i18n.js');
+  const { FIELD_LABELS, watchLibraryMarks } = await import('./seed-ui.js');
+  // Installed by app.js on document.body; called again to state the premise
+  // rather than rely on it. Idempotent.
+  const fsx = await import('node:fs');
+  const root18 = document.createElement('div');
+  document.body.appendChild(root18);
+  watchLibraryMarks(document.body);
+
+  const CASES = [
+    { mod: 'plants',     pack: 'plants',       list: 'plants',       field: 'nameCommon' },
+    { mod: 'substances', pack: 'substances',   list: 'substances',   field: 'name' },
+    { mod: 'techniques', pack: 'techniques',   list: 'techniques',   field: 'name' },
+    { mod: 'recipes',    pack: 'recipes',      list: 'recipes',      field: 'name' },
+    { mod: 'reference',  pack: 'combinations', list: 'combinations', field: 'notes' },
+  ];
+
+  const SENTINEL = { bg: 'ЗАСТАРЯЛО 18e', en: 'STALE 18e' };
+  const click = (el) => el.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  const countOf = () => {
+    const b = root18.querySelector('[data-sync-pack]');
+    const m = (b?.textContent || '').match(/·\s*(\d+)/);
+    return m ? Number(m[1]) : 0;
+  };
+
+  for (const c of CASES) {
+    const mod = (await import(`./modules/${c.mod}.js`)).default;
+    const rows = JSON.parse(fsx.readFileSync(`seed/${c.pack}.json`, 'utf8'))[c.list];
+    const row = rows.find(r => r[c.field] != null && JSON.stringify(r[c.field]) !== '""');
+    if (!row) { fail('libdiffers', new Error(`${c.pack}: no row carries ${c.field}`)); continue; }
+    const id = 'seed:' + row.code;
+    const store = c.pack === 'combinations' ? 'combinations' : c.pack;
+    const original = await db.get(store, id);
+    if (!original) { fail('libdiffers', new Error(`${c.pack}: ${id} was never installed`)); continue; }
+
+    const problems = [];
+    const { code, ...shipped } = row;
+    const put = (over) => db.put(store, { ...original, ...shipped, editedByUser: false, ...over });
+    // The note and the count are filled in after the screen is drawn, and
+    // each mark says when it is finished. Waited for by that, never by time.
+    const finished = async (sel, attr) => {
+      for (let i = 0; i < 200; i++) {
+        const el = root18.querySelector(sel);
+        const v = el?.getAttribute(attr);
+        if (el && v && v !== 'pending') return v;
+        await new Promise(r => setTimeout(r, 25));
+      }
+      return null;
+    };
+    const drawRecord = async () => {
+      mod.reset?.(); mod.open(id); await mod.render(root18); await settle();
+      const v = await finished('[data-libdiffers-slot]', 'data-checked');
+      if (v === null || v === 'failed') problems.push(`the record's check never finished (${v})`);
+    };
+    const drawList = async () => {
+      mod.reset?.();
+      if (c.mod === 'reference') mod.open('records'); else mod.open();
+      await mod.render(root18); await settle();
+      const v = await finished('[data-sync-pack]', 'data-counted');
+      if (v === null || v === 'failed') problems.push(`the list's count never finished (${v})`);
+    };
+    const label = t(FIELD_LABELS[c.pack][c.field]);
+
+    // 1. Stale version, same content.
+    await put({ packVersion: '0.0.1' });
+    await drawRecord();
+    if (root18.querySelector('[data-libdiffers]'))
+      problems.push('a record whose content matches the pack is flagged because its version is older');
+    await drawList();
+    const base = countOf();
+
+    // 2. Content differs.
+    await put({ [c.field]: c.field === 'notes' ? SENTINEL : SENTINEL });
+    await drawRecord();
+    const n2 = root18.querySelector('[data-libdiffers]');
+    if (!n2) problems.push('a record that differs from the pack carries no note');
+    else if (!n2.textContent.includes(label))
+      problems.push(`the note does not name the field in words — wanted „${label}", read „${n2.textContent.trim().slice(0, 120)}"`);
+    else if (!n2.querySelector('[data-sync]'))
+      problems.push('the note has no button beside it');
+    await drawList();
+    if (countOf() !== base + 1) problems.push(`the list count went ${base} → ${countOf()}, not up by one`);
+
+    // 2b. Techniques only: the record IS the form, so the library button is a
+    // way out of unsaved work and has to ask, like every other way out.
+    if (c.mod === 'techniques') {
+      await drawRecord();
+      const box = root18.querySelector('[data-pair^="name."], [data-f]');
+      const btnT = root18.querySelector('[data-libdiffers] [data-sync]');
+      if (!box || !btnT) problems.push('the technique form has no field to type in or no button on its note');
+      else {
+        box.value = box.value + ' x';
+        box.dispatchEvent(new window.Event('input', { bubbles: true }));
+        // Counted by the guard itself: section 3 re-installs it with its own
+        // answer, so the global `confirm` is not what gets asked (§ dirty.js).
+        const before = dirty.askCount();
+        click(btnT); await settle();
+        if (dirty.askCount() !== before + 1) problems.push('the library button left an unsaved technique form without asking');
+        // Whatever that answer was, the states below start from a clean form.
+        dirty.markClean();
+      }
+    }
+
+    // 3. Edited and differs.
+    await put({ [c.field]: SENTINEL, editedByUser: true });
+    await drawRecord();
+    const n3 = root18.querySelector('[data-libdiffers]');
+    const editedWords = t('seed.recordDiffersEdited', { fields: '' }).split('{')[0].slice(0, 40);
+    if (!n3 || !n3.textContent.includes(editedWords.slice(0, 30)))
+      problems.push('an edited record that differs does not say it was edited');
+    await drawList();
+    if (countOf() !== base) problems.push(`an edited record moved the count ${base} → ${countOf()}; the preview does not tick it`);
+
+    // 4. Applied from the note.
+    await put({ [c.field]: SENTINEL });
+    await drawRecord();
+    const btn = root18.querySelector('[data-libdiffers] [data-sync]');
+    if (!btn) problems.push('no button on the note to apply from');
+    else {
+      click(btn); await settle();
+      const apply = root18.querySelector('[data-apply]');
+      if (!apply) problems.push('the note\'s button did not open the preview');
+      else {
+        click(apply); await settle();
+        const stored = await db.get(store, id);
+        if (JSON.stringify(stored[c.field]) !== JSON.stringify(row[c.field]))
+          problems.push('applying did not write the pack\'s value');
+        if (root18.querySelector('[data-libdiffers]'))
+          problems.push('after applying, the note is still there');
+        if ((root18.textContent || '').includes(SENTINEL.bg))
+          problems.push('after applying, the screen still shows the old value — the module drew its stale copy');
+      }
+    }
+
+    await db.put(store, original);
+    mod.reset?.();
+    if (problems.length) fail('libdiffers', new Error(`${c.mod}: ${problems.join('; ')}`));
+    else console.log(`  libdiffers: ${c.mod} — silent on a stale version, names the field, counts, says edited, clears on apply`);
+  }
+  root18.remove();
 }
 
 console.log(failed ? 'DEEP CHECK FAILED' : 'deep check passed');

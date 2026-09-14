@@ -75,6 +75,10 @@ Records open for reading. The form is one click away, and Back from it returns t
 record — one usually corrects a field and wants to see how it reads. The amount on a working view
 recalculates the figures and never touches the record.
 
+A record that came with the library says so when the library now holds a different version of
+it, and names what differs. „Обнови от библиотеката" shows how many records it would change.
+Nothing is updated without the preview.
+
 ## Principles
 
 - **Offline-first.** IndexedDB is the only source of truth. No account, no server, no sync.
@@ -206,6 +210,11 @@ Six layers, each of which exists because something got through:
    was absent from it for several releases, so a module was measured at no width at all
    while the suite reported „all held". A module must be routed or named in
    `UNMEASURED_MODULES` with a reason (§13dm).
+   **Every field a pack carries is named in words**, in both languages, by
+   `scripts/try-pack-field-labels.mjs` — the preview and the record's library note
+   print these names (§13du). **Every shipped recipe line names what goes in** — a
+   plant or a library substance — or is listed with a reason, by
+   `scripts/try-recipe-lines-named.mjs` (§13dv).
 
 Anything timed in the deep check waits on a condition, never on a duration, and any
 new guard is tested in both directions — a guard never seen to fail has not been tested.

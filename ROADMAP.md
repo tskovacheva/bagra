@@ -381,8 +381,16 @@ The rest — what the amount field IS, a scaling control on recipes that cannot 
 caret jumping after the first digit, and a record that cannot say the library has a newer
 version of it — are ordinary work, but 18b is a decision before it is a fix.
 
-**Agreed order, all of item 18: 18e, 18f, 18g, then 18b, then 18c and 18d.** 18e is the day
-the owner lost to a record she could not tell was stale; 18f is a defect introduced at rc50 — the alum and soda ash were in the library
+~~**18e**~~ — **DONE at rc54** (§13du). A seeded record says when the library holds a
+different version of it, compared by content rather than by version, in all five modules
+with a button; the button counts what the preview would tick.
+
+~~**18f**~~ — **DONE at rc55** (§13dv). The pigment recipes' carrier and alkali lines point at
+the library's alum, soda ash and chalk. Raised by it: **18h**, whether the weigh list shows a
+line's note.
+
+**Agreed order for what remains of item 18: 18g, then 18b, then 18c and 18d.** 18h is new and
+unordered. 18f is a defect introduced at rc50 — the alum and soda ash were in the library
 all along and the recipe lines never pointed at them; 18g is the six substances, which turn
 out not to need a workbook at all.
 

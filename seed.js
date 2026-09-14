@@ -367,6 +367,20 @@ const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
  * has edited — which are offered but left unticked, since protecting her work
  * is the safer default.
  */
+/**
+ * Which of the pack's fields a stored record does not match.
+ *
+ * The ONE comparison. The preview uses it through `diffPack`, and so does the
+ * note on an open record through `recordStatus` — which calls `diffPack`
+ * rather than comparing on its own, so the two can never disagree about
+ * whether a record is out of date (§13du).
+ */
+export function differingFields(existing, incoming) {
+  return Object.entries(incoming)
+    .filter(([k, v]) => JSON.stringify(existing[k]) !== JSON.stringify(v))
+    .map(([k]) => k);
+}
+
 export async function diffPack(name) {
   const { file, store, listKey, defaults } = PACKS[name];
 
@@ -379,9 +393,15 @@ export async function diffPack(name) {
     added: [], changed: [], edited: [], withdrawn: [], unchanged: [],
   };
 
+  // The store read once, not once per row. The list screens now ask this on
+  // every render to put a count on their button (§13du), and a render follows
+  // every keystroke in a search box. One `all()` answers the same question as
+  // 163 `get()`s did.
+  const stored = new Map((await all(store)).map(r => [r.id, r]));
+
   for (const row of pack[listKey]) {
     const id = 'seed:' + row.code;
-    const existing = await get(store, id);
+    const existing = stored.get(id);
     const { code, ...incoming } = row;
 
     if (!existing) {
@@ -389,9 +409,7 @@ export async function diffPack(name) {
       continue;
     }
 
-    const fields = Object.entries(incoming)
-      .filter(([k, v]) => JSON.stringify(existing[k]) !== JSON.stringify(v))
-      .map(([k]) => k);
+    const fields = differingFields(existing, incoming);
 
     if (!fields.length) { diff.unchanged.push(id); continue; }
 
@@ -418,13 +436,65 @@ export async function diffPack(name) {
   // undone by running the update again, so it goes through the same tick-box as
   // everything else, and an edited record arrives unticked like any other.
   const codes = new Set(pack[listKey].map(r => 'seed:' + r.code));
-  for (const row of await all(store)) {
+  for (const row of stored.values()) {
     if (row.origin !== 'seed' || row.packId !== pack.packId) continue;
     if (codes.has(row.id)) continue;
     diff.withdrawn.push({ id: row.id, name: nameOf(row), remove: true, edited: !!row.editedByUser });
   }
 
   return diff;
+}
+
+/**
+ * What the preview ticks when it opens — what „Apply" would do if nobody
+ * touched a box.
+ *
+ * Lived inside `seed-ui.js`. It moved here because the list button now shows
+ * a count, and the count must be the same set the preview ticks: a button
+ * saying „3" in front of a preview offering four is two answers to one
+ * question (§13du).
+ *
+ * New and changed records are ticked. A withdrawal is ticked unless the
+ * person edited the record. An edited record is never ticked — her work is
+ * not the pack's to replace — and so is never counted: a record she edited on
+ * purpose would otherwise keep the number up for ever, and a number that never
+ * goes down stops being read.
+ */
+export function defaultChosen(diff) {
+  return new Set([
+    ...diff.added.map(e => e.id),
+    ...diff.changed.map(e => e.id),
+    ...diff.withdrawn.filter(e => !e.edited).map(e => e.id),
+  ]);
+}
+
+/** How many records the update would change if applied as offered. */
+export async function pendingCount(name) {
+  return defaultChosen(await diffPack(name)).size;
+}
+
+/**
+ * Where one stored record stands against the shipped pack.
+ *
+ *   null                                 matches the pack, or is not the pack's
+ *   { fields, edited: false }            the pack carries a different version
+ *   { fields, edited: true }             ... and the person edited this record
+ *   { withdrawn: true, edited }          the pack no longer carries it
+ *
+ * Asked by CONTENT, never by `packVersion`. A record's version is written only
+ * when it is added or updated, while the pack's moves with every change to
+ * any record in it — so a recipe at 0.3.0 in a 0.7.0 pack may be exactly
+ * current, and a version test would flag it for ever (§13du).
+ */
+export async function recordStatus(name, id) {
+  if (!id || !String(id).startsWith('seed:')) return null;
+  const diff = await diffPack(name);
+  const hit = (list) => list.find(e => e.id === id);
+  let e;
+  if ((e = hit(diff.changed))) return { fields: e.fields, edited: false };
+  if ((e = hit(diff.edited))) return { fields: e.fields, edited: true };
+  if ((e = hit(diff.withdrawn))) return { withdrawn: true, edited: !!e.edited };
+  return null;
 }
 
 /**

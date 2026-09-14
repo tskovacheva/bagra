@@ -338,6 +338,10 @@ textarea{resize:vertical}
 /* The number is the point of the sentence, so it is allowed to be the number. */
 .note b{color:var(--ink)}
 .note.error{border-left:3px solid var(--madder);color:var(--ink)}
+/* The library holds a different version of the open record (§13du): the note
+   and the button that fetches it, side by side, wrapping on a phone. */
+.libdiffers{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 12px}
+.libdiffers .note{flex:1 1 280px;margin:0}
 
 /* ---------- boxes (the fabric state inventory) ---------- */
 .boxes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}

@@ -662,7 +662,7 @@ was written.
 
 Reported by the owner from `bagra-ten.vercel.app` at 1.0.0-rc52, with screenshots, after a
 day of trying to work in it. All five are confirmed in the code. **18a is fixed at rc53
-(§13dt); 18b–18g are not.**
+(§13dt), 18e at rc54 (§13du), 18f at rc55 (§13dv); 18b, 18c, 18d and 18g are not.**
 
 **No data was lost.** Her 11 September backup was read and checked: the lake recipe still
 carries its three ingredients and seven steps, and every other recipe is intact. Three of her
@@ -741,7 +741,14 @@ Two- and three-digit numbers cannot be typed.
 The fix is not a better `try`: either the field is not of type `number`, or the redraw does
 not touch that input at all.
 
-### 18e. Corrections shipped and never arrived
+### 18e. Corrections shipped and never arrived — **SETTLED at rc54 (§13du)**
+
+> **Built, and not as suggested below.** The suggestion compared the record's `packVersion`
+> with the shipped one. A record's version moves only when that record is updated, the
+> pack's with any change to any record in it — so the test would flag current records for
+> ever. The record is compared by CONTENT, through the same `diffPack` the preview uses.
+> The note stands on the record in all five modules with a button; the list button counts
+> what the preview would tick. The entry is kept as written.
 
 Her records are at mixed pack versions: the lake master at **0.3.0**, the binder at
 **0.2.0**, and the two madder recipes at **0.7.0**.
@@ -759,7 +766,18 @@ shipped manifest version and says nothing.
 button that fetches it. A stale record is indistinguishable from a broken feature, and she
 spent a day on that indistinguishability.
 
-### 18f. Substances that DO exist and were never pointed at — mine
+### 18f. Substances that DO exist and were never pointed at — mine — **SETTLED at rc55 (§13dv)**
+
+> Six lines linked: carrier and alkali in all three pigment recipes. **The sauerkraut juice
+> is not a substance** — the owner, 11 September 2026: food, not a dye material; it stays in
+> the description. Water is treated the same way. Not added: an aluminium sulphate option on
+> Stopka's line, because the hydrate is not stated. A guard now asks which shipped line names
+> nothing and has not said why.
+>
+> **Raised by it, and open:** the work view names a line by its option and otherwise shows the
+> role. So „помощно 7.5 ml" and „разтворител 2900 ml" remain, and „Калиева стипца 10 ml" on
+> the hot lake does not say it is a volume of DISSOLVED alum — the note does, and the weigh
+> list does not show notes. Whether it should is a layout decision. See 18h.
 
 The fermentation recipe's lines read „носител", „алкали", „помощно". The owner asked why,
 and the answer is not §17a.
@@ -820,4 +838,20 @@ not a gap.
 
 Open, and it blocks nothing: **if the owner's books state anything about the safety of these
 six, it goes in with a citation.** Otherwise the field stays empty, which is honest.
+
+### 18h. The weigh list does not show what a line's note says
+
+**Raised by rc55.** A line names what goes in by its option, and the note beside it — in the
+editor — carries what the name cannot: „разтворена", „на буркан", „или алуминиев сулфат",
+„суров сок от кисело зеле". The work view's weigh list shows name and amount only. So:
+
+- a line named in prose by decision (the juice, water) reads as its ROLE, „помощно";
+- „Калиева стипца 10 ml" does not say it is ten millilitres of a solution, and someone
+  weighing could measure ten millilitres of powder.
+
+Suggested shape, not built: under each weigh line, the first sentence of its note in small
+muted text; for a line that names nothing, the note in place of the role. A layout change on
+the screen read over a pot — it wants a plan and the owner's agreement.
+
+**Not decided. Asked of the owner.**
 

@@ -5,8 +5,8 @@
 // selectable, and nothing is written until she says so.
 
 import { t } from './i18n.js';
-import { page, panel, esc, label } from './ui.js';
-import { diffPack, applyDiff, recordApplied } from './seed.js';
+import { page, panel, esc, label, note } from './ui.js';
+import { diffPack, applyDiff, recordApplied, defaultChosen, pendingCount, recordStatus } from './seed.js';
 
 let state = null;   // { name, diff, chosen:Set }
 
@@ -15,33 +15,177 @@ export function close() { state = null; }
 
 export async function open(name) {
   const diff = await diffPack(name);
-  const chosen = new Set([
-    ...diff.added.map(e => e.id),
-    ...diff.changed.map(e => e.id),
-    // A withdrawal the user has not edited is ticked: the pack dropped the
-    // record on purpose and leaving it behind is what makes an updated copy
-    // differ from a fresh one. One she HAS edited stays unticked, like any
-    // other edited record — her work is not the pack's to discard.
-    ...diff.withdrawn.filter(e => !e.edited).map(e => e.id),
-  ]);
+  // The rule for what is ticked lives in seed.js, because the list button's
+  // count has to be the same set (§13du).
+  const chosen = defaultChosen(diff);
   state = { name, diff, chosen };
 }
 
-async function fieldNames(fields) {
-  const dict = {
+// A pack field in words, per pack. One field name means different things in
+// different packs — `name`, `category`, `description` — so the dictionary is
+// keyed by pack first.
+//
+// It was one flat list covering plants and substances, and anything else fell
+// back to the raw field name: a recipe preview said „ingredients, steps" in the
+// middle of a Bulgarian screen. The record note (§13du) names fields too, so
+// the gap would have shown twice. `scripts/try-pack-field-labels.mjs` fails on
+// any field a pack carries that has no entry here, and on an entry whose key is
+// absent from i18n — so a new field cannot arrive unnamed.
+export const FIELD_LABELS = {
+  plants: {
     nameCommon: 'plants.nameCommon', nameBotanical: 'plants.nameBotanical',
     parts: 'plants.parts', colours: 'plants.colours', sections: 'plants.sections',
-    tempExtractC: 'plants.tempExtract', tempDyeC: 'plants.tempDye',
-    liquorRatio: 'plants.liquorRatio', dryingRatio: 'plants.dryingRatio',
     lightfastness: 'plants.lightfastness', washfastness: 'plants.washfastness',
     role: 'plants.role', plantType: 'plants.plantType', habitat: 'plants.habitat',
     family: 'plants.family', compositionalRole: 'plants.compositional',
-    name: 'materials.name', formula: 'materials.formula',
+    confidence: 'plants.confidence', description: 'plants.description',
+    dyeClass: 'plants.dyeClass', toxicity: 'plants.toxicity',
+    photoCredit: 'plants.photo', photoHash: 'plants.photo', photoSrc: 'plants.photo',
+  },
+  substances: {
+    name: 'materials.name', category: 'materials.category', formula: 'materials.formula',
     molarMass: 'materials.molarMass', maxTempC: 'materials.maxTemp',
-    standardPercentWof: 'materials.standardWof', typicalUse: 'substances.purpose',
-    safetyNote: 'materials.safety', notes: 'common.notes',
+    standardPercentWof: 'materials.standardWof', maxPercentWof: 'seed.field.maxPercentWof',
+    typicalUse: 'substances.purpose', safetyNote: 'materials.safety',
+    handling: 'materials.handling', notes: 'common.notes',
+    alPerUnit: 'substances.alPerUnit', naPerUnit: 'substances.naPerUnit',
+    colourCast: 'materials.colourCast', colourEffect: 'materials.colourEffect',
+    hydrationState: 'materials.hydration', mordantTypeCode: 'materials.mordantType',
+    tanninTypeCode: 'materials.tanninType', needsAcid: 'substances.needsAcid',
+    phDirection: 'materials.phDirection', suitableFibreClasses: 'materials.suitableFor',
+  },
+  techniques: {
+    name: 'techniques.name', category: 'techniques.category',
+    description: 'techniques.description', appliesTo: 'techniques.appliesTo',
+  },
+  combinations: {
+    key: 'ref.inputs', expected: 'ref.expected', influences: 'ref.influences',
+    confidence: 'ref.confidence', sourceCodes: 'ref.sources', learnedFrom: 'ref.sources',
+    notes: 'common.notes',
+  },
+  recipes: {
+    name: 'recipes.name', type: 'recipes.type', output: 'seed.field.output',
+    appliesTo: 'recipes.appliesTo', scaleBy: 'recipes.scaleBy', target: 'recipes.targetBasis',
+    ingredients: 'recipes.ingredients', steps: 'recipes.steps', notes: 'common.notes',
+    sourceCode: 'recipes.source', distributable: 'recipes.distributable',
+    heldMinutes: 'recipes.heldMinutes', restMinutes: 'recipes.restMinutes',
+    phTarget: 'recipes.phTarget',
+    tempC: 'seed.field.temperature', tempMinC: 'seed.field.temperature',
+    tempMaxC: 'seed.field.temperature',
+  },
+};
+
+// Several fields can share one label — the three temperature fields, the three
+// photograph fields — and a list saying „Снимка, Снимка, Снимка" is noise.
+export function fieldNames(name, fields) {
+  const dict = FIELD_LABELS[name] || {};
+  return [...new Set(fields.map(f => dict[f] ? t(dict[f]) : f))].join(', ');
+}
+
+/**
+ * The list button. Its count arrives after the screen is drawn (§13du).
+ *
+ * The count is the set the preview ticks when it opens, so working it out is
+ * a whole `diffPack`: the pack fetched and parsed — half a megabyte for the
+ * plants — and every record of the store compared. The first version did that
+ * INSIDE the render, and every render waits for the one before it (app.js,
+ * `renderView`), so a list with a count delayed whatever was asked for next.
+ * The deep check found it as two unrelated sections failing at random, which
+ * is how a slow render shows itself to a harness that waits for the screen to
+ * stop changing.
+ *
+ * So the render draws the button, and `watchLibraryMarks` fills the number in
+ * once it is known. No number when there is nothing to do.
+ */
+export function syncButton(name) {
+  return `<button class="btn quiet" data-sync data-sync-pack="${esc(name)}">${t('seed.sync')}</button>`;
+}
+
+/**
+ * On an open seeded record: a place for „the library holds a different
+ * version of this", filled after the screen is drawn, for the same reason as
+ * the count. Nothing is shown for a record that matches, or for the person's
+ * own records.
+ */
+export function recordNote(name, id) {
+  if (!id || !String(id).startsWith('seed:')) return '';
+  return `<div data-libdiffers-slot data-pack="${esc(name)}" data-id="${esc(id)}"></div>`;
+}
+
+async function noteHtml(name, id) {
+  const st = await recordStatus(name, id);
+  if (!st) return '';
+  const msg = st.withdrawn
+    ? t(st.edited ? 'seed.recordWithdrawnEdited' : 'seed.recordWithdrawn')
+    : t(st.edited ? 'seed.recordDiffersEdited' : 'seed.recordDiffers',
+        { fields: esc(fieldNames(name, st.fields)) });
+  // The button is the list's button and goes to the same preview — one
+  // destination, one name (§13dm).
+  return `${note(msg, 'warn')}
+      <button class="btn quiet" data-sync>${t('seed.sync')}</button>`;
+}
+
+// Each mark states when it is finished — `data-counted` / `data-checked` —
+// so a check can wait for the answer instead of guessing how long it takes.
+// A failure is stated too, and logged. The button still works without its
+// number; what must not happen is a count of zero that was never counted.
+// Started a moment late, and only for a mark still on screen.
+//
+// Every list render draws a new button, and a render follows every keystroke
+// in a search box. Filling each one at once started a whole `diffPack` per
+// keystroke — ten of them for a ten-letter word, nine for buttons already
+// thrown away. In the deep check the same load showed up as two unrelated
+// sections failing one run in four: the background comparisons stretched the
+// pauses inside the NEXT screen's render past what `settle()` reads as
+// finished. rc53 failed 0 of 9; this without the delay failed about 1 in 5.
+// A mark replaced before its turn comes is left alone — nobody can see it.
+const LATE_MS = 150;
+
+async function fill(el) {
+  const kind = el.dataset.syncPack ? 'counted' : 'checked';
+  el.dataset[kind] = 'pending';
+  await new Promise(r => setTimeout(r, LATE_MS));
+  if (!el.isConnected) return;
+
+  if (el.dataset.syncPack) {
+    try {
+      const n = await pendingCount(el.dataset.syncPack);
+      if (!el.isConnected) return;
+      if (n) el.insertAdjacentText('beforeend', ` · ${n}`);
+      el.dataset.counted = String(n);
+    } catch (err) {
+      el.dataset.counted = 'failed';
+      console.warn('library count failed:', el.dataset.syncPack, err);
+    }
+    return;
+  }
+  try {
+    const html = await noteHtml(el.dataset.pack, el.dataset.id);
+    if (!el.isConnected) return;
+    if (html) { el.innerHTML = html; el.classList.add('libdiffers'); el.setAttribute('data-libdiffers', ''); }
+    el.dataset.checked = html ? 'differs' : 'same';
+  } catch (err) {
+    el.dataset.checked = 'failed';
+    console.warn('library check failed:', el.dataset.pack, el.dataset.id, err);
+  }
+}
+
+/**
+ * Fill every mark that appears, wherever a module draws it. Installed once,
+ * from app.js, after the packs are loaded — for the reason `dirty.js` gives:
+ * a rule five modules each have to remember is a rule the sixth forgets. No
+ * module calls anything after drawing.
+ */
+let watching = false;
+export function watchLibraryMarks(target = document.body) {
+  if (watching || typeof MutationObserver === 'undefined') return;
+  watching = true;
+  const scan = () => {
+    for (const el of target.querySelectorAll(
+      '[data-sync-pack]:not([data-counted]), [data-libdiffers-slot]:not([data-checked])')) fill(el);
   };
-  return fields.map(f => dict[f] ? t(dict[f]) : f).join(', ');
+  new MutationObserver(scan).observe(target, { childList: true, subtree: true });
+  scan();
 }
 
 async function group(titleKey, entries, { ticked, hint = '' } = {}) {
@@ -50,7 +194,7 @@ async function group(titleKey, entries, { ticked, hint = '' } = {}) {
     <label class="difrow">
       <input type="checkbox" data-pick="${e.id}" ${state.chosen.has(e.id) ? 'checked' : ''}>
       <span class="difname">${esc(e.name)}</span>
-      ${e.fields ? `<span class="diffields">${esc(await fieldNames(e.fields))}</span>` : ''}
+      ${e.fields ? `<span class="diffields">${esc(fieldNames(state.name, e.fields))}</span>` : ''}
     </label>`));
   return `
     <div class="difgroup">
