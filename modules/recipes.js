@@ -11,7 +11,8 @@ import {
   page, panel, field, options, label, favStar, esc, empty, note,
   pairField, readPairs, fact, facts, prose, readBlock, searchBox, matches, navigate, flash,
   fieldGroup, icon, backTo, actionBtn, deleteGuarded } from '../ui.js';
-import { scaleRecipe, recipeWarnings } from '../calc/scale.js';
+import { scaleRecipe, scalingMatters, recipeWarnings } from '../calc/scale.js';
+import { codesOf, sourceCodeOf } from '../refs.js';
 import * as seedUI from '../seed-ui.js';
 import chains from './chains.js';
 
@@ -90,7 +91,20 @@ let query = '';
 let favOnly = false;
 let openId = null;
 let draft = null;
-let scaleCtx = { weightG: 250, fibreClass: 'cellulose', bathLitres: null, rawG: null };
+// The amount typed on a recipe belongs to THAT recipe (§13dz).
+//
+// This was one object shared by every recipe, so a figure entered on one was
+// still in the field when the next opened — „За колко грама плат: 250" on a
+// recipe the person had never scaled. Kept per id, and kept for the session
+// rather than stored: it is a question asked of a recipe, not a property of it.
+//
+// `fibreClass` stays global on purpose. It is a fact about the cloth in front
+// of her, not about the recipe, and answering it again for every recipe would
+// be the opposite fault.
+const SCALE_DEFAULTS = { weightG: 250, bathLitres: null, rawG: null };
+let scaleByRecipe = {};
+let fibreClass = 'cellulose';
+const ctxFor = (id) => ({ ...SCALE_DEFAULTS, ...(scaleByRecipe[id] || {}), fibreClass });
 let scaleChoices = {};
 let returnTo = null;
 let editing = false;
@@ -270,16 +284,27 @@ async function renderList(root) {
 
 // ---------------------------------------------------------------- form view
 
-async function ingredientRows(r, substances, plants) {
+async function ingredientRows(r, substances, plants, madeRecipes = []) {
   const sourceOptions = (o) => {
-    const current = o.plantId ? 'p:' + o.plantId : (o.substanceId ? 's:' + o.substanceId : '');
+    const current = o.plantId ? 'p:' + o.plantId
+      : o.substanceId ? 's:' + o.substanceId
+      : o.recipeId ? 'r:' + o.recipeId : '';
     return `<option value="">—</option>` +
       `<optgroup label="${esc(t('recipes.fromPlants'))}">` + plants.map(p =>
         `<option value="p:${p.id}"${current === 'p:' + p.id ? ' selected' : ''}>${esc(text(p.nameCommon))}</option>`).join('') +
       `</optgroup>` +
       `<optgroup label="${esc(t('recipes.fromSubstances'))}">` + substances.map(sx =>
         `<option value="s:${sx.id}"${current === 's:' + sx.id ? ' selected' : ''}>${esc(text(sx.name))}</option>`).join('') +
-      `</optgroup>`;
+      `</optgroup>` +
+      // A recipe can fill a role: the pastel's binder is a solution another
+      // recipe makes (§13dy). The recipe being edited is not in the list — a
+      // recipe that takes itself as an ingredient is a circle, and the work
+      // view would follow it.
+      (madeRecipes.length
+        ? `<optgroup label="${esc(t('recipes.fromRecipes'))}">` + madeRecipes.map(rx =>
+            `<option value="r:${rx.id}"${current === 'r:' + rx.id ? ' selected' : ''}>${esc(text(rx.name))}</option>`).join('') +
+          `</optgroup>`
+        : '');
   };
 
   // basisRefersTo exists for one specific ambiguity — preparing a compound,
@@ -360,10 +385,13 @@ function stepRows(r) {
 
 async function scaleBlock(r, substances) {
   const mode = scaleModeOf(r);
+  // The editor's own preview. Keyed by the recipe being edited, like the
+  // record's (§13dz); a new recipe has no id yet and gets the defaults.
+  const ctx = ctxFor(r.id || openId);
   const byVolume = mode === 'volume';
   const scaled = scaleRecipe(r, {
-    ...scaleCtx, choices: scaleChoices,
-    bathLitres: byVolume ? (scaleCtx.bathLitres ?? r.defaultLitres) : null,
+    ...ctx, choices: scaleChoices,
+    bathLitres: byVolume ? (ctx.bathLitres ?? r.defaultLitres) : null,
     substancesById: new Map(substances.map(sx => [sx.id, sx])),
   });
   const followText = (r.requiredFollowOn || []).length
@@ -375,12 +403,21 @@ async function scaleBlock(r, substances) {
   const warnings = recipeWarnings(r, scaled, byId);
 
   const plantsById = new Map((await all('plants')).map(p => [p.id, p]));
+  const recipesById = new Map((await all('recipes')).map(x => [x.id, x]));
   const nameOfOption = async (o, roleCode) => {
     if (o?.plantId) {
       const p = plantsById.get(o.plantId);
       const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
       const form = o.condition ? ', ' + t('materials.form.' + o.condition) : '';
       return (p ? text(p.nameCommon) : '—') + part + form;
+    }
+    if (o?.recipeId) {
+      // A line whose ingredient is MADE by another recipe (§13dy). The name is
+      // that recipe's; a missing one reads as a dash rather than as the role,
+      // because the role would say „свързващо" for a binder solution that has
+      // been deleted — indistinguishable from a line nobody filled in.
+      const made = recipesById.get(o.recipeId);
+      return made ? text(made.name) : '—';
     }
     const sub = byId.get(o?.substanceId);
     return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
@@ -416,12 +453,12 @@ async function scaleBlock(r, substances) {
   }))).join('');
 
   return `
-    ${mode === 'volume'
-      ? field(t('recipes.forLitres'), `<input type="number" step="0.5" min="0" data-scale="bathLitres" value="${scaleCtx.bathLitres ?? r.defaultLitres ?? ''}">`)
+    ${!scalingMatters(r) ? '' : mode === 'volume'
+      ? field(t('recipes.forLitres'), `<input type="text" inputmode="decimal" data-scale="bathLitres" value="${ctx.bathLitres ?? r.defaultLitres ?? ''}">`)
       : mode === 'raw'
-      ? field(t('recipes.forRaw'), `<input type="number" step="1" min="0" data-scale="rawG" value="${scaleCtx.rawG ?? ''}">`)
-      : field(t('recipes.forWeight'), `<input type="number" step="1" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}">`) +
-        field(t('recipes.forFibre'), `<select data-scale="fibreClass">${await options('fibre_class', scaleCtx.fibreClass, '')}</select>`)}
+      ? field(t('recipes.forRaw'), `<input type="text" inputmode="decimal" data-scale="rawG" value="${ctx.rawG ?? ''}">`)
+      : field(t('recipes.forWeight'), `<input type="text" inputmode="decimal" data-scale="weightG" value="${ctx.weightG ?? ''}">`) +
+        field(t('recipes.forFibre'), `<select data-scale="fibreClass">${await options('fibre_class', ctx.fibreClass, '')}</select>`)}
     ${r.type === 'blanket' ? note(t('recipes.blanketBasisWarn'), 'warn') : ''}
     <div class="calcresults">
       ${lines.join('')}
@@ -451,15 +488,17 @@ function followOnRows(r, allRecipes) {
 // — steps on one side, quantities on the other — force that answer to be
 // assembled from two places every time.
 async function renderRead(root, r) {
+  const ctx = ctxFor(r.id);
   const substances = await all('substances');
   const plantsById = new Map((await all('plants')).map(p => [p.id, p]));
   const byId = new Map(substances.map(x => [x.id, x]));
   const allRecipes = await all('recipes');
+  const recipesById = new Map(allRecipes.map(x => [x.id, x]));
 
   const scaled = scaleRecipe(r, {
-    ...scaleCtx, choices: scaleChoices,
-    bathLitres: r.scaleBy === 'volume' ? (scaleCtx.bathLitres ?? r.defaultLitres) : null,
-    rawG: scaleCtx.rawG,
+    ...ctx, choices: scaleChoices,
+    bathLitres: r.scaleBy === 'volume' ? (ctx.bathLitres ?? r.defaultLitres) : null,
+    rawG: ctx.rawG,
     substancesById: new Map(substances.map(sx => [sx.id, sx])),
   });
 
@@ -469,6 +508,14 @@ async function renderRead(root, r) {
       const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
       const form = o.condition ? ', ' + t('materials.form.' + o.condition) : '';
       return (p ? text(p.nameCommon) : '—') + part + form;
+    }
+    if (o?.recipeId) {
+      // A line whose ingredient is MADE by another recipe (§13dy). The name is
+      // that recipe's; a missing one reads as a dash rather than as the role,
+      // because the role would say „свързващо" for a binder solution that has
+      // been deleted — indistinguishable from a line nobody filled in.
+      const made = recipesById.get(o.recipeId);
+      return made ? text(made.name) : '—';
     }
     const sub = byId.get(o?.substanceId);
     return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
@@ -506,7 +553,7 @@ async function renderRead(root, r) {
     // A line that names nothing shows its note INSTEAD of the role: „помощно"
     // tells a person nothing, and the note is the only place the sauerkraut
     // juice is named at all (§13dv).
-    const named = !!(ing.option?.substanceId || ing.option?.plantId);
+    const named = !!(ing.option?.substanceId || ing.option?.plantId || ing.option?.recipeId);
     const sentence = firstSentence(text(ing.note));
     const heading = named
       ? esc(await nameOf(ing.option, ing.roleCode))
@@ -547,7 +594,7 @@ async function renderRead(root, r) {
     .filter(Boolean)
     .map(async fr => {
       const fs = scaleRecipe(fr, {
-        ...scaleCtx,
+        ...ctx,
         choices: null,
         bathLitres: fr.defaultLitres ?? null,
       });
@@ -581,16 +628,22 @@ async function renderRead(root, r) {
         <h2>${t('recipes.workView')}</h2>
         <p class="note">${t('recipes.workHint')}</p>
         <div class="workhead">
-          ${scaleModeOf(r) === 'volume'
+          ${!scalingMatters(r)
+            // 18c. A field that accepts a number and moves nothing is worse
+            // than no field: the owner typed 10, then 100, and concluded the
+            // scaling was broken. Four of the six recipes shipped at rc55 were
+            // like this. Asked of the recipe rather than of its type (§13dz).
+            ? `<p class="hint">${t('recipes.fixedAmounts')}</p>`
+            : scaleModeOf(r) === 'volume'
             ? `<label class="inlinefield"><span>${t('recipes.forLitres')}</span>
-                 <input type="number" step="0.5" min="0" data-scale="bathLitres" value="${scaleCtx.bathLitres ?? r.defaultLitres ?? ''}"></label>`
+                 <input type="text" inputmode="decimal" data-scale="bathLitres" value="${ctx.bathLitres ?? r.defaultLitres ?? ''}"></label>`
             : scaleModeOf(r) === 'raw'
             ? `<label class="inlinefield"><span>${t('recipes.forRaw')}</span>
-                 <input type="number" step="1" min="0" data-scale="rawG" value="${scaleCtx.rawG ?? ''}"></label>`
+                 <input type="text" inputmode="decimal" data-scale="rawG" value="${ctx.rawG ?? ''}"></label>`
             : `<label class="inlinefield"><span>${t('recipes.forWeight')}</span>
-                 <input type="number" step="10" min="0" data-scale="weightG" value="${scaleCtx.weightG ?? ''}"></label>
+                 <input type="text" inputmode="decimal" data-scale="weightG" value="${ctx.weightG ?? ''}"></label>
                <label class="inlinefield"><span>${t('recipes.forFibre')}</span>
-                 <select data-scale="fibreClass">${await options('fibre_class', scaleCtx.fibreClass, '')}</select></label>`}
+                 <select data-scale="fibreClass">${await options('fibre_class', ctx.fibreClass, '')}</select></label>`}
         </div>
 
         <div class="weighbox">
@@ -612,7 +665,7 @@ async function renderRead(root, r) {
         // Attribution was stored on every seeded recipe and shown on none of
         // them. For a library meant to be given away that is not a display
         // gap, it is the condition of shipping (§13at) going unmet on a screen.
-        fact(t('recipes.source'), await sourceNames(r.sourceCode)),
+        fact(t('recipes.source'), await sourceNames(r)),
         r.distributable === false ? fact(t('recipes.notDistributable'), '✓') : '',
       ]) + prose(r.notes))}`,
   });
@@ -621,14 +674,20 @@ async function renderRead(root, r) {
 // One code or several. A recipe may rest on more than one source and they are
 // not the same claim: for the watercolour binder the book supplies the figures
 // and the studio's practice confirms they work (§13de).
-async function sourceNames(sourceCode) {
-  const codes = (Array.isArray(sourceCode) ? sourceCode : [sourceCode]).filter(Boolean);
+async function sourceNames(row) {
+  // Asked of the RECORD, through the one reader (§13ea), so this screen cannot
+  // disagree with the audit or the delete policy about what a recipe credits.
+  const codes = codesOf(row);
   if (!codes.length) return '';
-  const sources = await all('sources');
-  const byCode = new Map(sources.map(s => [s.code, s]));
+  // `s.code` is EMPTY on a seeded source — `loadPack` strips the field and the
+  // code survives only in the id — so this map missed every one of them and
+  // fell through to printing the raw code on the screen: „joanne-green-
+  // watercolour" where a book's title belongs. It had been doing that since the
+  // screen was written; the guard for §13ea is what found it.
+  const byCode = new Map((await all('sources')).map(s => [sourceCodeOf(s), s]));
   return codes.map(c => {
     const s = byCode.get(c);
-    return s ? text(s.name) || s.code : c;
+    return s ? (text(s.name) || c) : c;
   }).join(' · ');
 }
 
@@ -664,7 +723,7 @@ async function renderForm(root, r) {
           ${panel(`
             <h2>${t('recipes.ingredients')}</h2>
             <p class="note">${t('recipes.ingredientsHint')}</p>
-            <div class="inglist">${await ingredientRows(r, substances, plantList)}</div>
+            <div class="inglist">${await ingredientRows(r, substances, plantList, allRecipes.filter(x => x.id !== r.id))}</div>
             ${actionBtn('add', t('recipes.addIngredient'), 'data-ing-add', 'contextual')}
             <p class="hint">${t('recipes.alternativesHint')} ${t('recipes.qtyRangeHint')}</p>
           `)}
@@ -815,6 +874,7 @@ function readForm(root) {
       const opt = ings[idx].options[jdx];
       opt.plantId = value.startsWith('p:') ? value.slice(2) : '';
       opt.substanceId = value.startsWith('s:') ? value.slice(2) : '';
+      opt.recipeId = value.startsWith('r:') ? value.slice(2) : '';
       if (!opt.plantId) opt.partCode = '';
       continue;
     }
@@ -1165,9 +1225,25 @@ export default {
         // A blank field is "not set", not zero. `Number('')` is 0, which for the
         // bath volume means every quantity computes to nothing.
         const raw = e.target.value;
-        scaleCtx[e.target.dataset.scale] = e.target.type === 'number'
-          ? (raw === '' ? null : Number(raw))
-          : raw;
+        const which0 = e.target.dataset.scale;
+        if (which0 === 'fibreClass') {
+          fibreClass = raw;
+        } else {
+          // A comma is how a number is written here, and the field used to be
+          // `type="number"`, which silently rejects one. It is text now (§13dz):
+          // `setSelectionRange` throws on a number input in Chrome, inside a
+          // `try` that swallowed it, so the caret jumped to the front after the
+          // first digit and a two-digit number could not be typed at all (18d).
+          // `inputmode="decimal"` keeps the numeric keypad on a phone.
+          const cleaned = raw.trim().replace(',', '.');
+          const n = cleaned === '' ? null : Number(cleaned);
+          // Something that is not a number leaves the last figure standing
+          // rather than blanking the weigh list mid-keystroke — „1." on the way
+          // to „1.5" is not an instruction to forget the 1.
+          if (n === null || Number.isFinite(n)) {
+            scaleByRecipe[openId] = { ...(scaleByRecipe[openId] || {}), [which0]: n };
+          }
+        }
 
         // The same inputs stand on the record and in the editor, but only the
         // editor has a `.scaleblock` to replace. On the record nothing was
@@ -1191,7 +1267,11 @@ export default {
         const again = root.querySelector(`[data-scale="${which}"]`);
         if (again) {
           again.focus();
-          try { again.setSelectionRange(at, at); } catch { /* number inputs may refuse */ }
+          // No `try` here any more. It is a text input, `setSelectionRange` is
+          // defined for it, and a swallowed failure is how 18d hid for four
+          // releases: the caret restore threw on every keystroke and the
+          // catch made it look like nothing had happened.
+          again.setSelectionRange(at, at);
         }
         return;
       }

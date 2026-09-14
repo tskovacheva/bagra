@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": 10,
+ "packVersion": "11",
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -584,6 +584,26 @@
    "note": {
     "bg": "Исторически рецепти, разчетени от ръкописи и после наистина изпълнени. Всяка рецепта носи цитата от източника си — Mappae Clavicula от XII век например — и до него мостра, боядисана от автора по същата рецепта, така че прочетеното и полученото стоят едно до друго. За брош дава два маршрута: средновековния с дъбови шикалки и калкотар, и съвременен, при който багрилото се утаява върху креда и се стрива до пигмент. Полезна е с това, че отличава рецепта, дала багрило, от рецепта, дала боя, и показва мострите отделно.",
     "en": "Historical recipes read out of manuscripts and then actually carried out. Each recipe carries the quotation from its source — the twelfth-century Mappae Clavicula, for one — and beside it a swatch the author painted from that same recipe, so the reading and the result stand together. For madder it gives two routes: the medieval one with oak galls and calcothar, and a modern one where the dye is precipitated onto chalk and ground to a pigment. Its use here is that it separates a recipe that gave a dye from a recipe that gave a paint, and shows the swatches apart."
+   }
+  },
+  {
+   "code": "nicola-cliffe-printing",
+   "kind": "book",
+   "name": "Printing with Natural Dyes",
+   "author": "Nicola Cliffe",
+   "note": {
+    "bg": "Ръководство за печат с натурални багрила. Глава 6 дава пастите: мордант паста без багрило, багрилна паста без мордант и готова паста с мордант, всяка с количества и с това какво става след нанасянето.",
+    "en": "A guide to printing with natural dyes. Chapter 6 gives the pastes: a mordant paste with no dye, a dye paste with no mordant, and a ready-to-use paste with a mordant — each with quantities and with what happens to the cloth afterwards."
+   }
+  },
+  {
+   "code": "maiwa-print-paint",
+   "kind": "course",
+   "name": "Print and Paint with Natural Dyes",
+   "author": "Maiwa School of Textiles",
+   "note": {
+    "bg": "Онлайн курс. Дава същата мордант паста със същите количества като Клиф, а от него са взети предупрежденията при разбъркването. Неговата готова паста с мордант е по друга химия — стипца, държана в разтвор с оцет — и не е избрана за библиотеката.",
+    "en": "An online course. It gives the same mordant paste with the same figures as Cliffe, and its mixing warnings are taken from here. Its ready-to-use mordant paste follows different chemistry — alum kept in solution with vinegar — and was not the one chosen for the library."
    }
   }
  ]

@@ -81,6 +81,31 @@ function convert(quantity, basis, ctx) {
   }
 }
 
+/**
+ * Does the amount field change anything on THIS recipe? (§13dz)
+ *
+ * Asked by COMPUTING it, not by listing which bases or which types scale. Four
+ * of the six recipes shipped at rc55 offered the field and moved nothing when
+ * it was used — both madder lakes, the pastel, and the lake master, whose
+ * dyestuff is a percentage of a carrier that is itself absolute. A whitelist of
+ * bases would have caught the first three and missed the fourth, because the
+ * fourth depends on what the OTHER lines say.
+ *
+ * A list of which recipes scale would also be a second copy of a fact that
+ * `convert` already holds — the single most common cause of a fault in this
+ * project. So: scale twice, at two values, and see whether any figure differs.
+ * If `convert` changes, this changes with it and nobody has to remember.
+ *
+ * Two values that are not multiples of one another, and neither zero nor one,
+ * so a line that ignores its input cannot coincide with one that does not.
+ */
+export function scalingMatters(recipe) {
+  if (!recipe) return false;
+  const at = (v) => scaleRecipe(recipe, { weightG: v, rawG: v, bathLitres: v })
+    .ingredients.map(i => `${i.scaledMin}/${i.scaledMax}`).join('|');
+  return at(7) !== at(93);
+}
+
 export function scaleRecipe(recipe, {
   weightG,
   fibreClass = null,

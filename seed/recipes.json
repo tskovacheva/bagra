@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.9.0",
+ "packVersion": "0.14.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -121,8 +121,10 @@
     "bg": "Пропорцията решава наситеността, не силата на цвета: малко багрило върху много основа дава пастелен тон, а не по-блед вариант на същия цвят. По-ниският процент — по-светъл пигмент.",
     "en": "The proportion decides the depth, not the strength: little dye over much base gives a pastel hue rather than a paler version of the same colour. The lower the percentage, the paler the pigment."
    },
-   "sourceCode": "natalie-stopka-pigment",
-   "distributable": true
+   "distributable": true,
+   "sourceCodes": [
+    "natalie-stopka-pigment"
+   ]
   },
   {
    "code": "watercolour-from-pigment",
@@ -160,8 +162,8 @@
      "unit": "ml",
      "options": [
       {
-       "id": "opt-wc-binder-solution",
-       "substanceId": "seed:gum_arabic"
+       "id": "wc-b-recipe",
+       "recipeId": "seed:watercolour-binder"
       }
      ]
     }
@@ -196,8 +198,10 @@
     "bg": "Приложението не води направените акварели — това е рецепта за четене и следване, не работа със запис. Записва се пигментът, от който тръгва.",
     "en": "The application does not log watercolours made — this is a recipe to read and follow, not work that keeps a record. What is recorded is the pigment it starts from."
    },
-   "sourceCode": "joanne-green-watercolour",
-   "distributable": true
+   "distributable": true,
+   "sourceCodes": [
+    "joanne-green-watercolour"
+   ]
   },
   {
    "code": "pastels-from-pigment",
@@ -244,19 +248,21 @@
      "roleCode": "binder",
      "basis": "absolute",
      "note": {
-      "bg": "Слаб разтвор на гум трагакант или метилцелулоза, добавян капка по капка, докато сместа стане ковка като глина. Броят капки не е число в рецептата — зависи от пигмента и се вижда с пръсти. Празно тук значи „до нужната консистенция\".",
-      "en": "A weak solution of gum tragacanth or methylcellulose, added drop by drop until the mix is malleable and claylike. The number of drops is not a figure in the recipe — it depends on the pigment and is judged by hand. Empty here means „until it feels right\"."
+      "bg": "Свързващ разтвор, накапван малко по малко. При Стопка 3.5 мл на около две лъжици пигмент.",
+      "en": "Binder solution, dripped in a little at a time. Stopka gives 3.5 ml to about two spoons of pigment."
      },
      "options": [
       {
-       "id": "opt-past-tragacanth",
-       "substanceId": "seed:gum_tragacanth"
+       "id": "past-b-oat",
+       "recipeId": "seed:pastel-binder-oat"
       },
       {
-       "id": "opt-past-methylcell",
-       "substanceId": "seed:methylcellulose"
+       "id": "past-b-gum",
+       "recipeId": "seed:pastel-binder-gum"
       }
-     ]
+     ],
+     "quantity": 3.5,
+     "unit": "ml"
     }
    ],
    "steps": [
@@ -283,8 +289,10 @@
     "bg": "Съотношението пигмент към пълнител прави гамата: чист пигмент дава наситен и трошлив пастел, повече пълнител — по-светъл и по-твърд. Не се води; записва се пигментът.",
     "en": "The pigment-to-filler ratio makes the range: pure pigment gives a saturated, crumbly pastel, more filler a paler and harder one. Not logged; what is recorded is the pigment."
    },
-   "sourceCode": "natalie-stopka-pigment",
-   "distributable": true
+   "distributable": true,
+   "sourceCodes": [
+    "natalie-stopka-pigment"
+   ]
   },
   {
    "code": "watercolour-binder",
@@ -424,11 +432,11 @@
     "bg": "Свързващото е лепилото на акварела: то обгръща зърната пигмент и ги кара да текат като боя. Тази рецепта прави количество, което стига за много бои — малко свързващо върши много работа.\n\nГъстотата се нагласява след това: повече гума на прах я сгъстява, повече свързващо или разреждане със спирт я прави по-течна, към мастило. Затова прахът е задължителен, а не течната гума.\n\nПриложението не води направените акварели — това е рецепта за четене и следване. Записва се пигментът, от който тръгва.",
     "en": "The binder is the glue of a watercolour: it coats the grains of pigment and makes them flow as paint. This quantity makes enough for a great many paints — a little goes a long way.\n\nThe thickness is adjusted afterwards: more gum powder thickens it, more binder or thinning with alcohol takes it towards an ink. That is why the powder is required and liquid gum is not.\n\nThe application does not log watercolours made — this is a recipe to read and follow. What is recorded is the pigment it starts from."
    },
-   "sourceCode": [
+   "distributable": true,
+   "sourceCodes": [
     "joanne-green-watercolour",
     "crafty-place-practice"
-   ],
-   "distributable": true
+   ]
   },
   {
    "code": "madder-lake-hot",
@@ -573,8 +581,10 @@
     "bg": "По-простият от двата маршрута: без ферментация и без мерене на pH. Разликата с рецептата на Стопка не е в степента, а по вид — там има двуседмичен биологичен етап и утаяване с калцинирана сода до pH 7, тук няма нито едното. Кредата и содата се държат различно, защото кредата е слаба основа, а содата силна. Кои от двете дава по-добър резултат при кой брош е въпрос, на който отговаря партидата, не рецептата. Ръкавици при работа с растението, проветрение при извличането, маска при работа с прахове.",
     "en": "The simpler of the two routes: no fermentation and no pH metering. Its difference from Stopka's is one of kind rather than degree — hers has a two-week biological stage and precipitation with soda ash to pH 7, and this has neither. Chalk and soda ash behave differently because chalk is a mild alkali and soda ash a strong one. Which of the two gives the better result with which madder is a question a batch answers, not a recipe. Gloves while handling the plant, ventilation during the extraction, a dust mask for powders."
    },
-   "sourceCode": "joanne-green-watercolour",
-   "distributable": true
+   "distributable": true,
+   "sourceCodes": [
+    "joanne-green-watercolour"
+   ]
   },
   {
    "code": "madder-lake-fermentation",
@@ -755,8 +765,515 @@
     "bg": "Ферментацията разгражда дървесната структура на корена и разгражда захарите му, така че цветът се освобождава чрез хидролиза — корените стигат до горещото извличане вече предварително сдъвкани. Стопка отбелязва, че същият подход си струва да се пробва и с други видове брош (Rubia cordifolia, R. akane, R. peregrina), както и с корени на еньовче — Galium verum, G. aparine, G. saxatile, G. odoratum.",
     "en": "Fermentation breaks down the woody structure of the root and digests its sugars, so colour is released by hydrolysis — the roots reach the hot extraction already predigested. Stopka notes the same approach is worth trying with other madders (Rubia cordifolia, R. akane, R. peregrina) and with the roots of bedstraws — Galium verum, G. aparine, G. saxatile, G. odoratum."
    },
-   "sourceCode": "natalie-stopka-pigment",
-   "distributable": true
+   "distributable": true,
+   "sourceCodes": [
+    "natalie-stopka-pigment"
+   ]
+  },
+  {
+   "code": "pastel-binder-oat",
+   "type": "paste",
+   "output": "none",
+   "scaleBy": "raw",
+   "name": {
+    "bg": "Свързващ разтвор за пастели — овес",
+    "en": "Pastel binder — oat water"
+   },
+   "notes": {
+    "bg": "Разтворът на Стопка за пастели, вместо гум трагакант. Прави се предварително и се използва студен.",
+    "en": "Stopka's pastel binder in place of gum tragacanth. Made in advance and used cold."
+   },
+   "ingredients": [
+    {
+     "id": "pbo-1",
+     "roleCode": "binder",
+     "basis": "ratio_to_dyestuff",
+     "quantity": 1,
+     "unit": "g",
+     "note": {
+      "bg": "Овесени ядки. При Стопка 7.5 г на 240 мл вода.",
+      "en": "Oat groats. Stopka gives 7.5 g to 240 ml of water."
+     },
+     "options": [
+      {
+       "id": "pbo-o1",
+       "substanceId": "seed:oats"
+      }
+     ]
+    },
+    {
+     "id": "pbo-2",
+     "roleCode": "solvent",
+     "basis": "ratio_to_dyestuff",
+     "quantity": 32,
+     "unit": "ml",
+     "note": {
+      "bg": "Вода, 240 мл на 7.5 г овес.",
+      "en": "Water, 240 ml to 7.5 g of oats."
+     }
+    }
+   ],
+   "steps": [
+    {
+     "id": "pbo-s1",
+     "text": {
+      "bg": "Накисни овесените ядки във водата и остави да стоят, докато водата стане хлъзгава.",
+      "en": "Soak the oats in the water and leave until the water turns slippery."
+     }
+    },
+    {
+     "id": "pbo-s2",
+     "text": {
+      "bg": "Прецеди. Ядките се изхвърлят, разтворът се пази.",
+      "en": "Strain. The groats are discarded, the liquid is kept."
+     }
+    },
+    {
+     "id": "pbo-s3",
+     "text": {
+      "bg": "Използвай студен. Не се пази дълго — прави се за деня.",
+      "en": "Use cold. It does not keep — make it for the day."
+     }
+    }
+   ],
+   "sourceCodes": [
+    "natalie-stopka-pigment"
+   ]
+  },
+  {
+   "code": "pastel-binder-gum",
+   "type": "paste",
+   "output": "none",
+   "scaleBy": "raw",
+   "name": {
+    "bg": "Свързващ разтвор за пастели — гума",
+    "en": "Pastel binder — gum solution"
+   },
+   "notes": {
+    "bg": "Слаб разтвор на гум трагакант или метилцелулоза. Количествата не са записани — рецептата казва „слаб разтвор“ и толкова.",
+    "en": "A weak solution of gum tragacanth or methylcellulose. No quantities are recorded — the recipe says „a weak solution“ and no more."
+   },
+   "ingredients": [
+    {
+     "id": "pbg-1",
+     "roleCode": "binder",
+     "basis": "absolute",
+     "quantity": null,
+     "unit": "g",
+     "note": {
+      "bg": "Гум трагакант или метилцелулоза, в слаб разтвор.",
+      "en": "Gum tragacanth or methylcellulose, in a weak solution."
+     },
+     "options": [
+      {
+       "id": "pbg-o1",
+       "substanceId": "seed:gum_tragacanth"
+      },
+      {
+       "id": "pbg-o2",
+       "substanceId": "seed:methylcellulose"
+      }
+     ]
+    },
+    {
+     "id": "pbg-2",
+     "roleCode": "solvent",
+     "basis": "absolute",
+     "quantity": null,
+     "unit": "ml",
+     "note": {
+      "bg": "Вода.",
+      "en": "Water."
+     }
+    }
+   ],
+   "steps": [
+    {
+     "id": "pbg-s1",
+     "text": {
+      "bg": "Разбъркай гумата във вода до слаб, леко плъзгав разтвор без бучки.",
+      "en": "Stir the gum into water to a weak, slightly slippery solution without lumps."
+     }
+    }
+   ],
+   "sourceCodes": [
+    "crafty-place-practice"
+   ]
+  },
+  {
+   "code": "mordant-print-paste",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "raw",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "nicola-cliffe-printing",
+    "maiwa-print-paint"
+   ],
+   "name": {
+    "bg": "Мордант паста за печат",
+    "en": "Mordant print paste"
+   },
+   "notes": {
+    "bg": "Прави около 200 мл. Пастата носи морданта, не багрилото: печата се върху немордантиран плат, после платът влиза в багрилната баня и цвят хваща само там, където е печатано. Най-добре с адјективно багрило — субстантивното оцветява и фона. Количествата на Клиф и на Maiwa съвпадат.",
+    "en": "Makes about 200 ml. The paste carries the mordant, not the dye: it is printed onto unmordanted cloth, and when the cloth goes into the dye bath only the printed areas take colour. Best with an adjective dye — a substantive one will colour the ground as well. Cliffe's figures and Maiwa's agree."
+   },
+   "ingredients": [
+    {
+     "id": "mpp-1",
+     "roleCode": "acid_source",
+     "basis": "absolute",
+     "unit": "ml",
+     "note": {
+      "bg": "Оцет 5%. Основата на пастата — 200 мл на 20 г стипца.",
+      "en": "5% vinegar. The base of the paste — 200 ml to 20 g of alum."
+     },
+     "quantity": 200,
+     "options": [
+      {
+       "id": "mpp-o1",
+       "substanceId": "seed:acetic_acid"
+      }
+     ]
+    },
+    {
+     "id": "mpp-2",
+     "roleCode": "mordant",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Калиева стипца, 20 г. Може да не се разтвори докрай и това е нормално.",
+      "en": "Potassium alum, 20 g. It may not all dissolve, and that is normal."
+     },
+     "quantity": 20,
+     "options": [
+      {
+       "id": "mpp-o2",
+       "substanceId": "seed:alum_potassium_12"
+      }
+     ]
+    },
+    {
+     "id": "mpp-3",
+     "roleCode": "alkali",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Сода, 10 г. Влиза бавно — сместа кипва и се надига.",
+      "en": "Soda ash, 10 g. It goes in slowly — the mixture froths and rises."
+     },
+     "quantity": 10,
+     "options": [
+      {
+       "id": "mpp-o3",
+       "substanceId": "seed:soda_ash"
+      }
+     ]
+    },
+    {
+     "id": "mpp-4",
+     "roleCode": "thickener",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Гуар гума, 2 г. Работи и в кисела среда, затова е тя тук.",
+      "en": "Guar gum, 2 g. It works in an acid bath, which is why it is the one here."
+     },
+     "quantity": 2,
+     "options": [
+      {
+       "id": "mpp-o4",
+       "substanceId": "seed:guar_gum"
+      }
+     ]
+    },
+    {
+     "id": "mpp-5",
+     "roleCode": "marker",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Капка багрилен екстракт, само за да се вижда къде печаташ — този цвят се отмива и не остава в плата.",
+      "en": "A drop of dye extract, only so you can see where you are printing — that colour washes out and is not in the finished cloth."
+     },
+     "options": []
+    }
+   ],
+   "steps": [
+    {
+     "id": "mpp-s1",
+     "text": {
+      "bg": "Вземи съд поне 4–5 пъти по-голям от течността — сместа ще се надигне.",
+      "en": "Take a vessel at least four to five times the volume of the liquid — the mixture will rise."
+     }
+    },
+    {
+     "id": "mpp-s2",
+     "text": {
+      "bg": "Разтвори стипцата в оцета. Бъркай 5–10 минути. Ако не се разтвори всичко, няма страшно.",
+      "en": "Dissolve the alum in the vinegar. Stir for five to ten minutes. If it does not all dissolve, that is fine."
+     }
+    },
+    {
+     "id": "mpp-s3",
+     "text": {
+      "bg": "Добавяй содата малко по малко. Ще кипи и ще пени. Спри, когато вече не се образуват мехурчета при разбъркване.",
+      "en": "Add the soda ash a little at a time. It will fizz and froth. Stop when swirling no longer raises bubbles."
+     }
+    },
+    {
+     "id": "mpp-s4",
+     "text": {
+      "bg": "Чак когато пенята спадне, добави гумата — наведнъж — и разбъркай. Ако стане на бучки, използвай пасатор.",
+      "en": "Only when the frothing has subsided, add the gum — all at once — and stir. If it lumps, use a stick blender."
+     }
+    },
+    {
+     "id": "mpp-s5",
+     "text": {
+      "bg": "Остави около 15 минути да се сгъсти.",
+      "en": "Leave about fifteen minutes to thicken."
+     }
+    },
+    {
+     "id": "mpp-s6",
+     "text": {
+      "bg": "Добави капка екстракт, за да виждаш къде печаташ. Нанеси с калъп или през сито върху сухия плат.",
+      "en": "Add a little extract so you can see where you are printing. Apply with a block or through a screen onto the dry cloth."
+     }
+    },
+    {
+     "id": "mpp-s7",
+     "text": {
+      "bg": "Остави да изсъхне напълно. Изсуши със сешоар или изглади с ютия.",
+      "en": "Let it dry completely. Use a hairdryer or an iron to be sure it is thoroughly dry."
+     }
+    },
+    {
+     "id": "mpp-s8",
+     "text": {
+      "bg": "Неутрализирай във варова баня 10–20 минути според дебелината на плата.",
+      "en": "Neutralise in the calcium carbonate bath for ten to twenty minutes, depending on the thickness of the cloth."
+     }
+    },
+    {
+     "id": "mpp-s9",
+     "text": {
+      "bg": "Изпери добре в топла вода, за да излезе сгъстителят, преди платът да влезе в багрилната баня.",
+      "en": "Wash thoroughly in warm water to rinse out the thickener before the cloth goes into the dye bath."
+     }
+    }
+   ]
+  },
+  {
+   "code": "dye-print-paste",
+   "type": "paste",
+   "output": "none",
+   "scaleBy": "raw",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "nicola-cliffe-printing"
+   ],
+   "name": {
+    "bg": "Багрилна паста без мордант",
+    "en": "Dye print paste, no mordant"
+   },
+   "notes": {
+    "bg": "Прави около 200 мл. Нанася се върху предварително мордантиран плат — пастата няма мордант и сама няма да задържи адјективно багрило. Фонът остава без цвят. Пази се около две седмици в затворен съд.",
+    "en": "Makes about 200 ml. Printed onto pre-mordanted cloth — the paste has no mordant and will not fix an adjective dye on its own. The ground stays clear. Keeps about two weeks in a closed jar."
+   },
+   "ingredients": [
+    {
+     "id": "dpp-1",
+     "roleCode": "dyestuff",
+     "basis": "absolute",
+     "unit": "ml",
+     "note": {
+      "bg": "200 мл багрилен разтвор от извличане, или 5–10 г екстракт, разтворен в 200 мл топла вода. Започвай с по-малко — още екстракт винаги може да се добави.",
+      "en": "200 ml of dye solution from an extraction, or 5–10 g of extract dissolved in 200 ml of warm water. Start with less — more extract can always be added."
+     },
+     "quantity": 200,
+     "options": []
+    },
+    {
+     "id": "dpp-2",
+     "roleCode": "thickener",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Нишесте 5–10 г за печат с калъп, или гуар гума 2–4 г за ситопечат. Нишестето покрива калъпа по-добре; гумата дава по-остър ръб без разтичане.",
+      "en": "5–10 g cornflour for block printing, or 2–4 g guar gum for screen printing. The starch covers a block better; the gum gives a crisper edge with no seeping."
+     },
+     "options": [
+      {
+       "id": "dpp-o1",
+       "substanceId": "seed:cornflour",
+       "qtyMin": 5,
+       "qtyMax": 10
+      },
+      {
+       "id": "dpp-o2",
+       "substanceId": "seed:guar_gum",
+       "qtyMin": 2,
+       "qtyMax": 4
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "dpp-s1",
+     "text": {
+      "bg": "Сипи разтвора в съд с широко гърло.",
+      "en": "Pour the solution into a wide-mouthed jar or beaker."
+     }
+    },
+    {
+     "id": "dpp-s2",
+     "text": {
+      "bg": "С НИШЕСТЕ: поръси го, докато бъркаш, после сгъсти на водна баня. Бъркай непрекъснато, докато пастата се сгъсти и стане полупрозрачна — като сос.",
+      "en": "WITH STARCH: sprinkle it in while stirring, then thicken over a water bath. Stir constantly until the paste thickens and turns translucent — like a sauce."
+     }
+    },
+    {
+     "id": "dpp-s3",
+     "text": {
+      "bg": "С ГУМА: в студен разтвор, по малко, с усърдно бъркане. Ако стане на бучки, пасатор или прецеждане през ситна цедка.",
+      "en": "WITH GUM: into a cold solution, a little at a time, stirring thoroughly. If it lumps, use a stick blender or push it through a fine sieve."
+     }
+    },
+    {
+     "id": "dpp-s4",
+     "text": {
+      "bg": "Нанеси върху мордантирания плат с калъп или през сито.",
+      "en": "Apply to the mordanted cloth with a block or through a screen."
+     }
+    }
+   ]
+  },
+  {
+   "code": "dye-mordant-print-paste",
+   "type": "paste",
+   "output": "none",
+   "scaleBy": "raw",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "nicola-cliffe-printing"
+   ],
+   "name": {
+    "bg": "Готова паста с мордант",
+    "en": "Ready-to-use dye paste with a mordant"
+   },
+   "notes": {
+    "bg": "Прави около 200 мл. Носи и багрилото, и морданта, затова се нанася направо върху немордантиран плат и не следва багрилна баня. Колко екстракт зависи от багрилото — 1–10% обикновено стига; тегли го точно и добавяй на малки стъпки, докато цветът стане какъвто го искаш. Не се пази — прави само колкото ще използваш.",
+    "en": "Makes about 200 ml. It carries both the dye and the mordant, so it goes straight onto unmordanted cloth and no dye bath follows. How much extract depends on the dye — 1–10% is usually enough; weigh it accurately and add in small increments until the depth of colour is right. It does not keep — make only what you will use."
+   },
+   "ingredients": [
+    {
+     "id": "dmp-1",
+     "roleCode": "dyestuff",
+     "basis": "absolute",
+     "unit": "ml",
+     "note": {
+      "bg": "200 мл багрилен разтвор, или 2–20 г екстракт на прах.",
+      "en": "200 ml of dye extract solution, or 2–20 g of extract powder."
+     },
+     "quantity": 200,
+     "options": []
+    },
+    {
+     "id": "dmp-2",
+     "roleCode": "mordant",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Алуминиев ацетат, 5 г, разтворен в малко гореща вода и оставен да изстине.",
+      "en": "Aluminium acetate, 5 g, dissolved in a little hot water and left to cool."
+     },
+     "quantity": 5,
+     "options": [
+      {
+       "id": "dmp-o1",
+       "substanceId": "seed:al_acetate"
+      }
+     ]
+    },
+    {
+     "id": "dmp-3",
+     "roleCode": "thickener",
+     "basis": "absolute",
+     "unit": "g",
+     "note": {
+      "bg": "Гума, 2–3 г. За печат с калъп — по-малко гума, повече разтвор, или нишесте вместо гума.",
+      "en": "Gum, 2–3 g. For block printing use less gum, more solution, or starch instead of gum."
+     },
+     "options": [
+      {
+       "id": "dmp-o2",
+       "substanceId": "seed:guar_gum",
+       "qtyMin": 2,
+       "qtyMax": 3
+      },
+      {
+       "id": "dmp-o3",
+       "substanceId": "seed:cornflour"
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "dmp-s1",
+     "text": {
+      "bg": "Разтвори алуминиевия ацетат в малко гореща вода и остави да изстине.",
+      "en": "Dissolve the aluminium acetate in a little hot water and allow it to cool."
+     }
+    },
+    {
+     "id": "dmp-s2",
+     "text": {
+      "bg": "Смеси го с багрилния разтвор.",
+      "en": "Mix it into the dye extract solution."
+     }
+    },
+    {
+     "id": "dmp-s3",
+     "text": {
+      "bg": "Сгъсти с гумата, с пасатор, за да няма бучки.",
+      "en": "Thicken with the gum, using a stick blender to avoid lumps."
+     }
+    },
+    {
+     "id": "dmp-s4",
+     "text": {
+      "bg": "Нанеси и остави да изсъхне напълно.",
+      "en": "Apply, and let the print dry thoroughly."
+     }
+    },
+    {
+     "id": "dmp-s5",
+     "text": {
+      "bg": "Пари 15–30 минути.",
+      "en": "Steam for fifteen to thirty minutes."
+     }
+    },
+    {
+     "id": "dmp-s6",
+     "text": {
+      "bg": "Неутрализирай във варова баня, после изпери с неутрален сапун.",
+      "en": "Neutralise in the chalk bath, then wash in a pH-neutral soap."
+     }
+    }
+   ]
   }
  ]
 }

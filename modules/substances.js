@@ -12,6 +12,7 @@
 import { all, get, put, remove, newRecord, byIndex } from '../db.js';
 import { jarState, jarLeft, jarsFor, stateOfSubstance, STOCK_STATES } from '../stock-logic.js';
 import { markEdited } from '../seed.js';
+import { codesOf, sourceCodeOf } from '../refs.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
 import { tempWith } from '../units.js';
@@ -368,6 +369,14 @@ function readJar(root) {
   if (jar.status === 'wanted') jar.status = 'have';
 }
 
+async function sourceNamesOf(row) {
+  const codes = codesOf(row);
+  if (!codes.length) return '';
+  const reg = new Map((await all('sources')).map(x => [sourceCodeOf(x), x]));
+  // A source's display name is `name` — plain text, not a bilingual pair.
+  return codes.map(c => reg.get(c)?.name || '').filter(Boolean).join(' · ');
+}
+
 async function renderRead(root, r) {
   const jars = jarsFor(await all('stock'), r.id);
   const detail = await detailOf(r);
@@ -379,6 +388,12 @@ async function renderRead(root, r) {
     fact(t('materials.standardWof'), r.standardPercentWof != null ? r.standardPercentWof + '%' : ''),
     fact(t('substances.maxWof'), r.maxPercentWof != null ? r.maxPercentWof + '%' : ''),
     fact(t('materials.maxTemp'), r.maxTempC != null ? tempWith(r.maxTempC) : ''),
+    // Where the reading comes from (§13ea). Until now a substance had nowhere
+    // to credit anybody, so „Стопка казва" sat inside the prose of `typicalUse`
+    // — attribution in free text, which every other reference entity has
+    // outgrown. A code that resolves to nothing is dropped rather than printed
+    // raw: the audit reports those, and a name is what a reader wants.
+    fact(t('ref.sources'), esc(await sourceNamesOf(r))),
   ]);
 
   const handling = (r.handling || []).map(h => t('materials.handling.' + h)).join(' · ');
