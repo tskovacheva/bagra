@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.8.0",
+ "packVersion": "0.9.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -157,7 +157,13 @@
       "en": "Binder — gum arabic, honey, glycerine — one to one with the pigment."
      },
      "quantity": 1,
-     "unit": "ml"
+     "unit": "ml",
+     "options": [
+      {
+       "id": "opt-wc-binder-solution",
+       "substanceId": "seed:gum_arabic"
+      }
+     ]
     }
    ],
    "steps": [
@@ -222,7 +228,17 @@
      "note": {
       "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел. Съотношението нарочно няма число: то е изборът, с който правиш пастела мек или твърд, и се решава при всяка партида. Празно тук значи „решава се на място\", не „още не е вписано\".",
       "en": "Filler — chalk or kaolin. More filler makes a softer, paler pastel. The proportion is deliberately not a figure: it is the choice that makes the pastel soft or hard and is made batch by batch. Empty here means „decided at the slab\", not „not yet entered\"."
-     }
+     },
+     "options": [
+      {
+       "id": "opt-past-chalk",
+       "substanceId": "seed:calcium_carbonate"
+      },
+      {
+       "id": "opt-past-kaolin",
+       "substanceId": "seed:kaolin"
+      }
+     ]
     },
     {
      "roleCode": "binder",
@@ -230,7 +246,17 @@
      "note": {
       "bg": "Слаб разтвор на гум трагакант или метилцелулоза, добавян капка по капка, докато сместа стане ковка като глина. Броят капки не е число в рецептата — зависи от пигмента и се вижда с пръсти. Празно тук значи „до нужната консистенция\".",
       "en": "A weak solution of gum tragacanth or methylcellulose, added drop by drop until the mix is malleable and claylike. The number of drops is not a figure in the recipe — it depends on the pigment and is judged by hand. Empty here means „until it feels right\"."
-     }
+     },
+     "options": [
+      {
+       "id": "opt-past-tragacanth",
+       "substanceId": "seed:gum_tragacanth"
+      },
+      {
+       "id": "opt-past-methylcell",
+       "substanceId": "seed:methylcellulose"
+      }
+     ]
     }
    ],
    "steps": [
@@ -283,7 +309,13 @@
       "bg": "Гума арабика на прах, добре натъпкана в мерителната чаша. Течната гума не върши работа тук — прахът е това, което се разтваря докрай. Тя Е количеството, спрямо което се мери всичко останало: напишеш 84 вместо 42 и цялата рецепта се удвоява заедно с нея.",
       "en": "Powdered gum arabic, well packed into the measure. Liquid gum does not do this job — the powder is what dissolves completely. It IS the amount everything else is measured against: enter 84 instead of 42 and the whole recipe doubles with it."
      },
-     "quantity": 1
+     "quantity": 1,
+     "options": [
+      {
+       "id": "opt-binder-gum",
+       "substanceId": "seed:gum_arabic"
+      }
+     ]
     },
     {
      "roleCode": "solvent",
@@ -303,7 +335,13 @@
       "bg": "Глицерин, около 15 мл на 42 г гума. Задържа влага в изсъхналата боя и ѝ дава гладък, леко лъскав вид.",
       "en": "Glycerine, about 15 ml to 42 g of gum. It holds moisture in the dried paint and gives it a smooth, slightly glossy surface."
      },
-     "quantity": 0.357
+     "quantity": 0.357,
+     "options": [
+      {
+       "id": "opt-binder-glycerine",
+       "substanceId": "seed:glycerine"
+      }
+     ]
     },
     {
      "roleCode": "humectant",
@@ -313,7 +351,13 @@
       "bg": "Мед, непастьоризиран, около 15 мл на 42 г гума. Той е причината засъхналата боя да се събужда веднага под мокра четка, и пази слоя от напукване при съхнене. Може да се пропусне — тогава свързващото е веганско, а боята се разтваря по-бавно.",
       "en": "Honey, unpasteurised, about 15 ml to 42 g of gum. It is why a dry pan wakes at once under a wet brush, and it keeps the cake from cracking as it dries. It can be left out — the binder is then vegan, and the paint is slower to lift."
      },
-     "quantity": 0.357
+     "quantity": 0.357,
+     "options": [
+      {
+       "id": "opt-binder-honey",
+       "substanceId": "seed:honey"
+      }
+     ]
     },
     {
      "roleCode": "preservative",
@@ -323,7 +367,13 @@
       "bg": "Карамфилово масло, пет капки. Не се пропуска: то е единственото в сместа, което наистина консервира — противогъбично и антибактериално — и без него свързващото и боите от него мухлясват.",
       "en": "Clove oil, five drops. Not to be skipped: it is the only thing here that actually preserves — antifungal and antibacterial — and without it the binder and every paint made from it will spoil."
      },
-     "quantity": 5
+     "quantity": 5,
+     "options": [
+      {
+       "id": "opt-binder-clove",
+       "substanceId": "seed:clove_oil"
+      }
+     ]
     }
    ],
    "steps": [

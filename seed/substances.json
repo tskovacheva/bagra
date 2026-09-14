@@ -1,6 +1,6 @@
 {
  "packId": "bagra-base",
- "packVersion": "0.2.0",
+ "packVersion": "0.3.0",
  "description": {
   "bg": "Начален набор вещества — морданти, танини, модификатори и помощни.",
   "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
@@ -441,6 +441,90 @@
    "typicalUse": {
     "bg": "При очистване, обикновено около 1% WOF, заедно със содата.",
     "en": "For scouring, usually around 1% WOF, together with the soda."
+   }
+  },
+  {
+   "code": "gum_arabic",
+   "category": "binder",
+   "name": {
+    "bg": "Гума арабика",
+    "en": "Gum arabic"
+   },
+   "typicalUse": {
+    "bg": "Основното свързващо за акварел. На прах, не разтвор — прахът се разтваря напълно, а повече прах сгъстява боята. Стопка го посочва като най-разпространеното свързващо.",
+    "en": "The main binder for watercolour. Powdered, not liquid — the powder dissolves completely, and more powder thickens the paint. Stopka gives it as the commonest binder."
+   }
+  },
+  {
+   "code": "gum_tragacanth",
+   "category": "binder",
+   "name": {
+    "bg": "Гум трагакант",
+    "en": "Gum tragacanth"
+   },
+   "typicalUse": {
+    "bg": "Свързващо за пастели, в слаб разтвор. Стопка го нарича по-традиционното свързващо и сама го заменя с овесена вода.",
+    "en": "A binder for pastels, in a weak solution. Stopka calls it the more traditional binder and replaces it herself with oat water."
+   }
+  },
+  {
+   "code": "methylcellulose",
+   "category": "binder",
+   "name": {
+    "bg": "Метилцелулоза",
+    "en": "Methylcellulose"
+   },
+   "typicalUse": {
+    "bg": "Свързващо за пастели — заместител на гум трагаканта. От рецептата за пастели на Crafty Place.",
+    "en": "A binder for pastels, the alternative to gum tragacanth. From the Crafty Place pastel recipe."
+   }
+  },
+  {
+   "code": "kaolin",
+   "category": "filler",
+   "name": {
+    "bg": "Каолин",
+    "en": "Kaolin"
+   },
+   "typicalUse": {
+    "bg": "Пълнител за пастели, редом с кредата. Повече пълнител — по-мек и по-блед пастел. От рецептата за пастели на Crafty Place.",
+    "en": "A filler for pastels, alongside chalk. More filler, a softer and paler pastel. From the Crafty Place pastel recipe."
+   }
+  },
+  {
+   "code": "glycerine",
+   "category": "auxiliary",
+   "name": {
+    "bg": "Глицерин",
+    "en": "Glycerine"
+   },
+   "typicalUse": {
+    "bg": "Омекотител в акварелното свързващо — държи блокчето да не изсъхне на камък. От рецептата на Crafty Place и §13dn; Стопка не го използва.",
+    "en": "A plasticiser in the watercolour binder, keeping the cake from drying hard. From the Crafty Place recipe and §13dn; Stopka does not use it."
+   }
+  },
+  {
+   "code": "honey",
+   "category": "auxiliary",
+   "name": {
+    "bg": "Мед",
+    "en": "Honey"
+   },
+   "typicalUse": {
+    "bg": "Задържа влага в акварелното свързващо: привлича влага, за да се намокря боята отново. Стопка, със същите думи. Непастьоризиран.",
+    "en": "A humectant in the watercolour binder: it attracts moisture so the paint rewets. Stopka, in those words. Unpasteurized."
+   }
+  },
+  {
+   "code": "clove_oil",
+   "category": "auxiliary",
+   "name": {
+    "bg": "Карамфилово масло",
+    "en": "Clove oil"
+   },
+   "typicalUse": {
+    "bg": "Консервант в акварелното свързващо — няколко капки. Не се пропуска: свързващото е захар и вода и мухлясва. Стопка.",
+    "en": "A preservative in the watercolour binder, a few drops. Not optional: the binder is sugar and water and it moulds. Stopka."
    }
   }
  ]

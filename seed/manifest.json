@@ -10,7 +10,7 @@
   },
   "substances": {
    "packId": "bagra-base",
-   "version": "0.2.0"
+   "version": "0.3.0"
   },
   "techniques": {
    "packId": "bagra-techniques",
@@ -26,7 +26,7 @@
   },
   "recipes": {
    "packId": "bagra-recipes",
-   "version": "0.8.0"
+   "version": "0.9.0"
   }
  }
 }

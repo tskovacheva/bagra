@@ -474,13 +474,50 @@ async function renderRead(root, r) {
     return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
   };
 
+  // §13dx. The first sentence of a line's note, under the line.
+  //
+  // The weigh list carried a name and a figure and nothing else, and the note
+  // carries what neither can: „разтворена", „на буркан", „или алуминиев
+  // сулфат", „суров сок от кисело зеле". So „Калиева стипца 10 ml" did not say
+  // it was ten millilitres of a SOLUTION, and somebody over a pot could weigh
+  // ten millilitres of powder.
+  //
+  // The FIRST sentence only. These notes run to three and four sentences of
+  // reasoning — why the powder and not the liquid gum, what happens if the
+  // clove oil is left out — and the whole of that under every line turns the
+  // weigh list back into prose. The rest is on the record below, unchanged.
+  //
+  // A sentence ends at . ! ? or — when the note has none — the whole of it.
+  // Deliberately simple: an abbreviation inside a note would split it early,
+  // and a note cut a few words short is a smaller fault than a paragraph in
+  // the weigh list. If that shows up in real notes, it wants a rule, not a
+  // longer regular expression.
+  const firstSentence = (txt) => {
+    const str = (txt || '').trim();
+    if (!str) return '';
+    const m = str.match(/^[\s\S]*?[.!?](?=\s|$)/);
+    return (m ? m[0] : str).trim();
+  };
+
   const weighLines = async (list) => (await Promise.all(list.map(async ing => {
     const amount = ing.scaledAmount != null
       ? ing.scaledAmount
       : (ing.scaledMin != null ? `${ing.scaledMin}–${ing.scaledMax}` : '—');
+    // A line that names nothing shows its note INSTEAD of the role: „помощно"
+    // tells a person nothing, and the note is the only place the sauerkraut
+    // juice is named at all (§13dv).
+    const named = !!(ing.option?.substanceId || ing.option?.plantId);
+    const sentence = firstSentence(text(ing.note));
+    const heading = named
+      ? esc(await nameOf(ing.option, ing.roleCode))
+      : esc(sentence || await nameOf(ing.option, ing.roleCode));
+    const under = named ? sentence : '';
     return `
       <div class="weighline">
-        <span class="weighname">${esc(await nameOf(ing.option, ing.roleCode))}</span>
+        <div class="weighnamecol">
+          <span class="weighname">${heading}</span>
+          ${under ? `<span class="weighnote">${esc(under)}</span>` : ''}
+        </div>
         <span class="weighamount">${amount} <small>${esc(ing.scaledUnit || '')}</small></span>
       </div>`;
   }))).join('');
