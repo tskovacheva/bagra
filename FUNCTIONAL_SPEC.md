@@ -10900,6 +10900,94 @@ anywhere — Cliffe's recipe and not the one set aside.
 
 Seen failing with the figures turned back into ratios, and with the per-option ranges removed.
 
+## 13ec. Kelly's mordants, and a liquid measured against cloth (1.0.0-rc61)
+
+Four recipes from Alison Kelly's book, two substances, two sources, and one change to
+`calc/scale.js` that the first of them required.
+
+### The recipes
+
+- **Сложен мордант**, in two variants, bright and dark — alum, vinegar, ferrous sulfate,
+  soda ash, with the cloth going in DRY and drying hard afterwards;
+- **Баня с трици или овесени ядки**, which fixes it, carried as the mordant's
+  `requiredFollowOn` rather than as a sentence at the end;
+- **Баня със соево мляко**, for cellulose, on its own or after the mordant;
+- **Желязна баня**, immediately before printing.
+
+New substances: soy milk and wheat bran, both `binder` — what they are is a protein and a
+grain; what they DO in these recipes is a mordant and an assistant (§13dn).
+
+### Whose recipe
+
+The owner's instruction, 14 September 2026: the record credits **Kelly's book and Garcia**,
+and says nothing else. The compound mordant is Garcia's, adapted by Kelly, and, as the owner
+put it, a recipe of this kind rarely belongs to one person. Two codes in the list, no
+commentary in the record.
+
+### Which figures, and why it was not obvious
+
+Kelly gives the compound mordant TWICE and the two do not agree: a batch for up to 250 g of
+cloth, and a page of percentages.
+
+| | batch, per 100 g | percentage page |
+|---|---|---|
+| alum | 20% | 20% |
+| soda ash | **10%** | **5%** |
+| iron, bright | 0.4–0.8% | 0.2–0.5% |
+| iron, dark | 2–4% | 2–3% |
+
+The soda is exactly double, in both variants. What decided it was the RATIO: soda to alum is
+2.24 by the batch and 1.12 by the percentage page, and the soda's job is to convert the alum,
+so the two are not interchangeable. A third account of Garcia's proportions, which the owner
+found and which is **not citable** — an AI summary over Instagram and Facebook, no author, no
+title — lands at 2.12, beside the batch.
+
+So: **the batch, recalculated to 100 g of cloth**, which is what these records hold. The
+percentage page is not recorded. A record that gives two answers to one question is not a
+recipe, and the reasoning above is reasoning — it is written here, not presented in the
+application as something a source said.
+
+### A liquid measured against cloth
+
+The vinegar is 200% of the cloth's weight, and it is 200 MILLILITRES. Every line scaled by
+weight of fibre had been drawn in grams, because until now every such line was a powder — so
+the screen said „200 g", which is an instruction to weigh a liquid.
+
+`scaleRecipe` now keeps a volume unit the line declares itself, `ml` or `l`, on any basis.
+Anything else is still grams, so a line that says nothing cannot silently change meaning.
+Lines scaled by raw material or stated absolute already kept their unit; this brings the
+weight-scaled ones into line with them.
+
+### The fixing bath is a step, not a footnote
+
+`requiredFollowOn` — the mechanism §5.4 built for the chalk bath — carries the bran bath onto
+the mordant's own screen with its quantity. The owner had read this shape first: it is the
+same as the chain she keeps herself, aluminium acetate then a carbonate bath.
+
+**What is NOT built:** chains do not ship. `seed/chains.json` does not exist and there is no
+pack for it, so a chain of these recipes is something she assembles in her own copy. Whether
+the library should be able to carry a chain is a decision for after 1.0.
+
+### The aluminium acetate question
+
+The owner asked where the aluminium acetate recipe had gone. **It was never in the shipped
+library** — rc52 held six recipes, all pigment. The one on her screen is her own record,
+marked do-not-distribute. Nothing was lost. Recorded because the question is a reasonable one
+and the answer is not visible from inside the application.
+
+### The guard
+
+`kelly-mordants` in `deep-check.mjs`, at 100 g of cloth because that is the weight the figures
+were recalculated to: alum 20 g, soda 10 g, iron 0.4–0.8 g bright and 2–4 g dark, **vinegar in
+millilitres**, the bran bath present as a required step with its own quantity, and the iron
+bath stating its two litres — asked at 100 g rather than at whatever the field opens with,
+since the bath is twenty times the cloth.
+
+Seen failing with the volume unit removed and with the required follow-on removed.
+
+`try-pack-field-labels.mjs` failed again first: `requiredFollowOn` and `liquorRatio` reached
+the pack for the first time and had no names.
+
 ---
 
 

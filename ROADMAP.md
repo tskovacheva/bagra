@@ -393,6 +393,10 @@ line's note.
 seven recipe lines that named them in prose, and the first sentence of a line's note under
 each weigh line. Raised by them: **18i**, that a substance record has no source field.
 
+**rc61** added Kelly's four mordant recipes (§13ec). Open from it: whether the library should
+be able to carry a CHAIN — the compound mordant, drying and the bran bath are one sequence,
+and `seed/chains.json` does not exist.
+
 **rc60** added the three Cliffe print pastes (§13eb). **Next, and agreed with the owner: the
 DIARY side of paste printing** — `process:paste` still says „скоро" and a trial cannot choose
 it, so the library now holds recipes the diary cannot record work against. To be planned

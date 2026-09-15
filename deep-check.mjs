@@ -5752,6 +5752,57 @@ const dirty = await import('./dirty.js');
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
 }
 
+// ---- Kelly's mordants, and a liquid measured against cloth (§13ec)
+//
+// The compound mordant is the first shipped recipe scaled by the weight of the
+// cloth, and the first whose lines are not all powders. Held at 100 g, which is
+// the weight the owner recalculated the book's batch to.
+{
+  const recipes = (await import('./modules/recipes.js')).default;
+  const problems = [];
+  const at100 = async (id) => {
+    recipes.reset?.(); recipes.open(id); await recipes.render(root); await settle();
+    const f = root.querySelector('.workhead [data-scale]');
+    if (f) { f.value = '100'; f.dispatchEvent(new window.Event('input', { bubbles: true })); await settle(); }
+    return { field: !!f, weigh: (root.querySelector('.weighbox')?.textContent || '').replace(/\s+/g, ' ') };
+  };
+
+  const bright = await at100('seed:compound-mordant-bright');
+  if (!bright.field) problems.push('the compound mordant offers no amount field — it scales with the cloth');
+  for (const want of ['20 g', '10 g', '0.4–0.8 g'])
+    if (!bright.weigh.includes(want)) problems.push(`bright: ${want} is not on the weigh list`);
+  // THE LINE THIS SECTION EXISTS FOR: 200% of the cloth's weight in VINEGAR is
+  // 200 millilitres, and „200 g" is an instruction to weigh a liquid.
+  if (!bright.weigh.includes('200 ml'))
+    problems.push(`the vinegar is not shown in millilitres: „${bright.weigh.slice(0, 110)}"`);
+
+  const dark = await at100('seed:compound-mordant-dark');
+  if (!dark.weigh.includes('2–4 g')) problems.push('dark: the iron is not 2–4 g at 100 g of cloth');
+  if (dark.weigh.includes('0.4')) problems.push('dark: the bright recipe\'s iron is on the dark one');
+
+  // The fixing bath is not optional and not a footnote: it has to be ON the
+  // mordant's screen, with its own figures (§5.4).
+  recipes.reset?.(); recipes.open('seed:compound-mordant-bright');
+  await recipes.render(root); await settle();
+  const follow = root.querySelector('.planstep.required');
+  if (!follow) problems.push('the compound mordant does not carry the bran bath as a required step');
+  else if (!follow.textContent.includes('80')) problems.push('the required bath shows no quantity');
+
+  // A bath measured in litres of liquor per kilo of cloth: at 100 g that is
+  // 2 litres, and it belongs in the conditions row rather than as an
+  // ingredient nobody weighs.
+  await at100('seed:iron-bath-dark');
+  const cond = (root.querySelector('.conditions')?.textContent || '').replace(/\s+/g, ' ');
+  // Asked at 100 g, not at whatever the field opens with — the bath is twenty
+  // times the cloth, so the answer differs with the weight and a check that
+  // does not set one is checking the default.
+  if (!/\b2\b/.test(cond)) problems.push(`the iron bath does not state its 2 litres at 100 g: „${cond}"`);
+
+  recipes.reset?.();
+  if (problems.length) fail('kelly-mordants', new Error(problems.join('; ')));
+  else console.log('  kelly-mordants: the batch at 100 g, vinegar in millilitres, and the fixing bath on the mordant screen');
+}
+
 // ---- The three print pastes (§13eb)
 //
 // Held at the weigh list, because that is the screen the pastes exist for, and

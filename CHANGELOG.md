@@ -12,6 +12,24 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc61 — 14 September 2026
+
+Four mordant recipes from Alison Kelly's book. §13ec
+
+- **Compound mordant**, bright and dark, crediting Kelly's book and Garcia. Figures from the
+  book's batch, recalculated to 100 g of cloth: alum 20%, soda ash 10%, vinegar 200%, iron
+  0.4–0.8% or 2–4%. The book's percentage page gives half the soda and is not recorded — the
+  ratio of soda to alum is what decided it.
+- **Bran or oatmeal bath**, carried as the mordant's required next step, with its quantity.
+- **Soy milk bath** and **iron bath** as recipes of their own. Soy milk and wheat bran added
+  as substances.
+- **A liquid measured against cloth keeps its unit.** The vinegar is 200% of the cloth's
+  weight and 200 millilitres; every weight-scaled line had been drawn in grams, because until
+  now every one was a powder.
+- **Chains still do not ship.** A chain of these is assembled in your own copy.
+- **Asked and answered:** the aluminium acetate recipe was never in the shipped library. The
+  one on screen is the owner's own record, marked do-not-distribute.
+
 ## 1.0.0-rc60 — 14 September 2026
 
 Three print pastes from Nicola Cliffe. §13eb
