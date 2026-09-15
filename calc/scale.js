@@ -106,6 +106,10 @@ export function scalingMatters(recipe) {
   return at(7) !== at(93);
 }
 
+// Units that measure a volume. A line carrying one of these keeps it when the
+// recipe is scaled against cloth; a line carrying anything else is weighed.
+const VOLUME_UNITS = new Set(['ml', 'l']);
+
 export function scaleRecipe(recipe, {
   weightG,
   fibreClass = null,
@@ -179,7 +183,20 @@ export function scaleRecipe(recipe, {
       // the ingredient declares — forcing grams would put 15 g of glycerine
       // where the recipe means 15 ml, which is a 26% error on a liquid,
       // produced by a default written for dye powders (§13de).
-      scaledUnit: (ing.basis === 'absolute' || byRaw) ? (ing.unit || 'g') : 'g',
+      // A LINE MEASURED AGAINST CLOTH CAN STILL BE A LIQUID (§13ec).
+      //
+      // Everything scaled by weight of fibre was drawn in grams, because every
+      // such line had been a powder. The compound mordant's vinegar is 200% of
+      // the cloth's weight and it is 200 MILLILITRES: „half a litre to 250 g"
+      // is how the book gives it and how a dyer writes a liquor amount. Shown
+      // as „200 g" it is an instruction to weigh a liquid.
+      //
+      // Only a volume unit the line declares itself is honoured. Anything else
+      // stays grams, so a line that says nothing cannot silently change what it
+      // means. A recipe scaled by RAW or stated ABSOLUTE already kept its unit.
+      scaledUnit: (ing.basis === 'absolute' || byRaw)
+        ? (ing.unit || 'g')
+        : (VOLUME_UNITS.has(ing.unit) ? ing.unit : 'g'),
       basisRefersTo: ing.basisRefersTo || null,
     });
   }

@@ -1,6 +1,6 @@
 {
  "packId": "bagra-base",
- "packVersion": "0.6.0",
+ "packVersion": "0.7.0",
  "description": {
   "bg": "Начален набор вещества — морданти, танини, модификатори и помощни.",
   "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
@@ -591,6 +591,36 @@
    "typicalUse": {
     "bg": "Сгъстител за печатни пасти, сгъстява се на водна баня. Покрива калъпа по-добре от гумите, които се сбиват — затова е за печат с калъп.",
     "en": "A thickener for print pastes, thickened over a water bath. It covers a block better than the gums, which gel together — so it is the one for block printing."
+   }
+  },
+  {
+   "code": "soy_milk",
+   "category": "binder",
+   "name": {
+    "bg": "Соево мляко",
+    "en": "Soy milk"
+   },
+   "sourceCodes": [
+    "alison-kelly-printing"
+   ],
+   "typicalUse": {
+    "bg": "Мордант и фиксатор за целулоза. Протеинът се хваща за памука и лена, които сами нямат протеин, и така платът приема повече цвят. По-слабо трайно от металните морданти, но безопасно — става и с деца. Неподсладено и без аромат.",
+    "en": "A mordant and fixer for cellulose. The protein attaches to cotton and linen, which have none of their own, so the cloth takes more colour. Less lasting than a metallic mordant but safe — suitable with children. Unsweetened and unflavoured."
+   }
+  },
+  {
+   "code": "wheat_bran",
+   "category": "binder",
+   "name": {
+    "bg": "Пшенични трици",
+    "en": "Wheat bran"
+   },
+   "sourceCodes": [
+    "alison-kelly-printing"
+   ],
+   "typicalUse": {
+    "bg": "Вързани в марля и накиснати, дават млечна вода, която фиксира морданта към влакното и отмива остатъчните соли. Взаимозаменяеми с овесените ядки.",
+    "en": "Tied in cheesecloth and soaked, they give a milky water that fixes the mordant to the fibre and rinses off the stray salts. Interchangeable with oat groats."
    }
   }
  ]

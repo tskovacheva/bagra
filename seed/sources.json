@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": "11",
+ "packVersion": "12",
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -604,6 +604,26 @@
    "note": {
     "bg": "Онлайн курс. Дава същата мордант паста със същите количества като Клиф, а от него са взети предупрежденията при разбъркването. Неговата готова паста с мордант е по друга химия — стипца, държана в разтвор с оцет — и не е избрана за библиотеката.",
     "en": "An online course. It gives the same mordant paste with the same figures as Cliffe, and its mixing warnings are taken from here. Its ready-to-use mordant paste follows different chemistry — alum kept in solution with vinegar — and was not the one chosen for the library."
+   }
+  },
+  {
+   "code": "alison-kelly-printing",
+   "kind": "book",
+   "name": "Printing from the Garden",
+   "author": "Alison Kelly",
+   "note": {
+    "bg": "Ръководство за еко принт върху плат. Дава сложния мордант, банята с овесени ядки, соевото мляко и желязната баня, с количества и снимки на всяка стъпка.",
+    "en": "A guide to botanical printing on fabric. It gives the compound mordant, the oatmeal bath, the soy milk bath and the iron bath, with quantities and a photograph of every step."
+   }
+  },
+  {
+   "code": "michel-garcia",
+   "kind": "person",
+   "name": "Michel Garcia",
+   "author": "Michel Garcia",
+   "note": {
+    "bg": "Химик и ботаник, чиито методи за мордантиране на целулоза без нагряване стоят зад голяма част от съвременната практика. Сложният мордант тук е негова рецепта, адаптирана от Алисън Кели.",
+    "en": "A chemist and botanist whose methods for mordanting cellulose without heat lie behind much of current practice. The compound mordant here is his recipe, as adapted by Alison Kelly."
    }
   }
  ]
