@@ -12,6 +12,23 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc66 — 14 September 2026
+
+A6's documents, which had not existed for fourteen releases. §13eg
+
+- **`#/about` with four tabs:** About and version, Help, Safety, and Legal (terms, privacy,
+  licence). Under the rule with the backup, not seven sidebar entries.
+- **The safety text is the real one** — masks for powders, soda ash added slowly, no dyeing
+  vessel used for food, how little iron it takes, plants that are not safe for being plants,
+  disposal, children, and that a calculator computes what it was given.
+- **Privacy is short because the architecture made it short:** no account, nothing sent
+  anywhere, no analytics.
+- **The licence is a draft and says so on the screen.** It is not the developer's to settle.
+- **The address for reports is not set**, and the screen says so rather than inventing one.
+- **Guard `about`** asks for the sentences, not for the panels, and checks two claims against
+  the code — the privacy sentence against `sw.js`, and the address either way. The four screens
+  are measured at four widths.
+
 ## 1.0.0-rc65 — 14 September 2026
 
 The pH scale is drawn instead of listed. §13ef

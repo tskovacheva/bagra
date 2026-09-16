@@ -167,8 +167,9 @@ most clearly correct; item 1 is the largest and touches a fixed decision.
 
 None of this is a feature; all of it is a condition of taking money.
 
-- **About and version · Help or a short onboarding · Terms · Privacy · Licence · a safety
-  and chemical-handling disclaimer · a way to report a bug.** None of these exist.
+- ~~**About and version · Help or a short onboarding · Terms · Privacy · Licence · a safety
+  and chemical-handling disclaimer · a way to report a bug.**~~ **Written at rc66** (§13eg).
+  The licence ships as a draft and the report address is not set; both are in A7.
 - **Migration tests as a release blocker.** Before each release: a backup from the previous
   version, update, open, verify. The expensive bug is not a crooked button — it is eighty
   trials and six hundred photographs gone after an update. **Partly done at rc26**: the
@@ -215,9 +216,12 @@ spread across A2, A3, A6 and the decisions file and could not be read in one pla
 
 **Nothing may be added to this list without saying so.** It is the release's scope.
 
-1. **A6's texts.** About and version, Help, Terms, Privacy, Licence, the chemical-handling
-   disclaimer, a way to report a bug. **None exist.** Claude writes them; the owner reads them
-   once. Waiting since rc49.
+1. ~~**A6's texts.**~~ **WRITTEN at rc66** (§13eg), at `#/about` in four tabs. Two things are
+   still the owner's:
+   - **the licence**, which ships marked as a draft and is hers to accept, change or replace;
+   - **the address a fault is reported to**, which is not set — `CONTACT` in
+     `modules/about.js` is empty and the screen says so rather than inventing one.
+   Both, and the English of all seven texts, fall under her reading (item 3).
 2. **The other half of the migration tests** — a backup written by an OLDER version, opened by
    this one. The restore path itself was covered at rc26.
 3. **The owner's reading of the English.** 342 plant sections, the recipes and the vocabulary

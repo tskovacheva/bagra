@@ -5752,6 +5752,71 @@ const dirty = await import('./dirty.js');
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
 }
 
+// ---- A6's documents exist and say what they must (§13eg)
+//
+// „None of these exist" stood in the roadmap for fourteen releases. A check that
+// only asked „does the screen draw" would pass on four empty panels, so this one
+// asks for the SENTENCES that make each document worth having — and for the two
+// that would be a lie if they drifted from the code.
+{
+  const problems = [];
+  const show = async (route) => {
+    location.hash = route;
+    await settle();
+    return (root.textContent || '').replace(/\s+/g, ' ');
+  };
+
+  const about = await show('#/about');
+  const { VERSION } = await import('./version.js');
+  // The version on the screen is THE version, not a number typed into a text.
+  if (!about.includes(VERSION))
+    problems.push(`the About screen does not show ${VERSION}`);
+  if (!about.includes('офлайн')) problems.push('About does not say the application works offline');
+
+  const help = await show('#/about/help');
+  if (help.length < 400) problems.push('the Help text is too short to be help');
+  if (!help.includes('Архив') && !help.includes('архив'))
+    problems.push('Help does not tell the reader to make a backup');
+
+  const safety = await show('#/about/safety');
+  // The three that are not paperwork: the mask, the food vessels, the iron.
+  for (const [word, why] of [['маска', 'weighing powders with a mask'],
+                             ['храна', 'not using dyeing vessels for food'],
+                             ['Желязо', 'how little iron it takes']])
+    if (!safety.includes(word)) problems.push(`the safety text does not cover ${why}`);
+
+  const legal = await show('#/about/legal');
+  for (const [word, why] of [['Условия', 'terms'], ['Поверителност', 'privacy'], ['Лиценз', 'licence']])
+    if (!legal.includes(word)) problems.push(`the legal tab has no ${why} section`);
+  // The privacy text is a CLAIM ABOUT THE CODE, and the claim is checked, not
+  // trusted: it says the application fetches only its own files. `sw.js` is the
+  // one place that lists what is fetched, so a third-party URL appearing there
+  // would make the sentence false on the screen while everything still passed.
+  {
+    const fs2 = await import('node:fs');
+    const sw = fs2.readFileSync('sw.js', 'utf8');
+    const remote = [...sw.matchAll(/'https?:\/\/[^']+'/g)].map(m => m[0]);
+    if (remote.length)
+      problems.push(`privacy says only its own files are fetched, and sw.js lists ${remote.join(', ')}`);
+  }
+  // The licence says it is a draft until the owner accepts it. Removing that
+  // line silently turns a draft into a published licence.
+  if (!legal.includes('Чернова'))
+    problems.push('the licence no longer says it is a draft the owner has not approved');
+
+  // The address for reports. Whichever way it stands, the screen must be honest:
+  // an address when there is one, and a plain „not set yet" when there is not.
+  const { CONTACT } = await import('./modules/about.js');
+  if (CONTACT && !about.includes(CONTACT))
+    problems.push('an address is set and the screen does not show it');
+  if (!CONTACT && !about.includes('още не е определен'))
+    problems.push('there is no address and the screen does not say so');
+
+  location.hash = '#/dashboard'; await settle();
+  if (problems.length) fail('about', new Error(problems.join('; ')));
+  else console.log('  about: four documents, the real version, the three safety lines, and a licence that says it is a draft');
+}
+
 // ---- The pH scale is drawn, not listed (§13ef)
 //
 // Held at what a person reads off it: fourteen places, each carrying its own

@@ -243,6 +243,10 @@ try {
     // The Library's tab is in the address (§13q), which is what makes the
     // correction a route rather than a click.
     '#/library', '#/library/ph',
+    // A6's documents (§13eg). Long prose at four widths is exactly where a
+    // line runs past the edge, and the sixth way a guard lies is a route that
+    // was never in this list.
+    '#/about', '#/about/help', '#/about/safety', '#/about/legal',
     '#/library/sources', { route: '#/library/sources', open: true },
     '#/fabrics', { route: '#/fabrics', open: true },
     '#/trials', '#/trials/new', { route: '#/trials', open: true },

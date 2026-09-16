@@ -11149,6 +11149,77 @@ not; and the five names still under it.
 Seen failing three ways: a bar of ten places, a green cell, and the bands shifted by one.
 
 ---
+## 13eg. About, Help, Safety and the legal texts (1.0.0-rc66)
+
+ROADMAP A6, item 1. „None of these exist" stood there for fourteen releases.
+
+### Four tabs, not seven screens
+
+A6 lists seven documents. Seven sidebar entries for seven pages each read once would be a
+navigation built from the developer's list. They are `#/about` with four tabs — about, help,
+safety, legal — sitting under the rule with the backup, where things that belong to neither
+half go.
+
+### What each says, and what was refused
+
+**About** — what the application is, the split between the reference half and the diary, that
+it works offline with no account, and the version. The version comes from `version.js`: a
+number typed into a text would be wrong the first time it was not updated, and this is the
+figure a person quotes when reporting a fault.
+
+**Help** — how to start, from something real rather than from the settings, and where the
+parts are. It ends on the backup, because data that exists and cannot be reached is not
+available (A5).
+
+**Safety** — the one document here that is not paperwork. It opens with what to do rather than
+with what the developer is not liable for: masks and gloves for powders, soda ash added slowly,
+dyeing vessels never used for food, how little iron it takes, that a plant is not safe because
+it is a plant, disposal, children not working with powders, and that the calculators compute
+what they were given. The supplier's safety data sheet takes precedence over anything the
+application says.
+
+**Legal** — terms, privacy, licence.
+
+- The **terms** say what was settled long ago: the purchase is of the functionality that
+  exists at the time, support covers defects, suggestions are read and are not commitments.
+- **Privacy** is short because the architecture made it short: no account, nothing sent
+  anywhere, no analytics, no third-party service.
+- The **licence** is a DRAFT and says so on the screen, in a warning note. It grants personal
+  use including work that is sold, forbids redistributing the library, claims nothing over the
+  owner's own records, and promises no particular colour. **It is not mine to settle**, and a
+  legal text that looks settled because nobody said otherwise is the failure mode here.
+
+**The address for reports is not set.** `CONTACT` in `modules/about.js` is empty, and the
+screen says plainly that the address is not yet determined rather than showing an invented one.
+Recorded in A7.
+
+### The texts are in i18n.js
+
+Where every other word is. Keeping them in the module as template literals would read better
+while writing them and would put half the application's Bulgarian in one file and its English
+in another — and the English of these is exactly what the owner still has to read (A7, item 3).
+
+### The guard
+
+`about` in `deep-check.mjs` asks for the SENTENCES, because a check that only asked whether the
+screen draws would pass on four empty panels: the real version on the About tab, a Help text
+long enough to be help and mentioning the backup, the three safety lines that are not
+paperwork, all three legal sections, and the licence still calling itself a draft.
+
+Two of them are claims about the CODE and are checked against it rather than trusted:
+
+- privacy says the application fetches only its own files, so the check reads `sw.js` — the one
+  place that lists what is fetched — and fails if any external URL appears there;
+- the address is honest either way: shown when set, and „not set yet" when not.
+
+Seen failing four ways: the safety list cut short, the draft notice removed, an external URL
+added to `sw.js`, and an address set.
+
+The four screens joined `screen-check.mjs`, which now measures 34 views at each of four widths.
+Long prose is where a line runs past the edge, and a route that was never in that list is the
+sixth way a guard lies.
+
+---
 
 
 # Part VI. Open questions

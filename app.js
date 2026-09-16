@@ -16,6 +16,7 @@ import { VOCABULARY, BANDS } from './vocab.js';
 import { ensurePacks, PACKS } from './seed.js';
 import { runMigrations } from './migrations.js';
 import { VERSION } from './version.js';
+import about from './modules/about.js';
 import * as dirty from './dirty.js';
 import { watchLibraryMarks } from './seed-ui.js';
 
@@ -36,7 +37,7 @@ import batch      from './modules/batch.js';
 
 const MODULES = {
   dashboard, reference, plants, fabrics, substances, materials,
-  recipes, techniques, trials, tools, packs, library, batch, pigments,
+  recipes, techniques, trials, tools, packs, library, batch, pigments, about,
 };
 
 // The sidebar carries everything, in two halves plus a footer (§11.3).
@@ -86,6 +87,11 @@ const NAV = [
   // things — the same fault as the original "material" record (§13.4). Split
   // in the navigation rather than in the code: two addresses, one module.
   { id: 'tools',      icon: 'i-backup', route: 'tools/backup', label: 'nav.backup' },
+  // Under the rule with the backup: what belongs to neither half. Read once and
+  // then referred to, which is why it is here and not among the reference
+  // modules — and why seven documents are four tabs rather than seven entries
+  // (§13eg).
+  { id: 'about',      icon: 'i-more' },
   // Packs is out of the 1.0 plan and unbuilt, so it does not sit in the
   // navigation collecting clicks. The module stays registered and reachable at
   // `#/packs`, because removing it would break any address already saved.
