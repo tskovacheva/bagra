@@ -63,7 +63,9 @@ const PH_SHIFTS = {
 // The scale, in our own palette. Deliberately not the colours a dye turns —
 // those belong to the plant, vary by fibre, and are what the reference engine
 // is for. These say only where a reading falls.
-const PH_BANDS = [
+// Exported so a check can ask which colours are allowed instead of repeating
+// them — a second copy of the palette is exactly how a stray colour survives.
+export const PH_BANDS = [
   { from: 1,  to: 3,  key: 'strongAcid',    hex: '#A03D3B' },
   { from: 4,  to: 6,  key: 'weakAcid',      hex: '#C9A227' },
   { from: 7,  to: 7,  key: 'neutral',       hex: '#5C574E' },
@@ -185,11 +187,44 @@ async function renderGlossary(root, sources) {
 
 // ---- pH -------------------------------------------------------------------
 
+// Which band a reading falls in. One function, so the bar and the legend cannot
+// disagree about where 7 stops being neutral.
+const bandOf = (n) => PH_BANDS.find(b => n >= b.from && n <= b.to);
+
+// Dark ground or light? Computed from the band's own colour rather than listed
+// per band: the palette is a fixed decision and may be re-tuned, and a list of
+// „this one is dark" would then be a second copy of a fact the colour already
+// holds. Plain relative luminance, which is enough to choose between two inks.
+function inkOn(hex) {
+  const v = (i) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16) / 255;
+  const lum = 0.2126 * v(0) + 0.7152 * v(1) + 0.0722 * v(2);
+  return lum > 0.55 ? 'var(--ink)' : 'var(--surface)';
+}
+
 function renderPh() {
+  // THE SCALE AS ONE BAR, 1 to 14 (§13ef).
+  //
+  // It was five rows with a colour swatch each, which is a table of what the
+  // bands are called. A dyer's question is not „what is band three called" but
+  // „where does the 9 I just measured fall", and a bar answers that by being
+  // looked at. The numbers sit ON the bar for the same reason: a number under a
+  // stripe has to be counted across to.
+  //
+  // The colours are the five already declared above — where a reading falls,
+  // never what a dye turns. A bath at pH 11 is not black.
+  const bar = Array.from({ length: 14 }, (_, i) => {
+    const n = i + 1;
+    const b = bandOf(n);
+    return `<span style="background:${b.hex};color:${inkOn(b.hex)}">${n}</span>`;
+  }).join('');
+
+  // The names stay, under the bar, as a legend rather than as the scale itself.
+  // Removing them would make the bar pretty and unreadable to anyone who has not
+  // learnt the colours.
   const scale = PH_BANDS.map(b => `
     <div class="phband">
       <span class="swatch" style="background:${b.hex}"></span>
-      <strong>${b.from === b.to ? b.from : `${b.from}–${b.to}`}</strong>
+      <strong>${b.from === b.to ? b.from : `${b.from}\u2013${b.to}`}</strong>
       <span>${t('library.ph.' + b.key)}</span>
     </div>`).join('');
 
@@ -199,7 +234,9 @@ function renderPh() {
   return `
     ${panel(`<p class="note">${t('library.phIntro')}</p>`)}
     <div style="height:16px"></div>
-    ${panel(`<h2>${t('library.phScale')}</h2><div class="phscale">${scale}</div>`)}
+    ${panel(`<h2>${t('library.phScale')}</h2>
+      <div class="phbar">${bar}</div>
+      <div class="phscale">${scale}</div>`)}
     <div style="height:16px"></div>
     <div class="cols">
       <div class="col">${panel(`
