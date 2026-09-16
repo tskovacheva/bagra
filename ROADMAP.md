@@ -41,14 +41,21 @@ combination, more combinations per plant.
 
 ## A2. Sources and attribution
 
-- **The register is thin.** Ten sources are seeded. Chandra Rice's guide alone lists fifteen.
+- ~~**The register is thin.**~~ **57 sources are seeded** (it said ten). Recipes and
+  substances carry a list of codes that resolve in the register, checked by the audit —
+  settled at rc59, §13ea.
 - **Traceability of a claim.** When a buyer reads *lightfastness 4/5* it must be visible
   whether that came from literature, from a compilation, from the owner's own trial, or is
   unverified. The confidence model exists per field; what is missing is that every
   significant claim reaches a named source with title, author, year and page.
-- **Does attribution move onto the record?** §13.1 keeps the register separate because
-  proportions pass from hand to hand and their origin is usually unknown. That holds for a
-  private library and inverts for a distributed one. **Open, for the owner.**
+- ~~**Does attribution move onto the record?**~~ **Settled at rc59 (§13ea):** the record
+  carries a LIST of source codes — recipes and substances as combinations already did — and
+  the register stays the one place a source is described. What is deliberately NOT modelled
+  is which source came first: „Garcia's, as Kelly gives it" is a relationship between
+  sources, not a field, and it lives in the recipe's own words.
+- **Still open under this heading:** every significant claim reaching a named source with
+  page. The plant library's own figures are the gap — a bibliography per row is post-1.0
+  enrichment (A1, clause 8).
 - **Photographs are settled** — 57 of 57 carry author, licence and source, and the import
   script refuses one without an author. This is the standard the rest should meet.
 
@@ -178,14 +185,12 @@ None of this is a feature; all of it is a condition of taking money.
   ten sources are named only by colour swatches, which the review had not listed.
 - **A release run can be made by a machine — done at rc30.** `check.sh --release` runs on
   push to main, on pull requests and on demand (§13cy). It does not deploy; a gate and a
-  deployment are separate decisions. It stays red until the two screen defects are fixed.
+  deployment are separate decisions. The two screen defects that kept it red were fixed at
+  rc31, and the gate has passed at every release since.
 - **Numerical tests on the calculators — DONE at rc37.** The aluminium acetate
   stoichiometry is verified against three independently published recipes, and every molar
   mass recomputed from atomic weights (§13dd). `scripts/try-calculators.mjs` runs it.
 
-- ~~**Numerical tests on the calculators.**~~ A disclaimer does not cover an unchecked formula.
-  The aluminium acetate stoichiometry has still not been compared against an independent
-  source; it is written out openly in `calc/alum-acetate.js` for exactly that.
 - **Release process:** `main` plus short-lived branches, release tags, semantic versioning.
   Never release from the working copy — development, then a candidate the owner uses for a
   while, then production.
@@ -202,6 +207,39 @@ None of this is a feature; all of it is a condition of taking money.
   be called checked if a layer of its release policy never started. §13cp
 - **README and ROADMAP are read before each release.** README claimed 48 plants and a Stock
   module long after both had changed. Audited at rc23; the habit is the point.
+
+## A7. What is left before 1.0 — the whole list, 14 September 2026
+
+Written after an audit of all five documents against the code, because „what is left" was
+spread across A2, A3, A6 and the decisions file and could not be read in one place.
+
+**Nothing may be added to this list without saying so.** It is the release's scope.
+
+1. **A6's texts.** About and version, Help, Terms, Privacy, Licence, the chemical-handling
+   disclaimer, a way to report a bug. **None exist.** Claude writes them; the owner reads them
+   once. Waiting since rc49.
+2. **The other half of the migration tests** — a backup written by an OLDER version, opened by
+   this one. The restore path itself was covered at rc26.
+3. **The owner's reading of the English.** 342 plant sections, the recipes and the vocabulary
+   labels: a translation by the developer, not a second authorial voice, and marked for her
+   review before anything is distributed (A3). **This has not started**, and it is the one
+   item on this list nobody but the owner can do.
+4. **The recipe pack, reviewed as a whole.** Sixteen recipes now, from six sources. The owner
+   decides which ship in 1.0 and which are hers alone — `distributable` is the field and it has
+   never been gone through record by record.
+5. ~~**The pH scale, drawn rather than listed.**~~ **DONE at rc65** (§13ef): one bar from 1 to
+   14, with the band names kept as a legend under it.
+6. **A last read of README and ROADMAP**, which is the habit A6 already names.
+
+Deliberately NOT in 1.0, and each recorded where it belongs: cloud sync (A5, Part C), pack
+export (B5), a vocabulary editor (B6c), an update button for Sources and the Glossary (B6d),
+the visual pass and global search (B7), and the open model questions (B4).
+
+**Open with the owner, from the paste work (§13ed):** a paste covers only part of the cloth
+and the combination key does not know it. „Cotton, alum, paste" reads the same as a fully
+mordanted piece. Three ways out — leave it to the work's own words, split the process in two,
+or give the combination a coverage field. It blocks nothing in the diary; it matters when the
+reference half is taken up.
 
 ---
 

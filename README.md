@@ -38,18 +38,18 @@ material record are not, and are never distributed.
 |---|---|
 | Reference | The reference engine — combinations, searched by key |
 | Plants | 57 species, bilingual, each with a description, parts, chemistry and colours |
-| Recipes | Procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
+| Recipes | 16 procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
 | Materials | What a substance *is* — formula, ceiling, disposal — with the jars on the shelf |
 | Techniques | Controlled vocabulary — 21 records |
 | Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, reverse, timer |
-| Library | Glossary (32 terms in eight groups), the pH scale, and the attribution register |
+| Library | Glossary (32 terms in eight groups), the pH scale drawn as one bar, and the attribution register — 57 sources |
 
 **Diary** — her own work, never distributed. Pigments sits here rather than with the
 reference: a batch of made pigment is a thing on a shelf, not a fact about the world.
 
 | Module | Nature |
 |---|---|
-| My work | Trials, in five screens |
+| My work | Trials, in five screens — dyeing, eco print and, since rc62, printing with a paste |
 | Pigments | Batches of made pigment, worked from a recipe that declares an output |
 | Fabrics | One record per physical piece, with a lifecycle and group actions |
 
@@ -273,10 +273,12 @@ a gathering month is a fact about a plant in a place.
 342 sections, in both languages. The English is a translation made by the developer, not a
 second authorial voice, and is marked for the owner's review before public distribution.
 
-**The combination engine holds 102 records over 35 of the 57 plants.** Most of them do not
-name the fibre or the mordant strength, because the sources they came from do not; the
-screen says „does not state" rather than passing silence off as agreement or as a
-difference. That is a known content gap and the largest one remaining.
+**The combination engine holds 163 records over 55 of the 57 plants**, 55 of them eco print.
+The two without one — lavender and medlar — are a documented absence rather than unfinished
+work, and the reasons are in `DOCUMENTATION_DECISIONS_NEEDED.md`. Many records do not name the
+fibre or the mordant strength, because the sources they came from do not; the screen says
+„does not state" rather than passing silence off as agreement or as a difference. More
+combinations per plant is post-1.0 enrichment.
 
 All 57 plants say what colour they give — 176 swatches, each recording the process and the part
 that produced it, because the same leaf gives yellow in a dye bath and near-black under iron in an
@@ -289,7 +291,17 @@ with no recorded author is not shipped: the import script refuses it.
 
 ## Attribution
 
-Reference material is credited to its sources. Principal source so far:
-Chandra Rice ([chandrarice.ca](https://www.chandrarice.ca)) — *Ecoprinting 101*, *The Eco
-Printer's Field List*, *The Ecoprinter's Plant Guide*, and the aluminium acetate calculator.
-Also drawn on: Joy Boutrup and Catharine Ellis, *The Art and Science of Natural Dyes*.
+Reference material is credited to its sources, and the credit is a CODE that resolves in the
+register — never a name in free text (§13ea). **57 sources are registered**; a source cited by
+a record cannot be deleted.
+
+Principal sources so far: Chandra Rice ([chandrarice.ca](https://www.chandrarice.ca)) —
+*Ecoprinting 101*, *The Eco Printer's Field List*, *The Ecoprinter's Plant Guide*, and the
+aluminium acetate calculator; Joy Boutrup and Catharine Ellis, *The Art and Science of Natural
+Dyes*. The recipes draw on Natalie Stopka, *From Plant to Pigment*; Joanne Green, *Natural
+Watercolor Paint Making*; Nicola Cliffe, *Printing with Natural Dyes*; Alison Kelly, *Printing
+from the Garden*, crediting Michel Garcia; and the Maiwa School of Textiles.
+
+A recipe may credit more than one source, because one often is more than one: the compound
+mordant is Garcia's, as Kelly gives it. What the register does NOT record is which came first —
+that is a relationship between sources, not a field, and it stays in the recipe's own words.

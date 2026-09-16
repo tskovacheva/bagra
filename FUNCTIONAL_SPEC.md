@@ -10717,8 +10717,10 @@ which recipes scale would have been exactly that.
 Where it does not scale, the head says so — „фиксирани количества, така са дадени в
 източника" — rather than showing nothing, which reads as a missing feature.
 
-Of the eight recipes shipped now, three offer the field: the watercolour from pigment, the
-watercolour binder, and the oat pastel binder.
+Of the sixteen recipes shipped now, eight offer the field: the watercolour from pigment, the
+watercolour binder, the oat pastel binder, both compound mordants, the fixing bath, the soy
+milk bath and the iron bath. The eight that do not are the pigment recipes and the print
+pastes, every one of which the source gives as a fixed batch.
 
 ### 18d. Two-digit numbers could not be typed
 
@@ -11105,6 +11107,46 @@ a step without them is not.
 `recipe-lines.js` was not in the service worker's cache list, so the application would have
 worked online and broken offline — on an offline-first application, for a file created the
 same hour. The cache-list layer caught it before the release.
+
+---
+## 13ef. The pH scale, drawn (1.0.0-rc65)
+
+Item 5 of A7, and the owner's own idea.
+
+### What it was
+
+Five rows, each a colour swatch, a range and a name. That answers „what is band three called".
+A dyer's question is „where does the 9 I just measured fall", and a table answers it by being
+read across rather than by being looked at. It was also the only screen in the reference half
+where a figure is described in words where a picture would say it.
+
+### What it is
+
+One bar, fourteen places, each carrying its own number and coloured by the band it belongs to.
+The numbers sit ON the bar: a number under a stripe has to be counted across to.
+
+The five names stay, as a legend under it. A bar on its own is pretty and unreadable to anyone
+who has not learnt the colours.
+
+**The colours are the five already declared**, unchanged: where a reading falls, never what a
+dye turns. A bath at pH 11 is not black. No green, as everywhere.
+
+`bandOf` is one function, so the bar and the legend cannot disagree about where 7 stops being
+neutral. `inkOn` chooses the ink from the band's own luminance rather than from a list of
+„this one is dark", because the palette is a fixed decision that may yet be re-tuned and such
+a list would be a second copy of what the colour already says.
+
+On a phone the bar keeps its fourteen columns and loses two pixels of padding; the legend
+wraps, because five names in one row at 322px would be four letters each.
+
+### The guard
+
+`ph-scale` in `deep-check.mjs`: fourteen places numbered 1 to 14 in order; every colour one of
+the five the module declares — `PH_BANDS` is exported so the check asks rather than repeats,
+since a second copy of the palette is how a stray colour survives; 7 drawn as neutral and 8
+not; and the five names still under it.
+
+Seen failing three ways: a bar of ten places, a green cell, and the bands shifted by one.
 
 ---
 

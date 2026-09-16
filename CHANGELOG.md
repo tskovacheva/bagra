@@ -12,6 +12,31 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc65 — 14 September 2026
+
+The pH scale is drawn instead of listed. §13ef
+
+- **One bar, 1 to 14**, each place carrying its own number and coloured by its band, with the
+  five names kept as a legend below. It was five rows with a swatch each.
+- The colours are the five already declared — where a reading falls, never what a dye turns.
+- **Guard `ph-scale`**, seen failing on a bar of ten places, on a green cell, and on bands
+  shifted by one.
+
+## 1.0.0-rc64 — 14 September 2026
+
+A documentation audit. No code changed.
+
+- **Stale figures corrected.** The README said the combination engine holds 102 records over
+  35 plants; it holds 163 over 55. The ROADMAP said ten sources are seeded; there are 57.
+  §13dz said eight recipes ship and three offer the amount field; sixteen ship and eight do.
+- **Attribution rewritten** in the README: six principal sources now, credited by code rather
+  than by name, and what the register deliberately does not record — which source came first.
+- **ROADMAP A7 is new:** the whole list of what is left before 1.0, in one place. It was
+  spread across A2, A3, A6 and the decisions file and could not be read as one thing.
+- **Two decisions closed:** the phone navigation bar, checked against `PHONE_NAV` in the code
+  (the README's sentence was right); and „which recipes ship", which moved to A7 because it is
+  now about sixteen recipes from six sources.
+
 ## 1.0.0-rc63 — 14 September 2026
 
 What actually went into the paste. §13ee

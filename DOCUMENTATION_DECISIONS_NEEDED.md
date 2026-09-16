@@ -32,7 +32,13 @@ deliberate.
 
 ---
 
-## 2. Which recipes ship
+## 2. Which recipes ship — **now ROADMAP A7, item 4**
+
+> Still open, and no longer only about recipes: the pack holds SIXTEEN from six sources, and
+> the question is which of them are distributable. It moved to the release list so it cannot
+> be lost among decisions that are already settled.
+
+## 2 (as raised). Which recipes ship
 
 **ROADMAP, before this audit.** „The studio database holds eight recipes and two chains;
 the shipped seed holds none. A buyer opening the app finds an empty recipe module."
@@ -46,7 +52,16 @@ material or personal work — has not been settled. Left in A1.
 
 ---
 
-## 3. The phone navigation bar
+## 3. The phone navigation bar — **CHECKED at rc64**
+
+> `PHONE_NAV` in `app.js` reads `['dashboard', 'trials', 'plants', 'fabrics']`, with everything
+> else behind *More*. So the README's sentence is correct as written — *Home · My work ·
+> Plants · Fabrics · More* — and `pigments` did NOT join the bar, it joined the sheet. Checked
+> against the code rather than a phone, which is what the entry asked for; the audit that
+> raised it had no way to render a narrow viewport, and `screen-check.mjs` has run at every
+> width since rc31.
+
+## 3 (as raised). The phone navigation bar
 
 **README.** „The phone bar carries the diary, not the reference: *Home · My work · Plants ·
 Fabrics · More*."

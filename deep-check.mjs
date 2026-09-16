@@ -5752,6 +5752,52 @@ const dirty = await import('./dirty.js');
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
 }
 
+// ---- The pH scale is drawn, not listed (§13ef)
+//
+// Held at what a person reads off it: fourteen places, each carrying its own
+// number, each coloured by the band it belongs to — and no colour that is not
+// one of the five declared. The old screen was five rows, which answers „what
+// is the band called" and not „where does my 9 fall".
+{
+  const lib = (await import('./modules/library.js')).default;
+  const problems = [];
+  lib.reset?.(); lib.open?.('ph'); await lib.render(root); await settle();
+
+  const cells = [...root.querySelectorAll('.phbar span')];
+  if (cells.length !== 14) problems.push(`the bar has ${cells.length} places, not 14`);
+  else {
+    if (cells.map(c => c.textContent.trim()).join(',') !== Array.from({ length: 14 }, (_, i) => i + 1).join(','))
+      problems.push('the numbers on the bar are not 1 to 14 in order');
+    // Every colour is one of the five the module declares. Not „is it coloured"
+    // — a bar of invented colours would pass that, and the palette is a fixed
+    // decision (no green, and never the colour a dye turns).
+    const { PH_BANDS } = await import('./modules/library.js');
+    if (!PH_BANDS) problems.push('the module does not expose its bands for checking');
+    else {
+      const allowed = new Set(PH_BANDS.map(b => b.hex.toLowerCase()));
+      const hexOf = (rgb) => '#' + (rgb.match(/\d+/g) || [])
+        .map(n => Number(n).toString(16).padStart(2, '0')).join('');
+      const strays = [...new Set(cells.map(c => hexOf(c.style.background)))]
+        .filter(h => !allowed.has(h));
+      if (strays.length) problems.push(`the bar uses ${strays.join(', ')}, which is not a declared band`);
+      // And the right number in the right band: 7 alone is neutral, and 8 is not.
+      const neutral = PH_BANDS.find(b => b.key === 'neutral');
+      if (hexOf(cells[6].style.background) !== neutral.hex.toLowerCase())
+        problems.push('7 is not drawn as the neutral band');
+      if (hexOf(cells[7].style.background) === neutral.hex.toLowerCase())
+        problems.push('8 is drawn as neutral too — the bands are off by one');
+    }
+  }
+  // The names stay. A bar alone is pretty and unreadable to someone who has not
+  // learnt the colours.
+  if (root.querySelectorAll('.phband').length !== 5)
+    problems.push('the five band names are not under the bar');
+
+  lib.reset?.();
+  if (problems.length) fail('ph-scale', new Error(problems.join('; ')));
+  else console.log('  ph-scale: fourteen places, each in its own declared band, with the names kept below');
+}
+
 // ---- What actually went into the paste (§13ee)
 //
 // The recipe leaves the dye open on purpose — „any extract will do" — so the
