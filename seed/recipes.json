@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.15.0",
+ "packVersion": "0.16.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -1288,64 +1288,76 @@
     "alison-kelly-printing",
     "michel-garcia"
    ],
+   "distributable": true,
    "requiredFollowOn": [
-    "seed:bran-fix-bath"
+    "seed:oatmeal-fixing-bath"
    ],
    "name": {
     "bg": "Сложен мордант — светъл резултат",
     "en": "Compound mordant — bright outcome"
    },
    "notes": {
-    "bg": "Количествата са спрямо сухото тегло на плата. Малко желязо — за ярък и естествен цвят. Платът влиза СУХ, не намокрен. Партидата се смята за изчерпана, след като е мордантирала своя плат.",
-    "en": "Quantities are against the dry weight of the cloth. Little iron — for vibrant, natural colour. The cloth goes in DRY, not wetted out. The batch is spent once it has mordanted its cloth."
+    "bg": "Алуминиев ацетат, направен на място от стипца, оцет и сода, с малко желязо. Платът влиза СУХ и изсъхва отново — така оцетът се изпарява и връзката се затяга. Задължително следва баня с овесени ядки. Количествата са от партидата в книгата, преизчислени на 100 г плат.",
+    "en": "Aluminium acetate made in place from alum, vinegar and soda ash, with a little iron. The cloth goes in DRY and dries again — that is how the vinegar evaporates and the bond tightens. An oatmeal bath must follow. The quantities are the book's batch, recalculated to 100 g of cloth."
    },
    "ingredients": [
     {
-     "id": "cm-alum",
-     "roleCode": "mordant",
-     "basis": "percent_wof",
-     "unit": "g",
-     "note": {
-      "bg": "Калиева стипца. Разтваря се в оцета — с маска, прахът не се вдишва.",
-      "en": "Potassium alum. Dissolved in the vinegar — wear a mask, the powder is not to be breathed."
-     },
-     "options": [
-      {
-       "id": "cm-alum-o",
-       "substanceId": "seed:alum_potassium_12"
-      }
-     ],
-     "quantity": 20
-    },
-    {
-     "id": "cm-vinegar",
+     "id": "cmb-1",
      "roleCode": "acid_source",
      "basis": "percent_wof",
      "unit": "ml",
+     "quantity": 200,
+     "quantityMin": 200,
+     "quantityMax": 200,
      "note": {
-      "bg": "Дестилиран бял оцет. Държи стипцата в разтвор, докато содата я превърне.",
-      "en": "Distilled white vinegar. It keeps the alum in solution until the soda ash converts it."
+      "bg": "Дестилиран бял оцет. 200 мл на 100 г плат.",
+      "en": "Distilled white vinegar. 200 ml to 100 g of cloth."
      },
      "options": [
       {
-       "id": "cm-vinegar-o",
-       "substanceId": "seed:acetic_acid"
+       "id": "cmb-1-o",
+       "substanceId": "seed:acetic_acid",
+       "qtyMin": 200,
+       "qtyMax": 200
       }
-     ],
-     "quantity": 200
+     ]
     },
     {
-     "id": "cm-iron",
+     "id": "cmb-2",
+     "roleCode": "aluminium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 20,
+     "quantityMin": 20,
+     "quantityMax": 20,
+     "note": {
+      "bg": "Калиева стипца. Разтваря се докрай, преди да влезе каквото и да е друго.",
+      "en": "Potassium alum. Dissolved completely before anything else goes in."
+     },
+     "options": [
+      {
+       "id": "cmb-2-o",
+       "substanceId": "seed:alum_potassium_12",
+       "qtyMin": 20,
+       "qtyMax": 20
+      }
+     ]
+    },
+    {
+     "id": "cmb-3",
      "roleCode": "modifier",
      "basis": "percent_wof",
      "unit": "g",
+     "quantity": null,
+     "quantityMin": 0.4,
+     "quantityMax": 0.8,
      "note": {
-      "bg": "Железен сулфат. Разтваря се докрай, преди содата да влезе — иначе мордантът става мътен.",
-      "en": "Ferrous sulfate. Dissolved completely before the soda ash goes in, or the mordant turns murky."
+      "bg": "Железен сулфат, малко. Повече желязо разяжда коприна и вълна — мери точно.",
+      "en": "Ferrous sulfate, a little. Too much iron damages silk and wool — measure it carefully."
      },
      "options": [
       {
-       "id": "cm-iron-o",
+       "id": "cmb-3-o",
        "substanceId": "seed:iron_sulfate",
        "qtyMin": 0.4,
        "qtyMax": 0.8
@@ -1353,78 +1365,82 @@
      ]
     },
     {
-     "id": "cm-soda",
+     "id": "cmb-4",
      "roleCode": "alkali",
      "basis": "percent_wof",
      "unit": "g",
+     "quantity": 10,
+     "quantityMin": 10,
+     "quantityMax": 10,
      "note": {
-      "bg": "Сода. Влиза бавно — сместа кипва и се надига.",
-      "en": "Soda ash. It goes in slowly — the mixture bubbles and rises."
+      "bg": "Сода. Влиза бавно и последна.",
+      "en": "Soda ash. It goes in slowly, and last."
      },
      "options": [
       {
-       "id": "cm-soda-o",
-       "substanceId": "seed:soda_ash"
+       "id": "cmb-4-o",
+       "substanceId": "seed:soda_ash",
+       "qtyMin": 10,
+       "qtyMax": 10
       }
-     ],
-     "quantity": 10
+     ]
     }
    ],
    "steps": [
     {
-     "id": "cm-s1",
+     "id": "cmb-s1",
      "text": {
-      "bg": "С маска: претегли стипцата, сложи я в съда, добави оцета и бъркай, докато се разтвори напълно.",
-      "en": "Wearing a mask: weigh the alum, put it in the vessel, add the vinegar and whisk until it has completely dissolved."
+      "bg": "С маска: претегли стипцата и я сложи в съда. Добави оцета и бъркай, докато се разтвори напълно.",
+      "en": "Wearing a mask: weigh the alum and put it in the vessel. Add the vinegar and whisk until it is completely dissolved."
      }
     },
     {
-     "id": "cm-s2",
+     "id": "cmb-s2",
      "text": {
-      "bg": "Добави железния сулфат и бъркай до пълно разтваряне. Всички частици трябва да са се разтворили, преди содата да влезе.",
-      "en": "Add the ferrous sulfate and whisk until completely dissolved. Every particle must be dissolved before the soda ash goes in."
+      "bg": "Добави железния сулфат и бъркай, докато се разтвори. Всичко трябва да е разтворено, преди да влезе содата — иначе разтворът става мътен.",
+      "en": "Add the ferrous sulfate and whisk until dissolved. Everything must be fully dissolved before the soda ash goes in, or the mordant turns murky."
      }
     },
     {
-     "id": "cm-s3",
+     "id": "cmb-s3",
      "text": {
-      "bg": "Добавяй содата бавно, на малки порции. Ще кипи и ще изпуска газ — това е нормално, но не дишай изпаренията. Бъркай до пълно разтваряне.",
-      "en": "Add the soda ash slowly, a little at a time. It will bubble and off-gas — that is normal, but do not breathe the fumes. Stir until fully dissolved."
+      "bg": "Добавяй содата бавно, малко по малко. Ако влезе бързо, сместа прелива. Пенене и отделяне на газ е нормално — не вдишвай парите.",
+      "en": "Add the soda ash slowly, a little at a time. Too fast and it boils over. Frothing and off-gassing are normal — do not breathe the fumes."
      }
     },
     {
-     "id": "cm-s4",
+     "id": "cmb-s4",
      "text": {
-      "bg": "С ръкавици: сложи СУХИЯ плат в разтвора и го омесвай 1–2 минути.",
-      "en": "Wearing gloves: put the DRY cloth into the solution and work it into the mordant for one to two minutes."
+      "bg": "С ръкавици: сложи СУХИЯ плат в разтвора и го работи с ръце 1–2 минути.",
+      "en": "Wearing gloves: put the DRY cloth into the solution and work it with your hands for one to two minutes."
      }
     },
     {
-     "id": "cm-s5",
+     "id": "cmb-s5",
      "text": {
-      "bg": "Извади плата и го изстискай внимателно над съда, като запазиш излишната течност.",
-      "en": "Take the cloth out and wring it gently over the vessel, keeping the excess liquid."
+      "bg": "Извади плата и го изстискай леко над съда, като пазиш течността.",
+      "en": "Take the cloth out and wring it gently over the vessel, keeping the liquid."
      }
     },
     {
-     "id": "cm-s6",
+     "id": "cmb-s6",
      "text": {
-      "bg": "Закачи плата опънат, ъгъл до ъгъл, без гънки и застъпвания. Ако се сгъне върху себе си, остават ивици.",
-      "en": "Hang the cloth taut, corner to corner, with no folds or overlaps. Folded onto itself it will streak."
+      "bg": "Закачи го опънат, ъгъл до ъгъл, без гънки и застъпвания. Сгънат върху себе си плат дава ивици.",
+      "en": "Hang it taut, corner to corner, with no folds or overlaps. Cloth folded onto itself streaks."
      }
     },
     {
-     "id": "cm-s7",
+     "id": "cmb-s7",
      "text": {
-      "bg": "Остави да изсъхне НАПЪЛНО. Изсъхналият плат е мек и покрит с тънък слой мордант. Оцетът се изпарява и връзката с влакното се затяга.",
-      "en": "Let it dry COMPLETELY. Dry, the cloth is soft and coated in a fine powder of mordant. The vinegar evaporates and the bond to the fibre tightens."
+      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, мордантът влиза навътре във влакното, а оцетът се изпарява.",
+      "en": "Let it dry COMPLETELY. This is not waiting, it is part of the recipe: as the water evaporates the mordant moves into the fibre, and the vinegar evaporates with it."
      }
     },
     {
-     "id": "cm-s8",
+     "id": "cmb-s8",
      "text": {
-      "bg": "Веднага щом изсъхне, потопи го в банята с трици — виж следващата рецепта.",
-      "en": "As soon as it is dry, put it through the bran bath — see the recipe that follows."
+      "bg": "Веднага щом изсъхне, мини на банята с овесени ядки.",
+      "en": "As soon as it is dry, go on to the oatmeal bath."
      }
     }
    ]
@@ -1442,64 +1458,76 @@
     "alison-kelly-printing",
     "michel-garcia"
    ],
+   "distributable": true,
    "requiredFollowOn": [
-    "seed:bran-fix-bath"
+    "seed:oatmeal-fixing-bath"
    ],
    "name": {
     "bg": "Сложен мордант — тъмен резултат",
     "en": "Compound mordant — dark outcome"
    },
    "notes": {
-    "bg": "Количествата са спрямо сухото тегло на плата. Повече желязо — по-тъмен и по-плътен резултат. Внимавай с коприна и вълна: желязото ги разяжда. Платът влиза СУХ.",
-    "en": "Quantities are against the dry weight of the cloth. More iron — a darker, bolder result. Take care with silk and wool: iron damages them. The cloth goes in DRY."
+    "bg": "Същият мордант с повече желязо и малко повече сода — по-тъмен и по-плътен отпечатък. Желязото натъжава цветовете: жълтото става маслинено, а с танини дава сиво и почти черно. Задължително следва баня с овесени ядки. Количествата са от партидата в книгата, преизчислени на 100 г плат.",
+    "en": "The same mordant with more iron and a little more soda — a darker, bolder print. Iron saddens the colours: yellows go olive, and with tannins it gives greys and near-blacks. An oatmeal bath must follow. The quantities are the book's batch, recalculated to 100 g of cloth."
    },
    "ingredients": [
     {
-     "id": "cm-alum",
-     "roleCode": "mordant",
-     "basis": "percent_wof",
-     "unit": "g",
-     "note": {
-      "bg": "Калиева стипца. Разтваря се в оцета — с маска, прахът не се вдишва.",
-      "en": "Potassium alum. Dissolved in the vinegar — wear a mask, the powder is not to be breathed."
-     },
-     "options": [
-      {
-       "id": "cm-alum-o",
-       "substanceId": "seed:alum_potassium_12"
-      }
-     ],
-     "quantity": 20
-    },
-    {
-     "id": "cm-vinegar",
+     "id": "cmd-1",
      "roleCode": "acid_source",
      "basis": "percent_wof",
      "unit": "ml",
+     "quantity": 200,
+     "quantityMin": 200,
+     "quantityMax": 200,
      "note": {
-      "bg": "Дестилиран бял оцет. Държи стипцата в разтвор, докато содата я превърне.",
-      "en": "Distilled white vinegar. It keeps the alum in solution until the soda ash converts it."
+      "bg": "Дестилиран бял оцет. 200 мл на 100 г плат.",
+      "en": "Distilled white vinegar. 200 ml to 100 g of cloth."
      },
      "options": [
       {
-       "id": "cm-vinegar-o",
-       "substanceId": "seed:acetic_acid"
+       "id": "cmd-1-o",
+       "substanceId": "seed:acetic_acid",
+       "qtyMin": 200,
+       "qtyMax": 200
       }
-     ],
-     "quantity": 200
+     ]
     },
     {
-     "id": "cm-iron",
+     "id": "cmd-2",
+     "roleCode": "aluminium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 20,
+     "quantityMin": 20,
+     "quantityMax": 20,
+     "note": {
+      "bg": "Калиева стипца. Разтваря се докрай, преди да влезе каквото и да е друго.",
+      "en": "Potassium alum. Dissolved completely before anything else goes in."
+     },
+     "options": [
+      {
+       "id": "cmd-2-o",
+       "substanceId": "seed:alum_potassium_12",
+       "qtyMin": 20,
+       "qtyMax": 20
+      }
+     ]
+    },
+    {
+     "id": "cmd-3",
      "roleCode": "modifier",
      "basis": "percent_wof",
      "unit": "g",
+     "quantity": null,
+     "quantityMin": 2,
+     "quantityMax": 4,
      "note": {
-      "bg": "Железен сулфат. Разтваря се докрай, преди содата да влезе — иначе мордантът става мътен.",
-      "en": "Ferrous sulfate. Dissolved completely before the soda ash goes in, or the mordant turns murky."
+      "bg": "Железен сулфат. Повече желязо разяжда коприна и вълна — за тях върви към долната граница.",
+      "en": "Ferrous sulfate. Too much iron damages silk and wool — for those, stay at the lower end."
      },
      "options": [
       {
-       "id": "cm-iron-o",
+       "id": "cmd-3-o",
        "substanceId": "seed:iron_sulfate",
        "qtyMin": 2,
        "qtyMax": 4
@@ -1507,84 +1535,88 @@
      ]
     },
     {
-     "id": "cm-soda",
+     "id": "cmd-4",
      "roleCode": "alkali",
      "basis": "percent_wof",
      "unit": "g",
+     "quantity": 12,
+     "quantityMin": 12,
+     "quantityMax": 12,
      "note": {
-      "bg": "Сода. Влиза бавно — сместа кипва и се надига.",
-      "en": "Soda ash. It goes in slowly — the mixture bubbles and rises."
+      "bg": "Сода. Влиза бавно и последна.",
+      "en": "Soda ash. It goes in slowly, and last."
      },
      "options": [
       {
-       "id": "cm-soda-o",
-       "substanceId": "seed:soda_ash"
+       "id": "cmd-4-o",
+       "substanceId": "seed:soda_ash",
+       "qtyMin": 12,
+       "qtyMax": 12
       }
-     ],
-     "quantity": 10
+     ]
     }
    ],
    "steps": [
     {
-     "id": "cm-s1",
+     "id": "cmd-s1",
      "text": {
-      "bg": "С маска: претегли стипцата, сложи я в съда, добави оцета и бъркай, докато се разтвори напълно.",
-      "en": "Wearing a mask: weigh the alum, put it in the vessel, add the vinegar and whisk until it has completely dissolved."
+      "bg": "С маска: претегли стипцата и я сложи в съда. Добави оцета и бъркай, докато се разтвори напълно.",
+      "en": "Wearing a mask: weigh the alum and put it in the vessel. Add the vinegar and whisk until it is completely dissolved."
      }
     },
     {
-     "id": "cm-s2",
+     "id": "cmd-s2",
      "text": {
-      "bg": "Добави железния сулфат и бъркай до пълно разтваряне. Всички частици трябва да са се разтворили, преди содата да влезе.",
-      "en": "Add the ferrous sulfate and whisk until completely dissolved. Every particle must be dissolved before the soda ash goes in."
+      "bg": "Добави железния сулфат и бъркай, докато се разтвори. Всичко трябва да е разтворено, преди да влезе содата — иначе разтворът става мътен.",
+      "en": "Add the ferrous sulfate and whisk until dissolved. Everything must be fully dissolved before the soda ash goes in, or the mordant turns murky."
      }
     },
     {
-     "id": "cm-s3",
+     "id": "cmd-s3",
      "text": {
-      "bg": "Добавяй содата бавно, на малки порции. Ще кипи и ще изпуска газ — това е нормално, но не дишай изпаренията. Бъркай до пълно разтваряне.",
-      "en": "Add the soda ash slowly, a little at a time. It will bubble and off-gas — that is normal, but do not breathe the fumes. Stir until fully dissolved."
+      "bg": "Добавяй содата бавно, малко по малко. Ако влезе бързо, сместа прелива. Пенене и отделяне на газ е нормално — не вдишвай парите.",
+      "en": "Add the soda ash slowly, a little at a time. Too fast and it boils over. Frothing and off-gassing are normal — do not breathe the fumes."
      }
     },
     {
-     "id": "cm-s4",
+     "id": "cmd-s4",
      "text": {
-      "bg": "С ръкавици: сложи СУХИЯ плат в разтвора и го омесвай 1–2 минути.",
-      "en": "Wearing gloves: put the DRY cloth into the solution and work it into the mordant for one to two minutes."
+      "bg": "С ръкавици: сложи СУХИЯ плат в разтвора и го работи с ръце 1–2 минути.",
+      "en": "Wearing gloves: put the DRY cloth into the solution and work it with your hands for one to two minutes."
      }
     },
     {
-     "id": "cm-s5",
+     "id": "cmd-s5",
      "text": {
-      "bg": "Извади плата и го изстискай внимателно над съда, като запазиш излишната течност.",
-      "en": "Take the cloth out and wring it gently over the vessel, keeping the excess liquid."
+      "bg": "Извади плата и го изстискай леко над съда, като пазиш течността.",
+      "en": "Take the cloth out and wring it gently over the vessel, keeping the liquid."
      }
     },
     {
-     "id": "cm-s6",
+     "id": "cmd-s6",
      "text": {
-      "bg": "Закачи плата опънат, ъгъл до ъгъл, без гънки и застъпвания. Ако се сгъне върху себе си, остават ивици.",
-      "en": "Hang the cloth taut, corner to corner, with no folds or overlaps. Folded onto itself it will streak."
+      "bg": "Закачи го опънат, ъгъл до ъгъл, без гънки и застъпвания. Сгънат върху себе си плат дава ивици.",
+      "en": "Hang it taut, corner to corner, with no folds or overlaps. Cloth folded onto itself streaks."
      }
     },
     {
-     "id": "cm-s7",
+     "id": "cmd-s7",
      "text": {
-      "bg": "Остави да изсъхне НАПЪЛНО. Изсъхналият плат е мек и покрит с тънък слой мордант. Оцетът се изпарява и връзката с влакното се затяга.",
-      "en": "Let it dry COMPLETELY. Dry, the cloth is soft and coated in a fine powder of mordant. The vinegar evaporates and the bond to the fibre tightens."
+      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, мордантът влиза навътре във влакното, а оцетът се изпарява.",
+      "en": "Let it dry COMPLETELY. This is not waiting, it is part of the recipe: as the water evaporates the mordant moves into the fibre, and the vinegar evaporates with it."
      }
     },
     {
-     "id": "cm-s8",
+     "id": "cmd-s8",
      "text": {
-      "bg": "Веднага щом изсъхне, потопи го в банята с трици — виж следващата рецепта.",
-      "en": "As soon as it is dry, put it through the bran bath — see the recipe that follows."
+      "bg": "Веднага щом изсъхне, мини на банята с овесени ядки.",
+      "en": "As soon as it is dry, go on to the oatmeal bath."
      }
     }
    ]
   },
   {
-   "code": "bran-fix-bath",
+   "code": "oatmeal-fixing-bath",
    "type": "mordant",
    "output": "none",
    "scaleBy": "weight",
@@ -1596,67 +1628,79 @@
     "alison-kelly-printing",
     "michel-garcia"
    ],
+   "distributable": true,
    "name": {
-    "bg": "Баня с трици или овесени ядки",
-    "en": "Bran or oatmeal bath"
+    "bg": "Баня с овесени ядки или трици",
+    "en": "Oatmeal or bran fixing bath"
    },
    "notes": {
-    "bg": "Прави се СЛЕД сложния мордант, върху напълно изсъхнал плат. Отмива остатъчните соли и затяга връзката на морданта с влакното. Разтворът стига за още плат — пази се покрит и на хладно до три дни; при мехурчета, плесен или миризма се изхвърля. Историческото име на тази стъпка е „торене“ — правело се е с оборска тор, преди триците да я заместят.",
-    "en": "Done AFTER the compound mordant, on cloth that is completely dry. It rinses off the stray salts and tightens the bond of the mordant to the fibre. The solution will fix more cloth — keep it covered and cool for up to three days; discard it at the first bubbles, mould or smell. The historical name for this step is „dunging“ — it was done with cow manure before bran replaced it."
+    "bg": "Прави се СЛЕД сложния мордант и след като платът е изсъхнал напълно. Отмива останалия по повърхността мордант и затяга връзката на металните соли с влакното. Разтворът върши работа за още плат: държи се покрит, на хладно и сухо, до три дни — при мехурчета, мухъл или миризма се изхвърля. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор.",
+    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It rinses away stray mordant left on the surface and strengthens the bond of the metallic salts to the fibre. The solution will fix more cloth: keep it covered, cool and dry, for up to three days — discard it at the first bubbles, mould or smell. The older name for this step is „dunging\", because cow manure was used before oats."
    },
    "ingredients": [
     {
-     "id": "bf-1",
+     "id": "ofb-1",
      "roleCode": "assistant",
-     "basis": "absolute",
+     "basis": "percent_wof",
      "unit": "g",
+     "quantity": 80,
+     "quantityMin": 80,
+     "quantityMax": 80,
      "note": {
-      "bg": "Овесени ядки или пшенични трици, вързани в марля или в найлонов чорап.",
-      "en": "Oat groats or wheat bran, tied in cheesecloth or a nylon stocking."
+      "bg": "Овесени ядки, 80 г. Пшеничните трици вършат същата работа.",
+      "en": "Oats, 80 g. Wheat bran does the same job."
      },
      "options": [
       {
-       "id": "bf-1-o",
-       "substanceId": "seed:oats"
+       "id": "ofb-1-o",
+       "substanceId": "seed:oats",
+       "qtyMin": 80,
+       "qtyMax": 80
       }
-     ],
-     "quantity": 80
+     ]
     }
    ],
    "steps": [
     {
-     "id": "bf-s1",
+     "id": "ofb-s1",
      "text": {
-      "bg": "Вържи ядките или триците на вързопче. Напълни купа с около 2 литра топла вода и потопи вързопчето.",
-      "en": "Tie the oats or bran into a bundle. Fill a bowl with about 2 litres of warm water and put the bundle in."
+      "bg": "Вържи овеса в квадрат марля или в найлонов чорап на вързоп.",
+      "en": "Tie the oats into a bundle in a square of cheesecloth or a nylon stocking."
      }
     },
     {
-     "id": "bf-s2",
+     "id": "ofb-s2",
      "text": {
-      "bg": "Мачкай вързопчето с ръце няколко минути, докато се насити, после го остави 15–20 минути, докато водата стане млечна. Извади вързопчето и го изхвърли.",
-      "en": "Work the bundle with your hands for a few minutes until it is saturated, then leave it fifteen to twenty minutes until the water turns milky. Take the bundle out and discard it."
+      "bg": "Напълни купа с около 2 л топла вода на 100 г овес и пусни вързопа вътре.",
+      "en": "Fill a bowl with about 2 litres of warm water per 100 g of oats and put the bundle in."
      }
     },
     {
-     "id": "bf-s3",
+     "id": "ofb-s3",
      "text": {
-      "bg": "Излей разтвора в по-голям съд и добави студена вода, колкото да покрие плата.",
-      "en": "Pour the solution into a larger vessel and add enough cold water to cover the cloth."
+      "bg": "Работи вързопа с ръце няколко минути, докато овесът се насити, после остави 15–20 минути или докато водата стане млечна. Извади вързопа и го изхвърли.",
+      "en": "Work the bundle with your hands for a few minutes until the oats are saturated, then leave it fifteen to twenty minutes, or until the water turns milky. Take the bundle out and discard it."
      }
     },
     {
-     "id": "bf-s4",
+     "id": "ofb-s4",
      "text": {
-      "bg": "Сложи сухия мордантиран плат и го омесвай с ръце, после остави 5–10 минути.",
-      "en": "Put the dry mordanted cloth in and work it with your hands, then leave it five to ten minutes."
+      "bg": "Прелей разтвора в по-голям съд и долей студена или стайна вода, колкото да покрие плата.",
+      "en": "Pour the solution into a larger vessel and top it up with cold or room-temperature water, enough to cover the cloth."
      }
     },
     {
-     "id": "bf-s5",
+     "id": "ofb-s5",
      "text": {
-      "bg": "Извади и изплакни с чешмяна вода. Изстискай до влажно, не капещо. Оттук нататък платът е готов за печат или се суши за по-късно.",
-      "en": "Take it out and rinse under the tap. Wring it to damp, not dripping. From here the cloth is ready to print, or dried for later."
+      "bg": "Сложи плата, разработи го с ръце и остави 5–10 минути.",
+      "en": "Put the cloth in, work it with your hands, and leave it five to ten minutes."
+     }
+    },
+    {
+     "id": "ofb-s6",
+     "text": {
+      "bg": "Извади и изплакни с чешмяна вода, за да излязат частиците. Изстискай леко — платът трябва да е влажен, не капещ. Оттук може да се печата, или да се изсуши за по-късно.",
+      "en": "Take it out and rinse under the tap to wash off stray particles. Wring gently — the cloth should be damp, not dripping. You can print from here, or dry it for later."
      }
     }
    ]
@@ -1672,67 +1716,72 @@
    "sourceCodes": [
     "alison-kelly-printing"
    ],
+   "distributable": true,
    "name": {
     "bg": "Баня със соево мляко",
     "en": "Soy milk bath"
    },
    "notes": {
-    "bg": "За целулоза. Може след сложния мордант — добавя протеин към плат, който няма — или самостоятелно, като по-безопасен мордант. Сама по себе си държи по-слабо от металните морданти. Неподсладено и без аромат соево мляко, за предпочитане био.",
-    "en": "For cellulose. It can follow the compound mordant — adding protein to a fibre that has none — or stand on its own as a safer mordant. Alone it holds less well than a metallic mordant. Unsweetened, unflavoured soy milk, organic for preference."
+    "bg": "Соевият протеин ляга върху целулозата и ѝ дава това, което ѝ липсва: коприната и вълната се свързват с растителния цвят сами, памукът и хартията — не. Може да се прави след сложния мордант, за по-наситен отпечатък, или самостоятелно — тогава е по-прост и по-безопасен избор, особено с деца, защото няма прахове за вдишване, но устойчивостта на пране и светлина е по-малка, отколкото с метален мордант. Използва се неподсладено и неовкусено мляко, за предпочитане био.",
+    "en": "Soy protein settles onto cellulose and gives it what it lacks: silk and wool bond with plant colour by themselves, cotton and paper do not. It can follow the compound mordant, for a more saturated print, or stand alone — a simpler and safer option, especially with children, since there are no powders to inhale, though the wash- and lightfastness are lower than with a metallic mordant. Use unsweetened, unflavoured milk, preferably organic."
    },
    "ingredients": [
     {
-     "id": "sm-1",
-     "roleCode": "mordant",
-     "basis": "absolute",
+     "id": "smb-1",
+     "roleCode": "assistant",
+     "basis": "percent_wof",
      "unit": "ml",
+     "quantity": 1000,
+     "quantityMin": 1000,
+     "quantityMax": 1000,
      "note": {
-      "bg": "Соево мляко, неподсладено и без аромат. Водата отгоре е толкова, че платът да се движи свободно.",
-      "en": "Soy milk, unsweetened and unflavoured. Water on top, enough for the cloth to move freely."
+      "bg": "Соево мляко, 1 л на 100 г плат, долято с вода, колкото платът да се движи свободно.",
+      "en": "Soy milk, 1 litre to 100 g of cloth, topped up with water so the cloth can move freely."
      },
      "options": [
       {
-       "id": "sm-1-o",
-       "substanceId": "seed:soy_milk"
+       "id": "smb-1-o",
+       "substanceId": "seed:soy_milk",
+       "qtyMin": 1000,
+       "qtyMax": 1000
       }
-     ],
-     "quantity": 1000
+     ]
     }
    ],
    "steps": [
     {
-     "id": "sm-s1",
+     "id": "smb-s1",
      "text": {
-      "bg": "Сипи соевото мляко в кофа и долей вода, колкото платът да се покрие и да се движи свободно.",
-      "en": "Pour the soy milk into a bucket and top up with enough water for the cloth to be submerged and move freely."
+      "bg": "Сипи млякото в кофа и долей вода, колкото платът да е потопен и да се движи свободно.",
+      "en": "Pour the milk into a bucket and top up with enough water for the cloth to be submerged and move freely."
      }
     },
     {
-     "id": "sm-s2",
+     "id": "smb-s2",
      "text": {
-      "bg": "Сложи намокрения плат. Провери, че има място да се движи. Остави 12 часа.",
-      "en": "Add the wetted-out cloth. Check there is room for it to move. Leave for twelve hours."
+      "bg": "Сложи намокрения плат. Провери нивото — трябва да има място за движение. Остави 12 часа.",
+      "en": "Add the wetted-out cloth. Check the level — there must be room to move. Leave for twelve hours."
      }
     },
     {
-     "id": "sm-s3",
+     "id": "smb-s3",
      "text": {
       "bg": "Разбърквай внимателно от време на време.",
       "en": "Agitate and stir gently from time to time."
      }
     },
     {
-     "id": "sm-s4",
+     "id": "smb-s4",
      "text": {
-      "bg": "След 12 часа извади плата и го изстискай над кофата. Окачи да изсъхне НАПЪЛНО.",
-      "en": "After twelve hours take the cloth out and wring it over the bucket. Hang it to dry COMPLETELY."
+      "bg": "След 12 часа извади плата и го изстискай над кофата. Закачи го да изсъхне напълно.",
+      "en": "After twelve hours take the cloth out and wring it over the bucket. Hang it to dry completely."
      }
     },
     {
-     "id": "sm-s5",
+     "id": "smb-s5",
      "text": {
-      "bg": "Когато е напълно сух, изплакни добре. Оттук нататък е готов за печат или се прибира за по-късно.",
-      "en": "When it is fully dry, rinse well. From here it is ready to print, or stored for later."
+      "bg": "Когато е напълно сух, изплакни добре. Оттук може да се печата, или да се прибере за по-късно.",
+      "en": "When it is completely dry, rinse well. You can print from here, or store it for later."
      }
     }
    ]
@@ -1749,28 +1798,31 @@
    "sourceCodes": [
     "alison-kelly-printing"
    ],
-   "liquorRatio": 20,
+   "distributable": true,
    "name": {
     "bg": "Желязна баня за тъмен резултат",
     "en": "Iron bath for a dark outcome"
    },
    "notes": {
-    "bg": "Платът влиза в нея НЕПОСРЕДСТВЕНО преди печат: желязото се окислява бързо във вода и жълти плата. Малко желязо стига много. Повече желязо разяжда коприна и вълна — мери точно. Останалата вода пожълтява след няколко минути и се изхвърля в канала.",
-    "en": "The cloth goes in IMMEDIATELY before printing: iron oxidises fast in water and will yellow the cloth. A little goes a very long way. Too much iron damages silk and wool — measure accurately. The leftover water yellows within minutes and is rinsed down the drain."
+    "bg": "Малко желязо върши много. Платът влиза в банята НЕПОСРЕДСТВЕНО преди печат, защото желязото се окислява бързо във вода и пожълтява плата. Повече желязо разяжда коприна и вълна. Около 1% дава по-наситен резултат, до 2.5% — по-тъмен. Останалата вода след няколко минути пожълтява от окисляването и може да се изхвърли в канала.",
+    "en": "A little iron goes a long way. The cloth goes into the bath IMMEDIATELY before printing, because iron oxidises quickly in water and yellows the textile. Too much iron damages silk and wool. Around 1% gives a more saturated result, up to 2.5% a darker one. After a few minutes the leftover water yellows from oxidation and can go down the drain."
    },
    "ingredients": [
     {
-     "id": "ib-1",
+     "id": "ibd-1",
      "roleCode": "modifier",
      "basis": "percent_wof",
      "unit": "g",
+     "quantity": null,
+     "quantityMin": 1,
+     "quantityMax": 2.5,
      "note": {
-      "bg": "Железен сулфат. Около 1% за по-наситен резултат, до 2.5% за по-тъмен.",
-      "en": "Ferrous sulfate. Around 1% for a more saturated result, up to 2.5% for a darker one."
+      "bg": "Железен сулфат, 1–2.5% от теглото на плата. Мери точно.",
+      "en": "Ferrous sulfate, 1–2.5% of the weight of the cloth. Measure it accurately."
      },
      "options": [
       {
-       "id": "ib-1-o",
+       "id": "ibd-1-o",
        "substanceId": "seed:iron_sulfate",
        "qtyMin": 1,
        "qtyMax": 2.5
@@ -1780,24 +1832,24 @@
    ],
    "steps": [
     {
-     "id": "ib-s1",
+     "id": "ibd-s1",
      "text": {
-      "bg": "С маска: претегли железния сулфат и го сложи в съда. Добави студената вода и бъркай до пълно разтваряне — може да отнеме минута.",
-      "en": "Wearing a mask: weigh the ferrous sulfate into the vessel. Add the cold water and whisk until the powder is fully dissolved — this may take a minute."
+      "bg": "С маска: претегли железния сулфат и го сложи в съда. Добави 2 л студена вода на 100 г плат и бъркай, докато прахът се разтвори напълно — може да отнеме около минута.",
+      "en": "Wearing a mask: weigh the ferrous sulfate into the vessel. Add 2 litres of cold water per 100 g of cloth and whisk until the powder is fully dissolved — this may take a minute or so."
      }
     },
     {
-     "id": "ib-s2",
+     "id": "ibd-s2",
      "text": {
-      "bg": "С ръкавици: потопи плата и го омесвай с ръце около 15 секунди.",
+      "bg": "С ръкавици: потопи плата и го работи с ръце около 15 секунди.",
       "en": "Wearing gloves: immerse the cloth and work it with your hands for about fifteen seconds."
      }
     },
     {
-     "id": "ib-s3",
+     "id": "ibd-s3",
      "text": {
-      "bg": "Изстискай внимателно и остави да поизсъхне на рафт или простор. Когато го слагаш за печат, трябва да е влажен, не капещ.",
-      "en": "Wring gently and let it dry a little on a rack or line. When you lay it out to print it should be damp, not dripping wet."
+      "bg": "Изстискай леко и остави да поизсъхне на въже — влажен, не капещ, когато го слагаш за печат.",
+      "en": "Wring gently and let it dry slightly on a line — damp, not dripping, when you lay it out to print."
      }
     }
    ]

@@ -13,6 +13,7 @@ import { navigate, page, panel, field, options, vocabList, label, terms, segment
 import { shrinkResult, shrinkStep, shrinkThumb } from '../photo.js';
 import { markClean } from '../dirty.js';
 import { mordantBand } from '../vocab.js';
+import { departureOf, linesFromRecipe } from '../recipe-lines.js';
 import { ACTION_FOR_STATE } from '../migrate-actions.js';
 import { daysSinceMordanted, currentState, treatmentsOf, compositionTotal, coverPhoto, fibreClass as fibreClassOf,
          photoTimeline } from '../fabric-logic.js';
@@ -678,7 +679,68 @@ function blankStep(stage) {
   return { id: uid(), typeCode: '', stageCode: stage,
            techniqueId: '', recipeId: '', chainId: '', roleCode: '', what: '',
            tempC: null, heldMinutes: null, restMinutes: null, mediumMod: null,
+           // How a paste was laid on: block, screen, brush, stamp (§13ed).
+           // Empty on every other kind of step, and only asked for on the one
+           // where it means something.
+           applicationCode: '',
+           // What actually went into the paste (§13ee). Empty until the
+           // recipe's lines are taken, and then the work's own, not the
+           // recipe's: the recipe leaves the dye open and only the work can
+           // say which extract and how much.
+           lines: [],
            photos: [], note: '' };
+}
+
+// What actually went into the paste (§13ee).
+//
+// The same question the pigment batch answers, and the same code: the recipe
+// says roles and proportions, the work says what was really weighed. It matters
+// more here than there, because a paste recipe leaves the dye OPEN on purpose —
+// „any extract will do" — so without this the work cannot say which extract, or
+// how much of it.
+//
+// The lines are taken ONCE and then they are the work's. Amounts are resolved
+// at the moment of taking, not referenced, so the record still says 20 g next
+// year even if the recipe is revised — 20 g is what went in the paste.
+//
+// Offered only on a printing step in this release. A dye bath would take the
+// same block and it is not in the declared scope.
+export function canTakeStepLines(step, recipe) {
+  if (!recipe) return false;
+  // The one that matters: an evening's entries are not replaced by one click.
+  return !((step.lines || []).length);
+}
+
+async function whatWentIn(st, i) {
+  const recipe = recipes.find(x => x.id === st.recipeId);
+  const has = (st.lines || []).length;
+  if (!recipe && !has) return `<p class="hint">${t('trials.linesNeedRecipe')}</p>`;
+
+  const rows = (st.lines || []).map((ln, j) => {
+    const d = departureOf(ln);
+    const chip = d === 'same' ? '' : `<span class="chip dep-${d}">${t('pigments.dep.' + d)}</span>`;
+    const was = ln.was && (d === 'changed' || d === 'swapped')
+      ? `<p class="hint">${t('pigments.wasLabel')}: ${esc(ln.was.name)} ${
+          ln.was.amount ?? '\u2014'} ${esc(ln.was.unit || '')}</p>` : '';
+    return `
+      <tr class="${ln.removed ? 'lineout' : ''}">
+        <td><input type="text" data-sl="${i}.${j}.name" value="${esc(ln.name || '')}">${chip}${was}</td>
+        <td class="num"><input type="number" step="0.01" min="0" data-sl="${i}.${j}.amount" value="${
+          ln.amount ?? ''}"></td>
+        <td><input type="text" data-sl="${i}.${j}.unit" value="${esc(ln.unit || '')}" size="4"></td>
+        <td><button class="btn quiet" data-sline-out="${i}.${j}">${
+          ln.removed ? t('pigments.lineBack') : t('pigments.lineOut')}</button></td>
+      </tr>`;
+  }).join('');
+
+  return `
+    <div class="wentin">
+      <div class="stagecardhead sub"><b>${t('pigments.linesTitle')}</b></div>
+      ${has ? `<table class="linetable"><tbody>${rows}</tbody></table>` : ''}
+      ${canTakeStepLines(st, recipe) ? `
+        <p class="hint">${t('pigments.linesHint')}</p>
+        <button class="btn quiet" data-sline-take="${i}">${t('pigments.takeLines')}</button>` : ''}
+    </div>`;
 }
 
 async function addActionMenu(stage, after) {
@@ -811,7 +873,10 @@ async function stageCards(r) {
   // *what dyed, in what condition, and what it gave* — the position is only
   // the part of it that belongs to printing, and that part was already behind
   // `isEcoPrint`.
-  const wantsPlacements = isEcoPrint(r) || isBath(r) || (r.placements || []).length > 0;
+  // A paste work asks for its dyestuff too (§13ed): without a placement it
+  // cannot say which plant the colour came from, and the reference half is
+  // blind to it.
+  const wantsPlacements = isEcoPrint(r) || isBath(r) || isPaste(r) || (r.placements || []).length > 0;
   const firstColour = wantsPlacements ? runs.findIndex(run => run.code === 'colour') : -1;
   const placementsCard = wantsPlacements ? await placementsBlock(r) : '';
 
@@ -851,7 +916,7 @@ async function stageCards(r) {
   // already to be there, which is fine for leaves recorded from a photograph
   // and useless for a dye bath: there was no way to add the first one (§13ap).
   const orphan = wantsPlacements && firstColour === -1
-    && ((r.placements || []).length || isBath(r))
+    && ((r.placements || []).length || isBath(r) || isPaste(r))
     ? `<div class="stagecard">${placementsCard}</div>` : '';
 
   return `
@@ -948,6 +1013,11 @@ async function stepRow(r, st, i) {
           <input type="text" data-step="${i}.what" value="${esc(st.what || '')}" placeholder="${t('trials.layerWhat')}">
         </div>` : ''}
 
+      ${st.typeCode === 'print_paste' ? `
+        <select data-step="${i}.applicationCode">${
+          await options('application', st.applicationCode, t('trials.application'))}</select>
+        ${await whatWentIn(st, i)}` : ''}
+
       ${DYE_STEPS.includes(st.typeCode) ? `
         <div class="stepdyes">${await placementsBlock(r, st.id)}</div>` : ''}
 
@@ -1006,22 +1076,53 @@ function mordantOf(trial, fabricsById) {
   const fromRecipe = (recipeId, when) => {
     const recipe = recipes.find(r => r.id === recipeId);
     if (!recipe) return null;
+    // A BAND NEEDS A PERCENTAGE; THE MORDANT DOES NOT (§13ed).
+    //
+    // Lines that were not `percent_wof` were skipped entirely, and every line of
+    // a print paste is absolute — „20 g of alum in 200 ml of paste" is not a
+    // percentage of any cloth. So the paste's alum was invisible and the work
+    // read as unmordanted.
+    //
+    // Which mordant is answerable from any line. HOW STRONG is not: a band is a
+    // share of the cloth's weight, and a paste covers only what was printed.
+    // Rather than compute a band from a figure that does not mean that, the
+    // band is left null — „unknown", which is a different thing from „none"
+    // (§13dl). A percentage line is still preferred, so nothing changes for the
+    // recipes that have one.
+    let loose = null;
     for (const ing of recipe.ingredients || []) {
-      if (ing.basis && ing.basis !== 'percent_wof') continue;
       for (const opt of ing.options || []) {
         const sub = substances.find(x => x.id === opt.substanceId);
         if (!sub || sub.category !== 'mordant') continue;
+        const byWof = !ing.basis || ing.basis === 'percent_wof';
         const pc = opt.qtyMin ?? opt.qtyMax ?? null;
-        return { code: sub.mordantTypeCode || null, band: mordantBand(pc, sub), when };
+        if (byWof) return { code: sub.mordantTypeCode || null, band: mordantBand(pc, sub), when };
+        loose = loose || { code: sub.mordantTypeCode || null, band: null, when };
       }
     }
-    return null;
+    return loose;
   };
 
   // The trial's own steps first: when mordanting IS the experiment, that is
   // where it lives and it is the more specific answer (§13bd).
-  const step = (trial.steps || []).find(x => x.typeCode === 'mordant' && x.recipeId);
-  if (step) { const m = fromRecipe(step.recipeId, step.date); if (m) return m; }
+  //
+  // ASKED OF THE RECIPE, NOT OF THE STEP'S NAME (§13ed). This looked for a step
+  // TYPED `mordant`, and a mordant print paste is typed `print_paste` — so a
+  // paste work read as unmordanted, and the cloth was asked instead, which for
+  // this kind of work is bare on purpose. The general question is „which step
+  // put a mordant on this cloth", and `fromRecipe` already answers it by walking
+  // the recipe's options. Any step with a recipe is now a candidate; a recipe
+  // with no mordant in it returns null and the walk goes on.
+  //
+  // The mordant a paste leaves is only UNDER the print, not over the whole
+  // cloth. The record says which mordant, not how much of the cloth carries it;
+  // that is stated in the work's own words and is an open question for the
+  // reference half.
+  for (const step of trial.steps || []) {
+    if (!step.recipeId) continue;
+    const m = fromRecipe(step.recipeId, step.date);
+    if (m) return m;
+  }
 
   // Otherwise the cloth: the last mordanting on or before the day of the work.
   // Later mordantings belong to work that came after this and must not be read
@@ -1118,13 +1219,20 @@ function matchCombination(placement, trial, fabricsById = new Map()) {
 // A bath: the dyestuff is in the pot rather than laid on the cloth. The same
 // record, asked in the words of the process.
 const isBath = (r) => r.processCode === 'immersion';
+// Printing with a paste (§13ed). The colour is an extract of a plant, so the
+// work names its dyestuff the way a bath does — a placement — rather than by
+// laying leaves, which is what `isEcoPrint` gates.
+const isPaste = (r) => r.processCode === 'paste';
 
 // Steps that put colour in a pot. "No recipe" has never meant "no dyestuff",
 // but until now the dyestuff could only be named through a recipe's
 // ingredients, so a bath written without one had nowhere to say what was in it
 // (§13ar). The dyestuff belongs to the step: one trial can hold a tagetes bath
 // and a madder bath, and a list hanging off the trial cannot tell them apart.
-const DYE_STEPS = ['dye', 'bundle_boil'];
+// Steps that carry the dyestuff. `print_paste` joined at §13ed: the colour of a
+// paste work goes on with the paste, so that is where the plant is named —
+// exactly as a bath names it on the dye step.
+const DYE_STEPS = ['dye', 'bundle_boil', 'print_paste'];
 
 // `stepId` narrows the block to the dyestuffs belonging to one step (§13ar).
 // Called with nothing, it shows the ones belonging to no step — the leaves of
@@ -1153,7 +1261,7 @@ async function placementsBlock(r, stepId = null) {
     // The closed line says the three things that tell one placement from
     // another: which plant, which part, and what is expected of it.
     const line = [
-      text(plantName?.nameCommon) || (isBath(r) ? t('trials.pickDyestuff') : t('trials.pickPlant')),
+      text(plantName?.nameCommon) || (isBath(r) || isPaste(r) ? t('trials.pickDyestuff') : t('trials.pickPlant')),
       pl.partCode ? await label('plant_part', pl.partCode) : '',
       text(match?.expected?.colourText) || '',
     ].filter(Boolean);
@@ -1170,7 +1278,7 @@ async function placementsBlock(r, stepId = null) {
       </div>`;
     if (!open) return summary;
     return summary + `
-      <div class="placement${isBath(r) ? ' nophoto' : ''}">
+      <div class="placement${isBath(r) || isPaste(r) ? ' nophoto' : ''}">
         <div class="placephoto">
           ${pl.photo
             ? `<img src="${pl.photo}" alt=""><button class="btn quiet" data-place-photo-del="${i}">\u00D7</button>`
@@ -1208,12 +1316,12 @@ async function placementsBlock(r, stepId = null) {
     <div class="placeblock">
       <div class="stagecardhead sub">
         ${icon('i-plant')}
-        <b>${isBath(r) ? t('trials.dyestuffs') : t('trials.placements')}</b>
+        <b>${isBath(r) || isPaste(r) ? t('trials.dyestuffs') : t('trials.placements')}</b>
         <span class="spacer"></span>
         ${actionBtn('add', 
-          isBath(r) ? t('trials.addDyestuff') : t('trials.addPlacement'), `data-place-add="${esc(stepId || '')}"`, 'contextual')}
+          isBath(r) || isPaste(r) ? t('trials.addDyestuff') : t('trials.addPlacement'), `data-place-add="${esc(stepId || '')}"`, 'contextual')}
       </div>
-      ${rows || `<p class="hint">${isBath(r) ? t('trials.dyestuffsHint') : t('trials.photoFirst')}</p>`}
+      ${rows || `<p class="hint">${isBath(r) || isPaste(r) ? t('trials.dyestuffsHint') : t('trials.photoFirst')}</p>`}
       ${(r.placements || []).length > 1 && stageRuns(r.steps).filter(x => x.code === 'colour').length > 1
         ? `<p class="hint">${t('trials.placementsOncePerTrial')}</p>` : ''}
     </div>`;
@@ -1429,6 +1537,8 @@ async function reviewStep(r, st, i) {
       <span class="steprecipe">${esc(text(recipe?.name) || '')}</span>
       <span class="steptimeline">${esc(times)}</span>
     </div>
+    ${st.applicationCode ? `<p class="hint indent">${
+      esc(await label('application', st.applicationCode))}</p>` : ''}
     ${st.what ? `<p class="hint indent">${esc(st.what)}</p>` : ''}
     ${m ? `<p class="hint indent">${esc(await label('medium_where', m.whereCode))}: ${
       esc(text(sub?.name) || '\u2014')} ${esc(m.amount || '')}${m.phMeasured ? ` \u00B7 pH ${m.phMeasured}` : ''}${
@@ -1733,7 +1843,6 @@ async function renderWork(root, r) {
           </summary>
           <div class="foldbody">
             ${field(t('trials.process'), `<select data-f="processCode">${await options('process', r.processCode, '')}</select>`)}
-            ${r.processCode === 'paste' ? note(t('trials.pasteNotYet'), 'warn') : ''}
             ${noCloth ? note(t('trials.noClothWhy'), 'warn') : ''}
             ${fieldGroup(t('trials.fabrics'), `<div class="checks column">${fabricChecks}</div>`)}
             ${field(t('trials.weightOfGoods'), `<input type="number" step="1" min="0" data-f="weightOfGoodsG" value="${r.weightOfGoodsG ?? ''}">`, t('trials.weightHint'))}
@@ -1823,6 +1932,18 @@ function readWork(root) {
     st.recipeId = st.source.startsWith('r:') ? st.source.slice(2) : '';
     delete st.source;
   }
+  // The lines of what went into a paste (§13ee). Patched in place, like every
+  // other list here: only one step is open at a time, so a reader that rebuilt
+  // the array from the screen would empty the lines of every step that is shut.
+  for (const el of root.querySelectorAll('[data-sl]')) {
+    const [i, j, key] = el.dataset.sl.split('.');
+    const line = steps[Number(i)]?.lines?.[Number(j)];
+    if (!line) continue;
+    let value = el.value;
+    if (el.type === 'number') value = value === '' ? null : Number(value);
+    line[key] = value;
+  }
+
   for (const el of root.querySelectorAll('[data-medium]')) {
     const [i, key] = el.dataset.medium.split('.');
     const idx = Number(i);
@@ -1846,6 +1967,29 @@ function readWork(root) {
 export default {
   id: 'trials',
   title: () => t('trials.title'),
+
+  // The module's tables, in one place. They were read at the top of `render`,
+  // which meant anything asked of this module WITHOUT a render — the resolver
+  // below — worked from empty maps and answered confidently with nothing.
+  async loadTables() {
+    plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
+    plantsById = new Map(plants.map(p => [p.id, p]));
+    recipes = await all('recipes');
+    techniques = await all('techniques');
+    chains = await all('chains');
+    substances = await all('substances');
+    combinations = await all('combinations');
+    fabricsById = new Map((await all('fabrics')).map(f => [f.id, f]));
+  },
+
+  // Exposed for the checks only (§13ed). Which mordant a work carries is what
+  // the reference match is built on, and it is decided here rather than on a
+  // screen — so a guard that read the page would be reading a rendering of the
+  // answer instead of the answer.
+  async mordantOfTrial(trial) {
+    await this.loadTables();
+    return mordantOf(trial, fabricsById);
+  },
   sub: () => t('trials.sub'),
 
   reset() {
@@ -1873,14 +2017,7 @@ export default {
   },
 
   async render(root) {
-    plants = (await all('plants')).sort((a, b) => text(a.nameCommon).localeCompare(text(b.nameCommon)));
-    plantsById = new Map(plants.map(p => [p.id, p]));
-    recipes = await all('recipes');
-    techniques = await all('techniques');
-    chains = await all('chains');
-    substances = await all('substances');
-    combinations = await all('combinations');
-    fabricsById = new Map((await all('fabrics')).map(f => [f.id, f]));
+    await this.loadTables();
 
     // Screen 2: choosing the cloth. `#/trials/new` with nothing after it asks the
     // question; `#/trials/new/<fabricId>` has already been answered and goes
@@ -2211,6 +2348,36 @@ export default {
         openStep = inserted.length === 1 ? inserted[0].id : null;
         return redraw();
       }
+      // What went into the paste (§13ee): take the recipe's lines, once.
+      const take = e.target.closest('[data-sline-take]');
+      if (take) {
+        readWork(root);
+        const i = Number(take.dataset.slineTake);
+        const st = draft.steps[i];
+        const recipe = recipes.find(x => x.id === st?.recipeId);
+        // Refused rather than merged when lines already exist: an evening's
+        // entries are not replaced by one click (§13dr). The button is not
+        // drawn then either, and this is the second place that decides — the
+        // two drifting apart is how a hidden control turns out to be clickable.
+        // The same question the screen asked when it decided whether to draw
+        // the button. A condition written twice is how a hidden control turns
+        // out to be clickable (§13cz).
+        if (!canTakeStepLines(st || {}, recipe)) return;
+        st.lines = await linesFromRecipe(recipe, { rawG: null, weightG: draft.weightOfGoodsG || 0 },
+                                         substances, plants);
+        return redraw();
+      }
+      const lout = e.target.closest('[data-sline-out]');
+      if (lout) {
+        readWork(root);
+        const [i, j] = lout.dataset.slineOut.split('.').map(Number);
+        const line = draft.steps[i]?.lines?.[j];
+        // Struck through, not deleted: „I left the soda out" is a fact about
+        // the work, and a line that vanishes says nothing.
+        if (line) line.removed = !line.removed;
+        return redraw();
+      }
+
       const sdel = e.target.closest('[data-step-del]');
       if (sdel) {
         readWork(root);

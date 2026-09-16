@@ -17,6 +17,7 @@
 // arrangement was read and rebuilt rather than pasted.
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
+import { departureOf, linesFromRecipe } from '../recipe-lines.js';
 import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { scaleRecipe } from '../calc/scale.js';
@@ -171,23 +172,9 @@ async function renderList(root) {
 }
 
 // ---- what was actually put in ---------------------------------------------
-
-// A line's standing against the recipe it came from. Computed, never stored
-// (§13.6): storing it would be a second copy of a comparison the data already
-// answers, and the two would disagree the first time an amount was edited.
-export function departureOf(line) {
-  if (line.removed) return 'removed';
-  const w = line.was;
-  // No history means the owner put this line here herself. Tested before the
-  // comparison rather than assumed by it: written the other way round the
-  // function reads `w.amount` off nothing and throws, which stops the suite
-  // with a stack trace instead of a sentence — a guard that crashes reports
-  // that something is wrong and not what.
-  if (!w) return 'added';
-  if (line.amount !== w.amount || (line.unit || '') !== (w.unit || '')) return 'changed';
-  if ((line.name || '') !== (w.name || '')) return 'swapped';
-  return 'same';
-}
+//
+// `departureOf` and `linesFromRecipe` moved to `recipe-lines.js` at §13ee, so a
+// paste print can ask the same question of the same code.
 
 // May the recipe's lines be taken? A function rather than a condition written
 // twice, because it is checked where the button is DRAWN and again where it is
@@ -200,47 +187,6 @@ export function canTakeLines(batch, recipe) {
   // The one that matters: an evening's entries are not replaced by one click.
   if ((batch.lines || []).length) return false;
   return true;
-}
-
-// Reading the recipe's lines into the batch, ONCE. Amounts are resolved here
-// rather than referenced: the batch has to keep saying 50 g next year even if
-// the recipe's percentage is revised, because 50 g is what went in the pot.
-async function linesFromRecipe(recipe, b, substances, plants) {
-  const byId = new Map(substances.map(sx => [sx.id, sx]));
-  const plantsById = new Map(plants.map(p => [p.id, p]));
-
-  const nameOfOption = async (o, roleCode) => {
-    if (o?.plantId) {
-      const p = plantsById.get(o.plantId);
-      const part = o.partCode ? ', ' + await label('plant_part', o.partCode) : '';
-      return (p ? text(p.nameCommon) : '—') + part;
-    }
-    const sub = byId.get(o?.substanceId);
-    return sub ? text(sub.name) : ((await label('ingredient_role', roleCode)) || '—');
-  };
-
-  const scaled = scaleRecipe(recipe, { rawG: b.rawWeightG, weightG: b.rawWeightG || 0 });
-  return Promise.all(scaled.ingredients.map(async ing => {
-    const name = await nameOfOption(ing.option, ing.roleCode);
-    // A range keeps its lower end as the figure and says so in the note. The
-    // batch records one amount because one amount went in; which end of the
-    // range it was is the owner's to correct, and she will be looking at the
-    // line while she does it.
-    const amount = ing.scaledAmount != null ? ing.scaledAmount : ing.scaledMin;
-    const unit = ing.scaledUnit || '';
-    return {
-      id: uid(),
-      roleCode: ing.roleCode,
-      substanceId: ing.option?.substanceId || '',
-      name,
-      amount: amount ?? null,
-      unit,
-      removed: false,
-      // What the recipe said on the day. Frozen on purpose (§13dr).
-      was: { name, amount: amount ?? null, unit, roleCode: ing.roleCode },
-      note: { bg: '', en: '' },
-    };
-  }));
 }
 
 // ---- one batch ------------------------------------------------------------
@@ -553,7 +499,7 @@ export default {
         readForm(root);
         const recipe = recipes.find(r => r.id === draft.viaId);
         if (!canTakeLines(draft, recipe)) return;
-        draft.lines = await linesFromRecipe(recipe, draft, await all('substances'), plants);
+        draft.lines = await linesFromRecipe(recipe, { rawG: draft.rawWeightG, weightG: draft.rawWeightG || 0 }, await all('substances'), plants);
         draft.linesFrom = {
           recipeId: recipe.id,
           // Copied, not only referenced: the departure has to stay readable if
