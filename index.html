@@ -342,6 +342,10 @@ textarea{resize:vertical}
    and the button that fetches it, side by side, wrapping on a phone. */
 .libdiffers{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 12px}
 .libdiffers .note{flex:1 1 280px;margin:0}
+/* What actually went into a paste, inside a step (§13ee). The batch's own table
+   styles are reused; this only gives the block room inside a step card. */
+.wentin{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.wentin .linetable{width:100%}
 
 /* ---------- boxes (the fabric state inventory) ---------- */
 .boxes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}

@@ -241,6 +241,13 @@ node scripts/try-pack-field-labels.mjs || exit 1
 #     scripts/try-recipe-lines-named.mjs (§13dv).
 node scripts/try-recipe-lines-named.mjs || exit 1
 
+# 3j. A required follow-on must resolve, and a recipe that is only ever done
+#     after another one must be pointed at. §5.4 makes a follow-on a step the
+#     work view draws and scales, so a dangling id is a bath that silently does
+#     not appear. Found by a merge script that ran twice from two drafts and
+#     left two fixing baths, one of them reachable from nothing (§13ec).
+node scripts/try-recipe-followons.mjs || exit 1
+
 # 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
 #    which gives a blank page.

@@ -12,6 +12,42 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc63 — 14 September 2026
+
+What actually went into the paste. §13ee
+
+- **A printing step records its lines** — which extract, how much, which thickener. The paste
+  recipe leaves the dye open on purpose, so only the work can say.
+- **The same code as the pigment batch**, not a copy of it: `departureOf` and
+  `linesFromRecipe` moved to `recipe-lines.js` and both modules call them.
+- Lines are taken from the recipe **once**, with the figures resolved at that moment; a change
+  is marked and the recipe's own figure stays readable beside it; a line left out is struck
+  through, not deleted.
+- **Guard `went-in`**, including the case that would lose work: saving with another step open
+  must not empty a shut step's lines.
+- **Caught by the release gate:** the new module was missing from the service worker's cache
+  list, which would have broken the application offline.
+
+## 1.0.0-rc62 — 14 September 2026
+
+Paste printing can be recorded in the diary. §13ed
+
+- **`process:paste` is unlocked.** It said „скоро" and blocked work against three shipped
+  recipes.
+- **The mordant is found in the paste.** A mordant print paste leaves the cloth bare, and the
+  resolver looked for a step typed `mordant` — so a paste work read as unmordanted. Any step
+  with a recipe is now asked. It also skipped every line that was not a percentage, which is
+  every line of a paste; those now answer which mordant, with the band left unknown rather
+  than computed from a figure that does not mean that.
+- **A paste work names its dyestuff**, on the printing step, as a bath does on the dye step.
+- **`extract`** joins fresh, dried, rehydrated and frozen — an extract is the plant it was
+  made from.
+- **How it was laid on:** block, screen, brush, stamp.
+- **Two step types:** steaming flat (a bundle is steamed rolled up) and neutralising (a
+  modifier bath changes the colour; this one stops the acid).
+- **Guard `paste-work`**, on a cloth with no mordanting at all, seen failing both ways.
+- **Still missing:** what actually went into the paste — which extract, how much. Next.
+
 ## 1.0.0-rc61 — 14 September 2026
 
 Four mordant recipes from Alison Kelly's book. §13ec
@@ -29,6 +65,10 @@ Four mordant recipes from Alison Kelly's book. §13ec
 - **Chains still do not ship.** A chain of these is assembled in your own copy.
 - **Asked and answered:** the aluminium acetate recipe was never in the shipped library. The
   one on screen is the owner's own record, marked do-not-distribute.
+- **A guard for required follow-ons** (layer 3j): every one must resolve, and a bath that is
+  only ever done after another recipe must be pointed at. Nothing had ever checked this.
+- **Cleaned up:** a merge script ran twice from two drafts and left a duplicate fixing bath and
+  four records with an earlier draft's numbers. All five were rewritten from one script.
 
 ## 1.0.0-rc60 — 14 September 2026
 

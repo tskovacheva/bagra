@@ -12,7 +12,7 @@ export const DIMENSIONS = [
   'compositional_role', 'plant_type', 'habitat', 'extraction_mode', 'recipe_output', 'fastness', 'toxicity_level',
   'precaution',
   'material_category', 'mordant_type', 'tannin_type', 'colour_effect',
-  'dye_class', 'recipe_type', 'ingredient_role', 'basis', 'basis_refers_to',
+  'dye_class', 'recipe_type', 'ingredient_role', 'basis', 'basis_refers_to', 'application',
   'process', 'enhancement', 'bundle_role', 'step_type', 'medium_where',
   'placement_condition', 'facing', 'print_quality', 'confidence',
   'technique_category', 'assessment', 'water_source', 'season', 'swatch_kind',
@@ -452,9 +452,10 @@ export const VOCABULARY = [
   // --- process -----------------------------------------------------------
   V('process', 'immersion', 'потапящо багрене', 'immersion dyeing', 1),
   V('process', 'ecoprint',  'еко принт',        'eco print', 2),
-  // Paste printing needs a thickener, a screen and a fixing step this app does
-  // not yet model, so offering it would promise more than it delivers.
-  V('process', 'paste',     'печат с паста (скоро)', 'paste print (not yet)', 3),
+  // Unlocked at §13ed. The three things this line said were missing now exist:
+  // the thickener is a role (§13eb), the steaming and the neutralising are step
+  // types below, and how the paste was laid on is a dimension of its own.
+  V('process', 'paste',     'печат с паста',        'paste print', 3),
 
   // The seven enhancements, layered rather than exclusive (§8.0).
   // Named after what one does, not after the chemistry behind it. "Adjective
@@ -488,6 +489,13 @@ export const VOCABULARY = [
   V('step_type', 'shibori_bind',  'сгъване / стягане',  'folding & binding', 1.1),
   V('step_type', 'apply_resist',  'нанасяне на резист', 'applying resist', 1.2),
   V('step_type', 'print_paste',   'печат с паста',      'paste printing', 1.3),
+  // A bundle is steamed rolled up; a printed cloth is steamed FLAT, and the two
+  // are different acts with different times (§13ed).
+  V('step_type', 'steam_flat',    'пара на разстлано',  'steaming flat', 1.35),
+  // The chalk bath after a paste. `post_modifier` is a modifier bath — iron,
+  // copper, a pH shift meant to CHANGE the colour — and neutralising is the
+  // opposite: it stops the acid and leaves the colour where it is.
+  V('step_type', 'neutralise',    'неутрализиране',     'neutralising', 1.45),
   V('step_type', 'remove_resist', 'махане на резиста',  'removing resist', 1.4),
 
   V('step_type', 'scour',         'изпиране',        'scour', 1),
@@ -514,6 +522,11 @@ export const VOCABULARY = [
   V('placement_condition', 'dried',      'сушено',       'dried', 2),
   V('placement_condition', 'rehydrated', 'рехидратирано','rehydrated', 3),
   V('placement_condition', 'frozen',     'замразено',    'frozen', 4),
+  // The colour in a print paste comes from an EXTRACT, and the owner's reading
+  // is that an extract is still the plant it was made from — the same as a
+  // pigment. So a placement names the plant as always, and this is the form the
+  // plant was in (§13ed). Bought or made in the studio, the record is the same.
+  V('placement_condition', 'extract',    'екстракт',     'extract', 5),
 
   // --- safety, for the practice of dyeing ---------------------------------
   //
@@ -546,6 +559,14 @@ export const VOCABULARY = [
   // is not. Rounding all of them up would make "take care" meaningless, so the
   // level stays low and the distinction is carried here.
   V('precaution', 'concentrate_differs', 'концентратът не е листото', 'the concentrate is not the leaf', 8),
+
+  // How a paste was laid onto the cloth (§13ed). Not a detail: Cliffe's two
+  // thickeners are chosen by this — starch covers a block, gum gives a screen a
+  // crisp edge — so the edge of the print follows from it.
+  V('application', 'block',   'калъп',  'block', 1),
+  V('application', 'screen',  'сито',   'screen', 2),
+  V('application', 'brush',   'четка',  'brush', 3),
+  V('application', 'stamp',   'тампон', 'stamp', 4),
 
   V('facing', 'face_down', 'с лицето надолу', 'face down', 1),
   V('facing', 'face_up',   'с лицето нагоре', 'face up', 2),

@@ -393,6 +393,14 @@ line's note.
 seven recipe lines that named them in prose, and the first sentence of a line's note under
 each weigh line. Raised by them: **18i**, that a substance record has no source field.
 
+**rc63** finished the diary side of paste printing (§13ee): a printing step records what
+actually went in. Still open, and only when the reference half is taken up: a paste covers
+only part of the cloth, and the combination key does not know it. Three ways out were put to
+the owner — leave it to the work's own words, split the process in two, or give the
+combination a coverage field.
+
+**rc62** opened the diary to paste printing (§13ed).
+
 **rc61** added Kelly's four mordant recipes (§13ec). Open from it: whether the library should
 be able to carry a CHAIN — the compound mordant, drying and the bran bath are one sequence,
 and `seed/chains.json` does not exist.

@@ -63,7 +63,10 @@ byRole.dyestuff?.scaledMin === 50 && byRole.carrier?.scaledMin === 10
 // and a source-text search for the rule would be the one that invents the
 // string it looks for (§13cz). The module is asked the same question the screen
 // asks it.
-const { departureOf, canTakeLines } = await import('../modules/pigments.js');
+// `departureOf` moved to `recipe-lines.js` at §13ee, so a paste print could ask
+// the same question of the same code. `canTakeLines` stayed with the batch.
+const { canTakeLines } = await import('../modules/pigments.js');
+const { departureOf } = await import('../recipe-lines.js');
 
 const fromRecipe = (name, amount, unit) =>
   ({ name, amount, unit, removed: false, was: { name, amount, unit } });

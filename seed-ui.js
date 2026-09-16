@@ -69,7 +69,7 @@ export const FIELD_LABELS = {
     appliesTo: 'recipes.appliesTo', scaleBy: 'recipes.scaleBy', target: 'recipes.targetBasis',
     ingredients: 'recipes.ingredients', steps: 'recipes.steps', notes: 'common.notes',
     sourceCodes: 'recipes.source', distributable: 'recipes.distributable',
-    requiredFollowOn: 'recipes.followOn', liquorRatio: 'recipes.liquorRatio',
+    requiredFollowOn: 'recipes.followOn',
     heldMinutes: 'recipes.heldMinutes', restMinutes: 'recipes.restMinutes',
     phTarget: 'recipes.phTarget',
     tempC: 'seed.field.temperature', tempMinC: 'seed.field.temperature',

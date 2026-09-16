@@ -5752,55 +5752,230 @@ const dirty = await import('./dirty.js');
   else console.log(`  combinations: every record in the pack reached the database (${packed.length})`);
 }
 
-// ---- Kelly's mordants, and a liquid measured against cloth (§13ec)
+// ---- What actually went into the paste (§13ee)
 //
-// The compound mordant is the first shipped recipe scaled by the weight of the
-// cloth, and the first whose lines are not all powders. Held at 100 g, which is
-// the weight the owner recalculated the book's batch to.
+// The recipe leaves the dye open on purpose — „any extract will do" — so the
+// work is the only place that can say which extract and how much. The same
+// question the pigment batch answers, and now the same code: `departureOf` and
+// `linesFromRecipe` moved to `recipe-lines.js` rather than being copied.
+//
+// Three things are held here, and the third is the one that would lose work.
+{
+  const trials = (await import('./modules/trials.js')).default;
+  const problems = [];
+  const id = 'zz-wentin';
+  const draw = async () => {
+    trials.reset?.(); trials.open(id); await trials.render(root); await settle();
+    const opener = root.querySelector('[data-step-open]');
+    if (opener) { opener.click(); await settle(); }
+  };
+  const rows = () => [...root.querySelectorAll('.wentin tbody tr')];
+  const cells = (tr) => [...tr.querySelectorAll('input')].map(x => x.value);
+
+  await db.put('trials', db.newRecord({
+    id, status: 'active', processCode: 'paste', date: '2026-09-14', title: 'T',
+    fabricIds: [], placements: [], enhancements: [], planPhotos: [], resultPhotos: [],
+    steps: [{ id: 's1', typeCode: 'print_paste', stageCode: 'decorate',
+              recipeId: 'seed:mordant-print-paste', applicationCode: 'block',
+              lines: [], photos: [] }],
+  }));
+
+  await draw();
+  const take = root.querySelector('[data-sline-take]');
+  if (!take) problems.push('a printing step offers no way to take the recipe’s lines');
+  else {
+    take.click(); await settle();
+    // Taking fills the DRAFT, like every other edit here; it reaches the record
+    // when the work is saved. So the check saves, the way a person would.
+    root.querySelector('[data-save]')?.click(); await settle();
+    const stored = (await db.get('trials', id)).steps[0].lines || [];
+    if (!stored.length) problems.push('the lines were taken on screen and not saved with the work');
+    await draw();
+    const got = rows().map(tr => cells(tr).slice(0, 3).join(' '));
+    // The figures come across resolved, not referenced: 20 g is what went in.
+    if (!got.some(r => r.includes('Калиева стипца') && r.includes('20')))
+      problems.push(`the alum did not come across with its figure: ${JSON.stringify(got)}`);
+    if (rows().length < 4) problems.push(`only ${rows().length} line(s) came across`);
+    // Once. An evening's entries are not replaced by a second click. Asked of
+    // the function the screen and the click handler both ask, rather than of the
+    // button — a check that only looked for the button would pass on a handler
+    // that takes them anyway, and the handler is the half that would overwrite.
+    if (root.querySelector('[data-sline-take]'))
+      problems.push('the take button is still there after the lines were taken');
+    const { canTakeStepLines } = await import('./modules/trials.js');
+    const step1 = (await db.get('trials', id)).steps[0];
+    if (canTakeStepLines(step1, { id: step1.recipeId }))
+      problems.push('a step that already has lines would take the recipe’s again');
+    if (!canTakeStepLines({ lines: [] }, { id: 'r' }))
+      problems.push('a step with no lines is refused the recipe’s — the rule says no to everything');
+  }
+
+  // A changed amount is marked as a departure, and the recipe's own figure is
+  // still readable beside it.
+  {
+    const rec = await db.get('trials', id);
+    rec.steps[0].lines = (rec.steps[0].lines || []).map(ln =>
+      ln.name.includes('стипца') ? { ...ln, amount: 17 } : ln);
+    await db.put('trials', rec);
+    await draw();
+    const marked = rows().some(tr => tr.querySelector('.dep-changed'));
+    if (!marked) problems.push('17 g where the recipe said 20 is not marked as a departure');
+    if (!(root.querySelector('.wentin')?.textContent || '').includes('20'))
+      problems.push('the recipe’s own figure is not shown beside the changed line');
+  }
+
+  // THE ONE THAT WOULD LOSE WORK. Only one step is open at a time. A reader
+  // that rebuilt the lines from the screen would empty every step that is shut —
+  // which is the fault §8.0e already fixed once for steps themselves.
+  {
+    const rec = await db.get('trials', id);
+    rec.steps.push({ id: 's2', typeCode: 'rinse', stageCode: 'after', recipeId: '', lines: [], photos: [] });
+    await db.put('trials', rec);
+    await draw();
+    // Open the OTHER step, so the paste's lines are off the screen, then save.
+    const openers = [...root.querySelectorAll('[data-step-open]')];
+    if (openers.length > 1) { openers[1].click(); await settle(); }
+    const save = root.querySelector('[data-save]');
+    if (save) { save.click(); await settle(); }
+    const after = await db.get('trials', id);
+    const kept = (after.steps.find(x => x.id === 's1')?.lines || []).length;
+    if (!kept) problems.push('saving with another step open emptied the paste’s lines');
+  }
+
+  await db.remove('trials', id);
+  trials.reset?.();
+  if (problems.length) fail('went-in', new Error(problems.join('; ')));
+  else console.log('  went-in: the recipe’s lines come across once, a change is marked, and a shut step keeps its own');
+}
+
+// ---- A paste print can be recorded (§13ed)
+//
+// The diary held three recipes it could not record work against: `process:paste`
+// said „скоро" and a trial could not choose it.
+//
+// The state that decides is the MORDANT. A mordant print paste leaves the cloth
+// bare and puts the mordant only under the print, so the resolver — which reads
+// the cloth since §13bd — answered „unmordanted" and the reference half matched
+// the wrong record. It looked for a step TYPED `mordant`; a paste step is typed
+// `print_paste`. Held here on a trial whose cloth carries NO mordanting at all,
+// where the two readings must disagree.
+{
+  const trials = (await import('./modules/trials.js')).default;
+  const problems = [];
+  const id = 'zz-paste-work';
+
+  await db.put('fabrics', db.newRecord({
+    id: 'zz-paste-cloth', name: { bg: 'Гол памук', en: 'Bare cotton' },
+    fibreClass: 'cellulose', actions: [], stateCode: 'ready',
+  }));
+  await db.put('trials', db.newRecord({
+    id, status: 'active', processCode: 'paste', date: '2026-09-14',
+    title: 'Паста', fabricIds: ['zz-paste-cloth'], enhancements: [],
+    placements: [{ id: 'p1', plantId: 'seed:rubia_tinctorum', partCode: 'root',
+                   condition: 'extract', observation: '' }],
+    steps: [{ id: 's1', typeCode: 'print_paste', stageCode: 'decorate',
+              recipeId: 'seed:mordant-print-paste', applicationCode: 'block', photos: [] }],
+    planPhotos: [], resultPhotos: [],
+  }));
+
+  trials.reset?.(); trials.open(id); await trials.render(root); await settle();
+  const page = (root.textContent || '').replace(/\s+/g, ' ');
+
+  // The dyestuff: a paste work names the plant its colour came from, or the
+  // reference half cannot see it at all.
+  //
+  // Asked on a work with NO placement yet, which is the state that decides: the
+  // block is also drawn for any work that already has one, so a fixture with a
+  // placement in it would pass with the gate untouched. Found exactly that way —
+  // the first version of this check did pass with the gate removed.
+  await db.put('trials', { ...(await db.get('trials', id)), id: 'zz-paste-empty', placements: [] });
+  trials.reset?.(); trials.open('zz-paste-empty'); await trials.render(root); await settle();
+  if (!root.querySelector('.placeblock'))
+    problems.push('a paste work with no dyestuff yet is never asked for one');
+  await db.remove('trials', 'zz-paste-empty');
+
+  trials.reset?.(); trials.open(id); await trials.render(root); await settle();
+  if (!root.querySelector('.placeblock'))
+    problems.push('a paste work is not asked which dyestuff went into it');
+  // How it was laid on — block or screen decides the edge of the print, and
+  // which thickener belongs in the paste.
+  if (!page.includes('калъп'))
+    problems.push('the work does not say the paste was laid on with a block');
+
+  // THE LINE THIS SECTION EXISTS FOR. The cloth was never mordanted; the paste
+  // was. Asked of the module's own resolver rather than of a screen, because it
+  // is what the reference match is built on.
+  const m = await trials.mordantOfTrial?.(await db.get('trials', id));
+  if (m === undefined) problems.push('the module does not expose how it resolves a mordant');
+  else if (!m || !m.code)
+    problems.push('a paste work reads as unmordanted — the mordant is in the paste, not on the cloth');
+
+  // And the other way, or the check above would pass on a resolver that simply
+  // says „alum" to everything: a work whose only step carries a recipe with no
+  // mordant in it stays unmordanted.
+  await db.put('trials', {
+    ...(await db.get('trials', id)), id: 'zz-paste-nomordant',
+    steps: [{ id: 's1', typeCode: 'print_paste', stageCode: 'decorate',
+              recipeId: 'seed:dye-print-paste', applicationCode: 'screen', photos: [] }],
+  });
+  const m2 = await trials.mordantOfTrial?.(await db.get('trials', 'zz-paste-nomordant'));
+  if (m2 && m2.code)
+    problems.push('a paste with no mordant in its recipe still reads as mordanted');
+
+  await db.remove('trials', id);
+  await db.remove('trials', 'zz-paste-nomordant');
+  await db.remove('fabrics', 'zz-paste-cloth');
+  trials.reset?.();
+  if (problems.length) fail('paste-work', new Error(problems.join('; ')));
+  else console.log('  paste-work: the dyestuff is asked for, the block is recorded, and the mordant is found in the paste');
+}
+
+// ---- Kelly's mordants, at 100 g of cloth (§13ec)
+//
+// The compound mordant is given TWICE in the book and the two do not agree. The
+// owner chose the BATCH, recalculated to 100 g of cloth, so the figures below
+// are the ones she decided on — and the state that decides is 100 g, where the
+// two readings differ most: the soda is 10 g by the batch and 5 g by the page
+// of percentages. A guard that typed 250 g would agree with both.
 {
   const recipes = (await import('./modules/recipes.js')).default;
   const problems = [];
   const at100 = async (id) => {
     recipes.reset?.(); recipes.open(id); await recipes.render(root); await settle();
     const f = root.querySelector('.workhead [data-scale]');
-    if (f) { f.value = '100'; f.dispatchEvent(new window.Event('input', { bubbles: true })); await settle(); }
-    return { field: !!f, weigh: (root.querySelector('.weighbox')?.textContent || '').replace(/\s+/g, ' ') };
+    if (!f) { problems.push(`${id} does not ask for a weight of cloth`); return ''; }
+    f.value = '100';
+    f.dispatchEvent(new window.Event('input', { bubbles: true }));
+    await settle();
+    return root.querySelector('.weighbox')?.textContent.replace(/\s+/g, ' ') || '';
   };
 
   const bright = await at100('seed:compound-mordant-bright');
-  if (!bright.field) problems.push('the compound mordant offers no amount field — it scales with the cloth');
-  for (const want of ['20 g', '10 g', '0.4–0.8 g'])
-    if (!bright.weigh.includes(want)) problems.push(`bright: ${want} is not on the weigh list`);
-  // THE LINE THIS SECTION EXISTS FOR: 200% of the cloth's weight in VINEGAR is
-  // 200 millilitres, and „200 g" is an instruction to weigh a liquid.
-  if (!bright.weigh.includes('200 ml'))
-    problems.push(`the vinegar is not shown in millilitres: „${bright.weigh.slice(0, 110)}"`);
+  for (const want of ['20 g', '200 ml', '0.4–0.8 g', '10 g'])
+    if (!bright.includes(want)) problems.push(`bright: ${want} is not in the weigh list — „${bright.slice(0, 110)}"`);
 
   const dark = await at100('seed:compound-mordant-dark');
-  if (!dark.weigh.includes('2–4 g')) problems.push('dark: the iron is not 2–4 g at 100 g of cloth');
-  if (dark.weigh.includes('0.4')) problems.push('dark: the bright recipe\'s iron is on the dark one');
+  for (const want of ['2–4 g', '12 g'])
+    if (!dark.includes(want)) problems.push(`dark: ${want} is not in the weigh list — „${dark.slice(0, 110)}"`);
+  // Bright and dark differ in the SODA as well as the iron, which is why they
+  // are two records and not one with a choice on one line.
+  if (dark.includes(' 10 g')) problems.push('dark carries the bright soda figure');
 
-  // The fixing bath is not optional and not a footnote: it has to be ON the
-  // mordant's screen, with its own figures (§5.4).
+  // §5.4: the bath is a step the work view draws, not a footnote. It is the
+  // whole method — the cloth dries hard and then the bath fixes it — so a
+  // mordant screen without it is a screen that teaches half the recipe.
   recipes.reset?.(); recipes.open('seed:compound-mordant-bright');
   await recipes.render(root); await settle();
   const follow = root.querySelector('.planstep.required');
-  if (!follow) problems.push('the compound mordant does not carry the bran bath as a required step');
-  else if (!follow.textContent.includes('80')) problems.push('the required bath shows no quantity');
+  if (!follow) problems.push('the compound mordant does not draw its fixing bath');
+  else if (!follow.textContent.includes('овес')) problems.push('the follow-on drawn is not the oatmeal bath');
 
-  // A bath measured in litres of liquor per kilo of cloth: at 100 g that is
-  // 2 litres, and it belongs in the conditions row rather than as an
-  // ingredient nobody weighs.
-  await at100('seed:iron-bath-dark');
-  const cond = (root.querySelector('.conditions')?.textContent || '').replace(/\s+/g, ' ');
-  // Asked at 100 g, not at whatever the field opens with — the bath is twenty
-  // times the cloth, so the answer differs with the weight and a check that
-  // does not set one is checking the default.
-  if (!/\b2\b/.test(cond)) problems.push(`the iron bath does not state its 2 litres at 100 g: „${cond}"`);
+  const iron = await at100('seed:iron-bath-dark');
+  if (!iron.includes('1–2.5 g')) problems.push(`the iron bath does not show 1–2.5 g at 100 g: „${iron.slice(0, 80)}"`);
 
   recipes.reset?.();
   if (problems.length) fail('kelly-mordants', new Error(problems.join('; ')));
-  else console.log('  kelly-mordants: the batch at 100 g, vinegar in millilitres, and the fixing bath on the mordant screen');
+  else console.log('  kelly-mordants: the batch figures at 100 g, bright and dark apart, and the bath drawn under the mordant');
 }
 
 // ---- The three print pastes (§13eb)

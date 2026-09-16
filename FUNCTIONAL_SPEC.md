@@ -10900,93 +10900,211 @@ anywhere — Cliffe's recipe and not the one set aside.
 
 Seen failing with the figures turned back into ratios, and with the per-option ranges removed.
 
-## 13ec. Kelly's mordants, and a liquid measured against cloth (1.0.0-rc61)
+## 13ec. The compound mordant, and three baths beside it (1.0.0-rc61)
 
-Four recipes from Alison Kelly's book, two substances, two sources, and one change to
-`calc/scale.js` that the first of them required.
+From Alison Kelly's book, crediting Michel Garcia's recipe — the attribution the owner asked
+for, and no commentary in the record about the book disagreeing with itself.
 
-### The recipes
+### Which figures, and why it had to be asked
 
-- **Сложен мордант**, in two variants, bright and dark — alum, vinegar, ferrous sulfate,
-  soda ash, with the cloth going in DRY and drying hard afterwards;
-- **Баня с трици или овесени ядки**, which fixes it, carried as the mordant's
-  `requiredFollowOn` rather than as a sentence at the end;
-- **Баня със соево мляко**, for cellulose, on its own or after the mordant;
-- **Желязна баня**, immediately before printing.
+The book gives the compound mordant TWICE and the two do not agree: a fixed batch for up to
+250 g of fibre, and a page of percentages. The soda is exactly double in the batch, 10% against
+5%, and the iron is higher too.
 
-New substances: soy milk and wheat bran, both `binder` — what they are is a protein and a
-grain; what they DO in these recipes is a mordant and an assistant (§13dn).
+A third reading, from an unattributable source the owner found, put the soda-to-alum ratio at
+2.1 to 1. The batch is 2.24 to 1 and the percentage page is 1.12 to 1 — half. Two readings
+agree and one is the odd one out. **That third text is not cited anywhere**: it is an AI
+answer over social media posts, with no author, title or year, and it cannot be checked.
 
-### Whose recipe
+The owner chose the batch, **recalculated to 100 g of cloth**. Filed as percentages of the
+weight of fibre rather than as a fixed batch, so the recipe answers for any weight; at 100 g
+the work view shows the batch's own figures — 20 g alum, 200 ml vinegar, 10 g soda, 0.4–0.8 g
+iron.
 
-The owner's instruction, 14 September 2026: the record credits **Kelly's book and Garcia**,
-and says nothing else. The compound mordant is Garcia's, adapted by Kelly, and, as the owner
-put it, a recipe of this kind rarely belongs to one person. Two codes in the list, no
-commentary in the record.
+### Five records
 
-### Which figures, and why it was not obvious
+**Two mordants.** Bright and dark are separate records: they differ in the soda as well as the
+iron, so they are not one recipe with a choice on one line.
 
-Kelly gives the compound mordant TWICE and the two do not agree: a batch for up to 250 g of
-cloth, and a page of percentages.
+**The oatmeal or bran bath is a recipe, not a step.** It happens after the cloth has dried
+completely, which is the method's whole point, and it is attached as `requiredFollowOn` so
+both mordants draw it under their own figures (§5.4).
 
-| | batch, per 100 g | percentage page |
-|---|---|---|
-| alum | 20% | 20% |
-| soda ash | **10%** | **5%** |
-| iron, bright | 0.4–0.8% | 0.2–0.5% |
-| iron, dark | 2–4% | 2–3% |
+**Soy milk** and **the iron bath** stand alone. Soy is another route for cellulose; the iron
+bath is done immediately before printing, because iron oxidises in water and yellows cloth.
 
-The soda is exactly double, in both variants. What decided it was the RATIO: soda to alum is
-2.24 by the batch and 1.12 by the percentage page, and the soda's job is to convert the alum,
-so the two are not interchangeable. A third account of Garcia's proportions, which the owner
-found and which is **not citable** — an AI summary over Instagram and Facebook, no author, no
-title — lands at 2.12, beside the batch.
+The owner's reading, and it is the right one: this is aluminium acetate made in place, with
+iron added — which is why it sits beside her own aluminium acetate recipe rather than
+replacing it. That record is hers, marked not for distribution, and was never in the shipped
+pack.
 
-So: **the batch, recalculated to 100 g of cloth**, which is what these records hold. The
-percentage page is not recorded. A record that gives two answers to one question is not a
-recipe, and the reasoning above is reasoning — it is written here, not presented in the
-application as something a source said.
+### Two accidents, and what they left
 
-### A liquid measured against cloth
+A merge script ran twice from two different drafts. The pack ended with **two fixing baths**:
+the mordants pointed at one, and the other was reachable from nothing. Worse, four records
+kept an earlier draft's numbers — the dark mordant carried the bright one's soda — because the
+second run held them as „already there". All five were removed and rewritten from one script.
 
-The vinegar is 200% of the cloth's weight, and it is 200 MILLILITRES. Every line scaled by
-weight of fibre had been drawn in grams, because until now every such line was a powder — so
-the screen said „200 g", which is an instruction to weigh a liquid.
+The same doubling put a stale draft of this release's guard into `deep-check.mjs` and a label
+for `liquorRatio`, a field no recipe carries, into `seed-ui.js`. The field-label guard from
+rc56 caught the second one on the release run.
 
-`scaleRecipe` now keeps a volume unit the line declares itself, `ml` or `l`, on any basis.
-Anything else is still grams, so a line that says nothing cannot silently change meaning.
-Lines scaled by raw material or stated absolute already kept their unit; this brings the
-weight-scaled ones into line with them.
+### The guard the accident exposed
 
-### The fixing bath is a step, not a footnote
+**Nothing had ever checked `requiredFollowOn`.** A dangling id is not a broken link in a
+document: §5.4 makes the follow-on a step the work view draws and scales, so a bath that does
+not resolve simply does not appear on the screen of somebody mordanting cloth, with nothing
+said.
 
-`requiredFollowOn` — the mechanism §5.4 built for the chalk bath — carries the bran bath onto
-the mordant's own screen with its quantity. The owner had read this shape first: it is the
-same as the chain she keeps herself, aluminium acetate then a carbonate bath.
+`scripts/try-recipe-followons.mjs`, layer 3j, asks both directions: every follow-on resolves,
+and a recipe that is only ever done after another one — stated in the file, not guessed — is
+pointed at by something. Seen failing on each.
 
-**What is NOT built:** chains do not ship. `seed/chains.json` does not exist and there is no
-pack for it, so a chain of these recipes is something she assembles in her own copy. Whether
-the library should be able to carry a chain is a decision for after 1.0.
+**`kelly-mordants` in `deep-check.mjs`** types 100 g and reads the weigh list. 100 g is the
+state that decides: it is where the batch and the percentage page differ, and a guard that
+used the field's default of 250 g would have agreed with both. Then that bright and dark carry
+different soda, and that the bath is drawn under the mordant. Seen failing with the dark soda
+set to the bright figure, and with the follow-on removed.
 
-### The aluminium acetate question
+---
+## 13ed. A paste print can be recorded (1.0.0-rc62)
 
-The owner asked where the aluminium acetate recipe had gone. **It was never in the shipped
-library** — rc52 held six recipes, all pigment. The one on her screen is her own record,
-marked do-not-distribute. Nothing was lost. Recorded because the question is a reasonable one
-and the answer is not visible from inside the application.
+The first of two releases on the diary side. The library held three paste recipes and the
+diary could not record work against any of them: `process:paste` said „скоро" and a trial
+could not choose it.
+
+Settled with the owner on 14 September 2026: a print and the dye bath that follows it are
+ONE work; the ground is worth recording when it was dyed; and an extract is the plant it was
+made from, the same as a pigment.
+
+### The mordant was read from the wrong place
+
+A mordant print paste leaves the cloth bare and puts the mordant only under the print. The
+resolver reads the cloth (§13bd) unless the trial has a step that mordants — and it looked for
+a step TYPED `mordant`. A paste step is typed `print_paste`, so a paste work read as
+**unmordanted** and matched the wrong reference record.
+
+The fix is the general question, not a second case: **any step with a recipe** is asked, and
+`fromRecipe` already answers by walking the recipe's options. A recipe with no mordant returns
+nothing and the walk goes on to the cloth.
+
+A second thing hid behind that. `fromRecipe` skipped every line that was not `percent_wof`, and
+every line of a print paste is absolute — „20 g of alum in 200 ml of paste" is not a percentage
+of any cloth. Now any line answers WHICH mordant, while HOW STRONG stays null: a band is a
+share of the cloth's weight, and a paste covers only what was printed. Null is „unknown", which
+is not „none" (§13dl). A percentage line is still preferred, so nothing changes for recipes
+that have one.
+
+### What the diary gained
+
+**A paste work names its dyestuff.** Placements were offered for eco print and for a bath; a
+paste work now asks too, and the dyestuff hangs on the printing step, the way a bath's hangs on
+the dye step. Without it the work cannot say which plant the colour came from and the reference
+half is blind to it.
+
+**`extract` as a placement condition**, beside fresh, dried, rehydrated and frozen. The owner's
+reading: an extract is still the plant it was made from. Bought or made in the studio, the
+record is the same.
+
+**How it was laid on** — block, screen, brush, stamp — a dimension of its own, asked only on a
+printing step. Not a detail: Cliffe's two thickeners are chosen by it, so the edge of the print
+follows from it.
+
+**Two step types.** `steam_flat`, because a bundle is steamed rolled up and a printed cloth is
+steamed flat; and `neutralise`, because `post_modifier` is a bath meant to CHANGE the colour and
+neutralising is the opposite — it stops the acid and leaves the colour alone.
+
+**`loadTables`.** The module read its tables at the top of `render`, so anything asked of it
+without a render worked from empty maps and answered confidently with nothing. One path now,
+used by the render and by the resolver.
 
 ### The guard
 
-`kelly-mordants` in `deep-check.mjs`, at 100 g of cloth because that is the weight the figures
-were recalculated to: alum 20 g, soda 10 g, iron 0.4–0.8 g bright and 2–4 g dark, **vinegar in
-millilitres**, the bran bath present as a required step with its own quantity, and the iron
-bath stating its two litres — asked at 100 g rather than at whatever the field opens with,
-since the bath is twenty times the cloth.
+`paste-work` in `deep-check.mjs`, on a cloth with **no mordanting at all** — the state where
+the two readings must disagree. That the work is asked for its dyestuff, that the block is
+recorded, and that the mordant is found in the paste. Then the other way: a paste whose recipe
+holds no mordant stays unmordanted, or the first half would pass on a resolver that says „alum"
+to everything.
 
-Seen failing with the volume unit removed and with the required follow-on removed.
+The placements half is asked on a work with NO placement yet. The first version of the check
+used the fixture that already had one — and the block is drawn for any work that has one, so it
+passed with the gate removed. Corrected, and it is the second way a guard lies: the right
+screen, the wrong thing (§13dp).
 
-`try-pack-field-labels.mjs` failed again first: `requiredFollowOn` and `liquorRatio` reached
-the pack for the first time and had no names.
+### What is still missing
+
+**What actually went into the paste.** The recipe leaves the dye open on purpose
+(`dyer-chooses`, §13eb) and the step records which recipe, not which extract and how much. The
+pigment batch already solved this shape — it records what was really put in and remembers the
+deviations (§13dr) — and that is the second release.
+
+**The reference key does not know that a paste covers only part of the cloth.** „Cotton, alum,
+paste" reads the same as a fully mordanted piece, and the results are nothing alike. Three ways
+out were put to the owner — leave it to the work's own words, split the process in two, or give
+the combination a coverage field — and it does not have to be decided until the reference half
+is taken up.
+
+---
+## 13ee. What actually went into the paste (1.0.0-rc63)
+
+The second of the two diary releases, and the one that makes a paste work answerable by the
+reference half.
+
+### Why it is needed more here than on a batch
+
+A print paste recipe leaves the dye OPEN on purpose — „any dye extract will do, and how much
+depends on which" (`dyer-chooses`, §13eb). So the recipe cannot say what was printed with and
+the step said only WHICH recipe. Which extract, and how much, had nowhere to go.
+
+### The same code, not a second copy
+
+The pigment batch answered this in §13dr: a list of lines, each keeping what the recipe said
+on the day, with the standing computed rather than stored. `departureOf` and `linesFromRecipe`
+moved out of `modules/pigments.js` into **`recipe-lines.js`**, and both modules call them.
+Copying them would have been a second copy of one fact, which is this project's commonest
+fault.
+
+`canTakeLines` stayed with the batch: it asks about a batch's own state. The trial has its own
+one-line answer, `canTakeStepLines`, exported for the same reason the batch's is — it decides
+where the button is DRAWN and again where it is CLICKED, and those two drifting apart is how a
+hidden control turns out to be clickable (§13cz).
+
+### What the screen does
+
+On a printing step: „Какво наистина сложих", with a button that takes the recipe's lines once.
+After that they are the work's — editable, strikeable, and never replaced by a second click.
+Amounts are resolved at the moment of taking rather than referenced, so the record still says
+20 g next year if the recipe is revised. A line left out is struck through, not deleted: „I
+left the soda out" is a fact about the work, and a line that vanishes says nothing.
+
+A changed amount is marked, with the recipe's own figure readable beside it.
+
+Offered on a printing step only. A dye bath would take the same block and it is outside the
+declared scope of this release.
+
+### The guard
+
+`went-in` in `deep-check.mjs`, three things:
+
+- the lines come across with their figures, and reach the RECORD — taking fills the draft, as
+  every edit here does, and the check saves the way a person would. The first version did not
+  save, and read a record with no lines at all;
+- 17 g where the recipe said 20 is marked as a departure, with the 20 still on screen;
+- **and the one that would lose work:** only one step is open at a time, so a reader that
+  rebuilt the lines from the screen would empty every step that is shut. That is the fault
+  §8.0e already fixed once for the steps themselves. The check opens another step, saves, and
+  reads the paste's lines back.
+
+Taking-once is asked of `canTakeStepLines` rather than of the button, because a check that only
+looked for the button would pass on a handler that takes them anyway — and the handler is the
+half that would overwrite an evening's entries. Asked both ways: a step with lines is refused,
+a step without them is not.
+
+### Found by the release gate
+
+`recipe-lines.js` was not in the service worker's cache list, so the application would have
+worked online and broken offline — on an offline-first application, for a file created the
+same hour. The cache-list layer caught it before the release.
 
 ---
 
