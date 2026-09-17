@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.12.2",
+ "packVersion": "0.13.1",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -753,35 +753,6 @@
      "harvestMonths": [
       7,
       8
-     ]
-    },
-    {
-     "partCode": "leaf",
-     "chemistry": [
-      {
-       "classCode": "flavonoid",
-       "level": "moderate"
-      }
-     ],
-     "dosing": [
-      {
-       "condition": "dried",
-       "min": 80,
-       "max": 100,
-       "extractionMode": null
-      }
-     ],
-     "tempExtractC": {
-      "min": 20,
-      "max": 25
-     },
-     "extractionModes": [
-      "cold"
-     ],
-     "harvestMonths": [
-      5,
-      6,
-      7
      ]
     }
    ],
@@ -2569,8 +2540,8 @@
       "en": "Harvest and processing"
      },
      "body": {
-      "bg": "Кога се бере: през активния вегетационен период, в сух ден; предпочитай здрави, напълно развити листа/върхове. При цъфтящи билки най-практично е около началото до пълния цъфтеж.\nКакво се бере: коренища · листа.\nОбработка: използвай прясно или суши на сянка, на тънък слой и с добра циркулация.\nСъхранение: след пълно изсъхване — на тъмно и сухо, в хартиен плик или затворен съд.",
-      "en": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves and tops. For flowering herbs, from the beginning of bloom to full bloom is the most practical window.\nWhat is gathered: rhizomes · leaves.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+      "bg": "Кога се бере: през активния вегетационен период, в сух ден; предпочитай здрави, напълно развити листа.\nКакво се бере: коренища · листа.\nОбработка: използвай прясно или суши на сянка, на тънък слой и с добра циркулация.\nСъхранение: след пълно изсъхване — на тъмно и сухо, в хартиен плик или затворен съд.",
+      "en": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves.\nWhat is gathered: rhizomes · leaves.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
      }
     }
    ],
@@ -2945,9 +2916,10 @@
       "max": 80
      },
      "tempDyeC": {
-      "min": 80
+      "min": 45,
+      "max": 50
      },
-     "softMaxTempC": 85
+     "softMaxTempC": 55
     }
    ],
    "colours": [
@@ -3333,9 +3305,9 @@
     }
    ],
    "confidence": {
-    "lightfastness": "practice",
+    "lightfastness": "unverified",
     "compositionalRole": "unverified",
-    "washfastness": "practice",
+    "washfastness": "unverified",
     "harvestMonths": "literature",
     "chemistry": "literature",
     "colours": "literature",
@@ -3691,46 +3663,6 @@
       "bg": "Подходяща е кора от клони при зимна резитба.",
       "en": "Bark from branches cut in the winter pruning is suitable."
      }
-    },
-    {
-     "partCode": "hull",
-     "chemistry": [
-      {
-       "classCode": "flavonoid",
-       "level": "high"
-      },
-      {
-       "classCode": "tannin_cond",
-       "level": "moderate"
-      }
-     ],
-     "dosing": [
-      {
-       "condition": "dried",
-       "min": 80,
-       "max": 100,
-       "extractionMode": null
-      }
-     ],
-     "tempExtractC": {
-      "min": 85,
-      "max": 90
-     },
-     "tempDyeC": {
-      "min": 75,
-      "max": 85
-     },
-     "softMaxTempC": 95,
-     "confidence": {
-      "tempExtractC": "practice",
-      "tempDyeC": "practice",
-      "softMaxTempC": "practice"
-     },
-     "harvestMonths": [
-      8,
-      9,
-      10
-     ]
     }
    ],
    "colours": [
@@ -4665,9 +4597,9 @@
     }
    ],
    "confidence": {
-    "lightfastness": "practice",
+    "lightfastness": "unverified",
     "compositionalRole": "unverified",
-    "washfastness": "practice",
+    "washfastness": "unverified",
     "dosing": "practice",
     "harvestMonths": "literature",
     "colours": "literature"
@@ -5715,8 +5647,8 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Листата и плодовете са силно танинови и дават жълто-кафяви до тъмни тонове. Сумакът е ценен и като танинова суровина за целулозни влакна, макар самата баня да внася лек фон.\n\nЛистата и плодчетата са две различни бани: листата към жълто и маслинено, плодчетата се стриват леко и дават по-топло, златисто. Дълъг престой усилва медения тон. Като танин, а не като багрило, листата се използват в много по-ниска доза — около 10–20%.",
-      "en": "The leaves and fruit are strongly tannic and give yellow-browns through to dark tones. Sumac is valuable as a tannin material for cellulose fibres, though the bath itself brings a slight ground colour with it.\n\nLeaves and berries are two different baths: the leaves towards yellow and olive, the berries lightly crushed for a warmer gold. A long stand deepens the honeyed tone. Used as a tannin rather than as a dye, the leaves go in at a far lower dose — around 10–20%."
+      "bg": "Листата и плодовете са силно танинови и дават жълто-кафяви до тъмни тонове. Сумакът е ценен и като танинова суровина за целулозни влакна, макар самата баня да внася лек фон.\n\nЛистата и плодчетата са две различни бани: листата към жълто и маслинено, плодчетата се стриват леко и дават по-топло, златисто. Дълъг престой усилва медения тон. Като танин, а не като багрило, листата се използват в много по-ниска доза.",
+      "en": "The leaves and fruit are strongly tannic and give yellow-browns through to dark tones. Sumac is valuable as a tannin material for cellulose fibres, though the bath itself brings a slight ground colour with it.\n\nLeaves and berries are two different baths: the leaves towards yellow and olive, the berries lightly crushed for a warmer gold. A long stand deepens the honeyed tone. Used as a tannin rather than as a dye, the leaves go in at a far lower dose."
      }
     },
     {
@@ -6197,8 +6129,8 @@
      "no_ingestion"
     ],
     "note": {
-     "bg": "Коренът съдържа антрахинони, включително луцидин. Нормалното багрене не е опасно; рискът е в сухия прах и в поглъщането.",
-     "en": "The root contains anthraquinones, lucidin among them. Ordinary dyeing is not dangerous; the risk lies in the dry powder and in swallowing it."
+     "bg": "Коренът съдържа антрахинони, сред тях луцидин, който е генотоксичен в лабораторни изследвания. Рискът е най-голям при сухия прах, концентрираните извлеци и поглъщането: работи с ръкавици и маска за прах, в проветрено помещение, със съдове само за багрене, и не допускай поглъщане.",
+     "en": "The root contains anthraquinones, among them lucidin, which is genotoxic in laboratory studies. The risk is greatest with the dry powder, concentrated extracts and swallowing: work with gloves and a dust mask, in a ventilated space, with vessels kept for dyeing, and do not ingest."
     }
    },
    "photoCredit": {
@@ -7826,8 +7758,8 @@
      "separate_vessels"
     ],
     "note": {
-     "bg": "Етеричното масло съдържа туйон. Листата в еко принт не са проблем; съдът за багрене никога не се използва за храна.",
-     "en": "The essential oil contains thujone. The leaves are not a problem in eco print; a dye pot is never used for food."
+     "bg": "Етеричното масло съдържа туйон, който е токсичен при поглъщане. Растението може да предизвика кожно дразнене или контактен дерматит при чувствителни хора. Работи с ръкавици, особено със свежи листа и концентрирани извлеци, в проветрено помещение; не поглъщай, а съдът за багрене никога не се използва за храна.",
+     "en": "The essential oil contains thujone, which is toxic if swallowed. The plant can cause skin irritation or contact dermatitis in sensitive people. Wear gloves, particularly with fresh leaves and concentrated extracts, and work in a ventilated space; do not ingest, and never use a dye pot for food."
     }
    },
    "photoCredit": {
@@ -8313,42 +8245,6 @@
    "washfastness": "moderate",
    "parts": [
     {
-     "partCode": "bark",
-     "chemistry": [
-      {
-       "classCode": "flavonoid",
-       "level": "dominant"
-      },
-      {
-       "classCode": "tannin",
-       "level": "high"
-      }
-     ],
-     "dosing": [
-      {
-       "condition": "dried",
-       "min": 20,
-       "max": 50,
-       "extractionMode": null
-      }
-     ],
-     "tempExtractC": {
-      "min": 85,
-      "max": 95
-     },
-     "tempDyeC": {
-      "min": 80,
-      "max": 90
-     },
-     "softMaxTempC": 95,
-     "confidence": {
-      "tempExtractC": "practice",
-      "tempDyeC": "practice",
-      "softMaxTempC": "practice"
-     },
-     "sourcedNotGathered": true
-    },
-    {
      "partCode": "heartwood",
      "chemistry": [
       {
@@ -8549,42 +8445,6 @@
    "washfastness": "excellent",
    "parts": [
     {
-     "partCode": "bark",
-     "chemistry": [
-      {
-       "classCode": "tannin_cond",
-       "level": "dominant"
-      },
-      {
-       "classCode": "flavonoid",
-       "level": "moderate"
-      }
-     ],
-     "dosing": [
-      {
-       "condition": "dried",
-       "min": 15,
-       "max": 30,
-       "extractionMode": null
-      }
-     ],
-     "tempExtractC": {
-      "min": 85,
-      "max": 95
-     },
-     "tempDyeC": {
-      "min": 85,
-      "max": 95
-     },
-     "softMaxTempC": 95,
-     "confidence": {
-      "tempExtractC": "practice",
-      "tempDyeC": "practice",
-      "softMaxTempC": "practice"
-     },
-     "sourcedNotGathered": true
-    },
-    {
      "partCode": "heartwood",
      "chemistry": [
       {
@@ -8744,8 +8604,8 @@
     }
    },
    "confidence": {
-    "lightfastness": "practice",
-    "washfastness": "practice",
+    "lightfastness": "unverified",
+    "washfastness": "unverified",
     "dosing": "practice",
     "colours": "literature",
     "dyeConstituent": "literature"
@@ -9157,8 +9017,8 @@
       "en": "Harvest and processing"
      },
      "body": {
-      "bg": "Кога се бере: през активния вегетационен период, в сух ден; предпочитай здрави, напълно развити листа/върхове. При цъфтящи билки най-практично е около началото до пълния цъфтеж.\nКакво се бере: листа.\nОбработка: използвай прясно или суши на сянка, на тънък слой и с добра циркулация.\nСъхранение: след пълно изсъхване — на тъмно и сухо, в хартиен плик или затворен съд.",
-      "en": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves and tops. For flowering herbs, from the beginning of bloom to full bloom is the most practical window.\nWhat is gathered: leaves.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+      "bg": "Кога се бере: през активния вегетационен период, в сух ден; предпочитай здрави, напълно развити листа.\nКакво се бере: листа.\nОбработка: използвай прясно или суши на сянка, на тънък слой и с добра циркулация.\nСъхранение: след пълно изсъхване — на тъмно и сухо, в хартиен плик или затворен съд.",
+      "en": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves.\nWhat is gathered: leaves.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
      }
     }
    ],
@@ -9209,8 +9069,8 @@
      "gloves"
     ],
     "note": {
-     "bg": "Описани са случаи на хемолиза при хора с недостиг на G6PD, особено при малки деца и обширно нанасяне върху кожа. „Черна къна“ с PPD е съвсем друг продукт и е значително по-опасна.",
-     "en": "Cases of haemolysis have been described in people with G6PD deficiency, particularly in young children and after extensive application to the skin. “Black henna” containing PPD is an entirely different product and considerably more dangerous."
+     "bg": "Описани са случаи на хемолиза при хора с недостиг на G6PD, особено при малки деца и обширно нанасяне върху кожа. „Черна къна“ с PPD е съвсем друг продукт и е значително по-опасна. Описаните случаи са при нанасяне на къна директно върху кожата; сами по себе си те не доказват същия риск от изпран текстил, обагрен с къна.",
+     "en": "Cases of haemolysis have been described in people with G6PD deficiency, particularly in young children and after extensive application to the skin. “Black henna” containing PPD is an entirely different product and considerably more dangerous. The documented cases involve henna applied directly to the skin; on their own they do not show the same risk from washed textiles dyed with henna."
     }
    },
    "confidence": {
@@ -10624,15 +10484,15 @@
       "en": "Harvest and processing"
      },
      "body": {
-      "bg": "Кога се бере: през активния вегетационен период, в сух ден; предпочитай здрави, напълно развити листа/върхове. При цъфтящи билки най-практично е около началото до пълния цъфтеж.\nКакво се бере: листа.\nОбработка: използвай прясно или суши на сянка, на тънък слой и с добра циркулация.\nСъхранение: след пълно изсъхване — на тъмно и сухо, в хартиен плик или затворен съд.",
-      "en": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves and tops. For flowering herbs, from the beginning of bloom to full bloom is the most practical window.\nWhat is gathered: leaves.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
+      "bg": "Кога се бере: през активния вегетационен период, в сух ден; предпочитай здрави, напълно развити листа.\nКакво се бере: листа.\nОбработка: използвай прясно или суши на сянка, на тънък слой и с добра циркулация.\nСъхранение: след пълно изсъхване — на тъмно и сухо, в хартиен плик или затворен съд.",
+      "en": "When to gather: during the growing season, on a dry day; choose sound, fully grown leaves.\nWhat is gathered: leaves.\nProcessing: use fresh or dry in the shade, in a thin layer with good air movement.\nStorage: once fully dry — dark and dry, in a paper bag or a closed container."
      }
     }
    ],
    "confidence": {
     "compositionalRole": "practice",
-    "lightfastness": "practice",
-    "washfastness": "practice",
+    "lightfastness": "unverified",
+    "washfastness": "unverified",
     "harvestMonths": "literature",
     "chemistry": "literature",
     "colours": "literature",

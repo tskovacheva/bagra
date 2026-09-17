@@ -1,6 +1,6 @@
 {
  "packId": "bagra-glossary",
- "packVersion": "0.2.3",
+ "packVersion": "0.2.4",
  "description": {
   "bg": "Думите на занаята, обяснени със свои думи. Тук стои дума, която човек ще срещне в книга, рецепта или общност и чието значение не е очевидно от самата дума. Не стоят тук нито понятия, които са кодове в модела и носят обяснението си там, където се показват, нито техники — те са в модула Техники.",
   "en": "The words of the craft, explained in our own words. A word belongs here if a person will meet it in a book, a recipe or a community and its meaning is not obvious from the word itself. Concepts that are codes in the model do not: they carry their explanation where they are shown. Neither do techniques, which live in the Techniques module."
@@ -322,8 +322,8 @@
     "адективно"
    ],
    "definition": {
-    "bg": "Субстантивното багрило се свързва с влакното без закрепител. Адективното се нуждае от закрепител като мост между влакното и цвета. Повечето растителни багрила са адективни; ореховата обвивка и някои танинови кори са сред малкото, които не са. Не е степен на качество: субстантивното е по-лесно, адективното често е по-трайно.",
-    "en": "A substantive dye binds to the fibre without a mordant — indigo, walnut, many tannins. An adjective dye needs one, and most plant dyes are of that kind. The terms are counter-intuitive and worth learning: \"adjective\" does not mean weaker, it means the colour depends on what stands between the dye and the fibre."
+    "bg": "Субстантивното багрило може да се свърже с влакното без закрепител; такъв пример е ореховата обвивка. Адективното се нуждае от закрепител, за да се свърже с влакното. Индигото е отделен случай — ванно багрило: неразтворимото багрило се превръща във вана в разтворима форма, влиза във влакното и отново става неразтворимо, когато се окисли на въздуха, без закрепител. Думите описват начина на свързване, а не качеството или трайността на цвета.",
+    "en": "A substantive dye can bind to the fibre without a mordant; walnut hull is an example. An adjective dye needs a mordant to bind to the fibre. Indigo is a separate case — a vat dye: the insoluble dye is turned into a soluble form in the vat, enters the fibre, and becomes insoluble again as it oxidises in the air, with no mordant. The terms describe how the dye binds, not the quality or the fastness of the colour."
    },
    "seeAlso": [
     "mordant",

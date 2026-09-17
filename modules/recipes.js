@@ -435,7 +435,7 @@ async function scaleBlock(r, substances) {
       ? `<span class="pickhint">${t('recipes.choose')}</span>
          <select data-choice="${ing.id}">${(await Promise.all(ing.options.map(async o =>
             `<option value="${o.id}"${o.id === ing.option?.id ? ' selected' : ''}>${
-              esc(await nameOfOption(o, ing.roleCode))}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`))).join('')}</select>`
+              esc(await nameOfOption(o, ing.roleCode))}${text(o.note) ? ' · ' + esc(text(o.note)) : ''}</option>`))).join('')}</select>`
       : '';
 
     return `<div class="calcout calcpick">
@@ -571,6 +571,19 @@ async function renderRead(root, r) {
 
   const amounts = await weighLines(scaled.ingredients);
 
+  // The ceilings, beside the figures they are about (§13ep). `recipeWarnings`
+  // was drawn in the editor's preview, on the batch screen and on a trial step —
+  // and not here, where a person reads the recipe over the pot. The iron bath's
+  // published 2.5% against the library's 2% was said only in its prose.
+  // Same function, same texts as the editor's preview; nothing is decided here.
+  const readWarnings = (await Promise.all(recipeWarnings(r, scaled, byId).map(async w => {
+    const nameStr = await nameOf(w.ingredient.option, w.ingredient.roleCode);
+    if (w.code === 'over_max_wof')  return note(t('recipes.warn.maxWof',  { name: esc(nameStr), value: w.value, limit: w.limit }), 'error');
+    if (w.code === 'over_max_temp') return note(t('recipes.warn.maxTemp', { name: esc(nameStr), value: w.value, limit: w.limit }), 'error');
+    if (w.code === 'fibre_mismatch') return note(t('recipes.warn.fibre',  { name: esc(nameStr) }), 'warn');
+    return '';
+  }))).join('');
+
   const conditions = [
     tempTextOf(r) ? `<span class="cond">${icon('i-temp')}${tempTextOf(r)}</span>` : '',
     r.heldMinutes ? `<span class="cond">${icon('i-time')}${r.heldMinutes} ${t('common.min')}</span>` : '',
@@ -649,6 +662,7 @@ async function renderRead(root, r) {
         <div class="weighbox">
           <span class="weightitle">${t('recipes.weigh')}</span>
           ${amounts || `<p class="hint">—</p>`}
+          ${readWarnings ? `<div class="weighwarnings" data-weigh-warnings>${readWarnings}</div>` : ''}
         </div>
 
         ${conditions ? `<p class="conditions">${conditions}</p>` : ''}

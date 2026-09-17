@@ -136,7 +136,7 @@ async function renderGlossary(root, sources) {
     .sort((a, b) => text(a.term).localeCompare(text(b.term), getLang()));
 
   const byCode = new Map([...seeded, ...vocabTerms()].map(x => [x.code, x]));
-  const sourceName = new Map(sources.map(s => [s.code, s.name]));
+  const sourceName = new Map(sources.map(s => [s.code, text(s.name)]));
 
   const card = (x) => {
     const rel = (x.seeAlso || [])
@@ -257,8 +257,8 @@ function renderPh() {
 function renderSources(sources) {
   const rows = sources.map(sx => `
     <tr data-open="${sx.id}">
-      <td>${esc(sx.name || '—')}</td>
-      <td>${esc(sx.author || '—')}</td>
+      <td>${esc(text(sx.name) || '—')}</td>
+      <td>${esc(text(sx.author) || '—')}</td>
       <td>${esc(t('sources.kind.' + sx.kind))}</td>
       <td>${sx.url ? `<a href="${esc(sx.url)}" target="_blank" rel="noopener">${esc(sx.url.replace(/^https?:\/\//, ''))}</a>` : '—'}</td>
       <td>${esc(text(sx.note) || '')}</td>
@@ -286,7 +286,7 @@ function renderSources(sources) {
 
 async function renderShell(root) {
   const sources = (await all('sources'))
-    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    .sort((a, b) => text(a.name).localeCompare(text(b.name), getLang()));
 
   const tabBar = TABS.map(x => `
     <a class="tab${x === tab ? ' on' : ''}" href="#/library/${x}">${t('library.tab.' + x)}</a>`).join('');
@@ -316,7 +316,7 @@ async function renderForm(root, r) {
   const isNew = openId === 'new';
 
   root.innerHTML = page({
-    title: isNew ? t('sources.new') : (r.name || t('sources.one')),
+    title: isNew ? t('sources.new') : (text(r.name) || t('sources.one')),
     sub: '',
     actions: `${backTo('#/library/sources', t('library.tab.sources'))}
               <button class="btn primary" data-save>${t('common.save')}</button>`,
@@ -325,8 +325,8 @@ async function renderForm(root, r) {
         <div class="col">
           ${panel(`
             <h2>${t('sources.one')}</h2>
-            ${field(t('sources.name'), `<input type="text" data-f="name" value="${esc(r.name || '')}">`)}
-            ${field(t('sources.author'), `<input type="text" data-f="author" value="${esc(r.author || '')}">`)}
+            ${pairField(t('sources.name'), 'name', asPair(r.name))}
+            ${pairField(t('sources.author'), 'author', asPair(r.author))}
             ${field(t('sources.kind'), `<select data-f="kind">${
               KINDS.map(k => `<option value="${k}"${r.kind === k ? ' selected' : ''}>${t('sources.kind.' + k)}</option>`).join('')
             }</select>`)}
@@ -344,8 +344,23 @@ async function renderForm(root, r) {
   });
 }
 
+// A source's name and author are `{bg, en}` since 1.0.0-rc72 (§13em). Records
+// written before — a person's own sources, every restored archive, and the
+// seeded sources of an installed copy, which Sources cannot update (B6d) — still
+// hold a plain string, and every reader takes both through `text()`. The editor
+// opens a string as the same text in both languages: a title is spelled as
+// published whatever the interface language, and the person can change either
+// half. It is written back as a pair only when she saves.
+function asPair(value) {
+  if (value && typeof value === 'object') return value;
+  const s = value == null ? '' : String(value);
+  return { bg: s, en: s };
+}
+
 function readForm(root) {
   for (const el of root.querySelectorAll('[data-f]')) draft[el.dataset.f] = el.value;
+  // A string cannot take `.bg`, and in a module the attempt throws.
+  for (const f of ['name', 'author']) draft[f] = asPair(draft[f]);
   readPairs(root, draft);
 }
 

@@ -14,7 +14,7 @@
 // something that happened to several at once.
 
 import { all, get, put, remove, uid, newRecord, getSetting, setSetting } from '../db.js';
-import { t } from '../i18n.js';
+import { t, text } from '../i18n.js';
 import { massWith } from '../units.js';
 import { page, panel, field, label, esc, empty, note, today, fmtDate,
          navigate, icon, flash, searchBox, matches, backTo, actionBtn } from '../ui.js';
@@ -154,7 +154,7 @@ async function recipeBlock(weightG) {
     const steps = expandChain(chain, byId, { weightG });
     const rows = steps.map((s, i) => `
       <li>
-        <b>${i + 1}. ${esc(s.recipe?.name?.bg || s.recipe?.name || '—')}</b>
+        <b>${i + 1}. ${esc(text(s.recipe?.name) || '—')}</b>
         ${s.required ? `<span class="hint"> · ${t('chains.requiredStep')}</span>` : ''}
         <ul class="qty">${(s.scaled?.ingredients || []).map(ing => `
           <li>${esc(ing.substanceName || ing.roleCode || '')}
@@ -203,8 +203,8 @@ function fmtQty(ing) {
   const lo = ing.amountMin, hi = ing.amountMax;
   const r = (n) => (n == null ? '—' : (Math.round(n * 10) / 10));
   if (lo != null && hi != null && Math.abs(hi - lo) > 0.05)
-    return `${r(lo)}–${r(hi)} г`;
-  return `${r(lo ?? hi)} г`;
+    return `${r(lo)}–${r(hi)} ${t('tools.grams')}`;
+  return `${r(lo ?? hi)} ${t('tools.grams')}`;
 }
 
 // ------------------------------------------------------------------- write
@@ -305,7 +305,7 @@ async function renderBatch(root, batch) {
              <span class="hint">${f.weightG ? massWith(f.weightG) : ''}</span>
            </li>`).join('')}</ul>
         <p>${t('batch.totalWas', { g: batch.totalWeightG ?? '—' })}</p>
-        ${recipe ? `<p>${esc(recipe.name?.bg || recipe.name || '')}</p>` : ''}
+        ${recipe ? `<p>${esc(text(recipe.name))}</p>` : ''}
         ${batch.deviation ? note(esc(batch.deviation), 'warn') : ''}
         ${batch.note ? `<p class="hint">${esc(batch.note)}</p>` : ''}
       `)}
@@ -405,8 +405,8 @@ async function renderForm(root) {
   const summary = picked.size ? t('batch.summary', {
     n: picked.size, g: weightG,
     what: chainId
-      ? (chains.find(c => c.id === chainId)?.name?.bg || '')
-      : (recipes.find(r => r.id === recipeId)?.name?.bg || await label('fabric_action', actionCode)),
+      ? text(chains.find(c => c.id === chainId)?.name)
+      : (text(recipes.find(r => r.id === recipeId)?.name) || await label('fabric_action', actionCode)),
     date: fmtDate(date),
   }) : '';
 
@@ -445,9 +445,9 @@ async function renderForm(root) {
           ${field(t('batch.recipe'), `
             <select data-recipe>
               <option value="">${t('common.choose')}</option>
-              ${recipes.map(r => `<option value="${r.id}"${recipeId === r.id ? ' selected' : ''}>${esc(r.name?.bg || r.name || '')}</option>`).join('')}
+              ${recipes.map(r => `<option value="${r.id}"${recipeId === r.id ? ' selected' : ''}>${esc(text(r.name))}</option>`).join('')}
               ${chains.length ? `<optgroup label="${t('batch.chains')}">${chains.map(c =>
-                `<option value="chain:${c.id}"${chainId === c.id ? ' selected' : ''}>${esc(c.name?.bg || c.name || '')}</option>`).join('')}</optgroup>` : ''}
+                `<option value="chain:${c.id}"${chainId === c.id ? ' selected' : ''}>${esc(text(c.name))}</option>`).join('')}</optgroup>` : ''}
             </select>`)}
           ${field(t('common.date'), `<input type="date" data-date value="${esc(date)}">`)}
         </div>

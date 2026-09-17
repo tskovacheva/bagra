@@ -96,7 +96,7 @@ async function stepRows(c, recipes, substances) {
             ${ing.options.map(o => {
               const sub = subById.get(o.substanceId);
               return `<option value="${o.id}"${(st.choices || {})[ing.id] === o.id ? ' selected' : ''}>${
-                esc(sub ? text(sub.name) : '—')}${o.note?.bg ? ' · ' + esc(o.note.bg) : ''}</option>`;
+                esc(sub ? text(sub.name) : '—')}${text(o.note) ? ' · ' + esc(text(o.note)) : ''}</option>`;
             }).join('')}
           </select>
         </label>`).join('');

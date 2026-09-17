@@ -373,8 +373,9 @@ async function sourceNamesOf(row) {
   const codes = codesOf(row);
   if (!codes.length) return '';
   const reg = new Map((await all('sources')).map(x => [sourceCodeOf(x), x]));
-  // A source's display name is `name` — plain text, not a bilingual pair.
-  return codes.map(c => reg.get(c)?.name || '').filter(Boolean).join(' · ');
+  // A source's name is `{bg, en}` since rc72 and a plain string before it;
+  // `text()` reads both (§13em).
+  return codes.map(c => text(reg.get(c)?.name)).filter(Boolean).join(' · ');
 }
 
 async function renderRead(root, r) {

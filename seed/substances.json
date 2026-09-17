@@ -1,6 +1,6 @@
 {
  "packId": "bagra-base",
- "packVersion": "0.7.1",
+ "packVersion": "0.7.3",
  "description": {
   "bg": "Начален набор вещества — закрепители, танини, модификатори и помощни вещества.",
   "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
@@ -25,7 +25,7 @@
    "colourEffect": "brightening",
    "alPerUnit": 1,
    "notes": {
-    "bg": "Класическият закрепител. За вълна обикновено 12–15% WOF, заедно с винена киселина.",
+    "bg": "Класическият закрепител. За вълна обикновено 12–15% WOF, заедно с винен камък (калиев хидроген тартарат).",
     "en": "The classic mordant. For wool usually 12–15% WOF, together with cream of tartar."
    }
   },
@@ -162,8 +162,8 @@
     "gloves"
    ],
    "safetyNote": {
-    "bg": "Над 2% WOF прави влакната чупливи. Платът изглежда добре, когато излезе, и се къса година по-късно.",
-    "en": "Above 2% WOF it embrittles the fibre. The cloth looks right coming out of the pot and tears a year later."
+    "bg": "Използва се пестеливо. По-високите концентрации и по-дългото излагане могат да направят влакната, особено вълната и коприната, твърди и чупливи. Не се излива в канализацията: отработените разтвори се събират отделно и се изхвърлят според местните изисквания и информационния лист за безопасност на продукта.",
+    "en": "Use sparingly. Higher concentrations and longer exposure can make fibres, especially wool and silk, harsh and brittle. Not to be poured down the drain: collect spent solutions separately and dispose of them according to local requirements and the product's safety data sheet."
    }
   },
   {
@@ -188,8 +188,8 @@
     "mask"
    ],
    "safetyNote": {
-    "bg": "Токсичен за водни организми. Не се излива в канала.",
-    "en": "Toxic to aquatic life. Not to be poured down the drain."
+    "bg": "Токсичен за водни организми. Не се излива в канализацията: отработените разтвори се събират отделно и се изхвърлят според местните изисквания и информационния лист за безопасност на продукта.",
+    "en": "Toxic to aquatic life. Not to be poured down the drain: collect spent solutions separately and dispose of them according to local requirements and the product's safety data sheet."
    }
   },
   {
@@ -604,8 +604,8 @@
     "alison-kelly-printing"
    ],
    "typicalUse": {
-    "bg": "Закрепител и свързващо вещество за целулоза. Протеинът се хваща за памука и лена, които сами нямат протеин, и така платът приема повече цвят. По-слабо трайно от металните закрепители, но безопасно — става и с деца. Неподсладено и без аромат.",
-    "en": "A mordant and binder for cellulose. The protein attaches to cotton and linen, which have none of their own, so the cloth takes more colour. Less lasting than a metallic mordant but safe — suitable with children. Unsweetened and unflavoured."
+    "bg": "Протеиново свързващо вещество за целулоза — не е метален закрепител. Протеинът образува слой върху памука и лена, които сами нямат протеин, и така платът поема повече цвят. Устойчивостта на пране може да е ограничена. Неподсладено и без аромат.",
+    "en": "A protein binder for cellulose — not a metal mordant. The protein forms a layer on cotton and linen, which have none of their own, so the cloth takes up more colour. Washfastness may be limited. Unsweetened and unflavoured."
    }
   },
   {
@@ -619,8 +619,8 @@
     "alison-kelly-printing"
    ],
    "typicalUse": {
-    "bg": "Вързани в марля и накиснати, дават млечна вода, която свързва закрепителя с влакното и отмива остатъчните соли. Взаимозаменяеми с овесените ядки.",
-    "en": "Tied in cheesecloth and soaked, they give a milky water that binds the mordant to the fibre and rinses off the stray salts. Interchangeable with oat groats."
+    "bg": "Вързани в марля и накиснати, дават млечна вода, която отмива несвързаните остатъци от закрепителя. Взаимозаменяеми с овесените ядки.",
+    "en": "Tied in cheesecloth and soaked, they give a milky water that rinses off unbound mordant residue. Interchangeable with oat groats."
    }
   }
  ]

@@ -1,6 +1,6 @@
 {
  "packId": "bagra-techniques",
- "packVersion": "0.2.0",
+ "packVersion": "0.2.1",
  "description": {
   "bg": "Техники за резист, шибори, печат, вързване и последваща обработка.",
   "en": "Techniques for resist, shibori, printing, bundling and post-treatment."
@@ -216,8 +216,8 @@
     "ecoprint"
    ],
    "description": {
-    "bg": "Кратко потапяне в слаб разтвор на железен сулфат след багренето — 1–3 минути стигат. Потъмнява и „натъжава“ цвета: жълтото става маслинено, кафявото — сиво-черно. Над 2% WOF желязото прави влакното чупливо, затова банята е слаба и кратка.",
-    "en": "A brief dip in a weak ferrous sulfate solution after dyeing — one to three minutes is enough. It darkens and saddens the colour: yellow turns olive, brown turns grey-black. Above 2% WOF iron embrittles the fibre, so the bath is weak and short."
+    "bg": "Кратко потапяне в слаб разтвор на железен сулфат след багренето — 1–3 минути стигат. Потъмнява и „натъжава“ цвета: жълтото става маслинено, кафявото — сиво-черно. Твърде много желязо може да направи влакното, особено вълната и коприната, грубо и чупливо, затова банята е слаба и кратка.",
+    "en": "A brief dip in a weak ferrous sulfate solution after dyeing — one to three minutes is enough. It darkens and saddens the colour: yellow turns olive, brown turns grey-black. Too much iron can make the fibre, especially wool and silk, harsh and brittle, so the bath is weak and short."
    }
   },
   {

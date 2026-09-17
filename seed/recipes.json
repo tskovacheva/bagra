@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.16.2",
+ "packVersion": "0.17.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -587,190 +587,6 @@
    ]
   },
   {
-   "code": "madder-lake-fermentation",
-   "type": "pigment",
-   "output": "pigment",
-   "name": {
-    "bg": "Брош — лаков пигмент чрез ферментация",
-    "en": "Madder — lake pigment by fermentation"
-   },
-   "appliesTo": [],
-   "scaleBy": "raw",
-   "target": {
-    "percentWof": null,
-    "basisRefersTo": "raw_input"
-   },
-   "tempMinC": 66,
-   "tempMaxC": 76,
-   "tempC": null,
-   "heldMinutes": 30,
-   "restMinutes": null,
-   "phTarget": 7,
-   "ingredients": [
-    {
-     "roleCode": "dyestuff",
-     "basis": "absolute",
-     "quantity": 30,
-     "unit": "g",
-     "note": {
-      "bg": "30 г сух корен от брош, цял или смлян.",
-      "en": "30 g dried madder root, whole or ground."
-     },
-     "options": [
-      {
-       "id": "opt-ferm-madder",
-       "plantId": "seed:rubia_tinctorum",
-       "partCode": "root",
-       "qtyMin": 30,
-       "qtyMax": 30
-      }
-     ]
-    },
-    {
-     "roleCode": "carrier",
-     "basis": "absolute",
-     "quantity": 10,
-     "unit": "g",
-     "note": {
-      "bg": "10 г стипца, разтворена в горещия извлек.",
-      "en": "10 g alum, dissolved into the hot extract."
-     },
-     "options": [
-      {
-       "id": "opt-ferm-alum",
-       "substanceId": "seed:alum_potassium_12"
-      }
-     ]
-    },
-    {
-     "roleCode": "alkali",
-     "basis": "absolute",
-     "quantity": 10,
-     "unit": "g",
-     "note": {
-      "bg": "10 г калцинирана сода, разтворена в 200 мл гореща вода. Не се сипва наведнъж — виж стъпките.",
-      "en": "10 g soda ash dissolved in 200 ml hot water. Not added all at once — see the steps."
-     },
-     "options": [
-      {
-       "id": "opt-ferm-soda",
-       "substanceId": "seed:soda_ash"
-      }
-     ]
-    },
-    {
-     "roleCode": "assistant",
-     "basis": "absolute",
-     "quantity": 7.5,
-     "unit": "ml",
-     "note": {
-      "bg": "Половин супена лъжица суров сок от кисело зеле или друга непастьоризирана лактоферментирала течност. Той засява микробите, за да изпреварят плесента.",
-      "en": "Half a tablespoon of raw sauerkraut juice or other unpasteurised lacto-ferment liquid. It seeds the microbes so they get a head start over mould."
-     }
-    }
-   ],
-   "steps": [
-    {
-     "text": {
-      "bg": "Претегли 30 г сух корен. Залей с около 1 л вряла вода и остави 5 минути — това убива спорите на плесента и изтегля мътните цветове. Прецеди през фина мрежа и изхвърли кафеникавата течност.",
-      "en": "Weigh out 30 g of dried root. Douse with roughly 1 litre of boiling water and steep for five minutes — this neutralises mould spores and draws out the off-colours. Filter through fine mesh and discard the brownish liquid."
-     }
-    },
-    {
-     "text": {
-      "bg": "Върни корените в чист буркан от 0.5–1 л. Покрий ги с 2–5 см вода — около 300–400 мл, стайна температура. Изворна, дъждовна или дестилирана: чешмяната вода нарочно потиска микроби. Добави сока от кисело зеле.",
-      "en": "Return the roots to a clean 0.5–1 litre jar. Cover them by 2–5 cm with roughly 300–400 ml of room-temperature water. Spring, rain or distilled: tap water is treated to inhibit microbes. Add the sauerkraut juice."
-     }
-    },
-    {
-     "text": {
-      "bg": "Притисни корените под водата с тежест — без въздух плесента не стига до тях. Покрий гърлото с плат или филтър за кафе, така че въглеродният диоксид да излиза.",
-      "en": "Weigh the roots down below the water — without air the mould cannot reach them. Cover the mouth with a scrap of fabric or a coffee filter so the carbon dioxide can escape."
-     }
-    },
-    {
-     "text": {
-      "bg": "Остави на стайна температура 18–21 °C, на сянка, далеч от пряко слънце. След ден-два ще видиш мехурчета. Проверявай всеки ден и доливай вода, ако нивото падне.",
-      "en": "Leave at room temperature, 18–21 °C, in a shady spot out of direct sunlight. After a day or two you will see bubbles. Check daily and add water if the level drops."
-     }
-    },
-    {
-     "text": {
-      "bg": "Ферментирай една до две седмици. През това време pH-то трябва да е около 5, а миризмата — влажна пръст и тръпчиво-сладък оцет. Ако изглежда и мирише здраво, може да продължи, докато мехурчетата спрат и pH-то тръгне към неутрално. Появила се плесен по повърхността се обира и се продължава; ако стане упорита, мини нататък.",
-      "en": "Ferment for one to two weeks. The pH should be about 5 and the scent a combination of damp earth and tangy-sweet vinegar. If it looks and smells healthy you can keep it going until the bubbles cease and the pH rises towards neutral. Scrape off surface mould and stay the course; if it becomes persistent, move on."
-     }
-    },
-    {
-     "text": {
-      "bg": "Прецеди корените от ферментационната течност през фина синтетична мрежа, като пазиш всяка утайка от багрилото. Течността носи кафеникаво-розови цветове и се изхвърля или компостира. По желание може и тя да се утаи с 5 г стипца и 3 г сода.",
-      "en": "Filter the roots from the fermentation liquid through fine synthetic mesh, preserving every bit of dyestuff. The liquid carries brownish-pink colourants and is composted or discarded. Optionally it can itself be laked with 5 g alum and 3 g soda ash."
-     }
-    },
-    {
-     "text": {
-      "bg": "Прехвърли ферментиралите корени в тенджера с 1 л прясна вода. Изплакни и филтъра през водата, за да пуснеш всичко.",
-      "en": "Transfer the fermented roots to a 1-litre pot of fresh water. Swish the filter through the water too, releasing every bit of sediment."
-     }
-    },
-    {
-     "text": {
-      "bg": "Нагрей до 66–76 °C и задръж 30 до 60 минути. Пари, но не ври — билкарите наричат това бавно извличане „дигестия“.",
-      "en": "Heat to 66–76 °C and hold for 30 to 60 minutes. Steaming hot but below a simmer — herbalists call this slow process a digestion."
-     }
-    },
-    {
-     "text": {
-      "bg": "Филтрирай, докато е горещо и ализаринът е в разтвор, през фина синтетична мрежа. Корените се компостират или се пазят за второ извличане, ако се съмняваш, че са изчерпани.",
-      "en": "Filter while it is hot and the alizarin is in solution, through fine synthetic mesh. Compost the roots, or save them for a secondary extraction if you doubt they are exhausted."
-     }
-    },
-    {
-     "text": {
-      "bg": "Долей вода до 500 мл, ако трябва, и дръж 43–76 °C. Добави 10 г стипца и бъркай, докато се разтвори. Може да забележиш как багрилото се събира.",
-      "en": "Add water to equal 500 ml if needed and hold at 43–76 °C. Add 10 g of alum, stirring until dissolved. You might notice the colourant coalescing."
-     }
-    },
-    {
-     "text": {
-      "bg": "Разтвори 10 г сода в 200 мл гореща вода. Сипи 100 мл — половината — в багрилото.",
-      "en": "Dissolve 10 g of soda ash in 200 ml of hot water. Pour 100 ml, half of it, into the madder dye."
-     }
-    },
-    {
-     "text": {
-      "bg": "Ферментацията е свалила pH-то, така че вероятно трябва още сода. Добави 20 мл от останалия разтвор и разбъркай леко.",
-      "en": "The fermentation has left a low pH, so more soda ash is likely needed. Add 20 ml of the remaining solution and stir gently."
-     }
-    },
-    {
-     "text": {
-      "bg": "Мери pH и повтаряй, докато стигне 7, с допустимо от 6 до 8.",
-      "en": "Test the pH and repeat as needed until it reaches 7, with leeway of 6 to 8."
-     }
-    },
-    {
-     "text": {
-      "bg": "Мини на фини хартиени филтри за кафе и отдели пигмента от бистрото отгоре. Нормално е то да остане кехлибарено — това са цветове, които не се свързват със закрепителя.",
-      "en": "Switch to superfine paper coffee filters and filter the pigment from the supernatant. It is normal for the supernatant to keep an amber shade from non-mordant colourants."
-     }
-    },
-    {
-     "text": {
-      "bg": "Изхвърли течността и промивай пигмента, както в общата лакова рецепта.",
-      "en": "Discard the liquid and wash the pigment as in the master lake recipe."
-     }
-    }
-   ],
-   "notes": {
-    "bg": "Ферментацията разгражда дървесната структура на корена и разгражда захарите му, така че цветът се освобождава чрез хидролиза — корените стигат до горещото извличане вече предварително сдъвкани. Стопка отбелязва, че същият подход си струва да се пробва и с други видове брош (Rubia cordifolia, R. akane, R. peregrina), както и с корени на еньовче — Galium verum, G. aparine, G. saxatile, G. odoratum.",
-    "en": "Fermentation breaks down the woody structure of the root and digests its sugars, so colour is released by hydrolysis — the roots reach the hot extraction already predigested. Stopka notes the same approach is worth trying with other madders (Rubia cordifolia, R. akane, R. peregrina) and with the roots of bedstraws — Galium verum, G. aparine, G. saxatile, G. odoratum."
-   },
-   "distributable": true,
-   "sourceCodes": [
-    "natalie-stopka-pigment"
-   ]
-  },
-  {
    "code": "pastel-binder-oat",
    "type": "paste",
    "output": "none",
@@ -1352,8 +1168,8 @@
      "quantityMin": 0.4,
      "quantityMax": 0.8,
      "note": {
-      "bg": "Железен сулфат, малко. Повече желязо разяжда коприна и вълна — мери точно.",
-      "en": "Ferrous sulfate, a little. Too much iron damages silk and wool — measure it carefully."
+      "bg": "Железен сулфат, малко. Твърде много желязо може да увреди коприната и вълната — мери точно.",
+      "en": "Ferrous sulfate, a little. Too much iron can damage silk and wool — measure it carefully."
      },
      "options": [
       {
@@ -1522,8 +1338,8 @@
      "quantityMin": 2,
      "quantityMax": 4,
      "note": {
-      "bg": "Железен сулфат. Повече желязо разяжда коприна и вълна — за тях върви към долната граница.",
-      "en": "Ferrous sulfate. Too much iron damages silk and wool — for those, stay at the lower end."
+      "bg": "Железен сулфат. Твърде много желязо може да увреди коприната и вълната — за тях върви към долната граница.",
+      "en": "Ferrous sulfate. Too much iron can damage silk and wool — for those, stay at the lower end."
      },
      "options": [
       {
@@ -1634,8 +1450,8 @@
     "en": "Oatmeal or bran fixing bath"
    },
    "notes": {
-    "bg": "Прави се СЛЕД сложния закрепител и след като платът е изсъхнал напълно. Отмива останалия по повърхността закрепител и затяга връзката на металните соли с влакното. Разтворът върши работа за още плат: държи се покрит, на хладно и сухо, до три дни — при мехурчета, мухъл или миризма се изхвърля. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор.",
-    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It rinses away stray mordant left on the surface and strengthens the bond of the metallic salts to the fibre. The solution will fix more cloth: keep it covered, cool and dry, for up to three days — discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats."
+    "bg": "Прави се СЛЕД сложния закрепител и след като платът е изсъхнал напълно. Използва се, за да се отмие несвързаният закрепител от повърхността на плата. Рецептата предвижда разтворът да се използва и за още плат. Повторната употреба не е гарантирано безопасна: ако го използваш, дръж го покрит и на хладно, и го изхвърли при мехурчета, мухъл или миризма. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор.",
+    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It is used to rinse unbound mordant off the surface of the cloth. The recipe has the solution used for more cloth. Reuse is not guaranteed to be safe: if you reuse it, keep it covered and cool, and discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats."
    },
    "ingredients": [
     {
@@ -1722,8 +1538,8 @@
     "en": "Soy milk bath"
    },
    "notes": {
-    "bg": "Соевият протеин ляга върху целулозата и ѝ дава това, което ѝ липсва: коприната и вълната се свързват с растителния цвят сами, памукът и хартията — не. Може да се прави след сложния закрепител, за по-наситен отпечатък, или самостоятелно — тогава е по-прост и по-безопасен избор, особено с деца, защото няма прахове за вдишване, но устойчивостта на пране и светлина е по-малка, отколкото с метален закрепител. Използва се неподсладено и неовкусено мляко, за предпочитане био.",
-    "en": "Soy protein settles onto cellulose and gives it what it lacks: silk and wool bond with plant colour by themselves, cotton and paper do not. It can follow the compound mordant, for a more saturated print, or stand alone — a simpler and safer option, especially with children, since there are no powders to inhale, though the wash- and lightfastness are lower than with a metallic mordant. Use unsweetened, unflavoured milk, preferably organic."
+    "bg": "Соевият протеин ляга върху целулозата и ѝ дава това, което ѝ липсва: коприната и вълната се свързват с растителния цвят сами, памукът и хартията — не. Може да се прави след сложния закрепител, за по-наситен отпечатък, или самостоятелно — тогава в процеса няма метални соли и прахове, но устойчивостта на пране може да е ограничена. Соевото мляко е свързващо вещество, не метален закрепител. Използва се неподсладено и неовкусено мляко, за предпочитане био.",
+    "en": "Soy protein settles onto cellulose and gives it what it lacks: silk and wool bond with plant colour by themselves, cotton and paper do not. It can follow the compound mordant, for a more saturated print, or stand alone — the process then involves no metal salts and no powders, though washfastness may be limited. Soy milk is a binder, not a metal mordant. Use unsweetened, unflavoured milk, preferably organic."
    },
    "ingredients": [
     {
@@ -1804,8 +1620,8 @@
     "en": "Iron bath for a dark outcome"
    },
    "notes": {
-    "bg": "Малко желязо върши много. Платът влиза в банята НЕПОСРЕДСТВЕНО преди печат, защото желязото се окислява бързо във вода и пожълтява плата. Повече желязо разяжда коприна и вълна. Около 1% дава по-наситен резултат, до 2.5% — по-тъмен. Останалата вода след няколко минути пожълтява от окисляването и може да се изхвърли в канала.",
-    "en": "A little iron goes a long way. The cloth goes into the bath IMMEDIATELY before printing, because iron oxidises quickly in water and yellows the textile. Too much iron damages silk and wool. Around 1% gives a more saturated result, up to 2.5% a darker one. After a few minutes the leftover water yellows from oxidation and can go down the drain."
+    "bg": "Малко желязо върши много. Платът влиза в банята НЕПОСРЕДСТВЕНО преди печат, защото желязото се окислява бързо във вода и пожълтява плата. Твърде много желязо може да увреди коприната и вълната. Около 1% дава по-наситен резултат, до 2.5% — по-тъмен. Внимание: 2.5% е над консервативния праг от 2% WOF, който библиотеката дава за железния сулфат — калкулаторът ще го отбележи. Горната стойност е от публикуваната рецепта; при вълна и коприна остани на или под 2%. Останалата вода пожълтява след няколко минути от окисляването. Не я изливай в канализацията: събирай отработените разтвори на метални соли отделно и ги изхвърляй според местните изисквания и информационния лист за безопасност на продукта.",
+    "en": "A little iron goes a long way. The cloth goes into the bath IMMEDIATELY before printing, because iron oxidises quickly in water and yellows the textile. Too much iron can damage silk and wool. Around 1% gives a more saturated result, up to 2.5% a darker one. Note: 2.5% is above the conservative 2% WOF ceiling the library gives for ferrous sulfate, and the calculator will flag it. The upper figure is the published recipe's; on wool and silk, stay at or below 2%. After a few minutes the leftover water yellows from oxidation. Do not pour it down the drain: collect spent metal-salt solutions separately and dispose of them according to local requirements and the product's safety data sheet."
    },
    "ingredients": [
     {
@@ -1817,8 +1633,8 @@
      "quantityMin": 1,
      "quantityMax": 2.5,
      "note": {
-      "bg": "Железен сулфат, 1–2.5% от теглото на плата. Мери точно.",
-      "en": "Ferrous sulfate, 1–2.5% of the weight of the cloth. Measure it accurately."
+      "bg": "Железен сулфат, 1–2.5% от теглото на плата — над 2% е над консервативния праг на библиотеката. Мери точно.",
+      "en": "Ferrous sulfate, 1–2.5% of the weight of the cloth — above 2% is over the library's conservative ceiling. Measure it accurately."
      },
      "options": [
       {

@@ -643,10 +643,18 @@ async function useNowCard(p) {
   // Fastness used to sit under "in the garden", which was a bucket for whatever
   // was left over — it has nothing to do with the plot of ground. It is how the
   // colour will behave, so it reads here, with the temperatures and the ceiling.
-  rows.push(tile('i-alum', t('plants.lightfastness'),
-    p.lightfastness ? esc(await label('fastness', p.lightfastness)) : ''));
-  rows.push(tile('i-drops', t('plants.washfastness'),
-    p.washfastness ? esc(await label('fastness', p.washfastness)) : ''));
+  // A rating the record marks as needing a test says so where it is read (§13er).
+  // The confidence was only ever drawn in the editor, so an unsourced
+  // „excellent" read on this screen exactly like a measured one.
+  const rated = async (field) => {
+    if (!p[field]) return '';
+    const value = esc(await label('fastness', p[field]));
+    return p.confidence?.[field] === 'unverified'
+      ? `${value} <small class="hint" data-unverified="${field}">· ${esc(await label('claim_confidence', 'unverified'))}</small>`
+      : value;
+  };
+  rows.push(tile('i-alum', t('plants.lightfastness'), await rated('lightfastness')));
+  rows.push(tile('i-drops', t('plants.washfastness'), await rated('washfastness')));
 
   // A strip of tiles rather than a fact grid (§13bs).
   //

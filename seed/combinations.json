@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.9.1",
+ "packVersion": "0.9.2",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -5508,8 +5508,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Едно от най-силните растения за еко принт. И двете страни на листа печатат силно, поради обилните етерични масла.",
-    "en": "One of the strongest plants for eco print. Both sides of the leaf print strongly, owing to the abundant essential oils."
+    "bg": "Едно от най-силните растения за еко принт. В практиката и двете страни на листа печатат силно.",
+    "en": "One of the strongest plants for eco print. In practice, both sides of the leaf print strongly."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6452,8 +6452,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
-    "en": "The most detailed vein prints among Bulgarian plants."
+    "bg": "Много детайлни отпечатъци на жилките.",
+    "en": "Very detailed vein prints."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6492,8 +6492,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
-    "en": "The most detailed vein prints among Bulgarian plants."
+    "bg": "Много детайлни отпечатъци на жилките.",
+    "en": "Very detailed vein prints."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6847,8 +6847,8 @@
     },
     "swatchHex": "",
     "variation": {
-     "bg": "семето/кората имат по-силен афинитет към протеинови влакна; желязото променя цвета и подобрява светлоустойчивостта",
-     "en": "the stone and skin have a stronger affinity for protein fibres; iron changes the colour and improves lightfastness"
+     "bg": "семето/кората имат по-силен афинитет към протеинови влакна; желязото променя цвета; в едно изследване (памук и вълна, предварителна обработка с железен сулфат) е отчетено и подобрение на светлоустойчивостта, което не е общо правило за всяко влакно и процес",
+     "en": "the stone and skin have a stronger affinity for protein fibres; iron changes the colour; one study (cotton and wool, pre-mordanted with ferrous sulfate) also reported better lightfastness, which is not a general rule for every fibre and process"
     },
     "printQuality": null,
     "lightfastness": "",
