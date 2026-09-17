@@ -12,6 +12,66 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc77 — 16 September 2026
+
+Scientific package 2, refinements. §13er.
+
+- Walnut, cutch, pomegranate and eucalyptus fastness marked `unverified`; the plant screen shows „needs testing"
+  beside such a rating.
+- The substantive/adjective glossary definition made identical in both languages, with indigo as a vat dye and
+  no fastness generalisation. (Installed copies do not receive glossary changes — DECISIONS §19.)
+- Sumac's 10–20% removed from the prose, kept in the register. Brazilwood chemistry: proposal only.
+
+## 1.0.0-rc76 — 16 September 2026
+
+Scientific audit, package 2: plant parts, dye properties and fastness. §13eq. Before and after with sources:
+`docs/science/rc76-package-2.md`.
+
+- **Four unsupported dye parts removed** (apple hull, safflower leaf, brazilwood bark, cutch bark), archived
+  whole. Nothing in the library used them; a person's trial on a removed part keeps it.
+- Harvest template for flowering herbs removed from geranium, eucalyptus and henna.
+- Eucalyptus' unsourced cause, the cotinus superlative, and avocado's iron claim corrected.
+- No fastness rating changed; four questions open (DECISIONS §25).
+
+## 1.0.0-rc75 — 16 September 2026
+
+Two technical tasks before scientific package 2. §13ep.
+
+- **The recipe's read view shows the calculator's ceilings** beside the quantities — the iron bath at 2.5%
+  against 2%. Same function and texts as the editor.
+- A withdrawn recipe kept because her work uses it says so on its record.
+- **New release check, `try-withdrawal-in-use.mjs`:** a withdrawal cannot remove a recipe a pigment batch
+  uses (three kinds of reference); an unused one is removed after Apply. Seen failing on three broken copies.
+- No scientific data changed.
+
+## 1.0.0-rc74 — 16 September 2026
+
+The owner's decisions on the first scientific package. §13eo. Before and after: `docs/science/rc74-refinements.md`.
+
+- Woad's dyeing temperature 45–50 °C with a ceiling of 55 °C; extraction unchanged.
+- Iron: 2% stays the conservative ceiling; the recipe's published 2.5% now carries an explicit warning.
+- Soy milk: lightfastness claim removed; washfastness may be limited.
+- **The madder fermentation recipe is withdrawn** from the pack and kept in `archive/withdrawn/`.
+- **Fixed:** a pack withdrawal could remove a recipe the person's own work uses, and pigment batches were not
+  counted as references to recipes or chains at all. Both are closed.
+- Oat or bran bath: no three-day period; reuse not presented as safe.
+- Found, not changed: the ceiling warning is not drawn on a recipe's read view.
+
+## 1.0.0-rc73 — 16 September 2026
+
+Scientific audit, package 1: safety and chemical correctness. §13en. Every change and its source:
+`docs/science/rc73-package-1.md`.
+
+- Alum is paired with cream of tartar in Bulgarian too („винен камък").
+- No metal-salt solution is to be poured down the drain; iron and copper say to collect and dispose by local
+  rules and the SDS.
+- Categorical claims replaced: iron „above 2% embrittles", soy milk as a „safe mordant", madder „ordinary
+  dyeing is not dangerous", tansy „leaves are not a problem", boiling as sterilisation, scraping mould and
+  continuing a ferment, the oat bath „strengthening the bond".
+- Proposed, not applied: woad's temperatures, the iron ceiling, withdrawing the fermentation recipe, the oat
+  bath's storage (DECISIONS §21–§24).
+- No figure moved. Installed copies are offered the 14 corrected records through the library update.
+
 ## 1.0.0-rc72 — 16 September 2026
 
 Step 5 of the language package: recipes, substances, techniques, sources. §13em. Every change:

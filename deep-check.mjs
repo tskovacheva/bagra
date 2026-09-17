@@ -6350,7 +6350,8 @@ const dirty = await import('./dirty.js');
     // recipe, the word the weigh list must carry, why
     ['seed:madder-lake-hot', 'разтворена', 'the alum is a solution, not a powder'],
     ['seed:madder-lake-hot', 'БУРКАН', 'the figure is per jar, not in total'],
-    ['seed:madder-lake-fermentation', 'кисело зеле', 'a line that names no substance shows its note, not „помощно"'],
+    // Was the fermentation recipe's sauerkraut juice; that recipe was withdrawn at rc74 (§13eo).
+    ['seed:madder-lake-hot', 'дестилирана', 'a line that names no substance shows its note, not „помощно"'],
     ['seed:watercolour-binder', 'на прах', 'powdered gum, not the liquid'],
   ];
   const problems = [];

@@ -84,6 +84,14 @@ const INCOMING = {
     { store: 'fabrics',      label: 'refs.fabrics',  count: (r, id) => (r.actions || []).filter(a => a.recipeId === id).length },
     { store: 'batchActions', label: 'refs.batches',  count: (r, id) => (r.recipeId === id ? 1 : 0) },
     { store: 'chains',       label: 'refs.chains',   count: (r, id) => (r.steps || []).filter(s => s.recipeId === id).length },
+    // A pigment batch names the recipe it was made by (`viaId`), the recipe its
+    // lines were taken from (`linesFrom`), and the recipe each swatch was made
+    // by. None of the three was here: a lake recipe could be deleted — or, at
+    // rc74, withdrawn by a pack — out from under the batch made with it (§13eo).
+    { store: 'pigmentBatches', label: 'refs.pigments', count: (r, id) =>
+        (r.viaKind !== 'chain' && r.viaId === id ? 1 : 0)
+        + (r.linesFrom?.recipeId === id ? 1 : 0)
+        + (r.swatches || []).filter(sw => sw.viaId === id).length },
     // A recipe can be an INGREDIENT of another recipe (§13dy): the pastel's
     // binder line names the oat solution, which is itself a recipe. Deleting
     // the binder would leave the pastel's line pointing at nothing — the same
@@ -96,6 +104,7 @@ const INCOMING = {
     { store: 'trials',       label: 'refs.trials',   count: (r, id) => (r.steps || []).filter(s => s.chainId === id).length },
     { store: 'fabrics',      label: 'refs.fabrics',  count: (r, id) => (r.actions || []).filter(a => a.chainId === id).length },
     { store: 'batchActions', label: 'refs.batches',  count: (r, id) => (r.chainId === id ? 1 : 0) },
+    { store: 'pigmentBatches', label: 'refs.pigments', count: (r, id) => (r.viaKind === 'chain' && r.viaId === id ? 1 : 0) },
   ],
   plants: [
     { store: 'trials',         label: 'refs.trials',    count: (r, id) => (r.placements || []).filter(p => p.plantId === id).length },

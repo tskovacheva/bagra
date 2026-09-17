@@ -11687,3 +11687,138 @@ is empty on seeded sources (§13ea), so a glossary term never shows its source. 
 Object]". It now reads the name through `text()`, as the screens do, and was seen failing again when
 the substance reader was put back to printing the raw field.
 
+---
+
+## 13en. Scientific audit, package 1: safety and chemical correctness (1.0.0-rc73)
+
+A bounded package of corrections after an independent preliminary review. Every change and its source:
+`docs/science/rc73-package-1.md`. **Only confirmed errors and unsupported categorical claims were changed;
+no figure, identifier or structure moved** — the data fingerprint of every record is unchanged.
+
+- **Cream of tartar.** The alum record's Bulgarian said tartaric acid, its English cream of tartar; the
+  practice sources pair alum with cream of tartar, and the library's own `cream_of_tartar` record says so.
+  Bulgarian corrected to „винен камък (калиев хидроген тартарат)". No other occurrence exists: the other
+  „винено" in the library is a colour.
+- **Metal-salt waste.** The iron recipe's permission to pour the used bath down the drain is gone; iron and
+  copper now say to collect spent solutions separately and follow local requirements and the product's SDS.
+  Titanium and aluminium records carry no disposal statement, so nothing contradicts this.
+- **Iron concentration.** Categorical „above 2% WOF it embrittles" and „it tears a year later" replaced by a
+  conditional statement. The numbers stay; the disagreement is DECISIONS §22.
+- **Soy milk** is described as a protein binder, not a metal mordant; the universal claims about fastness
+  and safety with children are removed. Its category was already `binder`, so no calculator is affected.
+- **Madder, henna, tansy** safety notes corrected: lucidin's genotoxicity and precautions for powder and
+  extracts; henna's documented cases are skin application, not washed textiles; tansy's thujone and contact
+  dermatitis, with „the leaves are not a problem in eco print" removed.
+- **Madder fermentation:** boiling is no longer called sterilisation, and a mouldy ferment is discarded, not
+  scraped and continued. Withdrawal of the recipe is proposed, not done (§23).
+- **Oat or bran bath:** the bonding mechanism replaced by what the bath is used for; the storage attributed to
+  the recipe (§24). **Woad:** documented with a proposal (§21).
+
+**Reaching installed copies.** Checked in a real browser: rc72 installed and seeded in a profile, a personal
+note written on copper sulfate, then rc73 opened over it with the old service worker gone. The library offers
+the update for every corrected record — 3 plants, 6 recipes, 4 substances, 1 technique — and lists copper
+sulfate separately as edited by the person, so her note is not overwritten. Nothing is applied until she
+accepts it.
+
+---
+
+## 13eo. Scientific audit, package 1: the owner's decisions applied (1.0.0-rc74)
+
+Before and after: `docs/science/rc74-refinements.md`.
+
+- **Soy milk.** The universal claim of lower lightfastness is gone from the substance and the recipe; what
+  stays is that washfastness may be limited (Botanical Colors: not washfast enough alone for washable items).
+- **Woad.** The leaf part's `tempDyeC` is 45–50 °C and `softMaxTempC` 55 °C for the vat method the prose
+  describes; `tempExtractC` stays 70–80 °C. **Seen on a phone (390 px) on a fresh install:** the *use now*
+  tiles read 70–80 °C · 45–50 °C · 55 °C for both the fresh and the dried leaf, and nothing overflows.
+- **Iron.** `maxPercentWof` stays 2. The recipe `iron-bath-dark` keeps its published 1–2.5% and now says, in
+  the ingredient line and the notes, that 2.5% is over the library's conservative 2% and that wool and silk
+  should stay at or below it. **The calculator:** `recipeWarnings` returns `over_max_wof` (limit 2, value 2.5)
+  for this recipe — checked directly. That warning is drawn in the recipe editor's preview, on the batch screen
+  and on a trial's step. **It is not drawn on the recipe's read view**, which is where a person follows the
+  recipe at the pot; there the warning is the text of the ingredient line. Not changed — raised.
+- **The madder fermentation recipe is withdrawn** from the pack (recipes 0.17.0) through the existing path: a
+  record the pack no longer carries is offered for removal in the library update. The record is kept whole in
+  `archive/withdrawn/`. Two checks that used it were moved to a recipe still in the pack.
+- **A fault in that path, fixed.** A withdrawal removed the record with `removeSystem`, which bypasses the
+  delete policy (§13cq): a person who had made a pigment batch by this recipe and accepted the update would
+  have lost the recipe her batch points at. Now a withdrawn record that her records reference is counted in
+  the diff, shown as „kept — your records using it: n", left unticked with its box disabled, and **refused
+  again at the moment of removal** whatever was ticked. **And a gap under it:** `refs.js` did not count
+  pigment batches as references to a recipe or chain at all — not `viaId`, not `linesFrom`, not a swatch's
+  recipe — so a lake recipe could also be deleted from under a batch. All three are counted now.
+  **Seen in a browser:** rc73 installed, then rc74 over it — with a batch made by the recipe, the withdrawal is
+  offered unticked with `inUse: 1` and a forced removal leaves the recipe and the batch in place; with no work
+  using it, it is ticked and removed. A fresh rc74 install does not have the recipe.
+- **Oat or bran bath.** The three-day period is gone; reuse is described as not guaranteed safe, with the
+  signs to discard.
+
+The data fingerprint moved in exactly four entries, each shown before acceptance: the manifest, woad's part,
+the withdrawn recipe, and the recipe pack's order.
+
+---
+
+## 13ep. Ceilings on the read view, and a permanent check for withdrawals (1.0.0-rc75)
+
+**The recipe's read view draws `recipeWarnings()`** inside the weigh box, directly under the calculated
+quantities — the same function and the same texts as the editor's preview, the batch screen and a trial
+step. The iron bath reads „Железен сулфат: 2.5% надхвърля тавана от 2%." A recipe inside its ceilings draws
+no block. At 360 px the warning sits inside the screen and nothing overflows. No data changed.
+
+**A withdrawn record kept because her work uses it** now says so on its own read view: „The library no
+longer carries this record. It stays in your copy because your records use it (n), and the update will not
+remove it." Before, it said the update would offer to remove it, which for this record is untrue.
+
+**`scripts/try-withdrawal-in-use.mjs`**, in the release gate. In a real browser, with the withdrawn madder
+fermentation recipe put back from `archive/withdrawn/` as an installed seeded record: a pigment batch that
+uses it — by `viaId`, by `linesFrom`, or by a swatch — makes it count as in use, unticked, with a disabled
+box in the preview and the note above on the record; a removal forced through `applyDiff` leaves the recipe
+and the batch. With no work using it, it is ticked, and leaving it ticked and pressing Apply removes it and
+nothing else (16 → 15 recipes). The iron bath's read-view warning is held in the same script.
+
+**Seen failing** on three broken copies: the removal guard and the default tick taken out; pigment batches
+not counted as references; the read-view warning not drawn.
+
+---
+
+## 13eq. Scientific audit, package 2: plant parts, dye properties and fastness (1.0.0-rc76)
+
+Before and after, with sources: `docs/science/rc76-package-2.md`. Open questions: DECISIONS §25.
+
+**Four plant parts removed** — apple `hull`, safflower `leaf`, brazilwood `bark`, cutch `bark`. Each carried
+dosing, temperatures and harvest months, and none has a source as a dye part: catechu comes from the heartwood
+(and leaves, pods, twigs — CAMEO), brazilwood's dye from the heartwood (CAMEO; Oxford), safflower's from the
+florets, and the apple's own prose names leaves and bark. **Before removing:** nothing in the shipped
+combinations or recipes points at any of the four; the parts are kept whole in `archive/withdrawn/`. **After,
+in a real browser:** rc75 installed with a trial placement on apple `hull`, updated to rc76 — the library
+offers the corrected plants, the apple keeps `leaf` and `bark`, and the trial keeps its `hull` placement and
+opens without error, because a trial's part selector is the whole vocabulary, not the plant's list. `hull`
+itself is unchanged: seven plants use it as a general outer covering (onion skins, walnut hulls, pomegranate
+rind, chestnut and hazel husks, avocado peel).
+
+**Claims corrected:** the „flowering herbs" harvest template removed from geranium, eucalyptus and henna;
+eucalyptus prints from both sides „in practice", without the unsourced cause; the cotinus superlative;
+avocado and iron scoped to the one study that reports better lightfastness (Üren 2022), not stated as a rule.
+
+**Checked and kept:** cutch's durable browns and brazilwood's weaker lightfastness (CAMEO); avocado seed and
+peel as dye parts (Üren 2022). No fastness rating was changed.
+
+---
+
+## 13er. Scientific package 2, refinements (1.0.0-rc77)
+
+- **Unsourced fastness ratings** on walnut, cutch, pomegranate and eucalyptus are marked with the existing
+  confidence `unverified`. The rating is unchanged. **The plant screen now shows it**: a rating whose confidence
+  is `unverified` reads „отлична · нуждае се от тест" — the confidence was drawn only in the editor, so an
+  unsourced rating looked like a measured one. Seen at 1280 and 390 px; a rating without the mark (madder)
+  reads as before.
+- **Glossary, substantive and adjective dyes:** one definition in both languages. Indigo is described
+  separately as a vat dye; the claims that most plant dyes are adjective and that adjective dyes are often
+  more lasting are gone; the terms describe how a dye binds, not its quality or fastness.
+- **Sumac:** the 10–20% dose removed from the prose, kept in the scientific register.
+- **Brazilwood:** `tannin: high` kept; a labelling is proposed, not applied (register, DECISIONS §25.4).
+
+**Reaching installed copies.** rc76 installed, rc77 over it: the library offers walnut, pomegranate, sumac,
+cutch and eucalyptus. **The glossary change does not reach an installed copy**: the glossary is one of the two
+packs with no update button (`UNREACHABLE_PACKS`, DECISIONS §19). A fresh install has it.
+

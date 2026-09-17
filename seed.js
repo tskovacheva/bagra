@@ -5,6 +5,7 @@
 // plants importing app. It worked by accident of hoisting until it did not.
 
 import { all, keys, get, putSystem, removeSystem, getSetting, setSetting } from './db.js';
+import { findReferences } from './refs.js';
 
 /**
  * Adds seeded records that are absent, and touches nothing else.
@@ -439,7 +440,11 @@ export async function diffPack(name) {
   for (const row of stored.values()) {
     if (row.origin !== 'seed' || row.packId !== pack.packId) continue;
     if (codes.has(row.id)) continue;
-    diff.withdrawn.push({ id: row.id, name: nameOf(row), remove: true, edited: !!row.editedByUser });
+    // A withdrawn record her own work points at is not removed (§13eo). The
+    // pack can stop shipping a recipe; it cannot take away the recipe a pigment
+    // batch of hers was made from. Counted here, so the preview can say so.
+    const inUse = (await findReferences(store, row.id)).total;
+    diff.withdrawn.push({ id: row.id, name: nameOf(row), remove: true, edited: !!row.editedByUser, inUse });
   }
 
   return diff;
@@ -464,7 +469,7 @@ export function defaultChosen(diff) {
   return new Set([
     ...diff.added.map(e => e.id),
     ...diff.changed.map(e => e.id),
-    ...diff.withdrawn.filter(e => !e.edited).map(e => e.id),
+    ...diff.withdrawn.filter(e => !e.edited && !e.inUse).map(e => e.id),
   ]);
 }
 
@@ -493,7 +498,7 @@ export async function recordStatus(name, id) {
   let e;
   if ((e = hit(diff.changed))) return { fields: e.fields, edited: false };
   if ((e = hit(diff.edited))) return { fields: e.fields, edited: true };
-  if ((e = hit(diff.withdrawn))) return { withdrawn: true, edited: !!e.edited };
+  if ((e = hit(diff.withdrawn))) return { withdrawn: true, edited: !!e.edited, inUse: e.inUse || 0 };
   return null;
 }
 
@@ -514,6 +519,9 @@ export async function applyDiff(store, entries, pack) {
     // entry rather than inferred from a missing `row`, because inferring it
     // would make a malformed entry delete a record.
     if (entry.remove) {
+      // Asked again at the moment of removal, not trusted from the preview: a
+      // record her work points at stays, whatever was ticked (§13eo).
+      if ((await findReferences(store, entry.id)).total) continue;
       await removeSystem(store, entry.id);
       n++;
       continue;

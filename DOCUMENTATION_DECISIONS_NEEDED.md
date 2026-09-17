@@ -991,3 +991,94 @@ the same fact in two languages and the model already has one shape for that. **A
 
 **Not decided. Asked of the owner.**
 
+---
+
+## 21. Woad's temperatures: the prose is right and the part record is not — a proposal, not applied
+
+**Settled at rc74** (§13eo): `tempDyeC` 45–50 °C, `softMaxTempC` 55 °C; `tempExtractC` unchanged.
+
+**Raised by the scientific audit, package 1 (rc73).** `isatis_tinctoria` leaf: `tempExtractC` 70–80 °C,
+`tempDyeC` min 80 °C, `softMaxTempC` 85 °C. The plant's prose: the leaves are covered with hot water, the
+bath is cooled, and from there above 55 °C it is spoiled.
+
+**What the sources say** (docs/science/rc73-package-1.md, S16–S18): the leaves are steeped in water at
+about 80–90 °C; the extract is cooled, alkali is added below about 50 °C, and the vat is kept at no more
+than about 50 °C while dyeing. So there are two stages, and the part record puts the extraction figure in
+the dyeing field: `tempDyeC` min 80 °C and a ceiling of 85 °C describe steeping the leaves, not the vat.
+
+**Proposed, for approval:** `tempExtractC` stays 70–80 °C (the sources say up to 90 °C; not widened without
+a decision); `tempDyeC` about 45–50 °C; `softMaxTempC` 55 °C, matching the prose. Nothing was changed.
+Until then the *use now* tile shows 80 °C for dyeing with woad. **Asked of the owner.**
+
+---
+
+## 22. Ferrous sulfate: the 2% ceiling is conservative, and one recipe goes past it
+
+**Settled at rc74** (§13eo): 2% stays as the conservative ceiling; the recipe keeps its published 2.5% with an explicit warning.
+
+**Raised by package 1 (rc73).** `iron_sulfate.maxPercentWof` is 2; the recipe `iron-bath-dark` allows up to
+2.5%; the old texts said fibre becomes brittle above 2%.
+
+**Sources:** Maiwa gives 2–4% WOF, with higher rates possibly damaging fibre and care on protein fibres (S3);
+CAMEO says excess exposure leaves wool stiff and harsh (S4). No source found gives 2% as a threshold of damage.
+
+**Done:** every categorical „above 2% it embrittles" was replaced by a conditional statement — higher
+concentrations and longer exposure can make fibres, especially wool and silk, harsh and brittle. **Not done:**
+no number moved. The recipe's 2.5% is the published recipe's figure (Alison Kelly) and sits inside Maiwa's
+range; the substance's 2% is below it.
+
+**For decision:** keep 2 as a deliberately conservative ceiling (and then the recipe's 2.5% needs a note, or
+its range capped at 2), or raise the ceiling. The calculators read `maxPercentWof`, so raising it changes a
+warning a person sees. **Asked of the owner.**
+
+---
+
+## 23. The madder fermentation recipe — proposed for temporary withdrawal
+
+**Settled at rc74** (§13eo): withdrawn from the pack through the existing withdrawal path, archived whole; a withdrawal no longer removes a record the person's work uses.
+
+**Raised by package 1 (rc73).** Two instructions were unsafe as written and are corrected: five minutes in
+boiling water was presented as killing mould spores (now: it reduces surface microbes and is not
+sterilisation), and visible mould was to be scraped off and the ferment continued (now: stop and discard).
+
+What remains unverified is the process itself — a two-week open ferment seeded with raw sauerkraut juice,
+judged by smell and pH. No source for its safety was checked in this package.
+
+**Proposed:** take the recipe out of the distributed library until the technology and its safety are checked.
+**Not done, and why:** the only existing field, `distributable: false`, is shown on the record as a fact and
+hides nothing — it does not keep a recipe out of the shipped pack. Withdrawing it needs either removing the
+record from `seed/recipes.json` (an installed copy keeps it; the pack's withdrawn list offers its removal) or
+a new mechanism, and the owner asked for neither to be introduced without approval. **Asked of the owner.**
+
+---
+
+## 24. The oat or bran bath — storage and reuse are the recipe's, not verified
+
+**Settled at rc74** (§13eo): the three-day period removed; reuse described as not guaranteed safe.
+
+**Raised by package 1 (rc73).** The claim that the bath „strengthens the bond of the metallic salts with the
+fibre" was replaced by a neutral description: it rinses unbound mordant off the surface (S14). The storage —
+reusable for up to three days, covered and cool — is now attributed to the recipe. Botanical Colors reuses
+bran baths several times (S15) but gives no period. **Open:** whether three days is a safe limit, and whether
+oats and bran behave the same. No figure changed.
+
+---
+
+## 25. Open after scientific package 2 (rc76)
+
+**Items 1–3 settled at rc77** (§13er). Item 4 has a proposal in `docs/language/science-audit-flags.md`.
+
+1. **Fastness ratings without a source.** Walnut, cutch, pomegranate and eucalyptus carry `lightfastness`
+   and `washfastness` = `excellent`, with confidence `practice` and no cited source. CAMEO supports cutch
+   (good retention through washing and light); nothing found supports the others at that level across fibres
+   and mordants. **Proposed:** keep the ratings and mark them for sourcing, or lower the confidence to
+   `unverified` where no source is found. No rating was changed.
+2. **The substantive/adjective definition.** The glossary's English names indigo among substantive dyes, the
+   Bulgarian does not. Indigo is a vat dye; AATCC (in the register) uses it as the substantive example, most
+   dyers' sources treat it as its own class. **Proposed:** remove indigo from the English, or name it as a vat
+   dye in both.
+3. **Sumac's dose in prose.** „As a tannin the leaves go in at around 10–20%" is not in the part's dosing.
+   **Proposed:** move it into `dosing` with a source, or remove the figure from the prose.
+4. **Brazilwood heartwood chemistry.** Recorded as `tannin: high`; the colorant is brazilin (a homoisoflavonoid)
+   (S21, S22). **Proposed:** a chemistry review in the next data package, not a guess here.
+

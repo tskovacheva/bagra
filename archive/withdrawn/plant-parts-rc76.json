@@ -1,0 +1,148 @@
+{
+ "withdrawnIn": "1.0.0-rc76",
+ "pack": "plants",
+ "reason": "Plant parts with no source as dye parts, removed by scientific audit package 2 (spec §13eq). Nothing in the shipped combinations or recipes pointed at them. Kept whole so they can be restored.",
+ "parts": {
+  "malus_domestica:hull": {
+   "partCode": "hull",
+   "chemistry": [
+    {
+     "classCode": "flavonoid",
+     "level": "high"
+    },
+    {
+     "classCode": "tannin_cond",
+     "level": "moderate"
+    }
+   ],
+   "dosing": [
+    {
+     "condition": "dried",
+     "min": 80,
+     "max": 100,
+     "extractionMode": null
+    }
+   ],
+   "tempExtractC": {
+    "min": 85,
+    "max": 90
+   },
+   "tempDyeC": {
+    "min": 75,
+    "max": 85
+   },
+   "softMaxTempC": 95,
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice"
+   },
+   "harvestMonths": [
+    8,
+    9,
+    10
+   ]
+  },
+  "carthamus_tinctorius:leaf": {
+   "partCode": "leaf",
+   "chemistry": [
+    {
+     "classCode": "flavonoid",
+     "level": "moderate"
+    }
+   ],
+   "dosing": [
+    {
+     "condition": "dried",
+     "min": 80,
+     "max": 100,
+     "extractionMode": null
+    }
+   ],
+   "tempExtractC": {
+    "min": 20,
+    "max": 25
+   },
+   "extractionModes": [
+    "cold"
+   ],
+   "harvestMonths": [
+    5,
+    6,
+    7
+   ]
+  },
+  "paubrasilia_echinata:bark": {
+   "partCode": "bark",
+   "chemistry": [
+    {
+     "classCode": "flavonoid",
+     "level": "dominant"
+    },
+    {
+     "classCode": "tannin",
+     "level": "high"
+    }
+   ],
+   "dosing": [
+    {
+     "condition": "dried",
+     "min": 20,
+     "max": 50,
+     "extractionMode": null
+    }
+   ],
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 80,
+    "max": 90
+   },
+   "softMaxTempC": 95,
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice"
+   },
+   "sourcedNotGathered": true
+  },
+  "senegalia_catechu:bark": {
+   "partCode": "bark",
+   "chemistry": [
+    {
+     "classCode": "tannin_cond",
+     "level": "dominant"
+    },
+    {
+     "classCode": "flavonoid",
+     "level": "moderate"
+    }
+   ],
+   "dosing": [
+    {
+     "condition": "dried",
+     "min": 15,
+     "max": 30,
+     "extractionMode": null
+    }
+   ],
+   "tempExtractC": {
+    "min": 85,
+    "max": 95
+   },
+   "tempDyeC": {
+    "min": 85,
+    "max": 95
+   },
+   "softMaxTempC": 95,
+   "confidence": {
+    "tempExtractC": "practice",
+    "tempDyeC": "practice",
+    "softMaxTempC": "practice"
+   },
+   "sourcedNotGathered": true
+  }
+ }
+}

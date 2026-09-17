@@ -71,3 +71,40 @@ says, and why it was marked.
 | source `india-flint-eco-colour` | note | the author **developed** the bundling method | a historical attribution |
 | source `michel-garcia` | note | a **chemist and botanist** | a description of a person to confirm |
 | source `aatcc-natural-dyes` | note | gives **indigo** as the example of a substantive dye | the classification already flagged under step 2 |
+
+## Status after scientific audit package 1 (rc73)
+
+Resolved in text (docs/science/rc73-package-1.md): alum with tartaric acid → cream of tartar; iron water to the
+drain; categorical 2% embrittlement; soy milk as a mordant and „safe"; madder „ordinary dyeing is not
+dangerous"; henna risk from textiles; tansy „leaves are not a problem"; boiling as sterilisation; continuing a
+mouldy ferment; the oat bath's bonding mechanism. **Open, with a proposal:** woad's temperatures (DECISIONS
+§21), the iron ceiling (§22), withdrawing the fermentation recipe (§23), the oat bath's storage (§24).
+Everything else in this list waits for package 2.
+
+## Status after scientific audit package 2 (rc76)
+
+**Resolved** (docs/science/rc76-package-2.md): the part lists of apple (hull), safflower (leaf), brazilwood
+and cutch (bark) — the four parts removed; the „flowering herbs" template on geranium, eucalyptus and henna;
+eucalyptus' cause („owing to the essential oils") removed, the practice observation kept; the cotinus
+superlative; avocado and iron, now scoped to the one study that supports it. **Supported and kept:** cutch's
+durable browns (S20); brazilwood's weaker lightfastness and its `poor` rating (S21); avocado seed and peel as
+dye parts (S19); onion skins under `hull` — the vocabulary's „обвивка" is a general outer covering and is used
+for seven plants, so its meaning was not changed.
+
+**Open — for decision** (DECISIONS §25): fastness ratings recorded as `practice` with no cited source on
+walnut, cutch, pomegranate and eucalyptus (all `excellent`); the glossary's substantive/adjective definition,
+whose English names indigo and whose Bulgarian does not; the sumac dose that lives only in prose; brazilwood
+heartwood recorded as `tannin: high` while its colorant is brazilin.
+
+## Status after the package 2 refinements (rc77)
+
+- **Fastness ratings.** Walnut, cutch, pomegranate and eucalyptus keep `excellent`, now with confidence
+  `unverified` for both ratings; the plant screen reads „отлична · нуждае се от тест". CAMEO supports cutch's
+  good retention through washing and light, not the level `excellent` across fibres and mordants. To source.
+- **Sumac, held for checking:** the prose said „as a tannin the leaves go in at around 10–20%". No reliable
+  source for this technology was found; the figure is removed from the prose and kept here. To source or drop.
+- **Brazilwood heartwood chemistry, proposed (DECISIONS §25.4):** `tannin: high` is kept. The plant's own
+  prose says the wood contains tannins and phenolics besides brazilin, and no source for the LEVEL was found.
+  The colorant, brazilin (a homoisoflavonoid, S21–S22), has no chemistry entry at all. Proposed: add
+  `flavonoid: dominant` for brazilin (the vocabulary has no homoisoflavonoid class; `flavonoid` is the nearest)
+  and mark the plant's `chemistry` confidence `unverified` until the tannin level is sourced. Not applied.

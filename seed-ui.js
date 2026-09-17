@@ -117,8 +117,10 @@ export function recordNote(name, id) {
 async function noteHtml(name, id) {
   const st = await recordStatus(name, id);
   if (!st) return '';
+  // A withdrawn record her work uses stays (§13eo) — saying „the update will
+  // offer to remove it" would be untrue for it.
   const msg = st.withdrawn
-    ? t(st.edited ? 'seed.recordWithdrawnEdited' : 'seed.recordWithdrawn')
+    ? t(st.inUse ? 'seed.recordWithdrawnInUse' : st.edited ? 'seed.recordWithdrawnEdited' : 'seed.recordWithdrawn', { n: st.inUse })
     : t(st.edited ? 'seed.recordDiffersEdited' : 'seed.recordDiffers',
         { fields: esc(fieldNames(name, st.fields)) });
   // The button is the list's button and goes to the same preview — one
@@ -194,8 +196,9 @@ async function group(titleKey, entries, { ticked, hint = '' } = {}) {
   if (!entries.length) return '';
   const rows = await Promise.all(entries.map(async e => `
     <label class="difrow">
-      <input type="checkbox" data-pick="${e.id}" ${state.chosen.has(e.id) ? 'checked' : ''}>
+      <input type="checkbox" data-pick="${e.id}" ${state.chosen.has(e.id) ? 'checked' : ''}${e.inUse ? ' disabled' : ''}>
       <span class="difname">${esc(e.name)}</span>
+      ${e.inUse ? `<span class="diffields">${esc(t('seed.withdrawnInUse', { n: e.inUse }))}</span>` : ''}
       ${e.fields ? `<span class="diffields">${esc(fieldNames(state.name, e.fields))}</span>` : ''}
     </label>`));
   return `
@@ -241,8 +244,8 @@ export async function render(root, onDone) {
     const tog = e.target.closest('[data-toggle-group]');
     if (tog) {
       const list = diff[tog.dataset.toggleGroup];
-      const allOn = list.every(x => state.chosen.has(x.id));
-      for (const x of list) allOn ? state.chosen.delete(x.id) : state.chosen.add(x.id);
+      const allOn = list.filter(y => !y.inUse).every(x => state.chosen.has(x.id));
+      for (const x of list.filter(y => !y.inUse)) allOn ? state.chosen.delete(x.id) : state.chosen.add(x.id);
       return render(root, onDone);
     }
 
