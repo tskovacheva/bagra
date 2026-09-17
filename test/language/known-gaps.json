@@ -1,0 +1,4 @@
+{
+ "note": "Language faults known at the time of writing. Each one must be crossed off when fixed; the guard fails on a line that is no longer true. 1.0 ships with this list empty (--strict).",
+ "gaps": []
+}

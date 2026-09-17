@@ -1,8 +1,8 @@
 {
  "packId": "bagra-base",
- "packVersion": "0.7.0",
+ "packVersion": "0.7.1",
  "description": {
-  "bg": "Начален набор вещества — морданти, танини, модификатори и помощни.",
+  "bg": "Начален набор вещества — закрепители, танини, модификатори и помощни вещества.",
   "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
  },
  "substances": [
@@ -25,7 +25,7 @@
    "colourEffect": "brightening",
    "alPerUnit": 1,
    "notes": {
-    "bg": "Класическият мордант. За вълна обикновено 12–15% WOF, заедно с винена киселина.",
+    "bg": "Класическият закрепител. За вълна обикновено 12–15% WOF, заедно с винена киселина.",
     "en": "The classic mordant. For wool usually 12–15% WOF, together with cream of tartar."
    }
   },
@@ -116,7 +116,7 @@
    ],
    "alPerUnit": 2,
    "notes": {
-    "bg": "Гram за грам изисква почти двойно повече сода и оцет от 18-хидрата — водата в кристала не участва в реакцията.",
+    "bg": "Грам за грам изисква почти двойно повече сода и оцет от 18-хидрата — водата в кристала не участва в реакцията.",
     "en": "Gram for gram it needs nearly twice the soda and acid of the 18-hydrate — the water of crystallisation takes no part in the reaction."
    }
   },
@@ -136,7 +136,7 @@
    ],
    "colourEffect": "brightening",
    "notes": {
-    "bg": "Стандартът за целулоза при еко принт. След мордантирането е нужна варова баня — тя свързва морданта, не просто регулира pH.",
+    "bg": "Стандартът за целулоза при еко принт. След обработката със закрепител е нужна варова баня — тя свързва закрепителя, а не просто регулира pH.",
     "en": "The standard for cellulose in eco printing. A chalk bath is required afterwards — it binds the mordant rather than merely adjusting pH."
    }
   },
@@ -232,7 +232,7 @@
     "en": "near colourless"
    },
    "notes": {
-    "bg": "Най-чистият танин — не жълти плата. Обичайно 7–10% WOF преди мордантиране на целулоза.",
+    "bg": "Най-чистият танин — не жълти плата. Обичайно 7–10% WOF преди обработка на целулоза със закрепител.",
     "en": "The clearest tannin — does not yellow the cloth. Usually 7–10% WOF before mordanting cellulose."
    }
   },
@@ -301,7 +301,7 @@
    "naPerUnit": 2,
    "needsAcid": true,
    "typicalUse": {
-    "bg": "Очистване на целулоза, обикновено 2% WOF. Също източник на натрий при приготвяне на алуминиев ацетат.",
+    "bg": "Изпиране на целулоза, обикновено 2% WOF. Също източник на натрий при приготвяне на алуминиев ацетат.",
     "en": "Scouring cellulose, usually 2% WOF. Also a sodium source when preparing aluminium acetate."
    }
   },
@@ -338,7 +338,7 @@
    "code": "sodium_acetate_tri",
    "category": "modifier",
    "name": {
-    "bg": "Натриев ацетат, тривхидрат",
+    "bg": "Натриев ацетат, трихидрат",
     "en": "Sodium acetate trihydrate"
    },
    "formula": "CH₃COONa·3H₂O",
@@ -401,7 +401,7 @@
     "mask"
    ],
    "typicalUse": {
-    "bg": "Част от индиговата каца по метода 1-2-3.",
+    "bg": "Част от индиговата вана по метода 1-2-3.",
     "en": "Part of the 1-2-3 indigo vat."
    }
   },
@@ -415,7 +415,7 @@
    "formula": "KC₄H₅O₆",
    "molarMass": 188.18,
    "typicalUse": {
-    "bg": "При вълна с алум, обикновено 5–6% WOF. Омекотява влакното и избистря цвета. Безсмислен при памук.",
+    "bg": "При вълна със стипца, обикновено 5–6% WOF. Омекотява влакното и избистря цвета. Безсмислен при памук.",
     "en": "With alum on wool, usually 5–6% WOF. Softens the fibre and clears the colour. Pointless on cotton."
    }
   },
@@ -427,7 +427,7 @@
     "en": "Synthrapol"
    },
    "typicalUse": {
-    "bg": "Неутрален препарат за очистване на целулоза и коприна преди мордантиране. Отмива фабричните апретури, които иначе пречат на равномерното поемане на цвят.",
+    "bg": "Неутрален препарат за изпиране на целулоза и коприна преди обработка със закрепител. Отмива фабричните апретури, които иначе пречат на равномерното поемане на цвят.",
     "en": "A neutral detergent for scouring cellulose and silk before mordanting. It removes mill finishes that would otherwise prevent even uptake of colour."
    }
   },
@@ -439,7 +439,7 @@
     "en": "Neutral soap"
    },
    "typicalUse": {
-    "bg": "При очистване, обикновено около 1% WOF, заедно със содата.",
+    "bg": "При изпиране, обикновено около 1% WOF, заедно със содата.",
     "en": "For scouring, usually around 1% WOF, together with the soda."
    }
   },
@@ -511,8 +511,8 @@
     "en": "Glycerine"
    },
    "typicalUse": {
-    "bg": "Омекотител в акварелното свързващо — държи блокчето да не изсъхне на камък. От рецептата на Crafty Place и §13dn; Стопка не го използва.",
-    "en": "A plasticiser in the watercolour binder, keeping the cake from drying hard. From the Crafty Place recipe and §13dn; Stopka does not use it."
+    "bg": "Омекотител в акварелното свързващо — държи блокчето да не изсъхне на камък. От рецептата на Crafty Place; Стопка не го използва.",
+    "en": "A plasticiser in the watercolour binder, keeping the cake from drying hard. From the Crafty Place recipe; Stopka does not use it."
    },
    "sourceCodes": [
     "crafty-place-practice"
@@ -527,7 +527,7 @@
    },
    "typicalUse": {
     "bg": "Задържа влага в акварелното свързващо: привлича влага, за да се намокря боята отново. Стопка, със същите думи. Непастьоризиран.",
-    "en": "A humectant in the watercolour binder: it attracts moisture so the paint rewets. Stopka, in those words. Unpasteurized."
+    "en": "A humectant in the watercolour binder: it attracts moisture so the paint rewets. Stopka, in those words. Unpasteurised."
    },
    "sourceCodes": [
     "natalie-stopka-pigment"
@@ -574,8 +574,8 @@
     "nicola-cliffe-printing"
    ],
    "typicalUse": {
-    "bg": "Сгъстител за печатни пасти. Работи и в кисела среда, затова държи в мордант пастата с оцет. Дава по-плътна паста и по-остър ръб — за ситопечат. Влиза в студен разтвор, по малко, иначе се сбива на бучки.",
-    "en": "A thickener for print pastes. It works in an acid bath, which is why it holds in the vinegar mordant paste. Gives a stiffer paste and a crisper edge — for screen printing. Goes into a cold solution a little at a time, or it lumps."
+    "bg": "Сгъстител за печатни пасти. Работи и в кисела среда, затова държи в пастата със закрепител и оцет. Дава по-плътна паста и по-остър ръб — за ситопечат. Влиза в студен разтвор, по малко, иначе се сбива на бучки.",
+    "en": "A thickener for print pastes. It works in acid conditions, which is why it holds in the vinegar mordant paste. Gives a stiffer paste and a crisper edge — for screen printing. Goes into a cold solution a little at a time, or it lumps."
    }
   },
   {
@@ -604,8 +604,8 @@
     "alison-kelly-printing"
    ],
    "typicalUse": {
-    "bg": "Мордант и фиксатор за целулоза. Протеинът се хваща за памука и лена, които сами нямат протеин, и така платът приема повече цвят. По-слабо трайно от металните морданти, но безопасно — става и с деца. Неподсладено и без аромат.",
-    "en": "A mordant and fixer for cellulose. The protein attaches to cotton and linen, which have none of their own, so the cloth takes more colour. Less lasting than a metallic mordant but safe — suitable with children. Unsweetened and unflavoured."
+    "bg": "Закрепител и свързващо вещество за целулоза. Протеинът се хваща за памука и лена, които сами нямат протеин, и така платът приема повече цвят. По-слабо трайно от металните закрепители, но безопасно — става и с деца. Неподсладено и без аромат.",
+    "en": "A mordant and binder for cellulose. The protein attaches to cotton and linen, which have none of their own, so the cloth takes more colour. Less lasting than a metallic mordant but safe — suitable with children. Unsweetened and unflavoured."
    }
   },
   {
@@ -619,8 +619,8 @@
     "alison-kelly-printing"
    ],
    "typicalUse": {
-    "bg": "Вързани в марля и накиснати, дават млечна вода, която фиксира морданта към влакното и отмива остатъчните соли. Взаимозаменяеми с овесените ядки.",
-    "en": "Tied in cheesecloth and soaked, they give a milky water that fixes the mordant to the fibre and rinses off the stray salts. Interchangeable with oat groats."
+    "bg": "Вързани в марля и накиснати, дават млечна вода, която свързва закрепителя с влакното и отмива остатъчните соли. Взаимозаменяеми с овесените ядки.",
+    "en": "Tied in cheesecloth and soaked, they give a milky water that binds the mordant to the fibre and rinses off the stray salts. Interchangeable with oat groats."
    }
   }
  ]

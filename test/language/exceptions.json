@@ -1,0 +1,89 @@
+{
+ "note": "Findings that are RIGHT, each with its reason. An exception that no longer matches a finding fails the check.",
+ "exceptions": [
+  {
+   "id": "seed.usSpelling | plants.json:fraxinus_excelsior sections[Източници].body:color",
+   "reason": "A citation: \"Coloration Technology\" is the title of a journal, and a title is quoted as published."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: { bg: 'Багрилни качества', en: 'Dye qualities' },",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: { bg: 'Използвани части', en: 'Parts used' },",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: { bg: 'Багрилна съставка', en: 'Dye constituent' },",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: { bg: 'Беритба и обработка', en: 'Harvest and processing' },",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: { bg: 'Източници', en: 'Sources' },",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: use: ['багрилни качества', 'дозиране', 'еко принт', 'използвани части', 'части',",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: 'за тези числа', 'температура', 'работа с него', 'върху кои влакна', 'устойчивост',",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: 'като източник на танин', 'танин и еко принт', 'плодовете отделно',",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: why: ['багрилна съставка', 'багрилни съставки', 'dye constituent', 'dye constituents'],",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: grow: ['беритба и обработка', 'беритба', 'сезон',",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/plants.js: sources: ['източници', 'източник', 'sources', 'source'],",
+   "reason": "Not interface text: the section headings, in both languages, that plants.js MATCHES against records written in either language, so an older record with a Bulgarian heading still lands in the right section. Nothing here is drawn on screen."
+  },
+  {
+   "id": "code.cyrillic | modules/reference.js: ${/* Separate line and separate words. „Не уточнява влакното\" is not",
+   "reason": "A comment inside a template literal (${/* ... */''}), which a line reader cannot tell from code. It renders as an empty string."
+  },
+  {
+   "id": "code.cyrillic | modules/reference.js: „за друго влакно\" — the record is not disagreeing, it is quiet. */''}",
+   "reason": "A comment inside a template literal (${/* ... */''}), which a line reader cannot tell from code. It renders as an empty string."
+  },
+  {
+   "id": "code.cyrillic | modules/fabrics.js: const prefix = await getSetting('fabricLabelPrefix', 'П');",
+   "reason": "Owner decision, 16 September 2026 (§13ei): „П\" is the prefix printed on physical labels in the studio (П-014). It is an identifier, not interface text, and stays the same in either language — an English screen showing F-014 would name a label that does not exist."
+  },
+  {
+   "id": "seed.usSpelling | sources.json:uchicago-origins-color name:color",
+   "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  },
+  {
+   "id": "seed.usSpelling | sources.json:eucalyptus-substantive-study name:fiber",
+   "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  },
+  {
+   "id": "seed.usSpelling | sources.json:pubmed-madder-carcinogenicity name:color",
+   "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  },
+  {
+   "id": "seed.usSpelling | sources.json:eser-salvia-2017 author:fiber",
+   "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  },
+  {
+   "id": "seed.usSpelling | sources.json:colorants-persicaria-2025 author:color",
+   "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  },
+  {
+   "id": "seed.usSpelling | sources.json:cuce-rosa-canina author:fiber",
+   "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  }
+ ]
+}

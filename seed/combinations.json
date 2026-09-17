@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.9.0",
+ "packVersion": "0.9.1",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -29,7 +29,7 @@
     "swatchHex": "#B69A72",
     "variation": {
      "bg": "При недокументирано условие резултатът клони към чист златист тон вместо бежово, охра, светъл до среден кафяв.",
-     "en": "Under an unrecorded condition the result leans toward a clean golden tone rather than beige, ochre, light to medium brown."
+     "en": "Under an unrecorded condition the result leans towards a clean golden tone rather than beige, ochre, light to medium brown."
     },
     "printQuality": null,
     "lightfastness": "",
@@ -144,7 +144,7 @@
    "expected": {
     "colourText": {
      "bg": "силно сива до пушечно-кафява палитра",
-     "en": "a strong grey to smoky brown"
+     "en": "a strong grey to smoky brown palette"
     },
     "swatchHex": "#6B675C",
     "variation": {
@@ -427,7 +427,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено зелено, сиво-зелено, кафяво-черно",
-     "en": "olive, grey-green, brown-black"
+     "en": "olive green, grey-green, brown-black"
     },
     "swatchHex": "#5A5F45",
     "variation": {
@@ -482,8 +482,8 @@
    "confidence": "practice",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "Орехът е субстантивен — хваща без мордант.",
-    "en": "Walnut is substantive — it holds without a mordant."
+    "bg": "Орехът е субстантивен — свързва се без закрепител.",
+    "en": "Walnut is substantive — it binds without a mordant."
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -710,7 +710,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено зелено до сиво-зелено",
-     "en": "olive to grey-green"
+     "en": "olive green to grey-green"
     },
     "swatchHex": "#697053",
     "variation": {
@@ -924,7 +924,7 @@
     "swatchHex": "#D98C93",
     "variation": {
      "bg": "Около 50% WOF, 60–65 °C, кратко багрене.",
-     "en": "Around 50% WOF, 60–65 °C, a short dyeing."
+     "en": "Around 50% WOF, 60–65 °C, a short dyeing time."
     },
     "printQuality": null,
     "lightfastness": "",
@@ -959,7 +959,7 @@
    "expected": {
     "colourText": {
      "bg": "керемидено, тухлено",
-     "en": "brick, terracotta"
+     "en": "terracotta, brick"
     },
     "swatchHex": "#A85A32",
     "variation": {
@@ -1162,7 +1162,7 @@
    "expected": {
     "colourText": {
      "bg": "приглушено виолетово",
-     "en": ""
+     "en": "muted violet"
     },
     "swatchHex": "#907493",
     "variation": {
@@ -1177,8 +1177,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алкохолен извлек, протеиново влакно",
-    "en": ""
+    "bg": "алкохолен извлек",
+    "en": "alcohol extract"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -1202,7 +1202,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-виолетово",
-     "en": ""
+     "en": "grey-violet"
     },
     "swatchHex": "#746878",
     "variation": {
@@ -1217,8 +1217,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "цветът варира от сиво до пурпурно, без мордант повече в сивата гама, с алум отива към лилаво и пурпурно",
-      "en": ""
+      "bg": "Цветът варира от сиво до пурпурно: без закрепител е повече в сивата гама, със стипца отива към лилаво и пурпурно.",
+      "en": "The colour ranges from grey to purple: without a mordant it stays more in the grey range; with alum it moves towards lilac and purple."
      },
      "sourceCode": "jenny-dean-wild-colour"
     }
@@ -1226,7 +1226,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "с железни соли",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1252,7 +1252,7 @@
    "expected": {
     "colourText": {
      "bg": "бежово-кафяво",
-     "en": ""
+     "en": "beige-brown"
     },
     "swatchHex": "#8A7A5C",
     "variation": {
@@ -1268,7 +1268,7 @@
      "factor": "fibre",
      "text": {
       "bg": "При модификация с желязо цветът се променя от светлобежовата гама към светло сиво при протеинови влакна, до тъмно сиво при целулозните.",
-      "en": ""
+      "en": "Modified with iron, the colour moves from the light beige range to light grey on protein fibres and to dark grey on cellulose."
      },
      "sourceCode": "jenny-dean-wild-colour"
     }
@@ -1276,7 +1276,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "кора, алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1302,7 +1302,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинен отпечатък",
-     "en": ""
+     "en": "olive print"
     },
     "swatchHex": "#6E6B4A",
     "variation": {
@@ -1317,8 +1317,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "лист върху мордантиран плат",
-    "en": ""
+    "bg": "лист върху плат със закрепител",
+    "en": "leaf on mordanted cloth"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -1342,7 +1342,7 @@
    "expected": {
     "colourText": {
      "bg": "сив до тъмносив контур",
-     "en": ""
+     "en": "grey to dark grey outline"
     },
     "swatchHex": "#4A4A44",
     "variation": {
@@ -1357,7 +1357,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "лист с желязно одеало · Желязното одеало е blanket/enhancement, не mordant; оставено е извън колоната „Байц“.",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1382,7 +1382,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-виолетово, розово-лилаво",
-     "en": ""
+     "en": "grey-violet, pink-violet"
     },
     "swatchHex": "#786579",
     "variation": {
@@ -1397,8 +1397,8 @@
     {
      "factor": "ph",
      "text": {
-      "bg": "багрилото от плодовете подлежи на модификация, алкалната модификация със сода или натриев карбонат води променв в сиво, докато киселинната (лимонена киселина, оцет) променя в по-виолетово червената гама.",
-      "en": ""
+      "bg": "Багрилото от плодовете се поддава на модификация: алкалната — със сода или натриев карбонат — го променя към сиво, а киселинната — с лимонена киселина или оцет — към по-виолетовочервената гама.",
+      "en": "The berry dye can be modified: alkaline modification, with soda or sodium carbonate, turns it towards grey, while acid modification, with citric acid or vinegar, moves it into a more violet-red range."
      },
      "sourceCode": "jenny-dean-wild-colour"
     }
@@ -1406,8 +1406,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "плод, с желязо или алкално | плод, студена или хладка баня",
-    "en": ""
+    "bg": "с желязо или алкално | студена или хладка баня",
+    "en": "with iron or alkaline | a cold or barely warm bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -1432,7 +1432,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-кафяво",
-     "en": ""
+     "en": "yellow-brown"
     },
     "swatchHex": "#9A7B48",
     "variation": {
@@ -1447,7 +1447,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от кора",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1472,7 +1472,7 @@
    "expected": {
     "colourText": {
      "bg": "приглушено жълто",
-     "en": ""
+     "en": "muted yellow"
     },
     "swatchHex": "#C1A855",
     "variation": {
@@ -1487,8 +1487,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "При Salvia officinalis alum дава най-висока цветова сила върху вълна; на памук alum увеличава яркостта.",
-      "en": ""
+      "bg": "При Salvia officinalis стипцата дава най-висока цветова сила върху вълна; на памук стипцата увеличава яркостта.",
+      "en": "On Salvia officinalis, alum gives the highest colour strength on wool; on cotton, alum increases brightness."
      },
      "sourceCode": "eser-salvia-2017"
     }
@@ -1496,7 +1496,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1522,7 +1522,7 @@
    "expected": {
     "colourText": {
      "bg": "дълбоко сиво-зелено, мъхесто зелено",
-     "en": ""
+     "en": "deep grey-green, moss green"
     },
     "swatchHex": "#4A5245",
     "variation": {
@@ -1537,8 +1537,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "При Salvia officinalis най-високата цветова сила в изследването е получена върху памук с железен мордант; желязото потъмнява тона.",
-      "en": ""
+      "bg": "При Salvia officinalis най-високата цветова сила в изследването е получена върху памук с железен закрепител; желязото потъмнява тона.",
+      "en": "For Salvia officinalis, the highest colour strength in the study was obtained on cotton with an iron mordant; iron darkens the tone."
      },
      "sourceCode": "eser-salvia-2017"
     }
@@ -1547,7 +1547,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "желязо, дълга баня | с желязо",
-    "en": ""
+    "en": "iron, a long bath | with iron"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -1572,7 +1572,7 @@
    "expected": {
     "colourText": {
      "bg": "горчично",
-     "en": ""
+     "en": "mustard"
     },
     "swatchHex": "#A98B36",
     "variation": {
@@ -1587,8 +1587,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Salvia officinalis е изследвана върху вълна и без мордант; мордантите променят цветната сила и нюанса.",
-      "en": ""
+      "bg": "Salvia officinalis е изследвана върху вълна и без закрепител; закрепителите променят цветната сила и нюанса.",
+      "en": "Salvia officinalis has been studied on wool without a mordant as well; mordants change the colour strength and the hue."
      },
      "sourceCode": "eser-salvia-2017"
     }
@@ -1597,7 +1597,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня",
-    "en": ""
+    "en": "a concentrated bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -1622,7 +1622,7 @@
    "expected": {
     "colourText": {
      "bg": "бронзово-зелено",
-     "en": ""
+     "en": "bronze-green"
     },
     "swatchHex": "#676044",
     "variation": {
@@ -1637,7 +1637,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа, с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1662,7 +1662,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-охрен отпечатък",
-     "en": ""
+     "en": "yellow-ochre print"
     },
     "swatchHex": "#9A8340",
     "variation": {
@@ -1677,8 +1677,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "съцветие върху мордантиран плат",
-    "en": ""
+    "bg": "съцветие върху плат със закрепител",
+    "en": "flower head on mordanted cloth"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -1702,7 +1702,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-кафяво",
-     "en": ""
+     "en": "yellow-brown"
     },
     "swatchHex": "#9C7A47",
     "variation": {
@@ -1717,8 +1717,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от листа и кора · Разделено от общия запис „от листа и кора“. Цветът е наблюдаван за двете части заедно; този ред пази отделния ключ, но самостоятелният резултат за частта не е независимо потвърден.",
-    "en": ""
+    "bg": "от листа и кора · Разделено от общия запис „от листа и кора“. Цветът е наблюдаван за двете части заедно; този запис пази отделния ключ, но резултатът само за тази част не е потвърден самостоятелно.",
+    "en": "from leaves and bark · Split from the combined record “from leaves and bark”. The colour was observed for both parts together; this record keeps the separate key, but the result for this part alone has not been confirmed independently."
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -1742,7 +1742,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-кафяво",
-     "en": ""
+     "en": "yellow-brown"
     },
     "swatchHex": "#9C7A47",
     "variation": {
@@ -1757,8 +1757,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от листа и кора · Разделено от общия запис „от листа и кора“. Цветът е наблюдаван за двете части заедно; този ред пази отделния ключ, но самостоятелният резултат за частта не е независимо потвърден.",
-    "en": ""
+    "bg": "от листа и кора · Разделено от общия запис „от листа и кора“. Цветът е наблюдаван за двете части заедно; този запис пази отделния ключ, но резултатът само за тази част не е потвърден самостоятелно.",
+    "en": "from leaves and bark · Split from the combined record “from leaves and bark”. The colour was observed for both parts together; this record keeps the separate key, but the result for this part alone has not been confirmed independently."
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -1782,7 +1782,7 @@
    "expected": {
     "colourText": {
      "bg": "керемидено, прасковено, ръждиво",
-     "en": ""
+     "en": "brick red, peach, rust"
     },
     "swatchHex": "#A34B32",
     "variation": {
@@ -1797,8 +1797,8 @@
     {
      "factor": "species",
      "text": {
-      "bg": "Немордантираната вълна поема евкалипта добре; видът е решаващ — E. cinerea може да даде червено-оранжево, E. globulus по-кафяво.",
-      "en": ""
+      "bg": "Вълна без закрепител поема евкалипта добре; видът е решаващ — E. cinerea може да даде червено-оранжево, E. globulus по-кафяво.",
+      "en": "Unmordanted wool takes eucalyptus well; the species is decisive — E. cinerea can give red-orange, E. globulus browner tones."
      },
      "sourceCode": "ellis-natural-dye"
     }
@@ -1807,7 +1807,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "някои видове | слаба баня | средна баня",
-    "en": ""
+    "en": "some species | a weak bath | a medium-strength bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -1832,7 +1832,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-маслинено",
-     "en": ""
+     "en": "grey-olive"
     },
     "swatchHex": "#615E4C",
     "variation": {
@@ -1847,8 +1847,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "При FeSO₄ върху памук евкалиптовият екстракт се измества към сиви/синьо-сиви тонове.",
-      "en": ""
+      "bg": "При FeSO₄ върху памук евкалиптовият извлек се измества към сиви/синкавосиви тонове.",
+      "en": "With FeSO₄ on cotton, the eucalyptus extract shifts towards grey and blue-grey tones."
      },
      "sourceCode": "eucalyptus-cotton-jti"
     }
@@ -1856,7 +1856,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1882,7 +1882,7 @@
    "expected": {
     "colourText": {
      "bg": "златисто",
-     "en": ""
+     "en": "gold"
     },
     "swatchHex": "#BE8738",
     "variation": {
@@ -1897,7 +1897,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "кора, алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -1922,7 +1922,7 @@
    "expected": {
     "colourText": {
      "bg": "топло жълто, ръждиво",
-     "en": ""
+     "en": "warm yellow, rust"
     },
     "swatchHex": "#D1A849",
     "variation": {
@@ -1937,8 +1937,8 @@
     {
      "factor": "preparation",
      "text": {
-      "bg": "Frangula alnus bark е документирана за директно багрене на вълнена прежда; подготовката на кората силно влияе върху оттенъка.",
-      "en": ""
+      "bg": "Кората на Frangula alnus е документирана за директно багрене на вълнена прежда; подготовката на кората силно влияе върху оттенъка.",
+      "en": "Frangula alnus bark is documented for dyeing wool yarn directly; how the bark is prepared strongly affects the hue."
      },
      "sourceCode": "luhamaa-frangula-2025"
     }
@@ -1946,8 +1946,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "кора, обикновена отвара | отлежала или ферментирала кора",
-    "en": ""
+    "bg": "обикновена отвара | отлежала или ферментирала кора",
+    "en": "a plain decoction | aged or fermented bark"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -1975,7 +1975,7 @@
    "expected": {
     "colourText": {
      "bg": "червеникаво-кафяво",
-     "en": ""
+     "en": "reddish brown"
     },
     "swatchHex": "#774638",
     "variation": {
@@ -1991,7 +1991,7 @@
      "factor": "ph",
      "text": {
       "bg": "Алкалната обработка/ферментация на кората е традиционен път към по-червени тонове; цветът е силно pH-чувствителен.",
-      "en": ""
+      "en": "Alkaline treatment or fermentation of the bark is a traditional route to redder tones; the colour is strongly pH-sensitive."
      },
      "sourceCode": "luhamaa-frangula-2025"
     }
@@ -2000,7 +2000,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "отлежала кора, алкална обработка",
-    "en": ""
+    "en": "aged bark, alkaline treatment"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -2025,7 +2025,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-кафяво",
-     "en": ""
+     "en": "yellow-brown"
     },
     "swatchHex": "#96743F",
     "variation": {
@@ -2040,7 +2040,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от кора",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2065,7 +2065,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто",
-     "en": ""
+     "en": "yellow"
     },
     "swatchHex": "#CBA23E",
     "variation": {
@@ -2080,7 +2080,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от плодове",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2105,7 +2105,7 @@
    "expected": {
     "colourText": {
      "bg": "слънчево жълто",
-     "en": ""
+     "en": "sunny yellow"
     },
     "swatchHex": "#E0A63A",
     "variation": {
@@ -2120,8 +2120,8 @@
     {
      "factor": "ph",
      "text": {
-      "bg": "За вълна е описано предварително мордантиране с алуминиев сулфат; pH може да измества оранжевото към по-червено.",
-      "en": ""
+      "bg": "За вълна е описана предварителна обработка с алуминиев сулфат; pH може да измества оранжевото към по-червено.",
+      "en": "For wool, pre-mordanting with aluminium sulfate is described; pH can shift the orange towards red."
      },
      "sourceCode": "cosmos-sulphureus-textiles"
     }
@@ -2129,7 +2129,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2155,7 +2155,7 @@
    "expected": {
     "colourText": {
      "bg": "прасковено, меко оранжево",
-     "en": ""
+     "en": "peach, soft orange"
     },
     "swatchHex": "#D9A280",
     "variation": {
@@ -2171,7 +2171,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "изчерпана баня | по-концентрирана баня",
-    "en": ""
+    "en": "an exhausted bath | a stronger bath"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -2195,7 +2195,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено",
-     "en": ""
+     "en": "olive"
     },
     "swatchHex": "#6E6A42",
     "variation": {
@@ -2210,8 +2210,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "При памук са изпитвани различни морданти, включително ferrous sulfate, който по принцип потъмнява и приглушава нюанса.",
-      "en": ""
+      "bg": "При памук са изпитвани различни закрепители, включително железен сулфат, който по принцип потъмнява и приглушава нюанса.",
+      "en": "Various mordants have been tested on cotton, including ferrous sulfate, which generally darkens and mutes the hue."
      },
      "sourceCode": "cosmos-sulphureus-textiles"
     }
@@ -2220,7 +2220,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "с железен сулфат",
-    "en": ""
+    "en": "with iron sulfate"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -2245,7 +2245,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто до златисто",
-     "en": ""
+     "en": "yellow to golden yellow"
     },
     "swatchHex": "#D8A83C",
     "variation": {
@@ -2260,7 +2260,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2286,7 +2286,7 @@
    "expected": {
     "colourText": {
      "bg": "оранжево-кафяво",
-     "en": ""
+     "en": "orange-brown"
     },
     "swatchHex": "#B4702E",
     "variation": {
@@ -2302,7 +2302,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "по-концентрирана баня",
-    "en": ""
+    "en": "a stronger bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -2327,7 +2327,7 @@
    "expected": {
     "colourText": {
      "bg": "топло оранжево",
-     "en": ""
+     "en": "warm orange"
     },
     "swatchHex": "#C4763A",
     "variation": {
@@ -2342,7 +2342,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "върху протеиново влакно",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2367,7 +2367,7 @@
    "expected": {
     "colourText": {
      "bg": "червеникаво-кафяво, ръждиво",
-     "en": ""
+     "en": "reddish brown, rust"
     },
     "swatchHex": "#84492E",
     "variation": {
@@ -2383,7 +2383,7 @@
      "factor": "fibre",
      "text": {
       "bg": "Къната е субстантивна върху протеинови влакна; целулозните влакна имат по-нисък естествен афинитет.",
-      "en": ""
+      "en": "Henna is substantive on protein fibres; cellulose fibres have a lower natural affinity."
      },
      "sourceCode": "bhuiyan-henna-2017"
     }
@@ -2392,7 +2392,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня | по-дълга баня",
-    "en": ""
+    "en": "a concentrated bath | a longer bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -2417,7 +2417,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмен маслинен контур",
-     "en": ""
+     "en": "dark olive outline"
     },
     "swatchHex": "#5B5A4C",
     "variation": {
@@ -2432,7 +2432,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "лист с желязно одеало · Желязното одеало е blanket/enhancement, не mordant; оставено е извън колоната „Байц“.",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2457,7 +2457,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-бежово",
-     "en": ""
+     "en": "yellow-beige"
     },
     "swatchHex": "#C1AA6B",
     "variation": {
@@ -2472,8 +2472,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Bramble leaves са тествани върху вълна; alum дава по-чист кафеникаво-жълт резултат, а желязото го измества към маслинено.",
-      "en": ""
+      "bg": "Къпиновите листа са изпитани върху вълна; стипцата дава по-чист кафеникавожълт резултат, а желязото го измества към маслинено.",
+      "en": "Bramble leaves have been tested on wool; alum gives a cleaner brownish-yellow result, and iron shifts it towards olive."
      },
      "sourceCode": "jenny-dean-anglosaxon"
     }
@@ -2481,7 +2481,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа, алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2507,7 +2507,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено",
-     "en": ""
+     "en": "olive"
     },
     "swatchHex": "#7D794C",
     "variation": {
@@ -2522,8 +2522,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "При вълна желязото потъмнява bramble leaf dye към маслинени/зеленикави тонове.",
-      "en": ""
+      "bg": "При вълна желязото потъмнява багрилото от къпинови листа към маслинени/зеленикави тонове.",
+      "en": "On wool, iron darkens the bramble leaf dye towards olive and greenish tones."
      },
      "sourceCode": "jenny-dean-anglosaxon"
     }
@@ -2531,7 +2531,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа, с железни соли",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2557,7 +2557,7 @@
    "expected": {
     "colourText": {
      "bg": "приглушено виолетово",
-     "en": ""
+     "en": "muted violet"
     },
     "swatchHex": "#806576",
     "variation": {
@@ -2572,8 +2572,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "плод, хладка баня",
-    "en": ""
+    "bg": "хладка баня",
+    "en": "a barely warm bath"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -2597,7 +2597,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто",
-     "en": ""
+     "en": "yellow"
     },
     "swatchHex": "#CBB255",
     "variation": {
@@ -2612,7 +2612,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от листа",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2637,7 +2637,7 @@
    "expected": {
     "colourText": {
      "bg": "охра",
-     "en": ""
+     "en": "ochre"
     },
     "swatchHex": "#B08A45",
     "variation": {
@@ -2652,7 +2652,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от плодова обвивка",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2677,7 +2677,7 @@
    "expected": {
     "colourText": {
      "bg": "светложълто",
-     "en": ""
+     "en": "light yellow"
     },
     "swatchHex": "#D8CC8A",
     "variation": {
@@ -2692,8 +2692,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Публикувано е багрене на вълнена прежда с Melissa officinalis и метални морданти; alum дава една от групите светли жълти нюанси.",
-      "en": ""
+      "bg": "Публикувано е багрене на вълнена прежда с Melissa officinalis и метални закрепители; стипцата дава една от групите светли жълти нюанси.",
+      "en": "Dyeing of wool yarn with Melissa officinalis and metal mordants has been published; alum gives one of the groups of light yellow shades."
      },
      "sourceCode": "safapour-melissa-2024"
     }
@@ -2701,7 +2701,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2727,7 +2727,7 @@
    "expected": {
     "colourText": {
      "bg": "зеленикаво-кафяво",
-     "en": ""
+     "en": "greenish brown"
     },
     "swatchHex": "#6E6A4E",
     "variation": {
@@ -2742,8 +2742,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "При Melissa officinalis металният мордант съществено променя оттенъка и цветната сила; редът е вързан към вълна.",
-      "en": ""
+      "bg": "При Melissa officinalis металният закрепител съществено променя оттенъка и цветната сила; записът е за вълна.",
+      "en": "For Melissa officinalis, the metal mordant changes the hue and the colour strength considerably; this record is for wool."
      },
      "sourceCode": "safapour-melissa-2024"
     }
@@ -2751,7 +2751,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2777,7 +2777,7 @@
    "expected": {
     "colourText": {
      "bg": "бежово-жълто",
-     "en": ""
+     "en": "beige-yellow"
     },
     "swatchHex": "#C7B68A",
     "variation": {
@@ -2793,7 +2793,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "слаба баня",
-    "en": ""
+    "en": "a weak bath"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -2817,7 +2817,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-зелено",
-     "en": ""
+     "en": "yellow-green"
     },
     "swatchHex": "#A3A65C",
     "variation": {
@@ -2832,8 +2832,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "Mentha spicata е изследвана и върху вълна, и върху памук без мордант; този ред е вързан към protein, за да не смесва две влакна в един ключ.",
-      "en": ""
+      "bg": "Mentha spicata е изследвана без закрепител и върху вълна, и върху памук; този запис е за протеинови влакна, за да не смесва две влакна в един ключ.",
+      "en": "Mentha spicata has been studied without a mordant on both wool and cotton; this record is for protein fibres, so that one key does not mix two fibres."
      },
      "sourceCode": "kuwait-mentha-2025"
     }
@@ -2842,7 +2842,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "свежи листа",
-    "en": ""
+    "en": "fresh leaves"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -2867,7 +2867,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-зелен отпечатък",
-     "en": ""
+     "en": "grey-green print"
     },
     "swatchHex": "#6E7059",
     "variation": {
@@ -2882,8 +2882,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "лист върху мордантиран плат",
-    "en": ""
+    "bg": "лист върху плат със закрепител",
+    "en": "leaf on mordanted cloth"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -2907,7 +2907,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмносиво до почти черно",
-     "en": ""
+     "en": "dark grey to near black"
     },
     "swatchHex": "#3E3F3B",
     "variation": {
@@ -2922,7 +2922,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "лист с желязно одеало · Желязното одеало е blanket/enhancement, не mordant; оставено е извън колоната „Байц“.",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2947,7 +2947,7 @@
    "expected": {
     "colourText": {
      "bg": "меко жълто",
-     "en": ""
+     "en": "soft yellow"
     },
     "swatchHex": "#C6B76D",
     "variation": {
@@ -2962,7 +2962,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа, алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -2987,7 +2987,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-зелено",
-     "en": ""
+     "en": "yellow-green"
     },
     "swatchHex": "#9B995D",
     "variation": {
@@ -3002,8 +3002,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа, прясна баня",
-    "en": ""
+    "bg": "прясна баня",
+    "en": "a fresh bath"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3027,7 +3027,7 @@
    "expected": {
     "colourText": {
      "bg": "топло бежово",
-     "en": ""
+     "en": "warm beige"
     },
     "swatchHex": "#8E7A5E",
     "variation": {
@@ -3042,7 +3042,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "цветове",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3067,7 +3067,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто",
-     "en": ""
+     "en": "yellow"
     },
     "swatchHex": "#D0A63F",
     "variation": {
@@ -3082,8 +3082,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "На памук алуминиевият мордант дава по-светли и по-ярки жълти нюанси.",
-      "en": ""
+      "bg": "На памук алуминиевият закрепител дава по-светли и по-ярки жълти нюанси.",
+      "en": "On cotton, an aluminium mordant gives lighter and brighter yellow shades."
      },
      "sourceCode": "molecules-peel-cotton-2022"
     }
@@ -3091,7 +3091,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3117,7 +3117,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-кафяво",
-     "en": ""
+     "en": "yellow-brown"
     },
     "swatchHex": "#9E7A3E",
     "variation": {
@@ -3132,8 +3132,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "Нарът е таниново, субстантивно багрило и може да багри памук и без метален мордант.",
-      "en": ""
+      "bg": "Нарът е таниново, субстантивно багрило и може да багри памук и без метален закрепител.",
+      "en": "Pomegranate is a tannin-rich, substantive dye and can dye cotton without a metal mordant."
      },
      "sourceCode": "molecules-peel-cotton-2022"
     }
@@ -3142,7 +3142,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "по-дълга баня",
-    "en": ""
+    "en": "a longer bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -3167,7 +3167,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено",
-     "en": ""
+     "en": "olive"
     },
     "swatchHex": "#5F5C3A",
     "variation": {
@@ -3182,8 +3182,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "На памук желязото потъмнява към тъмно сиво/ниска хрома; алуминиевият мордант дава по-светло жълто.",
-      "en": ""
+      "bg": "На памук желязото потъмнява към тъмно сиво с ниска хрома; алуминиевият закрепител дава по-светло жълто.",
+      "en": "On cotton, iron darkens it towards dark grey of low chroma; an aluminium mordant gives a lighter yellow."
      },
      "sourceCode": "molecules-peel-cotton-2022"
     }
@@ -3191,7 +3191,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "с железни соли",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3217,7 +3217,7 @@
    "expected": {
     "colourText": {
      "bg": "маслено жълто",
-     "en": ""
+     "en": "buttery yellow"
     },
     "swatchHex": "#DFB742",
     "variation": {
@@ -3232,8 +3232,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Calendula е документирана върху alum-мордантирана вълна; резултатът е в жълтата гама.",
-      "en": ""
+      "bg": "Невенът е документиран върху вълна, обработена със стипца; резултатът е в жълтата гама.",
+      "en": "Calendula is documented on alum-mordanted wool; the result is in the yellow range."
      },
      "sourceCode": "jenny-dean-solar"
     }
@@ -3241,7 +3241,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3267,7 +3267,7 @@
    "expected": {
     "colourText": {
      "bg": "медено, жълто-оранжево",
-     "en": ""
+     "en": "honey, yellow-orange"
     },
     "swatchHex": "#C6913C",
     "variation": {
@@ -3283,7 +3283,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня | много цвят в банята",
-    "en": ""
+    "en": "a concentrated bath | a lot of dye in the bath"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3307,7 +3307,7 @@
    "expected": {
     "colourText": {
      "bg": "приглушено маслинено",
-     "en": ""
+     "en": "muted olive"
     },
     "swatchHex": "#6B6739",
     "variation": {
@@ -3322,8 +3322,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "При alum-мордантирана вълна добавянето на желязо приглушава и потъмнява жълтото към маслинено.",
-      "en": ""
+      "bg": "При вълна, обработена със стипца, добавянето на желязо приглушава и потъмнява жълтото към маслинено.",
+      "en": "On alum-mordanted wool, adding iron mutes and darkens the yellow towards olive."
      },
      "sourceCode": "jenny-dean-solar"
     }
@@ -3331,7 +3331,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3357,7 +3357,7 @@
    "expected": {
     "colourText": {
      "bg": "силно жълто",
-     "en": ""
+     "en": "strong yellow"
     },
     "swatchHex": "#D8AE38",
     "variation": {
@@ -3372,8 +3372,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "неузрели плодове, алуминиев мордант",
-    "en": ""
+    "bg": "неузрели плодове",
+    "en": "unripe fruit"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3397,7 +3397,7 @@
    "expected": {
     "colourText": {
      "bg": "топла охра, горчично",
-     "en": ""
+     "en": "warm ochre, mustard"
     },
     "swatchHex": "#A87C3A",
     "variation": {
@@ -3413,7 +3413,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "по-дълга баня | сушени плодове",
-    "en": ""
+    "en": "a longer bath | dried fruit"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3440,7 +3440,7 @@
    "expected": {
     "colourText": {
      "bg": "охра",
-     "en": ""
+     "en": "ochre"
     },
     "swatchHex": "#AC743B",
     "variation": {
@@ -3455,8 +3455,8 @@
     {
      "factor": "ph",
      "text": {
-      "bg": "Немордантираната вълна с ревенов корен реагира отчетливо на алкален модификатор; алкалността задълбочава/измества оттенъка.",
-      "en": ""
+      "bg": "Вълна без закрепител, багрена с ревенов корен, реагира отчетливо на алкален модификатор; алкалността задълбочава или измества оттенъка.",
+      "en": "Unmordanted wool dyed with rhubarb root responds clearly to an alkaline modifier; alkalinity deepens or shifts the hue."
      },
      "sourceCode": "jenny-dean-brown-grey"
     }
@@ -3464,8 +3464,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "корен, алкална баня",
-    "en": ""
+    "bg": "алкална баня",
+    "en": "an alkaline bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -3490,7 +3490,7 @@
    "expected": {
     "colourText": {
      "bg": "златисто жълто",
-     "en": ""
+     "en": "golden yellow"
     },
     "swatchHex": "#D1AC46",
     "variation": {
@@ -3505,8 +3505,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "Ревеновият корен багри вълна/коприна по-добре от целулозни влакна; може да се използва и с alum.",
-      "en": ""
+      "bg": "Ревеновият корен багри вълна и коприна по-добре от целулозни влакна; може да се използва и със стипца.",
+      "en": "Rhubarb root dyes wool and silk better than cellulose fibres; it can also be used with alum."
      },
      "sourceCode": "jenny-dean-rhubarb"
     }
@@ -3514,7 +3514,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "корен, алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3540,7 +3540,7 @@
    "expected": {
     "colourText": {
      "bg": "горчично",
-     "en": ""
+     "en": "mustard"
     },
     "swatchHex": "#B99A46",
     "variation": {
@@ -3555,8 +3555,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "Ревеновият корен фиксира добре върху вълна и без мордант; целулозните влакна са по-слабо оцветени.",
-      "en": ""
+      "bg": "Ревеновият корен се свързва добре с вълна и без закрепител; целулозните влакна се оцветяват по-слабо.",
+      "en": "Rhubarb root binds well to wool even without a mordant; cellulose fibres take less colour."
      },
      "sourceCode": "jenny-dean-rhubarb"
     }
@@ -3564,8 +3564,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "корен, по-концентрирана баня",
-    "en": ""
+    "bg": "по-концентрирана баня",
+    "en": "a stronger bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -3590,7 +3590,7 @@
    "expected": {
     "colourText": {
      "bg": "оранжево-кафяво",
-     "en": ""
+     "en": "orange-brown"
     },
     "swatchHex": "#895C3E",
     "variation": {
@@ -3605,7 +3605,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "корен, с железни соли",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3630,7 +3630,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-кафяво",
-     "en": ""
+     "en": "grey-brown"
     },
     "swatchHex": "#6B6055",
     "variation": {
@@ -3645,8 +3645,8 @@
     {
      "factor": "species",
      "text": {
-      "bg": "Rosa canina leaf extract е изследван върху вълна с Fe mordant; при Rosa spp. очаквай видова вариабилност.",
-      "en": ""
+      "bg": "Извлек от листа на Rosa canina е изследван върху вълна с железен закрепител; при Rosa spp. очаквай разлики между видовете.",
+      "en": "An extract of Rosa canina leaves has been studied on wool with an iron mordant; with Rosa spp., expect variation between species."
      },
      "sourceCode": "cuce-rosa-canina"
     }
@@ -3654,7 +3654,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3679,8 +3679,8 @@
    },
    "expected": {
     "colourText": {
-     "bg": "жълто-зелено, тан",
-     "en": ""
+     "bg": "жълто-зелено, жълтеникавокафяво",
+     "en": "yellow-green, tan"
     },
     "swatchHex": "#A9A45C",
     "variation": {
@@ -3695,8 +3695,8 @@
     {
      "factor": "species",
      "text": {
-      "bg": "Rosa canina leaf extract е изследван и върху немордантирана вълна; стойността е приложима като доказан пример в рамките на Rosa spp.",
-      "en": ""
+      "bg": "Извлек от листа на Rosa canina е изследван и върху вълна без закрепител; резултатът служи като доказан пример в рамките на Rosa spp.",
+      "en": "An extract of Rosa canina leaves has also been studied on unmordanted wool; the result stands as a documented example within Rosa spp."
      },
      "sourceCode": "cuce-rosa-canina"
     }
@@ -3705,7 +3705,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "от листа | от листа, слаба баня",
-    "en": ""
+    "en": "from the leaves | from the leaves, a weak bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -3730,7 +3730,7 @@
    "expected": {
     "colourText": {
      "bg": "розово-кафяво, светло розово",
-     "en": ""
+     "en": "pinkish brown, light pink"
     },
     "swatchHex": "#A87563",
     "variation": {
@@ -3746,7 +3746,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "по-концентрирана баня | слаба баня",
-    "en": ""
+    "en": "a stronger bath | a weak bath"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3770,7 +3770,7 @@
    "expected": {
     "colourText": {
      "bg": "светло кафяво",
-     "en": ""
+     "en": "light brown"
     },
     "swatchHex": "#A2825B",
     "variation": {
@@ -3785,7 +3785,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от кора",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3810,7 +3810,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-бежово",
-     "en": ""
+     "en": "yellow-beige"
     },
     "swatchHex": "#C9AE79",
     "variation": {
@@ -3825,7 +3825,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от листа",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3850,7 +3850,7 @@
    "expected": {
     "colourText": {
      "bg": "златисто-бежово",
-     "en": ""
+     "en": "golden beige"
     },
     "swatchHex": "#B4934F",
     "variation": {
@@ -3865,7 +3865,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "кора, алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -3890,7 +3890,7 @@
    "expected": {
     "colourText": {
      "bg": "бежово",
-     "en": ""
+     "en": "beige"
     },
     "swatchHex": "#C1A66C",
     "variation": {
@@ -3905,8 +3905,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "кора, воден извлек",
-    "en": ""
+    "bg": "воден извлек",
+    "en": "a water extract"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3930,7 +3930,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинен отпечатък",
-     "en": ""
+     "en": "olive print"
     },
     "swatchHex": "#77754F",
     "variation": {
@@ -3945,8 +3945,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "лист върху мордантиран плат",
-    "en": ""
+    "bg": "лист върху плат със закрепител",
+    "en": "leaf on mordanted cloth"
    },
    "sourceCodes": [
     "crafty-place-guide"
@@ -3970,7 +3970,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-маслинено",
-     "en": ""
+     "en": "grey-olive"
     },
     "swatchHex": "#686A59",
     "variation": {
@@ -3985,7 +3985,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "листа, с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -4013,7 +4013,7 @@
    "expected": {
     "colourText": {
      "bg": "винено",
-     "en": ""
+     "en": "wine red"
     },
     "swatchHex": "#7A3038",
     "variation": {
@@ -4028,8 +4028,8 @@
     {
      "factor": "ph",
      "text": {
-      "bg": "Jenny Dean документира unmordanted wool с madder и alkaline modifier; алкалният модификатор измества/задълбочава цвета.",
-      "en": ""
+      "bg": "Jenny Dean документира вълна без закрепител, багрена с брош и алкален модификатор; алкалният модификатор измества или задълбочава цвета.",
+      "en": "Jenny Dean documents unmordanted wool dyed with madder and an alkaline modifier; the alkaline modifier shifts or deepens the colour."
      },
      "sourceCode": "jenny-dean-anglosaxon"
     }
@@ -4038,7 +4038,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "алкална среда",
-    "en": ""
+    "en": "alkaline conditions"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -4063,7 +4063,7 @@
    "expected": {
     "colourText": {
      "bg": "червено",
-     "en": ""
+     "en": "red"
     },
     "swatchHex": "#A83B36",
     "variation": {
@@ -4078,8 +4078,8 @@
     {
      "factor": "concentration",
      "text": {
-      "bg": "При вълна alum е класически мордант за ясни червени/скарлетови тонове; видът и концентрацията на морданта променят нюанса.",
-      "en": ""
+      "bg": "При вълна стипцата е класически закрепител за ясни червени и алени тонове; видът и концентрацията на закрепителя променят нюанса.",
+      "en": "On wool, alum is the classic mordant for clear red and scarlet tones; the kind and concentration of the mordant change the hue."
      },
      "sourceCode": "rubia-wool-2022"
     }
@@ -4087,8 +4087,8 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант, 70–75 °C",
-    "en": ""
+    "bg": "70–75 °C",
+    "en": "70–75 °C"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -4113,7 +4113,7 @@
    "expected": {
     "colourText": {
      "bg": "ярко розово, керемидено",
-     "en": ""
+     "en": "bright pink, brick red"
     },
     "swatchHex": "#C4607A",
     "variation": {
@@ -4128,8 +4128,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Брош може да даде цвят и върху немордантирана вълна, макар alum да дава по-класическите чисти червени.",
-      "en": ""
+      "bg": "Брошът може да даде цвят и върху вълна без закрепител, макар стипцата да дава по-класическите чисти червени.",
+      "en": "Madder can give colour on unmordanted wool too, although alum gives the more classic clean reds."
      },
      "sourceCode": "jenny-dean-anglosaxon"
     }
@@ -4138,7 +4138,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "мека вода, ниска температура | твърда вода",
-    "en": ""
+    "en": "soft water, low temperature | hard water"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -4163,7 +4163,7 @@
    "expected": {
     "colourText": {
      "bg": "бежово-кафяво",
-     "en": ""
+     "en": "beige-brown"
     },
     "swatchHex": "#A98763",
     "variation": {
@@ -4178,8 +4178,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "Jenny Dean показва немордантирани проби от брезова кора върху linen/cotton; модификаторите дават допълнителни отклонения.",
-      "en": ""
+      "bg": "Jenny Dean показва проби от брезова кора без закрепител върху лен и памук; модификаторите дават допълнителни отклонения.",
+      "en": "Jenny Dean shows unmordanted birch bark samples on linen and cotton; modifiers give further variations."
      },
      "sourceCode": "jenny-dean-tannin"
     }
@@ -4187,7 +4187,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от кора",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -4213,7 +4213,7 @@
    "expected": {
     "colourText": {
      "bg": "жълто-зеленикаво",
-     "en": ""
+     "en": "greenish yellow"
     },
     "swatchHex": "#B4B063",
     "variation": {
@@ -4228,7 +4228,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от листа",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -4253,7 +4253,7 @@
    "expected": {
     "colourText": {
      "bg": "кафяво",
-     "en": ""
+     "en": "brown"
     },
     "swatchHex": "#7A5D3E",
     "variation": {
@@ -4269,7 +4269,7 @@
      "factor": "fibre",
      "text": {
       "bg": "Танините в дъбовата кора позволяват директно багрене на протеинови влакна; памукът обичайно има по-нисък афинитет.",
-      "en": ""
+      "en": "The tannins in oak bark allow protein fibres to be dyed directly; cotton usually has a lower affinity."
      },
      "sourceCode": "george-weil-oak"
     }
@@ -4277,7 +4277,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "от кора",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -4303,7 +4303,7 @@
    "expected": {
     "colourText": {
      "bg": "слънчево жълто",
-     "en": ""
+     "en": "sunny yellow"
     },
     "swatchHex": "#DFA936",
     "variation": {
@@ -4318,8 +4318,8 @@
     {
      "factor": "concentration",
      "text": {
-      "bg": "При памук alum дава по-светли/ясни жълти тонове; цветът зависи от концентрацията и метода на мордантиране.",
-      "en": ""
+      "bg": "При памук стипцата дава по-светли и ясни жълти тонове; цветът зависи от концентрацията и от метода на обработка със закрепител.",
+      "en": "On cotton, alum gives lighter, clearer yellow tones; the colour depends on the concentration and the mordanting method."
      },
      "sourceCode": "lohar-tagetes-2019"
     }
@@ -4327,7 +4327,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "алуминиев мордант",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -4353,7 +4353,7 @@
    "expected": {
     "colourText": {
      "bg": "ярко златисто, меко оранжево",
-     "en": ""
+     "en": "bright gold, soft orange"
     },
     "swatchHex": "#C89234",
     "variation": {
@@ -4368,8 +4368,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Памук може да се багри с екстракт от Tagetes erecta и без метален мордант; мордантирането подобрява фиксацията/устойчивостта.",
-      "en": ""
+      "bg": "Памук може да се багри с извлек от Tagetes erecta и без метален закрепител; обработката със закрепител подобрява свързването и устойчивостта.",
+      "en": "Cotton can be dyed with Tagetes erecta extract without a metal mordant; mordanting improves binding and fastness."
      },
      "sourceCode": "ultrasound-marigold"
     }
@@ -4378,7 +4378,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "концентрирана баня | по-дълга баня",
-    "en": ""
+    "en": "a concentrated bath | a longer bath"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -4403,7 +4403,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено",
-     "en": ""
+     "en": "olive"
     },
     "swatchHex": "#6C6840",
     "variation": {
@@ -4418,8 +4418,8 @@
     {
      "factor": "mordant",
      "text": {
-      "bg": "Ferrous sulfate е изследван върху памук и дава по-тъмни/приглушени оттенъци; при post-mordanting се отчита по-добра устойчивост.",
-      "en": ""
+      "bg": "Железният сулфат е изследван върху памук и дава по-тъмни, приглушени оттенъци; при обработка със закрепител след багренето се отчита по-добра устойчивост.",
+      "en": "Ferrous sulfate has been studied on cotton and gives darker, muted shades; post-mordanting is reported to give better fastness."
      },
      "sourceCode": "farooq-tagetes-2013"
     }
@@ -4427,7 +4427,7 @@
    "confidence": "literature",
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
-    "bg": "с желязо",
+    "bg": "",
     "en": ""
    },
    "sourceCodes": [
@@ -4453,7 +4453,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмносиньо, ярко синьо, наситено индиго",
-     "en": ""
+     "en": "dark blue, bright blue, deep indigo"
     },
     "swatchHex": "#22324F",
     "variation": {
@@ -4468,8 +4468,8 @@
     {
      "factor": "fibre",
      "text": {
-      "bg": "Ватът багри и протеинови, и целулозни влакна; в изследването вълна/коприна изглеждат по-жълтеникаво-сини. Този ред е попълнен за cellulose.",
-      "en": ""
+      "bg": "Ваната багри и протеинови, и целулозни влакна; в изследването вълната и коприната изглеждат по-жълтеникавосини. Този запис е за целулозни влакна.",
+      "en": "The vat dyes both protein and cellulose fibres; in the study, wool and silk look more yellowish blue. This record is for cellulose fibres."
      },
      "sourceCode": "colorants-persicaria-2025"
     }
@@ -4478,7 +4478,7 @@
    "learnedFrom": "Ръководство НАТУРАЛНИ БАГРИЛА, Crafty Place",
    "notes": {
     "bg": "дълга серия потапяния | едно потапяне | многократно потапяне",
-    "en": ""
+    "en": "a long series of dips | a single dip | repeated dips"
    },
    "sourceCodes": [
     "crafty-place-guide",
@@ -4503,12 +4503,12 @@
    "expected": {
     "colourText": {
      "bg": "ярко жълто",
-     "en": ""
+     "en": "bright yellow"
     },
     "swatchHex": "#E4C94D",
     "variation": {
-     "bg": "без мордант е значително по-бледо; желязо след багрене измества към мъхесто зелено",
-     "en": ""
+     "bg": "без закрепител е значително по-бледо; желязо след багрене измества към мъхесто зелено",
+     "en": "noticeably paler without a mordant; iron after dyeing shifts it towards moss green"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4545,12 +4545,12 @@
    "expected": {
     "colourText": {
      "bg": "ярко до топло жълто",
-     "en": ""
+     "en": "bright to warm yellow"
     },
     "swatchHex": "#DDC248",
     "variation": {
      "bg": "желязото потъмнява към маслинено/зелено",
-     "en": ""
+     "en": "iron darkens it towards olive or green"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4587,12 +4587,12 @@
    "expected": {
     "colourText": {
      "bg": "синьо",
-     "en": ""
+     "en": "blue"
     },
     "swatchHex": "",
     "variation": {
-     "bg": "дълбочината се изгражда с повторни потапяния; не изисква мордант",
-     "en": ""
+     "bg": "дълбочината се изгражда с повторни потапяния; не изисква закрепител",
+     "en": "depth is built by repeated dips; no mordant is needed"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4627,12 +4627,12 @@
    "expected": {
     "colourText": {
      "bg": "жълто",
-     "en": ""
+     "en": "yellow"
     },
     "swatchHex": "#D6B03E",
     "variation": {
      "bg": "алкален модификатор може да задълбочи/изсветли жълтото според банята",
-     "en": ""
+     "en": "an alkaline modifier can deepen or brighten the yellow, depending on the bath"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4669,12 +4669,12 @@
    "expected": {
     "colourText": {
      "bg": "тъмнокафяво до черно",
-     "en": ""
+     "en": "dark brown to black"
     },
     "swatchHex": "",
     "variation": {
      "bg": "танинът в кората с желязо изгражда много тъмни тонове; прекомерното желязо може да увреди вълната",
-     "en": ""
+     "en": "the tannin in the bark builds very dark tones with iron; too much iron can damage wool"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4709,12 +4709,12 @@
    "expected": {
     "colourText": {
      "bg": "ярко жълто",
-     "en": ""
+     "en": "bright yellow"
     },
     "swatchHex": "#DCC148",
     "variation": {
-     "bg": "желязото измества към кафеникаво/маслинено; без мордант е по-бледо",
-     "en": ""
+     "bg": "желязото измества към кафеникаво/маслинено; без закрепител е по-бледо",
+     "en": "iron shifts it towards brownish or olive; paler without a mordant"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4751,12 +4751,12 @@
    "expected": {
     "colourText": {
      "bg": "светло до канелено кафяво",
-     "en": ""
+     "en": "light to cinnamon brown"
     },
     "swatchHex": "",
     "variation": {
-     "bg": "alum изчиства и засилва канеленото; желязо измества към шоколадово/сиво-кафяво",
-     "en": ""
+     "bg": "стипцата изчиства и засилва канеленото; желязо измества към шоколадово/сиво-кафяво",
+     "en": "alum clears and strengthens the cinnamon; iron shifts it towards chocolate or grey-brown"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4791,12 +4791,12 @@
    "expected": {
     "colourText": {
      "bg": "жълто до златисто-кафяво",
-     "en": ""
+     "en": "yellow to golden brown"
     },
     "swatchHex": "#C2622C",
     "variation": {
      "bg": "алкален модификатор може да измести към оранжево-червено",
-     "en": ""
+     "en": "an alkaline modifier can shift it towards orange-red"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4833,12 +4833,12 @@
    "expected": {
     "colourText": {
      "bg": "червено до пурпурночервено",
-     "en": ""
+     "en": "red to purple-red"
     },
     "swatchHex": "#A83A3C",
     "variation": {
      "bg": "алкалност може да измести към пурпурно; желязото към тъмно пурпурно/сиво",
-     "en": ""
+     "en": "alkalinity can shift it towards purple; iron towards dark purple or grey"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4875,12 +4875,12 @@
    "expected": {
     "colourText": {
      "bg": "ярко розово до червено",
-     "en": ""
+     "en": "bright pink to red"
     },
     "swatchHex": "",
     "variation": {
-     "bg": "червеното се извлича алкално, после банята се подкиселява до около pH 6; без мордант",
-     "en": ""
+     "bg": "червеното се извлича алкално, после банята се подкиселява до около pH 6; без закрепител",
+     "en": "the red is extracted in alkali, then the bath is acidified to about pH 6; no mordant"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -4915,7 +4915,7 @@
    "expected": {
     "colourText": {
      "bg": "ярко до слънчево жълто",
-     "en": ""
+     "en": "bright to sunny yellow"
     },
     "swatchHex": "#DDC248",
     "variation": {
@@ -4933,7 +4933,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Кръгли ярки петна от кошничките; нарязаните листа оставят ефирен силует.",
-    "en": ""
+    "en": "Round, bright marks from the flower heads; the deeply divided leaves leave an airy silhouette."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -4957,7 +4957,7 @@
    "expected": {
     "colourText": {
      "bg": "маслиненозелено",
-     "en": ""
+     "en": "olive green"
     },
     "swatchHex": "#67653A",
     "variation": {
@@ -4975,7 +4975,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Кръгли ярки петна от кошничките; нарязаните листа оставят ефирен силует.",
-    "en": ""
+    "en": "Round, bright marks from the flower heads; the deeply divided leaves leave an airy silhouette."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -4999,7 +4999,7 @@
    "expected": {
     "colourText": {
      "bg": "меко жълто-зелено",
-     "en": ""
+     "en": "soft yellow-green"
     },
     "swatchHex": "",
     "variation": {
@@ -5014,8 +5014,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Фини линии на жилките. Тънките листа искат силно притискане в рулото.",
-    "en": ""
+    "bg": "Фини линии на жилките. Тънките листа се нуждаят от силно притискане в рулото.",
+    "en": "Fine vein lines. The thin leaves need firm pressure in the bundle."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5039,7 +5039,7 @@
    "expected": {
     "colourText": {
      "bg": "ръждиво-кафяво или сиво-синкаво",
-     "en": ""
+     "en": "rust brown or bluish grey"
     },
     "swatchHex": "",
     "variation": {
@@ -5054,8 +5054,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Фини линии на жилките. Тънките листа искат силно притискане в рулото.",
-    "en": ""
+    "bg": "Фини линии на жилките. Тънките листа се нуждаят от силно притискане в рулото.",
+    "en": "Fine vein lines. The thin leaves need firm pressure in the bundle."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5079,7 +5079,7 @@
    "expected": {
     "colourText": {
      "bg": "светложълто до тревистозелено",
-     "en": ""
+     "en": "light yellow to grass green"
     },
     "swatchHex": "#D2BC63",
     "variation": {
@@ -5097,7 +5097,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Перестите листа дават дантелен силует, наподобяващ папрат.",
-    "en": ""
+    "en": "The feathery leaves give a lacy, fern-like silhouette."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5121,7 +5121,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмно маслинено или сиво-зелено",
-     "en": ""
+     "en": "dark olive or grey-green"
     },
     "swatchHex": "#67653C",
     "variation": {
@@ -5139,7 +5139,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Перестите листа дават дантелен силует, наподобяващ папрат.",
-    "en": ""
+    "en": "The feathery leaves give a lacy, fern-like silhouette."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5163,7 +5163,7 @@
    "expected": {
     "colourText": {
      "bg": "наситено златисто жълто",
-     "en": ""
+     "en": "deep golden yellow"
     },
     "swatchHex": "#D6B03E",
     "variation": {
@@ -5181,7 +5181,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Нарязаните листа дават графичен назъбен отпечатък; цветните бутони правят кръгове.",
-    "en": ""
+    "en": "The deeply divided leaves give a graphic, toothed print; the flower buttons make circles."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5205,7 +5205,7 @@
    "expected": {
     "colourText": {
      "bg": "дълбоко тъмнозелено до кафяво",
-     "en": ""
+     "en": "deep dark green to brown"
     },
     "swatchHex": "#5F6238",
     "variation": {
@@ -5223,7 +5223,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Нарязаните листа дават графичен назъбен отпечатък; цветните бутони правят кръгове.",
-    "en": ""
+    "en": "The deeply divided leaves give a graphic, toothed print; the flower buttons make circles."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5247,7 +5247,7 @@
    "expected": {
     "colourText": {
      "bg": "меко бежово, охра, жълтеникаво",
-     "en": ""
+     "en": "soft beige, ochre, yellowish"
     },
     "swatchHex": "#8F5A44",
     "variation": {
@@ -5265,7 +5265,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Малките нарязани листа дават отчетливи контури.",
-    "en": ""
+    "en": "The small lobed leaves give distinct outlines."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5289,7 +5289,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмносиво до черно по жилките",
-     "en": ""
+     "en": "dark grey to black along the veins"
     },
     "swatchHex": "",
     "variation": {
@@ -5305,7 +5305,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Малките нарязани листа дават отчетливи контури.",
-    "en": ""
+    "en": "The small lobed leaves give distinct outlines."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5329,7 +5329,7 @@
    "expected": {
     "colourText": {
      "bg": "меко жълто-сиво или зелено",
-     "en": ""
+     "en": "soft yellow-grey or green"
     },
     "swatchHex": "#C1A855",
     "variation": {
@@ -5347,7 +5347,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Релефните пухкави листа дават ясна мрежа от жилки.",
-    "en": ""
+    "en": "The textured, downy leaves give a clear network of veins."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5371,7 +5371,7 @@
    "expected": {
     "colourText": {
      "bg": "драматично тъмносиво",
-     "en": ""
+     "en": "dramatic dark grey"
     },
     "swatchHex": "#5C6440",
     "variation": {
@@ -5389,7 +5389,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Релефните пухкави листа дават ясна мрежа от жилки.",
-    "en": ""
+    "en": "The textured, downy leaves give a clear network of veins."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5413,7 +5413,7 @@
    "expected": {
     "colourText": {
      "bg": "светлозелено или жълтеникаво",
-     "en": ""
+     "en": "light green or yellowish"
     },
     "swatchHex": "",
     "variation": {
@@ -5428,8 +5428,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Дъговидните жилки се изписват перфектно.",
-    "en": ""
+    "bg": "Дъговидните жилки се отпечатват много ясно.",
+    "en": "The arching veins print very clearly."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5453,7 +5453,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмно кафяво-сиво",
-     "en": ""
+     "en": "dark brown-grey"
     },
     "swatchHex": "",
     "variation": {
@@ -5468,8 +5468,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Дъговидните жилки се изписват перфектно.",
-    "en": ""
+    "bg": "Дъговидните жилки се отпечатват много ясно.",
+    "en": "The arching veins print very clearly."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5493,7 +5493,7 @@
    "expected": {
     "colourText": {
      "bg": "наситено червено, оранжево, ръждиво и шоколадово кафяво",
-     "en": ""
+     "en": "deep red, orange, rust and chocolate brown"
     },
     "swatchHex": "",
     "variation": {
@@ -5508,8 +5508,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Едно от най-мощните растения за еко принт. И двете страни печатат силно, поради обилните етерични масла.",
-    "en": ""
+    "bg": "Едно от най-силните растения за еко принт. И двете страни на листа печатат силно, поради обилните етерични масла.",
+    "en": "One of the strongest plants for eco print. Both sides of the leaf print strongly, owing to the abundant essential oils."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5533,7 +5533,7 @@
    "expected": {
     "colourText": {
      "bg": "червеникаво, бордо или маслинено",
-     "en": ""
+     "en": "reddish, burgundy or olive"
     },
     "swatchHex": "#A8A24E",
     "variation": {
@@ -5551,7 +5551,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Малки листа с фини полупрозрачни жлези; цветчетата оставят нежни петна.",
-    "en": ""
+    "en": "Small leaves with fine translucent glands; the florets leave delicate marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5575,7 +5575,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмнозелено",
-     "en": ""
+     "en": "dark green"
     },
     "swatchHex": "#6A5540",
     "variation": {
@@ -5593,7 +5593,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Малки листа с фини полупрозрачни жлези; цветчетата оставят нежни петна.",
-    "en": ""
+    "en": "Small leaves with fine translucent glands; the florets leave delicate marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5617,7 +5617,7 @@
    "expected": {
     "colourText": {
      "bg": "нежно зелено до кафяво-зелено",
-     "en": ""
+     "en": "delicate green to brownish green"
     },
     "swatchHex": "",
     "variation": {
@@ -5633,7 +5633,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Широките длановидни листа правят големи силуети; жилките излизат при стегнато руло.",
-    "en": ""
+    "en": "The broad, palmate leaves make large silhouettes; the veins come through in a tight bundle."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5657,7 +5657,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-черно, графитно",
-     "en": ""
+     "en": "grey-black, graphite"
     },
     "swatchHex": "",
     "variation": {
@@ -5673,7 +5673,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Широките длановидни листа правят големи силуети; жилките излизат при стегнато руло.",
-    "en": ""
+    "en": "The broad, palmate leaves make large silhouettes; the veins come through in a tight bundle."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5697,7 +5697,7 @@
    "expected": {
     "colourText": {
      "bg": "златисто-кафяво",
-     "en": ""
+     "en": "golden brown"
     },
     "swatchHex": "",
     "variation": {
@@ -5713,7 +5713,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Големите назъбени листа дават скелетен отпечатък на зъбците и централната жилка.",
-    "en": ""
+    "en": "The large toothed leaves give a skeletal print of the teeth and the midrib."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5737,7 +5737,7 @@
    "expected": {
     "colourText": {
      "bg": "дълбоко мастилено черно",
-     "en": ""
+     "en": "deep ink black"
     },
     "swatchHex": "#6B5C4C",
     "variation": {
@@ -5755,7 +5755,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Големите назъбени листа дават скелетен отпечатък на зъбците и централната жилка.",
-    "en": ""
+    "en": "The large toothed leaves give a skeletal print of the teeth and the midrib."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5779,7 +5779,7 @@
    "expected": {
     "colourText": {
      "bg": "бутилково или маслинено зелено",
-     "en": ""
+     "en": "bottle green or olive green"
     },
     "swatchHex": "#8E9A52",
     "variation": {
@@ -5797,7 +5797,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Подробна назъбена текстура. Парещите власинки омекват под парата.",
-    "en": ""
+    "en": "Detailed toothed texture. The stinging hairs soften in the steam."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5821,7 +5821,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмно мастилено зелено",
-     "en": ""
+     "en": "dark inky green"
     },
     "swatchHex": "",
     "variation": {
@@ -5837,7 +5837,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Подробна назъбена текстура. Парещите власинки омекват под парата.",
-    "en": ""
+    "en": "Detailed toothed texture. The stinging hairs soften in the steam."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5861,7 +5861,7 @@
    "expected": {
     "colourText": {
      "bg": "огнено оранжево, теракота, наситено жълто",
-     "en": ""
+     "en": "fiery orange, terracotta, deep yellow"
     },
     "swatchHex": "#C2622C",
     "variation": {
@@ -5878,8 +5878,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Цветовете се разстилат под натиска и оставят експлозивни ярки петна.",
-    "en": ""
+    "bg": "Цветовете се разстилат под натиска и оставят ярки, разлети петна.",
+    "en": "The flowers spread under pressure and leave bright, bursting marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5903,7 +5903,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмно кафяво-оранжево",
-     "en": ""
+     "en": "dark brownish orange"
     },
     "swatchHex": "",
     "variation": {
@@ -5918,8 +5918,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Цветовете се разстилат под натиска и оставят експлозивни ярки петна.",
-    "en": ""
+    "bg": "Цветовете се разстилат под натиска и оставят ярки, разлети петна.",
+    "en": "The flowers spread under pressure and leave bright, bursting marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5943,7 +5943,7 @@
    "expected": {
     "colourText": {
      "bg": "ярко мандаринено оранжево",
-     "en": ""
+     "en": "bright mandarin orange"
     },
     "swatchHex": "#E0A63A",
     "variation": {
@@ -5961,7 +5961,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Цели притиснати цветове дават звездовидни петна.",
-    "en": ""
+    "en": "Whole flowers pressed flat give star-shaped marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -5985,7 +5985,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинено-кафяви земни тонове",
-     "en": ""
+     "en": "olive-brown earth tones"
     },
     "swatchHex": "#6E6A42",
     "variation": {
@@ -6003,7 +6003,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Цели притиснати цветове дават звездовидни петна.",
-    "en": ""
+    "en": "Whole flowers pressed flat give star-shaped marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6027,7 +6027,7 @@
    "expected": {
     "colourText": {
      "bg": "меко бежово и кремаво",
-     "en": ""
+     "en": "soft beige and cream"
     },
     "swatchHex": "",
     "variation": {
@@ -6043,7 +6043,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Широките мъхести листа имат подчертан релеф и дават чист отпечатък.",
-    "en": ""
+    "en": "The broad, downy leaves have pronounced relief and give a clean print."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6067,7 +6067,7 @@
    "expected": {
     "colourText": {
      "bg": "сиво-кафяво",
-     "en": ""
+     "en": "grey-brown"
     },
     "swatchHex": "#655A4C",
     "variation": {
@@ -6085,7 +6085,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Широките мъхести листа имат подчертан релеф и дават чист отпечатък.",
-    "en": ""
+    "en": "The broad, downy leaves have pronounced relief and give a clean print."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6109,7 +6109,7 @@
    "expected": {
     "colourText": {
      "bg": "светло деликатно жълто до кремаво",
-     "en": ""
+     "en": "pale, delicate yellow to cream"
     },
     "swatchHex": "#C6AE79",
     "variation": {
@@ -6127,7 +6127,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Сърцевидните листа дават фини, нежни отпечатъци.",
-    "en": ""
+    "en": "The heart-shaped leaves give fine, delicate prints."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6151,7 +6151,7 @@
    "expected": {
     "colourText": {
      "bg": "меко сиво по жилките",
-     "en": ""
+     "en": "soft grey along the veins"
     },
     "swatchHex": "",
     "variation": {
@@ -6167,7 +6167,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Сърцевидните листа дават фини, нежни отпечатъци.",
-    "en": ""
+    "en": "The heart-shaped leaves give fine, delicate prints."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6191,7 +6191,7 @@
    "expected": {
     "colourText": {
      "bg": "меко жълто до нежно оранжево",
-     "en": ""
+     "en": "soft yellow to delicate orange"
     },
     "swatchHex": "#DFB742",
     "variation": {
@@ -6209,7 +6209,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Разпръснати слънчеви петна или ясен кръгъл отпечатък от цвета.",
-    "en": ""
+    "en": "Scattered sunny marks, or a clear round print of the flower."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6233,7 +6233,7 @@
    "expected": {
     "colourText": {
      "bg": "маслинен нюанс",
-     "en": ""
+     "en": "an olive cast"
     },
     "swatchHex": "#6B6739",
     "variation": {
@@ -6251,7 +6251,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Разпръснати слънчеви петна или ясен кръгъл отпечатък от цвета.",
-    "en": ""
+    "en": "Scattered sunny marks, or a clear round print of the flower."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6275,7 +6275,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмнокафяво и шоколадово",
-     "en": ""
+     "en": "dark brown and chocolate"
     },
     "swatchHex": "",
     "variation": {
@@ -6290,8 +6290,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Дебелите жилки правят перфектни линии. Зелената черупка на плода също печата силно.",
-    "en": ""
+    "bg": "Дебелите жилки оставят ясни линии. Зелената обвивка на плода също печата силно.",
+    "en": "The thick veins leave clean lines. The green hull of the nut also prints strongly."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6315,7 +6315,7 @@
    "expected": {
     "colourText": {
      "bg": "почти гарваново черно",
-     "en": ""
+     "en": "near raven black"
     },
     "swatchHex": "",
     "variation": {
@@ -6330,8 +6330,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Дебелите жилки правят перфектни линии. Зелената черупка на плода също печата силно.",
-    "en": ""
+    "bg": "Дебелите жилки оставят ясни линии. Зелената обвивка на плода също печата силно.",
+    "en": "The thick veins leave clean lines. The green hull of the nut also prints strongly."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6355,7 +6355,7 @@
    "expected": {
     "colourText": {
      "bg": "кафяво-зелено",
-     "en": ""
+     "en": "brownish green"
     },
     "swatchHex": "",
     "variation": {
@@ -6371,7 +6371,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Сложните листа с назъбен край правят изящни отпечатъци. Цветовете от тъмни рози могат да оставят лилави или синкави петна.",
-    "en": ""
+    "en": "The compound leaves with toothed edges make elegant prints. Petals of dark roses can leave purple or bluish marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6395,7 +6395,7 @@
    "expected": {
     "colourText": {
      "bg": "силно тъмнозелено до черно",
-     "en": ""
+     "en": "very dark green to black"
     },
     "swatchHex": "#6B6055",
     "variation": {
@@ -6413,7 +6413,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Сложните листа с назъбен край правят изящни отпечатъци. Цветовете от тъмни рози могат да оставят лилави или синкави петна.",
-    "en": ""
+    "en": "The compound leaves with toothed edges make elegant prints. Petals of dark roses can leave purple or bluish marks."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6437,7 +6437,7 @@
    "expected": {
     "colourText": {
      "bg": "златисто жълто до оранжево",
-     "en": ""
+     "en": "golden yellow to orange"
     },
     "swatchHex": "",
     "variation": {
@@ -6453,7 +6453,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
-    "en": ""
+    "en": "The most detailed vein prints among Bulgarian plants."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6477,7 +6477,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмносиво, лилаво-черно или графитно",
-     "en": ""
+     "en": "dark grey, purple-black or graphite"
     },
     "swatchHex": "",
     "variation": {
@@ -6493,7 +6493,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Най-детайлните отпечатъци на жилки сред българските растения.",
-    "en": ""
+    "en": "The most detailed vein prints among Bulgarian plants."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6517,7 +6517,7 @@
    "expected": {
     "colourText": {
      "bg": "светлокафяво до сиво-жълто",
-     "en": ""
+     "en": "light brown to grey-yellow"
     },
     "swatchHex": "#9C7B45",
     "variation": {
@@ -6535,7 +6535,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Сложните перести листа дават графичен ред от малки листенца.",
-    "en": ""
+    "en": "The compound pinnate leaves give a graphic row of small leaflets."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6559,7 +6559,7 @@
    "expected": {
     "colourText": {
      "bg": "дълбоко сиво-черно",
-     "en": ""
+     "en": "deep grey-black"
     },
     "swatchHex": "",
     "variation": {
@@ -6575,7 +6575,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Сложните перести листа дават графичен ред от малки листенца.",
-    "en": ""
+    "en": "The compound pinnate leaves give a graphic row of small leaflets."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6599,7 +6599,7 @@
    "expected": {
     "colourText": {
      "bg": "интензивно ярко жълто и оранжево",
-     "en": ""
+     "en": "intense bright yellow and orange"
     },
     "swatchHex": "#DFA936",
     "variation": {
@@ -6617,7 +6617,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Цветовете правят плътни жълти петна; листата дават ясни тънки контури.",
-    "en": ""
+    "en": "The flowers make solid yellow marks; the leaves give clear, fine outlines."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6641,7 +6641,7 @@
    "expected": {
     "colourText": {
      "bg": "дълбоко маслинено или тъмнозелено",
-     "en": ""
+     "en": "deep olive or dark green"
     },
     "swatchHex": "#6C6840",
     "variation": {
@@ -6659,7 +6659,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Цветовете правят плътни жълти петна; листата дават ясни тънки контури.",
-    "en": ""
+    "en": "The flowers make solid yellow marks; the leaves give clear, fine outlines."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6683,7 +6683,7 @@
    "expected": {
     "colourText": {
      "bg": "розово-кафяво или червеникаво",
-     "en": ""
+     "en": "pinkish brown or reddish"
     },
     "swatchHex": "",
     "variation": {
@@ -6699,7 +6699,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Красиви дъговидни жилки. Летораслите и есенните листа съдържат антоцианини.",
-    "en": ""
+    "en": "Beautiful arching veins. The young shoots and the autumn leaves contain anthocyanins."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6723,7 +6723,7 @@
    "expected": {
     "colourText": {
      "bg": "тъмно кафяво-сиво",
-     "en": ""
+     "en": "dark brown-grey"
     },
     "swatchHex": "",
     "variation": {
@@ -6739,7 +6739,7 @@
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
     "bg": "Красиви дъговидни жилки. Летораслите и есенните листа съдържат антоцианини.",
-    "en": ""
+    "en": "Beautiful arching veins. The young shoots and the autumn leaves contain anthocyanins."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6763,7 +6763,7 @@
    "expected": {
     "colourText": {
      "bg": "меко жълто до охра",
-     "en": ""
+     "en": "soft yellow to ochre"
     },
     "swatchHex": "",
     "variation": {
@@ -6778,8 +6778,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
-    "en": ""
+    "bg": "Плътни листа, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
+    "en": "Dense leaves, slightly downy underneath. The down is cleaned off for a clean print."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6803,7 +6803,7 @@
    "expected": {
     "colourText": {
      "bg": "земно кафяво",
-     "en": ""
+     "en": "earthy brown"
     },
     "swatchHex": "",
     "variation": {
@@ -6818,8 +6818,8 @@
    "confidence": "literature",
    "learnedFrom": "crafty-place-ecoprint",
    "notes": {
-    "bg": "Плътни, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
-    "en": ""
+    "bg": "Плътни листа, леко мъхнати отдолу. Мъхът се почиства, за да излезе чист отпечатък.",
+    "en": "Dense leaves, slightly downy underneath. The down is cleaned off for a clean print."
    },
    "sourceCodes": [
     "crafty-place-ecoprint"
@@ -6843,12 +6843,12 @@
    "expected": {
     "colourText": {
      "bg": "прасковено до розово-кафяво",
-     "en": ""
+     "en": "peach to pinkish brown"
     },
     "swatchHex": "",
     "variation": {
      "bg": "семето/кората имат по-силен афинитет към протеинови влакна; желязото променя цвета и подобрява светлоустойчивостта",
-     "en": ""
+     "en": "the stone and skin have a stronger affinity for protein fibres; iron changes the colour and improves lightfastness"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -6883,12 +6883,12 @@
    "expected": {
     "colourText": {
      "bg": "кафяво до приглушено виолетово-сиво",
-     "en": ""
+     "en": "brown to muted violet-grey"
     },
     "swatchHex": "#5E4E38",
     "variation": {
-     "bg": "видът на мордантиране променя нюанса; FeSO₄ върху вълна дава най-висока цветова сила в изследването",
-     "en": ""
+     "bg": "видът на обработката със закрепител променя нюанса; FeSO₄ върху вълна дава най-висока цветова сила в изследването",
+     "en": "the kind of mordanting changes the hue; FeSO₄ on wool gave the highest colour strength in the study"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -6925,12 +6925,12 @@
    "expected": {
     "colourText": {
      "bg": "червеникаво до червено-кафяво",
-     "en": ""
+     "en": "reddish to red-brown"
     },
     "swatchHex": "#8E5A44",
     "variation": {
-     "bg": "исторически е документирано като багрило за вълна; нюансът зависи от морданта",
-     "en": ""
+     "bg": "исторически е документирано като багрило за вълна; нюансът зависи от закрепителя",
+     "en": "historically documented as a dye for wool; the hue depends on the mordant"
     },
     "printQuality": null,
     "lightfastness": "",
@@ -6967,12 +6967,12 @@
    "expected": {
     "colourText": {
      "bg": "жълто-зелено",
-     "en": ""
+     "en": "yellow-green"
     },
     "swatchHex": "#9C9A55",
     "variation": {
      "bg": "розмаринът дава меки жълто-зелени тонове; желязото измества към маслинено",
-     "en": ""
+     "en": "rosemary gives soft yellow-green tones; iron shifts it towards olive"
     },
     "printQuality": null,
     "lightfastness": "",

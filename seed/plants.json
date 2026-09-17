@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.12.0",
+ "packVersion": "0.12.2",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -65,11 +65,11 @@
      "hex": "#D8A83C",
      "name": {
       "bg": "жълто до златисто",
-      "en": ""
+      "en": "yellow to golden yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -78,11 +78,11 @@
      "hex": "#B4702E",
      "name": {
       "bg": "оранжево-кафяво",
-      "en": ""
+      "en": "orange-brown"
      },
      "conditions": {
       "bg": "по-концентрирана баня",
-      "en": ""
+      "en": "a stronger bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -95,7 +95,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: може и без метален мордант; алуминий за по-ясно жълто, желязо за маслинено.\npH: неутрално до леко кисело.\nТемпература: гореща екстракция е подходяща.\nЦелулоза: практично домашно багрило; за по-добра устойчивост на памук използвай подходяща подготовка.",
+      "bg": "Закрепител: може и без метален закрепител; алуминий за по-ясно жълто, желязо за маслинено.\npH: неутрално до леко кисело.\nТемпература: горещото извличане е подходящо.\nЦелулоза: практично домашно багрило; за по-добра устойчивост на памук използвай подходяща подготовка.",
       "en": "Mordant: works without a metal mordant; alum for a clearer yellow, iron for olive.\npH: neutral to slightly acidic.\nTemperature: hot extraction suits it.\nCellulose: a practical household dye; for better fastness on cotton, use a proper preparation."
      }
     },
@@ -106,7 +106,7 @@
      },
      "body": {
       "bg": "сухи външни люспи",
-      "en": "hull"
+      "en": "dry outer skins"
      }
     },
     {
@@ -115,7 +115,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Люспите са богати на флавоноиди, особено кверцетинови производни. Те дават жълтата компонента и образуват комплекси с метални морданти, което измества цвета към златисто, маслинено или кафяво.",
+      "bg": "Люспите са богати на флавоноиди, особено кверцетинови производни. Те дават жълтата компонента и образуват комплекси с метални закрепители, което измества цвета към златисто, маслинено или кафяво.",
       "en": "The skins are rich in flavonoids, quercetin derivatives above all. These carry the yellow and form complexes with metal mordants, which shifts the colour towards gold, olive or brown."
      }
     },
@@ -135,7 +135,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Сухите жълти люспи са надеждно и лесно багрило за жълто, златисто и оранжево-кафяво. Дава цвят сравнително лесно и без силен мордант, но алуминият подобрява чистотата и повторяемостта.",
+      "bg": "Сухите жълти люспи са надеждно и лесно багрило за жълто, златисто и оранжево-кафяво. Дава цвят сравнително лесно и без силен закрепител, но алуминият подобрява чистотата и повторяемостта.",
       "en": "Dry yellow skins are a reliable, easy dye for yellow, gold and orange-brown. It gives colour fairly readily and without a strong mordant, but alum improves both clarity and repeatability."
      }
     },
@@ -243,7 +243,7 @@
      ],
      "harvestNote": {
       "bg": "Само от паднали или подрязани клони.",
-      "en": ""
+      "en": "Collect only from fallen or pruned branches."
      }
     },
     {
@@ -290,7 +290,7 @@
      ],
      "harvestNote": {
       "bg": "Малките дървесни „шишарки“ могат да останат на клоните и през зимата.",
-      "en": ""
+      "en": "The small woody “cones” can stay on the branches through the winter."
      }
     },
     {
@@ -336,11 +336,11 @@
      "hex": "#7A5B3C",
      "name": {
       "bg": "кафяво",
-      "en": ""
+      "en": "brown"
      },
      "conditions": {
       "bg": "без модификатор",
-      "en": ""
+      "en": "no modifier"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -349,11 +349,11 @@
      "hex": "#332C26",
      "name": {
       "bg": "тъмно кафяво до черно",
-      "en": ""
+      "en": "dark brown to black"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -366,7 +366,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: може да даде цвят и без силен мордант; желязо — за тъмни комплекси.\npH: неутрално е подходящо.\nТемпература: гореща екстракция.\nЦелулоза: танините подпомагат директното оцветяване, но за стандартизирана танинова баня галите/сумакът са по-предвидими.",
+      "bg": "Закрепител: може да даде цвят и без силен закрепител; желязо — за тъмни комплекси.\npH: неутрално е подходящо.\nТемпература: горещо извличане.\nЦелулоза: танините подпомагат директното оцветяване, но за стандартизирана танинова баня галите/сумакът са по-предвидими.",
       "en": "Mordant: can give colour without a strong mordant; iron for dark complexes.\npH: neutral suits it.\nTemperature: hot extraction.\nCellulose: the tannins help direct staining, but for a standardised tannin bath, galls or sumac are more predictable."
      }
     },
@@ -377,7 +377,7 @@
      },
      "body": {
       "bg": "кора · листа · шишарковидни плодни съцветия",
-      "en": "bark · fruit · leaf"
+      "en": "bark · leaves · cone-like fruiting heads"
      }
     },
     {
@@ -407,7 +407,7 @@
      },
      "body": {
       "bg": "Кората и плодните „шишарки“ са по-силно танинови и дават кафяво до много тъмно кафяво; листата могат да дадат по-светли салвиево-зелени и жълто-кафяви тонове. Подходяща е и за еко принт, когато се търсят тъмни танинови реакции.",
-      "en": "The bark and the fruiting „cones“ are the more strongly tannic parts and give brown through to very dark brown; the leaves can give lighter sage-green and yellow-brown tones. It also suits eco print where dark tannin reactions are wanted."
+      "en": "The bark and the fruiting “cones” are the more strongly tannic parts and give brown through to very dark brown; the leaves can give lighter sage-green and yellow-brown tones. It also suits eco print where dark tannin reactions are wanted."
      }
     },
     {
@@ -573,7 +573,7 @@
      ],
      "harvestNote": {
       "bg": "Само от паднали или подрязани клони; не обелвай кора от живо дърво.",
-      "en": ""
+      "en": "Collect only from fallen or pruned branches; do not strip bark from a living tree."
      }
     }
    ],
@@ -582,11 +582,11 @@
      "hex": "#A98763",
      "name": {
       "bg": "бежово-кафяво",
-      "en": ""
+      "en": "beige-brown"
      },
      "conditions": {
       "bg": "от кора",
-      "en": ""
+      "en": "from the bark"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -595,11 +595,11 @@
      "hex": "#B4B063",
      "name": {
       "bg": "жълто-зеленикаво",
-      "en": ""
+      "en": "greenish yellow"
      },
      "conditions": {
       "bg": "от листа",
-      "en": ""
+      "en": "from the leaves"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -612,7 +612,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-чисто жълто-бежово; желязо — за сиво/маслинено.\npH: неутрално до леко кисело е добър старт.\nТемпература: гореща екстракция без продължително бурно кипене.\nЕко принт: по-надеждна като мек фон/форма, отколкото като драматичен тъмен отпечатък.",
+      "bg": "Закрепител: алуминиев за по-чисто жълто-бежово; желязо — за сиво/маслинено.\npH: неутрално до леко кисело е добър старт.\nТемпература: горещо извличане без продължително бурно кипене.\nЕко принт: по-надеждна като мек фон/форма, отколкото като драматичен тъмен отпечатък.",
       "en": "Mordant: alum for a cleaner yellow-beige; iron for grey or olive.\npH: neutral to slightly acidic is a good starting point.\nTemperature: hot extraction, without a long hard boil.\nEco print: more dependable as a soft ground or shape than as a dramatic dark print."
      }
     },
@@ -623,7 +623,7 @@
      },
      "body": {
       "bg": "листа · кора",
-      "en": "leaf · bark"
+      "en": "leaves · bark"
      }
     },
     {
@@ -653,7 +653,7 @@
      },
      "body": {
       "bg": "Листата и кората дават меки жълто-зелени, бежови и кафеникави тонове. Резултатът е по-скоро приглушен, отколкото ярък; желязото го измества към сиво-маслинено. За еко принт листата могат да дадат деликатен силует, особено върху добре подготвена целулоза.\n\nКората се взима паднала или обелена, никога от живо дърво. Кисне 12–24 часа преди варене — без това дава малко. Банята става по-силна, ако престои няколко часа преди багрене.",
-      "en": "Leaves and bark give soft yellow-greens, beiges and browns. The result is muted rather than bright, and iron shifts it towards grey-olive. In eco print the leaves can leave a delicate silhouette, especially on well prepared cellulose.\n\nBark is taken fallen or peeled, never from a living tree. It soaks 12–24 hours before boiling — without that it gives little. The bath grows stronger if it stands a few hours before dyeing."
+      "en": "Leaves and bark give soft yellow-greens, beiges and browns. The result is muted rather than bright, and iron shifts it towards grey-olive. In eco print the leaves can leave a delicate silhouette, especially on well-prepared cellulose.\n\nBark is taken fallen or peeled, never from a living tree. It soaks 12–24 hours before boiling — without that it gives little. The bath grows stronger if it stands a few hours before dyeing."
      }
     },
     {
@@ -790,11 +790,11 @@
      "hex": "#DBA13F",
      "name": {
       "bg": "жълто-оранжево",
-      "en": ""
+      "en": "yellow-orange"
      },
      "conditions": {
-      "bg": "водна екстракция",
-      "en": ""
+      "bg": "воден извлек",
+      "en": "a water extract"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -803,11 +803,11 @@
      "hex": "#C4413F",
      "name": {
       "bg": "ярко червено",
-      "en": ""
+      "en": "bright red"
      },
      "conditions": {
-      "bg": "алкална екстракция, второто багрило",
-      "en": ""
+      "bg": "алкален извлек, второто багрило",
+      "en": "an alkaline extract, the second dye"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -820,7 +820,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Процес: специален двуетапен процес.\nМордант: класическият метален мордант не е централният механизъм за каротаминовото розово.\npH: ключово — алкалната среда извлича каротамина, последващо подкиселяване го утаява/фиксира.\nТемпература: първичното отмиване е хладно/стайно; избягвай висока температура при червения процес.",
+      "bg": "Процес: специален двуетапен процес.\nЗакрепител: класическият метален закрепител не е централният механизъм за каротаминовото розово.\npH: ключово — алкалната среда извлича каротамина, последващо подкиселяване го утаява/фиксира.\nТемпература: първичното отмиване е хладно/стайно; избягвай висока температура при червения процес.",
       "en": "Process: a particular two-stage process.\nMordant: a classic metal mordant is not the central mechanism for the carthamin pink.\npH: the key to it — an alkaline bath extracts the carthamin, and acidifying afterwards precipitates and fixes it.\nTemperature: the first washing-out is cool or at room temperature; avoid high heat in the red process."
      }
     },
@@ -831,7 +831,7 @@
      },
      "body": {
       "bg": "венчелистчета / цветове",
-      "en": "flower · leaf"
+      "en": "petals / flowers"
      }
     },
     {
@@ -1019,11 +1019,11 @@
      "hex": "#C2622C",
      "name": {
       "bg": "червено-оранжево",
-      "en": ""
+      "en": "red-orange"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1032,11 +1032,11 @@
      "hex": "#A6522B",
      "name": {
       "bg": "ръждиво",
-      "en": ""
+      "en": "rust"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1045,11 +1045,11 @@
      "hex": "#D2973A",
      "name": {
       "bg": "златисто",
-      "en": ""
+      "en": "gold"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1062,7 +1062,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за ярки жълто-оранжеви; желязо — за ръждиво/кафяво.\npH: чувствително; прави малки тестове при промяна на банята.\nТемпература: умерена гореща екстракция.\nЕко принт: цветовете дават силни петна и отпечатъци, особено свежи.",
+      "bg": "Закрепител: алуминиев за ярки жълто-оранжеви; желязо — за ръждиво/кафяво.\npH: чувствително; прави малки тестове при промяна на банята.\nТемпература: умерено горещо извличане.\nЕко принт: цветовете дават силни петна и отпечатъци, особено свежи.",
       "en": "Mordant: alum for bright yellow-oranges; iron for rust and brown.\npH: sensitive — run small tests whenever the bath changes.\nTemperature: moderate hot extraction.\nEco print: the flowers leave strong marks and prints, fresh ones especially."
      }
     },
@@ -1073,7 +1073,7 @@
      },
      "body": {
       "bg": "цветове · надземни върхове",
-      "en": "flower · whole plant"
+      "en": "flowers · flowering tops"
      }
     },
     {
@@ -1221,11 +1221,11 @@
      "hex": "#E0A63A",
      "name": {
       "bg": "слънчево жълто",
-      "en": ""
+      "en": "sunny yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1234,11 +1234,11 @@
      "hex": "#C87B36",
      "name": {
       "bg": "меко оранжево",
-      "en": ""
+      "en": "soft orange"
      },
      "conditions": {
       "bg": "по-концентрирана баня",
-      "en": ""
+      "en": "a stronger bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1247,11 +1247,11 @@
      "hex": "#D9A280",
      "name": {
       "bg": "прасковено",
-      "en": ""
+      "en": "peach"
      },
      "conditions": {
       "bg": "изчерпана баня",
-      "en": ""
+      "en": "an exhausted bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1260,11 +1260,11 @@
      "hex": "#6E6A42",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с железен сулфат",
-      "en": ""
+      "en": "with iron sulfate"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1277,8 +1277,8 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за ясни жълто-оранжеви; желязо — пестеливо за потъмняване.\npH: може да променя наситеността и оттенъка.\nТемпература: умерено нагряване; не е нужно продължително кипене.\nЕко принт: цветовете са добър източник на петна/силуети, особено върху коприна и добре мордантиран памук.",
-      "en": "Mordant: alum for clear yellow-oranges; iron sparingly, to darken.\npH: can change both depth and hue.\nTemperature: moderate heat; a long boil is not needed.\nEco print: the flowers are a good source of marks and silhouettes, particularly on silk and on well mordanted cotton."
+      "bg": "Закрепител: алуминиев за ясни жълто-оранжеви; желязо — пестеливо за потъмняване.\npH: може да променя наситеността и оттенъка.\nТемпература: умерено нагряване; не е нужно продължително кипене.\nЕко принт: цветовете са добър източник на петна/силуети, особено върху коприна и памук, добре обработен със закрепител.",
+      "en": "Mordant: alum for clear yellow-oranges; iron sparingly, to darken.\npH: can change both depth and hue.\nTemperature: moderate heat; a long boil is not needed.\nEco print: the flowers are a good source of marks and silhouettes, particularly on silk and on well-mordanted cotton."
      }
     },
     {
@@ -1288,7 +1288,7 @@
      },
      "body": {
       "bg": "цветове",
-      "en": "flower"
+      "en": "flowers"
      }
     },
     {
@@ -1297,7 +1297,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Цветовете съдържат флавоноиди и халконови пигменти, характерни за оранжевия Cosmos sulphureus. Тези молекули дават жълто-оранжевата гама и реагират с морданти и pH.",
+      "bg": "Цветовете съдържат флавоноиди и халконови пигменти, характерни за оранжевия Cosmos sulphureus. Тези молекули дават жълто-оранжевата гама и реагират със закрепители и pH.",
       "en": "The flowers contain flavonoids and chalcone pigments characteristic of the orange Cosmos sulphureus. These molecules give the yellow-to-orange range and respond to mordants and to pH."
      }
     },
@@ -1327,7 +1327,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Оранжевият космос дава слънчево жълто, меко оранжево и прасковено; с желязо може да се измести към маслинено/кафеникаво. Свежите цветове обикновено дават най-жив резултат. При еко принт отпечатъкът е цветен, но устойчивостта е по-зависима от морданта и влакното.",
+      "bg": "Оранжевият космос дава слънчево жълто, меко оранжево и прасковено; с желязо може да се измести към маслинено/кафеникаво. Свежите цветове обикновено дават най-жив резултат. При еко принт отпечатъкът е цветен, но устойчивостта е по-зависима от закрепителя и влакното.",
       "en": "Sulphur cosmos gives sunny yellow, soft orange and peach; with iron it can shift towards olive or brown. Fresh flowers usually give the liveliest result. In eco print the mark is coloured, but its fastness depends more on the mordant and the fibre."
      }
     }
@@ -1469,7 +1469,7 @@
      ],
      "harvestNote": {
       "bg": "Само от подрязани или отстранени клони.",
-      "en": ""
+      "en": "Collect only from pruned or removed branches."
      }
     },
     {
@@ -1510,7 +1510,7 @@
      ],
      "harvestNote": {
       "bg": "Практично само като материал от резитба или отстранени стъбла.",
-      "en": ""
+      "en": "In practice, only as material from pruning or from removed stems."
      }
     }
    ],
@@ -1519,11 +1519,11 @@
      "hex": "#A96A34",
      "name": {
       "bg": "оранжево-кафяво",
-      "en": ""
+      "en": "orange-brown"
      },
      "conditions": {
       "bg": "без модификатор",
-      "en": ""
+      "en": "no modifier"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1532,11 +1532,11 @@
      "hex": "#2F2A26",
      "name": {
       "bg": "почти черно",
-      "en": ""
+      "en": "near black"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1549,7 +1549,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за жълто-оранжеви; желязо — за силно потъмняване.\npH: неутрално до леко кисело.\nТемпература: гореща екстракция; дървесината изисква по-дълго извличане.\nЕко принт: листата са силни при железен модификатор.",
+      "bg": "Закрепител: алуминиев за жълто-оранжеви; желязо — за силно потъмняване.\npH: неутрално до леко кисело.\nТемпература: горещо извличане; дървесината изисква по-дълго извличане.\nЕко принт: листата са силни при железен модификатор.",
       "en": "Mordant: alum for yellow-oranges; iron for a strong darkening.\npH: neutral to slightly acidic.\nTemperature: hot extraction; the wood needs a longer one.\nEco print: the leaves are strong under an iron modifier."
      }
     },
@@ -1560,7 +1560,7 @@
      },
      "body": {
       "bg": "листа · кора · дървесина",
-      "en": "leaf · bark · heartwood"
+      "en": "leaves · bark · wood"
      }
     },
     {
@@ -1590,7 +1590,7 @@
      },
      "body": {
       "bg": "Листата, кората и дървесината дават жълто, оранжево-кафяво и тъмни приглушени тонове. Дървесината е исторически важен източник на жълти флавоноидни багрила, а листата са полезни за контрастен еко принт.\n\nЛистата и кората са две различни бани: листата дават жълто за час, кората иска накисване през нощта и по-дълго варене. Силно танинова — багри и без стипца, и е отлична основа за надбагряне със синьо.",
-      "en": "Leaves, bark and wood give yellow, orange-brown and dark muted tones. The wood is a historically important source of yellow flavonoid dyes, and the leaves are useful for a contrasting eco print.\n\nLeaves and bark are two different baths: the leaves give yellow within the hour, the bark wants an overnight soak and longer boiling. Strongly tannic — it dyes without alum, and makes an excellent ground for overdyeing with blue."
+      "en": "Leaves, bark and wood give yellow, orange-brown and dark muted tones. The wood is a historically important source of yellow flavonoid dyes, and the leaves are useful for a contrasting eco print.\n\nLeaves and bark are two different baths: the leaves give yellow within the hour, the bark needs an overnight soak and longer boiling. Strongly tannic — it dyes without alum, and makes an excellent ground for overdyeing with blue."
      }
     },
     {
@@ -1741,7 +1741,7 @@
      ],
      "harvestNote": {
       "bg": "Събирай само от резитба или паднали клони.",
-      "en": ""
+      "en": "Collect only from prunings or fallen branches."
      }
     }
    ],
@@ -1750,11 +1750,11 @@
      "hex": "#C9A567",
      "name": {
       "bg": "жълто до бежово",
-      "en": ""
+      "en": "yellow to beige"
      },
      "conditions": {
       "bg": "върху вълна",
-      "en": ""
+      "en": "on wool"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1763,11 +1763,11 @@
      "hex": "#9C7A47",
      "name": {
       "bg": "жълто-кафяво",
-      "en": ""
+      "en": "yellow-brown"
      },
      "conditions": {
       "bg": "от листа и кора",
-      "en": ""
+      "en": "from leaves and bark"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1780,7 +1780,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светли жълто-бежови; желязо — за потъмняване.\npH: неутрално е добър старт.\nТемпература: гореща екстракция.\nЕко принт: листата могат да дадат форма, но не са сред най-контрастните танинови растения.",
+      "bg": "Закрепител: алуминиев за по-светли жълто-бежови; желязо — за потъмняване.\npH: неутрално е добър старт.\nТемпература: горещо извличане.\nЕко принт: листата могат да дадат форма, но не са сред най-контрастните танинови растения.",
       "en": "Mordant: alum for lighter yellow-beiges; iron to darken.\npH: neutral is a good starting point.\nTemperature: hot extraction.\nEco print: the leaves can give a shape, but they are not among the most contrasting tannin plants."
      }
     },
@@ -1791,7 +1791,7 @@
      },
      "body": {
       "bg": "листа · кора",
-      "en": "leaf · bark"
+      "en": "leaves · bark"
      }
     },
     {
@@ -1800,7 +1800,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Оцветяването идва от смес от полифеноли, включително флавоноиди и танинови съединения. Тези вещества взаимодействат с метални морданти и дават жълто-кафявата до сива гама.",
+      "bg": "Оцветяването идва от смес от полифеноли, включително флавоноиди и танинови съединения. Тези вещества взаимодействат с метални закрепители и дават жълто-кафявата до сива гама.",
       "en": "The colour comes from a mixture of polyphenols, flavonoids and tannin compounds among them. These interact with metal mordants and give the yellow-brown to grey range."
      }
     },
@@ -1968,7 +1968,7 @@
      ],
      "harvestNote": {
       "bg": "Само от резитба или паднали клони.",
-      "en": ""
+      "en": "Collect only from prunings or fallen branches."
      }
     }
    ],
@@ -1977,11 +1977,11 @@
      "hex": "#9E7C4A",
      "name": {
       "bg": "жълто-кафяво",
-      "en": ""
+      "en": "yellow-brown"
      },
      "conditions": {
       "bg": "без модификатор",
-      "en": ""
+      "en": "no modifier"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -1990,11 +1990,11 @@
      "hex": "#5A4B39",
      "name": {
       "bg": "по-тъмни тонове",
-      "en": ""
+      "en": "darker tones"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2007,7 +2007,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светло жълто-кафяво; желязо — за потъмняване.\npH: неутрално е добър старт.\nТемпература: гореща екстракция.\nЕко принт: листата могат да дадат форма, но не са сред най-силните танинови принтери.",
+      "bg": "Закрепител: алуминиев за по-светло жълто-кафяво; желязо — за потъмняване.\npH: неутрално е добър старт.\nТемпература: горещо извличане.\nЕко принт: листата могат да дадат форма, но не са сред най-силните танинови принтери.",
       "en": "Mordant: alum for a lighter yellow-brown; iron to darken.\npH: neutral is a good starting point.\nTemperature: hot extraction.\nEco print: the leaves can give a shape, but they are not among the strongest tannin printers."
      }
     },
@@ -2018,7 +2018,7 @@
      },
      "body": {
       "bg": "листа · кора",
-      "en": "leaf · bark"
+      "en": "leaves · bark"
      }
     },
     {
@@ -2158,7 +2158,7 @@
      ],
      "harvestNote": {
       "bg": "Събирай само от подрязани или паднали клони.",
-      "en": ""
+      "en": "Collect only from pruned or fallen branches."
      }
     },
     {
@@ -2274,11 +2274,11 @@
      "hex": "#8F5A44",
      "name": {
       "bg": "кафяво-червеникаво",
-      "en": ""
+      "en": "reddish brown"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2291,7 +2291,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-чисти светли тонове; желязо — за кафяво/сиво.\npH: плодовете са по-pH-чувствителни от листата и кората.\nТемпература: листа/кора — гореща екстракция; плодове — по-умерено нагряване.\nЕко принт: листата могат да дадат контур, но не са сред най-силните танинови принтери.",
+      "bg": "Закрепител: алуминиев за по-чисти светли тонове; желязо — за кафяво/сиво.\npH: плодовете са по-pH-чувствителни от листата и кората.\nТемпература: листа/кора — горещо извличане; плодове — по-умерено нагряване.\nЕко принт: листата могат да дадат контур, но не са сред най-силните танинови принтери.",
       "en": "Mordant: alum for cleaner light tones; iron for brown or grey.\npH: the fruit is more pH-sensitive than the leaves and bark.\nTemperature: leaves and bark — hot extraction; fruit — gentler heat.\nEco print: the leaves can give an outline, but they are not among the strongest tannin printers."
      }
     },
@@ -2302,7 +2302,7 @@
      },
      "body": {
       "bg": "кора · листа · цветове · плодове",
-      "en": "bark · leaf · flower · fruit"
+      "en": "bark · leaves · flowers · fruit"
      }
     },
     {
@@ -2436,7 +2436,7 @@
      ],
      "harvestNote": {
       "bg": "Изваждането на коренището унищожава част от растението; предпочитай култивирани туфи и частично разделяне.",
-      "en": ""
+      "en": "Lifting the rhizome destroys part of the plant; prefer cultivated clumps and partial division."
      }
     },
     {
@@ -2489,11 +2489,11 @@
      "hex": "#584232",
      "name": {
       "bg": "тъмно кафяво",
-      "en": ""
+      "en": "dark brown"
      },
      "conditions": {
       "bg": "без модификатор",
-      "en": ""
+      "en": "no modifier"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2502,11 +2502,11 @@
      "hex": "#302A25",
      "name": {
       "bg": "почти черно",
-      "en": ""
+      "en": "near black"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2519,7 +2519,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-меко кафяво; желязо — за тъмно кафяво/сиво-черно.\npH: неутрално е добър старт.\nТемпература: гореща екстракция.\nЕко принт: полезен при търсене на тъмен танинов контур.",
+      "bg": "Закрепител: алуминиев за по-меко кафяво; желязо — за тъмно кафяво/сиво-черно.\npH: неутрално е добър старт.\nТемпература: горещо извличане.\nЕко принт: полезен при търсене на тъмен танинов контур.",
       "en": "Mordant: alum for a softer brown; iron for dark brown to grey-black.\npH: neutral is a good starting point.\nTemperature: hot extraction.\nEco print: useful where a dark tannin outline is wanted."
      }
     },
@@ -2530,7 +2530,7 @@
      },
      "body": {
       "bg": "коренища · листа",
-      "en": "root · leaf"
+      "en": "rhizomes · leaves"
      }
     },
     {
@@ -2755,11 +2755,11 @@
      "hex": "#A8A24E",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2768,11 +2768,11 @@
      "hex": "#726B3A",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2781,11 +2781,11 @@
      "hex": "#6A5540",
      "name": {
       "bg": "кафяво",
-      "en": ""
+      "en": "brown"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2798,7 +2798,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светли жълто-зелени; желязо — за маслинено.\npH: може осезаемо да променя цвета.\nТемпература: умерена гореща екстракция; избягвай ненужно продължително кипене.\nЕко принт: цветовете и листата дават петна/текстура, но не са класически силно танинов принтер.",
+      "bg": "Закрепител: алуминиев за по-светли жълто-зелени; желязо — за маслинено.\npH: може осезаемо да променя цвета.\nТемпература: умерено горещо извличане; избягвай ненужно продължително кипене.\nЕко принт: цветовете и листата дават петна/текстура, но не са класически силно танинов принтер.",
       "en": "Mordant: alum for lighter yellow-greens; iron for olive.\npH: can change the colour noticeably.\nTemperature: moderate hot extraction; avoid boiling longer than necessary.\nEco print: the flowers and leaves leave marks and texture, but this is not a classic strong tannin printer."
      }
     },
@@ -2809,7 +2809,7 @@
      },
      "body": {
       "bg": "цветове · листа · надземна част",
-      "en": "flower · whole plant · leaf"
+      "en": "flowers · leaves · aerial parts"
      }
     },
     {
@@ -2839,7 +2839,7 @@
      },
      "body": {
       "bg": "Цъфтящите върхове дават жълто-зелени, маслинени и кафеникави тонове; при различни процеси могат да се появят и червеникави оттенъци, но те не са еднакво лесни за получаване и запазване. Цветът е чувствителен към частта, зрелостта и pH.\n\nОтдава багрилото си бавно — банята иска да престои няколко часа или през нощта. Само връхните цветни части дават чисто жълто.",
-      "en": "The flowering tops give yellow-greens, olives and browns; other processes can bring out reddish tones, though these are neither as easy to obtain nor as easy to keep. The colour is sensitive to the part, the maturity and the pH.\n\nIt gives up its dye slowly — the bath wants to stand for a few hours or overnight. Only the flowering tops give a clean yellow."
+      "en": "The flowering tops give yellow-greens, olives and browns; other processes can bring out reddish tones, though these are neither as easy to obtain nor as easy to keep. The colour is sensitive to the part, the maturity and the pH.\n\nIt gives up its dye slowly — the bath needs to stand for a few hours or overnight. Only the flowering tops give a clean yellow."
      }
     },
     {
@@ -2955,11 +2955,11 @@
      "hex": "#5A7396",
      "name": {
       "bg": "светло синьо",
-      "en": ""
+      "en": "light blue"
      },
      "conditions": {
       "bg": "редукционна вана",
-      "en": ""
+      "en": "a reduction vat"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2968,11 +2968,11 @@
      "hex": "#3E5A82",
      "name": {
       "bg": "средно синьо",
-      "en": ""
+      "en": "mid blue"
      },
      "conditions": {
       "bg": "многократно потапяне",
-      "en": ""
+      "en": "repeated dips"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -2985,8 +2985,8 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Процес: специална индигова вана; не използвай стандартна схема „отвара + мордант“.\nМордант: класически метален мордант не е нужен.\npH: редукционната вана е алкална; контролът на pH е част от процеса.\nТемпература: зависи от избрания метод за извличане и редукция; не се задава един общ диапазон като при жълтите багрила.",
-      "en": "Process: a reduction indigo vat; do not use the ordinary „decoction plus mordant“ schema.\nMordant: no classic metal mordant is needed.\npH: the reduction vat is alkaline, and controlling the pH is part of the process.\nTemperature: depends on the method of extraction and reduction chosen; no single range applies as it does for the yellow dyes."
+      "bg": "Процес: специална индигова вана; не използвай стандартна схема „отвара + закрепител“.\nЗакрепител: класически метален закрепител не е нужен.\npH: редукционната вана е алкална; контролът на pH е част от процеса.\nТемпература: зависи от избрания метод за извличане и редукция; не се задава един общ диапазон като при жълтите багрила.",
+      "en": "Process: a reduction indigo vat; do not use the ordinary “decoction plus mordant” approach.\nMordant: no classic metal mordant is needed.\npH: the reduction vat is alkaline, and controlling the pH is part of the process.\nTemperature: depends on the method of extraction and reduction chosen; no single range applies as it does for the yellow dyes."
      }
     },
     {
@@ -2996,7 +2996,7 @@
      },
      "body": {
       "bg": "листа",
-      "en": "leaf"
+      "en": "leaves"
      }
     },
     {
@@ -3015,7 +3015,7 @@
       "en": "Harvest and processing"
      },
      "body": {
-      "bg": "Кога се бере: през първата година, докато растението е в листна розетка; най-добре през лятото преди образуване на цветонос. След започване на цъфтежа съдържанието на индиго-прекурсори спада.\nКакво се бере: листата.\nОбработка: за свежа екстракция използвай възможно най-скоро след беритба. За историческа преработка листата могат да се обработват до паста/топки; това е различен процес от обикновена багрилна отвара.\nСъхранение: свежите листа не са подходящи за дълго съхранение; за сух/ферментирал материал следвай конкретния индигов процес.",
+      "bg": "Кога се бере: през първата година, докато растението е в листна розетка; най-добре през лятото преди образуване на цветонос. След започване на цъфтежа съдържанието на индиго-прекурсори спада.\nКакво се бере: листата.\nОбработка: за свежо извличане използвай възможно най-скоро след беритба. За историческа преработка листата могат да се обработват до паста/топки; това е различен процес от обикновена багрилна отвара.\nСъхранение: свежите листа не са подходящи за дълго съхранение; за сух/ферментирал материал следвай конкретния индигов процес.",
       "en": "When to gather: in the first year, while the plant is still a rosette of leaves; best in summer, before the flower stem forms. Once flowering begins the indigo precursors fall away.\nWhat is gathered: the leaves.\nProcessing: for fresh extraction, use as soon after cutting as possible. For historic processing the leaves can be worked into a paste or balls; this is a different process from an ordinary dye decoction.\nStorage: fresh leaves do not keep; for dried or fermented material, follow the particular indigo process."
      }
     },
@@ -3225,7 +3225,7 @@
      ],
      "harvestNote": {
       "bg": "Само от резитба/паднали клони; за багрене обвивките обикновено са по-практичната суровина.",
-      "en": ""
+      "en": "Collect only from prunings or fallen branches; for dyeing, the hulls are usually the more practical material."
      }
     }
    ],
@@ -3234,11 +3234,11 @@
      "hex": "#A57C56",
      "name": {
       "bg": "светло кафяво",
-      "en": ""
+      "en": "light brown"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3247,11 +3247,11 @@
      "hex": "#5E4128",
      "name": {
       "bg": "тъмно кафяво",
-      "en": ""
+      "en": "dark brown"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3260,11 +3260,11 @@
      "hex": "#332822",
      "name": {
       "bg": "почти черно",
-      "en": ""
+      "en": "near black"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3277,7 +3277,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: не е задължителен; алуминий може да изчисти тона, желязо — за много тъмно.\npH: неутрално е надежден старт.\nТемпература: гореща екстракция.\nЦелулоза: високото съдържание на танини означава, че отделна танинова предбаня често не е необходима.",
+      "bg": "Закрепител: не е задължителен; алуминий може да изчисти тона, желязо — за много тъмно.\npH: неутрално е надежден старт.\nТемпература: горещо извличане.\nЦелулоза: високото съдържание на танини означава, че отделна танинова предбаня често не е необходима.",
       "en": "Mordant: not required; alum can clear the tone, iron takes it very dark.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nCellulose: the high tannin content means a separate tannin pre-bath is often unnecessary."
      }
     },
@@ -3288,7 +3288,7 @@
      },
      "body": {
       "bg": "зелена плодова обвивка · листа · кора",
-      "en": "hull · leaf · bark"
+      "en": "green hulls · leaves · bark"
      }
     },
     {
@@ -3317,8 +3317,8 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Зелените плодови обвивки са най-силната багрилна част и дават светло до много тъмно кафяво; листата и кората са по-меки. Орехът е силно субстантивен и може да багри без метален мордант.\n\nСамофиксиращ се — работи и без стипца. Обвивките се варят цял час и масата може да остане в банята.",
-      "en": "The green hulls are the strongest dye part and give light through to very dark brown; leaves and bark are gentler. Walnut is strongly substantive and can dye without a metal mordant.\n\nSelf-mordanting — it works without alum. The hulls boil for a full hour and the matter can stay in the bath."
+      "bg": "Зелените плодови обвивки са най-силната багрилна част и дават светло до много тъмно кафяво; листата и кората са по-меки. Орехът е силно субстантивен и може да багри без метален закрепител.\n\nСамофиксиращ се — работи и без стипца. Обвивките се варят цял час и масата може да остане в банята.",
+      "en": "The green hulls are the strongest dye part and give light through to very dark brown; leaves and bark are gentler. Walnut is strongly substantive and can dye without a metal mordant.\n\nSelf-mordanting — it works without alum. The hulls boil for a full hour and the plant material can stay in the bath."
      }
     },
     {
@@ -3466,11 +3466,11 @@
      "hex": "#9A8FA3",
      "name": {
       "bg": "бледолилаво",
-      "en": ""
+      "en": "pale lilac"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3479,11 +3479,11 @@
      "hex": "#A39A7E",
      "name": {
       "bg": "сиво-жълтеникаво",
-      "en": ""
+      "en": "greyish yellow"
      },
      "conditions": {
-      "bg": "без мордант",
-      "en": ""
+      "bg": "без закрепител",
+      "en": "unmordanted"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3496,7 +3496,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светли жълто-бежови; желязо — много пестеливо.\npH: цветните пигменти са pH-чувствителни и не са особено устойчиви.\nТемпература: работи умерено; силното и дълго кипене не помага на цвета.\nСтатус: по-скоро експериментално/локално багрилно растение.",
+      "bg": "Закрепител: алуминиев за по-светли жълто-бежови; желязо — много пестеливо.\npH: цветните пигменти са pH-чувствителни и не са особено устойчиви.\nТемпература: работи умерено; силното и дълго кипене не помага на цвета.\nСтатус: по-скоро експериментално/локално багрилно растение.",
       "en": "Mordant: alum for lighter yellow-beiges; iron very sparingly.\npH: the flower pigments are pH-sensitive and not especially fast.\nTemperature: moderate; a hard, long boil does the colour no good.\nStatus: an experimental or local dye plant rather than a staple."
      }
     },
@@ -3507,7 +3507,7 @@
      },
      "body": {
       "bg": "цветове · листа",
-      "en": "flower · leaf"
+      "en": "flowers · leaves"
      }
     },
     {
@@ -3516,7 +3516,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Лавандулата съдържа флавоноиди, фенолни киселини и в цветовете — малко антоцианови пигменти. Водната екстракция извлича основно фенолната жълто-кафява компонента; ароматните етерични масла не са основни текстилни багрила.",
+      "bg": "Лавандулата съдържа флавоноиди, фенолни киселини и в цветовете — малко антоцианови пигменти. Водното извличане изважда основно фенолната жълто-кафява компонента; ароматните етерични масла не са основни текстилни багрила.",
       "en": "Lavender contains flavonoids, phenolic acids, and in the flowers a little anthocyanin pigment. Water extraction takes mainly the yellow-brown phenolic fraction; the aromatic essential oils are not significant textile dyes."
      }
     },
@@ -3689,7 +3689,7 @@
      ],
      "harvestNote": {
       "bg": "Подходяща е кора от клони при зимна резитба.",
-      "en": ""
+      "en": "Bark from branches cut in the winter pruning is suitable."
      }
     },
     {
@@ -3738,11 +3738,11 @@
      "hex": "#C9AE79",
      "name": {
       "bg": "жълто-бежово",
-      "en": ""
+      "en": "yellow-beige"
      },
      "conditions": {
       "bg": "от листа",
-      "en": ""
+      "en": "from the leaves"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3751,11 +3751,11 @@
      "hex": "#A2825B",
      "name": {
       "bg": "светло кафяво",
-      "en": ""
+      "en": "light brown"
      },
      "conditions": {
       "bg": "от кора",
-      "en": ""
+      "en": "from the bark"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3768,7 +3768,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за жълто-бежово; желязо — за сиво/кафяво.\npH: неутрално е надежден старт.\nТемпература: гореща екстракция.\nЕко принт: листата могат да дадат мек контур; силата зависи от сезона и сорта.",
+      "bg": "Закрепител: алуминиев за жълто-бежово; желязо — за сиво/кафяво.\npH: неутрално е надежден старт.\nТемпература: горещо извличане.\nЕко принт: листата могат да дадат мек контур; силата зависи от сезона и сорта.",
       "en": "Mordant: alum for yellow-beige; iron for grey or brown.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nEco print: the leaves can give a soft outline; the strength depends on the season and the variety."
      }
     },
@@ -3779,7 +3779,7 @@
      },
      "body": {
       "bg": "листа · кора",
-      "en": "leaf · bark · hull"
+      "en": "leaves · bark"
      }
     },
     {
@@ -3809,7 +3809,7 @@
      },
      "body": {
       "bg": "Листата и кората дават жълто-бежово до светлокафяво. Подходяща е като достъпна местна суровина и за нежни естествени тонове.\n\nКората иска накисване през нощта — това променя добива силно. Листата отиват към жълто, кората към бежово и земно.",
-      "en": "Leaves and bark give yellow-beige through light brown. It is worth having as an easily found local material and for gentle natural tones.\n\nThe bark wants an overnight soak — it changes the yield considerably. Leaves go towards yellow, bark towards beige and earth."
+      "en": "Leaves and bark give yellow-beige through light brown. It is worth having as an easily found local material and for gentle natural tones.\n\nThe bark needs an overnight soak — it changes the yield considerably. Leaves go towards yellow, bark towards beige and earth."
      }
     },
     {
@@ -3953,7 +3953,7 @@
      ],
      "harvestNote": {
       "bg": "Събирай при резитба или от паднали клони.",
-      "en": ""
+      "en": "Collect when pruning or from fallen branches."
      }
     }
    ],
@@ -3962,11 +3962,11 @@
      "hex": "#A9763F",
      "name": {
       "bg": "медено-кафяво",
-      "en": ""
+      "en": "honey brown"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -3979,7 +3979,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-топло кафяво; желязо — за сиво/тъмно.\npH: неутрално е подходящо.\nТемпература: гореща екстракция.\nЕко принт: листата могат да дадат танинов контур, но силата варира според сезона.",
+      "bg": "Закрепител: алуминиев за по-топло кафяво; желязо — за сиво/тъмно.\npH: неутрално е подходящо.\nТемпература: горещо извличане.\nЕко принт: листата могат да дадат танинов контур, но силата варира според сезона.",
       "en": "Mordant: alum for a warmer brown; iron for grey or dark.\npH: neutral suits it.\nTemperature: hot extraction.\nEco print: the leaves can give a tannin outline, but the strength varies with the season."
      }
     },
@@ -3990,7 +3990,7 @@
      },
      "body": {
       "bg": "листа · кора",
-      "en": "leaf · bark"
+      "en": "leaves · bark"
      }
     },
     {
@@ -4205,11 +4205,11 @@
      "hex": "#8E5A44",
      "name": {
       "bg": "червеникаво-кафяво",
-      "en": ""
+      "en": "reddish brown"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4222,7 +4222,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светло златисто; желязо — за по-тъмно.\npH: неутрално е добър старт.\nТемпература: умерена гореща екстракция.\nСтатус: вторично/експериментално багрилно растение.",
+      "bg": "Закрепител: алуминиев за по-светло златисто; желязо — за по-тъмно.\npH: неутрално е добър старт.\nТемпература: умерено горещо извличане.\nСтатус: вторично/експериментално багрилно растение.",
       "en": "Mordant: alum for a lighter gold; iron to darken.\npH: neutral is a good starting point.\nTemperature: moderate hot extraction.\nStatus: a secondary or experimental dye plant."
      }
     },
@@ -4233,7 +4233,7 @@
      },
      "body": {
       "bg": "цветове · листа · надземна част",
-      "en": "flower · whole plant · leaf"
+      "en": "flowers · leaves · aerial parts"
      }
     },
     {
@@ -4373,7 +4373,7 @@
      ],
      "harvestNote": {
       "bg": "Събирай при зимна резитба, не чрез белене на живо дърво.",
-      "en": ""
+      "en": "Collect during the winter pruning, not by stripping a living tree."
      }
     }
    ],
@@ -4382,11 +4382,11 @@
      "hex": "#D5A79C",
      "name": {
       "bg": "светло розово",
-      "en": ""
+      "en": "light pink"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4395,11 +4395,11 @@
      "hex": "#A87563",
      "name": {
       "bg": "розово-кафяво",
-      "en": ""
+      "en": "pinkish brown"
      },
      "conditions": {
       "bg": "по-концентрирана баня",
-      "en": ""
+      "en": "a stronger bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4412,7 +4412,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-топли светли тонове; желязо — за потъмняване.\npH: неутрално е добър старт.\nТемпература: кората понася гореща и по-продължителна екстракция.\nБеритба: използвай кора само от резитба/отрязани клони.",
+      "bg": "Закрепител: алуминиев за по-топли светли тонове; желязо — за потъмняване.\npH: неутрално е добър старт.\nТемпература: кората понася горещо и по-продължително извличане.\nБеритба: използвай кора само от резитба/отрязани клони.",
       "en": "Mordant: alum for warmer light tones; iron to darken.\npH: neutral is a good starting point.\nTemperature: the bark takes a hot and longer extraction.\nGathering: use bark only from prunings or cut branches."
      }
     },
@@ -4432,7 +4432,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Кората съдържа танини, флавоноиди и други фенолни вещества. Техните концентрации варират с възрастта и сезона и дават меката розово-кафява до сива гама при метални морданти.",
+      "bg": "Кората съдържа танини, флавоноиди и други фенолни вещества. Техните концентрации варират с възрастта и сезона и дават меката розово-кафява до сива гама при метални закрепители.",
       "en": "The bark contains tannins, flavonoids and other phenolic compounds. Their proportions vary with age and season, and give the soft pink-brown to grey range under metal mordants."
      }
     },
@@ -4566,11 +4566,11 @@
      "hex": "#D0A63F",
      "name": {
       "bg": "жълто",
-      "en": ""
+      "en": "yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4579,11 +4579,11 @@
      "hex": "#9E7A3E",
      "name": {
       "bg": "жълто-кафяво",
-      "en": ""
+      "en": "yellow-brown"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4592,11 +4592,11 @@
      "hex": "#5F5C3A",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4609,7 +4609,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: може да се използва самостоятелно; алуминиев за по-ясно жълто, желязо за маслинено/сиво.\npH: неутрално до леко кисело.\nТемпература: гореща екстракция.\nЦелулоза: самата кора внася значително количество танин и може да участва в предмордантната подготовка.",
+      "bg": "Закрепител: може да се използва самостоятелно; алуминиев за по-ясно жълто, желязо за маслинено/сиво.\npH: неутрално до леко кисело.\nТемпература: горещо извличане.\nЦелулоза: самата кора внася значително количество танин и може да участва в подготовката преди обработката със закрепител.",
       "en": "Mordant: can be used on its own; alum for a clearer yellow, iron for olive or grey.\npH: neutral to slightly acidic.\nTemperature: hot extraction.\nCellulose: the rind itself brings a considerable quantity of tannin and can take part in the pre-mordanting."
      }
     },
@@ -4620,7 +4620,7 @@
      },
      "body": {
       "bg": "кора на плода",
-      "en": "hull"
+      "en": "fruit rind"
      }
     },
     {
@@ -4659,8 +4659,8 @@
       "en": "Harvest and processing"
      },
      "body": {
-      "bg": "Кога се събира: кората се отделя от зрели плодове; подходяща е и прясна, и сушена.\nКакво се използва: кората на плода.\nОбработка: отстрани остатъчната мека част, нарежи на парчета и суши напълно на въздух; за по-бърза екстракция натроши преди употреба.\nСъхранение: сухо и тъмно; добре изсушената кора се съхранява дълго.",
-      "en": "When to gather: the rind is taken from ripe fruit; both fresh and dried suit it.\nWhat is used: the rind of the fruit.\nProcessing: remove any soft flesh, cut into pieces and air-dry completely; crush before use for a quicker extraction.\nStorage: dry and dark; well dried rind keeps a long time."
+      "bg": "Кога се събира: кората се отделя от зрели плодове; подходяща е и прясна, и сушена.\nКакво се използва: кората на плода.\nОбработка: отстрани остатъчната мека част, нарежи на парчета и суши напълно на въздух; за по-бързо извличане натроши преди употреба.\nСъхранение: сухо и тъмно; добре изсушената кора се съхранява дълго.",
+      "en": "When to gather: the rind is taken from ripe fruit; both fresh and dried suit it.\nWhat is used: the rind of the fruit.\nProcessing: remove any soft flesh, cut into pieces and air-dry completely; crush before use for a quicker extraction.\nStorage: dry and dark; well-dried rind keeps a long time."
      }
     }
    ],
@@ -4845,7 +4845,7 @@
      ],
      "harvestNote": {
       "bg": "Само от паднали/подрязани клони или отпадък от дървесина; не обелвай живо дърво.",
-      "en": ""
+      "en": "Collect only from fallen or pruned branches or from wood waste; do not strip a living tree."
      }
     },
     {
@@ -4885,7 +4885,7 @@
      ],
      "harvestNote": {
       "bg": "Събират се оформени шикалки; наличието им варира силно по години и дървета.",
-      "en": ""
+      "en": "Fully formed galls are collected; how many there are varies greatly from year to year and tree to tree."
      }
     }
    ],
@@ -4894,11 +4894,11 @@
      "hex": "#A79E55",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4907,11 +4907,11 @@
      "hex": "#7A5D3E",
      "name": {
       "bg": "кафяво",
-      "en": ""
+      "en": "brown"
      },
      "conditions": {
       "bg": "от кора",
-      "en": ""
+      "en": "from the bark"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4920,11 +4920,11 @@
      "hex": "#2C2724",
      "name": {
       "bg": "черно",
-      "en": ""
+      "en": "black"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -4937,7 +4937,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: видим цвят е възможен и без метален мордант; с желязо се получават сиво-черни комплекси.\npH: неутрално до леко кисело е надежден старт.\nТемпература: гореща екстракция; при гали може и по-щадящо извличане.\nЦелулоза: галите са отличен материал за танинова предбаня преди алуминиев мордант.",
+      "bg": "Закрепител: видим цвят е възможен и без метален закрепител; с желязо се получават сиво-черни комплекси.\npH: неутрално до леко кисело е надежден старт.\nТемпература: горещо извличане; при гали може и по-щадящо извличане.\nЦелулоза: галите са отличен материал за танинова предбаня преди алуминиев закрепител.",
       "en": "Mordant: visible colour is possible without a metal mordant; with iron it gives grey-black complexes.\npH: neutral to slightly acidic is a dependable start.\nTemperature: hot extraction; galls will take a gentler one.\nCellulose: the galls are an excellent material for a tannin pre-bath before an alum mordant."
      }
     },
@@ -4948,7 +4948,7 @@
      },
      "body": {
       "bg": "листа · кора · жълъди · гали",
-      "en": "leaf · fruit · bark · gall"
+      "en": "leaves · bark · acorns · galls"
      }
     },
     {
@@ -4957,7 +4957,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Дъбовите части съдържат големи количества хидролизируеми и кондензирани танини. Танините имат силен афинитет към целулозата и образуват тъмни железо-танинови комплекси, което обяснява както ролята им като предмордант, така и тъмните отпечатъци в еко принта.",
+      "bg": "Дъбовите части съдържат големи количества хидролизируеми и кондензирани танини. Танините имат силен афинитет към целулозата и образуват тъмни железо-танинови комплекси, което обяснява както ролята им като предварителна обработка преди закрепителя, така и тъмните отпечатъци в еко принта.",
       "en": "Oak parts contain large quantities of hydrolysable and condensed tannins. Tannins have a strong affinity for cellulose and form dark iron-tannin complexes, which accounts both for their role as a pre-mordant and for the dark marks in eco print."
      }
     },
@@ -5165,11 +5165,11 @@
      "hex": "#DCC148",
      "name": {
       "bg": "лимонено жълто",
-      "en": ""
+      "en": "lemon yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5178,11 +5178,11 @@
      "hex": "#5F7A3E",
      "name": {
       "bg": "ярко зелено",
-      "en": ""
+      "en": "bright green"
      },
      "conditions": {
       "bg": "над индиго",
-      "en": ""
+      "en": "over indigo"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5191,11 +5191,11 @@
      "hex": "#6B6738",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5208,7 +5208,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за ярко и чисто жълто; желязо — пестеливо за зелени/маслинени тонове.\npH: неутрално до леко кисело.\nТемпература: не прегрявай; около 70 °C е достатъчно за щадящ процес.\nКомбинации: класическо жълто за наслагване върху индиго/вайда при зелени.",
+      "bg": "Закрепител: алуминиев за ярко и чисто жълто; желязо — пестеливо за зелени/маслинени тонове.\npH: неутрално до леко кисело.\nТемпература: не прегрявай; около 70 °C е достатъчно за щадящ процес.\nКомбинации: класическо жълто за наслагване върху индиго/вайда при зелени.",
       "en": "Mordant: alum for a bright, clean yellow; iron sparingly for greens and olives.\npH: neutral to slightly acidic.\nTemperature: do not overheat; around 70 °C is enough for a gentle process.\nCombinations: the classic yellow to lay over indigo or woad for greens."
      }
     },
@@ -5219,7 +5219,7 @@
      },
      "body": {
       "bg": "цветове · листа · стъбла · надземна част",
-      "en": "flower · leaf · whole plant"
+      "en": "flowers · leaves · stems · aerial parts"
      }
     },
     {
@@ -5228,7 +5228,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Основният цветант е лутеолин и сродни флавоноиди. Лутеолинът образува устойчиви комплекси с алуминиев мордант и дава характерното чисто жълто; желязото променя комплекса и измества цвета към маслинено.",
+      "bg": "Основният цветант е лутеолин и сродни флавоноиди. Лутеолинът образува устойчиви комплекси с алуминиев закрепител и дава характерното чисто жълто; желязото променя комплекса и измества цвета към маслинено.",
       "en": "The main colourant is luteolin and related flavonoids. Luteolin forms stable complexes with an alum mordant and gives the characteristic clean yellow; iron alters the complex and shifts the colour towards olive."
      }
     },
@@ -5238,7 +5238,7 @@
       "en": "Harvest and processing"
      },
      "body": {
-      "bg": "Кога се бере: през втората година, около началото до пълния цъфтеж и преди силно развитие на семената.\nКакво се бере: цялата надземна част — листа, стъбла и цветове.\nОбработка: използвай прясно или нарежи и суши на сянка/проветриво място. За екстракция сухият материал може да се накисне предварително.\nСъхранение: напълно сухо, на тъмно; не е необходимо да се пази зелен цветът на самото растение, за да остане багрилото активно.",
+      "bg": "Кога се бере: през втората година, около началото до пълния цъфтеж и преди силно развитие на семената.\nКакво се бере: цялата надземна част — листа, стъбла и цветове.\nОбработка: използвай прясно или нарежи и суши на сянка/проветриво място. За извличане сухият материал може да се накисне предварително.\nСъхранение: напълно сухо, на тъмно; не е необходимо да се пази зелен цветът на самото растение, за да остане багрилото активно.",
       "en": "When to gather: in the second year, from the beginning of flowering to full bloom and before the seed develops strongly.\nWhat is gathered: the whole of the aerial part — leaves, stems and flowers.\nProcessing: use fresh, or cut up and dry in the shade somewhere airy. For extraction, dried material can be soaked beforehand.\nStorage: fully dry, in the dark; the plant does not need to stay green for the dye to remain active."
      }
     },
@@ -5259,7 +5259,7 @@
      },
      "body": {
       "bg": "Едно от най-надеждните европейски жълти багрила. Цялата надземна част дава ясно лимонено до златисто жълто; желязото измества към маслинено. Прегряването притъпява яркостта, затова се работи при по-ниска температура от много други жълти растения.\n\nНакисва се в топла вода един час преди загряване. Прецедено дава най-чистото жълто, с растителната маса вътре — по-дълбоко. Оставя се да изстине в банята.",
-      "en": "One of the most dependable European yellows. The whole aerial part gives a clear lemon through to golden yellow; iron shifts it to olive. Overheating dulls the brightness, so it is worked at a lower temperature than many other yellow plants.\n\nIt soaks in warm water for an hour before heating. Strained it gives the cleanest yellow; with the plant matter left in, it goes deeper. It is left to cool in the bath."
+      "en": "One of the most dependable European yellows. The whole aerial part gives a clear lemon through to golden yellow; iron shifts it to olive. Overheating dulls the brightness, so it is worked at a lower temperature than many other yellow plants.\n\nIt soaks in warm water for an hour before heating. Strained it gives the cleanest yellow; with the plant material left in, it goes deeper. It is left to cool in the bath."
      }
     }
    ],
@@ -5398,7 +5398,7 @@
      ],
      "harvestNote": {
       "bg": "Само от резитба/управлявани растения; не обелвай диви храсти.",
-      "en": ""
+      "en": "Collect only from prunings or managed plants; do not strip wild shrubs."
      }
     }
    ],
@@ -5407,11 +5407,11 @@
      "hex": "#CBA23E",
      "name": {
       "bg": "жълто",
-      "en": ""
+      "en": "yellow"
      },
      "conditions": {
       "bg": "от плодове",
-      "en": ""
+      "en": "from the fruit"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5420,11 +5420,11 @@
      "hex": "#96743F",
      "name": {
       "bg": "жълто-кафяво",
-      "en": ""
+      "en": "yellow-brown"
      },
      "conditions": {
       "bg": "от кора",
-      "en": ""
+      "en": "from the bark"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5432,12 +5432,12 @@
     {
      "hex": "#63603A",
      "name": {
-      "bg": "оливково",
-      "en": ""
+      "bg": "маслинено",
+      "en": "olive"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5450,7 +5450,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за жълто; желязо — за оливково/кафяво.\npH: има осезаемо влияние и може да измества жълтото към зеленикаво/кафяво.\nТемпература: умерена гореща екстракция.\nВажно: не смесвай този вид с елшов зърнастец Frangula alnus.",
+      "bg": "Закрепител: алуминиев за жълто; желязо — за маслинено/кафяво.\npH: има осезаемо влияние и може да измества жълтото към зеленикаво/кафяво.\nТемпература: умерено горещо извличане.\nВажно: не смесвай този вид с елшов зърнастец Frangula alnus.",
       "en": "Mordant: alum for yellow; iron for olive or brown.\npH: has a marked effect and can move the yellow towards greenish or brown.\nTemperature: moderate hot extraction.\nImportant: do not confuse this species with alder buckthorn, Frangula alnus."
      }
     },
@@ -5461,7 +5461,7 @@
      },
      "body": {
       "bg": "плодове · кора",
-      "en": "fruit · bark"
+      "en": "berries · bark"
      }
     },
     {
@@ -5470,7 +5470,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Кората и плодовете съдържат различни фенолни и антрахинонови производни. Техните йонизационни и комплексообразуващи свойства правят цвета чувствителен към pH и метални морданти.",
+      "bg": "Кората и плодовете съдържат различни фенолни и антрахинонови производни. Техните йонизационни и комплексообразуващи свойства правят цвета чувствителен към pH и метални закрепители.",
       "en": "The bark and fruit contain various phenolic and anthraquinone derivatives. How they ionise and form complexes makes the colour sensitive to pH and to metal mordants."
      }
     },
@@ -5490,7 +5490,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Кората и плодовете могат да дадат жълти, жълто-кафяви и оливкови тонове. Оттенъкът е чувствителен към pH и морданта, а различните части не трябва да се приемат като еквивалентни.",
+      "bg": "Кората и плодовете могат да дадат жълти, жълто-кафяви и маслинени тонове. Оттенъкът е чувствителен към pH и закрепителя, а различните части не трябва да се приемат като еквивалентни.",
       "en": "Bark and fruit can give yellows, yellow-browns and olives. The hue is sensitive to pH and to the mordant, and the different parts should not be treated as equivalent."
      }
     },
@@ -5645,11 +5645,11 @@
      "hex": "#9C7B45",
      "name": {
       "bg": "жълто-кафяво",
-      "en": ""
+      "en": "yellow-brown"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5658,11 +5658,11 @@
      "hex": "#4A4038",
      "name": {
       "bg": "тъмно",
-      "en": ""
+      "en": "dark"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5675,7 +5675,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: може да даде цвят и без метален мордант; желязо — за силно потъмняване.\npH: неутрално е надежден старт.\nТемпература: гореща екстракция.\nЦелулоза: подходящ танинов материал за подготовка преди алуминиев мордант.",
+      "bg": "Закрепител: може да даде цвят и без метален закрепител; желязо — за силно потъмняване.\npH: неутрално е надежден старт.\nТемпература: горещо извличане.\nЦелулоза: подходящ танинов материал за подготовка преди алуминиев закрепител.",
       "en": "Mordant: can give colour without a metal mordant; iron for a strong darkening.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nCellulose: a suitable tannin material for preparation before an alum mordant."
      }
     },
@@ -5686,7 +5686,7 @@
      },
      "body": {
       "bg": "листа · плодове",
-      "en": "fruit · leaf"
+      "en": "leaves · fruit"
      }
     },
     {
@@ -5695,7 +5695,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Rhus coriaria е богат на хидролизируеми танини, включително галотанинови производни. Танините имат силен афинитет към целулозата и образуват тъмни железо-танинови комплекси, което обяснява и мордантиращата, и багрилната функция.",
+      "bg": "Rhus coriaria е богат на хидролизируеми танини, включително галотанинови производни. Танините имат силен афинитет към целулозата и образуват тъмни железо-танинови комплекси, което обяснява и закрепващата, и багрилната функция.",
       "en": "Rhus coriaria is rich in hydrolysable tannins, gallotannin derivatives among them. The tannins have a strong affinity for cellulose and form dark iron-tannin complexes, which accounts for both the mordanting and the dyeing function."
      }
     },
@@ -5871,11 +5871,11 @@
      "hex": "#9C9A55",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5884,11 +5884,11 @@
      "hex": "#6A6740",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -5901,7 +5901,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за светло жълто-зелено; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nСтатус: вторично/експериментално багрилно растение.",
+      "bg": "Закрепител: алуминиев за светло жълто-зелено; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nСтатус: вторично/експериментално багрилно растение.",
       "en": "Mordant: alum for a light yellow-green; iron minimally.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nStatus: a secondary or experimental dye plant."
      }
     },
@@ -5912,7 +5912,7 @@
      },
      "body": {
       "bg": "листа · надземни върхове",
-      "en": "leaf · whole plant"
+      "en": "leaves · leafy tops"
      }
     },
     {
@@ -6057,7 +6057,7 @@
      ],
      "harvestNote": {
       "bg": "Най-добре от растения поне на 2–3 години, след края на вегетацията.",
-      "en": ""
+      "en": "Best from plants at least 2–3 years old, after the growing season has ended."
      }
     }
    ],
@@ -6066,11 +6066,11 @@
      "hex": "#C4607A",
      "name": {
       "bg": "ярко розово",
-      "en": ""
+      "en": "bright pink"
      },
      "conditions": {
       "bg": "мека вода, ниска температура",
-      "en": ""
+      "en": "soft water, low temperature"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6079,11 +6079,11 @@
      "hex": "#A83B36",
      "name": {
       "bg": "червено",
-      "en": ""
+      "en": "red"
      },
      "conditions": {
-      "bg": "алуминиев мордант, 70–75 °C",
-      "en": ""
+      "bg": "алуминиев закрепител, 70–75 °C",
+      "en": "aluminium mordant, 70–75 °C"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6092,11 +6092,11 @@
      "hex": "#9C4E33",
      "name": {
       "bg": "керемидено",
-      "en": ""
+      "en": "brick red"
      },
      "conditions": {
       "bg": "твърда вода",
-      "en": ""
+      "en": "hard water"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6105,11 +6105,11 @@
      "hex": "#7A3038",
      "name": {
       "bg": "винено",
-      "en": ""
+      "en": "wine red"
      },
      "conditions": {
       "bg": "алкална среда",
-      "en": ""
+      "en": "alkaline conditions"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6122,7 +6122,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиевият е класически избор; калциевите йони в банята често подпомагат наситеното червено.\npH: леко алкално може да усили извличането, но прекалена алкалност измества и уврежда някои влакна.\nТемпература: дръж багрилната баня под около 80–82 °C, когато целта е чисто червено.\nЦелулоза: изисква добра танинова/алуминиева подготовка за надеждни резултати.",
+      "bg": "Закрепител: алуминиевият е класически избор; калциевите йони в банята често подпомагат наситеното червено.\npH: леко алкално може да усили извличането, но прекалена алкалност измества и уврежда някои влакна.\nТемпература: дръж багрилната баня под около 80–82 °C, когато целта е чисто червено.\nЦелулоза: изисква добра танинова/алуминиева подготовка за надеждни резултати.",
       "en": "Mordant: alum is the classic choice; calcium ions in the bath often help the deep red.\npH: slightly alkaline can improve the extraction, but too much alkalinity shifts the colour and damages some fibres.\nTemperature: keep the dye bath below about 80–82 °C when a clean red is wanted.\nCellulose: needs a good tannin and alum preparation for dependable results."
      }
     },
@@ -6133,7 +6133,7 @@
      },
      "body": {
       "bg": "корени · коренища",
-      "en": "root"
+      "en": "roots · rhizomes"
      }
     },
     {
@@ -6142,7 +6142,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Корените съдържат антрахинонови багрила — най-вече ализарин, пурпурин и сродни съединения. Те образуват стабилни комплекси с метални йони и дават различни червени, оранжеви и кафеникави оттенъци според морданта, минералния състав на водата и температурата.",
+      "bg": "Корените съдържат антрахинонови багрила — най-вече ализарин, пурпурин и сродни съединения. Те образуват стабилни комплекси с метални йони и дават различни червени, оранжеви и кафеникави оттенъци според закрепителя, минералния състав на водата и температурата.",
       "en": "The roots contain anthraquinone dyes — alizarin, purpurin and related compounds above all. These form stable complexes with metal ions and give reds, oranges and browns that vary with the mordant, the mineral content of the water and the temperature."
      }
     },
@@ -6172,8 +6172,8 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Корените дават диапазон от розово и ясно червено до керемидено и винено. Ниската до умерена температура пази по-чистите червени; прегряването и дългото варене увеличават кафявата компонента. Алуминиевият мордант подчертава червено-оранжевите тонове, а желязото ги потъмнява.\n\nНе бива да прехвърля тавана — над него червеното отива към тухлено и кафяво. След изключване платът може да престои в банята до денонощие за по-дълбок цвят.",
-      "en": "The roots give a range from pink and clear red through to terracotta and wine. Low to moderate heat keeps the cleaner reds; overheating and long boiling increase the brown. An alum mordant brings out the red-orange tones, and iron darkens them.\n\nIt must not pass the ceiling — above it the red turns brick and brown. Once the heat is off the cloth can stand in the bath for up to a day for a deeper colour."
+      "bg": "Корените дават диапазон от розово и ясно червено до керемидено и винено. Ниската до умерена температура пази по-чистите червени; прегряването и дългото варене увеличават кафявата компонента. Алуминиевият закрепител подчертава червено-оранжевите тонове, а желязото ги потъмнява.\n\nНе бива да прехвърля тавана — над него червеното отива към тухлено и кафяво. След изключване платът може да престои в банята до денонощие за по-дълбок цвят.",
+      "en": "The roots give a range from pink and clear red through to terracotta and wine. Low to moderate heat keeps the cleaner reds; overheating and long boiling increase the brown. An alum mordant brings out the red-orange tones, and iron darkens them.\n\nIt must not go above the temperature ceiling — beyond it the red turns brick and brown. Once the heat is off the cloth can stand in the bath for up to a day for a deeper colour."
      }
     }
    ],
@@ -6198,7 +6198,7 @@
     ],
     "note": {
      "bg": "Коренът съдържа антрахинони, включително луцидин. Нормалното багрене не е опасно; рискът е в сухия прах и в поглъщането.",
-     "en": ""
+     "en": "The root contains anthraquinones, lucidin among them. Ordinary dyeing is not dangerous; the risk lies in the dry powder and in swallowing it."
     }
    },
    "photoCredit": {
@@ -6278,7 +6278,7 @@
      ],
      "harvestNote": {
       "bg": "Най-подходяща е кора от млади клони при резитба; не обелвай ствола.",
-      "en": ""
+      "en": "Bark from young branches cut when pruning is best; do not strip the trunk."
      }
     },
     {
@@ -6324,11 +6324,11 @@
      "hex": "#9A7B48",
      "name": {
       "bg": "жълто-кафяво",
-      "en": ""
+      "en": "yellow-brown"
      },
      "conditions": {
       "bg": "от кора",
-      "en": ""
+      "en": "from the bark"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6337,11 +6337,11 @@
      "hex": "#635F3B",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6354,7 +6354,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: не е задължителен за видим цвят; алуминий изчиства, желязо потъмнява.\npH: неутрално е добър старт.\nТемпература: гореща екстракция е подходяща.\nЦелулоза: може да допринася танин, но за стандартизирана танинова предбаня предпочитай по-богати източници.",
+      "bg": "Закрепител: не е задължителен за видим цвят; алуминий изчиства, желязо потъмнява.\npH: неутрално е добър старт.\nТемпература: горещото извличане е подходящо.\nЦелулоза: може да допринася танин, но за стандартизирана танинова предбаня предпочитай по-богати източници.",
       "en": "Mordant: not required for visible colour; alum clears it, iron darkens it.\npH: neutral is a good starting point.\nTemperature: hot extraction suits it.\nCellulose: it can contribute tannin, but for a standardised tannin pre-bath, prefer richer sources."
      }
     },
@@ -6365,7 +6365,7 @@
      },
      "body": {
       "bg": "кора · листа",
-      "en": "bark · leaf"
+      "en": "bark · leaves"
      }
     },
     {
@@ -6394,7 +6394,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Кората и листата дават жълто-кафяви и маслинени тонове и реагират отчетливо с желязо. Поради собствените танини материалът може да даде цвят и без силен метален мордант, но резултатът е по-приглушен от орех/дъб. Кората е по-силна и по-танинова от листата.",
+      "bg": "Кората и листата дават жълто-кафяви и маслинени тонове и реагират отчетливо с желязо. Поради собствените танини материалът може да даде цвят и без силен метален закрепител, но резултатът е по-приглушен от орех/дъб. Кората е по-силна и по-танинова от листата.",
       "en": "Bark and leaves give yellow-browns and olives and react distinctly with iron. Because of its own tannins the material will give colour without a strong metal mordant, though the result is more muted than walnut or oak. The bark is stronger and more tannic than the leaves."
      }
     },
@@ -6519,11 +6519,11 @@
      "hex": "#DFA936",
      "name": {
       "bg": "слънчево жълто",
-      "en": ""
+      "en": "sunny yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6532,11 +6532,11 @@
      "hex": "#C89234",
      "name": {
       "bg": "ярко златисто",
-      "en": ""
+      "en": "bright gold"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6545,11 +6545,11 @@
      "hex": "#C57A38",
      "name": {
       "bg": "меко оранжево",
-      "en": ""
+      "en": "soft orange"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6558,11 +6558,11 @@
      "hex": "#6C6840",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6575,7 +6575,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за ярко жълто/оранжево; желязо — пестеливо за маслинено.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nЕко принт: съцветията са добри за петна и силуети; цветът зависи от сорта и зрелостта.",
+      "bg": "Закрепител: алуминиев за ярко жълто/оранжево; желязо — пестеливо за маслинено.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nЕко принт: съцветията са добри за петна и силуети; цветът зависи от сорта и зрелостта.",
       "en": "Mordant: alum for a bright yellow or orange; iron sparingly for olive.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nEco print: the flower heads are good for marks and silhouettes; the colour depends on the variety and the maturity."
      }
     },
@@ -6586,7 +6586,7 @@
      },
      "body": {
       "bg": "съцветия",
-      "en": "flower"
+      "en": "flower heads"
      }
     },
     {
@@ -6626,7 +6626,7 @@
      },
      "body": {
       "bg": "Съцветията дават ясно жълто, ярко златисто и меко оранжево. Свежите и добре изсушени цветове са надеждна градинска суровина, а оттенъкът варира според сорта и зрелостта.\n\nЦветовете се варят и банята се прецежда след охлаждане. Колкото повече цвят, толкова по-наситено. Платът може да престои в банята до денонощие.",
-      "en": "The flower heads give clear yellow, bright gold and soft orange. Fresh and well dried flowers are a dependable garden material, and the hue varies with the variety and the maturity.\n\nThe flowers are boiled and the bath strained once it has cooled. The more flower, the deeper the colour. The cloth can stand in the bath for up to a day."
+      "en": "The flower heads give clear yellow, bright gold and soft orange. Fresh and well-dried flowers are a dependable garden material, and the hue varies with the variety and the maturity.\n\nThe flowers are boiled and the bath strained once it has cooled. The more flower, the deeper the colour. The cloth can stand in the bath for up to a day."
      }
     }
    ],
@@ -6809,11 +6809,11 @@
      "hex": "#A9803F",
      "name": {
       "bg": "кафяво-златисто",
-      "en": ""
+      "en": "golden brown"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6822,11 +6822,11 @@
      "hex": "#5E4E38",
      "name": {
       "bg": "по-тъмно",
-      "en": ""
+      "en": "darker"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -6839,7 +6839,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светло златисто; желязо — за тъмно кафяво/сиво.\npH: неутрално е добър старт.\nТемпература: умерена гореща екстракция.\nСтатус: експериментално/вторично багрилно растение.",
+      "bg": "Закрепител: алуминиев за по-светло златисто; желязо — за тъмно кафяво/сиво.\npH: неутрално е добър старт.\nТемпература: умерено горещо извличане.\nСтатус: експериментално/вторично багрилно растение.",
       "en": "Mordant: alum for a lighter gold; iron for dark brown or grey.\npH: neutral is a good starting point.\nTemperature: moderate hot extraction.\nStatus: an experimental or secondary dye plant."
      }
     },
@@ -6850,7 +6850,7 @@
      },
      "body": {
       "bg": "цветове · листа · надземна част",
-      "en": "flower · whole plant · leaf"
+      "en": "flowers · leaves · aerial parts"
      }
     },
     {
@@ -7032,7 +7032,7 @@
      ],
      "harvestNote": {
       "bg": "Само от паднали или подрязани клони; не обелвай живо дърво.",
-      "en": ""
+      "en": "Collect only from fallen or pruned branches; do not strip a living tree."
      }
     }
    ],
@@ -7041,11 +7041,11 @@
      "hex": "#C6AE79",
      "name": {
       "bg": "бежово-жълто",
-      "en": ""
+      "en": "beige-yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7058,7 +7058,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-чисто жълто-бежово; желязо — за приглушаване.\npH: неутрално до леко кисело.\nТемпература: гореща екстракция без агресивно кипене.\nЕко принт: деликатен отпечатък; не е сред най-контрастните листа.",
+      "bg": "Закрепител: алуминиев за по-чисто жълто-бежово; желязо — за приглушаване.\npH: неутрално до леко кисело.\nТемпература: горещо извличане без агресивно кипене.\nЕко принт: деликатен отпечатък; не е сред най-контрастните листа.",
       "en": "Mordant: alum for a cleaner yellow-beige; iron to mute it.\npH: neutral to slightly acidic.\nTemperature: hot extraction without a hard boil.\nEco print: a delicate mark; not among the most contrasting leaves."
      }
     },
@@ -7069,7 +7069,7 @@
      },
      "body": {
       "bg": "листа · кора",
-      "en": "leaf · bark"
+      "en": "leaves · bark"
      }
     },
     {
@@ -7260,11 +7260,11 @@
      "hex": "#8E9A52",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7273,11 +7273,11 @@
      "hex": "#5F6852",
      "name": {
       "bg": "сиво-зелено",
-      "en": ""
+      "en": "grey-green"
      },
      "conditions": {
       "bg": "с железни соли",
-      "en": ""
+      "en": "with iron salts"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7290,7 +7290,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светъл жълто-зелен тон; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nВажно: зеленото не идва просто от хлорофила; водните хлорофилни тонове са нестабилни.",
+      "bg": "Закрепител: алуминиев за по-светъл жълто-зелен тон; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nВажно: зеленото не идва просто от хлорофила; водните хлорофилни тонове са нестабилни.",
       "en": "Mordant: alum for a lighter yellow-green; iron minimally.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nImportant: the green does not simply come from chlorophyll; chlorophyll tones from a water bath are unstable."
      }
     },
@@ -7301,7 +7301,7 @@
      },
      "body": {
       "bg": "листа · стъбла · надземна част",
-      "en": "leaf · whole plant"
+      "en": "leaves · stems · aerial parts"
      }
     },
     {
@@ -7451,11 +7451,11 @@
      "hex": "#4C6FA0",
      "name": {
       "bg": "ярко синьо",
-      "en": ""
+      "en": "bright blue"
      },
      "conditions": {
       "bg": "едно потапяне",
-      "en": ""
+      "en": "a single dip"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7464,11 +7464,11 @@
      "hex": "#2E4570",
      "name": {
       "bg": "наситено индиго",
-      "en": ""
+      "en": "deep indigo"
      },
      "conditions": {
       "bg": "многократно потапяне",
-      "en": ""
+      "en": "repeated dips"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7477,11 +7477,11 @@
      "hex": "#22324F",
      "name": {
       "bg": "тъмносиньо",
-      "en": ""
+      "en": "dark blue"
      },
      "conditions": {
       "bg": "дълга серия потапяния",
-      "en": ""
+      "en": "a long series of dips"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7494,7 +7494,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Процес: специален индигов процес; избери конкретен метод и следвай неговите pH/температурни изисквания.\nМордант: не е необходим.\npH: при редукционна вана е алкално; при свежо багрене условията са различни.\nТемпература: няма един общ диапазон; зависи от метода.\nБеритба: използвай пресни листа/млади върхове и ги обработвай бързо.",
+      "bg": "Процес: специален индигов процес; избери конкретен метод и следвай неговите pH/температурни изисквания.\nЗакрепител: не е необходим.\npH: при редукционна вана е алкално; при свежо багрене условията са различни.\nТемпература: няма един общ диапазон; зависи от метода.\nБеритба: използвай пресни листа/млади върхове и ги обработвай бързо.",
       "en": "Process: a particular indigo process; choose one method and follow its own pH and temperature requirements.\nMordant: not needed.\npH: alkaline in a reduction vat; fresh-leaf dyeing works under different conditions.\nTemperature: no single range applies; it depends on the method.\nGathering: use fresh leaves and young tops, and work them quickly."
      }
     },
@@ -7505,7 +7505,7 @@
      },
      "body": {
       "bg": "листа · млади върхове",
-      "en": "leaf"
+      "en": "leaves · young tops"
      }
     },
     {
@@ -7544,8 +7544,8 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Свежите листа съдържат прекурсори на индигото и се използват чрез специални методи — свежо багрене, екстракция или редукционна/ферментационна вана. Наситеното синьо се изгражда чрез повторни потапяния и окисление на въздух; това не е стандартна багрилна отвара.\n\nБагри се от хладна баня, не от вряла. Цветът се ражда от въздуха след изваждане, затова тъмното идва от повторни потапяния.",
-      "en": "Fresh leaves hold indigo precursors and are used by particular methods — fresh-leaf dyeing, extraction, or a reduction or fermentation vat. Depth of blue is built by repeated dips and oxidation in air; this is not an ordinary dye bath.\n\nIt dyes from a cool bath, not a boiling one. The colour is born from the air after lifting, so depth comes from repeated dips."
+      "bg": "Свежите листа съдържат прекурсори на индигото и се използват чрез специални методи — свежо багрене, извличане или редукционна/ферментационна вана. Наситеното синьо се изгражда чрез повторни потапяния и окисление на въздух; това не е стандартна багрилна отвара.\n\nБагри се от хладна баня, не от вряла. Цветът се ражда от въздуха след изваждане, затова тъмното идва от повторни потапяния.",
+      "en": "Fresh leaves hold indigo precursors and are used by particular methods — fresh-leaf dyeing, extraction, or a reduction or fermentation vat. Depth of blue is built by repeated dips and oxidation in air; this is not an ordinary dye bath.\n\nIt dyes from a cool bath, not a boiling one. The colour develops in the air after lifting, so depth comes from repeated dips."
      }
     }
    ],
@@ -7695,11 +7695,11 @@
      "hex": "#D6B03E",
      "name": {
       "bg": "ясно жълто",
-      "en": ""
+      "en": "clear yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7708,11 +7708,11 @@
      "hex": "#A5A24C",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
-      "bg": "без мордант",
-      "en": ""
+      "bg": "без закрепител",
+      "en": "unmordanted"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7721,11 +7721,11 @@
      "hex": "#5F6238",
      "name": {
       "bg": "маслинено зелено",
-      "en": ""
+      "en": "olive green"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7734,11 +7734,11 @@
      "hex": "#42492F",
      "name": {
       "bg": "тъмнозелено",
-      "en": ""
+      "en": "dark green"
      },
      "conditions": {
       "bg": "желязо, дълга баня",
-      "en": ""
+      "en": "iron, a long bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -7751,7 +7751,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за чисто жълто; желязо — за маслинено.\npH: неутрално до леко кисело пази жълтото.\nТемпература: умерена гореща екстракция.\nЕко принт: съцветията дават петна/текстура; листата са по-подходящи за фон, отколкото за много остър силует.",
+      "bg": "Закрепител: алуминиев за чисто жълто; желязо — за маслинено.\npH: неутрално до леко кисело пази жълтото.\nТемпература: умерено горещо извличане.\nЕко принт: съцветията дават петна/текстура; листата са по-подходящи за фон, отколкото за много остър силует.",
       "en": "Mordant: alum for a clean yellow; iron for olive.\npH: neutral to slightly acidic keeps the yellow.\nTemperature: moderate hot extraction.\nEco print: the flower heads leave marks and texture; the leaves suit a ground better than a very sharp silhouette."
      }
     },
@@ -7762,7 +7762,7 @@
      },
      "body": {
       "bg": "съцветия · листа",
-      "en": "flower · leaf"
+      "en": "flower heads · leaves"
      }
     },
     {
@@ -7771,7 +7771,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Основната жълта компонента идва от флавоноиди и сродни фенолни съединения. Те се свързват по-добре с влакното чрез мордант и променят оттенъка си при комплексообразуване с желязо.",
+      "bg": "Основната жълта компонента идва от флавоноиди и сродни фенолни съединения. Те се свързват по-добре с влакното чрез закрепител и променят оттенъка си при комплексообразуване с желязо.",
       "en": "The yellow comes mainly from flavonoids and related phenolic compounds. They bind to the fibre better through a mordant, and change hue as they complex with iron."
      }
     },
@@ -7826,8 +7826,8 @@
      "separate_vessels"
     ],
     "note": {
-     "bg": "Етеричното масло съдържа туйон. Листата в еко принт не са проблем; багрилната вана никога не се използва за храна.",
-     "en": ""
+     "bg": "Етеричното масло съдържа туйон. Листата в еко принт не са проблем; съдът за багрене никога не се използва за храна.",
+     "en": "The essential oil contains thujone. The leaves are not a problem in eco print; a dye pot is never used for food."
     }
    },
    "photoCredit": {
@@ -7954,7 +7954,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за чисто жълто; желязо — само в малки количества за маслинени тонове.\npH: неутрално до леко кисело пази жълтото по-чисто.\nТемпература: умерена гореща екстракция; избягвай продължително кипене.\nЕко принт: цветовете могат да оставят жълти отпечатъци, но листният силует е по-мек от силно таниновите растения.",
+      "bg": "Закрепител: алуминиев за чисто жълто; желязо — само в малки количества за маслинени тонове.\npH: неутрално до леко кисело пази жълтото по-чисто.\nТемпература: умерено горещо извличане; избягвай продължително кипене.\nЕко принт: цветовете могат да оставят жълти отпечатъци, но листният силует е по-мек от силно таниновите растения.",
       "en": "Mordant: alum for a clean yellow; iron only in small amounts, for olive tones.\npH: neutral to slightly acidic keeps the yellow cleaner.\nTemperature: moderate hot extraction; avoid a long boil.\nEco print: the flowers can leave yellow marks, but the leaf silhouette is softer than that of strongly tannic plants."
      }
     },
@@ -7965,7 +7965,7 @@
      },
      "body": {
       "bg": "цветове · листа",
-      "en": "flower · leaf"
+      "en": "flowers · leaves"
      }
     },
     {
@@ -7974,7 +7974,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Основните оцветяващи вещества са флавоноиди, включително производни на лутеолин и апигенин. Те образуват комплекси с метални морданти, което обяснява ясното жълто с алуминий и изместването към по-тъмни маслинени тонове с желязо.",
+      "bg": "Основните оцветяващи вещества са флавоноиди, включително производни на лутеолин и апигенин. Те образуват комплекси с метални закрепители, което обяснява ясното жълто с алуминий и изместването към по-тъмни маслинени тонове с желязо.",
       "en": "The main colourants are flavonoids, including luteolin and apigenin derivatives. They form complexes with metal mordants, which accounts for the clear yellow with alum and the shift towards darker olives with iron."
      }
     },
@@ -8004,7 +8004,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Цветовете и листата дават чисти жълти до охрени тонове; с желязо се изместват към маслинено и сиво-зелено. Алуминиевият мордант е най-подходящ, когато целта е ясно жълто. Цветът е сравнително предвидим, но интензитетът зависи от количеството свежа/суха суровина.",
+      "bg": "Цветовете и листата дават чисти жълти до охрени тонове; с желязо се изместват към маслинено и сиво-зелено. Алуминиевият закрепител е най-подходящ, когато целта е ясно жълто. Цветът е сравнително предвидим, но интензитетът зависи от количеството свежа/суха суровина.",
       "en": "The flowers and leaves give clean yellows through ochres; with iron they shift to olive and grey-green. An alum mordant suits it best where a clear yellow is the aim. The colour is fairly predictable, though the depth depends on how much fresh or dried material goes in."
      }
     }
@@ -8014,11 +8014,11 @@
      "hex": "#DDC248",
      "name": {
       "bg": "лимоненожълто",
-      "en": ""
+      "en": "lemon yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8027,11 +8027,11 @@
      "hex": "#B08A3C",
      "name": {
       "bg": "охра",
-      "en": ""
+      "en": "ochre"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8040,11 +8040,11 @@
      "hex": "#67653A",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8053,11 +8053,11 @@
      "hex": "#77804A",
      "name": {
       "bg": "зеленикаво",
-      "en": ""
+      "en": "greenish"
      },
      "conditions": {
       "bg": "с мед",
-      "en": ""
+      "en": "with copper"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8161,8 +8161,8 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за ясно жълто; желязо — за маслинено.\npH: силно влияе на жълтата гама.\nТемпература: умерена гореща екстракция.\nВажно: ботаническата идентификация на търговските „Persian berries“ е съществена за повторяемостта.",
-      "en": "Mordant: alum for a clear yellow; iron for olive.\npH: strongly affects the yellow range.\nTemperature: moderate hot extraction.\nImportant: the botanical identity of commercial „Persian berries“ matters for repeatability."
+      "bg": "Закрепител: алуминиев за ясно жълто; желязо — за маслинено.\npH: силно влияе на жълтата гама.\nТемпература: умерено горещо извличане.\nВажно: ботаническата идентификация на търговските „Persian berries“ е съществена за повторяемостта.",
+      "en": "Mordant: alum for a clear yellow; iron for olive.\npH: strongly affects the yellow range.\nTemperature: moderate hot extraction.\nImportant: the botanical identity of commercial “Persian berries” matters for repeatability."
      }
     },
     {
@@ -8172,7 +8172,7 @@
      },
      "body": {
       "bg": "плодове",
-      "en": "fruit"
+      "en": "berries"
      }
     },
     {
@@ -8181,7 +8181,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Жълтата гама идва главно от флавоноидни багрилни вещества, включително производни на рамнетин/кверцетинов тип при багрилните Rhamnus. Тези флавоноиди образуват комплекси с морданти и променят оттенъка си с pH.",
+      "bg": "Жълтата гама идва главно от флавоноидни багрилни вещества, включително производни на рамнетин/кверцетинов тип при багрилните Rhamnus. Тези флавоноиди образуват комплекси със закрепители и променят оттенъка си с pH.",
       "en": "The yellow range comes mainly from flavonoid colourants, including rhamnetin and quercetin-type derivatives in the dyer's Rhamnus species. These flavonoids form complexes with mordants and change hue with pH."
      }
     },
@@ -8201,7 +8201,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Плодовете дават силно жълто, горчично и топла охра. Цветът е чувствителен към pH и металните морданти; желязото го измества към маслинено. Използвай зрелия багрилен материал и прави малки тестове, защото различните Rhamnus видове и търговски материали могат да се различават.",
+      "bg": "Плодовете дават силно жълто, горчично и топла охра. Цветът е чувствителен към pH и металните закрепители; желязото го измества към маслинено. Използвай зрелия багрилен материал и прави малки тестове, защото различните Rhamnus видове и търговски материали могат да се различават.",
       "en": "The berries give a strong yellow, mustard and warm ochre. The colour is sensitive to pH and to metal mordants; iron shifts it towards olive. Use ripe dye material and run small tests, because different Rhamnus species and commercial materials can differ."
      }
     },
@@ -8221,11 +8221,11 @@
      "hex": "#D8AE38",
      "name": {
       "bg": "силно жълто",
-      "en": ""
+      "en": "strong yellow"
      },
      "conditions": {
-      "bg": "неузрели плодове, алуминиев мордант",
-      "en": ""
+      "bg": "неузрели плодове, алуминиев закрепител",
+      "en": "unripe fruit, aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8234,11 +8234,11 @@
      "hex": "#B08B32",
      "name": {
       "bg": "горчично",
-      "en": ""
+      "en": "mustard"
      },
      "conditions": {
       "bg": "сушени плодове",
-      "en": ""
+      "en": "dried fruit"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8247,11 +8247,11 @@
      "hex": "#A87C3A",
      "name": {
       "bg": "топла охра",
-      "en": ""
+      "en": "warm ochre"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8387,7 +8387,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиевият мордант подпомага ясните червени; желязо използвай пестеливо.\npH: силно pH-чувствително багрило.\nТемпература: гореща екстракция е подходяща, но продължителното кипене не е необходимо.\nУстойчивост: цветовете са красиви, но светлоустойчивостта може да е по-слаба от тази на броша.",
+      "bg": "Закрепител: алуминиевият закрепител подпомага ясните червени; желязо използвай пестеливо.\npH: силно pH-чувствително багрило.\nТемпература: горещото извличане е подходящо, но продължителното кипене не е необходимо.\nУстойчивост: цветовете са красиви, но светлоустойчивостта може да е по-слаба от тази на броша.",
       "en": "Mordant: an alum mordant supports the clear reds; use iron sparingly.\npH: a strongly pH-sensitive dye.\nTemperature: hot extraction suits it, but a long boil is not needed.\nFastness: the colours are beautiful, but the lightfastness can be weaker than madder's."
      }
     },
@@ -8398,7 +8398,7 @@
      },
      "body": {
       "bg": "сърцевинна дървесина",
-      "en": "bark · heartwood"
+      "en": "heartwood"
      }
     },
     {
@@ -8447,11 +8447,11 @@
      "hex": "#A83A3C",
      "name": {
       "bg": "червено",
-      "en": ""
+      "en": "red"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8460,11 +8460,11 @@
      "hex": "#B04358",
      "name": {
       "bg": "малиново",
-      "en": ""
+      "en": "raspberry"
      },
      "conditions": {
       "bg": "мека вода",
-      "en": ""
+      "en": "soft water"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8473,11 +8473,11 @@
      "hex": "#C06070",
      "name": {
       "bg": "розово-червено",
-      "en": ""
+      "en": "pinkish red"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8486,11 +8486,11 @@
      "hex": "#5E2C33",
      "name": {
       "bg": "бордо",
-      "en": ""
+      "en": "burgundy"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8504,7 +8504,7 @@
     ],
     "note": {
      "bg": "Под „бразилско дърво“ се предлага повече от един багрилен вид. Ботаническият вид на конкретната доставка си струва да се уточни.",
-     "en": ""
+     "en": "More than one dye species is sold as “brazilwood”. It is worth confirming the botanical species of a particular supply."
     }
    },
    "confidence": {
@@ -8623,7 +8623,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: може да багри и без метален мордант; алуминий изсветлява/изчиства, желязо потъмнява.\npH: неутрално до леко алкално може да задълбочи кафявото.\nТемпература: гореща баня е подходяща.\nЦелулоза: самият материал внася танин и често не изисква отделна танинова предбаня.",
+      "bg": "Закрепител: може да багри и без метален закрепител; алуминий изсветлява/изчиства, желязо потъмнява.\npH: неутрално до леко алкално може да задълбочи кафявото.\nТемпература: гореща баня е подходяща.\nЦелулоза: самият материал внася танин и често не изисква отделна танинова предбаня.",
       "en": "Mordant: will dye without a metal mordant; alum lightens and clears, iron darkens.\npH: neutral to slightly alkaline can deepen the brown.\nTemperature: a hot bath suits it.\nCellulose: the material brings its own tannin and often needs no separate tannin pre-bath."
      }
     },
@@ -8634,7 +8634,7 @@
      },
      "body": {
       "bg": "сърцевинна дървесина",
-      "en": "bark · heartwood"
+      "en": "heartwood"
      }
     },
     {
@@ -8683,11 +8683,11 @@
      "hex": "#A87049",
      "name": {
       "bg": "канела",
-      "en": ""
+      "en": "cinnamon"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8696,11 +8696,11 @@
      "hex": "#9C5A3C",
      "name": {
       "bg": "теракота",
-      "en": ""
+      "en": "terracotta"
      },
      "conditions": {
       "bg": "средна баня",
-      "en": ""
+      "en": "a medium-strength bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8709,11 +8709,11 @@
      "hex": "#7E4A32",
      "name": {
       "bg": "червеникаво-кафяво",
-      "en": ""
+      "en": "reddish brown"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8722,11 +8722,11 @@
      "hex": "#453026",
      "name": {
       "bg": "шоколадово",
-      "en": ""
+      "en": "chocolate brown"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8869,7 +8869,7 @@
      ],
      "harvestNote": {
       "bg": "Само от паднали или подрязани клони.",
-      "en": ""
+      "en": "Collect only from fallen or pruned branches."
      }
     },
     {
@@ -8916,7 +8916,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: видим цвят и без метален мордант; желязо — за тъмно сиво-кафяво.\npH: неутрално е добър старт.\nТемпература: гореща екстракция.\nЦелулоза: може да служи като танинов материал, но внася собствен бежово-кафяв фон.",
+      "bg": "Закрепител: видим цвят и без метален закрепител; желязо — за тъмно сиво-кафяво.\npH: неутрално е добър старт.\nТемпература: горещо извличане.\nЦелулоза: може да служи като танинов материал, но внася собствен бежово-кафяв фон.",
       "en": "Mordant: visible colour without a metal mordant; iron for a dark grey-brown.\npH: neutral is a good starting point.\nTemperature: hot extraction.\nCellulose: can serve as a tannin material, but it brings a beige-brown ground of its own."
      }
     },
@@ -8927,7 +8927,7 @@
      },
      "body": {
       "bg": "листа · кора · зелена плодова обвивка",
-      "en": "leaf · bark · hull"
+      "en": "leaves · bark · green husks"
      }
     },
     {
@@ -8976,11 +8976,11 @@
      "hex": "#C4AC85",
      "name": {
       "bg": "пясъчно бежово",
-      "en": ""
+      "en": "sandy beige"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -8989,11 +8989,11 @@
      "hex": "#A5825A",
      "name": {
       "bg": "топло светлокафяво",
-      "en": ""
+      "en": "warm light brown"
      },
      "conditions": {
       "bg": "средна баня",
-      "en": ""
+      "en": "a medium-strength bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9002,11 +9002,11 @@
      "hex": "#6B5C4C",
      "name": {
       "bg": "сиво-кафяво",
-      "en": ""
+      "en": "grey-brown"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9020,7 +9020,7 @@
     ],
     "note": {
      "bg": "Отнася се за сладък кестен, Castanea sativa. Да не се бърка с конски кестен (Aesculus hippocastanum), който има различен профил.",
-     "en": ""
+     "en": "This is sweet chestnut, Castanea sativa. Not to be confused with horse chestnut (Aesculus hippocastanum), which has a different profile."
     }
    },
    "confidence": {
@@ -9107,7 +9107,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: не е задължителен за протеинови влакна; алуминий/танин могат да подпомогнат целулозата.\npH: леко кисело до неутрално е добър старт.\nТемпература: умерена гореща баня.\nУстойчивост: обикновено добра, особено на вълна/коприна.",
+      "bg": "Закрепител: не е задължителен за протеинови влакна; алуминий/танин могат да подпомогнат целулозата.\npH: леко кисело до неутрално е добър старт.\nТемпература: умерена гореща баня.\nУстойчивост: обикновено добра, особено на вълна/коприна.",
       "en": "Mordant: not required for protein fibres; alum or tannin can help on cellulose.\npH: slightly acidic to neutral is a good start.\nTemperature: a moderate hot bath.\nFastness: usually good, particularly on wool and silk."
      }
     },
@@ -9118,7 +9118,7 @@
      },
      "body": {
       "bg": "листа",
-      "en": "leaf"
+      "en": "leaves"
      }
     },
     {
@@ -9167,11 +9167,11 @@
      "hex": "#C4763A",
      "name": {
       "bg": "топло оранжево",
-      "en": ""
+      "en": "warm orange"
      },
      "conditions": {
       "bg": "върху протеиново влакно",
-      "en": ""
+      "en": "on protein fibre"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9180,11 +9180,11 @@
      "hex": "#A55C31",
      "name": {
       "bg": "ръждиво",
-      "en": ""
+      "en": "rust"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9193,11 +9193,11 @@
      "hex": "#84492E",
      "name": {
       "bg": "червеникаво-кафяво",
-      "en": ""
+      "en": "reddish brown"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9210,7 +9210,7 @@
     ],
     "note": {
      "bg": "Описани са случаи на хемолиза при хора с недостиг на G6PD, особено при малки деца и обширно нанасяне върху кожа. „Черна къна“ с PPD е съвсем друг продукт и е значително по-опасна.",
-     "en": ""
+     "en": "Cases of haemolysis have been described in people with G6PD deficiency, particularly in young children and after extensive application to the skin. “Black henna” containing PPD is an entirely different product and considerably more dangerous."
     }
    },
    "confidence": {
@@ -9386,11 +9386,11 @@
      "hex": "#D2BC63",
      "name": {
       "bg": "меко жълто",
-      "en": ""
+      "en": "soft yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9399,11 +9399,11 @@
      "hex": "#CDBE87",
      "name": {
       "bg": "сламено",
-      "en": ""
+      "en": "straw"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9412,11 +9412,11 @@
      "hex": "#67653C",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9425,11 +9425,11 @@
      "hex": "#5C6350",
      "name": {
       "bg": "сиво-зелено",
-      "en": ""
+      "en": "grey-green"
      },
      "conditions": {
       "bg": "желязо, дълга баня",
-      "en": ""
+      "en": "iron, a long bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9442,7 +9442,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за жълто; желязо — минимално, ако се търси зеленикаво/сиво.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция; не е нужно силно кипене.\nЕко принт: цветовете и фините листа могат да дадат деликатна текстура.",
+      "bg": "Закрепител: алуминиев за жълто; желязо — минимално, ако се търси зеленикаво/сиво.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане; не е нужно силно кипене.\nЕко принт: цветовете и фините листа могат да дадат деликатна текстура.",
       "en": "Mordant: alum for yellow; iron minimally, if greenish or grey is wanted.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction; a hard boil is not needed.\nEco print: the flowers and fine leaves can give a delicate texture."
      }
     },
@@ -9453,7 +9453,7 @@
      },
      "body": {
       "bg": "цветове · листа · надземни върхове",
-      "en": "flower · leaf · whole plant"
+      "en": "flowers · leaves · flowering tops"
      }
     },
     {
@@ -9462,7 +9462,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Оцветяването идва главно от флавоноиди и други фенолни съединения в надземните части. Тези вещества образуват комплекси с морданти и затова жълтото се измества към зелено-сиво при желязо.",
+      "bg": "Оцветяването идва главно от флавоноиди и други фенолни съединения в надземните части. Тези вещества образуват комплекси със закрепители и затова жълтото се измества към зелено-сиво при желязо.",
       "en": "The colour comes mainly from flavonoids and other phenolic compounds in the aerial parts. These form complexes with mordants, which is why the yellow shifts towards green-grey with iron."
      }
     },
@@ -9607,11 +9607,11 @@
      "hex": "#C1A855",
      "name": {
       "bg": "приглушено жълто",
-      "en": ""
+      "en": "muted yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9620,11 +9620,11 @@
      "hex": "#A98B36",
      "name": {
       "bg": "горчично",
-      "en": ""
+      "en": "mustard"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9633,11 +9633,11 @@
      "hex": "#5C6440",
      "name": {
       "bg": "мъхесто зелено",
-      "en": ""
+      "en": "moss green"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9646,11 +9646,11 @@
      "hex": "#4A5245",
      "name": {
       "bg": "дълбоко сиво-зелено",
-      "en": ""
+      "en": "deep grey-green"
      },
      "conditions": {
       "bg": "желязо, дълга баня",
-      "en": ""
+      "en": "iron, a long bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9663,7 +9663,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светло жълто; желязо — в малко количество за зеленикаво-сиви тонове.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nЕко принт: листата могат да оставят меки петна и силуети, но не са надежден силно танинов принтер.",
+      "bg": "Закрепител: алуминиев за по-светло жълто; желязо — в малко количество за зеленикаво-сиви тонове.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nЕко принт: листата могат да оставят меки петна и силуети, но не са надежден силно танинов принтер.",
       "en": "Mordant: alum for a lighter yellow; a little iron for greenish greys.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nEco print: the leaves can leave soft marks and silhouettes, but this is not a dependable strong tannin printer."
      }
     },
@@ -9674,7 +9674,7 @@
      },
      "body": {
       "bg": "листа",
-      "en": "leaf"
+      "en": "leaves"
      }
     },
     {
@@ -9867,11 +9867,11 @@
      "hex": "#D3C67E",
      "name": {
       "bg": "бледожълто",
-      "en": ""
+      "en": "pale yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9880,11 +9880,11 @@
      "hex": "#A3A65C",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
       "bg": "свежи листа",
-      "en": ""
+      "en": "fresh leaves"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9893,11 +9893,11 @@
      "hex": "#606A55",
      "name": {
       "bg": "сиво-зелено",
-      "en": ""
+      "en": "grey-green"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -9910,7 +9910,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за светли жълто-зелени; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nСтатус: градинско/експериментално багрило с по-мека устойчивост.",
+      "bg": "Закрепител: алуминиев за светли жълто-зелени; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nСтатус: градинско/експериментално багрило с по-мека устойчивост.",
       "en": "Mordant: alum for light yellow-greens; iron minimally.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nStatus: a garden or experimental dye, with softer fastness."
      }
     },
@@ -9921,7 +9921,7 @@
      },
      "body": {
       "bg": "листа · надземни върхове",
-      "en": "leaf · whole plant"
+      "en": "leaves · leafy tops"
      }
     },
     {
@@ -10076,11 +10076,11 @@
      "hex": "#D8CC8A",
      "name": {
       "bg": "светложълто",
-      "en": ""
+      "en": "light yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10089,11 +10089,11 @@
      "hex": "#C7B68A",
      "name": {
       "bg": "бежово-жълто",
-      "en": ""
+      "en": "beige-yellow"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10102,11 +10102,11 @@
      "hex": "#6E6A4E",
      "name": {
       "bg": "зеленикаво-кафяво",
-      "en": ""
+      "en": "greenish brown"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10119,7 +10119,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за светло жълто; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nСтатус: локално/експериментално багрило, не класически силен цветант.",
+      "bg": "Закрепител: алуминиев за светло жълто; желязо — минимално.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nСтатус: локално/експериментално багрило, не класически силен цветант.",
       "en": "Mordant: alum for a light yellow; iron minimally.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nStatus: a local or experimental dye, not a classic strong colourant."
      }
     },
@@ -10130,7 +10130,7 @@
      },
      "body": {
       "bg": "листа",
-      "en": "leaf"
+      "en": "leaves"
      }
     },
     {
@@ -10139,7 +10139,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Маточината съдържа фенолни киселини, включително розмаринова киселина, и флавоноиди. Водната екстракция на тези полифеноли дава приглушената жълто-кафява гама; етеричното масло не е основен багрилен компонент.",
+      "bg": "Маточината съдържа фенолни киселини, включително розмаринова киселина, и флавоноиди. Водното извличане на тези полифеноли дава приглушената жълто-кафява гама; етеричното масло не е основен багрилен компонент.",
       "en": "Lemon balm contains phenolic acids, rosmarinic acid among them, and flavonoids. Water extraction of these polyphenols gives the muted yellow-brown range; the essential oil is not a significant dye component."
      }
     },
@@ -10285,11 +10285,11 @@
      "hex": "#DFB742",
      "name": {
       "bg": "маслено жълто",
-      "en": ""
+      "en": "buttery yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
-      "en": ""
+      "bg": "алуминиев закрепител",
+      "en": "aluminium mordant"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10298,11 +10298,11 @@
      "hex": "#C6913C",
      "name": {
       "bg": "медено",
-      "en": ""
+      "en": "honey"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10311,11 +10311,11 @@
      "hex": "#D08C36",
      "name": {
       "bg": "жълто-оранжево",
-      "en": ""
+      "en": "yellow-orange"
      },
      "conditions": {
       "bg": "много цвят в банята",
-      "en": ""
+      "en": "a lot of dye in the bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10324,11 +10324,11 @@
      "hex": "#6B6739",
      "name": {
       "bg": "приглушено маслинено",
-      "en": ""
+      "en": "muted olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10341,7 +10341,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за жълто-оранжево; желязо — пестеливо.\npH: неутрално до леко кисело.\nТемпература: умерена гореща екстракция.\nЕко принт: добър за петна и текстура, особено при свежи цветове.",
+      "bg": "Закрепител: алуминиев за жълто-оранжево; желязо — пестеливо.\npH: неутрално до леко кисело.\nТемпература: умерено горещо извличане.\nЕко принт: добър за петна и текстура, особено при свежи цветове.",
       "en": "Mordant: alum for yellow-orange; iron sparingly.\npH: neutral to slightly acidic.\nTemperature: moderate hot extraction.\nEco print: good for marks and texture, fresh flowers especially."
      }
     },
@@ -10352,7 +10352,7 @@
      },
      "body": {
       "bg": "цветове",
-      "en": "flower"
+      "en": "flowers"
      }
     },
     {
@@ -10518,11 +10518,11 @@
      "hex": "#D69A78",
      "name": {
       "bg": "прасковено",
-      "en": ""
+      "en": "peach"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10531,11 +10531,11 @@
      "hex": "#A85B38",
      "name": {
       "bg": "ръждиво",
-      "en": ""
+      "en": "rust"
      },
      "conditions": {
       "bg": "средна баня",
-      "en": ""
+      "en": "a medium-strength bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10544,11 +10544,11 @@
      "hex": "#A34B32",
      "name": {
       "bg": "керемидено",
-      "en": ""
+      "en": "brick red"
      },
      "conditions": {
       "bg": "някои видове",
-      "en": ""
+      "en": "some species"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10557,11 +10557,11 @@
      "hex": "#615E4C",
      "name": {
       "bg": "сиво-маслинено",
-      "en": ""
+      "en": "grey-olive"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10574,7 +10574,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-топли тонове; желязо — много пестеливо за тъмни контури.\npH: влияе на оттенъка, но видът на евкалипта е още по-решаващ.\nТемпература: гореща екстракция/парене; не е нужно бурно кипене.\nЕко принт: един от най-полезните контактни материали, но различните видове не трябва да се приемат като взаимозаменяеми.",
+      "bg": "Закрепител: алуминиев за по-топли тонове; желязо — много пестеливо за тъмни контури.\npH: влияе на оттенъка, но видът на евкалипта е още по-решаващ.\nТемпература: горещо извличане/парене; не е нужно бурно кипене.\nЕко принт: един от най-полезните контактни материали, но различните видове не трябва да се приемат като взаимозаменяеми.",
       "en": "Mordant: alum for warmer tones; iron very sparingly, for dark outlines.\npH: affects the hue, though the species of eucalyptus matters more still.\nTemperature: hot extraction or steaming; a hard boil is not needed.\nEco print: one of the most useful contact materials, but the different species must not be treated as interchangeable."
      }
     },
@@ -10585,7 +10585,7 @@
      },
      "body": {
       "bg": "листа",
-      "en": "leaf"
+      "en": "leaves"
      }
     },
     {
@@ -10614,7 +10614,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Листата могат да дадат от прасковено и ръждиво до керемидено, кафяво и сиво-маслинено; резултатът зависи силно от вида Eucalyptus, зрелостта на листата и морданта. При еко принт много видове дават отчетлив силует и характерни оранжево-ръждиви тонове.",
+      "bg": "Листата могат да дадат от прасковено и ръждиво до керемидено, кафяво и сиво-маслинено; резултатът зависи силно от вида Eucalyptus, зрелостта на листата и закрепителя. При еко принт много видове дават отчетлив силует и характерни оранжево-ръждиви тонове.",
       "en": "The leaves can give anything from peach and rust to terracotta, brown and grey-olive; the result depends a great deal on the Eucalyptus species, the maturity of the leaves and the mordant. In eco print many species give a distinct silhouette and characteristic orange-rust tones."
      }
     },
@@ -10767,11 +10767,11 @@
      "hex": "#E0BBA4",
      "name": {
       "bg": "кремаво прасковено",
-      "en": ""
+      "en": "creamy peach"
      },
      "conditions": {
       "bg": "слаба баня",
-      "en": ""
+      "en": "a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10780,11 +10780,11 @@
      "hex": "#D3A0A0",
      "name": {
       "bg": "пудрено розово",
-      "en": ""
+      "en": "powder pink"
      },
      "conditions": {
       "bg": "алкална среда",
-      "en": ""
+      "en": "alkaline conditions"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10793,11 +10793,11 @@
      "hex": "#B57F7C",
      "name": {
       "bg": "старо розово",
-      "en": ""
+      "en": "old rose"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10806,11 +10806,11 @@
      "hex": "#96685E",
      "name": {
       "bg": "розово-кафяво",
-      "en": ""
+      "en": "pinkish brown"
      },
      "conditions": {
       "bg": "концентрирана баня",
-      "en": ""
+      "en": "a concentrated bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -10823,7 +10823,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: може да даде цвят и без метален мордант; алуминиевият мордант подпомага по-равномерния резултат.\npH: неутрално до леко алкално често усилва розово-кафявата посока; крайни pH стойности могат да променят оттенъка.\nТемпература: работи с умерено нагряване и без продължително бурно кипене.\nЦелулоза: сравнително благодарен материал за памук, но резултатите са по-вариабилни от класическите багрилни растения.",
+      "bg": "Закрепител: може да даде цвят и без метален закрепител; алуминиевият закрепител подпомага по-равномерния резултат.\npH: неутрално до леко алкално често усилва розово-кафявата посока; крайни pH стойности могат да променят оттенъка.\nТемпература: работи с умерено нагряване и без продължително бурно кипене.\nЦелулоза: сравнително благодарен материал за памук, но резултатите са по-вариабилни от класическите багрилни растения.",
       "en": "Mordant: will give colour without a metal mordant; an alum mordant helps towards an even result.\npH: neutral to slightly alkaline often strengthens the pink-brown direction; extremes of pH can change the hue.\nTemperature: works with moderate heat and without a long hard boil.\nCellulose: a fairly rewarding material for cotton, though the results vary more than with the classic dye plants."
      }
     },
@@ -10834,7 +10834,7 @@
      },
      "body": {
       "bg": "семе · кора на плода",
-      "en": "seed · hull"
+      "en": "stone · fruit skin"
      }
     },
     {
@@ -10843,7 +10843,7 @@
       "en": "Dye constituent"
      },
      "body": {
-      "bg": "Семената и кората съдържат полифеноли, включително танини и флавоноидни съединения. При екстракция и контакт с кислород част от фенолните вещества се окисляват и образуват по-тъмни розово-кафяви хромофори; точният механизъм и нюанс зависят силно от суровината и условията.",
+      "bg": "Семената и кората съдържат полифеноли, включително танини и флавоноидни съединения. При извличане и контакт с кислород част от фенолните вещества се окисляват и образуват по-тъмни розово-кафяви хромофори; точният механизъм и нюанс зависят силно от суровината и условията.",
       "en": "The stones and skins contain polyphenols, tannins and flavonoid compounds among them. During extraction and contact with oxygen, some of the phenolics oxidise into darker pink-brown chromophores; the exact mechanism and shade depend heavily on the material and the conditions."
      }
     },
@@ -11029,11 +11029,11 @@
      "hex": "#A9A45C",
      "name": {
       "bg": "жълто-зелено",
-      "en": ""
+      "en": "yellow-green"
      },
      "conditions": {
       "bg": "от листа",
-      "en": ""
+      "en": "from the leaves"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11041,12 +11041,12 @@
     {
      "hex": "#B99A72",
      "name": {
-      "bg": "тан",
-      "en": ""
+      "bg": "жълтеникавокафяво",
+      "en": "tan"
      },
      "conditions": {
       "bg": "от листа, слаба баня",
-      "en": ""
+      "en": "from the leaves, a weak bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11055,11 +11055,11 @@
      "hex": "#6B6055",
      "name": {
       "bg": "сиво-кафяво",
-      "en": ""
+      "en": "grey-brown"
      },
      "conditions": {
       "bg": "листа с желязо",
-      "en": ""
+      "en": "leaves with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11072,7 +11072,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светли тонове; желязо — за тъмни листни контури.\npH: венчелистчетата са силно pH-чувствителни.\nТемпература: листа — гореща екстракция; цветове — по-умерено нагряване.\nЕко принт: листата са по-надеждната част за форма и танинова реакция.",
+      "bg": "Закрепител: алуминиев за по-светли тонове; желязо — за тъмни листни контури.\npH: венчелистчетата са силно pH-чувствителни.\nТемпература: листа — горещо извличане; цветове — по-умерено нагряване.\nЕко принт: листата са по-надеждната част за форма и танинова реакция.",
       "en": "Mordant: alum for lighter tones; iron for dark leaf outlines.\npH: the petals are strongly pH-sensitive.\nTemperature: leaves — hot extraction; flowers — gentler heat.\nEco print: the leaves are the more dependable part, for shape and for the tannin reaction."
      }
     },
@@ -11083,7 +11083,7 @@
      },
      "body": {
       "bg": "листа · цветове",
-      "en": "leaf · flower"
+      "en": "leaves · flowers"
      }
     },
     {
@@ -11343,7 +11343,7 @@
      ],
      "harvestNote": {
       "bg": "Най-лесно при зимна резитба или от отрязани клони.",
-      "en": ""
+      "en": "Easiest during the winter pruning or from cut branches."
      }
     }
    ],
@@ -11352,11 +11352,11 @@
      "hex": "#CBB255",
      "name": {
       "bg": "жълто",
-      "en": ""
+      "en": "yellow"
      },
      "conditions": {
       "bg": "от листа",
-      "en": ""
+      "en": "from the leaves"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11365,11 +11365,11 @@
      "hex": "#6E6C3F",
      "name": {
       "bg": "маслинено",
-      "en": ""
+      "en": "olive"
      },
      "conditions": {
       "bg": "по-дълга баня",
-      "en": ""
+      "en": "a longer bath"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11378,11 +11378,11 @@
      "hex": "#B08A45",
      "name": {
       "bg": "охра",
-      "en": ""
+      "en": "ochre"
      },
      "conditions": {
       "bg": "от плодова обвивка",
-      "en": ""
+      "en": "from the husks"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11391,11 +11391,11 @@
      "hex": "#655A4C",
      "name": {
       "bg": "сиво-кафяво",
-      "en": ""
+      "en": "grey-brown"
      },
      "conditions": {
       "bg": "с желязо",
-      "en": ""
+      "en": "with iron"
      },
      "source": "crafty-place-guide",
      "confidence": "literature"
@@ -11408,7 +11408,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-топли жълто-охрени; желязо — за сиво/маслинено.\npH: неутрално е надежден старт.\nТемпература: гореща екстракция.\nЕко принт: листата са подходящи за ясни танинови силуети, особено с железен модификатор.",
+      "bg": "Закрепител: алуминиев за по-топли жълто-охрени; желязо — за сиво/маслинено.\npH: неутрално е надежден старт.\nТемпература: горещо извличане.\nЕко принт: листата са подходящи за ясни танинови силуети, особено с железен модификатор.",
       "en": "Mordant: alum for warmer yellow-ochres; iron for grey or olive.\npH: neutral is a dependable start.\nTemperature: hot extraction.\nEco print: the leaves suit clear tannin silhouettes, especially under an iron modifier."
      }
     },
@@ -11419,7 +11419,7 @@
      },
      "body": {
       "bg": "листа · кора · зелена плодова обвивка · черупки",
-      "en": "leaf · hull · shell · bark"
+      "en": "leaves · bark · green husks · shells"
      }
     },
     {
@@ -11602,7 +11602,7 @@
       "en": "soft yellow"
      },
      "conditions": {
-      "bg": "листа, алуминиев мордант",
+      "bg": "листа, алуминиев закрепител",
       "en": "leaves, aluminium mordant"
      },
      "process": "immersion",
@@ -11662,7 +11662,7 @@
       "en": "grey-green print"
      },
      "conditions": {
-      "bg": "лист върху мордантиран плат",
+      "bg": "лист върху плат със закрепител",
       "en": "leaf on mordanted cloth"
      },
      "process": "ecoprint",
@@ -11713,7 +11713,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев за по-светли тонове; желязо — за сиво-зелено/кафяво.\npH: цветните пигменти са pH-чувствителни.\nТемпература: умерено нагряване; не вари продължително цветовете.\nСтатус: експериментално/вторично растение за багрене и еко принт.",
+      "bg": "Закрепител: алуминиев за по-светли тонове; желязо — за сиво-зелено/кафяво.\npH: цветните пигменти са pH-чувствителни.\nТемпература: умерено нагряване; не вари продължително цветовете.\nСтатус: експериментално/вторично растение за багрене и еко принт.",
       "en": "Mordant: alum for lighter tones; iron for grey-green or brown.\npH: the flower pigments are pH-sensitive.\nTemperature: moderate heat; do not boil the flowers for long.\nStatus: an experimental or secondary plant for dyeing and eco print."
      }
     },
@@ -11734,7 +11734,7 @@
      },
      "body": {
       "bg": "цветове · листа",
-      "en": "flower · leaf"
+      "en": "flowers · leaves"
      }
     },
     {
@@ -11865,7 +11865,7 @@
      ],
      "harvestNote": {
       "bg": "Само от подрязани или паднали клони; не наранявай основния ствол.",
-      "en": ""
+      "en": "Collect only from pruned or fallen branches; do not damage the main trunk."
      }
     },
     {
@@ -11911,7 +11911,7 @@
       "en": "yellow-green"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
+      "bg": "алуминиев закрепител",
       "en": "aluminium mordant"
      },
      "process": "immersion",
@@ -11941,7 +11941,7 @@
       "en": "beige-brown"
      },
      "conditions": {
-      "bg": "кора, алуминиев мордант",
+      "bg": "кора, алуминиев закрепител",
       "en": "bark, aluminium mordant"
      },
      "process": "immersion",
@@ -11986,7 +11986,7 @@
       "en": "olive print"
      },
      "conditions": {
-      "bg": "лист върху мордантиран плат",
+      "bg": "лист върху плат със закрепител",
       "en": "leaf on mordanted cloth"
      },
      "process": "ecoprint",
@@ -12037,7 +12037,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиевият мордант изчиства жълто-зелените тонове; желязото потъмнява към сиво и маслинено.\npH: плодовете са силно pH-чувствителни.\nТемпература: за плодове работи с умерена топлина; продължителното нагряване притъпява цвета.\nЦелулоза: за предвидими резултати използвай стандартна танинова подготовка + алуминиев мордант.",
+      "bg": "Закрепител: алуминиевият закрепител изчиства жълто-зелените тонове; желязото потъмнява към сиво и маслинено.\npH: плодовете са силно pH-чувствителни.\nТемпература: за плодове работи с умерена топлина; продължителното нагряване притъпява цвета.\nЦелулоза: за предвидими резултати използвай стандартна танинова подготовка + алуминиев закрепител.",
       "en": "Mordant: an alum mordant clears the yellow-green tones; iron darkens towards grey and olive.\npH: the berries are strongly pH-sensitive.\nTemperature: for the berries, work with moderate heat; prolonged heating dulls the colour.\nCellulose: for predictable results, use a standard tannin preparation and an alum mordant."
      }
     },
@@ -12058,7 +12058,7 @@
      },
      "body": {
       "bg": "листа · кора · зрели плодове",
-      "en": "leaf · bark · fruit"
+      "en": "leaves · bark · ripe berries"
      }
     },
     {
@@ -12112,7 +12112,7 @@
     "bg": "Къпина",
     "en": "Blackberry"
    },
-   "nameBotanical": "Rubus fruticosus L. (в практиката често Rubus fruticosus agg.)",
+   "nameBotanical": "Rubus fruticosus L.",
    "role": [
     "dye",
     "ecoprint"
@@ -12223,7 +12223,7 @@
      ],
      "harvestNote": {
       "bg": "Практично е да се взема при зимна резитба на стари стъбла.",
-      "en": ""
+      "en": "Practical to take when old canes are cut back in the winter pruning."
      },
      "tempExtractC": {
       "min": 85
@@ -12241,7 +12241,7 @@
       "en": "yellow-beige"
      },
      "conditions": {
-      "bg": "листа, алуминиев мордант",
+      "bg": "листа, алуминиев закрепител",
       "en": "leaves, aluminium mordant"
      },
      "process": "immersion",
@@ -12337,8 +12337,8 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев мордант може да даде по-чисти бежово-розови/лилави тонове; желязото потъмнява таниновите части.\npH: плодовете са силно pH-чувствителни.\nТемпература: плодовете не обичат продължително кипене.\nЕко принт: листата могат да дават танинов контур, особено с желязо.",
-      "en": "Mordant: an alum mordant can give cleaner beige-pink and lilac tones; iron darkens the tannic parts.\npH: the berries are strongly pH-sensitive.\nTemperature: the berries do not like a long boil.\nEco print: the leaves can give a tannin outline, particularly with iron."
+      "bg": "Закрепител: алуминиев закрепител може да даде по-чисти бежово-розови/лилави тонове; желязото потъмнява таниновите части.\npH: плодовете са силно pH-чувствителни.\nТемпература: плодовете не обичат продължително кипене.\nЕко принт: листата могат да дават танинов контур, особено с желязо.",
+      "en": "Mordant: an alum mordant can give cleaner beige-pink and lilac tones; iron darkens the tannic parts.\npH: the berries are strongly pH-sensitive.\nTemperature: the berries do not tolerate a long boil.\nEco print: the leaves can give a tannin outline, particularly with iron."
      }
     },
     {
@@ -12358,7 +12358,7 @@
      },
      "body": {
       "bg": "листа · млади стъбла/кора · плодове",
-      "en": "leaf · fruit · bark"
+      "en": "leaves · young canes/bark · berries"
      }
     },
     {
@@ -12388,11 +12388,11 @@
     "author": "Fir0002",
     "licence": "CC BY-SA 3.0 (also GFDL)",
     "source": "https://commons.wikimedia.org/wiki/File:Blackberry_fruits10.jpg",
-    "taxon": "Rubus fruticosus L. (в практиката често Rubus fruticosus agg.)"
+    "taxon": "Rubus fruticosus L."
    },
    "description": {
-    "bg": "Къпините са бодливи многогодишни храсти от род Rubus, широко разпространени в Европа и умерените области. Образуват гъсти храсталаци по горски окрайнини, поляни и крайпътни места и дават ядливи тъмни плодове в края на лятото.",
-    "en": "Blackberries are thorny perennial shrubs of the genus Rubus, widespread in Europe and other temperate regions. They form dense thickets along woodland edges, clearings and roadsides and produce edible dark fruits in late summer."
+    "bg": "Къпините са бодливи многогодишни храсти от род Rubus, широко разпространени в Европа и умерените области. Образуват гъсти храсталаци по горски окрайнини, поляни и крайпътни места и дават ядливи тъмни плодове в края на лятото. В практиката под това име често се разбира сборният вид Rubus fruticosus agg.",
+    "en": "Blackberries are thorny perennial shrubs of the genus Rubus, widespread in Europe and other temperate regions. They form dense thickets along woodland edges, clearings and roadsides and produce edible dark fruits in late summer. In practice the name is often used for the aggregate species, Rubus fruticosus agg."
    },
    "photoHash": "725ce431345abaf5163844d603f6c6c8090818ce4ea5ecdb300e58236e3c4fb1",
    "photoSrc": "seed/images/plants/rubus_fruticosus.jpg",
@@ -12411,7 +12411,7 @@
     "bg": "Далия",
     "en": "Dahlia"
    },
-   "nameBotanical": "Dahlia pinnata Cav. (градинските далии са сложна културна група; резултатът зависи от сорта)",
+   "nameBotanical": "Dahlia pinnata Cav.",
    "role": [
     "dye",
     "ecoprint"
@@ -12508,7 +12508,7 @@
       "en": "gold"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
+      "bg": "алуминиев закрепител",
       "en": "aluminium mordant"
      },
      "process": "immersion",
@@ -12568,7 +12568,7 @@
       "en": "yellow-ochre print"
      },
      "conditions": {
-      "bg": "съцветие върху мордантиран плат",
+      "bg": "съцветие върху плат със закрепител",
       "en": "flower head on mordanted cloth"
      },
      "process": "ecoprint",
@@ -12594,8 +12594,8 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Далията е силно вариабилно багрилно цвете. Жълтите и оранжевите сортове обикновено дават златисти, охрени и кафеникави тонове; тъмните цветове могат да дадат по-дълбоки, но не непременно по-устойчиви оттенъци.",
-      "en": "Dahlia is a highly variable dye flower. Yellow and orange varieties usually give golds, ochres and browns; dark flowers can give deeper shades, though not necessarily faster ones."
+      "bg": "Градинските далии са сложна културна група и резултатът зависи от сорта. Далията е силно вариабилно багрилно цвете. Жълтите и оранжевите сортове обикновено дават златисти, охрени и кафеникави тонове; тъмните цветове могат да дадат по-дълбоки, но не непременно по-устойчиви оттенъци.",
+      "en": "Garden dahlias are a complex cultivated group, and the result depends on the cultivar. Dahlia is a highly variable dye flower. Yellow and orange varieties usually give golds, ochres and browns; dark flowers can give deeper shades, though not necessarily faster ones."
      }
     },
     {
@@ -12604,7 +12604,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиевият мордант е добър старт за вълна, коприна и целулоза след подходяща подготовка.\npH: лабораторни изследвания върху Dahlia variabilis показват отчетлива промяна на цвета с pH.\nЕко принт: цветовете дават интересни петна и силуети, но устойчивостта е по-непредвидима от класическите багрилни растения.",
+      "bg": "Закрепител: алуминиевият закрепител е добър старт за вълна, коприна и целулоза след подходяща подготовка.\npH: лабораторни изследвания върху Dahlia variabilis показват отчетлива промяна на цвета с pH.\nЕко принт: цветовете дават интересни петна и силуети, но устойчивостта е по-непредвидима от класическите багрилни растения.",
       "en": "Mordant: an alum mordant is a good start for wool, silk and — after suitable preparation — cellulose.\npH: laboratory work on Dahlia variabilis shows a marked change of colour with pH.\nEco print: the flowers leave interesting marks and silhouettes, but the fastness is less predictable than with the classic dye plants."
      }
     },
@@ -12625,7 +12625,7 @@
      },
      "body": {
       "bg": "цветове · листа",
-      "en": "flower · leaf"
+      "en": "flowers · leaves"
      }
     },
     {
@@ -12654,7 +12654,7 @@
     "author": "Juni (jam343)",
     "licence": "CC BY 2.0",
     "source": "https://commons.wikimedia.org/wiki/File:Dahlia_pinnata.jpg",
-    "taxon": "Dahlia pinnata Cav. (градинските далии са сложна културна група; резултатът зависи от сорта)"
+    "taxon": "Dahlia pinnata Cav."
    },
    "description": {
     "bg": "Далиите са многогодишни грудкови растения, произхождащи от Мексико и Централна Америка и отглеждани в Европа като градински цветя. Съвременните сортове са изключително разнообразни по форма и цвят и цъфтят продължително от лятото до първите слани.",
@@ -12767,7 +12767,7 @@
       "en": "lemon yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант",
+      "bg": "алуминиев закрепител",
       "en": "aluminium mordant"
      },
      "process": "immersion",
@@ -12782,7 +12782,7 @@
       "en": "golden yellow"
      },
      "conditions": {
-      "bg": "алуминиев мордант, по-концентрирана баня",
+      "bg": "алуминиев закрепител, по-концентрирана баня",
       "en": "aluminium mordant, a stronger bath"
      },
      "process": "immersion",
@@ -12797,7 +12797,7 @@
       "en": "ochre"
      },
      "conditions": {
-      "bg": "без мордант или изтощена баня",
+      "bg": "без закрепител или изтощена баня",
       "en": "unmordanted, or an exhausted bath"
      },
      "process": "immersion",
@@ -12838,7 +12838,7 @@
       "en": "How it behaves"
      },
      "body": {
-      "bg": "Класическо европейско жълто багрило. Дава ясни жълти и златисти тонове с алуминиев мордант; с желязо се измества към маслинено и салвиево. Исторически е използвано и за зелени чрез наслагване върху синьо от вайда/индиго.",
+      "bg": "Класическо европейско жълто багрило. Дава ясни жълти и златисти тонове с алуминиев закрепител; с желязо се измества към маслинено и салвиево. Исторически е използвано и за зелени чрез наслагване върху синьо от вайда/индиго.",
       "en": "A classic European yellow. It gives clear yellows and golds with an alum mordant; with iron it shifts to olive and sage. Historically it was also used for greens, laid over a blue from woad or indigo."
      }
     },
@@ -12848,7 +12848,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиевият мордант подпомага чистото жълто; желязото приглушава към маслинено.\nКомбинации: особено ценно за зелени чрез overdye върху индиго/вайда.\nКоличество: работи добре с щедро количество свежа надземна маса.",
+      "bg": "Закрепител: алуминиевият закрепител подпомага чистото жълто; желязото приглушава към маслинено.\nКомбинации: особено ценно за зелени чрез overdye върху индиго/вайда.\nКоличество: работи добре с щедро количество свежа надземна маса.",
       "en": "Mordant: an alum mordant supports the clean yellow; iron mutes it towards olive.\nCombinations: particularly valuable for greens, overdyed on indigo or woad.\nQuantity: works well with a generous weight of fresh aerial material."
      }
     },
@@ -12869,7 +12869,7 @@
      },
      "body": {
       "bg": "цъфтящи върхове · листа · цветове",
-      "en": "leaf · flower"
+      "en": "flowering tops · leaves · flowers"
      }
     },
     {
@@ -12959,7 +12959,7 @@
      ],
      "harvestNote": {
       "bg": "При култивирани растения коренът се вади след края на активния сезон; избягвай събиране от диви популации.",
-      "en": ""
+      "en": "On cultivated plants the root is lifted after the active season has ended; avoid collecting from wild populations."
      },
      "tempExtractC": {
       "min": 60,
@@ -12975,7 +12975,7 @@
       "en": "lavender"
      },
      "conditions": {
-      "bg": "алкохолен извлек, мордантирано влакно",
+      "bg": "алкохолен извлек, влакно със закрепител",
       "en": "alcohol extract, mordanted fibre"
      },
      "process": "immersion",
@@ -13077,7 +13077,7 @@
      },
      "body": {
       "bg": "корени",
-      "en": "root"
+      "en": "roots"
      }
     },
     {
@@ -13133,7 +13133,7 @@
     "bg": "Ревен",
     "en": "Rhubarb"
    },
-   "nameBotanical": "Rheum rhabarbarum L. (други Rheum spp., особено азиатски видове, могат да са по-силни багрила)",
+   "nameBotanical": "Rheum rhabarbarum L.",
    "role": [
     "dye"
    ],
@@ -13212,7 +13212,7 @@
      ],
      "harvestNote": {
       "bg": "Подходящ след края на сезона при разделяне на възрастни култивирани растения.",
-      "en": ""
+      "en": "Suitable after the end of the season, when mature cultivated plants are divided."
      }
     }
    ],
@@ -13224,7 +13224,7 @@
       "en": "golden yellow"
      },
      "conditions": {
-      "bg": "корен, алуминиев мордант",
+      "bg": "корен, алуминиев закрепител",
       "en": "root, aluminium mordant"
      },
      "process": "immersion",
@@ -13305,7 +13305,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: коренът може да дава цвят и без метален мордант, но мордантът/модификаторът променя оттенъка.\npH: алкално → по-оранжево/червеникаво; кисело → по-жълто.\nЛиста: не ги третирай като хранителен материал; тяхната практическа роля е различна от корена.",
+      "bg": "Закрепител: коренът може да дава цвят и без метален закрепител, но закрепителят/модификаторът променя оттенъка.\npH: алкално → по-оранжево/червеникаво; кисело → по-жълто.\nЛиста: не ги третирай като хранителен материал; тяхната практическа роля е различна от корена.",
       "en": "Mordant: the root will give colour without a metal mordant, but a mordant or modifier changes the hue.\npH: alkaline → more orange and reddish; acidic → more yellow.\nLeaves: do not treat them as food material; their practical role is different from the root's."
      }
     },
@@ -13326,7 +13326,7 @@
      },
      "body": {
       "bg": "корени/коренища · листа",
-      "en": "leaf · root"
+      "en": "roots/rhizomes · leaves"
      }
     },
     {
@@ -13355,7 +13355,7 @@
     "author": "Krzysztof Ziarnek, Kenraiz",
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Rheum_rhabarbarum_kz03.jpg",
-    "taxon": "Rheum rhabarbarum L. (други Rheum spp., особено азиатски видове, могат да са по-силни багрила)"
+    "taxon": "Rheum rhabarbarum L."
    },
    "description": {
     "bg": "Градинският ревен е едро многогодишно растение от семейство Лападови, отглеждано заради месестите листни дръжки. Произходът на културните форми е свързан с азиатски видове Rheum; коренищата презимуват и всяка пролет дават мощна нова листна маса.",
@@ -13459,7 +13459,7 @@
      ],
      "harvestNote": {
       "bg": "Само от паднали или подрязани клони; не обелвай живо дърво.",
-      "en": ""
+      "en": "Collect only from fallen or pruned branches; do not strip a living tree."
      }
     }
    ],
@@ -13486,7 +13486,7 @@
       "en": "golden beige"
      },
      "conditions": {
-      "bg": "кора, алуминиев мордант",
+      "bg": "кора, алуминиев закрепител",
       "en": "bark, aluminium mordant"
      },
      "process": "immersion",
@@ -13531,7 +13531,7 @@
       "en": "olive print"
      },
      "conditions": {
-      "bg": "лист върху мордантиран плат",
+      "bg": "лист върху плат със закрепител",
       "en": "leaf on mordanted cloth"
      },
      "process": "ecoprint",
@@ -13567,7 +13567,7 @@
       "en": "Dye qualities"
      },
      "body": {
-      "bg": "Мордант: алуминиев мордант запазва по-светлите златисти тонове; желязото потъмнява към маслинено и сиво.\nЕко принт: сложните листа могат да дадат интересен силует, но интензивността е по-умерена от дъб/евкалипт.",
+      "bg": "Закрепител: алуминиев закрепител запазва по-светлите златисти тонове; желязото потъмнява към маслинено и сиво.\nЕко принт: сложните листа могат да дадат интересен силует, но интензивността е по-умерена от дъб/евкалипт.",
       "en": "Mordant: an alum mordant keeps the lighter golden tones; iron darkens towards olive and grey.\nEco print: the compound leaves can give an interesting silhouette, though less intense than oak or eucalyptus."
      }
     },
@@ -13588,7 +13588,7 @@
      },
      "body": {
       "bg": "листа · кора/вътрешна кора",
-      "en": "leaf · bark"
+      "en": "leaves · bark/inner bark"
      }
     },
     {
@@ -13679,7 +13679,7 @@
      ],
      "harvestNote": {
       "bg": "Събирай само от резитба/управлявани растения; кората има и лекарствена употреба.",
-      "en": ""
+      "en": "Collect only from prunings or managed plants; the bark also has medicinal uses."
      }
     },
     {
@@ -13785,7 +13785,7 @@
       "en": "gold"
      },
      "conditions": {
-      "bg": "кора, алуминиев мордант",
+      "bg": "кора, алуминиев закрепител",
       "en": "bark, aluminium mordant"
      },
      "process": "immersion",
@@ -13862,7 +13862,7 @@
      },
      "body": {
       "bg": "Кога се събира: кора — само от резитба/вече отрязани клони; листата — зрели през активния сезон; плодовете — узрели.\nКакво се използва: основно кората и листата. Историческите рецепти за червеникави тонове често използват отлежала/ферментирала („rotted“) кора.\nОбработка: кората нарежи на малки парчета; за исторически червено-оранжев процес може да се остави да отлежи/ферментира по контролирана рецепта.\nСъхранение: сухата кора — на тъмно и сухо; ясно етикетирана.",
-      "en": "When to gather: bark — only from prunings or already cut branches; leaves — mature, during the active season; fruit — ripe.\nWhat is used: mainly the bark and the leaves. Historic recipes for reddish tones often use aged or „rotted“ bark.\nProcessing: cut the bark into small pieces; for the historic red-orange process it can be left to age or ferment under a controlled recipe.\nStorage: dried bark — dark and dry, clearly labelled."
+      "en": "When to gather: bark — only from prunings or already cut branches; leaves — mature, during the active season; fruit — ripe.\nWhat is used: mainly the bark and the leaves. Historic recipes for reddish tones often use aged or “rotted” bark.\nProcessing: cut the bark into small pieces; for the historic red-orange process it can be left to age or ferment under a controlled recipe.\nStorage: dried bark — dark and dry, clearly labelled."
      }
     },
     {
@@ -13872,7 +13872,7 @@
      },
      "body": {
       "bg": "кора · листа · плодове (по-скоро за пигменти/експерименти)",
-      "en": "bark · leaf · fruit"
+      "en": "bark · leaves · berries (better suited to pigments or experiments)"
      }
     },
     {

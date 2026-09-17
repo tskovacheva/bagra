@@ -1,6 +1,6 @@
 {
  "packId": "bagra-glossary",
- "packVersion": "0.2.0",
+ "packVersion": "0.2.3",
  "description": {
   "bg": "Думите на занаята, обяснени със свои думи. Тук стои дума, която човек ще срещне в книга, рецепта или общност и чието значение не е очевидно от самата дума. Не стоят тук нито понятия, които са кодове в модела и носят обяснението си там, където се показват, нито техники — те са в модула Техники.",
   "en": "The words of the craft, explained in our own words. A word belongs here if a person will meet it in a book, a recipe or a community and its meaning is not obvious from the word itself. Concepts that are codes in the model do not: they carry their explanation where they are shown. Neither do techniques, which live in the Techniques module."
@@ -65,7 +65,7 @@
     "багрилен разтвор"
    ],
    "definition": {
-    "bg": "Течността, в която се багри тъканта: вода, извлечени багрилни вещества и според процеса добавки — мордант, модификатор, сол, киселина или основа. Обемът трябва да стига тъканта да се движи свободно; притиснат плат се багри на петна. Обемът обаче не решава колко багрило влиза — то се дава спрямо тежестта на тъканта, не спрямо водата.",
+    "bg": "Течността, в която се багри тъканта: вода, извлечени багрилни вещества и според процеса добавки — закрепител, модификатор, сол, киселина или основа. Обемът трябва да стига тъканта да се движи свободно; притиснат плат се багри на петна. Обемът обаче не решава колко багрило влиза — то се дава спрямо тежестта на тъканта, не спрямо водата.",
     "en": "The liquid in which the textile is dyed: water, extracted dye compounds and, depending on the process, additions such as mordant, modifier, salt, acid or alkali. The volume has to be enough for the cloth to move freely, since cloth packed tight dyes in patches. Volume does not set how much dye goes in, though: that is given against the weight of the fibre, not against the water."
    },
    "seeAlso": [
@@ -104,7 +104,7 @@
    "code": "mordant",
    "group": "textile_prep",
    "term": {
-    "bg": "Мордант и байцване",
+    "bg": "Закрепител (мордант)",
     "en": "Mordant and mordanting"
    },
    "aliases": [
@@ -112,10 +112,12 @@
     "байцване",
     "мордантиране",
     "стипцоване",
-    "mordanting"
+    "mordanting",
+    "закрепител",
+    "мордант"
    ],
    "definition": {
-    "bg": "Мордантът е металната сол — най-често алуминиева — която подпомага свързването на багрилото с влакното. Байцването е самото действие: тъканта се обработва с него преди или по време на багренето. Мордантът не само задържа цвета, а често го и променя: едно и също багрило дава различен цвят със стипца, с желязо и с мед — не нюанс, а друг цвят.",
+    "bg": "Закрепителят (мордант) е вещество — обикновено метална сол, най-често алуминиева, — което подпомага свързването на багрилото с влакното. Обработката със закрепител (в литературата — мордантиране или байцване) се прави преди или по време на багренето. Закрепителят не само задържа цвета, а често го и променя: едно и също багрило дава различен цвят със стипца, с желязо и с мед — не нюанс, а друг цвят.",
     "en": "A mordant is a metal salt — most often an aluminium one — that helps the dye bind to the fibre. Mordanting is the act itself: the cloth is treated with it before or during dyeing. A mordant does more than hold the colour; it commonly changes it. The same dye yields a different colour with alum, with iron and with copper — not a shade of one colour but a different one."
    },
    "seeAlso": [
@@ -129,7 +131,7 @@
    "code": "scouring",
    "group": "textile_prep",
    "term": {
-    "bg": "Предварително почистване (scouring)",
+    "bg": "Предварително изпиране",
     "en": "Scouring"
    },
    "aliases": [
@@ -139,7 +141,7 @@
     "изпиране"
    ],
    "definition": {
-    "bg": "Основното почистване на влакното преди мордантиране и багрене. Премахва естествени и производствени остатъци — масла, восъци, апрет — както и омекотител и препарат от предишно пране. Всичко това пречи и води до петна и неравномерност, които изглеждат като провал на самото багрене. При целулозните влакна обикновено е алкално изпиране или изваряване и е по-интензивно от обикновено пране; протеиновите се третират по-меко.",
+    "bg": "Основното почистване на влакното преди обработката със закрепител и багренето. Премахва естествени и производствени остатъци — масла, восъци, апрет — както и омекотител и препарат от предишно пране. Всичко това пречи и води до петна и неравномерност, които изглеждат като провал на самото багрене. При целулозните влакна обикновено е алкално изпиране или изваряване и е по-интензивно от обикновено пране; протеиновите се третират по-меко.",
     "en": "The main cleaning of the fibre before mordanting and dyeing. It removes natural and manufacturing residues — oils, waxes, sizing — along with softener and detergent from earlier laundering. All of it interferes, producing the patches and unevenness that read as a failure of the dyeing itself. On cellulose it is usually an alkaline wash or a boil, more intensive than ordinary laundering; protein fibres are treated more gently."
    },
    "seeAlso": [
@@ -160,7 +162,7 @@
     "tannin base"
    ],
    "definition": {
-    "bg": "Предварителна обработка с танин, използвана най-вече при целулозни влакна като памук и лен. Танинът може да подобри свързването на последващия метален мордант и често увеличава наситеността и устойчивостта на цвета. Не е необходима във всяка рецепта — подходът зависи от морданта и багрилото; алуминиевият ацетат например се използва като директен мордант за целулоза. Изборът на танин влияе и върху основата: галовият оставя най-светла, кондензираният — по-топла и по-тъмна.",
+    "bg": "Предварителна обработка с танин, използвана най-вече при целулозни влакна като памук и лен. Танинът може да подобри свързването на последващия метален закрепител и често увеличава наситеността и устойчивостта на цвета. Не е необходима във всяка рецепта — подходът зависи от закрепителя и багрилото; алуминиевият ацетат например се използва като директен закрепител за целулоза. Изборът на танин влияе и върху основата: галовият оставя най-светла, кондензираният — по-топла и по-тъмна.",
     "en": "A tannin pre-treatment, used mainly on cellulose fibres such as cotton and linen. Tannin can improve the binding of the metal mordant applied after it, and often increases depth and fastness. It is not required by every recipe — the approach depends on the mordant and the dye, and aluminium acetate, for one, is used as a direct mordant on cellulose. The choice of tannin also affects the ground: gallotannin leaves it lightest, condensed tannin warmer and darker."
    },
    "seeAlso": [
@@ -184,7 +186,7 @@
     "животински влакна"
    ],
    "definition": {
-    "bg": "Двете големи семейства, и те се държат обратно. Целулозните — памук, лен, коноп, вискоза — са от растение, трудно приемат цвят и почти винаги искат танинова основа. Протеиновите — вълна, коприна — са от животно, приемат цвят охотно и се байцват по-просто. Рецепта, писана за едното, не работи за другото.",
+    "bg": "Двете големи семейства, и те се държат обратно. Целулозните — памук, лен, коноп, вискоза — са от растение, трудно приемат цвят и почти винаги искат танинова основа. Протеиновите — вълна, коприна — са от животно, приемат цвят охотно и обработката им със закрепител е по-проста. Рецепта, писана за едното, не работи за другото.",
     "en": "The two great families, and they behave oppositely. Cellulose — cotton, linen, hemp, viscose — comes from a plant, takes colour with difficulty and nearly always wants a tannin ground. Protein — wool, silk — comes from an animal, takes colour readily and mordants more simply. A recipe written for one does not work for the other."
    },
    "seeAlso": [
@@ -250,7 +252,7 @@
     "промивка"
    ],
    "definition": {
-    "bg": "Вещество, което се използва основно за промяна на вече получен цвят — желязо за потъмняване, мед за преместване към зелено, киселина или основа за преместване по скалата. Разликата с морданта не е само във времето: някои вещества, като железните соли, изпълняват и двете роли според това кога и как се прилагат — желязото преди багренето действа като мордант, същото желязо след него като модификатор, и двете дават различен резултат.",
+    "bg": "Вещество, което се използва основно за промяна на вече получен цвят — желязо за потъмняване, мед за преместване към зелено, киселина или основа за преместване по скалата. Разликата със закрепителя не е само във времето: някои вещества, като железните соли, изпълняват и двете роли според това кога и как се прилагат — желязото преди багренето действа като закрепител, същото желязо след него като модификатор, и двете дават различен резултат.",
     "en": "A substance used mainly to alter a colour already obtained — iron to darken, copper to shift towards green, acid or alkali to move along the scale. The difference from a mordant is not timing alone: some substances, iron salts among them, fill either role depending on when and how they are applied. Iron before dyeing behaves as a mordant, the same iron afterwards as a modifier, and the two give different results."
    },
    "seeAlso": [
@@ -320,7 +322,7 @@
     "адективно"
    ],
    "definition": {
-    "bg": "Субстантивното багрило се хваща за влакното само, без байц. Адективното не се хваща — нужен му е мордант като мост между влакното и цвета. Повечето растителни багрила са адективни; ореховата обвивка и някои танинови кори са сред малкото, които не са. Не е степен на качество: субстантивното е по-лесно, адективното често е по-трайно.",
+    "bg": "Субстантивното багрило се свързва с влакното без закрепител. Адективното се нуждае от закрепител като мост между влакното и цвета. Повечето растителни багрила са адективни; ореховата обвивка и някои танинови кори са сред малкото, които не са. Не е степен на качество: субстантивното е по-лесно, адективното често е по-трайно.",
     "en": "A substantive dye binds to the fibre without a mordant — indigo, walnut, many tannins. An adjective dye needs one, and most plant dyes are of that kind. The terms are counter-intuitive and worth learning: \"adjective\" does not mean weaker, it means the colour depends on what stands between the dye and the fibre."
    },
    "seeAlso": [
@@ -389,7 +391,7 @@
     "контактен печат"
    ],
    "definition": {
-    "bg": "Багрене чрез пряк контакт: листа, цветове или кора се подреждат върху тъканта и се притискат към нея, вместо да се вари в баня. Цветът остава там, където растението докосва плата, и носи неговата форма. Затова резултатът зависи не само от растението и морданта, а и от натиска, влагата, топлината и това какво е било между слоевете.",
+    "bg": "Багрене чрез пряк контакт: листа, цветове или кора се подреждат върху тъканта и се притискат към нея, вместо да се вари в баня. Цветът остава там, където растението докосва плата, и носи неговата форма. Затова резултатът зависи не само от растението и закрепителя, а и от натиска, влагата, топлината и това какво е било между слоевете.",
     "en": "Dyeing by direct contact: leaves, flowers or bark are laid on the cloth and pressed against it rather than boiled in a bath. The colour stays where the plant touches the textile and takes its shape. The result therefore depends not only on the plant and the mordant but on pressure, moisture, heat and whatever lay between the layers."
    },
    "seeAlso": [
@@ -432,7 +434,7 @@
     "индигоид"
    ],
    "definition": {
-    "bg": "Синьото, и то работи различно от всичко останало. Индигото не се разтваря във вода и не иска мордант — трябва да се сведе химически до разтворима форма, влакното да се потопи, и цветът да се появи при досег с въздуха. Затова се говори за вана, а не за баня, и затова тъмното се постига с многократни кратки потапяния, не с едно дълго.",
+    "bg": "Синьото, и то работи различно от всичко останало. Индигото не се разтваря във вода и не иска закрепител — трябва да се сведе химически до разтворима форма, влакното да се потопи, и цветът да се появи при досег с въздуха. Затова се говори за вана, а не за баня, и затова тъмното се постига с многократни кратки потапяния, не с едно дълго.",
     "en": "Blue, and it works unlike everything else. Indigo does not dissolve in water and wants no mordant — it has to be chemically reduced to a soluble form, the fibre dipped, and the colour appears on contact with air. Hence a vat rather than a bath, and hence depth comes from many short dips rather than one long one."
    },
    "seeAlso": [
@@ -585,7 +587,7 @@
     "дъбилни вещества"
    ],
    "definition": {
-    "bg": "Голяма група растителни съединения, които се връзват и за влакното, и за металите. Затова служат двойно: като собствен цвят — бежово до кафяво — и като основа, върху която друг мордант ляга по-здраво. С желязо потъмняват рязко, до сиво и черно. Приложението ги дели на три, защото се държат различно.",
+    "bg": "Голяма група растителни съединения, които се връзват и за влакното, и за металите. Затова служат двойно: като собствен цвят — бежово до кафяво — и като основа, върху която друг закрепител ляга по-здраво. С желязо потъмняват рязко, до сиво и черно. Приложението ги дели на три, защото се държат различно.",
     "en": "A large group of plant compounds that bind to both fibre and metal. In natural dyeing they do two jobs: they are a colour in their own right — the beiges, the greys and, with iron, the blacks — and they are the ground that lets cellulose take a metal mordant. Oak, sumac, myrobalan and tea are all here, and they do not give the same result."
    },
    "seeAlso": [

@@ -2,15 +2,15 @@
  "packs": {
   "plants": {
    "packId": "bagra-plants-bg",
-   "version": "0.12.0"
+   "version": "0.12.2"
   },
   "combinations": {
    "packId": "bagra-combinations",
-   "version": "0.9.0"
+   "version": "0.9.1"
   },
   "substances": {
    "packId": "bagra-base",
-   "version": "0.7.0"
+   "version": "0.7.1"
   },
   "techniques": {
    "packId": "bagra-techniques",
@@ -18,15 +18,15 @@
   },
   "sources": {
    "packId": "bagra-core",
-   "version": "12"
+   "version": "13"
   },
   "glossary": {
    "packId": "bagra-glossary",
-   "version": "0.2.0"
+   "version": "0.2.3"
   },
   "recipes": {
    "packId": "bagra-recipes",
-   "version": "0.16.0"
+   "version": "0.16.2"
   }
  }
 }

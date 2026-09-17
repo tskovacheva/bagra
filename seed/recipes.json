@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.16.0",
+ "packVersion": "0.16.2",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -45,7 +45,7 @@
      "basis": "absolute",
      "note": {
       "bg": "10 г стипца — алуминиев сулфат или калиева стипца.",
-      "en": "10 g alum — aluminium sulphate or potassium alum."
+      "en": "10 g alum — aluminium sulfate or potassium alum."
      },
      "quantity": 10,
      "unit": "g",
@@ -77,13 +77,13 @@
     {
      "text": {
       "bg": "Претегли растителния материал спрямо стипцата и извлечи цвета — гореща отвара, освен ако растението иска друго.",
-      "en": "Weigh the plant material against the alum and draw the colour out — a hot decoction, unless the plant wants otherwise."
+      "en": "Weigh the plant material against the alum and draw the colour out — a hot decoction, unless the plant needs something else."
      }
     },
     {
      "text": {
       "bg": "Прецеди старателно. Ситно смляното иска няколко прецеждания и накрая хартиен филтър.",
-      "en": "Strain thoroughly. Finely ground material wants several passes and a paper filter at the end."
+      "en": "Strain thoroughly. Finely ground material needs several passes and a paper filter at the end."
      }
     },
     {
@@ -113,7 +113,7 @@
     {
      "text": {
       "bg": "Изсушения пигмент стържи и стрий на фин прах. С маска — всеки прах се вдишва.",
-      "en": "Scrape the dried pigment and grind it to a fine powder. With a mask — any powder is breathed."
+      "en": "Scrape the dried pigment and grind it to a fine powder. With a mask — any powder can be inhaled."
      }
     }
    ],
@@ -231,7 +231,7 @@
      "basis": "ratio_to_dyestuff",
      "note": {
       "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел. Съотношението нарочно няма число: то е изборът, с който правиш пастела мек или твърд, и се решава при всяка партида. Празно тук значи „решава се на място\", не „още не е вписано\".",
-      "en": "Filler — chalk or kaolin. More filler makes a softer, paler pastel. The proportion is deliberately not a figure: it is the choice that makes the pastel soft or hard and is made batch by batch. Empty here means „decided at the slab\", not „not yet entered\"."
+      "en": "Filler — chalk or kaolin. More filler makes a softer, paler pastel. The proportion is deliberately not a figure: it is the choice that makes the pastel soft or hard and is made batch by batch. Empty here means “decided at the slab”, not “not yet entered”."
      },
      "options": [
       {
@@ -443,7 +443,7 @@
    "type": "pigment",
    "output": "pigment",
    "name": {
-    "bg": "Брош — лаков пигмент, гореща екстракция",
+    "bg": "Брош — лаков пигмент, горещо извличане",
     "en": "Madder — lake pigment by hot extraction"
    },
    "appliesTo": [],
@@ -543,13 +543,13 @@
     {
      "text": {
       "bg": "Филтрирай старателно. Смляният корен иска няколко минавания през много фино сито, а за последното помагат хартиени филтри за кафе.",
-      "en": "Filter thoroughly. Ground root wants several rounds through a very fine mesh sieve, and paper coffee filters help for the final one."
+      "en": "Filter thoroughly. Ground root needs several rounds through a very fine mesh sieve, and paper coffee filters help for the final one."
      }
     },
     {
      "text": {
       "bg": "Обикновено се получават около 2.4 л червен „чай“. Разлей поравно по големи буркани, по 720 до 840 мл на буркан. Твоето количество може да е друго и това е нормално.",
-      "en": "This typically yields around 2.4 litres of red liquid „tea\". Divide equally between large jars, 720 to 840 ml each. Your own amount may vary, which is perfectly fine."
+      "en": "This typically yields around 2.4 litres of red liquid “tea”. Divide equally between large jars, 720 to 840 ml each. Your own amount may vary, which is perfectly fine."
      }
     },
     {
@@ -665,7 +665,7 @@
      "unit": "ml",
      "note": {
       "bg": "Половин супена лъжица суров сок от кисело зеле или друга непастьоризирана лактоферментирала течност. Той засява микробите, за да изпреварят плесента.",
-      "en": "Half a tablespoon of raw sauerkraut juice or other unpasteurized lacto-ferment liquid. It seeds the microbes so they get a head start over mould."
+      "en": "Half a tablespoon of raw sauerkraut juice or other unpasteurised lacto-ferment liquid. It seeds the microbes so they get a head start over mould."
      }
     }
    ],
@@ -679,7 +679,7 @@
     {
      "text": {
       "bg": "Върни корените в чист буркан от 0.5–1 л. Покрий ги с 2–5 см вода — около 300–400 мл, стайна температура. Изворна, дъждовна или дестилирана: чешмяната вода нарочно потиска микроби. Добави сока от кисело зеле.",
-      "en": "Return the roots to a clean 0.5–1 litre jar. Cover them by an inch or two with roughly 300–400 ml of room-temperature water. Well, rain or distilled: municipal water purposefully inhibits microbes. Add the sauerkraut juice."
+      "en": "Return the roots to a clean 0.5–1 litre jar. Cover them by 2–5 cm with roughly 300–400 ml of room-temperature water. Spring, rain or distilled: tap water is treated to inhibit microbes. Add the sauerkraut juice."
      }
     },
     {
@@ -697,7 +697,7 @@
     {
      "text": {
       "bg": "Ферментирай една до две седмици. През това време pH-то трябва да е около 5, а миризмата — влажна пръст и тръпчиво-сладък оцет. Ако изглежда и мирише здраво, може да продължи, докато мехурчетата спрат и pH-то тръгне към неутрално. Появила се плесен по повърхността се обира и се продължава; ако стане упорита, мини нататък.",
-      "en": "Ferment for one to two weeks. The pH should be about 5 and the scent a combination of damp earth and tangy-sweet vinegar. If it looks and smells healthy you can keep it going until the bubbles cease and the pH rises toward neutral. Scrape off surface mould and stay the course; if it becomes persistent, move on."
+      "en": "Ferment for one to two weeks. The pH should be about 5 and the scent a combination of damp earth and tangy-sweet vinegar. If it looks and smells healthy you can keep it going until the bubbles cease and the pH rises towards neutral. Scrape off surface mould and stay the course; if it becomes persistent, move on."
      }
     },
     {
@@ -720,7 +720,7 @@
     },
     {
      "text": {
-      "bg": "Филтрирай, докато е горещо и ализаринът е в разтвор, през фина синтетична мрежа. Корените се компостират или се пазят за втора екстракция, ако се съмняваш, че са изчерпани.",
+      "bg": "Филтрирай, докато е горещо и ализаринът е в разтвор, през фина синтетична мрежа. Корените се компостират или се пазят за второ извличане, ако се съмняваш, че са изчерпани.",
       "en": "Filter while it is hot and the alizarin is in solution, through fine synthetic mesh. Compost the roots, or save them for a secondary extraction if you doubt they are exhausted."
      }
     },
@@ -750,7 +750,7 @@
     },
     {
      "text": {
-      "bg": "Мини на фини хартиени филтри за кафе и отдели пигмента от бистрото отгоре. Нормално е то да остане кехлибарено — това са цветове, които не се свързват с морданта.",
+      "bg": "Мини на фини хартиени филтри за кафе и отдели пигмента от бистрото отгоре. Нормално е то да остане кехлибарено — това са цветове, които не се свързват със закрепителя.",
       "en": "Switch to superfine paper coffee filters and filter the pigment from the supernatant. It is normal for the supernatant to keep an amber shade from non-mordant colourants."
      }
     },
@@ -851,7 +851,7 @@
    },
    "notes": {
     "bg": "Слаб разтвор на гум трагакант или метилцелулоза. Количествата не са записани — рецептата казва „слаб разтвор“ и толкова.",
-    "en": "A weak solution of gum tragacanth or methylcellulose. No quantities are recorded — the recipe says „a weak solution“ and no more."
+    "en": "A weak solution of gum tragacanth or methylcellulose. No quantities are recorded — the recipe says “a weak solution” and no more."
    },
    "ingredients": [
     {
@@ -914,11 +914,11 @@
     "maiwa-print-paint"
    ],
    "name": {
-    "bg": "Мордант паста за печат",
+    "bg": "Паста за печат със закрепител",
     "en": "Mordant print paste"
    },
    "notes": {
-    "bg": "Прави около 200 мл. Пастата носи морданта, не багрилото: печата се върху немордантиран плат, после платът влиза в багрилната баня и цвят хваща само там, където е печатано. Най-добре с адјективно багрило — субстантивното оцветява и фона. Количествата на Клиф и на Maiwa съвпадат.",
+    "bg": "Прави около 200 мл. Пастата носи закрепителя, не багрилото: печата се върху плат без закрепител, после платът влиза в багрилната баня и цвят хваща само там, където е печатано. Най-добре с адективно багрило — субстантивното оцветява и фона. Количествата на Клиф и на Maiwa съвпадат.",
     "en": "Makes about 200 ml. The paste carries the mordant, not the dye: it is printed onto unmordanted cloth, and when the cloth goes into the dye bath only the printed areas take colour. Best with an adjective dye — a substantive one will colour the ground as well. Cliffe's figures and Maiwa's agree."
    },
    "ingredients": [
@@ -980,7 +980,7 @@
      "unit": "g",
      "note": {
       "bg": "Гуар гума, 2 г. Работи и в кисела среда, затова е тя тук.",
-      "en": "Guar gum, 2 g. It works in an acid bath, which is why it is the one here."
+      "en": "Guar gum, 2 g. It works in acid conditions, which is why it is the one here."
      },
      "quantity": 2,
      "options": [
@@ -1081,11 +1081,11 @@
     "nicola-cliffe-printing"
    ],
    "name": {
-    "bg": "Багрилна паста без мордант",
+    "bg": "Багрилна паста без закрепител",
     "en": "Dye print paste, no mordant"
    },
    "notes": {
-    "bg": "Прави около 200 мл. Нанася се върху предварително мордантиран плат — пастата няма мордант и сама няма да задържи адјективно багрило. Фонът остава без цвят. Пази се около две седмици в затворен съд.",
+    "bg": "Прави около 200 мл. Нанася се върху плат, предварително обработен със закрепител — пастата няма закрепител и сама няма да задържи адективно багрило. Фонът остава без цвят. Пази се около две седмици в затворен съд.",
     "en": "Makes about 200 ml. Printed onto pre-mordanted cloth — the paste has no mordant and will not fix an adjective dye on its own. The ground stays clear. Keeps about two weeks in a closed jar."
    },
    "ingredients": [
@@ -1151,7 +1151,7 @@
     {
      "id": "dpp-s4",
      "text": {
-      "bg": "Нанеси върху мордантирания плат с калъп или през сито.",
+      "bg": "Нанеси с калъп или през сито върху плата, обработен със закрепител.",
       "en": "Apply to the mordanted cloth with a block or through a screen."
      }
     }
@@ -1170,11 +1170,11 @@
     "nicola-cliffe-printing"
    ],
    "name": {
-    "bg": "Готова паста с мордант",
+    "bg": "Готова паста със закрепител",
     "en": "Ready-to-use dye paste with a mordant"
    },
    "notes": {
-    "bg": "Прави около 200 мл. Носи и багрилото, и морданта, затова се нанася направо върху немордантиран плат и не следва багрилна баня. Колко екстракт зависи от багрилото — 1–10% обикновено стига; тегли го точно и добавяй на малки стъпки, докато цветът стане какъвто го искаш. Не се пази — прави само колкото ще използваш.",
+    "bg": "Прави около 200 мл. Носи и багрилото, и закрепителя, затова се нанася направо върху плат без закрепител и не следва багрилна баня. Колко екстракт зависи от багрилото — 1–10% обикновено стига; тегли го точно и добавяй на малки стъпки, докато цветът стане какъвто го искаш. Не се пази — прави само колкото ще използваш.",
     "en": "Makes about 200 ml. It carries both the dye and the mordant, so it goes straight onto unmordanted cloth and no dye bath follows. How much extract depends on the dye — 1–10% is usually enough; weigh it accurately and add in small increments until the depth of colour is right. It does not keep — make only what you will use."
    },
    "ingredients": [
@@ -1293,7 +1293,7 @@
     "seed:oatmeal-fixing-bath"
    ],
    "name": {
-    "bg": "Сложен мордант — светъл резултат",
+    "bg": "Сложен закрепител — светъл резултат",
     "en": "Compound mordant — bright outcome"
    },
    "notes": {
@@ -1432,7 +1432,7 @@
     {
      "id": "cmb-s7",
      "text": {
-      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, мордантът влиза навътре във влакното, а оцетът се изпарява.",
+      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, закрепителят влиза навътре във влакното, а оцетът се изпарява.",
       "en": "Let it dry COMPLETELY. This is not waiting, it is part of the recipe: as the water evaporates the mordant moves into the fibre, and the vinegar evaporates with it."
      }
     },
@@ -1463,11 +1463,11 @@
     "seed:oatmeal-fixing-bath"
    ],
    "name": {
-    "bg": "Сложен мордант — тъмен резултат",
+    "bg": "Сложен закрепител — тъмен резултат",
     "en": "Compound mordant — dark outcome"
    },
    "notes": {
-    "bg": "Същият мордант с повече желязо и малко повече сода — по-тъмен и по-плътен отпечатък. Желязото натъжава цветовете: жълтото става маслинено, а с танини дава сиво и почти черно. Задължително следва баня с овесени ядки. Количествата са от партидата в книгата, преизчислени на 100 г плат.",
+    "bg": "Същият закрепител с повече желязо и малко повече сода — по-тъмен и по-плътен отпечатък. Желязото натъжава цветовете: жълтото става маслинено, а с танини дава сиво и почти черно. Задължително следва баня с овесени ядки. Количествата са от партидата в книгата, преизчислени на 100 г плат.",
     "en": "The same mordant with more iron and a little more soda — a darker, bolder print. Iron saddens the colours: yellows go olive, and with tannins it gives greys and near-blacks. An oatmeal bath must follow. The quantities are the book's batch, recalculated to 100 g of cloth."
    },
    "ingredients": [
@@ -1602,7 +1602,7 @@
     {
      "id": "cmd-s7",
      "text": {
-      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, мордантът влиза навътре във влакното, а оцетът се изпарява.",
+      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, закрепителят влиза навътре във влакното, а оцетът се изпарява.",
       "en": "Let it dry COMPLETELY. This is not waiting, it is part of the recipe: as the water evaporates the mordant moves into the fibre, and the vinegar evaporates with it."
      }
     },
@@ -1634,8 +1634,8 @@
     "en": "Oatmeal or bran fixing bath"
    },
    "notes": {
-    "bg": "Прави се СЛЕД сложния мордант и след като платът е изсъхнал напълно. Отмива останалия по повърхността мордант и затяга връзката на металните соли с влакното. Разтворът върши работа за още плат: държи се покрит, на хладно и сухо, до три дни — при мехурчета, мухъл или миризма се изхвърля. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор.",
-    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It rinses away stray mordant left on the surface and strengthens the bond of the metallic salts to the fibre. The solution will fix more cloth: keep it covered, cool and dry, for up to three days — discard it at the first bubbles, mould or smell. The older name for this step is „dunging\", because cow manure was used before oats."
+    "bg": "Прави се СЛЕД сложния закрепител и след като платът е изсъхнал напълно. Отмива останалия по повърхността закрепител и затяга връзката на металните соли с влакното. Разтворът върши работа за още плат: държи се покрит, на хладно и сухо, до три дни — при мехурчета, мухъл или миризма се изхвърля. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор.",
+    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It rinses away stray mordant left on the surface and strengthens the bond of the metallic salts to the fibre. The solution will fix more cloth: keep it covered, cool and dry, for up to three days — discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats."
    },
    "ingredients": [
     {
@@ -1722,7 +1722,7 @@
     "en": "Soy milk bath"
    },
    "notes": {
-    "bg": "Соевият протеин ляга върху целулозата и ѝ дава това, което ѝ липсва: коприната и вълната се свързват с растителния цвят сами, памукът и хартията — не. Може да се прави след сложния мордант, за по-наситен отпечатък, или самостоятелно — тогава е по-прост и по-безопасен избор, особено с деца, защото няма прахове за вдишване, но устойчивостта на пране и светлина е по-малка, отколкото с метален мордант. Използва се неподсладено и неовкусено мляко, за предпочитане био.",
+    "bg": "Соевият протеин ляга върху целулозата и ѝ дава това, което ѝ липсва: коприната и вълната се свързват с растителния цвят сами, памукът и хартията — не. Може да се прави след сложния закрепител, за по-наситен отпечатък, или самостоятелно — тогава е по-прост и по-безопасен избор, особено с деца, защото няма прахове за вдишване, но устойчивостта на пране и светлина е по-малка, отколкото с метален закрепител. Използва се неподсладено и неовкусено мляко, за предпочитане био.",
     "en": "Soy protein settles onto cellulose and gives it what it lacks: silk and wool bond with plant colour by themselves, cotton and paper do not. It can follow the compound mordant, for a more saturated print, or stand alone — a simpler and safer option, especially with children, since there are no powders to inhale, though the wash- and lightfastness are lower than with a metallic mordant. Use unsweetened, unflavoured milk, preferably organic."
    },
    "ingredients": [
