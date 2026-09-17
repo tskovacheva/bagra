@@ -50,7 +50,8 @@ const recipeIds = new Set(recipes.map(r => 'seed:' + r.code));
 // moved or removed makes the entry point at something else, and the guard
 // then fails rather than excusing the wrong line.
 const NAMED_IN_PROSE = {
-  'madder-lake-fermentation#3': 'not-a-substance',   // sauerkraut juice — owner, 11 Sep 2026
+  // 'madder-lake-fermentation#3' (sauerkraut juice) went with the recipe, withdrawn at rc74 and kept in
+  // archive/withdrawn/ (§13eo). Restore the entry if the recipe comes back.
   'madder-lake-hot#1':          'not-a-substance',   // distilled water
   'watercolour-binder#1':       'not-a-substance',   // boiling water
   'pastel-binder-oat#1':        'not-a-substance',   // water
