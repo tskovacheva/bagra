@@ -100,7 +100,7 @@ A section may appear under more than one heading; that is what the index is for.
 
 **The phone** — §13aa · §13ae · §13cg
 
-**Language, terminology and translation** — §13bc · §13cb · §13cj
+**Language, terminology and translation** — §13bc · §13cb · §13cj · §13eh · §13ei · §13ej · §13ek · §13el · §13em
 
 **Backup, restore and the update path** — §13a · §13x · §13f
 
@@ -11300,3 +11300,390 @@ sixth way a guard lies.
     of five doubtful headings with substance. The owner is still thinking about it.
 
 ---
+
+---
+
+## 13eh. The language package, step 1: guards before words (1.0.0-rc67)
+
+The owner commissioned a language and terminology package for 1.0 in five steps, each its own
+release: guards; the interface dictionary and the vocabulary; English for plants; English for
+combinations; the language of the recipes. This is step 1. **No user-visible text changed.**
+
+### What rc66 was found to ship
+
+Checked against the code, not taken from the audit that raised it:
+
+- **603 reference fields with Bulgarian and no English** — 296 on plants (132 colour names, 132
+  colour conditions, 27 harvest notes, 5 toxicity notes), 307 on combinations (135 expected
+  colours, 121 notes, 37 influences, 14 variations). Recipes, glossary, techniques, substances
+  and sources: none. **Every one of them is drawn in Bulgarian on the English screen**, because
+  `text()` falls back to `bg` when `en` is empty.
+- **Ten dictionary keys defined twice**, in both languages; seven with two different texts.
+  An object literal keeps the last, so the first is dead text one deletion from being live.
+- „адјективно" twice in `seed/recipes.json`, with the Serbian ј.
+- „Багра" in one English string; Bulgarian „ quotes in 2 dictionary strings and 8 seed fields.
+- Bulgarian written into code: a weight unit „г" in `modules/batch.js` (twice), „г/м²" in
+  `units.js`, the default label prefix „П" in `modules/fabrics.js`, an error in `backup.js`,
+  and `aria-label="Основна навигация"` on the main navigation.
+- **Found only on the screen:** three `nameBotanical` values carry Bulgarian commentary inside
+  a Latin field („Rubus fruticosus L. (в практиката често …)"); the batch screen draws recipe
+  names in Bulgarian although the recipes have English; three source names are Bulgarian.
+
+### The guards
+
+**`scripts/try-language.mjs`** reads the files: duplicate and one-sided dictionary keys,
+Cyrillic in English, letters Bulgarian does not use (ѝ is Bulgarian and is allowed — the first
+version refused it), Bulgarian quotes in English, unambiguous American spellings (British
+English is the standard), malformed `{bg, en}` pairs, Cyrillic written into code, and
+untranslated pairs across all seed packs and the vocabulary.
+
+It also holds a **fingerprint of every seed record with its words blanked out**. Figures,
+codes, ids, order and shape are in it; the text of a pair is not. Language work that moves a
+recipe's quantity, or turns a pair into a plain string, fails and names the record. A data
+change that is meant is accepted with `--accept-data`, which lists what moved.
+
+**`scripts/try-language-screens.mjs`** switches a real browser to English, opens 321 screens —
+every view and every shipped library record, with English-only diary fixtures — and collects
+every line, placeholder, title and aria-label with a Cyrillic letter. 531 lines on rc66.
+
+**Both are ratchets.** The faults known today are listed by name in `test/language/`. A fault
+not on the list fails; a listed fault that is gone fails until it is crossed off, so the list
+always says what is left; `--strict` fails on the list itself, and **1.0 ships with the lists
+empty**. A finding that is right — a journal title spelled as published, the Bulgarian headings
+`plants.js` matches old records against — is an exception with its reason written beside it,
+and an exception that no longer matches anything fails.
+
+**Seen failing** on copies broken on purpose: Cyrillic into English; a gap filled and not
+crossed off; one figure in one recipe; a pair made a string; a new duplicate key; a stale
+exception; ј in a live and in a shadowed Bulgarian string; a Bulgarian word reaching the English
+screen; a translated line not crossed off. The screen list is kept by text, not by place: a word
+still drawn elsewhere stays listed, and the per-record account is the file check's.
+
+**A fault in the guard itself, found while testing it:** `process.exit()` after a piped
+`console.log` cut the strict listing at 399 of 641 lines. The verdict was right and the evidence
+was not all there. Both scripts set `process.exitCode`.
+
+**Not checked, and said so:** whether the English is good. `bg === en` is not an error. The
+guards find English that is absent, not English, or the wrong English — never English that is
+merely poor. That is the editorial review the owner has scheduled at the end of the package.
+
+### Terminology decided by the owner, applied from step 2
+
+Recorded here because the decision is made now; nothing below is on screen yet.
+
+- **The box `mordanted`** reads **„С мордант"**. The internal code does not change.
+- A fuller description uses „Обработен със закрепващо средство (мордант)" where it is needed.
+- The glossary defines **мордант** as an agent that helps the dye bond with the fibre.
+- The action is „Обработка със закрепващо средство"; with the substance known, „Обработка с
+  [вещество]". English: *mordanting*, *mordanting with [substance]*.
+- **No mechanical replacement** of the roughly 245 occurrences. Each is judged in context, and
+  a text is not lengthened where it need not be. „Фиксиране", „байцване", „фиксатор" are not
+  substitutes for mordanting.
+- „In hand" (`trials.working`, bg „На работа") is replaced by a label that does not collide:
+  „In progress" already names a planned pigment batch and an unfinished trial.
+- The home screen subtitle is considered as „Your fabrics, next steps and gaps in the reference
+  library", checked against what the screen actually shows.
+- **Duplicate keys:** keep the value the screen uses, but first check whether the other one was
+  the right text for a different screen; if the two mean different things, they become two keys.
+- **The 121 combination notes are classified before any are translated** — real notes, text in
+  the wrong field, duplicates, and records with no use — and the result is shown to the owner
+  before anything is moved or removed (see DOCUMENTATION_DECISIONS_NEEDED §12a).
+
+---
+
+## 13ei. The language package, step 2: the dictionary, the vocabulary and the terms (1.0.0-rc68)
+
+Every changed text, with its value before and after, is in `docs/language/rc68-text-changes.md`,
+generated from the edit rather than written afterwards.
+
+### How the owner's terminology was applied
+
+> **Superseded at rc69 by §13ej.** The rule below kept „мордант" in compact labels; the owner
+> decided that the Bulgarian interface does not use it as a name at all.
+
+The owner approved a table (substance: „закрепващо средство"; process: „обработка със закрепващо
+средство"; the box: „С мордант") and two limits: no mechanical replacement, and no short label made
+longer than it needs to be. The two pull against each other on a one-word chip, so the rule used is:
+
+- **Compact labels** — box and state names, table headers, filters, selects, recipe and step types,
+  chips: the noun **мордант** stays. The state is **„с мордант"**, the action **„обработка с
+  мордант"**, the bath **„баня с мордант"**. This is the same choice the owner made for the box.
+- **Prose** — hints, warnings, descriptions, help: **„закрепващо средство"**, and the process as
+  **„обработка със закрепващо средство"**; „мордант" may follow once the sentence has named it.
+- **Nowhere in the interface:** „мордантиране", „мордантиран", „мордансиран", „байцване",
+  „мордантна". They remain as search aliases and as named synonyms in the glossary.
+- **English is unchanged in kind:** mordant, mordanting, mordanted.
+
+Labels that KEPT „мордант" on this rule, so the owner can see the line: `ref.mordant`,
+`ref.mordantBand`, `ref.band`, `ref.anyMordant`, `ref.none` („без мордант"), `ref.bandBetween`,
+`ref.bandOver`, `ref.emptyHint`, `recipes.sub`, `recipes.emptyHint`, `materials.mordant`,
+`materials.mordantType`, and the vocabulary labels `material_category:mordant`,
+`recipe_type:mordant`, `ingredient_role:mordant`, `step_type:mordant`,
+`influence_factor:mordant`, `enhancement:botanical_mordant`, `enhancement:blanket_mordant`.
+`ref.none` is the one the approved table named differently („Без закрепващо средство"); it is a
+filter option and a fact line, and it was kept short on the second limit.
+
+### Duplicate keys
+
+Ten, each read against its use before anything was removed. None of the shadowed copies belonged
+to a different screen: every key has one caller, or two callers showing the same thing. So the
+live value stays and the shadowed copy goes — with two exceptions:
+
+- **`fabrics.photoHint`** — the shadowed copy was the better text („or garment", „for
+  comparison") and the live one a filler („more useful than it sounds"). The shadowed text is now
+  live.
+- **`fabrics.photo`** — both copies were unused by any code. Both removed.
+
+Not changed and worth the owner's eye: `stock.one` is „Stock entry" / „Наличност" while its
+neighbour `stock.newJar` is „New jar" / „Нов буркан" — the removed copy „Jar" / „Буркан" was the
+consistent pair. Keeping the live value was the rule; whether a jar is still the word after §11b
+folded stock into substances is a naming decision.
+
+### The owner's three decisions
+
+- **Botanical names.** The Bulgarian commentary left `nameBotanical` on three plants. Rubus's went
+  into its `description`, Dahlia's into its section „Как се държи", both in both languages.
+  Rheum's was NOT moved: its „Как се държи" already says that Asian Rheum species are richer in dye
+  anthraquinones. **`photoCredit.taxon` carried the same commentary** and was hidden only because
+  the caption prints the taxon when it differs from the name; cleaning the name alone would have
+  put the comment under the photograph. Both were cleaned.
+- **Source names — NOT done, proposed instead.** `name` on a source is a plain string, not a
+  pair. Giving „Практиката на ателието" an English name is a change of structure, which the
+  owner asked to see proposed first. DOCUMENTATION_DECISIONS_NEEDED §20.
+- **The label prefix „П"** is an identifier on physical labels and stays in either language. It is
+  a documented exception in `test/language/exceptions.json`, with the owner's reason.
+
+### Faults in code found by step 1 and fixed
+
+Recipe and chain names drawn from `name.bg` on the batch screen (six places) and ingredient notes
+from `note.bg` in the recipe and chain editors; the weight unit „г" in `batch.js`; the gsm unit in
+`units.js`, now from the dictionary; the navigation's `aria-label`, written into `index.html` in
+Bulgarian; an error message naming „Багра" appended to the English alert.
+
+### The data fingerprint, accepted by name
+
+Five entries moved, and each was shown and matched against the approved edits before
+`--accept-data` was run: the three plants (`nameBotanical` and `photoCredit.taxon` only), the
+glossary term `mordant` (one alias added, „закрепващо средство", so a search for the new word finds
+the term), and the manifest (plants 0.12.1, glossary 0.2.1). No figure moved.
+
+### Where the meaning may have moved
+
+Listed in the changes document with a reason each: the home screen subtitle (narrowed to what
+the screen shows), „In hand" → „Work under way", the substantive/adjective hint and glossary
+definition (both now say „lastingly" — a claim for the scientific audit), the photo hint, the
+mixed-fibre warning, „изваряване" → „изпиране" in the batch subtitle, and the combination
+example in About.
+
+### What the lists say now
+
+File check: 613 known (603 untranslated reference fields, 8 Bulgarian quotes in seed English, 2
+„адјективно"), 15 exceptions. Screen check: 518 Bulgarian lines on the English screen, all of them
+reference data for steps 3 to 5 or the source names of §20.
+
+---
+
+## 13ej. „Закрепител": the Bulgarian term for mordant (1.0.0-rc69)
+
+**The owner's final product decision, 16 September 2026.** „Мордант" is not accepted as a name on its
+own in the Bulgarian interface, although the specialist literature uses it. Багра speaks consistent,
+natural Bulgarian. This replaces both rc68 choices — „мордант" in compact labels and „закрепващо
+средство" in prose — with one word.
+
+| English | Български |
+|---|---|
+| mordant | закрепител |
+| mordanting | обработка със закрепител |
+| mordanted | със закрепител · обработен/-а/-о/-и със закрепител, by grammatical context |
+| mordant bath | баня със закрепител |
+| without mordant | без закрепител |
+
+- The glossary term is **„Закрепител (мордант)"**, with the meaning explained.
+- In specialist reference prose „мордант" is allowed **only as an explanation of the Bulgarian
+  term**, in brackets after it.
+- In a specific recipe, the substance is named rather than the class: „Обработка с алуминиев
+  ацетат", „Обработка със стипца".
+- „Фиксиране" and „фиксатор" are not substitutes: they name other processes.
+- Internal identifiers and the English terminology do not change.
+
+The standard, with forms and the words not used, is `docs/TERMINOLOGY_BG_EN.md`.
+
+### Applied
+
+34 dictionary strings, 12 vocabulary labels and one description, 15 edits in 10 glossary terms, five
+recipe names — each rewritten for its own grammar, none by global replacement. The full before and
+after is `docs/language/rc69-text-changes.md`. The places that decide agreement: the box is „със
+закрепител" (a state, no agreement); „{name}: обработка със закрепител преди {n} дни" uses the noun
+because {name} may be masculine, feminine or a label; a piece split from a batch is „изпрано,
+обработено със закрепител", agreeing with „парче".
+
+**Recipe names are labels** and were corrected now; the rest of the recipe prose waits for step 5.
+
+### The guard
+
+`scripts/try-language.mjs` reads the interface dictionary, the vocabulary and every glossary term and
+definition, and fails on:
+
+- **`term.mordantInInterface`** — any form of „мордант" (морданта, мордантът, морданти, мордантен,
+  мордантиран, мордансиран) that is not inside brackets straight after a form of „закрепител";
+- **`term.retiredInInterface`** — „закрепващо средство" or „байцване" in the same places.
+
+Search aliases are plain strings and are not read, so „мордант" still finds the term. Reference prose
+is ratcheted: **204** findings of `seed.mordantInProse` and **3** of `seed.retiredTermInProse` are
+listed by record and corrected in steps 3 to 5.
+
+**Seen failing:** a filter label back to „без мордант"; the box back to „мордантиран"; the glossary
+term as plain „Мордант"; „закрепващо средство" returned to a label; brackets the wrong way round —
+„Сила на морданта (закрепител)". **Seen passing** on the allowed form „без закрепител (мордант)".
+
+### Phone width
+
+19 affected screens in Bulgarian at 360 and 390 px — the home screen with a cloth in the box, the cloth
+record, the work list, the new-work form, the batch screen, the reference ask form, the records list, a
+reference record, the substance list and a mordant substance, recipes, two recipe records, chains,
+the library and glossary, techniques and tools: 132 elements drawing „закрепител", **no sideways
+overflow, and no standalone „мордант" in any label, header, option, chip, button or heading.** The
+release gate's own screen layer measures its 34 views at four widths on top of that.
+
+### Data fingerprint
+
+Two entries moved, each shown before acceptance: the glossary term `mordant` (aliases: „закрепващо
+средство" out, „закрепител" and „мордант" in) and the manifest (glossary 0.2.2, recipes 0.16.1).
+Recipe names are pairs, so no recipe figure, code or shape moved.
+
+---
+
+## 13ek. The language package, step 3: the plants (1.0.0-rc70)
+
+The full before-and-after is `docs/language/rc70-plants.md`; the claims marked for the scientific audit
+are `docs/language/science-audit-flags.md`.
+
+**The interim dye-class wording** is the owner's text, word for word. „Трайно" / *lastingly*, which rc68
+had introduced, is gone from the hint and from the glossary definition. No claim about fastness was
+added anywhere; the existing ones are marked for the audit.
+
+**296 English fields filled** — 132 colour names, 132 colour conditions, 27 harvest notes, 5 toxicity
+notes — from a table reviewed entry by entry, reusing an existing English rendering where the same
+Bulgarian was already translated on another plant. English follows the pack's established style
+(„leaves, aluminium mordant", „a stronger bath").
+
+**Bulgarian corrected in 168 fields.** 117 fields of „мордант" in the plant prose, rewritten to the
+§13ej standard by grammatical pattern and read back; „екстракция" to „извличане" (and „извлек" where an
+extract is meant), with the adjective agreeing; three loanwords. **„Вана" is kept for the indigo vat**:
+„редукционна вана" is the established term and names a different thing from a bath.
+
+**The existing English reviewed.** Every description and every „How it behaves", „Dye constituent" and
+„Dye qualities" section of all 57 plants was read, and the rest checked by rule — British spelling,
+quotation marks, attributive hyphens, sentence and line parity with the Bulgarian, length ratio, and
+template sentences on the wrong kind of plant. The prose was found sound; 73 fields were edited:
+
+- **„Parts used" (57) had never been translated.** Its English was generated from the part codes and
+  disagreed with the Bulgarian („hull" for onion skins, a hull on apple the Bulgarian does not name, a
+  lost note on alder buckthorn). It is now a translation of the Bulgarian. The disagreements between
+  the Bulgarian and the part list are not resolved here: they are data, and they are marked.
+- Colloquial calques of the Bulgarian („the bath wants to stand", „the berries do not like a long
+  boil", „schema", „the colour is born from the air"), attributive hyphens, „sulfur" → „sulphur",
+  Bulgarian quotation marks.
+
+**Not read line by line:** the „Harvest and processing" sections, which are largely formulaic and were
+checked by rule only — that is how the template sentence „For flowering herbs…" was found on eight plants
+whose dye part is a leaf or a root. The „Sources" sections are citations and are not edited.
+
+**Marked for the scientific audit, not corrected:** woad's „above 55 °C it is spoiled" against its
+recorded ceiling of 85 °C; three toxicity statements; part lists that disagree with the plant's own
+prose (apple, safflower, brazilwood, cutch); fastness claims without a rating; a dose figure in prose.
+
+**No data moved.** The fingerprint of every plant record is unchanged — only the text of `{bg, en}`
+pairs was edited. The manifest moved with the pack versions (plants 0.12.2, glossary 0.2.3).
+
+**What the guards say now.** File check: 403 known, down from 820 — the plants have no untranslated field,
+no „мордант" and no Bulgarian quotation mark left. English screens: 351 lines, down from 518. The 58 left
+on plant screens are the combination notes drawn on a plant — mixed-language text such as „Bramble leaves
+са тествани върху вълна" — which is step 4.
+
+**A deep-check failure that did not repeat — recorded, not rerun away.** The first release run of rc70
+failed twice in `deep-check.mjs`: `match: a pH-modified bath found no record (alkaline=undefined)`, caused
+by `TypeError: Cannot set properties of null (setting 'title')` in `readWork` (`modules/trials.js`),
+reached from the `[data-save]` click. Three runs of deep-check alone and a second full release run passed.
+`readWork` writes into `draft`; the harness calls `trialsMod.reset?.()`, changes the address and clicks
+Save after `settle()`, so the likely cause is a click that lands before the module has rebuilt `draft`
+— a race in the harness rather than in the screen, but that is a hypothesis, not a finding. It is the
+second intermittent failure in this harness (the first was `stages`, noted at rc66) and it touches no
+text this step changed. ROADMAP A7 carries it.
+
+---
+
+## 13el. The language package, step 4: the combinations (1.0.0-rc71)
+
+Before and after: `docs/language/rc71-combinations.md`. Claims marked: `docs/language/science-audit-flags.md`.
+
+**The 121 notes, classified and acted on** (DECISIONS §12a): 47 real notes translated; 23 condition labels
+that add to the key translated; 12 trimmed of the words that only restated the key; 39 emptied because they
+said nothing the key does not — „алуминиев мордант" on an alum record, „от кора" on a bark record. A label
+with several „ | " conditions was left whole whenever trimming would have emptied a segment, so the order
+still lines up with the colours. Three notes carried an import-workbook remark about a spreadsheet column;
+it is gone from the data and kept in the changes document.
+
+**307 English fields filled** — 135 expected colours, 121 notes (82 now non-empty), 37 influences, 14
+variations. Colours reuse the plant pack's English where the Bulgarian matches.
+
+**Bulgarian corrected.** No „мордант" left in any combination; the three „Байц" went with the workbook remark.
+The influences had English inside Bulgarian sentences („Bramble leaves са тествани", „alum-мордантирана
+вълна", „post-mordanting") and were rewritten in Bulgarian. „Ватът" became „ваната".
+
+**Existing English edited** where it did not match its Bulgarian: „olive" for „маслинено зелено", a missing
+„palette", „toward" → „towards", „holds" → „binds".
+
+**No data moved.** The fingerprint of all 163 records is unchanged. The manifest moved with the pack
+(combinations 0.9.1).
+
+**Guards.** File check: 50 known, down from 403, and none in the combinations. English screens: **6 lines
+left, down from 351** — all of them source names and one author's name, which wait on DECISIONS §20.
+
+---
+
+## 13em. The language package, step 5: the last packs, and bilingual source names (1.0.0-rc72)
+
+Every change: `docs/language/rc72-final.md`. Claims marked: `docs/language/science-audit-flags.md`.
+
+**The last 50 findings are fixed** — 44 places of „мордант" in recipes, substances, techniques and
+sources rewritten sentence by sentence, four Bulgarian quotation marks in English, two „адјективно".
+Both known lists are empty: the file check has **0 findings** and the English screen scan **0 lines of
+Bulgarian** over 321 screens. **From rc72 the release gate runs both strictly**, so a language fault
+can no longer be listed and shipped.
+
+**Editorial review.** Recipes, substances, techniques and source notes were read in both languages.
+Corrections: „Гram" (Latin letters inside a Cyrillic word — a new check, `seed.mixedScriptWord`, now
+catches that class and was seen failing on rc71), „тривхидрат", „каца" → „вана", „очистване" →
+„изпиране", „екстракция" → „извличане"; calques in English („wants", „any powder is breathed"),
+„an inch or two" where the Bulgarian says 2–5 cm, „Well, rain or distilled" where it says spring
+water, American spellings; a spec reference („§13dn") that had reached a substance's text on screen;
+23 source notes that described how the register was imported rather than the source.
+
+**Source names and authors are `{bg, en}`** (owner's decision). No migration: every reader takes a
+plain string or a pair through `text()`, so a person's own sources, restored archives, and the seeded
+sources of an installed copy — which Sources cannot update — keep working as they are. The editor
+opens a string as the same text in both languages and writes a pair only on save. **Seen:** a
+string-named source listed and opened in both languages, saved with an English name added, stored as a
+pair with nothing lost; the three older archives restored with their string-named sources (rc45 and
+rc56 whole; rc6 only the known §19 fault).
+
+The owner's names: „Практиката на ателието" / „Crafty Place studio practice"; „Еко принт библиотека —
+преглед на 25 растения" / „Eco-print reference: a review of 25 plants"; author „Цветелина Ковачева" /
+„Tsvetelina Kovacheva". Published titles stay as published in both languages — six carry American
+spelling and are documented exceptions. **Names written for the register** („Tagetes erecta on
+cotton") were descriptive and are now translated. The guide's English name is „NATURALNI BAGRILA
+[Natural Dyes] — guide": the title transliterated, so the English screen carries no Cyrillic.
+
+**Data.** Recipes, substances and techniques: fingerprint unchanged. Sources: all 57 moved, and only
+in the shape of `name` and `author` — checked field by field before acceptance.
+
+**Found and not fixed (outside language):** the glossary's source line maps sources by `s.code`, which
+is empty on seeded sources (§13ea), so a glossary term never shows its source. The reader now uses
+`text()`; the lookup key is untouched.
+
+**A check that assumed the old shape.** The first release run of rc72 failed in `deep-check.mjs`
+(`source-list`): it compared the screen against `String(source.name)`, which for a pair is „[object
+Object]". It now reads the name through `text()`, as the screens do, and was seen failing again when
+the substance reader was put back to printing the raw field.
+

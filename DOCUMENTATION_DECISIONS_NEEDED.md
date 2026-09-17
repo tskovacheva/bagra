@@ -303,6 +303,10 @@ rather than a decision.
 
 ## 12a. The original wording of the question
 
+**Settled at rc71** (§13el): the notes were classified and acted on by the owner's instruction — real notes
+kept, labels that only restated the key emptied, the rest translated. The account is in
+`docs/language/rc71-combinations.md`.
+
 **Raised by 1.0.0-rc34.** Twenty-two rows came back with a sentence about how the result
 changes. All three plausible fields are already spoken for or ambiguous:
 
@@ -922,3 +926,68 @@ existing records left as they are — an empty list is the honest state for a re
 reading nobody wrote down. Small, and it is the same change §11 already made once.
 
 **Not decided. Asked of the owner.**
+
+---
+
+## 19. Restoring an old backup brings back an old library — and two packs can never catch up
+
+**Raised after rc66 by the older-backup restore check** (ROADMAP A7 item 2).
+
+**The fault, found.** Restoring a backup from rc6 puts `seed:natures-rainbow` back with
+`kind: 'website'`. The shipped pack has said `site` since the fix recorded in deep-check 24c,
+but `modules/library.js` knows only `site`, so the Sources tab prints the key
+`sources.kind.website` where a word belongs. The same is true of **every copy installed before
+that fix**, restore or no restore, because Sources has no update button (`UNREACHABLE_PACKS`).
+
+**Planned fix, agreed to wait for an audit release:** read `website` as `site` at the point of
+drawing. The stored record is not rewritten — migrations add, they do not reinterpret — and
+the alias is named in one place with the reason beside it.
+
+**The wider question, NOT decided.** A snapshot restore brings back the library records the
+file carried, as they were. After an rc6 restore: 57 plants, 28 combinations, 2 substances,
+2 techniques and 1 source differ from the shipped pack. Five of those packs have
+„Обнови от библиотеката" and can be brought current by hand. **Sources and the glossary
+cannot.** Today that only reaches the owner. After 1.0 it reaches every buyer: a 1.0 backup
+restored on 1.1 brings back 1.0's sources and glossary with no way forward.
+
+Ways out, roughly by weight:
+- Leave it; the update button for the Library is B7.
+- On restore, do not bring back seed records the person never edited (`editedByUser: false`)
+  — let the start seed them fresh. Changes what „snapshot" means for the library half.
+- Build the Library's update button before 1.1 (B7 pulled forward).
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 20. A source's name is one string, and three of them want two languages
+
+**Settled at rc72** (§13em): shape A — `name` and `author` are `{bg, en}` on all 57, read through `text()`
+so older string records still work.
+
+**Raised by the language package, step 2 (rc68).** The owner decided: „Практиката на ателието"
+reads „Crafty Place studio practice" in English, and „Еко принт библиотека — преглед на 25
+растения" reads „Eco-print reference: a review of 25 plants" if it is a descriptive name rather
+than a title; „НАТУРАЛНИ БАГРИЛА — ръководство" keeps its title.
+
+`name` on a source record is a plain string. Every other named reference entity carries `{bg, en}`.
+So the decision cannot be written down without a change of structure — which is why nothing was
+done.
+
+**Two shapes:**
+
+- **A. `name` becomes a pair on every source.** 57 records: the 54 with a Latin-script name get
+  the same text in both halves, the three get their two. One reader (`modules/library.js` and
+  wherever a source name is printed — the combination, recipe and substance screens), one
+  migration for sources a person added herself, and the fingerprint moves on all 57. Consistent
+  with the rest of the model.
+- **B. An optional `nameEn` beside `name`.** Three records change, the readers take `nameEn` in
+  English when it is there. Smaller; it is also a second way of being bilingual, which is the kind
+  of thing that later decides differently from the first.
+
+**Recommended: A**, in its own small release, because a citation's title and its translation are
+the same fact in two languages and the model already has one shape for that. **Also asked:** is
+„Еко принт библиотека — преглед на 25 растения" the title of a document, or a description of one?
+
+**Not decided. Asked of the owner.**
+

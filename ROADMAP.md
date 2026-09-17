@@ -224,6 +224,20 @@ spread across A2, A3, A6 and the decisions file and could not be read in one pla
    Both, and the English of all seven texts, fall under her reading (item 3).
 2. **The other half of the migration tests** — a backup written by an OLDER version, opened by
    this one. The restore path itself was covered at rc26.
+   **Built after rc66; the files ship in rc67, NOT yet wired into `check.sh`.** The §19 fix waits for
+   a version of the language package, by the owner's decision.
+   `scripts/try-restore-older.mjs` and three fixtures in `test/older-backups/` (rc6, rc45,
+   rc56). Each fixture was written by that version's own code: checked out of git, its own
+   deep-check run, its own `exportAll()`. rc45 and rc56 pass whole. **rc6 found one fault** —
+   see DOCUMENTATION_DECISIONS_NEEDED §19. What remains, in order:
+   - the fix for §19 (`website` read as `site` when drawn, the record left as it is);
+   - the harness wired into `check.sh --release` — NOT before the fix, because a release
+     layer that fails on a known fault teaches people to walk past it;
+   - a line in the specification (§11.4) and in CHANGELOG;
+   - **known limit, say it in the release notes:** the three fixtures are thin on work —
+     3 cloths, 6 trials, no cloth actions, no batches, no photographs, no pigment batches.
+     They prove the old FORMAT is read; they do not prove a large studio database is. A rich
+     fixture means driving an old version's screens, and is separate work.
 3. **The owner's reading of the English.** 342 plant sections, the recipes and the vocabulary
    labels: a translation by the developer, not a second authorial voice, and marked for her
    review before anything is distributed (A3). **This has not started**, and it is the one
@@ -234,6 +248,29 @@ spread across A2, A3, A6 and the decisions file and could not be read in one pla
 5. ~~**The pH scale, drawn rather than listed.**~~ **DONE at rc65** (§13ef): one bar from 1 to
    14, with the band names kept as a legend under it.
 6. **A last read of README and ROADMAP**, which is the habit A6 already names.
+7. **ADDED 16 September 2026, by the owner: the language and terminology package.** Five steps,
+   each its own release, none started before the previous one is accepted:
+   1. ~~guards~~ **DONE at rc67** (§13eh) — two ratchets with 641 file findings and 531 lines of
+      Bulgarian on the English screen listed by name; 1.0 needs both lists empty (`--strict`);
+   2. ~~the interface dictionary and the vocabulary~~ **DONE at rc68** (§13ei) — terminology,
+      the ten duplicate keys, the audit's English edits checked against their screens, the
+      botanical names; the source names wait on a structure decision (DECISIONS §20);
+      **corrected at rc69** (§13ej): „закрепител" replaces „мордант" in the Bulgarian interface,
+      and 204 places in reference prose join steps 3 to 5, which now also cover the prose of
+      substances, techniques and sources;
+   3. ~~English for the plants (296 fields)~~ **DONE at rc70** (§13ek) — filled, the existing English
+      reviewed, „мордант" out of the plant prose, doubtful claims in `docs/language/science-audit-flags.md`;
+   **Intermittent deep-check failure seen at rc70** (§13ek, last paragraph): `readWork` with a null
+   `draft` after the harness's `reset` in the pH match test, once in five runs. Not fixed; investigate
+   before 1.0 together with the `stages` flake from rc66.
+   4. ~~English for the combinations (307)~~ **DONE at rc71** (§13el) — the 121 notes classified and
+      acted on, English filled, „мордант" out; 6 lines of Bulgarian left on the English screen, all §20;
+   5. ~~the language of the recipes~~ **DONE at rc72** (§13em) — and substances, techniques, sources;
+      source names bilingual; both language lists empty and strict on release. **The package is complete
+      pending the independent check and the owner's editorial read of the English (item 3).**
+   An independent check of the implementation and an editorial read of the English follow the
+   whole package. This does not close item 3: the English stays a translation by the developer
+   until the owner has read it.
 
 Deliberately NOT in 1.0, and each recorded where it belongs: cloud sync (A5, Part C), pack
 export (B5), a vocabulary editor (B6c), an update button for Sources and the Glossary (B6d),

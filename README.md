@@ -143,7 +143,8 @@ seed/en/*.json        the English of the plant library, kept as batches
 screen-check.mjs      every address rendered at phone width, geometry asserted
 icons/                app icons
 sw.js                 service worker
-check.sh              pre-deploy checks — six layers
+check.sh              pre-deploy checks — six layers, and the language ratchets (§13eh)
+docs/TERMINOLOGY_BG_EN.md  the approved Bulgarian and English terms
 check-scope.js        undeclared assignments, doubled handlers, missing icons
 check-boot.mjs        boots the real module graph, vocabulary and reachability
 deep-check.mjs        opens every record, clicks through, asserts behaviour

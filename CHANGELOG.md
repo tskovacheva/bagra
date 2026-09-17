@@ -12,6 +12,102 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc72 — 16 September 2026
+
+Step 5 of the language package: recipes, substances, techniques, sources. §13em. Every change:
+`docs/language/rc72-final.md`.
+
+- **The last 50 language findings fixed.** File check: 0 findings. English screens: 0 lines of Bulgarian.
+  The release gate now runs both checks strictly.
+- **Source `name` and `author` are bilingual** on all 57; older string records and archives read unchanged.
+  The owner's names and „Цветелина Ковачева" / „Tsvetelina Kovacheva".
+- Editorial review of four packs in both languages; a new check for words mixing Cyrillic and Latin letters.
+- 13 claims added to the scientific audit list, among them an iron dose of 2.5% against a 2% limit stated
+  elsewhere, and alum paired with tartaric acid in Bulgarian and cream of tartar in English.
+- No recipe, substance or technique figure moved.
+
+## 1.0.0-rc71 — 16 September 2026
+
+Step 4 of the language package: the combinations. §13el. Every change: `docs/language/rc71-combinations.md`.
+
+- **The 121 notes:** 47 real notes and 23 informative labels translated, 12 trimmed of words that restated
+  the key, 39 emptied because the key already said everything they said. An import-workbook remark removed.
+- **307 English fields filled**; English words inside Bulgarian influences rewritten in Bulgarian.
+- „Закрепител" throughout; no „мордант" or „байц" left in any combination.
+- No key, figure or source changed: the fingerprint of all 163 records is unchanged.
+- English screens: 6 lines of Bulgarian left, all source names (DECISIONS §20).
+
+## 1.0.0-rc70 — 16 September 2026
+
+Step 3 of the language package: the plants. §13ek. Every change: `docs/language/rc70-plants.md`.
+
+- The owner's interim wording for substantive and adjective dyes; „трайно" / *lastingly* removed from the
+  hint and the glossary.
+- **296 English fields filled**: colour names and conditions, harvest notes, toxicity notes.
+- **„Parts used" translated for the first time** — its English had been generated from part codes and
+  disagreed with the Bulgarian.
+- 73 English fields edited (calques, hyphens, spelling, quotation marks); 168 Bulgarian fields corrected
+  („закрепител", „извличане", loanwords).
+- **Claims marked, not changed:** `docs/language/science-audit-flags.md` — among them woad's 55 °C
+  against a recorded ceiling of 85 °C, and part lists that disagree with the plant's prose.
+- No figure moved: the plant records' fingerprint is unchanged.
+
+## 1.0.0-rc69 — 16 September 2026
+
+Step 2 corrected by the owner's final decision: **„закрепител", not „мордант", in the Bulgarian
+interface.** §13ej. Every text changed: `docs/language/rc69-text-changes.md`. The standard:
+`docs/TERMINOLOGY_BG_EN.md`.
+
+- 34 dictionary strings, 12 vocabulary labels, 10 glossary terms and 5 recipe names, each by its own
+  grammar. The glossary term is „Закрепител (мордант)".
+- **A new guard** fails on „мордант" in any form in the interface unless it stands in brackets after
+  „закрепител", and on the retired „закрепващо средство" and „байцване". Search aliases are not read.
+- Reference prose (204 places) is listed by record and corrected in steps 3 to 5.
+- Checked at 360 and 390 px on 19 affected screens: no overflow, no standalone „мордант" in a label.
+- English and every internal identifier unchanged.
+
+## 1.0.0-rc68 — 16 September 2026
+
+Step 2 of the language package: the interface dictionary, the vocabulary and the terms. §13ei.
+Every text changed, before and after: `docs/language/rc68-text-changes.md`.
+
+- **Mordant terminology, by the owner's rule:** „с мордант" for the box and in compact labels,
+  „закрепващо средство" in prose, and no „мордантиран", „мордансиран" or „байцване" left on screen.
+- **Ten duplicate keys resolved** after reading each one's use. One shadowed text was the better one
+  and is now live; one key was unused in both copies and is gone.
+- **The audit's English edits, checked against their screens:** „In hand" is „Work under way", not
+  „In progress", which already named two other things; the home screen subtitle now says what the
+  screen shows.
+- **Bulgarian on the English screen, from code:** recipe names and ingredient notes read from `.bg`,
+  the gram and gsm units, the navigation's aria-label, an error naming „Багра".
+- **Three botanical names cleaned**, the commentary moved into the plant's own prose — and the
+  photograph's taxon, which carried the same commentary and would have surfaced under the picture.
+- **Five fingerprint entries accepted by name**, each shown first: three plants, one glossary term,
+  the manifest. No figure moved.
+- **Not done:** English names for three sources need `name` to become bilingual (DECISIONS §20).
+
+## 1.0.0-rc67 — 16 September 2026
+
+Step 1 of the language package: guards before words. **No user-visible text changed.** §13eh
+
+- **`scripts/try-language.mjs`** — dictionary duplicates and one-sided keys, Cyrillic in English,
+  letters Bulgarian does not use, Bulgarian quotes in English, American spellings, malformed
+  pairs, Bulgarian written into code, and untranslated pairs in every pack and the vocabulary.
+- **A fingerprint of every seed record with the words blanked out.** Language work that moves a
+  figure, a code or the shape of a record fails and names it.
+- **`scripts/try-language-screens.mjs`** — the English interface in a real browser, 321 screens,
+  every line and attribute with a Cyrillic letter.
+- **Both are ratchets:** the faults rc66 shipped with are listed in `test/language/`; a new one
+  fails, a fixed one fails until crossed off, and `--strict` — the 1.0 run — fails on the lists.
+- On rc66: 603 untranslated reference fields, 10 duplicate keys (7 with two different texts),
+  ј in „адјективно" twice, a weight unit and an aria-label in Bulgarian, Bulgarian commentary in
+  three botanical names, recipe names drawn in Bulgarian on the batch screen.
+- The guard lost its own evidence: `process.exit()` cut a piped listing at 399 of 641 lines.
+  Both scripts set `exitCode`.
+- **Also in the tree, not wired in:** `scripts/try-restore-older.mjs` and three backups written by
+  rc6, rc45 and rc56. It finds one fault (DOCUMENTATION_DECISIONS_NEEDED §19) and joins the
+  release gate with its fix.
+
 ## 1.0.0-rc66 — 14 September 2026
 
 A6's documents, which had not existed for fourteen releases. §13eg

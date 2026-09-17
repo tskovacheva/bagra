@@ -54,7 +54,7 @@ export async function downloadBackup() {
  */
 export function validateBackup(payload) {
   if (payload?.format !== 'bagra-backup') {
-    throw new Error('not a Багра backup file');
+    throw new Error('unrecognised format');
   }
   if (payload.schemaVersion > SCHEMA_VERSION) {
     throw new Error('backup is from a newer version of the app');

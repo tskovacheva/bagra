@@ -6187,9 +6187,12 @@ const dirty = await import('./dirty.js');
   await recipes.render(root); await settle();
   const shown = root.textContent || '';
   const { sourceCodeOf } = await import('./refs.js');
+  const { text: i18nText } = await import('./i18n.js');
   const reg = new Map((await db.all('sources')).map(x => [sourceCodeOf(x), x]));
   for (const code of ['joanne-green-watercolour', 'crafty-place-practice']) {
-    const title = String(reg.get(code)?.name || code);
+    // A source's name is `{bg, en}` since rc72 and a string before; read it
+    // the way the screen does, or this compares against „[object Object]".
+    const title = String(i18nText(reg.get(code)?.name) || code);
     if (!shown.includes(title.slice(0, 18)))
       problems.push(`the recipe does not name „${title.slice(0, 30)}"`);
   }
@@ -6205,7 +6208,7 @@ const dirty = await import('./dirty.js');
   const label = t('ref.sources');
   const row = [...root.querySelectorAll('.fact')]
     .find(f => f.querySelector('.factlabel')?.textContent.trim() === label);
-  const stopka = String(reg.get('natalie-stopka-pigment')?.name || '');
+  const stopka = String(i18nText(reg.get('natalie-stopka-pigment')?.name) || '');
   if (!row) problems.push('the honey record has no sources row');
   else if (stopka && !row.textContent.includes(stopka.slice(0, 18)))
     problems.push(`the sources row does not name the source: „${row.textContent.trim().slice(0, 60)}"`);

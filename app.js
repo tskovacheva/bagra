@@ -167,6 +167,9 @@ function renderNav() {
       ${icon(n.icon)}<span>${esc(navLabel(n))}</span>
     </button>`;
 
+  // The label was written into index.html in Bulgarian and stayed so in English.
+  $('#sidebar').setAttribute('aria-label', t('nav.mainLabel'));
+  $('#bottomnav').setAttribute('aria-label', t('nav.mainLabel'));
   $('#sidebar').innerHTML =
     `<div class="brand"><b>${t('app.name')}</b><span>${t('app.tagline')}</span></div>` +
     NAV.map(n => {

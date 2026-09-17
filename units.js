@@ -26,6 +26,7 @@
 // with the person, not with the work, so a snapshot restore leaves it alone.
 
 import { getSetting, setSetting } from './db.js';
+import { t } from './i18n.js';
 
 export const SYSTEMS = ['metric', 'imperial'];
 
@@ -179,7 +180,10 @@ export function gsm(value) {
   return isImperial() ? trim(n * SQM_PER_SQYD / G_PER_OZ) : trim(n);
 }
 
-export const gsmUnit = () => (isImperial() ? 'oz/yd²' : 'г/м²');
+// The metric symbol comes from the dictionary: the Bulgarian screen writes it in
+// Cyrillic, as its own field label does, and the English screen had the Cyrillic
+// too — the fault §13eh found. The stored value is grams per square metre either way.
+export const gsmUnit = () => (isImperial() ? 'oz/yd²' : t('units.gsmMetric'));
 
 export function gsmToMetric(value, unit = null) {
   const n = Number(value);

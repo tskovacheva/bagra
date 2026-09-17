@@ -248,6 +248,15 @@ node scripts/try-recipe-lines-named.mjs || exit 1
 #     left two fixing baths, one of them reachable from nothing (§13ec).
 node scripts/try-recipe-followons.mjs || exit 1
 
+# Language (§13eh). A ratchet: the faults rc66 shipped with are LISTED in
+# test/language/known-gaps.json; a new one fails, and a listed one that has been
+# fixed fails until it is crossed off. It also holds a fingerprint of every seed
+# record with its words blanked out, so language work cannot move a figure.
+# 1.0 runs it with --strict, which fails on the list itself.
+# From rc72 the known lists are empty, so a release run is strict: a language
+# fault cannot be listed and shipped (§13em).
+node scripts/try-language.mjs ${REL:+--strict} || exit 1
+
 # 4. Boot the real module graph. `node --check` passes on a name imported
 #    twice, an import of a missing export, or a throw during start-up — each of
 #    which gives a blank page.
@@ -363,7 +372,8 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     door of two.
   node check-deps.mjs $REL --chromium puppeteer-core
   case $? in
-    0) node screen-check.mjs || exit 1 ;;
+    0) node screen-check.mjs || exit 1
+       node scripts/try-language-screens.mjs $REL || exit 1 ;;
     2) ;;
     *) exit 1 ;;
   esac

@@ -94,7 +94,7 @@ export const VOCABULARY = [
   // are states of the piece rather than shelves, and are written by a trial.
   V('fabric_state', 'unwashed',  'неизпран',     'unwashed', 1),
   V('fabric_state', 'scoured',   'изпран',       'scoured', 2),
-  V('fabric_state', 'mordanted', 'мордантиран',  'mordanted', 3),
+  V('fabric_state', 'mordanted', 'със закрепител', 'mordanted', 3),
   V('fabric_state', 'dyed',      'набагрен',     'dyed', 4),
   V('fabric_state', 'finished',  'завършен',     'finished', 5),
 
@@ -109,7 +109,7 @@ export const VOCABULARY = [
   // one.
   V('fabric_action', 'wash',       'изпиране',        'washing', 1),
   V('fabric_action', 'tannin',     'танин',           'tannin', 2),
-  V('fabric_action', 'mordant',    'мордантиране',    'mordanting', 3),
+  V('fabric_action', 'mordant',    'обработка със закрепител', 'mordanting', 3),
   V('fabric_action', 'neutralise', 'неутрализиране',  'neutralising', 4),
   V('fabric_action', 'iron',       'желязна баня',    'iron bath', 5),
   V('fabric_action', 'soy',        'соево мляко',     'soy milk', 6),
@@ -175,7 +175,7 @@ export const VOCABULARY = [
   // it is shown (§13aw). A role says what a plant is FOR, which is why this is
   // not chemistry: chemistry says what is inside a part.
   V('plant_role', 'mordant_accumulator', 'акумулатор', 'mordant accumulator', 3,
-    { bg: 'Растение, което трупа алуминий в тъканите си, така че само по себе си може да замести или намали байцването.',
+    { bg: 'Растение, което трупа алуминий в тъканите си, така че само по себе си може да замести закрепителя или да намали нуждата от него.',
       en: 'A plant that accumulates aluminium in its tissue, so it can stand in for a mordant or reduce how much is needed.' }, 'textile_prep'),
 
   // Eco-print specific and absent from most references (§4).
@@ -257,7 +257,7 @@ export const VOCABULARY = [
   // --- materials ---------------------------------------------------------
   V('material_category', 'dyestuff',  'багрило',        'dyestuff', 1),
   V('material_category', 'tannin',    'танин',          'tannin', 2),
-  V('material_category', 'mordant',   'мордант',        'mordant', 3),
+  V('material_category', 'mordant',   'закрепител',     'mordant', 3),
   V('material_category', 'modifier',  'pH модификатор', 'pH modifier', 4),
   V('material_category', 'auxiliary', 'помощно',        'auxiliary', 5),
 
@@ -315,7 +315,7 @@ export const VOCABULARY = [
   // --- recipes -----------------------------------------------------------
   V('recipe_type', 'scour',    'изпиране',   'scouring', 1),
   V('recipe_type', 'tannin',   'танин',      'tannin', 2),
-  V('recipe_type', 'mordant',  'мордант',    'mordant', 3),
+  V('recipe_type', 'mordant',  'закрепител', 'mordant', 3),
   V('recipe_type', 'dye',      'багрене',    'dyeing', 4),
   V('recipe_type', 'ecoprint', 'еко принт',  'eco print', 5),
   V('recipe_type', 'pigment',  'пигмент',    'pigment', 6),
@@ -345,7 +345,7 @@ export const VOCABULARY = [
       en: 'Produces a dye extract that feeds the next recipe.' }),
 
   V('ingredient_role', 'tannin',           'танин',              'tannin', 1),
-  V('ingredient_role', 'mordant',          'мордант',            'mordant', 2),
+  V('ingredient_role', 'mordant',          'закрепител',         'mordant', 2),
   V('ingredient_role', 'dyestuff',         'багрило',            'dyestuff', 3),
   V('ingredient_role', 'alkali',           'алкали',             'alkali', 4),
   V('ingredient_role', 'acid_source',      'киселина',           'acid', 5),
@@ -418,7 +418,7 @@ export const VOCABULARY = [
   // handful of answers in this craft, and a free-text factor would be a second
   // notes field wearing a label.
   V('influence_factor', 'fibre',         'влакното',          'the fibre', 1),
-  V('influence_factor', 'mordant',       'мордантът',         'the mordant', 2),
+  V('influence_factor', 'mordant',       'закрепителят',      'the mordant', 2),
   V('influence_factor', 'ph',            'средата',           'the medium', 3),
   V('influence_factor', 'species',       'видът',             'the species', 4),
   V('influence_factor', 'concentration', 'дозата и времето',  'dose and time', 5),
@@ -461,10 +461,10 @@ export const VOCABULARY = [
   // Named after what one does, not after the chemistry behind it. "Adjective
   // carrier blanket" is precise and unusable at the bench; "blanket soaked in
   // a dye" is the same fact in words that describe an action.
-  V('enhancement', 'cloth_mordant',      'платът е мордантиран',        'cloth was mordanted', 1),
-  V('enhancement', 'botanical_mordant',  'листата са потопени в мордант','leaves dipped in mordant', 2),
+  V('enhancement', 'cloth_mordant',      'платът е обработен със закрепител', 'cloth was mordanted', 1),
+  V('enhancement', 'botanical_mordant',  'листата са потопени в закрепител', 'leaves dipped in mordant', 2),
   V('enhancement', 'predye_substantive', 'платът е предварително набагрен','cloth was pre-dyed', 3),
-  V('enhancement', 'blanket_mordant',    'одеяло, топено в мордант',    'blanket soaked in mordant', 4),
+  V('enhancement', 'blanket_mordant',    'одеяло, топено в закрепител', 'blanket soaked in mordant', 4),
   V('enhancement', 'blanket_dye',        'одеяло, топено в багрило',    'blanket soaked in dye', 5),
   V('enhancement', 'ph_modifier',        'добавен pH модификатор',      'a pH modifier was added', 6),
 
@@ -500,7 +500,7 @@ export const VOCABULARY = [
 
   V('step_type', 'scour',         'изпиране',        'scour', 1),
   V('step_type', 'tannin',        'танин',           'tannin', 2),
-  V('step_type', 'mordant',       'мордант',         'mordant', 3),
+  V('step_type', 'mordant',       'закрепител',      'mordant', 3),
   V('step_type', 'dye',           'багрилна баня',   'dye bath', 4),
   V('step_type', 'bundle_steam',  'вързоп на пара',  'bundle & steam', 5),
   V('step_type', 'bundle_boil',   'вързоп на котлон','bundle & boil', 6),
@@ -512,7 +512,7 @@ export const VOCABULARY = [
   V('step_type', 'cure',          'отлежаване',      'curing', 12),
 
   V('medium_where', 'dye_bath',     'багрилна баня',   'dye bath', 1),
-  V('medium_where', 'mordant_bath', 'мордантна баня',  'mordant bath', 2),
+  V('medium_where', 'mordant_bath', 'баня със закрепител', 'mordant bath', 2),
   V('medium_where', 'steam_water',  'вода за пара',    'steam water', 3),
   V('medium_where', 'rinse',        'изплакване',      'rinse', 4),
   V('medium_where', 'afterbath',    'последваща баня', 'afterbath', 5),
