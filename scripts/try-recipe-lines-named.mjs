@@ -56,14 +56,15 @@ const NAMED_IN_PROSE = {
   // archive/withdrawn/ (§13et). Restore the entry if the recipe comes back.
   'watercolour-binder#1':       'not-a-substance',   // boiling water
   'pastel-binder-oat#1':        'not-a-substance',   // water
-  'pastel-binder-gum#1':        'not-a-substance',   // water
+  // 'pastel-binder-gum#1' (water) went with the recipe, withdrawn at rc84 and kept in
+  // archive/withdrawn/ (§13ey). Restore the entry if the recipe comes back.
   // The print pastes (§13eb). „Which dye" is the whole point of the paste and
   // the recipe deliberately does not answer it: any extract will do, and the
   // quantity depends on which. Naming one here would turn an open recipe into
   // a madder one.
   'dye-print-paste#0':          'dyer-chooses',      // any dye extract
   'dye-mordant-print-paste#0':  'dyer-chooses',      // any dye extract
-  'mordant-print-paste#4':      'dyer-chooses',      // a marker; the colour washes out
+  'mordant-print-paste#4':      'dyer-chooses',      // an optional marker, tried first
   'watercolour-from-pigment#0': 'made-elsewhere',    // the pigment, from a batch
   'pastels-from-pigment#0':     'made-elsewhere',    // the pigment, from a batch
 };
