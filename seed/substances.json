@@ -1,6 +1,6 @@
 {
  "packId": "bagra-base",
- "packVersion": "0.7.5",
+ "packVersion": "0.7.6",
  "description": {
   "bg": "Начален набор вещества — закрепители, танини, модификатори и помощни вещества.",
   "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
@@ -136,7 +136,7 @@
    ],
    "colourEffect": "brightening",
    "notes": {
-    "bg": "Стандартът за целулоза при еко принт. След обработката със закрепител е нужна варова баня — тя свързва закрепителя, а не просто регулира pH.",
+    "bg": "Стандартът за целулоза при еко принт. След обработката със закрепител е нужна баня с креда (калциев карбонат) — тя свързва закрепителя, а не просто регулира pH.",
     "en": "The standard for cellulose in eco printing. A chalk bath is required afterwards — it binds the mordant rather than merely adjusting pH."
    }
   },

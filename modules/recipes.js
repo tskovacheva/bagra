@@ -16,7 +16,11 @@ import { codesOf, sourceCodeOf } from '../refs.js';
 import * as seedUI from '../seed-ui.js';
 import chains from './chains.js';
 
-const TYPES = ['scour', 'tannin', 'mordant', 'dye', 'ecoprint', 'blanket', 'pigment', 'paste'];
+// The categories OFFERED — as list tabs and in the editor. `ecoprint` and
+// `blanket` left at rc85 (§13ez): no shipped recipe used either. Their terms
+// stay in vocab.js, so a recipe of hers that carries one still reads its name,
+// keeps its type through the form, and a blanket recipe keeps its panel.
+const TYPES = ['scour', 'tannin', 'mordant', 'dye', 'pigment', 'paste'];
 const FIBRE_CLASSES = ['cellulose', 'protein'];
 
 // Which types work on CLOTH and which MAKE A SUBSTANCE. The screen was built
@@ -73,6 +77,14 @@ const SHOWS = {
   // temperature ceiling and the laking step is a pH event.
   conditions: () => true,
 };
+
+// The editor's choices: the offered categories, plus the record's own if it
+// is one no longer offered — so saving an untouched form never changes it.
+async function typeOptions(selected) {
+  const html = await options('recipe_type', selected, '');
+  return html.replace(/<option value="([^"]*)"( selected)?>[^<]*<\/option>/g,
+    (opt, code) => (!code || TYPES.includes(code) || code === selected) ? opt : '');
+}
 
 // Recipes and chains share one nav entry: a chain is a plan made of recipes,
 // and an eleventh item in the sidebar would cost more than it explains.
@@ -730,7 +742,7 @@ async function renderForm(root, r) {
           ${panel(`
             <h2>${t('recipes.about')}</h2>
             ${pairField(t('recipes.name'), 'name', r.name)}
-            ${field(t('recipes.type'), `<select data-f="type">${await options('recipe_type', r.type, '')}</select>`)}
+            ${field(t('recipes.type'), `<select data-f="type">${await typeOptions(r.type)}</select>`)}
             ${SHOWS.appliesTo(r.type) ? fieldGroup(t('recipes.appliesTo'), `<div class="checks">${fibreChecks}</div>`) : ''}
           `)}
 

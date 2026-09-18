@@ -1,6 +1,6 @@
 {
  "packId": "bagra-glossary",
- "packVersion": "0.2.4",
+ "packVersion": "0.2.5",
  "description": {
   "bg": "Думите на занаята, обяснени със свои думи. Тук стои дума, която човек ще срещне в книга, рецепта или общност и чието значение не е очевидно от самата дума. Не стоят тук нито понятия, които са кодове в модела и носят обяснението си там, където се показват, нито техники — те са в модула Техники.",
   "en": "The words of the craft, explained in our own words. A word belongs here if a person will meet it in a book, a recipe or a community and its meaning is not obvious from the word itself. Concepts that are codes in the model do not: they carry their explanation where they are shown. Neither do techniques, which live in the Techniques module."
@@ -477,7 +477,7 @@
     "спрямо стипцата"
    ],
    "definition": {
-    "bg": "Друга база, същият вид процент — и точно затова е опасна. При лаковите пигменти количеството растителен материал се мери спрямо тежестта на СТИПЦАТА, не на тъкан. 200% WOA при 10 г стипца значи 20 г растение. Ако се прочете като WOF, сметката излиза десетократно сгрешена. Винаги проверявай спрямо какво е даден процентът.",
+    "bg": "Друга база, същият вид процент — и точно затова е опасна. При утаените пигменти количеството растителен материал се мери спрямо тежестта на СТИПЦАТА, не на тъкан. 200% WOA при 10 г стипца значи 20 г растение. Ако се прочете като WOF, сметката излиза десетократно сгрешена. Винаги проверявай спрямо какво е даден процентът.",
     "en": "A different base, the same kind of percentage — which is exactly what makes it dangerous. For lake pigments the plant material is measured against the weight of the ALUM, not of cloth. 200% WOA with 10 g of alum means 20 g of plant. Read as WOF, the sum comes out wrong by an order of magnitude. Always check what a percentage is taken against."
    },
    "seeAlso": [
@@ -491,7 +491,7 @@
    "code": "lake_pigment",
    "group": "pigment",
    "term": {
-    "bg": "Лаков пигмент",
+    "bg": "Утаен пигмент",
     "en": "Lake pigment"
    },
    "aliases": [

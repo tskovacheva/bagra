@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": "15",
+ "packVersion": "16",
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -67,7 +67,7 @@
    },
    "url": "",
    "note": {
-    "bg": "За лакови пигменти — превръщането на багрилен разтвор в трайно пигментно зърно. Носи таблица с процент растителен материал спрямо тежестта на стипцата (WOA, не WOF) и за пет различни начина на извличане — гореща отвара, ферментация, тинктура, алкално извличане, ледена мацерация. Оттам идва наблюдението, че един и същ вид дава различен добив според начина на извличане.",
+    "bg": "За утаени пигменти — превръщането на багрилен разтвор в трайно пигментно зърно. Носи таблица с процент растителен материал спрямо тежестта на стипцата (WOA, не WOF) и за пет различни начина на извличане — гореща отвара, ферментация, тинктура, алкално извличане, ледена мацерация. Оттам идва наблюдението, че един и същ вид дава различен добив според начина на извличане.",
     "en": "On lake pigments — turning a dye solution into a lasting pigment grain. It carries a chart of plant material as a percentage of the weight of alum (WOA, not WOF), across five different extraction methods — decoction, fermentation, tincture, alkaline extraction, ice maceration. The observation that one species yields differently depending on the method comes from here."
    }
   },

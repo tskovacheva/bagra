@@ -10,7 +10,7 @@
   },
   "substances": {
    "packId": "bagra-base",
-   "version": "0.7.5"
+   "version": "0.7.6"
   },
   "techniques": {
    "packId": "bagra-techniques",
@@ -18,15 +18,15 @@
   },
   "sources": {
    "packId": "bagra-core",
-   "version": "15"
+   "version": "16"
   },
   "glossary": {
    "packId": "bagra-glossary",
-   "version": "0.2.4"
+   "version": "0.2.5"
   },
   "recipes": {
    "packId": "bagra-recipes",
-   "version": "0.18.2"
+   "version": "0.18.6"
   }
  }
 }
