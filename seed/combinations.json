@@ -1,6 +1,6 @@
 {
  "packId": "bagra-combinations",
- "packVersion": "0.9.2",
+ "packVersion": "0.10.0",
  "description": {
   "bg": "Очаквани резултати, пренесени на ръка от ръководството на Crafty Place.",
   "en": "Expected outcomes, transferred by hand from the Crafty Place guide."
@@ -4816,10 +4816,10 @@
    ]
   },
   {
-   "code": "paubrasilia_echinata_heartwood_alum_potassium_immersion",
+   "code": "biancaea_sappan_heartwood_alum_potassium_immersion",
    "key": {
     "dyeSource": {
-     "plantId": "seed:paubrasilia_echinata",
+     "plantId": "seed:biancaea_sappan",
      "partCode": "heartwood"
     },
     "fibreClass": "protein",
@@ -4847,11 +4847,11 @@
     "swatchFrom": "червено"
    },
    "influences": [],
-   "confidence": "literature",
+   "confidence": "unverified",
    "learnedFrom": "kirby-brazilwood-2025",
    "notes": {
-    "bg": "",
-    "en": ""
+    "bg": "Източникът описва „бразилско дърво“, без да е потвърдено дали е Biancaea sappan или Paubrasilia echinata. Бразилинът е оцветяващото вещество и на двата вида, затова записът служи като насока, а не като потвърден резултат за сапановото дърво.",
+    "en": "The source describes “brazilwood” without confirming whether it is Biancaea sappan or Paubrasilia echinata. Brazilin is the colourant of both species, so the record is a guide, not a confirmed result for sappanwood."
    },
    "sourceCodes": [
     "kirby-brazilwood-2025"

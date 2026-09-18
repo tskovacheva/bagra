@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.17.0",
+ "packVersion": "0.18.2",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -172,7 +172,7 @@
     {
      "text": {
       "bg": "Изсипи няколко чаени лъжички пигмент върху гладка стъклена плоскост.",
-      "en": "Tip a couple of teaspoons of pigment onto a smooth glass slab."
+      "en": "Put a few teaspoons of pigment on a smooth glass slab."
      }
     },
     {
@@ -230,8 +230,8 @@
      "roleCode": "filler",
      "basis": "ratio_to_dyestuff",
      "note": {
-      "bg": "Пълнител — креда или каолин. Повече пълнител, по-мек и по-блед пастел. Съотношението нарочно няма число: то е изборът, с който правиш пастела мек или твърд, и се решава при всяка партида. Празно тук значи „решава се на място\", не „още не е вписано\".",
-      "en": "Filler — chalk or kaolin. More filler makes a softer, paler pastel. The proportion is deliberately not a figure: it is the choice that makes the pastel soft or hard and is made batch by batch. Empty here means “decided at the slab”, not “not yet entered”."
+      "bg": "Пълнител — креда или каолин. Повече пълнител дава по-светъл пастел. Съотношението нарочно няма число: решава се при всяка партида, според тона и консистенцията, които търсиш. Празно тук значи „решава се на място\", не „още не е вписано\".",
+      "en": "Filler — chalk or kaolin. More filler gives a paler pastel. The proportion is deliberately not a figure: it is decided batch by batch, for the shade and the consistency you are after. Empty here means “decided at the slab”, not “not yet entered”."
      },
      "options": [
       {
@@ -286,8 +286,8 @@
     }
    ],
    "notes": {
-    "bg": "Съотношението пигмент към пълнител прави гамата: чист пигмент дава наситен и трошлив пастел, повече пълнител — по-светъл и по-твърд. Не се води; записва се пигментът.",
-    "en": "The pigment-to-filler ratio makes the range: pure pigment gives a saturated, crumbly pastel, more filler a paler and harder one. Not logged; what is recorded is the pigment."
+    "bg": "Съотношението пигмент към пълнител прави гамата: чист пигмент дава наситен пастел, повече пълнител — по-светъл. Не се води; записва се пигментът.",
+    "en": "The pigment-to-filler ratio makes the range: pure pigment gives a saturated pastel, more filler a paler one. Not logged; what is recorded is the pigment."
    },
    "distributable": true,
    "sourceCodes": [
@@ -314,8 +314,8 @@
      "basis": "ratio_to_dyestuff",
      "unit": "g",
      "note": {
-      "bg": "Гума арабика на прах, добре натъпкана в мерителната чаша. Течната гума не върши работа тук — прахът е това, което се разтваря докрай. Тя Е количеството, спрямо което се мери всичко останало: напишеш 84 вместо 42 и цялата рецепта се удвоява заедно с нея.",
-      "en": "Powdered gum arabic, well packed into the measure. Liquid gum does not do this job — the powder is what dissolves completely. It IS the amount everything else is measured against: enter 84 instead of 42 and the whole recipe doubles with it."
+      "bg": "Гума арабика на прах, добре натъпкана в мерителната чаша. Тази формула е за прах: готовата течна гума е с друга концентрация и не може да го замени в тези количества. Тя Е количеството, спрямо което се мери всичко останало: напишеш 84 вместо 42 и цялата рецепта се удвоява заедно с нея.",
+      "en": "Powdered gum arabic, well packed into the measure. This formula is for the powder: ready-made liquid gum has a different concentration and cannot replace it in these amounts. It IS the amount everything else is measured against: enter 84 instead of 42 and the whole recipe doubles with it."
      },
      "quantity": 1,
      "options": [
@@ -340,8 +340,8 @@
      "basis": "ratio_to_dyestuff",
      "unit": "ml",
      "note": {
-      "bg": "Глицерин, около 15 мл на 42 г гума. Задържа влага в изсъхналата боя и ѝ дава гладък, леко лъскав вид.",
-      "en": "Glycerine, about 15 ml to 42 g of gum. It holds moisture in the dried paint and gives it a smooth, slightly glossy surface."
+      "bg": "Глицерин, около 15 мл на 42 г гума. Задържа влага в изсъхналата боя и обикновено ѝ дава по-гладък, леко лъскав вид.",
+      "en": "Glycerine, about 15 ml to 42 g of gum. It holds moisture in the dried paint and usually gives it a smoother, slightly glossy surface."
      },
      "quantity": 0.357,
      "options": [
@@ -356,8 +356,8 @@
      "basis": "ratio_to_dyestuff",
      "unit": "ml",
      "note": {
-      "bg": "Мед, непастьоризиран, около 15 мл на 42 г гума. Той е причината засъхналата боя да се събужда веднага под мокра четка, и пази слоя от напукване при съхнене. Може да се пропусне — тогава свързващото е веганско, а боята се разтваря по-бавно.",
-      "en": "Honey, unpasteurised, about 15 ml to 42 g of gum. It is why a dry pan wakes at once under a wet brush, and it keeps the cake from cracking as it dries. It can be left out — the binder is then vegan, and the paint is slower to lift."
+      "bg": "Мед, непастьоризиран, около 15 мл на 42 г гума. Обикновено помага засъхналата боя да се разтваря по-лесно под мокра четка и намалява напукването при съхнене; колко, зависи от пигмента и от количеството. Може да се пропусне — тогава свързващото е веганско, а боята може да се разтваря по-бавно.",
+      "en": "Honey, unpasteurised, about 15 ml to 42 g of gum. It usually helps a dry pan lift more easily under a wet brush and reduces cracking as the paint dries; how much depends on the pigment and the amount. It can be left out — the binder is then vegan, and the paint may be slower to lift."
      },
      "quantity": 0.357,
      "options": [
@@ -372,8 +372,8 @@
      "basis": "absolute",
      "unit": "drop",
      "note": {
-      "bg": "Карамфилово масло, пет капки. Не се пропуска: то е единственото в сместа, което наистина консервира — противогъбично и антибактериално — и без него свързващото и боите от него мухлясват.",
-      "en": "Clove oil, five drops. Not to be skipped: it is the only thing here that actually preserves — antifungal and antibacterial — and without it the binder and every paint made from it will spoil."
+      "bg": "Карамфилово масло, пет капки. Добавя се като консервант: карамфиловото масло има противогъбично и антибактериално действие и в практиката намалява риска от мухъл. Не гарантира, че свързващото и боите няма да се развалят.",
+      "en": "Clove oil, five drops. Added as a preservative: clove oil has antifungal and antibacterial activity and in practice reduces the risk of mould. It does not guarantee that the binder and the paints will not spoil."
      },
      "quantity": 5,
      "options": [
@@ -423,167 +423,19 @@
     },
     {
      "text": {
-      "bg": "Съхранявай в хладилник. Издържа около два месеца.",
-      "en": "Keep it in the fridge. It lasts about two months."
+      "bg": "Съхранявай в хладилник. Срокът на съхранение не е изпитан: изхвърли свързващото при мухъл, промяна в миризмата или в текстурата.",
+      "en": "Keep it in the fridge. No storage life has been tested: discard the binder at any mould, change of smell or change of texture."
      }
     }
    ],
    "notes": {
-    "bg": "Свързващото е лепилото на акварела: то обгръща зърната пигмент и ги кара да текат като боя. Тази рецепта прави количество, което стига за много бои — малко свързващо върши много работа.\n\nГъстотата се нагласява след това: повече гума на прах я сгъстява, повече свързващо или разреждане със спирт я прави по-течна, към мастило. Затова прахът е задължителен, а не течната гума.\n\nПриложението не води направените акварели — това е рецепта за четене и следване. Записва се пигментът, от който тръгва.",
-    "en": "The binder is the glue of a watercolour: it coats the grains of pigment and makes them flow as paint. This quantity makes enough for a great many paints — a little goes a long way.\n\nThe thickness is adjusted afterwards: more gum powder thickens it, more binder or thinning with alcohol takes it towards an ink. That is why the powder is required and liquid gum is not.\n\nThe application does not log watercolours made — this is a recipe to read and follow. What is recorded is the pigment it starts from."
+    "bg": "Свързващото е лепилото на акварела: то обгръща зърната пигмент и ги кара да текат като боя. Тази рецепта прави количество, което стига за много бои.\n\nГъстотата на свързващото може да се нагласи след това: още гума на прах го сгъстява. Затова формулата е на прах.\n\nПриложението не води направените акварели — това е рецепта за четене и следване. Записва се пигментът, от който тръгва.",
+    "en": "The binder is the glue of a watercolour: it coats the grains of pigment and makes them flow as paint. This quantity makes enough for a great many paints.\n\nThe binder can be thickened afterwards with more gum powder. That is why the formula uses the powder.\n\nThe application does not log watercolours made — this is a recipe to read and follow. What is recorded is the pigment it starts from."
    },
    "distributable": true,
    "sourceCodes": [
     "joanne-green-watercolour",
     "crafty-place-practice"
-   ]
-  },
-  {
-   "code": "madder-lake-hot",
-   "type": "pigment",
-   "output": "pigment",
-   "name": {
-    "bg": "Брош — лаков пигмент, горещо извличане",
-    "en": "Madder — lake pigment by hot extraction"
-   },
-   "appliesTo": [],
-   "scaleBy": "raw",
-   "target": {
-    "percentWof": null,
-    "basisRefersTo": "raw_input"
-   },
-   "tempMinC": 50,
-   "tempMaxC": 80,
-   "tempC": null,
-   "heldMinutes": 180,
-   "restMinutes": null,
-   "phTarget": null,
-   "ingredients": [
-    {
-     "roleCode": "dyestuff",
-     "basis": "absolute",
-     "quantity": 20,
-     "unit": "g",
-     "note": {
-      "bg": "20 г смлян корен от брош. С парчета корен — около 100 г, накиснати 24 часа предварително.",
-      "en": "20 g of ground madder root. With pieces of root, around 100 g, presoaked for 24 hours."
-     },
-     "options": [
-      {
-       "id": "opt-hot-madder",
-       "plantId": "seed:rubia_tinctorum",
-       "partCode": "root",
-       "qtyMin": 20,
-       "qtyMax": 20
-      }
-     ]
-    },
-    {
-     "roleCode": "solvent",
-     "basis": "absolute",
-     "quantity": 2900,
-     "unit": "ml",
-     "note": {
-      "bg": "2.9 л дестилирана вода.",
-      "en": "2.9 litres of distilled water."
-     }
-    },
-    {
-     "roleCode": "carrier",
-     "basis": "absolute",
-     "quantity": 10,
-     "unit": "ml",
-     "note": {
-      "bg": "Две чаени лъжички (10 мл) разтворена стипца НА БУРКАН, не общо. Извлекът се разделя по 720–840 мл на буркан.",
-      "en": "Two teaspoons (10 ml) of dissolved alum PER JAR, not in total. The extract is divided at 720–840 ml a jar."
-     },
-     "options": [
-      {
-       "id": "opt-hot-alum",
-       "substanceId": "seed:alum_potassium_12"
-      }
-     ]
-    },
-    {
-     "roleCode": "alkali",
-     "basis": "absolute",
-     "quantity": 5,
-     "unit": "ml",
-     "note": {
-      "bg": "Една чаена лъжичка (5 мл) разтворена креда на буркан. Кредата е слаба основа — тук няма мерене на pH, изчаква се утаяването.",
-      "en": "One teaspoon (5 ml) of dissolved chalk per jar. Chalk is a mild alkali — there is no pH metering here; you wait for the settling."
-     },
-     "options": [
-      {
-       "id": "opt-hot-chalk",
-       "substanceId": "seed:calcium_carbonate"
-      }
-     ]
-    }
-   ],
-   "steps": [
-    {
-     "text": {
-      "bg": "Сложи корена и дестилираната вода в тенджера от неръждаема стомана и покрий с капак.",
-      "en": "Put the root and the distilled water in a stainless-steel pot and cover with a lid."
-     }
-    },
-    {
-     "text": {
-      "bg": "Дръж водата между 50 и 80 °C. Таванът е онова, което пази червеното: по-високото дава кафеникави тонове. Без термометър — просто не оставяй банята да заври.",
-      "en": "Keep the water between 50 and 80 °C. The ceiling is what protects the red: higher leads to more brownish hues. Without a thermometer, simply do not let the bath boil."
-     }
-    },
-    {
-     "text": {
-      "bg": "Нагрявай леко поне три часа, после остави да изстине докрай. Може и да престои в банята през нощта за по-дълбоко извличане.",
-      "en": "Heat gently for a minimum of three hours, then allow it to cool completely. It can also soak in the bath overnight for a deeper extraction."
-     }
-    },
-    {
-     "text": {
-      "bg": "Филтрирай старателно. Смляният корен иска няколко минавания през много фино сито, а за последното помагат хартиени филтри за кафе.",
-      "en": "Filter thoroughly. Ground root needs several rounds through a very fine mesh sieve, and paper coffee filters help for the final one."
-     }
-    },
-    {
-     "text": {
-      "bg": "Обикновено се получават около 2.4 л червен „чай“. Разлей поравно по големи буркани, по 720 до 840 мл на буркан. Твоето количество може да е друго и това е нормално.",
-      "en": "This typically yields around 2.4 litres of red liquid “tea”. Divide equally between large jars, 720 to 840 ml each. Your own amount may vary, which is perfectly fine."
-     }
-    },
-    {
-     "text": {
-      "bg": "Във всеки буркан добави 10 мл разтворена стипца и 5 мл разтворена креда. Ще протече реакция и пигментът ще започне да пада на дъното.",
-      "en": "To each jar add 10 ml of dissolved alum and 5 ml of dissolved chalk. A reaction will occur and the pigment solids will begin settling to the bottom."
-     }
-    },
-    {
-     "text": {
-      "bg": "Щом се утаи, промивай пигмента. Червената течност, отлята при първата промивка, може да се обработи повторно и дава розово-червени тонове — не я изхвърляй веднага.",
-      "en": "Once it has settled, wash the pigment. The red liquid poured off at the first wash can be processed again for pinkish-red hues — do not discard it straight away."
-     }
-    },
-    {
-     "text": {
-      "bg": "Филтрирай промития пигмент през фунии или цедки, постлани с хартиени филтри за кафе. Разстели филтрите плоско върху попиваща кърпа и остави да изсъхнат напълно.",
-      "en": "Filter the washed pigment through funnels or sieves lined with paper coffee filters. Lay the filters flat on an absorbent towel and allow the pigment to dry fully."
-     }
-    },
-    {
-     "text": {
-      "bg": "С маска за прах остържи сухия пигмент в хаван и стрий на фин прах.",
-      "en": "Wearing a dust mask, scrape the dried pigment into a mortar and grind it into a fine powder."
-     }
-    }
-   ],
-   "notes": {
-    "bg": "По-простият от двата маршрута: без ферментация и без мерене на pH. Разликата с рецептата на Стопка не е в степента, а по вид — там има двуседмичен биологичен етап и утаяване с калцинирана сода до pH 7, тук няма нито едното. Кредата и содата се държат различно, защото кредата е слаба основа, а содата силна. Кои от двете дава по-добър резултат при кой брош е въпрос, на който отговаря партидата, не рецептата. Ръкавици при работа с растението, проветрение при извличането, маска при работа с прахове.",
-    "en": "The simpler of the two routes: no fermentation and no pH metering. Its difference from Stopka's is one of kind rather than degree — hers has a two-week biological stage and precipitation with soda ash to pH 7, and this has neither. Chalk and soda ash behave differently because chalk is a mild alkali and soda ash a strong one. Which of the two gives the better result with which madder is a question a batch answers, not a recipe. Gloves while handling the plant, ventilation during the extraction, a dust mask for powders."
-   },
-   "distributable": true,
-   "sourceCodes": [
-    "joanne-green-watercolour"
    ]
   },
   {
@@ -596,8 +448,8 @@
     "en": "Pastel binder — oat water"
    },
    "notes": {
-    "bg": "Разтворът на Стопка за пастели, вместо гум трагакант. Прави се предварително и се използва студен.",
-    "en": "Stopka's pastel binder in place of gum tragacanth. Made in advance and used cold."
+    "bg": "Овесен свързващ разтвор по рецептура, представена от Натали Стопка, на мястото на гум трагакант. Прави се предварително и се използва студен.",
+    "en": "An oat binder after a formula presented by Natalie Stopka, in place of gum tragacanth. Made in advance and used cold."
    },
    "ingredients": [
     {
@@ -666,8 +518,8 @@
     "en": "Pastel binder — gum solution"
    },
    "notes": {
-    "bg": "Слаб разтвор на гум трагакант или метилцелулоза. Количествата не са записани — рецептата казва „слаб разтвор“ и толкова.",
-    "en": "A weak solution of gum tragacanth or methylcellulose. No quantities are recorded — the recipe says “a weak solution” and no more."
+    "bg": "Практическа насока, не прецизна рецепта: слаб разтвор на гум трагакант или метилцелулоза. Концентрация не е посочена — разтворът се прави слаб и се преценява на място.",
+    "en": "Practical guidance, not a precise recipe: a weak solution of gum tragacanth or methylcellulose. No concentration is given — the solution is made weak and judged at the bench."
    },
    "ingredients": [
     {
@@ -823,7 +675,7 @@
      "id": "mpp-s1",
      "text": {
       "bg": "Вземи съд поне 4–5 пъти по-голям от течността — сместа ще се надигне.",
-      "en": "Take a vessel at least four to five times the volume of the liquid — the mixture will rise."
+      "en": "Use a container at least four to five times larger than the amount of liquid — the mixture foams up."
      }
     },
     {
@@ -865,14 +717,14 @@
      "id": "mpp-s7",
      "text": {
       "bg": "Остави да изсъхне напълно. Изсуши със сешоар или изглади с ютия.",
-      "en": "Let it dry completely. Use a hairdryer or an iron to be sure it is thoroughly dry."
+      "en": "Let it dry completely; a hairdryer or an iron will finish the drying."
      }
     },
     {
      "id": "mpp-s8",
      "text": {
-      "bg": "Неутрализирай във варова баня 10–20 минути според дебелината на плата.",
-      "en": "Neutralise in the calcium carbonate bath for ten to twenty minutes, depending on the thickness of the cloth."
+      "bg": "Неутрализирай в баня с креда (калциев карбонат) 10–20 минути според дебелината на плата.",
+      "en": "Neutralise in the chalk bath for ten to twenty minutes, depending on the thickness of the cloth."
      }
     },
     {
@@ -901,8 +753,8 @@
     "en": "Dye print paste, no mordant"
    },
    "notes": {
-    "bg": "Прави около 200 мл. Нанася се върху плат, предварително обработен със закрепител — пастата няма закрепител и сама няма да задържи адективно багрило. Фонът остава без цвят. Пази се около две седмици в затворен съд.",
-    "en": "Makes about 200 ml. Printed onto pre-mordanted cloth — the paste has no mordant and will not fix an adjective dye on its own. The ground stays clear. Keeps about two weeks in a closed jar."
+    "bg": "Прави около 200 мл. Нанася се върху плат, предварително обработен със закрепител — пастата няма закрепител и сама няма да задържи адективно багрило. Дали фонът ще остане чист, зависи от багрилото, от плата и от предварителната му обработка. Клиф посочва срок на съхранение около две седмици в затворен съд; това не е проверена гаранция — изхвърли пастата, ако мирише, мухляса или промени консистенцията си.",
+    "en": "Makes about 200 ml. It is printed onto cloth that has already been mordanted — the paste has no mordant and will not fix an adjective dye on its own. Whether the ground stays clear depends on the dye, the cloth and how it was prepared. Cliffe gives a keeping time of about two weeks in a closed jar; that is not a verified guarantee — discard the paste if it smells, grows mould or changes consistency."
    },
    "ingredients": [
     {
@@ -923,8 +775,8 @@
      "basis": "absolute",
      "unit": "g",
      "note": {
-      "bg": "Нишесте 5–10 г за печат с калъп, или гуар гума 2–4 г за ситопечат. Нишестето покрива калъпа по-добре; гумата дава по-остър ръб без разтичане.",
-      "en": "5–10 g cornflour for block printing, or 2–4 g guar gum for screen printing. The starch covers a block better; the gum gives a crisper edge with no seeping."
+      "bg": "Нишесте 5–10 г за печат с калъп, или гуар гума 2–4 г за ситопечат. Нишестето покрива калъпа по-добре; с гума ръбът остава по-остър и не се разлива.",
+      "en": "5–10 g cornflour for block printing, or 2–4 g guar gum for screen printing. The starch covers a block better; with gum the edge stays sharper and does not spread."
      },
      "options": [
       {
@@ -947,14 +799,14 @@
      "id": "dpp-s1",
      "text": {
       "bg": "Сипи разтвора в съд с широко гърло.",
-      "en": "Pour the solution into a wide-mouthed jar or beaker."
+      "en": "Pour the solution into a wide-necked container."
      }
     },
     {
      "id": "dpp-s2",
      "text": {
-      "bg": "С НИШЕСТЕ: поръси го, докато бъркаш, после сгъсти на водна баня. Бъркай непрекъснато, докато пастата се сгъсти и стане полупрозрачна — като сос.",
-      "en": "WITH STARCH: sprinkle it in while stirring, then thicken over a water bath. Stir constantly until the paste thickens and turns translucent — like a sauce."
+      "bg": "С НИШЕСТЕ: поръси го, докато бъркаш, после сгъсти на водна баня. Бъркай непрекъснато, докато пастата се сгъсти и стане полупрозрачна.",
+      "en": "WITH STARCH: sprinkle it in while stirring, then thicken over a water bath. Stir constantly until the paste has thickened and become translucent."
      }
     },
     {
@@ -990,8 +842,8 @@
     "en": "Ready-to-use dye paste with a mordant"
    },
    "notes": {
-    "bg": "Прави около 200 мл. Носи и багрилото, и закрепителя, затова се нанася направо върху плат без закрепител и не следва багрилна баня. Колко екстракт зависи от багрилото — 1–10% обикновено стига; тегли го точно и добавяй на малки стъпки, докато цветът стане какъвто го искаш. Не се пази — прави само колкото ще използваш.",
-    "en": "Makes about 200 ml. It carries both the dye and the mordant, so it goes straight onto unmordanted cloth and no dye bath follows. How much extract depends on the dye — 1–10% is usually enough; weigh it accurately and add in small increments until the depth of colour is right. It does not keep — make only what you will use."
+    "bg": "Прави около 200 мл. Носи и багрилото, и закрепителя, затова се нанася направо върху плат без закрепител и не следва багрилна баня. Количеството екстракт е различно за всяко багрило; обичайният обхват е 1–10%. Претегли го и го увеличавай постепенно до желания тон. Не се пази — прави само колкото ще използваш.",
+    "en": "Makes about 200 ml. It carries both the dye and the mordant, so it goes straight onto unmordanted cloth and no dye bath follows. The amount of extract differs from dye to dye; the usual range is 1–10%. Weigh it, and increase it gradually until you reach the shade you want. It does not keep — make only what you will use."
    },
    "ingredients": [
     {
@@ -1085,7 +937,7 @@
     {
      "id": "dmp-s6",
      "text": {
-      "bg": "Неутрализирай във варова баня, после изпери с неутрален сапун.",
+      "bg": "Неутрализирай в баня с креда (калциев карбонат), после изпери с неутрален сапун.",
       "en": "Neutralise in the chalk bath, then wash in a pH-neutral soap."
      }
     }
@@ -1101,8 +953,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "alison-kelly-printing",
-    "michel-garcia"
+    "alison-kelly-printing"
    ],
    "distributable": true,
    "requiredFollowOn": [
@@ -1113,8 +964,8 @@
     "en": "Compound mordant — bright outcome"
    },
    "notes": {
-    "bg": "Алуминиев ацетат, направен на място от стипца, оцет и сода, с малко желязо. Платът влиза СУХ и изсъхва отново — така оцетът се изпарява и връзката се затяга. Задължително следва баня с овесени ядки. Количествата са от партидата в книгата, преизчислени на 100 г плат.",
-    "en": "Aluminium acetate made in place from alum, vinegar and soda ash, with a little iron. The cloth goes in DRY and dries again — that is how the vinegar evaporates and the bond tightens. An oatmeal bath must follow. The quantities are the book's batch, recalculated to 100 g of cloth."
+    "bg": "Алуминиев ацетат, направен на място от стипца, оцет и сода, с малко желязо. Платът влиза СУХ и изсъхва отново — така оцетът се изпарява и връзката се затяга. Задължително следва баня с овесени ядки. Количествата са от партидата на Кели, преизчислени на 100 г плат. Използвана версия: Алисън Кели. Авторката посочва, че е адаптирала формула на Мишел Гарсия, като е заменила калциевия хидроксид със сода. Първоизточникът не е проверен.",
+    "en": "Aluminium acetate made in place from alum, vinegar and soda ash, with a little iron. The cloth goes in DRY and dries again — that is how the vinegar evaporates and the bond tightens. An oatmeal bath must follow. The quantities are Kelly's batch, recalculated to 100 g of cloth. Version used: Alison Kelly. She states that she adapted a formula by Michel Garcia, replacing calcium hydroxide with soda ash. The original has not been checked."
    },
    "ingredients": [
     {
@@ -1271,8 +1122,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "alison-kelly-printing",
-    "michel-garcia"
+    "alison-kelly-printing"
    ],
    "distributable": true,
    "requiredFollowOn": [
@@ -1283,8 +1133,8 @@
     "en": "Compound mordant — dark outcome"
    },
    "notes": {
-    "bg": "Същият закрепител с повече желязо и малко повече сода — по-тъмен и по-плътен отпечатък. Желязото натъжава цветовете: жълтото става маслинено, а с танини дава сиво и почти черно. Задължително следва баня с овесени ядки. Количествата са от партидата в книгата, преизчислени на 100 г плат.",
-    "en": "The same mordant with more iron and a little more soda — a darker, bolder print. Iron saddens the colours: yellows go olive, and with tannins it gives greys and near-blacks. An oatmeal bath must follow. The quantities are the book's batch, recalculated to 100 g of cloth."
+    "bg": "Същият закрепител с повече желязо и малко повече сода — по-тъмен и по-плътен отпечатък. Желязото натъжава цветовете: жълтото става маслинено, а с танини дава сиво и почти черно. Задължително следва баня с овесени ядки. Количествата са от партидата на Кели, преизчислени на 100 г плат. Използвана версия: Алисън Кели. Авторката посочва, че е адаптирала формула на Мишел Гарсия, като е заменила калциевия хидроксид със сода. Първоизточникът не е проверен.",
+    "en": "The same mordant with more iron and a little more soda — a darker, bolder print. Iron saddens the colours: yellows go olive, and with tannins it gives greys and near-blacks. An oatmeal bath must follow. The quantities are Kelly's batch, recalculated to 100 g of cloth. Version used: Alison Kelly. She states that she adapted a formula by Michel Garcia, replacing calcium hydroxide with soda ash. The original has not been checked."
    },
    "ingredients": [
     {
@@ -1441,8 +1291,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "alison-kelly-printing",
-    "michel-garcia"
+    "alison-kelly-printing"
    ],
    "distributable": true,
    "name": {
@@ -1450,8 +1299,8 @@
     "en": "Oatmeal or bran fixing bath"
    },
    "notes": {
-    "bg": "Прави се СЛЕД сложния закрепител и след като платът е изсъхнал напълно. Използва се, за да се отмие несвързаният закрепител от повърхността на плата. Рецептата предвижда разтворът да се използва и за още плат. Повторната употреба не е гарантирано безопасна: ако го използваш, дръж го покрит и на хладно, и го изхвърли при мехурчета, мухъл или миризма. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор.",
-    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It is used to rinse unbound mordant off the surface of the cloth. The recipe has the solution used for more cloth. Reuse is not guaranteed to be safe: if you reuse it, keep it covered and cool, and discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats."
+    "bg": "Прави се СЛЕД сложния закрепител и след като платът е изсъхнал напълно. Използва се, за да се отмие несвързаният закрепител от повърхността на плата. Рецептата предвижда разтворът да се използва и за още плат. Повторната употреба не е гарантирано безопасна: ако го използваш, дръж го покрит и на хладно, и го изхвърли при мехурчета, мухъл или миризма. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор. Използвана версия: Алисън Кели, като част от процедурата със сложния закрепител.",
+    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It is used to rinse unbound mordant off the surface of the cloth. The recipe has the solution used for more cloth. Reuse is not guaranteed to be safe: if you reuse it, keep it covered and cool, and discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats. Version used: Alison Kelly, as part of the compound mordant procedure."
    },
    "ingredients": [
     {
@@ -1583,7 +1432,7 @@
      "id": "smb-s3",
      "text": {
       "bg": "Разбърквай внимателно от време на време.",
-      "en": "Agitate and stir gently from time to time."
+      "en": "Stir gently now and then."
      }
     },
     {
@@ -1620,8 +1469,8 @@
     "en": "Iron bath for a dark outcome"
    },
    "notes": {
-    "bg": "Малко желязо върши много. Платът влиза в банята НЕПОСРЕДСТВЕНО преди печат, защото желязото се окислява бързо във вода и пожълтява плата. Твърде много желязо може да увреди коприната и вълната. Около 1% дава по-наситен резултат, до 2.5% — по-тъмен. Внимание: 2.5% е над консервативния праг от 2% WOF, който библиотеката дава за железния сулфат — калкулаторът ще го отбележи. Горната стойност е от публикуваната рецепта; при вълна и коприна остани на или под 2%. Останалата вода пожълтява след няколко минути от окисляването. Не я изливай в канализацията: събирай отработените разтвори на метални соли отделно и ги изхвърляй според местните изисквания и информационния лист за безопасност на продукта.",
-    "en": "A little iron goes a long way. The cloth goes into the bath IMMEDIATELY before printing, because iron oxidises quickly in water and yellows the textile. Too much iron can damage silk and wool. Around 1% gives a more saturated result, up to 2.5% a darker one. Note: 2.5% is above the conservative 2% WOF ceiling the library gives for ferrous sulfate, and the calculator will flag it. The upper figure is the published recipe's; on wool and silk, stay at or below 2%. After a few minutes the leftover water yellows from oxidation. Do not pour it down the drain: collect spent metal-salt solutions separately and dispose of them according to local requirements and the product's safety data sheet."
+    "bg": "Желязото действа още в малко количество. Платът влиза в банята НЕПОСРЕДСТВЕНО преди печат, защото желязото се окислява бързо във вода и пожълтява плата. Твърде много желязо може да увреди коприната и вълната. Около 1% дава по-наситен резултат, до 2.5% — по-тъмен. Внимание: 2.5% е над консервативния праг от 2% WOF, който библиотеката дава за железния сулфат — калкулаторът ще го отбележи. Горната стойност е от публикуваната рецепта; при вълна и коприна остани на или под 2%. Останалата вода пожълтява след няколко минути от окисляването. Не я изливай в канализацията: събирай отработените разтвори на метални соли отделно и ги изхвърляй според местните изисквания и информационния лист за безопасност на продукта.",
+    "en": "Iron works even in small amounts. The cloth goes into the bath IMMEDIATELY before printing, because in water the iron oxidises quickly and leaves a yellow cast on the cloth. Too much iron can damage silk and wool. Around 1% gives a more saturated result, up to 2.5% a darker one. Note: 2.5% is above the conservative 2% WOF ceiling the library gives for ferrous sulfate, and the calculator will flag it. The upper figure is the published recipe's; on wool and silk, stay at or below 2%. After a few minutes the leftover water yellows from oxidation. Do not pour it down the drain: collect spent metal-salt solutions separately and dispose of them according to local requirements and the product's safety data sheet."
    },
    "ingredients": [
     {

@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": "13",
+ "packVersion": "15",
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -67,8 +67,8 @@
    },
    "url": "",
    "note": {
-    "bg": "За лакови пигменти — превръщането на багрилен разтвор в трайно пигментно зърно. По-научно от повечето: носи таблица с процент растителен материал спрямо тежестта на стипцата (WOA, не WOF) и за пет различни начина на извличане — гореща отвара, ферментация, тинктура, алкално извличане, ледена мацерация. Оттам идва наблюдението, че един и същ вид дава различен добив според начина на извличане.",
-    "en": "On lake pigments — turning a dye solution into a lasting pigment grain. More scientific than most: it carries a chart of plant material as a percentage of the weight of alum (WOA, not WOF), across five different extraction methods — decoction, fermentation, tincture, alkaline extraction, ice maceration. The observation that one species yields differently depending on the method comes from here."
+    "bg": "За лакови пигменти — превръщането на багрилен разтвор в трайно пигментно зърно. Носи таблица с процент растителен материал спрямо тежестта на стипцата (WOA, не WOF) и за пет различни начина на извличане — гореща отвара, ферментация, тинктура, алкално извличане, ледена мацерация. Оттам идва наблюдението, че един и същ вид дава различен добив според начина на извличане.",
+    "en": "On lake pigments — turning a dye solution into a lasting pigment grain. It carries a chart of plant material as a percentage of the weight of alum (WOA, not WOF), across five different extraction methods — decoction, fermentation, tincture, alkaline extraction, ice maceration. The observation that one species yields differently depending on the method comes from here."
    }
   },
   {
@@ -101,8 +101,8 @@
    },
    "url": "",
    "note": {
-    "bg": "Същата работа като на Стопка, но за начинаещи и на много достъпен език. Малко оборудване, кухненски материали. Полезна е като втори глас: където двете книги дават една и съща стъпка с различни думи, стъпката е по-сигурна.",
-    "en": "The same work as Stopka, but for beginners and in very plain language. Little equipment, kitchen materials. Useful as a second voice: where the two books give the same step in different words, the step is the surer for it."
+    "bg": "Книга за правене на акварелни бои от растения и други събрани материали, написана за начинаещи: малко оборудване, кухненски материали.",
+    "en": "A book on making watercolour paints from plants and other foraged materials, written for beginners: little equipment, kitchen materials."
    }
   },
   {
@@ -781,8 +781,8 @@
    },
    "url": "",
    "note": {
-    "bg": "Работено в ателието и проверено на ръка. Различава се от ръководството: ръководството е написано, а това е правено. Където записът носи и двете, книгата дава числата, а практиката потвърждава, че вършат работа.",
-    "en": "Worked in the studio and checked by hand. Distinct from the guide: the guide is written, this is done. Where a record carries both, the book supplies the figures and the practice confirms they work."
+    "bg": "Практически бележки и адаптации от Crafty Place. Където формулата идва от публикация, източникът е посочен отделно.",
+    "en": "Practical notes and adaptations from Crafty Place. Where a formula comes from a publication, that source is listed separately."
    }
   },
   {
@@ -916,8 +916,8 @@
     "en": "Nicola Cliffe"
    },
    "note": {
-    "bg": "Ръководство за печат с натурални багрила. Глава 6 дава пастите: паста със закрепител без багрило, багрилна паста без закрепител и готова паста със закрепител, всяка с количества и с това какво става след нанасянето.",
-    "en": "A guide to printing with natural dyes. Chapter 6 gives the pastes: a mordant paste with no dye, a dye paste with no mordant, and a ready-to-use paste with a mordant — each with quantities and with what happens to the cloth afterwards."
+    "bg": "Ръководство за печат с натурални багрила. Глава 6 дава пастите с количества и с това какво става с плата след нанасянето: 6.2 — багрилна паста без закрепител, 6.4 — готова паста с багрило и закрепител, 6.5 — паста със закрепител без багрило.",
+    "en": "A guide to printing with natural dyes. Chapter 6 gives the pastes, with quantities and with what happens to the cloth afterwards: 6.2 — a dye paste with no mordant, 6.4 — a ready-to-use paste with dye and mordant, 6.5 — a mordant paste with no dye."
    }
   },
   {
@@ -948,8 +948,8 @@
     "en": "Alison Kelly"
    },
    "note": {
-    "bg": "Ръководство за еко принт върху плат. Дава сложния закрепител, банята с овесени ядки, соевото мляко и желязната баня, с количества и снимки на всяка стъпка.",
-    "en": "A guide to botanical printing on fabric. It gives the compound mordant, the oatmeal bath, the soy milk bath and the iron bath, with quantities and a photograph of every step."
+    "bg": "Ръководство за еко принт върху плат и хартия (Storey Publishing, 2026). Дава сложния закрепител, банята с овесени ядки, соевото мляко и желязната баня, с количества и снимки на стъпките. За сложния закрепител авторката посочва, че е нейна адаптация на формула на Мишел Гарсия.",
+    "en": "A guide to botanical printing on fabric and paper (Storey Publishing, 2026). It gives the compound mordant, the oatmeal bath, the soy milk bath and the iron bath, with quantities and photographed steps. For the compound mordant, the author states that it is her adaptation of a formula by Michel Garcia."
    }
   },
   {
@@ -964,8 +964,8 @@
     "en": "Michel Garcia"
    },
    "note": {
-    "bg": "Химик и ботаник, чиито методи за обработка на целулоза със закрепител без нагряване стоят зад голяма част от съвременната практика. Сложният закрепител тук е негова рецепта, адаптирана от Алисън Кели.",
-    "en": "A chemist and botanist whose methods for mordanting cellulose without heat lie behind much of current practice. The compound mordant here is his recipe, as adapted by Alison Kelly."
+    "bg": "В Багра името му идва само чрез Алисън Кели, която посочва, че сложният закрепител е нейна адаптация на негова формула. Първоизточникът не е проверен и Багра не му приписва авторството самостоятелно.",
+    "en": "He reaches Bagra only through Alison Kelly, who states that the compound mordant is her adaptation of a formula of his. The original has not been checked, and Bagra does not attribute the formula to him on its own authority."
    }
   }
  ]

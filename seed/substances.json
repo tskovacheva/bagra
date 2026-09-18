@@ -1,6 +1,6 @@
 {
  "packId": "bagra-base",
- "packVersion": "0.7.3",
+ "packVersion": "0.7.5",
  "description": {
   "bg": "Начален набор вещества — закрепители, танини, модификатори и помощни вещества.",
   "en": "Starter set of substances — mordants, tannins, modifiers and auxiliaries."
@@ -215,9 +215,12 @@
     "ventilation"
    ],
    "safetyNote": {
-    "bg": "Никога над 70 °C. Прахът се работи с маска и ръкавици. С танини дава силно оранжево.",
-    "en": "Never above 70 °C. Handle the powder with mask and gloves. With tannins it gives a strong orange."
-   }
+    "bg": "Прагът от 70 °C в библиотеката е консервативна стойност, не химична граница: някои доставчици описват обработка при по-висока температура. Прахът се работи с маска и ръкавици. С танини дава силно оранжево. 2% WOF в записа е препоръка по конкретен източник (Natural Dye Store, „Mordants: an overview“), а не универсална стандартна доза: други доставчици дават 1–5% (Blotz), 8–10% (Maiwa) и 5–15% (Wild Colours).",
+    "en": "The library's 70 °C is a conservative limit, not a chemical boundary: some suppliers describe treatment at higher temperatures. Handle the powder with mask and gloves. With tannins it gives a strong orange. The 2% WOF in this record follows one source (Natural Dye Store, “Mordants: an overview”) and is not a universal standard dose: other suppliers give 1–5% (Blotz), 8–10% (Maiwa) and 5–15% (Wild Colours)."
+   },
+   "sourceCodes": [
+    "natural-dye-store-mordants"
+   ]
   },
   {
    "code": "tannin_gallnut",
@@ -541,8 +544,8 @@
     "en": "Clove oil"
    },
    "typicalUse": {
-    "bg": "Консервант в акварелното свързващо — няколко капки. Не се пропуска: свързващото е захар и вода и мухлясва. Стопка.",
-    "en": "A preservative in the watercolour binder, a few drops. Not optional: the binder is sugar and water and it moulds. Stopka."
+    "bg": "Използва се като консервант в акварелното свързващо — няколко капки. Свързващото съдържа мед и вода и може да мухляса; маслото намалява този риск, но не гарантира микробиологична безопасност. Стопка.",
+    "en": "Used as a preservative in the watercolour binder, a few drops. The binder contains honey and water and can go mouldy; the oil reduces that risk but does not guarantee microbiological safety. Stopka."
    },
    "sourceCodes": [
     "natalie-stopka-pigment"

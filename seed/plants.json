@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.13.1",
+ "packVersion": "0.14.2",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -8229,10 +8229,10 @@
    "photoSrc": "seed/images/plants/rhamnus_tinctoria.jpg"
   },
   {
-   "code": "paubrasilia_echinata",
+   "code": "biancaea_sappan",
    "nameCommon": {
-    "bg": "Сапаново дърво",
-    "en": "Brazilwood"
+    "bg": "Сапаново дърво (източно бразилско дърво)",
+    "en": "Sappanwood (Eastern Brazilwood)"
    },
    "nameBotanical": "Biancaea sappan (syn. Caesalpinia sappan)",
    "family": "Fabaceae",
@@ -8249,7 +8249,8 @@
      "chemistry": [
       {
        "classCode": "tannin",
-       "level": "high"
+       "levelUnknown": true,
+       "level": ""
       }
      ],
      "dosing": [
@@ -8313,8 +8314,8 @@
       "en": "Sources"
      },
      "body": {
-      "bg": "https://naturaldyes.ca/brazilwood\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:481889-1\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:77158012-1\nhttps://naturaldyes.ca/instructions",
-      "en": "https://naturaldyes.ca/brazilwood\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:481889-1\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:77158012-1\nhttps://naturaldyes.ca/instructions"
+      "bg": "https://naturaldyes.ca/brazilwood\nhttps://powo.science.kew.org/taxon/482900-1\nhttps://naturaldyes.ca/instructions",
+      "en": "https://naturaldyes.ca/brazilwood\nhttps://powo.science.kew.org/taxon/482900-1\nhttps://naturaldyes.ca/instructions"
      }
     },
     {
@@ -8408,14 +8409,15 @@
     "washfastness": "practice",
     "dosing": "practice",
     "colours": "literature",
-    "dyeConstituent": "literature"
+    "dyeConstituent": "literature",
+    "chemistry": "unverified"
    },
    "photoCredit": {
     "author": "J.M.Garg",
     "licence": "GFDL",
     "source": "https://commons.wikimedia.org/wiki/File:Caesalpinia_sappan_(Sappan_wood)_W_IMG_3340.jpg",
-    "taxon": "Caesalpinia sappan / Biancaea sappan",
-    "note": "Shows sappanwood/dye material; representative for mixed commercial record."
+    "taxon": "Biancaea sappan",
+    "note": "Shows sappanwood (Biancaea sappan)."
    },
    "plantType": "tree",
    "habitat": [
@@ -8426,7 +8428,7 @@
     "en": "Sappanwood is a thorny tropical tree in the pea family, native to South and Southeast Asia. Its reddish heartwood has been traded for centuries as a valuable source of red dye and as a material in traditional medicine."
    },
    "photoHash": "fa856059b7dd5171451a80ad88814be109e314fb8343222e0dfa16fcc6e38142",
-   "photoSrc": "seed/images/plants/paubrasilia_echinata.jpg"
+   "photoSrc": "seed/images/plants/biancaea_sappan.jpg"
   },
   {
    "code": "senegalia_catechu",

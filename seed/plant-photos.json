@@ -227,6 +227,10 @@
   "seed:frangula_alnus": {
    "hash": "bd866ff56dd24307e8b407cb440836865f429565e4edf65258e3c3387094f90b",
    "src": "seed/images/plants/frangula_alnus.jpg"
+  },
+  "seed:biancaea_sappan": {
+   "hash": "fa856059b7dd5171451a80ad88814be109e314fb8343222e0dfa16fcc6e38142",
+   "src": "seed/images/plants/biancaea_sappan.jpg"
   }
  }
 }
