@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.18.6",
+ "packVersion": "0.18.7",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -506,7 +506,7 @@
   },
   {
    "code": "mordant-print-paste",
-   "type": "mordant",
+   "type": "paste",
    "output": "none",
    "scaleBy": "raw",
    "appliesTo": [

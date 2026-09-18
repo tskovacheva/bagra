@@ -22,6 +22,8 @@ import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { VOCABULARY } from '../vocab.js';
 import { page, panel, field, esc, empty, pairField, readPairs, navigate, backTo, actionBtn, icon, deleteGuarded } from '../ui.js';
+import { markEdited } from '../seed.js';
+import * as seedUI from '../seed-ui.js';
 
 // A seeded source shipped with `kind: 'reference'` and another with
 // `kind: 'website'`, neither of which was here — so the screen printed the
@@ -254,12 +256,17 @@ function renderPh() {
 
 // ---- sources --------------------------------------------------------------
 
+// `website` is what older copies stored; the vocabulary says `site` (§13fa).
+// Read as `site` wherever a kind is shown or chosen, and written as `site` only
+// when she saves that source herself — nothing is migrated.
+const kindOf = (k) => (k === 'website' ? 'site' : k);
+
 function renderSources(sources) {
   const rows = sources.map(sx => `
     <tr data-open="${sx.id}">
       <td>${esc(text(sx.name) || '—')}</td>
       <td>${esc(text(sx.author) || '—')}</td>
-      <td>${esc(t('sources.kind.' + sx.kind))}</td>
+      <td>${esc(t('sources.kind.' + kindOf(sx.kind)))}</td>
       <td>${sx.url ? `<a href="${esc(sx.url)}" target="_blank" rel="noopener">${esc(sx.url.replace(/^https?:\/\//, ''))}</a>` : '—'}</td>
       <td>${esc(text(sx.note) || '')}</td>
     </tr>`).join('');
@@ -303,9 +310,11 @@ async function renderShell(root) {
   root.innerHTML = page({
     title: t('library.title'),
     sub: t('library.sub'),
+    // The pack update, on the tab whose records it updates (§13fa). The pH tab
+    // is not a pack and has none.
     actions: tab === 'sources'
-      ? actionBtn('add', t('sources.new'), 'data-new', 'primary')
-      : search,
+      ? `${seedUI.syncButton('sources')}${actionBtn('add', t('sources.new'), 'data-new', 'primary')}`
+      : tab === 'glossary' ? `${search}${seedUI.syncButton('glossary')}` : search,
     body: `<div class="tabs">${tabBar}</div>
            <div style="height:16px"></div>
            ${body}`,
@@ -328,7 +337,7 @@ async function renderForm(root, r) {
             ${pairField(t('sources.name'), 'name', asPair(r.name))}
             ${pairField(t('sources.author'), 'author', asPair(r.author))}
             ${field(t('sources.kind'), `<select data-f="kind">${
-              KINDS.map(k => `<option value="${k}"${r.kind === k ? ' selected' : ''}>${t('sources.kind.' + k)}</option>`).join('')
+              KINDS.map(k => `<option value="${k}"${kindOf(r.kind) === k ? ' selected' : ''}>${t('sources.kind.' + k)}</option>`).join('')
             }</select>`)}
             ${field(t('sources.url'), `<input type="text" data-f="url" value="${esc(r.url || '')}" placeholder="https://">`)}
           `)}
@@ -385,6 +394,7 @@ export default {
     draft = null;
     tab = TABS.includes(first) ? first : 'glossary';
     openId = (tab === 'sources' && second) ? second : null;
+    seedUI.close();
   },
 
   reset() {
@@ -392,9 +402,11 @@ export default {
     openId = null;
     draft = null;
     query = '';
+    seedUI.close();
   },
 
   async render(root) {
+    if (seedUI.isOpen()) return seedUI.render(root, () => this.render(root));
     if (openId) {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('sources', openId));
@@ -423,13 +435,25 @@ export default {
 
     root.onclick = async (e) => {
       if (e.target.closest('a')) return;
+      if (e.target.closest('[data-sync]')) {
+        // Written out per pack: try-pack-reachability reads these calls.
+        try {
+          if (tab === 'glossary') await seedUI.open('glossary');
+          else await seedUI.open('sources');
+          return seedUI.render(root, () => this.render(root));
+        } catch (err) { alert(err.message); }
+        return;
+      }
       if (e.target.closest('[data-new]')) return navigate('#/library/sources/new');
       const row = e.target.closest('[data-open]');
       if (row) return navigate(`#/library/sources/${row.dataset.open}`);
       if (e.target.closest('[data-back]')) return navigate('#/library/sources');
       if (e.target.closest('[data-save]')) {
         readForm(root);
-        await put('sources', draft);
+        // markEdited: an update must not overwrite a seeded source she has
+        // corrected (§13fa). It was never called here, because nothing could
+        // update a source until now.
+        await put('sources', markEdited(draft));
         // The put succeeded, so the work is saved and the address change that
         // follows is not a departure. `dirty.js` cannot tell the two apart from
         // outside — it infers a successful save by watching the form leave the
