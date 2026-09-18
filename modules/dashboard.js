@@ -335,20 +335,14 @@ export default {
       body: `
         ${alerts.length ? panel(alerts.join('')) + '<div class="gap"></div>' : ''}
 
-        ${panel(`
+        ${cards ? `${panel(`
           <div class="seasonhead">
             <div><h2>${t('dash.continueTitle')}</h2></div>
-            ${cards ? `<a class="seasonall" href="#/trials">${t('dash.allWork')}</a>` : ''}
+            <a class="seasonall" href="#/trials">${t('dash.allWork')}</a>
           </div>
-          ${cards
-            ? `<div class="contcards">${cards}</div>`
-            : `<p class="seasonempty">${t('dash.nothingRunning')}</p>
-               <div class="btnrow">
-                 <button class="btn primary" data-go="trials/new">${t('dash.quick.trial')}</button>
-                 <button class="btn quiet" data-go="fabrics/new">${t('dash.quick.fabric')}</button>
-               </div>`}`)}
+          <div class="contcards">${cards}</div>`)}
 
-        <div class="gap"></div>
+        <div class="gap"></div>` : ''}
 
         <div class="cols">
           <div class="col">${panel(await seasonPanel(new Date().getMonth() + 1), 'season')}</div>

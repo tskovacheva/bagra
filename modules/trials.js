@@ -581,7 +581,7 @@ async function renderNew(root) {
     return {
       f, depth: prepDepth(f),
       html: `
-      <button class="workrow" data-pick="${f.id}">
+      <button class="workrow" data-pick="${f.id}" data-find="${esc(`${f.label || ''} ${f.name || ''}`.toLowerCase())}">
         <span class="workthumb">${f.photoData
           ? `<img src="${f.photoData}" alt="" loading="lazy">`
           : `<span class="thumb empty"></span>`}</span>
@@ -625,13 +625,22 @@ async function renderNew(root) {
     body: `
       ${pieceList ? `<div class="worksection">
         <div class="navhead">${t('trials.choosePiece')} · ${rows.length}</div>
+        <div class="btnrow">
+          <label class="searchbox">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" aria-hidden="true"><use href="#i-reference"></use></svg>
+            <input type="search" data-piece-q placeholder="${esc(t('trials.findPiece'))}" autocomplete="off">
+          </label>
+          ${actionBtn('add', t('trials.newFabricJump'), 'data-nf-jump', 'secondary')}
+        </div>
         ${pieceList}
+        <p class="hint" data-piece-none hidden>${t('trials.noPieceMatch')}</p>
       </div>` : ''}
 
       ${!rows.length ? empty(t('trials.noCloth'), t('trials.noClothHint')) : ''}
 
       ${panel(`
-        <h2>${t('trials.newPiece')}</h2>
+        <h2 id="newpiece">${t('trials.newPiece')}</h2>
         <div class="newpiece">
           ${field(t('fabrics.name'), `<input type="text" data-nf="name" value="${esc(newFabric.name || '')}"
                    placeholder="${t('trials.newPieceName')}">`)}
@@ -647,6 +656,20 @@ async function renderNew(root) {
         </div>
       `)}`,
   });
+
+  // Found by label or by name, in place (UX package 1): the cards are only
+  // hidden, so what is picked and how is exactly as before.
+  const q = root.querySelector('[data-piece-q]');
+  if (q) q.oninput = () => {
+    const s = q.value.trim().toLowerCase();
+    let shown = 0;
+    for (const b of root.querySelectorAll('.workrow[data-pick]')) {
+      const hit = !s || (b.dataset.find || '').includes(s);
+      b.hidden = !hit; if (hit) shown++;
+    }
+    const none = root.querySelector('[data-piece-none]');
+    if (none) none.hidden = shown > 0;
+  };
 }
 
 // A strip of photographs with an add button. Offered, never required: at the
@@ -853,11 +876,12 @@ async function preparationCard(r) {
         ${stageIcon('prep')}
         <b>${esc(await label('trial_stage', 'prep'))}</b>
         <span class="spacer"></span>
-        ${actionBtn('add', t('trials.addPrep'), 'data-add-prep', 'contextual')}
+        ${actionBtn('add', t('trials.addPrep'), `data-add-prep title="${esc(t('trials.addPrepHint'))}"`, 'contextual')}
       </div>
       ${rows
         ? `<ul class="preplist">${rows}</ul>`
         : `<p class="hint">${t('trials.noPrep')}</p>`}
+      <p class="hint">${t('trials.addPrepHint')}</p>
     </div>`;
 }
 
@@ -2220,6 +2244,12 @@ export default {
       const pick = e.target.closest('[data-pick]');
       if (pick) return navigate(await workOn(pick.dataset.pick));
 
+      if (e.target.closest('[data-nf-jump]')) {
+        const h = root.querySelector('#newpiece');
+        h?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
+        root.querySelector('[data-nf="name"]')?.focus();
+        return;
+      }
       if (e.target.closest('[data-nf-comp-add]')) {
         readNewFabric(root);
         newFabric.composition.push({ fibreCode: '', percent: null });
