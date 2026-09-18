@@ -931,6 +931,8 @@ reading nobody wrote down. Small, and it is the same change §11 already made on
 
 ## 19. Restoring an old backup brings back an old library — and two packs can never catch up
 
+**Settled at rc87 (§13fa):** both packs have the button on their Library tab.
+
 **Raised after rc66 by the older-backup restore check** (ROADMAP A7 item 2).
 
 **The fault, found.** Restoring a backup from rc6 puts `seed:natures-rainbow` back with
@@ -1229,6 +1231,8 @@ The English name „Oat groats" can only change by renaming `seed:oats` (§13ex)
 ---
 
 ## 32. The paste category holds more than printing pastes (rc85)
+
+**Settled at rc86: option A, with the label „бои, пасти и свързващи вещества".**
 
 Asked: move `mordant-print-paste` into the paste category and call it „Пасти за печат / Printing pastes". Not done,
 because `paste` („багрилна паста") also holds `watercolour-from-pigment`, `pastels-from-pigment`,

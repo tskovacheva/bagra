@@ -64,6 +64,14 @@ export const FIELD_LABELS = {
     confidence: 'ref.confidence', sourceCodes: 'ref.sources', learnedFrom: 'ref.sources',
     notes: 'common.notes',
   },
+  sources: {
+    name: 'sources.name', author: 'sources.author', kind: 'sources.kind',
+    url: 'sources.url', note: 'sources.note',
+  },
+  glossary: {
+    term: 'seed.field.term', definition: 'seed.field.definition', aliases: 'seed.field.aliases',
+    seeAlso: 'seed.field.seeAlso', group: 'seed.field.group', sourceCode: 'ref.sources',
+  },
   recipes: {
     name: 'recipes.name', type: 'recipes.type', output: 'seed.field.output',
     appliesTo: 'recipes.appliesTo', scaleBy: 'recipes.scaleBy', target: 'recipes.targetBasis',

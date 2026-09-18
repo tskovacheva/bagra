@@ -53,16 +53,9 @@ export // A pack named here has NO „Обнови от библиотеката
 // `scripts/try-pack-reachability.mjs` holds this list against PACKS and against
 // the modules, and fails on a pack in neither (§13dn).
 //
-// Both of these live inside the Library, which is a reading screen with tabs
-// and no list of records to stand a button beside. Where that button goes — the
-// tab, the Library's own head, or somewhere else entirely — is a layout
-// decision that has not been taken, and inventing a place for it here would be
-// taking it quietly. It is on the roadmap as B7.
-//
-// This is an EXCUSE, not a verdict: both packs are as unreachable as `recipes`
-// was, and a correction to a source or a glossary term today goes out in the
-// ZIP and reaches nobody. Writing it down is the whole point of the list.
-const UNREACHABLE_PACKS = ['sources', 'glossary'];
+// Empty since rc87 (§13fa): `sources` and `glossary` were here until the
+// Library gave each of its two tabs the button. An entry needs a written reason.
+const UNREACHABLE_PACKS = [];
 
 export const PACKS = {
   substances: {
@@ -327,7 +320,9 @@ export function loadPack(name) {
  *          `kept` names the edited records that were deliberately not touched.
  */
 function nameOf(record) {
-  const n = record.nameCommon || record.name;
+  // A glossary term is named by `term` (§13fa); without it the preview listed
+  // „seed:woa".
+  const n = record.nameCommon || record.name || record.term;
   if (!n) return record.id;
   return typeof n === 'string' ? n : (n.bg || n.en || record.id);
 }

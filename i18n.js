@@ -985,6 +985,11 @@ const DICT = {
     'seed.field.output': 'Какво се получава',
     'seed.field.temperature': 'Температура',
     'seed.field.maxPercentWof': 'Най-много % WOF',
+    'seed.field.term': 'Понятие',
+    'seed.field.definition': 'Обяснение',
+    'seed.field.aliases': 'Думи за търсене',
+    'seed.field.seeAlso': 'Виж също',
+    'seed.field.group': 'Раздел',
 
 
     'techniques.new': 'Нова техника',
@@ -2419,6 +2424,11 @@ const DICT = {
     'seed.field.output': 'What it makes',
     'seed.field.temperature': 'Temperature',
     'seed.field.maxPercentWof': 'Maximum % WOF',
+    'seed.field.term': 'Term',
+    'seed.field.definition': 'Definition',
+    'seed.field.aliases': 'Search words',
+    'seed.field.seeAlso': 'See also',
+    'seed.field.group': 'Section',
 
 
     'techniques.new': 'New technique',

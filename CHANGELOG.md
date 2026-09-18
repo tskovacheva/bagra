@@ -12,6 +12,16 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc87 — 18 September 2026
+
+§13fa, DECISIONS §19. Sources and Glossary get „Обнови от библиотеката" on their Library tabs; `UNREACHABLE_PACKS`
+is empty. A saved source is marked as hers; a stored „website" kind reads as „сайт". Targeted checks only.
+
+## 1.0.0-rc86 — 18 September 2026
+
+DECISIONS §32, option A: the `paste` category reads „бои, пасти и свързващи вещества" / „paints, pastes & binders";
+`mordant-print-paste` moves from `mordant` to `paste`. No code, quantity or text of a recipe changed. Targeted check only.
+
 ## 1.0.0-rc85 — 18 September 2026
 
 §13ez. Targeted checks only.

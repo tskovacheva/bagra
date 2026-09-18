@@ -12071,3 +12071,19 @@ kept. With nothing of hers pointing at it, the second update offers it ticked.
   as glossary search aliases, so the old name still finds the term. Glossary and Sources have no update path
   (DECISIONS §19): installed copies get the recipe's new name, new installs get all three.
 - **Not done: the paste category.** DECISIONS §32.
+
+## 13fa. Sources and Glossary can be updated from the Library (1.0.0-rc87)
+
+DECISIONS §19. The Library's Sources and Glossary tabs carry „Обнови от библиотеката" with its count, and open the
+same preview as every other pack (`diffPack` / `applyDiff`, `seed-ui.js`); nothing is applied without her choice.
+`UNREACHABLE_PACKS` is empty. Three things the change needed: saving a source now calls `markEdited`, which it never
+had to while nothing could update a source — without it her correction to a seeded source would arrive ticked and be
+overwritten; a glossary term is named by `term` in the preview; and the two packs' fields are named in both
+languages (`FIELD_LABELS`, five `seed.field.*` keys). A stored `kind: "website"` reads as `site` on screen and in the
+editor, and becomes `site` only when she saves that source; nothing is migrated.
+
+Checked on a database seeded from rc79, with a source of her own and a seeded source corrected through the form:
+both tabs offer the rc86 corrections (glossary 2, sources 5), applying shows them, her corrected source is offered
+unticked and survives, her own source is untouched and reads „сайт". Restoring an archive of the old state puts
+the update on offer again. `try-pack-reachability` and `try-pack-field-labels` pass with no exemption. Without
+`markEdited` the check fails three ways.

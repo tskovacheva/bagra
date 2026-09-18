@@ -319,7 +319,7 @@ export const VOCABULARY = [
   V('recipe_type', 'dye',      'багрене',    'dyeing', 4),
   V('recipe_type', 'ecoprint', 'еко принт',  'eco print', 5),
   V('recipe_type', 'pigment',  'пигмент',    'pigment', 6),
-  V('recipe_type', 'paste',    'багрилна паста', 'dye paste', 7),
+  V('recipe_type', 'paste',    'бои, пасти и свързващи вещества', 'paints, pastes & binders', 7),
   V('recipe_type', 'blanket',  'одеяло',     'blanket', 8),
 
   // What a recipe PRODUCES, which is a different question from what it is for.
