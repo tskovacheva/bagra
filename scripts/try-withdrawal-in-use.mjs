@@ -70,7 +70,8 @@ ok(!!warn, 'the iron bath\'s read view draws a warning inside the weigh box');
 ok(!!warn && /2\.5/.test(warn) && /\b2\s?%/.test(warn), `the warning names 2.5% against the 2% ceiling: „${warn}"`);
 
 // A recipe inside its ceilings draws none — the block is not decoration.
-await go('#/recipes/seed:madder-lake-hot', '.weighbox');
+// Was madder-lake-hot; that recipe was withdrawn at rc79 (§13et).
+await go('#/recipes/seed:compound-mordant-bright', '.weighbox');
 ok(await page.evaluate(() => !document.querySelector('.weighbox [data-weigh-warnings]')),
    'a recipe inside every ceiling draws no warning block');
 

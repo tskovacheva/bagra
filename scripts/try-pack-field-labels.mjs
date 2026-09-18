@@ -22,7 +22,7 @@
 //
 // STATIC. Reads seed-ui.js, seed.js, i18n.js and the pack files as text.
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 
 const here = (p) => new URL(p, import.meta.url);
 const read = (p) => readFileSync(here(p), 'utf8');
@@ -69,6 +69,17 @@ for (const name of named) {
   const rows = JSON.parse(read('../' + file))[listKey];
   const carried = new Set();
   for (const r of rows) for (const k of Object.keys(r)) if (k !== 'code') carried.add(k);
+  // A withdrawn record is still a record: an installed copy keeps it while her work
+  // uses it (§13eo), and its fields are named in the same preview. Pruning their
+  // names because the pack no longer ships the row would print „tempMaxC" on a
+  // kept recipe — the very fault this check exists for. The archived records count
+  // as carried, and nothing else here changes.
+  for (const f of readdirSync(here('../archive/withdrawn'))) {
+    if (!f.startsWith(name + '-') || !f.endsWith('.json')) continue;
+    const kept = JSON.parse(read('../archive/withdrawn/' + f));
+    for (const r of [kept.record, kept.plant, kept.combination].filter(Boolean))
+      for (const k of Object.keys(r)) if (k !== 'code') carried.add(k);
+  }
 
   const dict = LABELS[name];
   if (!dict) { fail(`${name}: no dictionary at all`); continue; }
