@@ -12,6 +12,30 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc91 — 18 September 2026
+
+Stage 4, closing UX package. Labels and one scoped mark; no behaviour, route or data changed.
+
+- A stage card's „+ действие" and the buttons under the stages were not duplicates: the first continues that stage,
+  the second adds at the end of the work and so starts a new pass. Labels now say so: „+ действие в този етап" and,
+  once there are stages, „+ нов етап: …".
+- Finished work: „Редактирай резултата" opens the finishing form and „Редактирай историята" the work form — two
+  forms, both kept; the second now reads „Редактирай стъпките на работата".
+- The process view's stage rows carry the same turning mark as the process fold, so the rows that open are told
+  apart from the raw-cloth and finished rows that do not.
+
+## 1.0.0-rc90 — 18 September 2026
+
+Stage 4, UX package 3: a chain is read before it is edited.
+
+- `#/recipes/chains/<id>` is a working view: title, description, numbered steps with each recipe and the chosen
+  options, and the plan from the same `planBlock`. „Редактирай веригата" opens the unchanged editor at
+  `…/<id>/edit`; a new chain opens in the editor. „Create a trial from this chain" stays in the editor only.
+- „Отвори рецептата" on a step leaves a way back through the existing `returnTo` memo; the recipe's read view now
+  shows it.
+- Checked on one chain of three recipes: order and numbering, the plan identical to the editor's at 500 g, recipe
+  and back, editor save as before, and the record byte-identical after reading.
+
 ## 1.0.0-rc89 — 18 September 2026
 
 Stage 4, UX package 2: the plant profile uses the width. CSS only, in `index.html`, scoped to the profile.

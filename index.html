@@ -863,6 +863,11 @@ tr[data-pick].on{background:color-mix(in srgb, var(--indigo) 7%, transparent)}
   display:flex;align-items:center;gap:9px;padding:9px 2px;cursor:pointer;list-style:none;
 }
 .procrow > summary::-webkit-details-marker{display:none}
+/* The stage rows open; the „сурова тъкан" and „готово" rows beside them do not,
+   and nothing told them apart (UX package 4). The same turning mark the process
+   fold and the context strip already carry. */
+.procrow > summary::after{content:'›';color:var(--muted);transition:transform .12s;flex:none}
+.procrow[open] > summary::after{transform:rotate(90deg)}
 .procrow.fixed{display:flex;align-items:center;gap:9px;padding:9px 2px;color:var(--muted)}
 .procdot{
   width:17px;height:17px;border-radius:50%;flex:none;font-size:10px;line-height:1;
