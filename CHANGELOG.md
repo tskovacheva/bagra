@@ -12,6 +12,28 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc89 — 18 September 2026
+
+Stage 4, UX package 2: the plant profile uses the width. CSS only, in `index.html`, scoped to the profile.
+
+- `section.sub` no longer inherits the page subtitle's 74ch measure; prose inside keeps its own `.prose` limit.
+- `.subone` above 1100px is a two-column grid instead of `column-count`, which left both sections in the left
+  column; one section alone takes the row, in `.subcols` too.
+- Colour cards: minimum 300px, so a swatch name stays on one line (three columns wide, two at 1024, one on a phone).
+- The usage table on a phone: the label stands above its figure instead of running over it.
+- Checked at 1440, 1024 and 390 on Alkanna tinctoria; the Materials screen is pixel-identical before and after.
+
+## 1.0.0-rc88 — 18 September 2026
+
+Stage 4, UX package 1. Targeted checks only; no data, id or save logic changed.
+
+- New work: search by number or name over the fabric cards, and „Нова тъкан" above the list, which takes the
+  cursor to the existing new-fabric form. Picking and creating follow the same path as before.
+- Home: with nothing running, the „Продължи" panel is not drawn; „Започни" carries the actions.
+- Texts: Recipes' description without eco print and blankets; the step select says „Действие"; the two time
+  fields say „При температура" and „Киснене след спиране на огъня"; „Добави подготовка" says it opens the shared
+  form, where other fabrics can be chosen. Both languages.
+
 ## 1.0.0-rc87 — 18 September 2026
 
 §13fa, DECISIONS §19. Sources and Glossary get „Обнови от библиотеката" on their Library tabs; `UNREACHABLE_PACKS`
