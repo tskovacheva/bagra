@@ -645,7 +645,7 @@ async function renderRead(root, r) {
     title: text(r.name) || t('recipes.one'),
     sub: `${await label('recipe_type', r.type)} · ${t('recipes.version', { n: r.version || 1 })}`,
     actions: `${favStar(r, true)}
-              ${backTo('#/recipes', t('nav.recipes'))}
+              ${returnBar()}${backTo('#/recipes', t('nav.recipes'))}
               ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
     body: `
       ${seedUI.recordNote('recipes', r.id)}
@@ -947,13 +947,13 @@ export default {
   // `#/chains` nothing would be lit, while `#/recipes/chains` keeps Recipes lit
   // while its second tab is open. The cost is one reserved id — a recipe cannot
   // be called `chains` — and ids are generated, so nothing can collide.
-  open(first, second) {
+  open(first, second, third) {
     draft = null;
     if (first === 'chains') {
       mode = 'chains';
       openId = null;
       editing = false;
-      chains.open?.(second);
+      chains.open?.(second, third);
       return;
     }
     mode = 'recipes';

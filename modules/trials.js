@@ -931,9 +931,16 @@ async function stageCards(r) {
 
   // Nothing yet: one button per working stage, so the first action is chosen by
   // what is being done rather than by a type from a list.
-  const starters = (await Promise.all(WORK_STAGES.map(async code =>
-    `<button class="btn quiet" data-add-step="${code}">+ ${esc(await label('trial_stage', code))}</button>`
-  ))).join('');
+  //
+  // Once there are stages these do something different from a card's own
+  // „+ action": they add at the END of the work, which starts a new pass — a
+  // second dyeing after the after-treatment — where the card's button continues
+  // that pass. Said in the label, because the two looked the same (UX package 4).
+  const starters = (await Promise.all(WORK_STAGES.map(async code => {
+    const name = await label('trial_stage', code);
+    return `<button class="btn quiet" data-add-step="${code}">${esc(runs.length
+      ? t('trials.newStageRun', { stage: name }) : '+ ' + name)}</button>`;
+  }))).join('');
 
   // Reachable before any colouring step exists — and, for a bath, before
   // anything at all has been written. The condition used to require a placement

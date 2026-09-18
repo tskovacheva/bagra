@@ -8,7 +8,7 @@
 // for silk, one for a stained reclaimed garment with an extra scour, all added
 // without touching code, and all shippable in a reference pack.
 
-import { all, get, put, newRecord, uid } from '../db.js';
+import { all, get, put, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
 import { tempWith } from '../units.js';
 import { page, panel, field, options, label, esc, empty, note, pairField, readPairs, navigate , fieldGroup, actionBtn, backTo, deleteGuarded } from '../ui.js';
@@ -18,6 +18,9 @@ const FIBRE_CLASSES = ['cellulose', 'protein'];
 
 let openId = null;
 let draft = null;
+// Reading a chain and editing it are two screens (UX package 3): the address
+// `#/recipes/chains/<id>` reads, `…/<id>/edit` edits, and a new chain is edited.
+let editing = false;
 let ctx = { weightG: 250, fibreClass: 'cellulose' };
 
 function blank() {
@@ -246,6 +249,71 @@ async function renderForm(root, c, host) {
   });
 }
 
+// ---------------------------------------------------------------- read view
+//
+// The working view: the steps in order, what each one is, what was chosen, and
+// the plan — the same `planBlock`, so the arithmetic is the editor's own. Nothing
+// here can change the chain; the only input is the weight and fibre to scale
+// for, which are a question asked of the chain, not part of it.
+async function renderRead(root, c) {
+  const recipes = await all('recipes');
+  const substances = await all('substances');
+  const byId = new Map(recipes.map(r => [r.id, r]));
+  const subById = new Map(substances.map(s => [s.id, s]));
+  const steps = (c.steps || []).slice().sort((a, b) => a.order - b.order);
+
+  const rows = (await Promise.all(steps.map(async (st, i) => {
+    const recipe = byId.get(st.recipeId);
+    const chosen = (recipe?.ingredients || [])
+      .filter(ing => (ing.options || []).length > 1)
+      .map(ing => {
+        const o = ing.options.find(x => x.id === (st.choices || {})[ing.id]) || ing.options[0];
+        const sub = subById.get(o?.substanceId);
+        return sub ? text(sub.name) + (text(o.note) ? ' · ' + text(o.note) : '') : '';
+      }).filter(Boolean);
+    const litres = recipe?.scaleBy === 'volume' ? (st.litres ?? recipe.defaultLitres) : null;
+    return `
+      <div class="chainstep">
+        <div class="chainhead">
+          <span class="stepnum">${i + 1}</span>
+          <b>${esc(recipe ? text(recipe.name) : '—')}</b>
+          <span class="hint">${esc(recipe ? await label('recipe_type', recipe.type) : '')}</span>
+          <span class="spacer"></span>
+          ${recipe ? `<button class="btn quiet" data-chain-recipe="${esc(recipe.id)}">${t('chains.openRecipe')}</button>` : ''}
+        </div>
+        ${chosen.length ? `<p class="hint">${t('recipes.choose')}: ${esc(chosen.join('; '))}</p>` : ''}
+        ${litres != null ? `<p class="hint">${t('recipes.forLitres')}: ${esc(String(litres))}</p>` : ''}
+        ${!(recipe?.ingredients || []).length ? `<p class="hint">${t('chains.noQuantities')}</p>` : ''}
+        ${st.note ? `<p class="hint">${esc(st.note)}</p>` : ''}
+      </div>`;
+  }))).join('') || `<p class="hint">—</p>`;
+
+  const fibres = (await Promise.all((c.appliesTo || []).map(x => label('fibre_class', x)))).join(', ');
+
+  root.innerHTML = page({
+    title: text(c.name) || t('chains.one'),
+    sub: fibres,
+    actions: `${backTo('#/recipes/chains', t('nav.recipes'))}
+              ${actionBtn('edit', t('chains.edit'), 'data-edit-chain', 'primary')}`,
+    body: `
+      <div class="cols">
+        <div class="col">
+          ${text(c.notes) ? panel(`<div class="prose">${esc(text(c.notes)).replace(/\n/g, '<br>')}</div>`) : ''}
+          ${panel(`
+            <h2>${t('chains.steps')}</h2>
+            <div class="chainlist">${rows}</div>
+          `)}
+        </div>
+        <div class="col">
+          ${panel(`
+            <h2>${t('chains.plan')}</h2>
+            <div class="planblock">${await planBlock(c, recipes, substances)}</div>
+          `)}
+        </div>
+      </div>`,
+  });
+}
+
 function readForm(root) {
   draft.appliesTo = [];
   for (const el of root.querySelectorAll('[data-chainmulti="appliesTo"]')) {
@@ -280,14 +348,16 @@ export default {
   // "show me whatever I last had open in it". Called by the router on entry.
   // Driven by `recipes.open('chains', …)` — chains have no navigation entry of
   // their own and share the recipes address. Nothing means the chain list.
-  open(id) {
+  open(id, sub) {
     openId = id || null;
+    editing = openId === 'new' || sub === 'edit';
     draft = null;
   },
 
   reset() {
     openId = null;
     draft = null;
+    editing = false;
   },
 
   async render(root, host) {
@@ -295,14 +365,16 @@ export default {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('chains', openId));
       }
-      await renderForm(root, draft, host);
+      if (editing) await renderForm(root, draft, host);
+      else await renderRead(root, draft);
     } else {
       draft = null;
       await renderList(root, host);
     }
 
     const refreshPlan = async () => {
-      readForm(root);
+      // The read view has no form to read: only the scale inputs, held in ctx.
+      if (editing) readForm(root);
       const box = root.querySelector('.planblock');
       if (box) box.innerHTML = await planBlock(draft, await all('recipes'), await all('substances'));
     };
@@ -312,6 +384,15 @@ export default {
       if (e.target.closest('[data-new-chain]')) return navigate('#/recipes/chains/new');
       const row = e.target.closest('[data-open-chain]');
       if (row) return navigate(`#/recipes/chains/${row.dataset.openChain}`);
+      if (e.target.closest('[data-edit-chain]')) return navigate(`#/recipes/chains/${openId}/edit`);
+      const rec = e.target.closest('[data-chain-recipe]');
+      if (rec) {
+        // The recipe offers its way back to this chain, through the memo the
+        // Diary already uses (returnTo): `#/recipes/chains/<id>`.
+        await setSetting('returnTo', { module: 'recipes', id: 'chains', screen: openId,
+                                       label: text(draft.name) || t('chains.one') });
+        return navigate(`#/recipes/${rec.dataset.chainRecipe}`);
+      }
 
       const up = e.target.closest('[data-chain-up]');
       if (up) {
