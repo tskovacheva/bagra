@@ -1168,3 +1168,80 @@ what the studio adapted. Either a sentence saying so, or the studio code comes o
 **f. „варова баня" elsewhere.** Still in `seed/substances.json` — aluminium acetate's note — outside this package.
 
 **Not decided. Asked of the owner.**
+
+---
+
+## 30. The five recipes, and what still needs the owner (rc82)
+
+**Raised by §13ew.** Nothing below was applied.
+
+**a. Publication is controlled by the seed file, not by `distributable`.** Every row in `seed/recipes.json` ships to
+every installation; a missing value is read as `true`, and even `false` would ship. **Proposed, minimal:** a release
+layer that fails when a shipped recipe carries no explicit `distributable: true` — so an unapproved record cannot
+leave in a release, and a record kept private is simply not in the seed. On today's data it fails on exactly the
+five below, which is the point; so it goes in together with the owner's answers. Techniques carry no explicit value
+on any of 21 and would need the same decision before the layer covers them. (`db.js` has a comment saying the
+default is `false`; the code sets `true`. The comment is wrong.)
+
+For each of the five, in `docs/attribution/rc82-five-for-approval.md`: **publish, keep unpublished (removed from the
+seed, kept on her own copy), or correct.**
+
+**b. `watercolour-binder`: what would restore the studio's code.** Either (1) what differs from Green's version —
+which ingredient or step, by how much — and whether it is what Bagra should show; then one sentence in the recipe
+says so and the code goes back; or (2) confirmation that Bagra shows Green's version as printed, and the code stays
+off. The formula itself is not changed either way unless she says so.
+
+**c. `pastel-binder-oat`: which oats.** The form Stopka names, with the page.
+
+**d. Found, not requested.** „Варовата баня" is still in `calcium_carbonate`'s typical use (`seed/substances.json`)
+and „варова баня" in the finishing text of the tools screen (`i18n.js`, `tools.finishing`). Same fix; one decision.
+And `methylcellulose` says it comes „from the Crafty Place pastel recipe" — which, with §13ew, presents an untried
+method as the studio's.
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 31. Taking `pastel-binder-gum` out of the published pack (rc83)
+
+**Settled at rc84 (§13ey), as proposed below.**
+
+**Blocked by one dependency.** `pastels-from-pigment` (published) offers two binders: the oat binder and this one
+(`past-b-gum`). Remove the gum binder alone and the published pastel recipe shows „—" as a binder choice on every
+new installation, silently — no check sees it (§13ex).
+
+**Minimal safe exclusion, proposed:**
+1. Remove the one option `past-b-gum` from `pastels-from-pigment`; the oat binder stays as its only binder.
+2. Move the record, whole, to `archive/withdrawn/recipes-pastel-binder-gum.json` with a line in `archive/README.md`,
+   as madder-lake-hot was (§13et) — so it can come back.
+3. Remove its excused line from `scripts/try-recipe-lines-named.mjs`; raise the recipes pack.
+
+**Her records are safe.** User work points at a recipe by `recipeId`, not at an option. On an installed copy the
+update OFFERS the withdrawal (§13cb) as a tick-box, and a record her own work points at is not removed (§13eo). Her
+own recipes are untouched.
+
+Needs one permission: to change `pastels-from-pigment` by that one option.
+
+**§30a** (a release layer that fails on a shipped recipe with no explicit `distributable: true`) is still proposed,
+not built; after this, it would fail on `pastel-binder-gum` alone. **§30c** (the oat form at Stopka) is open.
+The English name „Oat groats" can only change by renaming `seed:oats` (§13ex).
+
+---
+
+## 32. The paste category holds more than printing pastes (rc85)
+
+Asked: move `mordant-print-paste` into the paste category and call it „Пасти за печат / Printing pastes". Not done,
+because `paste` („багрилна паста") also holds `watercolour-from-pigment`, `pastels-from-pigment`,
+`watercolour-binder` and `pastel-binder-oat`. Renamed as asked, four non-printing recipes would read as printing
+pastes; moved without the rename, the mordant paste would sit under „багрилна паста", which is the claim being
+removed.
+
+Two further effects of the move, neither blocking: the type `paste` hides the fibre panel (`MAKES_SUBSTANCE`), as it
+already does for the other two pastes; and the batch action „mordanting" offers only recipes of type `mordant`, so
+the mordant paste would leave that picker — arguably right, since it is printed, not a whole-cloth bath. Her records
+point at recipes by id and are unaffected either way.
+
+**Options, for the owner:**
+- **A.** Neutral label „Пасти / Pastes" on `paste`, then move the mordant paste. One label, one field.
+- **B.** „Пасти за печат / Printing pastes" for the three print pastes, and the watercolour, pastel and binder
+  recipes in a category of their own — a new category code and four recipes' `type`.

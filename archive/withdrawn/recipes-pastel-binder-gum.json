@@ -1,0 +1,64 @@
+{
+ "withdrawnIn": "1.0.0-rc84",
+ "pack": "recipes",
+ "packVersionBefore": "0.18.4",
+ "reason": "Not approved for publication by the owner, 18 September 2026: general guidance with no concentration, not tried in the studio (DECISIONS §31, spec §13ey). Its option was removed from pastels-from-pigment in the same release. Restore by putting this record back into seed/recipes.json, adding option past-b-gum ({\"id\": \"past-b-gum\", \"recipeId\": \"seed:pastel-binder-gum\"}) back to the binder line of pastels-from-pigment, restoring its line in scripts/try-recipe-lines-named.mjs, and bumping the pack version.",
+ "record": {
+  "code": "pastel-binder-gum",
+  "type": "paste",
+  "output": "none",
+  "scaleBy": "raw",
+  "name": {
+   "bg": "Свързващ разтвор за пастели — гума",
+   "en": "Pastel binder — gum solution"
+  },
+  "notes": {
+   "bg": "Обща насока, не прецизна рецепта: слаб разтвор на гум трагакант или метилцелулоза. Концентрация не е посочена — разтворът се прави слаб и се преценява на място. Насоката не е изпитана в ателието.",
+   "en": "General guidance, not a precise recipe: a weak solution of gum tragacanth or methylcellulose. No concentration is given — the solution is made weak and judged at the bench. This guidance has not been tried in the studio."
+  },
+  "ingredients": [
+   {
+    "id": "pbg-1",
+    "roleCode": "binder",
+    "basis": "absolute",
+    "quantity": null,
+    "unit": "g",
+    "note": {
+     "bg": "Гум трагакант или метилцелулоза, в слаб разтвор.",
+     "en": "Gum tragacanth or methylcellulose, in a weak solution."
+    },
+    "options": [
+     {
+      "id": "pbg-o1",
+      "substanceId": "seed:gum_tragacanth"
+     },
+     {
+      "id": "pbg-o2",
+      "substanceId": "seed:methylcellulose"
+     }
+    ]
+   },
+   {
+    "id": "pbg-2",
+    "roleCode": "solvent",
+    "basis": "absolute",
+    "quantity": null,
+    "unit": "ml",
+    "note": {
+     "bg": "Вода.",
+     "en": "Water."
+    }
+   }
+  ],
+  "steps": [
+   {
+    "id": "pbg-s1",
+    "text": {
+     "bg": "Разбъркай гумата във вода до слаб, леко плъзгав разтвор без бучки.",
+     "en": "Stir the gum into water to a weak, slightly slippery solution without lumps."
+    }
+   }
+  ],
+  "sourceCodes": []
+ }
+}

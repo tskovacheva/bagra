@@ -6116,10 +6116,12 @@ const dirty = await import('./dirty.js');
     problems.push('the mordant paste offers an amount field — it is a fixed batch');
   for (const want of ['200 ml', '20 g', '10 g', '2 g'])
     if (!mordant.includes(want)) problems.push(`the mordant paste does not show ${want}`);
-  // The marker: a line that names no substance shows its NOTE, and the note has
-  // to say the colour does not stay — otherwise it reads as a dye in a paste
-  // whose whole point is that it carries no dye (§13eb).
-  if (!mordant.includes('отмива')) problems.push('the marker line does not say its colour washes out');
+  // The marker: a line that names no substance shows its NOTE. Since rc83 (§13ex)
+  // the note says the marker is OPTIONAL — otherwise it reads as a dye in a paste
+  // whose whole point is that it carries no dye (§13eb) — and it no longer
+  // promises the colour washes out: that depends on the dye and the cloth.
+  if (!mordant.includes('По избор')) problems.push('the marker line does not say it is optional');
+  if (mordant.includes('не остава в плата')) problems.push('the marker line still promises its colour washes out');
 
   // A thickener whose amount depends on WHICH thickener: the range is on the
   // option, so the figure must change with the choice rather than being one
@@ -6136,7 +6138,7 @@ const dirty = await import('./dirty.js');
 
   recipes.reset?.();
   if (problems.length) fail('print-pastes', new Error(problems.join('; ')));
-  else console.log('  print-pastes: three batches, every figure on screen without a field, and the marker says it washes out');
+  else console.log('  print-pastes: three batches, every figure on screen without a field, and the marker is optional');
 }
 
 // ---- 18i. One shape for what a record credits (§13ea)
@@ -6186,15 +6188,16 @@ const dirty = await import('./dirty.js');
     problems.push('running the migration a second time changed a record');
 
   // The screens read the LIST, through the one reader. Held at the name a
-  // person reads, not at a field: the watercolour binder credits two sources
-  // and both have to be on the screen.
-  recipes.reset?.(); recipes.open('seed:watercolour-binder');
+  // person reads, not at a field: a recipe crediting two sources must show
+  // both. The mordant paste since rc82 (§13ew) — the watercolour binder, which
+  // this used to read, credits only Green now that the studio's code is off.
+  recipes.reset?.(); recipes.open('seed:mordant-print-paste');
   await recipes.render(root); await settle();
   const shown = root.textContent || '';
   const { sourceCodeOf } = await import('./refs.js');
   const { text: i18nText } = await import('./i18n.js');
   const reg = new Map((await db.all('sources')).map(x => [sourceCodeOf(x), x]));
-  for (const code of ['joanne-green-watercolour', 'crafty-place-practice']) {
+  for (const code of ['nicola-cliffe-printing', 'maiwa-print-paint']) {
     // A source's name is `{bg, en}` since rc72 and a string before; read it
     // the way the screen does, or this compares against „[object Object]".
     const title = String(i18nText(reg.get(code)?.name) || code);

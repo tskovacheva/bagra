@@ -11988,3 +11988,86 @@ B6d), so the register corrections of both packages reach new installs only.
 ### Not decided
 
 `distributable` on five records, the oat substance's name, and three smaller questions — DECISIONS §29.
+
+## 13ew. Attribution audit: the owner's decisions, and five recipes for approval (1.0.0-rc82)
+
+Recipes pack 0.18.3, substances 0.7.6. `scripts/attribution-stage3c.py`, run once from the rc81 data; it refuses a
+second run and any change to a figure, step, follow-on or `distributable`.
+
+### What changed
+
+- **`watercolour-binder`** — the owner has made this formula with changes of her own that are not written down.
+  Until they are, the studio's code comes off: a code says the studio stands behind the version shown, and the
+  version shown is Green's. Green stays. Nothing in the record was a documented studio note; the text is
+  unchanged. What would put the code back is in DECISIONS §30b.
+- **`pastel-binder-gum`** — not tried in the studio (owner, 18 September 2026). The studio's code was the only
+  thing presenting it as the studio's, and comes off; the list is now empty, which §13dl makes a finished state.
+  „Practical guidance" becomes „general guidance", and the note says it is untried. No source added, no figure.
+- **`pastel-binder-oat`** — which form of oat Stopka means is marked unconfirmed, on this recipe only; its English
+  says „oats" rather than „groats". `seed:oats` is not touched: for Kelly's bath, oatmeal or bran, the Bulgarian
+  name is right (owner).
+- **Aluminium acetate's note** — „варова баня" becomes „баня с креда (калциев карбонат)".
+
+### The guard that moved
+
+`source-list` in `deep-check` held the two-source recipe screen at the watercolour binder, and failed the moment
+the binder credited one. It now reads the mordant paste — Cliffe and Maiwa — which is the same claim on a recipe
+that still makes it. Seen failing before the move, passing after, and failing again with Maiwa taken off the
+paste.
+
+### What `distributable` controls — measured, not assumed
+
+Nothing that ships. There is no pack builder in 1.0 (pack export is B5). The published pack IS `seed/*.json` in
+the release ZIP, and every row in it reaches every installation whatever the field says. The field is read in
+two places: the recipe screen marks a record whose value is `false`, and the editor offers the opt-out. A row
+with no value is stored as `true` (`PACKS.recipes.defaults`, and techniques the same). So „not set" already means
+„published", and so would `false`. The safe control is therefore at the release, not in the app — proposed in
+DECISIONS §30a and not built, because today it would fail on exactly the five records the owner is reading.
+
+### For the owner
+
+`docs/attribution/rc82-five-for-approval.md` — the five recipes in both languages, generated from the seed by
+`scripts/export-approval.py`, so it cannot drift from the data. Regenerate it after any correction.
+
+## 13ex. Stage 3 closed: the marker, and four recipes approved (1.0.0-rc83)
+
+Recipes pack 0.18.4, `scripts/attribution-stage3d.py`. Targeted checks only, by the owner's instruction — not a
+full release run.
+
+- **The marker in `mordant-print-paste`** is optional and tried first on a scrap of the same cloth; the note no
+  longer promises its colour washes out, which depends on the dye and the cloth. The `print-pastes` block of
+  `deep-check` required that promise; it now requires „По избор" and refuses „не остава в плата". Seen failing on
+  the new text before the change, passing after, and failing with the old promise put back.
+- **`distributable: true`, explicitly**, on the four the owner approved: the three pastes and the oat binder.
+- **The oat binder's English line still reads „Oat groats".** An option's name is always its substance's name
+  (`nameOfOption` in `modules/recipes.js`); there is no local label. The recipe's own note and steps already say
+  „oats". Changing what the line shows means renaming `seed:oats`, which the owner has kept global.
+- **`pastel-binder-gum` is not approved and stays in the seed** — see DECISIONS §31. `pastels-from-pigment`,
+  approved and published, names it as one of its two binders (option `past-b-gum`), so it cannot leave the seed
+  without editing that recipe, which this task excluded. No check catches that link:
+  `try-referential-integrity` passed with the gum binder removed, because it guards her records, not options
+  between seeded recipes.
+
+## 13ey. `pastel-binder-gum` withdrawn from the published pack (1.0.0-rc84)
+
+Approved by the owner under DECISIONS §31. Recipes pack 0.18.5, thirteen recipes, every one `distributable: true`.
+Option `past-b-gum` removed from `pastels-from-pigment` (the oat binder stays); the record moved whole, id and
+content, to `archive/withdrawn/recipes-pastel-binder-gum.json`, which says how to restore both; its excused line
+in `try-recipe-lines-named` removed. Nothing else changed.
+
+Checked, targeted: no `recipeId` option or follow-on in the seed points outside it. From an installed rc83: the
+pastel recipe's change is offered; the gum binder's withdrawal is offered UNTICKED while anything points at it —
+her batch, or, on the first update, the not-yet-updated pastel recipe — and her records and her own recipes are
+kept. With nothing of hers pointing at it, the second update offers it ticked.
+
+## 13ez. Recipe categories and „утаен пигмент" (1.0.0-rc85)
+
+- **`ecoprint` and `blanket` are no longer offered** as recipe categories — neither as list tabs nor in the editor
+  (`TYPES` in `modules/recipes.js`, and `typeOptions`). No shipped recipe used either. Their terms stay in `vocab.js`
+  so a recipe of hers carrying one keeps its name, keeps its type through an untouched save, and a blanket recipe
+  keeps its panel; no migration. Checked in jsdom with her own recipe of each kind.
+- **„Лаков пигмент" → „Утаен пигмент"** in Bulgarian: the recipe `pigment-lake-master`, the glossary term and the
+  WOA definition, Stopka's register note. English „lake pigment", codes and data unchanged; „лак" and „лаков" stay
+  as glossary search aliases, so the old name still finds the term. Glossary and Sources have no update path
+  (DECISIONS §19): installed copies get the recipe's new name, new installs get all three.
+- **Not done: the paste category.** DECISIONS §32.

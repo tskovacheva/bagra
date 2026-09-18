@@ -252,7 +252,9 @@ spread across A2, A3, A6 and the decisions file and could not be read in one pla
    **rc80 (§13eu):** the audit's stage 3 went through eight of them — Cliffe's three pastes and
    Kelly's five — for provenance and wording. **rc81 (§13ev):** the remaining six likewise; all
    fourteen are through stage 3. Five still carry no `distributable` value — a proposal for each
-   is in DECISIONS §29a, waiting on the owner.
+   is in DECISIONS §29a, waiting on the owner. **rc82 (§13ew):** the five are laid out for her in
+   `docs/attribution/rc82-five-for-approval.md`; the field turned out to control nothing that ships,
+   and a release check is proposed (DECISIONS §30a).
 5. ~~**The pH scale, drawn rather than listed.**~~ **DONE at rc65** (§13ef): one bar from 1 to
    14, with the band names kept as a legend under it.
 6. **A last read of README and ROADMAP**, which is the habit A6 already names.
@@ -270,7 +272,8 @@ spread across A2, A3, A6 and the decisions file and could not be read in one pla
       reviewed, „мордант" out of the plant prose, doubtful claims in `docs/language/science-audit-flags.md`;
    **Intermittent deep-check failure seen at rc70** (§13ek, last paragraph): `readWork` with a null
    `draft` after the harness's `reset` in the pH match test, once in five runs. Not fixed; investigate
-   before 1.0 together with the `stages` flake from rc66.
+   before 1.0 together with the `stages` flake from rc66. **A third, seen at rc82:** `strip` — „a twice-printed
+   piece shows 0 shots" — once in five runs, with nothing in the release touching photographs.
    4. ~~English for the combinations (307)~~ **DONE at rc71** (§13el) — the 121 notes classified and
       acted on, English filled, „мордант" out; 6 lines of Bulgarian left on the English screen, all §20;
    5. ~~the language of the recipes~~ **DONE at rc72** (§13em) — and substances, techniques, sources;
