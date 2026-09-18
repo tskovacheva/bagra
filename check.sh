@@ -375,7 +375,9 @@ if [ "$HAVE_SHIM" = 1 ]; then
     0) node screen-check.mjs || exit 1
        node scripts/try-language-screens.mjs $REL || exit 1
        # A pack withdrawal against her work, and ceilings on the read view (§13ep).
-       node scripts/try-withdrawal-in-use.mjs $REL || exit 1 ;;
+       node scripts/try-withdrawal-in-use.mjs $REL || exit 1
+       # Sappanwood's new id against an installed copy (§13es).
+       node scripts/try-plant-id-change.mjs $REL || exit 1 ;;
     2) ;;
     *) exit 1 ;;
   esac

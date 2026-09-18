@@ -12,6 +12,51 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc81 — 18 September 2026
+
+Attribution audit, closing package: the six remaining recipes. §13ev. Before and after:
+`docs/attribution/rc81-six-recipes.md`. Stage 3 closes pending the owner's decisions.
+
+- Pastels: the filler no longer makes a pastel both softer and harder; the hardness claim is gone from both notes.
+- Watercolour binder: liquid gum, honey and glycerine described without absolutes; thinning with alcohol removed.
+- Oat binder credited as a formula Stopka presents; the gum binder named as guidance.
+- „Варова баня" becomes a chalk bath in two paste steps; Garcia's note loses the unsourced sentence.
+- Measured: from rc79 an installed copy is offered 13 recipes; the 6 register changes cannot reach it.
+- Open: `distributable` on five records (proposal in DECISIONS §29a) and five smaller questions.
+
+## 1.0.0-rc80 — 18 September 2026
+
+Attribution audit, package 1: eight recipes and their sources. §13eu. Before and after:
+`docs/attribution/rc80-eight-recipes.md`.
+
+- Kelly is the source of the compound mordant's version used; Garcia appears only as Kelly's own attribution,
+  in the recipe's words, and leaves `sourceCodes` on the two mordants and the bath. His register entry stays.
+- Cliffe's dye paste no longer promises a clear ground; the two-week keeping time is marked as hers. Two
+  passages that followed the books' exposition rewritten; no figure changed.
+- Register: Kelly's publisher and year, Cliffe's method numbers, the studio-practice entry made neutral.
+- Open: `distributable` on the three pastes, and three smaller questions (DECISIONS §28).
+
+## 1.0.0-rc79 — 16 September 2026
+
+The scientific audit's last three refinements. §13et.
+
+- Titanium oxalate keeps 2% WOF; the record now names the source it follows and the ranges other suppliers give.
+- `madder-lake-hot` withdrawn from the pack, archived whole, kept for anyone whose work uses it.
+- Sappanwood's sources carry the verified POWO record for *Caesalpinia sappan* / *Biancaea sappan*.
+- Field-label check: an archived withdrawn record still counts as carrying its fields.
+
+## 1.0.0-rc78 — 16 September 2026
+
+Scientific audit, closing package. §13es. Before and after: `docs/science/rc78-closing.md`.
+
+- **Sappanwood has its own id, `seed:biancaea_sappan`**, and the name „Sappanwood (Eastern Brazilwood)". Records of
+  hers on the old id are kept, not reclassified; new release check `try-plant-id-change.mjs`.
+- Sappanwood's tannin level marked unknown; its combination's species marked unverified.
+- `madder-lake-hot`: chalk is a suspension; the recipe is marked incomplete.
+- Titanium oxalate: 70 °C is a conservative limit, not a chemical boundary.
+- Watercolour binder: no guarantee from clove oil, no untested storage life.
+- Open: titanium oxalate's 2% WOF against 8–10% (DECISIONS §27); whether to withdraw `madder-lake-hot` (§26).
+
 ## 1.0.0-rc77 — 16 September 2026
 
 Scientific package 2, refinements. §13er.

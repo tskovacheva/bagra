@@ -1066,7 +1066,7 @@ oats and bran behave the same. No figure changed.
 
 ## 25. Open after scientific package 2 (rc76)
 
-**Items 1–3 settled at rc77** (§13er). Item 4 has a proposal in `docs/language/science-audit-flags.md`.
+**Items 1–3 settled at rc77** (§13er). Item 4 settled at rc78 (§13es): tannin level marked unknown.
 
 1. **Fastness ratings without a source.** Walnut, cutch, pomegranate and eucalyptus carry `lightfastness`
    and `washfastness` = `excellent`, with confidence `practice` and no cited source. CAMEO supports cutch
@@ -1082,3 +1082,89 @@ oats and bran behave the same. No figure changed.
 4. **Brazilwood heartwood chemistry.** Recorded as `tannin: high`; the colorant is brazilin (a homoisoflavonoid)
    (S21, S22). **Proposed:** a chemistry review in the next data package, not a guess here.
 
+---
+
+## 26. `madder-lake-hot` is incomplete — ship it or withdraw it
+
+**Settled at rc79** (§13et): withdrawn through the existing path, archived whole, kept for anyone whose work uses it.
+
+**Raised at rc78** (§13es). The recipe gives 10 ml of alum solution and 5 ml of chalk in water per jar, and
+neither the concentration of the solution nor the amount of chalk. The text now says the quantities cannot be
+reproduced exactly. **Proposed:** withdraw it from the pack through the existing path (as the fermentation recipe
+at rc74) until the source book is checked; the record would be archived whole and kept for anyone whose work uses
+it. **Asked of the owner.**
+
+---
+
+## 27. Titanium oxalate: 2% WOF against 8–10%
+
+**Settled at rc79** (§13et): 2% stays, the record names the source it follows and the range other suppliers give. No number and no calculator changed.
+
+**Raised at rc78** (§13es). `titanium_oxalate.standardPercentWof` is 2. Maiwa gives 8–10% WOF; Wild Colours uses
+5–15 g per 100 g of fibre. The calculators read this field, so a person scaling a titanium bath from the library
+gets a quarter of what those suppliers use. No source for 2% was found in the record. **Not changed** — a
+number is not replaced by assumption. **Asked of the owner:** which figure, and on which source. Until then this is
+the one concrete scientific contradiction left open.
+
+
+---
+
+## 28. Attribution package 1 (rc80) — four questions for the owner
+
+**Raised by §13eu.** Nothing below was applied.
+
+**a. `distributable` on the three pastes.** `mordant-print-paste`, `dye-print-paste` and `dye-mordant-print-paste`
+carry no value, which the pack reads as `true`. The texts are now in the library's own words and cite Cliffe (and
+Maiwa for the mordant paste), but that is not a decision to distribute. **Asked:** set `true`, set `false`, or
+leave the default. The two pastel binders are the same case and were not looked at.
+
+**b. Does Kelly's attribution to Garcia cover the oat bath?** The bath now says only that it is Kelly's, as part
+of the compound mordant procedure. If her text attributes the whole procedure to Garcia, the bath's note should
+say so in the same form as the two mordants.
+
+**c. Garcia's code left the three recipes.** A code in `sourceCodes` says Bagra drew on that source; it did not
+draw on Garcia. If the owner wants his name visible as a link on the recipe screen rather than only in the note,
+it is one line per recipe to put back — and then his register note is what carries the qualification.
+
+**d. Boutrup & Ellis.** Linked to no recipe. If one of the eight follows their book closely enough to cite — the
+paste chapter, or the bran bath after aluminium acetate — the owner has the book and can say which, with the page.
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 29. Attribution closing package (rc81) — what the owner decides
+
+**Raised by §13ev.** Nothing below was applied.
+
+**a. `distributable` on five records — proposal.** None carries a value, which the pack reads as `true`. §13.1
+keeps the opt-out for two cases: verbatim wording, or a named authored system. None of the five is either, as far
+as could be judged without the pages. Proposed, for the owner to confirm:
+
+| record | proposed | why |
+|---|---|---|
+| `mordant-print-paste` | `true` | own words (§13eu), Cliffe and Maiwa cited, the same figures in both |
+| `dye-print-paste` | `true` | own words, Cliffe cited, the clean-ground promise and the keeping time qualified |
+| `dye-mordant-print-paste` | `true` | own words, Cliffe cited |
+| `pastel-binder-oat` | `true` | complete — quantities and steps — and attributed as a formula Stopka presents |
+| `pastel-binder-gum` | `true`, as guidance | no quantities, now said so; it is an option of `pastels-from-pigment`, so marking it `false` would leave a published pastel recipe offering a binder the pack does not carry |
+
+Condition on the three pastes: the owner's own comparison with Cliffe's pages, which this audit did not have.
+
+**b. „Овесени ядки" / „oat groats".** This is the name of the substance `seed:oats`, shared by the pastel binder
+and Kelly's oat bath. In Bulgarian usage „овесени ядки" is usually rolled oats; „groats" are whole kernels. Which
+one Stopka (and Kelly) mean could not be confirmed, so nothing was changed.
+
+**c. Who stands behind `pastel-binder-gum`.** It cites the studio's practice only. The substance records say gum
+tragacanth as a pastel binder is Stopka's (`gum_tragacanth`) and methylcellulose is the studio's
+(`methylcellulose`). If the recipe draws on Stopka for the tragacanth half, it should cite her; not added on
+inference.
+
+**d. Which part of `watercolour-binder` is the studio's.** It cites Green and the studio. Nothing in the record says
+what the studio adapted. Either a sentence saying so, or the studio code comes off.
+
+**e. Thinning with alcohol.** Removed from `watercolour-binder`. If Green gives it, it can return with that source.
+
+**f. „варова баня" elsewhere.** Still in `seed/substances.json` — aluminium acetate's note — outside this package.
+
+**Not decided. Asked of the owner.**

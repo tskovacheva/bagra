@@ -3084,15 +3084,17 @@ const dirty = await import('./dirty.js');
   // last plant loaded — a guard that would have passed while proving nothing.
   const byCode = new Map(plants.map(p => [p.id, p]));
 
-  const sappan = byCode.get('seed:paubrasilia_echinata');
-  if (!sappan) fail('audit', new Error('the sappanwood record is gone — it was renamed, not replaced'));
+  // rc77 → rc78 (§13es): the owner decided the botanical identity must be the id
+  // as well as the name. Sappanwood is `seed:biancaea_sappan`; the old id is not
+  // shipped. An installed copy keeps the old record only while her work points at
+  // it — that path is held by scripts/try-plant-id-change.mjs, not here.
+  const sappan = byCode.get('seed:biancaea_sappan');
+  if (!sappan) fail('audit', new Error('the sappanwood record is missing under its own id'));
   else if (!/Biancaea sappan/.test(sappan.nameBotanical || ''))
-    fail('audit', new Error(`sappanwood still reads ${sappan.nameBotanical}`));
-  else console.log('  audit: a renamed plant keeps its code and changes its names');
-
-  // Renaming must never orphan a swatch or a placement: those point at the id.
-  if (sappan && sappan.id !== 'seed:paubrasilia_echinata')
-    fail('audit', new Error('the renamed plant took a new id, so everything pointing at it is orphaned'));
+    fail('audit', new Error(`sappanwood reads ${sappan.nameBotanical}`));
+  else console.log('  audit: sappanwood carries its own botanical id and name');
+  if (byCode.has('seed:paubrasilia_echinata'))
+    fail('audit', new Error('a fresh install still carries the old id seed:paubrasilia_echinata'));
 
   const credited = plants.filter(p => p.photoCredit?.author);
   if (credited.length < 48)
@@ -3300,7 +3302,10 @@ const dirty = await import('./dirty.js');
 
     const levelless = plants.flatMap(p => (p.parts || []))
       .flatMap(pt => pt.chemistry || [])
-      .filter(c => c.classCode === 'tannin' && !c.level);
+      // `levelUnknown` is not silence: it is the finding that no honest level is
+      // known (§13bu), drawn as „level unknown". Sappanwood's tannin is that, at
+      // rc78 (§13es) — the old „high" had no source.
+      .filter(c => c.classCode === 'tannin' && !c.level && !c.levelUnknown);
     if (levelless.length)
       fail('tannin', new Error('a tannin entry with no level says nothing'));
     else console.log('  tannin: every entry carries a level');
@@ -6246,6 +6251,14 @@ const dirty = await import('./dirty.js');
   // a version that never draws the field would pass.
   await draw('seed:watercolour-binder');
   if (!field()) problems.push('no amount field on a recipe that does scale');
+  // madder-lake-hot is withdrawn from the pack (§13et) and is the only recipe whose
+  // every quantity is absolute, so the case is held on the archived record itself,
+  // put into the database for the length of this check.
+  {
+    const fsMod = await import('node:fs');
+    const kept = JSON.parse(fsMod.readFileSync('archive/withdrawn/recipes-madder-lake-hot.json', 'utf8')).record;
+    await db.putSystem('recipes', { ...kept, id: 'seed:' + kept.code, origin: 'seed' });
+  }
   await draw('seed:madder-lake-hot');
   if (field()) problems.push('an amount field on a recipe where every quantity is absolute');
   if (!(root.querySelector('.workhead')?.textContent || '').trim())
@@ -6346,9 +6359,18 @@ const dirty = await import('./dirty.js');
 // guard lies, §13dp).
 {
   const recipes = (await import('./modules/recipes.js')).default;
+  // The recipe this check exists for is withdrawn (§13et); it is put back into the
+  // database here, from the archive, because the fault it guards — millilitres of a
+  // SOLUTION read as powder — is about that record's own words.
+  {
+    const fsMod = await import('node:fs');
+    const kept = JSON.parse(fsMod.readFileSync('archive/withdrawn/recipes-madder-lake-hot.json', 'utf8')).record;
+    await db.putSystem('recipes', { ...kept, id: 'seed:' + kept.code, origin: 'seed' });
+  }
   const want = [
     // recipe, the word the weigh list must carry, why
-    ['seed:madder-lake-hot', 'разтворена', 'the alum is a solution, not a powder'],
+    // „разтвор на стипца" since rc78 (§13es): the chalk beside it is a suspension, not a solution.
+    ['seed:madder-lake-hot', 'разтвор на стипца', 'the alum is a solution, not a powder'],
     ['seed:madder-lake-hot', 'БУРКАН', 'the figure is per jar, not in total'],
     // Was the fermentation recipe's sauerkraut juice; that recipe was withdrawn at rc74 (§13eo).
     ['seed:madder-lake-hot', 'дестилирана', 'a line that names no substance shows its note, not „помощно"'],

@@ -1,0 +1,250 @@
+{
+ "withdrawnIn": "1.0.0-rc78",
+ "reason": "Sappanwood took its own botanical id, seed:biancaea_sappan (spec §13es). These are the rc77 records under the old id, kept whole: an installed copy keeps them while the person's own work points at them, and they are the fixture of scripts/try-plant-id-change.mjs.",
+ "packVersionsBefore": {
+  "plants": "0.13.1",
+  "combinations": "0.9.2"
+ },
+ "plant": {
+  "code": "paubrasilia_echinata",
+  "nameCommon": {
+   "bg": "Сапаново дърво",
+   "en": "Brazilwood"
+  },
+  "nameBotanical": "Biancaea sappan (syn. Caesalpinia sappan)",
+  "family": "Fabaceae",
+  "role": [
+   "dye"
+  ],
+  "compositionalRole": [],
+  "dyeClass": "adjective",
+  "lightfastness": "poor",
+  "washfastness": "moderate",
+  "parts": [
+   {
+    "partCode": "heartwood",
+    "chemistry": [
+     {
+      "classCode": "tannin",
+      "level": "high"
+     }
+    ],
+    "dosing": [
+     {
+      "min": 25,
+      "max": 50,
+      "condition": "dried"
+     }
+    ],
+    "tempExtractC": {
+     "min": 85,
+     "max": 95
+    },
+    "tempDyeC": {
+     "min": 80,
+     "max": 90
+    },
+    "softMaxTempC": 95,
+    "confidence": {
+     "tempExtractC": "practice",
+     "tempDyeC": "practice",
+     "softMaxTempC": "practice"
+    },
+    "sourcedNotGathered": true
+   }
+  ],
+  "sections": [
+   {
+    "title": {
+     "bg": "Багрилни качества",
+     "en": "Dye qualities"
+    },
+    "body": {
+     "bg": "Закрепител: алуминиевият закрепител подпомага ясните червени; желязо използвай пестеливо.\npH: силно pH-чувствително багрило.\nТемпература: горещото извличане е подходящо, но продължителното кипене не е необходимо.\nУстойчивост: цветовете са красиви, но светлоустойчивостта може да е по-слаба от тази на броша.",
+     "en": "Mordant: an alum mordant supports the clear reds; use iron sparingly.\npH: a strongly pH-sensitive dye.\nTemperature: hot extraction suits it, but a long boil is not needed.\nFastness: the colours are beautiful, but the lightfastness can be weaker than madder's."
+    }
+   },
+   {
+    "title": {
+     "bg": "Използвани части",
+     "en": "Parts used"
+    },
+    "body": {
+     "bg": "сърцевинна дървесина",
+     "en": "heartwood"
+    }
+   },
+   {
+    "title": {
+     "bg": "Багрилна съставка",
+     "en": "Dye constituent"
+    },
+    "body": {
+     "bg": "Главният цветант е бразилин, който при окисление преминава в по-силно оцветения бразилеин. Дървесината съдържа и танинови/фенолни вещества; взаимодействието им с pH и метални йони обяснява широкия диапазон от червено до пурпурно-кафяво.",
+     "en": "The main colourant is brazilin, which oxidises into the more strongly coloured brazilein. The wood also contains tannins and phenolics; how these interact with pH and metal ions accounts for the wide range from red to purple-brown."
+    }
+   },
+   {
+    "title": {
+     "bg": "Източници",
+     "en": "Sources"
+    },
+    "body": {
+     "bg": "https://naturaldyes.ca/brazilwood\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:481889-1\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:77158012-1\nhttps://naturaldyes.ca/instructions",
+     "en": "https://naturaldyes.ca/brazilwood\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:481889-1\nhttps://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:77158012-1\nhttps://naturaldyes.ca/instructions"
+    }
+   },
+   {
+    "title": {
+     "bg": "Как се държи",
+     "en": "How it behaves"
+    },
+    "body": {
+     "bg": "Сърцевинната дървесина дава ярки розово-червени до бордо тонове. Оттенъкът е силно променлив според средата и обработката — от топло червено до по-пурпурни нюанси.",
+     "en": "The heartwood gives bright pink-reds through to burgundy. The hue varies a great deal with the conditions and the handling — from a warm red to more purple casts."
+    }
+   },
+   {
+    "title": {
+     "bg": "Беритба и обработка",
+     "en": "Harvest and processing"
+    },
+    "body": {
+     "bg": "Кога се събира: материалът обичайно се набавя като готови стърготини, чипс или прах; при собствен добив използвай само законно добита/отпадъчна дървесина.\nКакво се използва: сърцевинна дървесина.\nОбработка: нарежи/натроши на малки парчета за по-добро извличане; сухият материал може да се накисне предварително.\nСъхранение: напълно сухо, на тъмно и проветриво място.",
+     "en": "When to gather: the material is usually bought as ready shavings, chips or powder; if gathering your own, use only legally obtained or waste wood.\nWhat is used: heartwood.\nProcessing: cut or crush into small pieces for better extraction; dry material can be soaked beforehand.\nStorage: fully dry, somewhere dark and airy."
+    }
+   }
+  ],
+  "colours": [
+   {
+    "hex": "#A83A3C",
+    "name": {
+     "bg": "червено",
+     "en": "red"
+    },
+    "conditions": {
+     "bg": "алуминиев закрепител",
+     "en": "aluminium mordant"
+    },
+    "source": "crafty-place-guide",
+    "confidence": "literature"
+   },
+   {
+    "hex": "#B04358",
+    "name": {
+     "bg": "малиново",
+     "en": "raspberry"
+    },
+    "conditions": {
+     "bg": "мека вода",
+     "en": "soft water"
+    },
+    "source": "crafty-place-guide",
+    "confidence": "literature"
+   },
+   {
+    "hex": "#C06070",
+    "name": {
+     "bg": "розово-червено",
+     "en": "pinkish red"
+    },
+    "conditions": {
+     "bg": "слаба баня",
+     "en": "a weak bath"
+    },
+    "source": "crafty-place-guide",
+    "confidence": "literature"
+   },
+   {
+    "hex": "#5E2C33",
+    "name": {
+     "bg": "бордо",
+     "en": "burgundy"
+    },
+    "conditions": {
+     "bg": "с желязо",
+     "en": "with iron"
+    },
+    "source": "crafty-place-guide",
+    "confidence": "literature"
+   }
+  ],
+  "toxicity": {
+   "level": "caution",
+   "precautions": [
+    "dust_mask",
+    "gloves"
+   ],
+   "note": {
+    "bg": "Под „бразилско дърво“ се предлага повече от един багрилен вид. Ботаническият вид на конкретната доставка си струва да се уточни.",
+    "en": "More than one dye species is sold as “brazilwood”. It is worth confirming the botanical species of a particular supply."
+   }
+  },
+  "confidence": {
+   "lightfastness": "practice",
+   "washfastness": "practice",
+   "dosing": "practice",
+   "colours": "literature",
+   "dyeConstituent": "literature"
+  },
+  "photoCredit": {
+   "author": "J.M.Garg",
+   "licence": "GFDL",
+   "source": "https://commons.wikimedia.org/wiki/File:Caesalpinia_sappan_(Sappan_wood)_W_IMG_3340.jpg",
+   "taxon": "Caesalpinia sappan / Biancaea sappan",
+   "note": "Shows sappanwood/dye material; representative for mixed commercial record."
+  },
+  "plantType": "tree",
+  "habitat": [
+   "imported"
+  ],
+  "description": {
+   "bg": "Сапановото дърво е бодливо тропическо дърво от семейство Бобови, произхождащо от Южна и Югоизточна Азия. Червеникавата му сърцевинна дървесина е търгувана от векове като ценен източник на червено багрило и като материал в традиционната медицина.",
+   "en": "Sappanwood is a thorny tropical tree in the pea family, native to South and Southeast Asia. Its reddish heartwood has been traded for centuries as a valuable source of red dye and as a material in traditional medicine."
+  },
+  "photoHash": "fa856059b7dd5171451a80ad88814be109e314fb8343222e0dfa16fcc6e38142",
+  "photoSrc": "seed/images/plants/paubrasilia_echinata.jpg"
+ },
+ "combination": {
+  "code": "paubrasilia_echinata_heartwood_alum_potassium_immersion",
+  "key": {
+   "dyeSource": {
+    "plantId": "seed:paubrasilia_echinata",
+    "partCode": "heartwood"
+   },
+   "fibreClass": "protein",
+   "fibreCode": null,
+   "mordantCode": "alum_potassium",
+   "mordantBand": null,
+   "processCode": "immersion",
+   "blanket": null,
+   "medium": null
+  },
+  "expected": {
+   "colourText": {
+    "bg": "червено до пурпурночервено",
+    "en": "red to purple-red"
+   },
+   "swatchHex": "#A83A3C",
+   "variation": {
+    "bg": "алкалност може да измести към пурпурно; желязото към тъмно пурпурно/сиво",
+    "en": "alkalinity can shift it towards purple; iron towards dark purple or grey"
+   },
+   "printQuality": null,
+   "lightfastness": "",
+   "washfastness": "",
+   "swatchApprox": true,
+   "swatchFrom": "червено"
+  },
+  "influences": [],
+  "confidence": "literature",
+  "learnedFrom": "kirby-brazilwood-2025",
+  "notes": {
+   "bg": "",
+   "en": ""
+  },
+  "sourceCodes": [
+   "kirby-brazilwood-2025"
+  ]
+ }
+}

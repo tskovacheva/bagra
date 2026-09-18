@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v1.0.0-rc77';   // keep in step with version.js
+const CACHE = 'bagra-v1.0.0-rc81';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -100,6 +100,9 @@ const FILES = [
   './seed/images/plants/mentha_spp.jpg',
   './seed/images/plants/mespilus_germanica.jpg',
   './seed/images/plants/origanum_vulgare.jpg',
+  './seed/images/plants/biancaea_sappan.jpg',
+  // Kept: an installed copy may keep the old sappanwood record (§13es), and its
+  // photoSrc names this file.
   './seed/images/plants/paubrasilia_echinata.jpg',
   './seed/images/plants/pelargonium_zonale.jpg',
   './seed/images/plants/persea_americana.jpg',

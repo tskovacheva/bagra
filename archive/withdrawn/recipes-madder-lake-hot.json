@@ -1,0 +1,154 @@
+{
+ "withdrawnIn": "1.0.0-rc79",
+ "pack": "recipes",
+ "packVersionBefore": "0.17.2",
+ "reason": "Withdrawn by the owner, 16 September 2026: the recipe is incomplete — neither the concentration of the alum solution nor the amount of chalk in the suspension is given (DECISIONS §26, spec §13et). Restore by putting this record back into seed/recipes.json and bumping the pack version.",
+ "record": {
+  "code": "madder-lake-hot",
+  "type": "pigment",
+  "output": "pigment",
+  "name": {
+   "bg": "Брош — лаков пигмент, горещо извличане",
+   "en": "Madder — lake pigment by hot extraction"
+  },
+  "appliesTo": [],
+  "scaleBy": "raw",
+  "target": {
+   "percentWof": null,
+   "basisRefersTo": "raw_input"
+  },
+  "tempMinC": 50,
+  "tempMaxC": 80,
+  "tempC": null,
+  "heldMinutes": 180,
+  "restMinutes": null,
+  "phTarget": null,
+  "ingredients": [
+   {
+    "roleCode": "dyestuff",
+    "basis": "absolute",
+    "quantity": 20,
+    "unit": "g",
+    "note": {
+     "bg": "20 г смлян корен от брош. С парчета корен — около 100 г, накиснати 24 часа предварително.",
+     "en": "20 g of ground madder root. With pieces of root, around 100 g, presoaked for 24 hours."
+    },
+    "options": [
+     {
+      "id": "opt-hot-madder",
+      "plantId": "seed:rubia_tinctorum",
+      "partCode": "root",
+      "qtyMin": 20,
+      "qtyMax": 20
+     }
+    ]
+   },
+   {
+    "roleCode": "solvent",
+    "basis": "absolute",
+    "quantity": 2900,
+    "unit": "ml",
+    "note": {
+     "bg": "2.9 л дестилирана вода.",
+     "en": "2.9 litres of distilled water."
+    }
+   },
+   {
+    "roleCode": "carrier",
+    "basis": "absolute",
+    "quantity": 10,
+    "unit": "ml",
+    "note": {
+     "bg": "Две чаени лъжички (10 мл) разтвор на стипца НА БУРКАН, не общо. Рецептата не посочва концентрацията на разтвора. Извлекът се разделя по 720–840 мл на буркан.",
+     "en": "Two teaspoons (10 ml) of alum solution PER JAR, not in total. The recipe does not give the concentration of the solution. The extract is divided at 720–840 ml a jar."
+    },
+    "options": [
+     {
+      "id": "opt-hot-alum",
+      "substanceId": "seed:alum_potassium_12"
+     }
+    ]
+   },
+   {
+    "roleCode": "alkali",
+    "basis": "absolute",
+    "quantity": 5,
+    "unit": "ml",
+    "note": {
+     "bg": "Една чаена лъжичка (5 мл) креда, размита във вода, на буркан. Кредата (калциев карбонат) практически не се разтваря във вода, затова това е суспензия, а не разтвор; рецептата не посочва колко креда и колко вода. Кредата е слаба основа — тук няма мерене на pH, изчаква се утаяването.",
+     "en": "One teaspoon (5 ml) of chalk stirred into water, per jar. Chalk (calcium carbonate) is practically insoluble in water, so this is a suspension, not a solution; the recipe does not say how much chalk or how much water. Chalk is a mild alkali — there is no pH metering here; you wait for the settling."
+    },
+    "options": [
+     {
+      "id": "opt-hot-chalk",
+      "substanceId": "seed:calcium_carbonate"
+     }
+    ]
+   }
+  ],
+  "steps": [
+   {
+    "text": {
+     "bg": "Сложи корена и дестилираната вода в тенджера от неръждаема стомана и покрий с капак.",
+     "en": "Put the root and the distilled water in a stainless-steel pot and cover with a lid."
+    }
+   },
+   {
+    "text": {
+     "bg": "Дръж водата между 50 и 80 °C. Таванът е онова, което пази червеното: по-високото дава кафеникави тонове. Без термометър — просто не оставяй банята да заври.",
+     "en": "Keep the water between 50 and 80 °C. The ceiling is what protects the red: higher leads to more brownish hues. Without a thermometer, simply do not let the bath boil."
+    }
+   },
+   {
+    "text": {
+     "bg": "Нагрявай леко поне три часа, после остави да изстине докрай. Може и да престои в банята през нощта за по-дълбоко извличане.",
+     "en": "Heat gently for a minimum of three hours, then allow it to cool completely. It can also soak in the bath overnight for a deeper extraction."
+    }
+   },
+   {
+    "text": {
+     "bg": "Филтрирай старателно. Смляният корен иска няколко минавания през много фино сито, а за последното помагат хартиени филтри за кафе.",
+     "en": "Filter thoroughly. Ground root needs several rounds through a very fine mesh sieve, and paper coffee filters help for the final one."
+    }
+   },
+   {
+    "text": {
+     "bg": "Обикновено се получават около 2.4 л червен „чай“. Разлей поравно по големи буркани, по 720 до 840 мл на буркан. Твоето количество може да е друго и това е нормално.",
+     "en": "This typically yields around 2.4 litres of red liquid “tea”. Divide equally between large jars, 720 to 840 ml each. Your own amount may vary, which is perfectly fine."
+    }
+   },
+   {
+    "text": {
+     "bg": "Във всеки буркан добави 10 мл разтвор на стипца и 5 мл креда, размита във вода. Ще протече реакция и пигментът ще започне да пада на дъното.",
+     "en": "To each jar add 10 ml of alum solution and 5 ml of chalk stirred into water. A reaction will occur and the pigment solids will begin settling to the bottom."
+    }
+   },
+   {
+    "text": {
+     "bg": "Щом се утаи, промивай пигмента. Червената течност, отлята при първата промивка, може да се обработи повторно и дава розово-червени тонове — не я изхвърляй веднага.",
+     "en": "Once it has settled, wash the pigment. The red liquid poured off at the first wash can be processed again for pinkish-red hues — do not discard it straight away."
+    }
+   },
+   {
+    "text": {
+     "bg": "Филтрирай промития пигмент през фунии или цедки, постлани с хартиени филтри за кафе. Разстели филтрите плоско върху попиваща кърпа и остави да изсъхнат напълно.",
+     "en": "Filter the washed pigment through funnels or sieves lined with paper coffee filters. Lay the filters flat on an absorbent towel and allow the pigment to dry fully."
+    }
+   },
+   {
+    "text": {
+     "bg": "С маска за прах остържи сухия пигмент в хаван и стрий на фин прах.",
+     "en": "Wearing a dust mask, scrape the dried pigment into a mortar and grind it into a fine powder."
+    }
+   }
+  ],
+  "notes": {
+   "bg": "Непълна рецепта: без концентрацията на разтвора на стипца и количеството креда в суспензията количествата не могат да се възпроизведат точно. По-простият от двата маршрута: без ферментация и без мерене на pH. Разликата с рецептата на Стопка не е в степента, а по вид — там има двуседмичен биологичен етап и утаяване с калцинирана сода до pH 7, тук няма нито едното. Кредата и содата се държат различно, защото кредата е слаба основа, а содата силна. Кои от двете дава по-добър резултат при кой брош е въпрос, на който отговаря партидата, не рецептата. Ръкавици при работа с растението, проветрение при извличането, маска при работа с прахове.",
+   "en": "Incomplete recipe: without the concentration of the alum solution and the amount of chalk in the suspension, the quantities cannot be reproduced exactly. The simpler of the two routes: no fermentation and no pH metering. Its difference from Stopka's is one of kind rather than degree — hers has a two-week biological stage and precipitation with soda ash to pH 7, and this has neither. Chalk and soda ash behave differently because chalk is a mild alkali and soda ash a strong one. Which of the two gives the better result with which madder is a question a batch answers, not a recipe. Gloves while handling the plant, ventilation during the extraction, a dust mask for powders."
+  },
+  "distributable": true,
+  "sourceCodes": [
+   "joanne-green-watercolour"
+  ]
+ }
+}

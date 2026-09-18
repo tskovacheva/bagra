@@ -53,6 +53,10 @@ combination, more combinations per plant.
   the register stays the one place a source is described. What is deliberately NOT modelled
   is which source came first: „Garcia's, as Kelly gives it" is a relationship between
   sources, not a field, and it lives in the recipe's own words.
+- **rc80 (§13eu): source, version used and authorship are kept apart.** A code in
+  `sourceCodes` means the library drew on that source; a formula's author is named only where
+  established, and a relationship between sources („Kelly states she adapted Garcia") is written
+  in the recipe's words. All fourteen recipes done at rc81.
 - **Still open under this heading:** every significant claim reaching a named source with
   page. The plant library's own figures are the gap — a bibliography per row is post-1.0
   enrichment (A1, clause 8).
@@ -242,9 +246,13 @@ spread across A2, A3, A6 and the decisions file and could not be read in one pla
    labels: a translation by the developer, not a second authorial voice, and marked for her
    review before anything is distributed (A3). **This has not started**, and it is the one
    item on this list nobody but the owner can do.
-4. **The recipe pack, reviewed as a whole.** Sixteen recipes now, from six sources. The owner
+4. **The recipe pack, reviewed as a whole.** Fourteen recipes now (it said sixteen). The owner
    decides which ship in 1.0 and which are hers alone — `distributable` is the field and it has
    never been gone through record by record.
+   **rc80 (§13eu):** the audit's stage 3 went through eight of them — Cliffe's three pastes and
+   Kelly's five — for provenance and wording. **rc81 (§13ev):** the remaining six likewise; all
+   fourteen are through stage 3. Five still carry no `distributable` value — a proposal for each
+   is in DECISIONS §29a, waiting on the owner.
 5. ~~**The pH scale, drawn rather than listed.**~~ **DONE at rc65** (§13ef): one bar from 1 to
    14, with the band names kept as a legend under it.
 6. **A last read of README and ROADMAP**, which is the habit A6 already names.

@@ -108,3 +108,31 @@ heartwood recorded as `tannin: high` while its colorant is brazilin.
   The colorant, brazilin (a homoisoflavonoid, S21–S22), has no chemistry entry at all. Proposed: add
   `flavonoid: dominant` for brazilin (the vocabulary has no homoisoflavonoid class; `flavonoid` is the nearest)
   and mark the plant's `chemistry` confidence `unverified` until the tannin level is sourced. Not applied.
+
+## Closing review (rc78)
+
+**Resolved in this package:** sappanwood's identity and chemistry; chalk as a suspension; titanium's categorical 70 °C;
+the watercolour binder's guarantees and storage life; India Flint's attribution (supported, Rodabaugh 2017).
+
+**Open, documented, not blocking the scientific content:**
+- DECISIONS §10 — safflower's two routes have room for one set of figures (a model limit, recorded since rc33).
+- `rubia_tinctorum` — calcium ions help the deep red; `hypericum_perforatum` — reddish tones by other processes;
+  `frangula_alnus` — historical lake pigment; `alnus_glutinosa` — too much iron can damage wool: qualitative,
+  plausible, unsourced in the record.
+- `carthamus_tinctorius` — acidified to about pH 6 (tied to §10).
+- The „ | "-separated condition notes on 11 combinations — order assumed to match the colours.
+- Source notes: `chandra-rice` „in Tuscany" and `michel-garcia` „chemist and botanist" — biographical, not
+  verified; `biancaea_sappan` Sources — two POWO links whose species could not be confirmed here.
+- Sumac 10–20% — held (rc77). Four fastness ratings `unverified` (rc77).
+- The source of the sappanwood combination (Kirby 2025) says „brazilwood" without the species (rc78).
+
+**Open and blocking closure:** DECISIONS §27 — titanium oxalate's `standardPercentWof` 2 against 8–10% (Maiwa) and
+5–15% (Wild Colours). It is a number the calculators use. And DECISIONS §26 — whether the incomplete
+`madder-lake-hot` ships.
+
+## After rc79
+
+Closed: titanium oxalate's dose (kept at 2%, with the source and the range other suppliers give, §13et);
+`madder-lake-hot` withdrawn; sappanwood's sources now carry only the verified POWO record.
+**New, small:** `compound-mordant-dark` asks for iron above the 2% ceiling, like `iron-bath-dark`; the calculator
+flags both and the recipes keep their published figures.

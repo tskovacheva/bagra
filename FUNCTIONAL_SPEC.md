@@ -11822,3 +11822,169 @@ peel as dye parts (Üren 2022). No fastness rating was changed.
 cutch and eucalyptus. **The glossary change does not reach an installed copy**: the glossary is one of the two
 packs with no update button (`UNREACHABLE_PACKS`, DECISIONS §19). A fresh install has it.
 
+---
+
+## 13es. Scientific audit, closing package: sappanwood's id, and four corrections (1.0.0-rc78)
+
+Before and after, with sources: `docs/science/rc78-closing.md`. Supersedes the earlier decision to keep the code
+`paubrasilia_echinata` for sappanwood.
+
+**Sappanwood takes its own id**, `seed:biancaea_sappan`, with „Сапаново дърво (източно бразилско дърво)" /
+„Sappanwood (Eastern Brazilwood)". **No migration rewrites a person's data**: which wood she used cannot be told
+from a record, so her trials, batches, recipes and combinations keep pointing at `seed:paubrasilia_echinata`.
+The old seeded plant and combination go through the withdrawal path (§13eo): kept while anything of hers uses
+them, with the note that says so, and offered for removal when nothing does. Archives restore with the old records
+and the new one beside them. The old photograph file stays, because a kept record's `photoSrc` names it.
+
+**Seen, on a real rc77 install** with a pigment batch on the old id, updated to rc78: the new plant is added, the
+old one is withdrawn with `inUse: 2` and unticked, the batch still names the old id, and an rc77 backup restored
+into rc78 brings both. **Held by `scripts/try-plant-id-change.mjs`** in the release gate — fresh install, in use
+(forced removal refused, nothing reclassified, the kept record's note), and not in use (combination then plant
+removed, the new records untouched); seen failing without the in-use guard.
+
+**Chemistry:** the heartwood's `tannin: high` had no source and is now `levelUnknown`; the plant's chemistry
+confidence is `unverified`. Two deep-check guards were written before either marking was in use and were
+corrected: a tannin entry marked `levelUnknown` is a finding, not silence; the hot madder recipe's alum is „разтвор
+на стипца".
+
+**Corrections:** chalk is a suspension and the hot madder recipe is marked incomplete (withdrawal proposed,
+DECISIONS §26); titanium oxalate's 70 °C is a conservative limit, not a chemical one; the watercolour binder no
+longer promises that clove oil alone preserves it or that it keeps two months.
+
+**Closing review:** the one concrete contradiction left is titanium oxalate's 2% WOF against the 8–10% its
+suppliers give (DECISIONS §27).
+
+---
+
+## 13et. Scientific audit closed: three last refinements (1.0.0-rc79)
+
+Before and after: `docs/science/rc79-final-notes.md`.
+
+- **Titanium oxalate** keeps `standardPercentWof: 2`. Its safety note now says, in both languages, that the 2%
+  follows one source (Natural Dye Store, *Mordants: an overview*, already in the register) and is not a universal
+  standard dose, and gives the figures other suppliers publish: 1–5% (Blotz), 8–10% (Maiwa), 5–15% (Wild Colours).
+  No number and no calculator changed.
+- **`madder-lake-hot` is withdrawn** from the pack (recipes 0.18.0) through the existing path and archived whole.
+  **Seen on an installed rc78:** with a pigment batch made by it, the withdrawal is offered unticked with
+  `inUse: 1` and the recipe stays; with nothing using it, it is ticked and removed, 15 → 14 recipes, and the
+  library also offers the corrected titanium record and sappanwood.
+- **Sappanwood's sources:** the Kew link that could not be resolved to this species is replaced by POWO's record
+  for *Caesalpinia sappan* L., a synonym of *Biancaea sappan* (482900-1). Identity, id and migration untouched.
+
+**Two checks were rewritten rather than weakened.** `try-pack-field-labels` pruned the names of six recipe fields
+the moment the pack stopped carrying the only row that used them — which would have printed `tempMaxC` on the
+recipe a person keeps; archived withdrawn records now count as carrying their fields. The weigh-list check
+(§13dx) and the absolute-quantity case in deep-check exist for that recipe's own words, so they load it from
+`archive/withdrawn/` for the length of the check. `try-withdrawal-in-use` uses `compound-mordant-bright` as its
+no-warning recipe, and `try-recipe-lines-named` keeps its excused line as a comment.
+
+
+## 13eu. Attribution audit, package 1: eight recipes and their sources (1.0.0-rc80)
+
+Stage 3 of the 1.0 audit — provenance, sources, and whether the texts stand on their own. Scope fixed by
+the owner: the three Cliffe print pastes, the five Kelly recipes, and the register entries they cite.
+Before and after: `docs/attribution/rc80-eight-recipes.md`.
+
+### Four things kept apart
+
+The comparison of Kelly, Cliffe, Maiwa and Boutrup & Ellis found the same aluminium-acetate, fixing-bath and
+paste formulas in several publications with the same or close figures. That settles nothing about who first
+wrote them. Bagra therefore separates:
+
+- **a source of information** — a publication the library drew on; this is what `sourceCodes` lists (§13ea);
+- **the version used** — the publication the chosen figures come from;
+- **authorship of a formula** — stated only where established, and never inferred from a book's author;
+- **Bagra's text** — written in the library's own words.
+
+A recipe may have several sources and needs no „principal author". Recalculating or editing a formula does
+not make it Crafty Place's.
+
+### Garcia and Kelly
+
+Kelly states that her compound mordant adapts a formula of Michel Garcia's, with soda ash in place of calcium
+hydroxide. Garcia's own formula was not examined. So `michel-garcia` **leaves `sourceCodes`** on
+`compound-mordant-bright`, `compound-mordant-dark` and `oatmeal-fixing-bath`: Bagra did not draw on him, and
+a code in that list says it did. The statement is carried in the recipe's own words, marked as Kelly's —
+where §13ea already said this relationship belongs. The bath says only that it is Kelly's, as part of the
+same procedure; whether her attribution covers the bath is not known here, and nothing is claimed.
+
+This revises §13ec, where the rc61 records credited Garcia by code. **His register entry stays**: the register
+thanks the people the library rests on, and §13.1 names his 1-2-3 vat. Its note no longer says „the compound
+mordant here is his recipe".
+
+### What changed
+
+Recipes pack 0.18.1, sources pack 14. No quantity, range, unit, role, substance, step id, follow-on or
+`distributable` moved; `scripts/attribution-stage3.py` asserts that and refuses to write otherwise.
+
+- **Dye paste without a mordant (Cliffe 6.2).** A clear ground is a result that depends on the dye, the cloth
+  and its preparation, not a promise. The two-week keeping time is Cliffe's figure, said to be hers and not a
+  verified guarantee.
+- **Ready-to-use paste (6.4).** The passage on how much extract to use, which followed the book's exposition,
+  rewritten; 1–10% kept.
+- **Mordant paste (6.5).** Cliffe and Maiwa both kept — the same 20 g alum, 10 g soda ash, 200 ml vinegar and
+  2 g guar gum, and the mixing warnings are Maiwa's. Two English steps rephrased; „calcium carbonate bath"
+  made „chalk bath" as in the other paste.
+- **Kelly's five.** Provenance sentences on the two mordants and the bath; one idiom in the iron bath and one
+  doubled verb in the soy bath rephrased. The rc73–rc79 corrections — iron limits and disposal, the soy milk
+  wording, the removed claims about the bath — untouched.
+- **The register.** Kelly: publisher and year, and her attribution to Garcia as hers. Cliffe: the three
+  method numbers. Crafty Place studio practice: no longer says every formula was checked by hand — practical
+  notes and adaptations, with published sources listed separately where a formula comes from one.
+
+Short standard steps — dissolve, stir, rinse — were not rewritten for the sake of it. The wording was judged
+without the source pages at hand; the owner, who has them, is the check on what closeness remains.
+
+### What this does NOT do
+
+- **`distributable`.** Three of the eight — the three pastes — carry no value, which the pack reads as `true`
+  (the default, §13.1). Nothing was set: editing a text or citing a source is not a decision to distribute.
+  The two pastel binders are the same case and outside this package. DECISIONS §28.
+- **Boutrup & Ellis** are linked to no recipe: nothing in this package ties a particular recipe to their book
+  closely enough to cite it.
+- **Installed copies keep the old register notes.** Sources is one of the two packs with no update path
+  (DECISIONS §19, B6d), so the corrected Garcia and studio-practice notes reach new installs only. The recipes
+  pack does update.
+
+### The guards
+
+No new layer: the language layer's data fingerprint already holds the data still. It failed on exactly three
+recipes — the ones whose `sourceCodes` changed — and on the manifest, and was accepted for those four. The
+manifest check (`try-manifest-agrees`) caught the pack versions raised without the manifest, as built. The
+edit script was seen refusing both a second run and a quantity changed alongside the text.
+
+## 13ev. Attribution audit, closing package: the six remaining recipes (1.0.0-rc81)
+
+Stage 3 closes. Same four-way distinction as §13eu — source, version used, authorship, Bagra's text — applied
+to the pigment, watercolour and pastel recipes. Before and after: `docs/attribution/rc81-six-recipes.md`.
+Recipes pack 0.18.2, sources pack 14 → 15. No quantity, range, unit, role, source code, step, follow-on or
+`distributable` moved; `scripts/attribution-stage3b.py` asserts it. No source page was consulted in this
+package, and no comparison with one is claimed.
+
+### What changed
+
+- **`pigment-lake-master`** — nothing. Stopka is credited for the table and nowhere as the inventor of lakes.
+- **`pastels-from-pigment`** — contradicted itself: more filler made the pastel SOFTER in the filler's note and
+  HARDER in the recipe's. Neither was sourced, so both lose the hardness claim, and „crumbly" for pure pigment
+  goes with them. Paler with more filler stays. The ratio stays deliberately empty.
+- **`pastel-binder-oat`** — „Stopka's binder" becomes an oat binder after a formula presented by Stopka.
+- **`watercolour-from-pigment`** — the English said a couple of teaspoons, the Bulgarian several; aligned.
+- **`watercolour-binder`** — three absolutes made accurate: the formula is for powdered gum because liquid gum
+  has another concentration, not because liquid gum „does not work"; honey and glycerine usually help, by an
+  amount that depends on pigment and quantity. **Thinning with alcohol removed** — advice no source in the
+  record supports. The rc74/rc78 corrections on clove oil and storage untouched.
+- **`pastel-binder-gum`** — named as practical guidance, not a precise recipe; no concentration invented.
+- **Deferred from §13eu:** „варова баня" (a lime bath) becomes „баня с креда (калциев карбонат)" in the two
+  paste steps; Garcia's register note loses the unsourced sentence about his influence and keeps Kelly's
+  attribution. Stopka's note loses „more scientific than most"; Green's loses a claim — „a second voice that
+  makes a step surer" — that describes a comparison the library does not make.
+
+### What an installed copy is offered
+
+Measured with `diffPack` against a database seeded from rc79 and from rc80. From rc79: 13 recipes and 6 register
+entries differ; from rc80: 7 and 3. **Only the recipes can arrive** — Sources has no update button (DECISIONS §19,
+B6d), so the register corrections of both packages reach new installs only.
+
+### Not decided
+
+`distributable` on five records, the oat substance's name, and three smaller questions — DECISIONS §29.
