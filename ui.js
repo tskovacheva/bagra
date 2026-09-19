@@ -386,12 +386,12 @@ export function readApprox(root) {
 // the bench among fifty controls.
 
 /** One fact. Renders nothing at all when there is nothing to say. */
-export function fact(labelText, value, hint = '') {
+export function fact(labelText, value, hint = '', { wide = false } = {}) {
   if (value == null || value === '' || (Array.isArray(value) && !value.length)) return '';
   const shown = Array.isArray(value) ? value.filter(Boolean).join(', ') : value;
   if (!shown) return '';
   return `
-    <div class="fact">
+    <div class="fact${wide ? ' wide' : ''}">
       <span class="factlabel">${esc(labelText)}</span>
       <span class="factvalue">${shown}</span>
       ${hint ? `<span class="hint">${esc(hint)}</span>` : ''}

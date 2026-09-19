@@ -12,6 +12,19 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc92 — 18 September 2026
+
+Responsive width, as a rule rather than per screen. CSS in `index.html`, one option on `fact()`.
+
+- `--measure` 74ch → 120ch. Every running text reads it (`.prose`, the plant's opening, page subtitles), and at
+  74ch held each paragraph to two thirds of its panel on every screen.
+- `.termdef` had its own hard 74ch; it now reads `--measure`.
+- `.view` 1080px → 1280px and centred: at 80% zoom the page no longer sits in the left two thirds.
+- `.factgrid` auto-fill → auto-fit, so a short row of facts fills its row; a fact can take the whole row
+  (`fact(..., { wide: true })`), used for a recipe's source.
+- Checked in Chromium at 1440, 80% zoom and 390 on Alkanna tinctoria, the Glossary and „Багрилна паста без
+  закрепител"; substances, pigments and techniques as representatives; `screen-check` passes.
+
 ## 1.0.0-rc91 — 18 September 2026
 
 Stage 4, closing UX package. Labels and one scoped mark; no behaviour, route or data changed.

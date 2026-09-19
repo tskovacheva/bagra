@@ -43,7 +43,13 @@
      actually is — about seventy-four characters — and `min()` lets it give way
      when there is less room than that. The ceiling stays because the ceiling is
      the point: text is not more readable for being wider. */
-  --measure:min(100%, 74ch);
+  /* The reading limit for running text, rc92. It was 74ch (683px) and held every
+     paragraph to two thirds of a panel a thousand pixels wide — on every screen,
+     because every running text reads it. 120ch (about 1100px) is filled by a
+     panel at a laptop width, and stops a line only where a wide or zoomed-out
+     screen would otherwise run it past ~120 characters. A narrower component is
+     simply filled. */
+  --measure:min(100%, 120ch);
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
@@ -113,7 +119,10 @@ button{font:inherit;color:inherit}
 .langbtn[aria-pressed="true"]{border-color:var(--indigo);color:var(--indigo)}
 
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
-.view{padding:26px var(--pad) 60px;max-width:1080px;width:100%}
+/* The page, rc92: 1080px left the right third of a wide or zoomed-out screen
+   empty beside everything. Wider, and centred, so the space that remains is a
+   margin on both sides rather than a gap on one. */
+.view{padding:26px var(--pad) 60px;max-width:1280px;width:100%;margin-inline:auto}
 
 h1{font-size:30px;font-weight:600;margin:0 0 3px;letter-spacing:-.005em;line-height:1.15;text-wrap:balance}
 .sub{color:var(--muted);font-size:14.5px;margin:0 0 22px;max-width:var(--measure);text-wrap:pretty}
@@ -1199,7 +1208,7 @@ label.btn{cursor:pointer}
 /* A definition is prose and wants a reading measure. Left to the panel width on
    a wide screen it runs to well over a hundred characters a line, which is the
    width at which the eye starts losing its place returning to the left. */
-.termdef{margin:0;max-width:74ch;color:var(--ink);line-height:1.5}
+.termdef{margin:0;max-width:var(--measure);color:var(--ink);line-height:1.5}
 .termfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:9px}
 .termfoot .hint{margin:0}
 .refswatch{width:52px;height:52px;border-radius:4px;flex:0 0 52px;border:1px solid var(--line)}
@@ -1345,8 +1354,14 @@ label.btn{cursor:pointer}
 .timerface.running{color:var(--madder)}
 
 /* ---------- read mode ---------- */
-.factgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px 20px}
+/* auto-fit, rc92: with auto-fill a row of four facts kept empty tracks beside
+   it and a value such as „диворастящо · градинско" wrapped in its cell. */
+.factgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px 20px}
 .fact{padding:7px 0;border-bottom:1px solid var(--line)}
+/* A fact whose value is a title or a list of titles takes the whole row (rc92):
+   in a 180px cell „Printing with Natural Dyes" broke over two lines beside empty
+   cells. The whole row, never a span of N, so a phone's single column is safe. */
+.factgrid > .fact.wide{grid-column:1/-1}
 .factlabel{display:block;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 .factvalue{font-size:14.5px;line-height:1.35}
 .factvalue b{font-weight:600}
