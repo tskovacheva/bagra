@@ -691,7 +691,7 @@ async function renderRead(root, r) {
         // Attribution was stored on every seeded recipe and shown on none of
         // them. For a library meant to be given away that is not a display
         // gap, it is the condition of shipping (§13at) going unmet on a screen.
-        fact(t('recipes.source'), await sourceNames(r)),
+        fact(t('recipes.source'), await sourceNames(r), '', { wide: true }),
         r.distributable === false ? fact(t('recipes.notDistributable'), '✓') : '',
       ]) + prose(r.notes))}`,
   });
