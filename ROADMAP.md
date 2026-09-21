@@ -4,6 +4,18 @@
 audit; completed items are not repeated here. For the reasoning behind any decision,
 `FUNCTIONAL_SPEC.md` is the source of truth.
 
+## Editorial redesign (branch design/editorial-redesign)
+
+- **Package 1 — done (1.1.0-design.1, §14a):** palette roles, local Geist and Source
+  Serif 4, the two-row bar and the phone drawer, controls, fields, dialogs.
+- **Next — package 2:** the reference modules (Reference, Plants, Recipes, Materials,
+  Techniques, Calculators, Library) in the prototype's composition.
+- **Then — package 3:** the diary (My work, Fabrics, Pigments), including the work card
+  whose name wraps at 390px.
+- **Open for the owner:** the phone's bottom bar, gone with the drawer — keep it gone or
+  bring it back beside the header.
+- **For the main line, not this branch:** „undefined" sources on an empty home screen.
+
 Three lists, kept apart on purpose:
 
 - **A — required before a paid v1.0.** Only what actually remains. Mostly not features:

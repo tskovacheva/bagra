@@ -12114,3 +12114,61 @@ Rules in `fabric-logic.js`: `isPrepAction`, `actionIndex`, `prepCandidates`, `wo
 both. Only the direct parent is offered as possible for an old cut. Deleting a whole cloth that another's
 inheritance points at is not guarded here (a cloth with batches is already refused). Checked in Chromium in an
 isolated profile, 32 checks; no permanent guard was added to `check.sh` in this package.
+
+## 14a. Editorial redesign, package 1 — the visual foundation (1.1.0-design.1)
+
+Branch `design/editorial-redesign`, from rc98; rc98 itself untouched. The v0 exploration
+(„Bagra — Editorial Design Exploration") is authoritative for the look; this
+specification stays authoritative for function, data, routes, fields and calculations.
+Nothing in the model, IndexedDB, seed data, calculations or the service worker's logic
+changed.
+
+**Owner's decisions (21 September 2026).**
+
+- **Colour: Bagra's palette, not the prototype's green.** The prototype's working accent
+  was `--leaf` (green) on buttons, active navigation and filters. The fixed rule stands —
+  no green anywhere; the interface must not put a colour opinion beside dyed cloth.
+  Indigo marks where one is and what is chosen; controls are neutral, the primary action
+  **iron** (`#3A3733`) — which also ends primary buttons being indigo, against the rule
+  that indigo is navigation and active states only. Colour specimens sit on a neutral
+  mat (`--specimen #FBFBF9`, ring `--specimen-line #E7E6E0`), not on the cream surface.
+  Neutrals added are derived, not new hues: `--sunk #ECE7DD` (ground toward line).
+- **Type: local, with real Bulgarian Cyrillic.** Fraunces and Newsreader, the prototype's
+  serifs, ship Latin only (checked in the font packages). **Geist** for working text;
+  **Source Serif 4** for headings, the page lede and reading prose — the only candidate
+  with Bulgarian letterforms (`locl` BGR), so т, п, в, д take their Bulgarian shapes in
+  it. Geist has every Bulgarian letter but not the localised forms. Geist Mono is not
+  added; labels are Geist. Files in `fonts/` (latin, latin-ext, cyrillic, cyrillic-ext;
+  serif also italic), OFL-1.1 with licences beside them, cached by `sw.js` — the list
+  only. Rendering checked in Chrome with `CSS.getPlatformFontsForNode`: every text node in
+  BG and EN draws from the intended face, none from a fallback.
+
+**Navigation.** Laptop: two rows. Row 1 — the brand, the three spaces (Home, the
+reference, the diary) and a „⋯" menu with the backup, About, language, units and
+version. Row 2 — the modules of the space the address is in. Spaces and modules are read
+from `NAV`, unchanged; modules without an entry belong to a space by `SPACE_OF_HIDDEN`
+(`batch` → diary, `materials` and `packs` → reference). Phone (≤ 820px): a header with the
+menu button and the screen's name, and a drawer with every entry in the same groups; it
+closes on a choice, on Escape and on any change of address, and stays open while the
+language or units change. **The bottom bar is gone** — the prototype's header and drawer
+replace it; restoring it is a decision for the owner. No global „+": every „New…" is
+already in its page's header.
+
+**Controls and surfaces.** Radii 8px (controls), 14px (cards), 18px (panels, dialogs);
+buttons 9×16; fields on the surface with an indigo focus ring. The page is 1280px,
+centred, under the bar. The view's focus ring (it takes focus on every screen change) is
+no longer drawn on a mouse click.
+
+**Registers.** Serif for reading — page title, lede, `.prose`, botanical names; Geist for
+work — controls, tables, recipe steps read over a pot (`.workstep .prose`). `p.sub` only
+for the lede: the plant profile's sections are also `.sub` (rc89).
+
+**Checked.** Every space, module and menu entry reachable on the laptop; all 13 drawer
+entries at 390 and 320px, each ≥ 44px; 19 screens at 390 and 320px with no horizontal
+overflow or overlap; data byte for byte unchanged; `deep-check` and `screen-check` pass.
+
+**Left for later packages.** The reference modules and the diary themselves — cards,
+tables, record views, work cards (a work card's name still wraps in a narrow column at
+390px, as it did in rc98). Found and not fixed here, for the main line: on an empty
+database the home screen says „undefined" sources — the count is read from a tile removed
+long ago.

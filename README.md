@@ -25,9 +25,33 @@ modules. A **Combination** holds the expected outcome; the **placements** of you
 attach to it. Over time the reference stops being someone else's book and becomes a record of
 your water, your fabrics and your local plants.
 
+## Running the redesign locally, with a test database
+
+For trying the `design/editorial-redesign` build without touching the published app or
+real data. Nothing is published and no GitHub Pages setting is involved.
+
+- **macOS:** double-click `scripts/local/start-design-mac.command` (the first time,
+  right-click → Open, because the file is not signed).
+- **Windows:** double-click `scripts/local/start-design-windows.bat`. Needs Python
+  (python.org, with „Add python.exe to PATH" ticked).
+- **Linux:** `sh scripts/local/start-design-linux.sh`.
+
+It serves the project at `http://localhost:8799` and opens Chrome with a separate test
+profile. The database belongs to the address: that origin has its own IndexedDB, service
+worker and cache, shared with neither GitHub Pages nor any other port — and the separate
+profile keeps even that apart from the everyday browser. It starts empty; do not import a
+real backup into it. To start again from empty, close the test window and run
+`reset-design-test-data-mac.command` / `…-windows.bat`, which deletes that profile only.
+Stop the server with Ctrl+C (macOS, Linux) or by closing its window (Windows).
+
+After replacing the files with a newer build, the app offers the update like the
+published one; accept it, or reset the profile.
+
 ## Modules
 
-The sidebar is in two halves and a rule, along the line the data already draws.
+The navigation is in two halves and a rule, along the line the data already draws. On a
+laptop it is a bar of two rows at the top — the spaces, then the modules of the space one
+is in — and on a phone a header with a drawer (editorial redesign, §14a).
 
 **Reference part** — knowledge that is true whether or not this particular person owns
 anything. It ships in seed packs and is read at the desk. Materials and the Library are
@@ -53,11 +77,13 @@ reference: a batch of made pigment is a thing on a shelf, not a fact about the w
 | Pigments | Batches of made pigment, worked from a recipe that declares an output |
 | Fabrics | One record per physical piece, with a lifecycle and group actions |
 
-**Below a rule** — the backup. Housekeeping filed with one half for want of anywhere
-else is how a sidebar stops meaning anything.
+**Beside the spaces, in a menu** — the backup and About, with the language and the units.
+Housekeeping filed with one half for want of anywhere else is how a navigation stops
+meaning anything.
 
-The phone bar carries the diary, not the reference: *Home · My work · Plants · Fabrics ·
-More*. Plants stays because that one is read standing in front of the bed.
+On a phone the header names the screen and the drawer holds every entry, in the same
+groups. (The bottom bar of *Home · My work · Plants · Fabrics* gave way to it in the
+editorial redesign, package 1.)
 
 ## Four modes, kept apart
 

@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v1.0.0-rc98';   // keep in step with version.js
+const CACHE = 'bagra-v1.1.0-design.1';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -34,6 +34,20 @@ const FILES = [
   './icons/icon-192-maskable.png',
   './icons/icon-512-maskable.png',
   './icons/favicon-64.png',
+  // Typefaces, local so the app reads the same offline (design package 1).
+  // Geist and Source Serif 4, OFL-1.1; latin, latin-ext, cyrillic, cyrillic-ext.
+  './fonts/geist-cyrillic-ext-wght-normal.woff2',
+  './fonts/geist-cyrillic-wght-normal.woff2',
+  './fonts/geist-latin-ext-wght-normal.woff2',
+  './fonts/geist-latin-wght-normal.woff2',
+  './fonts/source-serif-4-cyrillic-ext-wght-italic.woff2',
+  './fonts/source-serif-4-cyrillic-ext-wght-normal.woff2',
+  './fonts/source-serif-4-cyrillic-wght-italic.woff2',
+  './fonts/source-serif-4-cyrillic-wght-normal.woff2',
+  './fonts/source-serif-4-latin-ext-wght-italic.woff2',
+  './fonts/source-serif-4-latin-ext-wght-normal.woff2',
+  './fonts/source-serif-4-latin-wght-italic.woff2',
+  './fonts/source-serif-4-latin-wght-normal.woff2',
   './modules/dashboard.js',
   './modules/reference.js',
   './modules/plants.js',

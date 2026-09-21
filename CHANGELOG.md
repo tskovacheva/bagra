@@ -12,6 +12,17 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.1.0-design.1 — 21 September 2026 (branch design/editorial-redesign, from 1.0.0-rc98)
+
+Editorial redesign, package 1 — the visual foundation (§14a). Bagra's palette in the prototype's composition:
+indigo for where one is, neutral controls, the primary action in iron, no green; colour specimens on a neutral
+mat. Local Geist and Source Serif 4 (OFL-1.1) with real Bulgarian Cyrillic, cached by the worker (list only).
+A two-row top bar on a laptop, a header and drawer on a phone (the bottom bar gave way to it). Buttons, fields,
+panels and dialogs restyled. No change to model, data, routes, calculations or worker logic.
+
+Local testing (same build, no app change): `scripts/local/` starts the redesign at localhost:8799 with a
+separate Chrome test profile — its own database, apart from GitHub Pages and real data — and resets it.
+
 ## 1.0.0-rc98 — 21 September 2026
 
 Technical audit: protection of user data — backup, restore, merge, update — in isolated profiles.
