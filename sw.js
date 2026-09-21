@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v1.0.0-rc97';   // keep in step with version.js
+const CACHE = 'bagra-v1.0.0-rc98';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -133,8 +133,14 @@ const FILES = [
 // The new worker deliberately does NOT take over by itself. It waits until the
 // page says so, which lets the app offer a visible "new version — reload"
 // rather than swapping code under someone mid-form.
+//
+// `cache: 'reload'` (rc98): straight from the server. `addAll` went through the
+// browser's HTTP cache, so a worker installing a new version stored whatever
+// that cache still held — in the audit, rc96's version.js and batch.js under
+// the name rc97. The fix never arrived, and offline the old code stayed.
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+  e.waitUntil(caches.open(CACHE).then(c =>
+    c.addAll(FILES.map(u => new Request(u, { cache: 'reload' })))));
 });
 
 self.addEventListener('message', (e) => {
@@ -151,10 +157,14 @@ self.addEventListener('activate', (e) => {
 
 // Network first, cache as fallback: the app must keep working offline, but a
 // deployed change should not wait a week to appear.
+//
+// `cache: 'no-cache'` (rc98): the network copy is revalidated with the server
+// (a 304 when nothing changed) rather than taken from the HTTP cache while it
+// is „fresh" — which was also how a stale file got copied into the new cache.
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: 'no-cache' })
       .then(res => {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});

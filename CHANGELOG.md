@@ -12,6 +12,23 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc98 — 21 September 2026
+
+Technical audit: protection of user data — backup, restore, merge, update — in isolated profiles.
+
+- Fixed: an update could install the OLD code under the new name. The service worker filled its new cache with
+  `addAll`, and fetched with default caching, both through the browser's HTTP cache — in a real rc96 → rc97 update
+  the cache „bagra-v1.0.0-rc97" held rc96's version.js and batch.js, so rc97's fix never arrived, the interface kept
+  saying rc96 in a new tab, after reloads and offline. Installing now asks the server (`cache: 'reload'`) and the
+  network-first fetch revalidates (`cache: 'no-cache'`). Re-tested rc96 → rc98: new code in the cache, rc98 shown
+  online, in a new tab and offline; every record and photo identical. User data was never affected.
+- Confirmed without change: `replace` restores every user record, photo, id and link exactly (only backup
+  bookkeeping in settings differs — the change counter resets, as it should); `merge` adds new records, never
+  duplicates or overwrites, keeps a missing preparation reference as it is and says so; merging twice adds nothing;
+  the % WOF and temperature ceiling warnings in the group form name the substance, the value and the unit.
+- Known behaviour, not changed: `merge` skips a record whose id exists, whole — a file's newer edit of an existing
+  record is not taken.
+
 ## 1.0.0-rc97 — 19 September 2026
 
 Functional package 3: group preparation of several cloths, with a recipe and works, end to end in an isolated profile.
