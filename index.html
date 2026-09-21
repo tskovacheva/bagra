@@ -1358,6 +1358,16 @@ label.btn{cursor:pointer}
    it and a value such as „диворастящо · градинско" wrapped in its cell. */
 .factgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px 20px}
 .fact{padding:7px 0;border-bottom:1px solid var(--line)}
+/* The confirmation dialog (ui.js `dialog`). It had no rules, so it rendered
+   in the flow at the bottom of the page (rc93). */
+.modalback{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:rgba(42,39,36,.38)}
+.modal{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:0 12px 40px rgba(42,39,36,.25);width:min(460px,100%);max-height:calc(100vh - 40px);
+  overflow:auto;padding:20px 22px}
+.modal h2{margin:0 0 10px}
+.modalbody p{margin:0 0 8px}
+.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 /* A fact whose value is a title or a list of titles takes the whole row (rc92):
    in a 180px cell „Printing with Natural Dyes" broke over two lines beside empty
    cells. The whole row, never a span of N, so a phone's single column is safe. */
@@ -1789,6 +1799,15 @@ section.sub{max-width:none}
 @media (max-width:640px){
   .prepline{grid-template-columns:16px 1fr;gap:4px 10px}
   .prepwhen,.prepwith{grid-column:2}
+}
+/* A line in the work form carries a tick first: which preparation this work
+   used (rc95). One more column, on these lines only. */
+.prepline.picks{grid-template-columns:22px 16px minmax(120px,auto) 92px 1fr}
+.preppick{display:flex;align-items:center;cursor:pointer}
+.prepfabric + .prepfabric{margin-top:10px}
+@media (max-width:640px){
+  .prepline.picks{grid-template-columns:22px 16px 1fr}
+  .prepline.picks .prepwhen,.prepline.picks .prepwith{grid-column:3}
 }
 
 /* What a piece carries, on the row where work is chosen. */

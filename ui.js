@@ -293,7 +293,15 @@ export async function segmented(dimension, name, selected, { allowEmpty = true }
 
 // A modal used for decisions that must not be taken blindly — chiefly the
 // preview before a reference pack overwrites anything.
+//
+// One at a time (rc93). The modal had no styles at all, so it was appended
+// below the page, out of sight: a press looked like nothing, the person pressed
+// again, and each press added another — three presses, three dialogs. With the
+// styles it is in front of the page; and a second call while one is open does
+// not stack a second one, it returns „no" and leaves the open one in focus.
 export function dialog({ title, body, confirmLabel, cancelLabel }) {
+  const open = document.querySelector('.modalback');
+  if (open) { open.querySelector('[data-ok]')?.focus(); return Promise.resolve(false); }
   return new Promise(resolve => {
     const el = document.createElement('div');
     el.className = 'modalback';

@@ -73,7 +73,7 @@ export function migrateFabric(fabric) {
   const events = fabric.stateEvents || [];
   const actions = [];
 
-  for (const e of events) {
+  for (const [n, e] of events.entries()) {
     const actionCode = ACTION_FOR_STATE[e.stateCode];
 
     // A state code nobody wrote an action for. Rather than guess, keep the
@@ -83,7 +83,10 @@ export function migrateFabric(fabric) {
     const code = actionCode || 'other';
 
     const action = {
-      id: e.id,
+      // An event with no id would give an action nothing can point at (rc95),
+      // and a batch id of „batch-undefined" shared by every such event. One is
+      // made from where the event stood, so a second run gives the same one.
+      id: e.id || `evt-${fabric.id}-${n}`,
       fabricId: fabric.id,
       actionCode: code,
       // Kept so nothing is lost and so a wrongly-mapped row can be found later.
@@ -104,7 +107,7 @@ export function migrateFabric(fabric) {
     // spans the pieces through `fabricIds`. Giving it a batch as well would be
     // a second answer to the same question.
     if (!action.trialId) {
-      action.batchId = batchIdFor(e.id);
+      action.batchId = batchIdFor(action.id);
       batches.push({
         id: action.batchId,
         actionCode: code,

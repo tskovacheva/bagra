@@ -126,6 +126,18 @@ const INCOMING = {
   fabrics: [
     { store: 'trials',       label: 'refs.trials',  count: (r, id) => ((r.fabricIds || []).includes(id) ? 1 : 0) },
     { store: 'batchActions', label: 'refs.batches', count: (r, id) => ((r.fabricIds || []).includes(id) ? 1 : 0) },
+    // A cloth's ACTIONS are pointed at too (rc96): by the pieces cut from it,
+    // which inherit them, and by the works that chose them as preparation. The
+    // cloth was protected from this only by accident — through its batch
+    // record — and not at all for an action whose batch was not there. The
+    // third argument is the cloth itself, so its action ids can be read.
+    { store: 'fabrics', label: 'refs.fabricsInheriting',
+      count: (r, id, cloth) => ((r.inheritedActionIds || []).some(a => actionIdsOf(cloth).has(a)) ? 1 : 0) },
+    // A work that holds the cloth itself is already counted above; this is the
+    // work that reached its actions through a piece cut from it.
+    { store: 'trials', label: 'refs.trialsPrep',
+      count: (r, id, cloth) => (!(r.fabricIds || []).includes(id)
+        && (r.prepActionIds || []).some(a => actionIdsOf(cloth).has(a)) ? 1 : 0) },
   ],
   // Not in the audit's list and real all the same: a substance is named by every
   // recipe ingredient option that fills a role with it, and by every jar on the
@@ -174,8 +186,17 @@ const INCOMING = {
  * its own kind, and where a store could hold both (a chain step naming a
  * recipe) the stores are different ones.
  */
+const idsCache = new WeakMap();
+function actionIdsOf(cloth) {
+  if (!cloth) return new Set();
+  if (!idsCache.has(cloth)) idsCache.set(cloth, new Set((cloth.actions || []).map(a => a && a.id).filter(Boolean)));
+  return idsCache.get(cloth);
+}
+
 export async function findReferences(store, id) {
   const paths = INCOMING[store] || [];
+  // The record itself, for the paths that point into it rather than at it.
+  const record = (await get(store, id)) || null;
   // Sources are matched on their code. Read the record to learn it rather than
   // deriving it from the id, so a user-written source — which has a uid for an
   // id and its own code — is matched the same way a seeded one is.
@@ -190,7 +211,7 @@ export async function findReferences(store, id) {
       // A record cannot hold itself: guard the one case where the pointing
       // store and the pointed-at store are the same kind.
       if (path.store === store && row.id === id) continue;
-      const n = path.count(row, target);
+      const n = path.count(row, target, record);
       if (n > 0) { records++; count += n; }
     }
     if (records) { byStore.push({ ...path, records, count }); total += records; }

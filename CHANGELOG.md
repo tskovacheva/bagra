@@ -12,6 +12,53 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc97 — 19 September 2026
+
+Functional package 3: group preparation of several cloths, with a recipe and works, end to end in an isolated profile.
+
+- Fixed: the group form's quantities. It read `substanceName`, `amountMin` and `amountMax`, which `scaleRecipe` no
+  longer returns, and labelled every line in grams — a group mordanting of 200 g showed „acid_source — г" instead of
+  400 ml of vinegar, 40 g alum, 0.8–1.6 g iron sulfate and 20 g soda ash. It now reads the scaler's result as the
+  chain plan does: the chosen substance's name, the amount or range, the scaler's unit. The chain branch and the
+  ceiling warnings use the same reader. No guard read these numbers.
+- Confirmed without change: one action per cloth, one batch, own `fabricId`, recipe on actions and batch, the third
+  cloth untouched; each work points only at its own cloth's action; a date correction keeps ids and references;
+  the used batch is refused, naming both works; all of it survives a reload.
+
+## 1.0.0-rc96 — 19 September 2026
+
+Deleting a cloth whose actions are pointed at is refused (§13fb follow-up). A cloth's actions are referenced by the
+pieces cut from it (`inheritedActionIds`) and by works that chose them (`prepActionIds`); `refs.js` knew neither, and
+the cloth was protected only through its batch record — not at all for an action without one. Both paths are now in
+the reference table, with their own words in the refusal (BG/EN). No cascade, no reference removed, no model change.
+
+## 1.0.0-rc95 — 19 September 2026
+
+A work records the preparation it used (§13fb). `prepActionIds` on the work, `inheritedActionIds` on a cut piece —
+references, never copies, never inferred from dates. Ticks in the work form, the chosen preparation in the finished
+work's process, a used batch refused on delete, missing references said and kept, id-less actions given ids.
+
+## 1.0.0-rc94 — 19 September 2026
+
+Functional package 2: the life of a cloth and a work, run end to end in Chromium in an empty profile.
+
+- Fixed: a cloth's history showed only dates. Both history views read `stateCode`, which only the old
+  `stateEvents` carry; since §13bd the history is the piece's actions. Each entry now names its action and its
+  recipe, as the preparation card does; a piece with only old state events still shows its state.
+- Confirmed without change: preparation is written to the cloth and read by the work, not copied; step order,
+  parameters and notes, both stages, finishing, both edits and every photo survive a reload.
+- Not decided: the finished work's review does not show the cloth's preparation.
+
+## 1.0.0-rc93 — 19 September 2026
+
+Functional package 1.
+
+- Deleting a work: the confirmation dialog had no styles at all, so it was added below the page, out of sight;
+  each press that seemed to do nothing added another — three presses, three dialogs (one handler, reproduced in
+  Chromium). The dialog now stands centred in front of the page, a second call while one is open adds nothing, and
+  it names the work and says its fabrics stay. rc92 was checked too: confirming deleted only the chosen work.
+- Home, „Продължи": a work with no photograph of its own shows its cloth's; with neither, the neutral ground.
+
 ## 1.0.0-rc92 — 18 September 2026
 
 Responsive width, as a rule rather than per screen. CSS in `index.html`, one option on `fact()`.

@@ -65,6 +65,19 @@ export async function runMigrations() {
   await runOnce('pigmentBatchLines', 1, migratePigmentBatchLines);
   await runOnce('pigmentSwatchList', 1, migratePigmentSwatchList);
   await runOnce('recipeSourceList', 1, migrateRecipeSourceList);
+  await runOnce('actionIds', 1, healActionIds);
+}
+
+// Every action carries an id (rc95), because a work now points at its
+// preparation by id. Actions migrated before `migrate-actions` made one where an
+// event had none are given one here, from where they stand — the same on every
+// run. An id that exists is never touched.
+export async function healActionIds() {
+  for (const f of await all('fabrics')) {
+    if (!(f.actions || []).some(a => a && !a.id)) continue;
+    f.actions = f.actions.map((a, n) => (a && !a.id ? { ...a, id: `act-${f.id}-${n}` } : a));
+    await putMigration('fabrics', f);
+  }
 }
 
 

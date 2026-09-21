@@ -12087,3 +12087,30 @@ both tabs offer the rc86 corrections (glossary 2, sources 5), applying shows the
 unticked and survives, her own source is untouched and reads „сайт". Restoring an archive of the old state puts
 the update on offer again. `try-pack-reachability` and `try-pack-field-labels` pass with no exemption. Without
 `markEdited` the check fails three ways.
+
+## 13fb. A work records the preparation it used (1.0.0-rc95)
+
+Owner's decision, variant B. Which preparation belongs to a work is RECORDED, never worked out from dates.
+
+- **`trial.prepActionIds`** — ids of actions on the cloth. Nothing copied. Absent = not marked; `[]` = none. Chosen
+  per cloth by a tick on each line of the work form's preparation card; the first tick creates the list. Ticked
+  for her only when the action was written from this work's „Добави подготовка" (the group form sees the work in
+  its `returnTo` and appends the ids it wrote).
+- **`fabric.inheritedActionIds`** — written once, at a cut: the parent's action ids at that moment, plus what the
+  parent had itself inherited. The parent's later actions, however dated, are not inherited. A piece cut before
+  rc95 has no such list: its parent's actions are offered as POSSIBLE, with a warning, never ticked for her.
+- **The review** („Покажи процеса") shows only the chosen actions, per cloth, with date, action, recipe, the
+  batch's weight, deviation and note, and where an inherited one came from. Nothing for a work that marked
+  nothing. An id that resolves to nothing is counted and said, kept, never redirected.
+- **Deleting a batch** a work names is refused, naming the work — the whole batch, since it is one fact across its
+  cloths.
+- **Ids.** `migrate-actions` gives an event without an id `evt-<fabric>-<n>`, so no action is unaddressable and no
+  two batches share `batch-undefined`; `healActionIds` (migration `actionIds`) does the same, as `act-<fabric>-<n>`,
+  for actions migrated before. Existing ids are never touched.
+
+Rules in `fabric-logic.js`: `isPrepAction`, `actionIndex`, `prepCandidates`, `worksUsingActions`.
+
+**Limits.** A choice is by action id, so a parent's action ticked in a work on two pieces cut from it applies to
+both. Only the direct parent is offered as possible for an old cut. Deleting a whole cloth that another's
+inheritance points at is not guarded here (a cloth with batches is already refused). Checked in Chromium in an
+isolated profile, 32 checks; no permanent guard was added to `check.sh` in this package.

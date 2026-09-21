@@ -207,3 +207,56 @@ export function coverPhoto(fabric, trial) {
   const shots = photoTimeline(fabric || {}, trial ? [trial] : []);
   return shots.length ? shots[shots.length - 1].src : null;
 }
+
+
+// ---------------------------------------------------------------- preparation of a work
+//
+// Which preparation a piece of work used is RECORDED, not worked out (rc95).
+// The work holds `prepActionIds` — ids of actions that live on the cloth — and
+// nothing is copied. Absent means „not marked", `[]` means „none". A cloth's
+// own actions, the ones it inherited when it was cut from a larger piece, and —
+// for pieces cut before that was recorded — its parent's actions offered as
+// POSSIBLE only: those three are what the work may point at. No date decides
+// anything here.
+
+/** A preparation action: a wash, tannin, mordant… — not the mark a work leaves. */
+export const isPrepAction = (a) =>
+  !!(a && a.id && a.actionCode !== 'dye' && a.actionCode !== 'finish' && !a.trialId);
+
+/** Every action id in the store, with the piece it lives on. */
+export function actionIndex(fabrics) {
+  const index = new Map();
+  for (const f of fabrics || [])
+    for (const a of f.actions || [])
+      if (a && a.id) index.set(a.id, { action: a, fabric: f });
+  return index;
+}
+
+/**
+ * What a piece may count as its preparation, in three kinds:
+ *   own       — done to this piece;
+ *   inherited — done to the piece it was cut from, recorded at the cut
+ *               (`inheritedActionIds`), so certainly before it;
+ *   possible  — a piece cut before the cut was recorded: its parent's actions,
+ *               whose applicability is NOT established. Offered, never assumed.
+ */
+export function prepCandidates(piece, fabricsById, index) {
+  const own = (piece.actions || []).filter(isPrepAction);
+  const parent = piece.fromBatchId ? fabricsById.get(piece.fromBatchId) || null : null;
+  if (Array.isArray(piece.inheritedActionIds)) {
+    const inherited = piece.inheritedActionIds
+      .map(id => index.get(id)).filter(Boolean)
+      .filter(x => isPrepAction(x.action));
+    return { own, inherited, possible: [], parent };
+  }
+  const possible = parent
+    ? (parent.actions || []).filter(isPrepAction).map(a => ({ action: a, fabric: parent }))
+    : [];
+  return { own, inherited: [], possible, parent };
+}
+
+/** The works whose recorded preparation includes any of these action ids. */
+export function worksUsingActions(trials, actionIds) {
+  const ids = new Set(actionIds);
+  return (trials || []).filter(tr => (tr.prepActionIds || []).some(id => ids.has(id)));
+}
