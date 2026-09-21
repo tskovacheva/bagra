@@ -16,7 +16,7 @@ import { mordantBand } from '../vocab.js';
 import { departureOf, linesFromRecipe } from '../recipe-lines.js';
 import { ACTION_FOR_STATE } from '../migrate-actions.js';
 import { daysSinceMordanted, currentState, treatmentsOf, compositionTotal, coverPhoto, fibreClass as fibreClassOf,
-         photoTimeline } from '../fabric-logic.js';
+         photoTimeline, actionIndex, prepCandidates } from '../fabric-logic.js';
 import { reserveLabel } from './fabrics.js';
 import { trialStepWarnings } from '../calc/scale.js';
 
@@ -835,34 +835,57 @@ function recipeStepType(recipeId) {
 // Actions are grouped by their batch, because one bath is one line here however
 // many pieces were in it.
 async function preparationCard(r) {
-  const pieces = (await all('fabrics')).filter(f => (r.fabricIds || []).includes(f.id));
+  const fabrics = await all('fabrics');
+  const pieces = fabrics.filter(f => (r.fabricIds || []).includes(f.id));
   if (!pieces.length && !(r.steps || []).some(st => stageOf(st) === 'prep')) return '';
 
-  const byBatch = new Map();
-  for (const f of pieces) {
-    for (const a of f.actions || []) {
-      if (a.actionCode === 'dye' || a.actionCode === 'finish') continue;
-      const key = a.batchId || a.id;
-      const row = byBatch.get(key) || { ...a, pieces: [] };
-      row.pieces.push(f);
-      byBatch.set(key, row);
-    }
-  }
+  // Which preparation this work used is chosen, per piece, and recorded as ids
+  // on the work (rc95) — nothing copied, nothing inferred from dates. Ticked
+  // for her only when it was entered from this very work („Добави подготовка").
+  const chosen = new Set(r.prepActionIds || []);
+  const byId = new Map(fabrics.map(f => [f.id, f]));
+  const index = actionIndex(fabrics);
+  const inWork = (batchId) => batchId
+    ? pieces.filter(p => (p.actions || []).some(a => a.batchId === batchId)).length : 0;
 
-  const rows = (await Promise.all([...byBatch.values()]
-    .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
-    .map(async a => {
-      const recipe = a.recipeId ? recipes.find(x => x.id === a.recipeId) : null;
-      const shared = a.pieces.length > 1
-        ? `<span class="prepshared">${esc(t('trials.prepShared', { n: a.pieces.length }))}</span>` : '';
-      return `
-        <li class="prepline"${a.batchId ? ` data-batch="${esc(a.batchId)}" style="cursor:pointer"` : ''}>
-          ${icon(PREP_ICONS[a.actionCode] || 'i-flask')}
-          <span class="prepwhat">${esc(await label('fabric_action', a.actionCode))}</span>
-          <span class="prepwhen">${fmtDate(a.date)}</span>
-          <span class="prepwith">${recipe ? esc(text(recipe.name)) : ''}${shared}</span>
-        </li>`;
-    }))).join('');
+  const line = async (a, origin = '') => {
+    const recipe = a.recipeId ? recipes.find(x => x.id === a.recipeId) : null;
+    const n = inWork(a.batchId);
+    const shared = n > 1 ? `<span class="prepshared">${esc(t('trials.prepShared', { n }))}</span>` : '';
+    return `
+      <li class="prepline picks"${a.batchId ? ` data-batch="${esc(a.batchId)}" style="cursor:pointer"` : ''}>
+        <label class="preppick" title="${esc(t('trials.prepForWork'))}">
+          <input type="checkbox" data-prep-pick="${esc(a.id)}"${chosen.has(a.id) ? ' checked' : ''}
+                 aria-label="${esc(t('trials.prepForWork'))}">
+        </label>
+        ${icon(PREP_ICONS[a.actionCode] || 'i-flask')}
+        <span class="prepwhat">${esc(await label('fabric_action', a.actionCode))}</span>
+        <span class="prepwhen">${fmtDate(a.date)}</span>
+        <span class="prepwith">${[recipe ? esc(text(recipe.name)) : '', origin ? `<span class="hint">${esc(origin)}</span>` : '']
+          .filter(Boolean).join(' · ')}${shared}</span>
+      </li>`;
+  };
+  const byDate = (a, b) => (a.date || '').localeCompare(b.date || '');
+  const pieceName = (f) => [f.label, f.name].filter(Boolean).join(' · ');
+
+  const blocks = (await Promise.all(pieces.map(async p => {
+    const c = prepCandidates(p, byId, index);
+    const own = (await Promise.all([...c.own].sort(byDate).map(a => line(a)))).join('');
+    const from = c.parent ? pieceName(c.parent) : '';
+    const inherited = (await Promise.all(c.inherited.map(x => x.action).sort(byDate)
+      .map(a => line(a, t('trials.prepFrom', { piece: pieceName(index.get(a.id).fabric) }))))).join('');
+    const possible = (await Promise.all(c.possible.map(x => x.action).sort(byDate)
+      .map(a => line(a, t('trials.prepFrom', { piece: from }))))).join('');
+    if (!own && !inherited && !possible) return '';
+    return `
+      <div class="prepfabric">
+        ${pieces.length > 1 ? `<p class="hint"><b>${esc(pieceName(p))}</b></p>` : ''}
+        ${own ? `<ul class="preplist">${own}</ul>` : ''}
+        ${inherited ? `<p class="hint">${esc(t('trials.prepInherited', { piece: from }))}</p><ul class="preplist">${inherited}</ul>` : ''}
+        ${possible ? `<p class="note">${esc(t('trials.prepPossible', { piece: from }))}</p><ul class="preplist">${possible}</ul>` : ''}
+      </div>`;
+  }))).join('');
+  const rows = blocks;
 
   // Not a `.stagecardhead`, deliberately. A stage card is one RUN of steps
   // through a stage, and the deep check counts them to prove that dyeing before
@@ -879,10 +902,80 @@ async function preparationCard(r) {
         ${actionBtn('add', t('trials.addPrep'), `data-add-prep title="${esc(t('trials.addPrepHint'))}"`, 'contextual')}
       </div>
       ${rows
-        ? `<ul class="preplist">${rows}</ul>`
+        ? `${rows}<p class="hint">${t(Array.isArray(r.prepActionIds) ? 'trials.prepPickHint' : 'trials.prepNotMarked')}</p>`
         : `<p class="hint">${t('trials.noPrep')}</p>`}
       <p class="hint">${t('trials.addPrepHint')}</p>
     </div>`;
+}
+
+// The preparation a finished work recorded (rc95): only what was chosen, per
+// piece, with where an inherited action came from. Nothing when nothing was
+// marked — an old work is not given anyone's preparation. An id that resolves
+// to nothing (a file imported without the cloth it pointed at) is said, not
+// dropped and not redirected.
+async function reviewPreparation(r) {
+  const ids = Array.isArray(r.prepActionIds) ? r.prepActionIds : [];
+  if (!ids.length) return '';
+  const fabrics = await all('fabrics');
+  const batches = new Map((await all('batchActions')).map(b => [b.id, b]));
+  const byId = new Map(fabrics.map(f => [f.id, f]));
+  const index = actionIndex(fabrics);
+  const pieces = fabrics.filter(f => (r.fabricIds || []).includes(f.id));
+  const pieceName = (f) => [f.label, f.name].filter(Boolean).join(' · ');
+  const byDate = (a, b) => (a.date || '').localeCompare(b.date || '');
+  const placed = new Set();
+
+  const item = async (a, owner) => {
+    const recipe = a.recipeId ? recipes.find(x => x.id === a.recipeId) : null;
+    const b = a.batchId ? batches.get(a.batchId) : null;
+    const extra = [b?.totalWeightG ? `${b.totalWeightG} g` : '', a.deviation || b?.deviation || '', a.note || b?.note || '']
+      .filter(Boolean).map(esc).join(' · ');
+    return `
+      <li class="prepline">
+        ${icon(PREP_ICONS[a.actionCode] || 'i-flask')}
+        <span class="prepwhat">${esc(await label('fabric_action', a.actionCode))}</span>
+        <span class="prepwhen">${fmtDate(a.date)}</span>
+        <span class="prepwith">${[
+          recipe ? esc(text(recipe.name)) : '',
+          owner ? `<span class="hint">${esc(t('trials.prepFrom', { piece: pieceName(owner) }))}</span>` : '',
+          extra ? `<span class="hint">${extra}</span>` : '',
+        ].filter(Boolean).join(' · ')}</span>
+      </li>`;
+  };
+
+  const groups = (await Promise.all(pieces.map(async p => {
+    const c = prepCandidates(p, byId, index);
+    const mine = [
+      ...c.own.map(a => ({ a, owner: null })),
+      ...c.inherited.map(x => ({ a: x.action, owner: x.fabric })),
+      ...c.possible.map(x => ({ a: x.action, owner: x.fabric })),
+    ].filter(x => ids.includes(x.a.id));
+    mine.forEach(x => placed.add(x.a.id));
+    if (!mine.length) return '';
+    const lines = (await Promise.all(mine.sort((x, y) => byDate(x.a, y.a)).map(x => item(x.a, x.owner)))).join('');
+    return `${pieces.length > 1 ? `<p class="hint"><b>${esc(pieceName(p))}</b></p>` : ''}<ul class="preplist">${lines}</ul>`;
+  }))).join('');
+
+  const missing = ids.filter(id => !index.has(id)).length;
+  // Resolves, but to no piece of this work any more (the cloth taken off it).
+  const elsewhere = ids.filter(id => index.has(id) && !placed.has(id)).map(id => index.get(id));
+  const other = elsewhere.length
+    ? `<ul class="preplist">${(await Promise.all(elsewhere.map(x => item(x.action, x.fabric)))).join('')}</ul>` : '';
+  const shown = placed.size + elsewhere.length;
+
+  return `
+    <details class="procrow">
+      <summary>
+        <span class="procdot">\u2713</span>
+        ${stageIcon('prep')}
+        <span class="procname">${esc(t('trials.prepReview'))}</span>
+        <span class="hint">${esc(t('trials.nActions', { n: shown }))}</span>
+      </summary>
+      <div class="procbody">
+        ${groups}${other}
+        ${missing ? `<p class="note">${esc(t('trials.prepMissing', { n: missing }))}</p>` : ''}
+      </div>
+    </details>`;
 }
 
 async function stageCards(r) {
@@ -1465,6 +1558,8 @@ async function renderReview(root, r) {
       </details>`;
   }))).join('');
 
+  const prepRow = await reviewPreparation(r);
+
   const head = `
     <div class="procrow fixed">
       <span class="procdot">\u2713</span>
@@ -1541,6 +1636,7 @@ async function renderReview(root, r) {
             <span class="hint">${esc(t('trials.nStages', { n: runs.length }))}</span></summary>
           <div class="foldbody">
             ${head}
+            ${prepRow}
             ${processRows || `<p class="hint">${t('trials.noStepsYet')}</p>`}
             ${tail}
           </div>
@@ -2358,6 +2454,8 @@ export default {
         return;
       }
 
+      // The tick sits inside a line that opens its batch; ticking is not opening.
+      if (e.target.closest('.preppick')) return;
       const batchLine = e.target.closest('[data-batch]');
       if (batchLine) return navigate('#/batch/' + batchLine.dataset.batch);
 
@@ -2474,12 +2572,23 @@ export default {
       if (e.target.closest('[data-delete]')) {
         // Guarded (§13cq): a record the history points at is refused, with a
         // count of what points at it. No cascade — see refs.js.
-        if (!await deleteGuarded('trials', draft.id, t('trials.confirmDelete'))) return;
+        if (!await deleteGuarded('trials', draft.id, t('trials.confirmDeleteNamed',
+          { name: workTitle(draft, [...fabricsById.values()]) || t('trials.one') }))) return;
         return navigate('#/trials');
       }
     };
 
     root.onchange = async (e) => {
+      // Preparation chosen for this work (rc95). The first tick turns „not
+      // marked" into a list; untick everything and it is an explicit „none".
+      const prepPick = e.target.closest('[data-prep-pick]');
+      if (prepPick && draft) {
+        readWork(root);
+        const set = new Set(draft.prepActionIds || []);
+        prepPick.checked ? set.add(prepPick.dataset.prepPick) : set.delete(prepPick.dataset.prepPick);
+        draft.prepActionIds = [...set];
+        return this.render(root);
+      }
       if (e.target.dataset.filter) {
         filter[e.target.dataset.filter] = e.target.value;
         return this.render(root);

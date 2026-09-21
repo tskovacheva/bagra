@@ -19,7 +19,7 @@ import { massWith } from '../units.js';
 import { page, panel, field, label, esc, empty, note, today, fmtDate,
          navigate, icon, flash, searchBox, matches, backTo, actionBtn } from '../ui.js';
 import { markClean } from '../dirty.js';
-import { currentState, treatmentsOf, fibreClass, STATE_ORDER } from '../fabric-logic.js';
+import { currentState, treatmentsOf, fibreClass, STATE_ORDER, worksUsingActions } from '../fabric-logic.js';
 import { MANUAL_ACTIONS, movesBox, boxAfter } from '../migrate-actions.js';
 import { scaleRecipe, recipeWarnings, expandChain } from '../calc/scale.js';
 
@@ -152,14 +152,12 @@ async function recipeBlock(weightG) {
     const chain = await get('chains', chainId);
     if (!chain) return '';
     const steps = expandChain(chain, byId, { weightG });
-    const rows = steps.map((s, i) => `
+    const rows = (await Promise.all(steps.map(async (s, i) => `
       <li>
         <b>${i + 1}. ${esc(text(s.recipe?.name) || '—')}</b>
         ${s.required ? `<span class="hint"> · ${t('chains.requiredStep')}</span>` : ''}
-        <ul class="qty">${(s.scaled?.ingredients || []).map(ing => `
-          <li>${esc(ing.substanceName || ing.roleCode || '')}
-            <b class="num">${fmtQty(ing)}</b></li>`).join('')}</ul>
-      </li>`).join('');
+        <ul class="qty">${(await Promise.all((s.scaled?.ingredients || []).map(ing => qtyLine(ing, substances)))).join('')}</ul>
+      </li>`))).join('');
     return `
       ${note(t('batch.chainSplits', { n: steps.length }), 'info')}
       <ol class="chainsteps">${rows}</ol>`;
@@ -170,16 +168,14 @@ async function recipeBlock(weightG) {
   const scaled = scaleRecipe(recipe, { weightG });
   const warns = recipeWarnings(recipe, scaled, substances);
 
-  const rows = (scaled.ingredients || []).map(ing =>
-    `<li>${esc(ing.substanceName || ing.roleCode || '')}
-       <b class="num">${fmtQty(ing)}</b></li>`).join('');
+  const rows = (await Promise.all((scaled.ingredients || []).map(ing => qtyLine(ing, substances)))).join('');
 
   // The ceiling warnings exist elsewhere in the application and must exist
   // here: this is the one screen where real powder is weighed out against the
   // number on it. A warning present in the calculator and absent here is worse
   // than no warning at all, because its absence reads as approval.
-  const warnRows = warns.map(w => {
-    const name = w.ingredient?.substanceName || w.ingredient?.roleCode || '';
+  const warnRows = (await Promise.all(warns.map(async w => {
+    const name = await ingredientName(w.ingredient, substances);
     if (w.code === 'over_max_wof')
       return note(t('recipes.warn.maxWof', { name: esc(name), value: w.value, limit: w.limit }), 'error');
     if (w.code === 'over_max_temp')
@@ -187,7 +183,7 @@ async function recipeBlock(weightG) {
     if (w.code === 'fibre_mismatch')
       return note(t('recipes.warn.fibre', { name: esc(name) }), 'warn');
     return '';
-  }).join('');
+  }))).join('');
 
   return `
     <div class="scaledbox">
@@ -199,12 +195,24 @@ async function recipeBlock(weightG) {
 
 // Ranges stay ranges. Sources give 8–10% tannin and 12–15% alum on wool, and
 // collapsing that to one number states a precision the source did not have.
-function fmtQty(ing) {
-  const lo = ing.amountMin, hi = ing.amountMax;
-  const r = (n) => (n == null ? '—' : (Math.round(n * 10) / 10));
-  if (lo != null && hi != null && Math.abs(hi - lo) > 0.05)
-    return `${r(lo)}–${r(hi)} ${t('tools.grams')}`;
-  return `${r(lo ?? hi)} ${t('tools.grams')}`;
+// One scaled line, read the way the chain plan reads it (rc97). This read
+// `substanceName`, `amountMin` and `amountMax`, which `scaleRecipe` has not
+// returned for a long time, and printed every unit as grams: the group form
+// showed „acid_source — г" where it should have said 400 ml of vinegar — on
+// the one screen where powder is weighed against the number.
+async function ingredientName(ing, substances) {
+  if (!ing) return '';
+  const sub = substances.get(ing.option?.substanceId);
+  return sub ? text(sub.name) : (await label('ingredient_role', ing.roleCode)) || '—';
+}
+
+async function qtyLine(ing, substances) {
+  const r = (n) => (n == null ? '—' : Math.round(n * 100) / 100);
+  const amount = ing.scaledAmount != null
+    ? r(ing.scaledAmount)
+    : `${r(ing.scaledMin)}–${r(ing.scaledMax)}`;
+  return `<li>${esc(await ingredientName(ing, substances))}
+       <b class="num">${amount} ${esc(ing.scaledUnit || '')}</b></li>`;
 }
 
 // ------------------------------------------------------------------- write
@@ -232,6 +240,7 @@ async function save(fabrics) {
       }));
   }
 
+  const written = [];   // action ids, for the work this was opened from
   for (const step of plan) {
     const batch = newRecord({
       actionCode: step.actionCode,
@@ -249,8 +258,10 @@ async function save(fabrics) {
     for (const f of chosen) {
       const fresh = await get('fabrics', f.id);
       fresh.actions = fresh.actions || [];
+      const actionId = uid();
+      written.push(actionId);
       fresh.actions.push({
-        id: uid(),
+        id: actionId,
         fabricId: fresh.id,
         actionCode: step.actionCode,
         fromStateCode: null,
@@ -265,6 +276,17 @@ async function save(fabrics) {
         createdAt: new Date().toISOString(),
       });
       await put('fabrics', fresh);
+    }
+  }
+
+  // Opened from a work („Добави подготовка"): what was just written is that
+  // work's preparation, and the work says so (rc95). The one case where the
+  // link is known rather than chosen — nothing else is ticked for her.
+  if (returnTo?.module === 'trials' && returnTo.id) {
+    const work = await get('trials', returnTo.id);
+    if (work) {
+      work.prepActionIds = [...new Set([...(work.prepActionIds || []), ...written])];
+      await put('trials', work);
     }
   }
 
@@ -553,6 +575,24 @@ export default {
       if (e.target.closest('[data-batch-del]')) {
         const b = await get('batchActions', openBatch);
         if (!b) return;
+        // A bath a work names as its preparation is refused (rc95), as a recipe
+        // a work used is refused (§13cq): deleting it would leave the work
+        // pointing at nothing. The work is named so it can be found.
+        const actionIds = [];
+        for (const id of b.fabricIds || []) {
+          const f = await get('fabrics', id);
+          for (const a of f?.actions || []) if (a.batchId === b.id && a.id) actionIds.push(a.id);
+        }
+        const users = worksUsingActions(await all('trials'), actionIds);
+        if (users.length) {
+          const fabricsAll = await all('fabrics');
+          const names = users.map(w => {
+            const f = fabricsAll.find(x => (w.fabricIds || []).includes(x.id));
+            return (f && (f.name || f.label)) || w.title || t('trials.one');
+          });
+          alert(t('batch.usedByWork', { list: names.join(', ') }));
+          return;
+        }
         if (!confirm(t('batch.confirmDelete', { n: (b.fabricIds || []).length }))) return;
         await deleteBatch(b);
         flash(t('batch.deleted'));

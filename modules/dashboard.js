@@ -146,7 +146,11 @@ export async function continueCards(trials, fabrics) {
   return (await Promise.all(working.map(async tr => {
     const reached = reachedStep(tr);
     const next = nextStep(tr);
-    const photo = ownPhoto(tr);
+    // The work's own photograph; failing that, its cloth's (rc93) — the piece
+    // the card is about. Nothing stored twice: the card reads `photoData`.
+    const photo = ownPhoto(tr)
+      || fabrics.find(f => (tr.fabricIds || []).includes(f.id) && f.photoData)?.photoData
+      || null;
 
     const nameOf = async (st) => st
       ? (await label('step_type', st.typeCode))

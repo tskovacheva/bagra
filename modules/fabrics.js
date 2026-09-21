@@ -1,7 +1,7 @@
 // modules/fabrics.js — one record is one physical piece (§3, A.1).
 
 import { all, get, put, newRecord, getSetting, setSetting, uid } from '../db.js';
-import { t } from '../i18n.js';
+import { t, text } from '../i18n.js';
 import { massWith, gsmWith } from '../units.js';
 import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
@@ -24,6 +24,19 @@ const STATE_ICONS = {
 
 // One mark per state, used wherever a state is named — the filter row, the list,
 // the record, the history. Learned once rather than five times.
+// What one history entry says was done. `stateHistory` returns the piece's
+// ACTIONS since §13bd, and both history views still read `stateCode` — a field
+// only the old `stateEvents` carry — so every entry showed a date and nothing
+// else (found by the lifecycle test, rc94). The action is named as the
+// preparation card and the group action name it, with its recipe; a piece that
+// still has only old state events keeps showing its state.
+async function historyWhat(e) {
+  if (!e.actionCode) return e.stateCode ? stateChip(e.stateCode) : '';
+  const recipe = e.recipeId ? await get('recipes', e.recipeId) : null;
+  return `${esc(await label('fabric_action', e.actionCode))}${
+    recipe ? ` <span class="hint">· ${esc(text(recipe.name))}</span>` : ''}`;
+}
+
 const stateChip = async (code) => code
   ? `<span class="chip withmark">${icon(STATE_ICONS[code] || 's-unwashed')}${esc(await label('fabric_state', code))}</span>`
   : '';
@@ -269,7 +282,7 @@ async function renderRead(root, r) {
         <li class="tl">
           <span class="tldot"></span>
           <div>
-            <b>${await stateChip(e.stateCode)}</b>
+            <b>${await historyWhat(e)}</b>
             <span class="hint"> ${fmtDate(e.date)}</span>
             ${e.note ? `<div class="hint">${esc(e.note)}</div>` : ''}
           </div>
@@ -419,7 +432,7 @@ async function renderForm(root, record) {
   const history = stateHistory(record);
   const historyRows = history.length
     ? (await Promise.all(history.map(async e => `
-        <li><b>${esc(await label('fabric_state', e.stateCode))}</b>
+        <li><b>${await historyWhat(e)}</b>
         <span class="hint">${fmtDate(e.date)}</span></li>`))).join('')
     : `<li class="hint">${t('fabrics.noTransitions')}</li>`;
 
@@ -713,6 +726,14 @@ export default {
           piece.fromBatchId = draft.id;
           // A piece cut from a batch starts its own biography empty.
           piece.actions = [];
+          // …and remembers what had been done to the whole before the cut
+          // (rc95): the ids of the parent's actions recorded at this moment,
+          // plus what the parent had itself inherited. References, not copies;
+          // written once, so the parent's later work is never inherited.
+          piece.inheritedActionIds = [...new Set([
+            ...(draft.inheritedActionIds || []),
+            ...(draft.actions || []).map(a => a.id).filter(Boolean),
+          ])];
           piece.stateEvents = [];
           piece.createdAt = new Date().toISOString();
           await put('fabrics', piece);
