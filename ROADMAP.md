@@ -12,9 +12,11 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   composition; the kicker; glossary as a definition list; calculators as cards.
 - **Package 3 — done (1.1.0-design.3, §14c):** the diary — My work, Fabrics, preparation,
   group actions, the work form, the result and the history.
-- **Still open:** a work card's compact progress line, whose content is wider than a 320px
-  screen — until it is redrawn, the card's name wraps mid-phrase on a phone. The pigments'
-  own model was out of scope for the design packages.
+- **Package 4 — done (1.1.0-design.4, §14d):** the pigments' surfaces, the screens without
+  a mockup, the edge states, Home, and the phone — including the work card's progress
+  strip, which had squeezed the card's name to nothing at 320px.
+- **Still open:** the pigments' own model was never part of the design packages; the packs
+  screen is still the stub it was.
 - **Decided:** the phone's bottom bar stays gone (owner, package 2).
 - **For the main line, not this branch:** „undefined" sources on an empty home screen.
 

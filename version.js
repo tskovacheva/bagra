@@ -3,5 +3,5 @@
 // The service worker cache name derives from it too, so a release is a single
 // edit rather than two that can drift apart.
 
-export const VERSION = '1.1.0-design.3';
+export const VERSION = '1.1.0-design.4';
 export const RELEASED = '2026-09-09';

@@ -1,7 +1,5 @@
 # Багра / Rubia
 
-re-design branch
-
 A record-keeping and **reference** application for natural dyeing and eco printing,
 by [Crafty Place](https://crafty.place).
 

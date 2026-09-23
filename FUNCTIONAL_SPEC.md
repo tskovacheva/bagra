@@ -12242,3 +12242,37 @@ piece inheriting all three recorded actions by reference while its work is offer
 two preparations; the delete guard still refusing a piece its history points at; BG and EN;
 10 diary screens at 390 and 320px with no horizontal overflow. deep-check, screen-check,
 check-scope and the language check pass.
+
+## 14d. Editorial redesign, package 4 — integration and finishing (1.1.0-design.4)
+
+The pigments' surfaces, the screens the exploration never drew, the edge states, Home
+beside the two finished spaces, and the phone. Visual only: no model, no calculation, no
+behaviour; the pigments keep their own model.
+
+**The work card's progress strip — the one real fault this package found.** A work card is
+a grid, and the compact strip is 150px that cannot shrink: in one row with the text it
+left the name 68px at 390px and **nothing at all** at 320px. On a phone the strip now
+takes a row of its own under the text. Nothing is dropped — every stage still shows — and
+the name has 232px at 390px and 162px at 320px, with no overflow. (Package 3 tried this
+with flex properties, which a grid ignores, saw the card overflow and reverted; the idea
+was right and the mechanism was wrong.)
+
+**What else changed.** The page header's rule reaches every screen, not only the two
+spaces. Edge states — empty, and the panels that stand in for them — read as one card with
+a dashed edge. Home takes the shared card radius and the serif for a card's name, and its
+continue cards go to one column on a phone. Pigments: colours on the neutral mat, the six
+stages numbered in indigo, the two columns collapsing at 900px, the context strip on the
+surface. About's four sections (За · Помощ · Безопасност · Условия) as the Library's pills,
+44px on a phone. The pack preview — the one screen that writes over her library — reads as
+a table: a sunk head, the record's name in the serif, room in the rows. The backup and the
+stubs keep the shared surfaces.
+
+**Text.** One sentence pointed at the old navigation: the backup „at the foot of the menu"
+now says the ⋯ menu at the top right, and the menu on a phone. Nothing else in About or
+Help describes where things are, so nothing else changed; no new functionality is claimed.
+
+**Checked.** Pigments end to end (list → new batch with its plant → saved with its six
+stages → its record); Home, About and its sections, the backup, the stub; BG and EN; 10
+screens at 390 and 320px with no horizontal overflow and every control a finger target;
+data byte for byte unchanged; deep-check, screen-check, check-scope and the language check
+pass (the language check caught a Bulgarian quotation mark in the English sentence).

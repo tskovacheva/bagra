@@ -2404,10 +2404,18 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-
   font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.25}
 #view[data-space="diary"] .workthumb{width:64px;height:64px;border-radius:var(--radius-ctl)}
 #view[data-space="diary"] .workrowwrap{margin-bottom:10px}
-/* (A phone card's name wraps mid-phrase, as it did in rc98. Dropping the
-   progress line below the name was tried and reverted: the compact line's own
-   content is wider than a 320px screen, so the card then ran off the edge.
-   It wants the line itself redrawn, which is more than this package.) */
+/* On a phone the progress strip takes a row of its own under the text
+   (package 4). The card is a grid, and the strip is 150px that cannot shrink:
+   in one row with the name it left the name 68px at 390px and NOTHING at
+   320px. Nothing is dropped — every stage still shows; the strip simply stops
+   competing with the name. (Package 3 tried this with flex properties, which a
+   grid ignores, and the card overflowed; this is the same idea done right.) */
+@media (max-width:640px){
+  #view[data-space="diary"] .workrow{grid-template-columns:56px minmax(0,1fr) 16px;row-gap:10px}
+  #view[data-space="diary"] .workgo{grid-column:3;grid-row:1}
+  #view[data-space="diary"] .workprog{grid-column:1 / -1;min-width:0}
+  #view[data-space="diary"] .workprog .progline.compact{min-width:0;width:100%}
+}
 
 
 /* The work form: stage cards, their heads on the sunk surface, roomier lines. */
@@ -2447,6 +2455,63 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-
 @media (min-width:1024px){
   #view[data-module="fabrics"] .cols > .col:last-child{position:sticky;top:96px;align-self:start}
 }
+
+/* ======================================================================
+   Editorial redesign, package 4 — integration and finishing (1.1.0-design.4).
+   The pigments in the approved language; the screens the exploration never
+   drew (group actions, the backup, the pack preview, About, the stubs); the
+   edge states; and the phone. Visual only: no model, no calculation, no
+   behaviour. The pigments keep their own model — this touches their
+   surfaces.
+   ====================================================================== */
+
+/* The page header everywhere, not only in the two spaces: Home and the
+   screens outside them get the same rule under the title. */
+#view .pagehead{align-items:flex-end;padding-bottom:20px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+#view h1{font-size:36px}
+@media (max-width:640px){#view h1{font-size:28px}#view .pagehead{padding-bottom:16px;margin-bottom:20px}}
+
+/* Edge states: one card for empty, loading and error, as the prototype's
+   EmptyState — a dashed edge so it reads as a place with nothing in it
+   rather than as a panel that failed to draw. */
+.emptystate{border:1px dashed var(--line);border-radius:var(--radius-panel);background:var(--surface);padding:42px 24px}
+.emptystate p:first-child{color:var(--ink)}
+.panel .emptystate{border:0;background:none;padding:26px 8px}
+
+/* Home, beside the two finished spaces: the same cards, the same radii. */
+#view[data-module="dashboard"] .tile,#view[data-module="dashboard"] .contcard{border-radius:var(--radius-card)}
+#view[data-module="dashboard"] .tilename{font-family:var(--serif);font-size:16px;font-weight:500}
+#view[data-module="dashboard"] .contlabel{font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.25}
+#view[data-module="dashboard"] .seasonhead h2{letter-spacing:.15em}
+@media (max-width:640px){#view[data-module="dashboard"] .contcards{grid-template-columns:1fr}}
+
+/* Pigments: the batch's colours on the neutral mat, its stages numbered in
+   indigo, its two columns with the same gap as the other editors. */
+#view[data-module="pigments"] .swatch{box-shadow:0 0 0 3px var(--specimen),0 0 0 4px var(--specimen-line);margin:4px}
+#view[data-module="pigments"] .stepno{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+#view[data-module="pigments"] .pigmentcols{gap:22px}
+#view[data-module="pigments"] .contextstrip{border-radius:var(--radius-card);background:var(--surface)}
+@media (max-width:900px){#view[data-module="pigments"] .pigmentcols{grid-template-columns:minmax(0,1fr)}}
+
+/* About: its four sections as the Library's pills. */
+#view[data-module="about"] .tabs{display:inline-flex;gap:2px;padding:3px;margin:0 0 6px;border:1px solid var(--line);
+  border-radius:999px;background:var(--surface);flex-wrap:wrap}
+#view[data-module="about"] .tabs a{display:inline-flex;align-items:center;min-height:38px;padding:7px 16px;border-radius:999px;
+  text-decoration:none;color:var(--muted);font-size:14px}
+#view[data-module="about"] .tabs a:hover{background:var(--sunk);color:var(--ink)}
+#view[data-module="about"] .tabs a.on{background:var(--indigo);color:#fff}
+@media (max-width:820px){#view[data-module="about"] .tabs a{min-height:44px}}
+
+/* The pack preview — the one screen that writes over her library, so its rows
+   read like a table: the record, then what changes. */
+.difgroup{border:1px solid var(--line);border-radius:var(--radius-panel);background:var(--surface);overflow:hidden}
+.difhead{background:var(--sunk);padding:12px 16px}
+.difrow{padding:12px 16px}
+.difname{font-family:var(--serif);font-size:16px;font-weight:500}
+
+/* The backup and the other rare screens keep the shared surfaces; only their
+   radii were the older ones. */
+#view[data-module="tools"] .note,#view[data-module="about"] .note,#view[data-module="packs"] .note{border-radius:var(--radius-ctl)}
 </style>
 </head>
 <body>

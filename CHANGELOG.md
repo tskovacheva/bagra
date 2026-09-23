@@ -12,6 +12,14 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.1.0-design.4 — 23 September 2026 (branch design/editorial-redesign)
+
+Editorial redesign, package 4 — integration and finishing (§14d). The work card's progress strip takes its own row
+on a phone (it had left the name 68px at 390px and nothing at 320px); the pigments' surfaces; the screens without a
+mockup — group actions, the backup, the pack preview, About, the stubs; one card for the edge states; Home on the
+shared cards and radii; About's sections as pills. The help sentence about the backup points at the ⋯ menu instead
+of the old menu's foot. No change to the model, calculations or behaviour.
+
 ## 1.1.0-design.3 — 21 September 2026 (branch design/editorial-redesign)
 
 Editorial redesign, package 3 — the diary (§14c). My work, Fabrics, preparation, group actions, the work form,
