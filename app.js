@@ -9,7 +9,7 @@
 // edit. Everything here seeds, migrates or repairs, and all of it goes through
 // `putSystem` so it stays out of the backup counter.
 import { open, all, putSystem, putMigration, get, count, getSetting, setSetting } from './db.js';
-import { icon, labelCells, navigate } from './ui.js';
+import { icon, labelCells, navigate, setPageKicker } from './ui.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { initUnits, setSystem, getSystem } from './units.js';
 import { VOCABULARY, BANDS } from './vocab.js';
@@ -312,6 +312,12 @@ async function draw(fresh = false) {
   // a blank screen on every list in the application.
   if (MODULES[id].takesQuery) MODULES[id].open?.(...args, query);
   else MODULES[id].open?.(...args);
+  // The space names the page (kicker), and the module scopes the redesign's
+  // CSS — presentation only, set before the module draws (package 2).
+  const space = spaceOf(activeNav());
+  setPageKicker(space === 'reference' || space === 'diary' ? t('nav.group.' + space) : '');
+  view.dataset.module = id;
+  view.dataset.space = space || '';
   await MODULES[id].render(view);
   labelCells(view);
   view.focus({ preventScroll: true });

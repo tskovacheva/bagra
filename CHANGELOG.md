@@ -12,6 +12,24 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.1.0-design.3 — 21 September 2026 (branch design/editorial-redesign)
+
+Editorial redesign, package 3 — the diary (§14c). My work, Fabrics, preparation, group actions, the work form,
+the result, the history and their editors and dialogs in the same language, scoped to `data-space="diary"`; the
+kicker reaches the diary. Work and stage cards, the finishing questions, the group action's quantities, a piece's
+history and the editor's rail. No change to the model, `prepActionIds`, inherited actions, batches, recipes,
+photographs or the delete guards; the pigments' model untouched. A phone tweak to the work card was tried and
+reverted (it pushed the card past a 320px screen).
+
+## 1.1.0-design.2 — 21 September 2026 (branch design/editorial-redesign)
+
+Editorial redesign, package 2 — the reference part (§14b). Reference, Plants, Recipes and chains, Materials,
+Techniques, Calculators and Library in the prototype's visual language, scoped by `data-space`/`data-module`: a
+kicker and rule under the page header, rounded tables with a sunk header row, pill filters and tabs, cards for
+techniques and calculators, the glossary as a definition list, the plant's photograph on the specimen mat. A chain
+step's line wraps on a phone (the chain view overflowed at 390px, already in rc98). Headings back on the one scale
+(check-scope: two sizes set by hand in package 1). No change to data, model, calculations or architecture.
+
 ## 1.1.0-design.1 — 21 September 2026 (branch design/editorial-redesign, from 1.0.0-rc98)
 
 Editorial redesign, package 1 — the visual foundation (§14a). Bagra's palette in the prototype's composition:

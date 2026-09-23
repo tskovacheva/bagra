@@ -12172,3 +12172,73 @@ tables, record views, work cards (a work card's name still wraps in a narrow col
 390px, as it did in rc98). Found and not fixed here, for the main line: on an empty
 database the home screen says „undefined" sources — the count is read from a tile removed
 long ago.
+
+## 14b. Editorial redesign, package 2 — the reference part (1.1.0-design.2)
+
+The reference modules — Reference, Plants, Recipes and chains, Materials, Techniques,
+Calculators, Library — in the prototype's visual language. Visual only: every control,
+field, filter, calculation, editor, source, warning and link is the one the module
+already draws; the Reference stays the search tool by colour and conditions, recipes keep
+the working view, scaling and chains. Diary and pigments untouched (package 3).
+
+**Scope.** The router sets `data-module` and `data-space` on `#view` before each draw, and
+the package's CSS is scoped to `#view[data-space="reference"]` or to one module. The page
+header takes a **kicker** — the space's name, from `nav.group.*`, passed through
+`setPageKicker()` in `ui.js` — shown in the reference space only for now.
+
+**What changed on screen.** A kicker and a rule under every reference page header; tables
+in a rounded panel with a sunk header row (above 640px — below it a table is stacked
+records, §13ae); filter boxes as pills, the chosen one indigo; the tab switch and the
+Library's three tabs as segmented pills (44px on a phone); result, colour and technique
+cards at 14px radius, technique names in the serif; **the glossary as a definition list**
+— the term in the serif beside its definition, in one panel, one column on a phone;
+**the calculators as a grid of cards**; the plant's photograph larger, on the specimen mat
+inside its figure. On a phone a chain step's line wraps: it ran the chain's working view
+past the edge (11px here, 25px in rc98) — the one overflow the package found.
+
+**Headings stay on the scale.** check-scope refused two sizes package 1 had set by hand —
+`h2` at 11.5px and the dialog title at 19px. `h2` is back on `--h-section`; the dialog
+title and a glossary term's name read `--h-dialog` and `--h-term`, steps in the scale.
+
+**Checked.** Filters, search, rows opening records, recipe scaling (400 g → 800 ml of
+vinegar), the recipes/chains switch, a chain's working view, the calculators, the
+glossary search and Library tabs, techniques, materials, the Reference answering a changed
+condition; BG and EN; 16 reference screens at 390 and 320px with no horizontal overflow;
+data byte for byte unchanged; deep-check, screen-check and check-scope pass (check-scope's
+UNDECLARED lines are rc98's own).
+
+## 14c. Editorial redesign, package 3 — the diary (1.1.0-design.3)
+
+My work, Fabrics, preparation, group actions, the work form, the result, the history and
+their editors and dialogs, in the same visual language. Visual only: the model,
+`prepActionIds`, `inheritedActionIds` at a cut, group batches, recipes, photographs, the
+history and the delete guards are exactly rc98's. The pigments' model is untouched; that
+module takes the shared surfaces and nothing else.
+
+**Scope.** The kicker now shows in the diary too (`data-space="diary"`), and the package's
+CSS is scoped to that space or to one module. The header, tables, filter pills, search and
+tab switch are the rules package 2 already wrote — extended to the diary rather than
+repeated.
+
+**What changed on screen.** Work cards at 14px radius with their title in the serif and a
+64px photograph; stage cards with their head on the sunk surface; roomier step lines; the
+preparation card's head in the serif; the finishing questions with indigo numbers and
+serif questions; the group action's quantities on the sunk surface with indigo step
+numbers; a piece's history with more room between events and 48px photographs; on a wide
+screen a piece's editor keeps its measure rail beside the fields.
+
+**Tried and reverted.** Dropping a work card's progress line below its name on a phone, so
+the name stops wrapping mid-phrase: the compact progress line's own content is wider than a
+320px screen, so the card then ran off the edge. The name wraps as it did in rc98; the
+line itself wants redrawing, which is more than a visual package.
+
+**Checked.** The real flows in Chromium: a new piece with a photograph → a mordant bath
+with its recipe → its history names it → a work started from the piece, its preparation
+ticked, two steps with temperature and notes → finished with an assessment and a result
+photograph → the result edited, then the steps edited → reload, both kept, the preparation
+link kept, the review showing preparation and steps; a group action over two pieces (one
+batch, an action of its own on each, and the finished work's own mark beside them); a cut
+piece inheriting all three recorded actions by reference while its work is offered only the
+two preparations; the delete guard still refusing a piece its history points at; BG and EN;
+10 diary screens at 390 and 320px with no horizontal overflow. deep-check, screen-check,
+check-scope and the language check pass.

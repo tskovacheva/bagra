@@ -2164,6 +2164,7 @@ label.inline      { display:inline-flex; gap:6px; align-items:center; margin-lef
   --specimen:#FBFBF9;          /* the mat a colour sits on — neutral, not cream */
   --specimen-line:#E7E6E0;
   --indigo-tint:rgba(44,59,87,.09);
+  --h-dialog:19px;             /* a dialog's title: not a section heading, its own step */
   --radius-ctl:8px;            /* buttons, fields */
   --radius-card:14px;          /* cards */
   --radius-panel:18px;         /* panels, tables, dialogs */
@@ -2176,7 +2177,8 @@ html[lang="bg"] body{font-feature-settings:"kern","locl"}
 h1{font-family:var(--serif);font-weight:500;font-size:34px;letter-spacing:-.012em;line-height:1.12}
 /* p.sub only: the plant profile's sections are also `.sub` (see rc89). */
 p.sub{font-family:var(--serif);font-size:16.5px;line-height:1.5;color:var(--muted)}
-h2{font-size:11.5px;letter-spacing:.15em;font-weight:600}
+/* Size from the one scale (§13bg, check-scope); only the tracking is the redesign's. */
+h2{letter-spacing:.15em;font-weight:600}
 .prose{font-family:var(--serif);font-size:16px;line-height:1.62}
 /* The working register: steps read over a pot stay in the working face. */
 .workstep .prose{font-family:var(--sans);font-size:15px;line-height:1.55}
@@ -2217,7 +2219,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-
 
 /* ---------- dialog ---------- */
 .modal{border-radius:var(--radius-panel);padding:22px 24px}
-.modal h2{font-family:var(--serif);font-size:19px;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:500}
+.modal h2{font-family:var(--serif);font-size:var(--h-dialog);letter-spacing:0;text-transform:none;color:var(--ink);font-weight:500}
 
 /* ---------- the page ---------- */
 .app{display:block;min-height:0}
@@ -2289,6 +2291,162 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-
 .draweritem:hover{background:var(--sunk)}
 .draweritem[aria-current="page"]{background:var(--indigo);color:#fff}
 .morepanel .langrow{border-top:1px solid var(--line);margin-top:12px;padding:12px 6px 0}
+
+/* ======================================================================
+   Editorial redesign, package 2 — the reference part (1.1.0-design.2).
+   Scoped to the reference space (`#view[data-space="reference"]`, set by
+   the router) or to one module, so the diary and pigments are untouched
+   until package 3. Visual only: every control, field and route is the one
+   the module already draws.
+   ====================================================================== */
+:root{--h-term:17px}          /* a glossary term's name, in the scale */
+
+/* The page header: the space's name above, a rule below. */
+.kicker{margin:0 0 7px;font-size:10.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+#view[data-space="reference"] .pagehead,#view[data-space="diary"] .pagehead{align-items:flex-end;padding-bottom:20px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+#view[data-space="reference"] h1,#view[data-space="diary"] h1{font-size:36px}
+#view[data-space="reference"] p.sub,#view[data-space="diary"] p.sub{margin-top:6px;max-width:68ch}
+
+/* Tables: a rounded panel, a sunk header row, room in the cells. Above the
+   phone only — below 640px a table is stacked records (§13ae). */
+#view[data-space="reference"] .panel.flush,#view[data-space="diary"] .panel.flush{border-radius:var(--radius-panel)}
+@media (min-width:641px){
+  #view[data-space="reference"] .grid th,#view[data-space="diary"] .grid th{background:var(--sunk);font-size:10.5px;font-weight:600;letter-spacing:.14em;padding:12px 16px}
+  #view[data-space="reference"] .grid td,#view[data-space="diary"] .grid td{padding:13px 16px}
+  #view[data-space="reference"] .grid tbody tr:hover,#view[data-space="diary"] .grid tbody tr:hover{background:var(--ground)}
+}
+
+/* Filters: pills. The chosen one is indigo — a state, not a decoration. */
+#view[data-space="reference"] .boxes .box,#view[data-space="diary"] .boxes .box{border-radius:999px;padding:7px 15px}
+#view[data-space="reference"] .boxes .box.active,#view[data-space="diary"] .boxes .box.active{background:var(--indigo);border-color:var(--indigo)}
+#view[data-space="reference"] .searchbox,#view[data-space="diary"] .searchbox{min-height:44px;max-width:520px}
+
+/* Tabs — the segmented switch and the Library's three. */
+#view[data-space="reference"] .tabswitch,#view[data-space="diary"] .tabswitch{border-radius:999px;padding:3px;gap:2px}
+#view[data-space="reference"] .tabswitch .tab,#view[data-space="diary"] .tabswitch .tab{border-radius:999px;padding:7px 16px}
+#view[data-module="library"] .tabs{display:inline-flex;gap:2px;padding:3px;margin:0 0 22px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+#view[data-module="library"] .tabs .tab{display:inline-flex;align-items:center;min-height:38px;padding:7px 18px;border-radius:999px;
+  text-decoration:none;color:var(--muted);font-size:14px}
+#view[data-module="library"] .tabs .tab:hover{background:var(--sunk);color:var(--ink)}
+#view[data-module="library"] .tabs .tab.on{background:var(--indigo);color:#fff}
+@media (max-width:820px){#view[data-module="library"] .tabs .tab{min-height:44px}}
+
+/* Cards — result cards, colour cards, technique cards. */
+#view[data-space="reference"] .refcard{border-radius:var(--radius-card);padding:14px;background:var(--surface);border-color:var(--line)}
+#view[data-space="reference"] .refcard:hover{border-color:var(--muted)}
+#view[data-space="reference"] .techcards{gap:14px}
+#view[data-space="reference"] .techcard{border-radius:var(--radius-card);padding:18px 20px;background:var(--surface)}
+#view[data-space="reference"] .techcard:hover{border-color:var(--muted)}
+#view[data-space="reference"] .techname{font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.25}
+#view[data-space="reference"] .techdesc{font-size:13.5px;line-height:1.55}
+
+/* The glossary: a definition list — the term in the serif on the left, the
+   definition beside it — in one panel, as the prototype's Library. */
+#view[data-module="library"] .cards:has(> .glossterm){display:block;border:1px solid var(--line);border-radius:var(--radius-panel);
+  background:var(--surface);overflow:hidden}
+#view[data-module="library"] .glossterm{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:4px 28px;
+  margin:0;padding:16px 22px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}
+#view[data-module="library"] .glossterm:last-child{border-bottom:0}
+#view[data-module="library"] .termname{grid-row:1 / span 2;margin:0;font-family:var(--serif);font-size:var(--h-term);font-weight:500;line-height:1.3}
+#view[data-module="library"] .termdef{grid-column:2;font-family:var(--serif);font-size:15.5px;line-height:1.6;max-width:var(--measure)}
+#view[data-module="library"] .termfoot{grid-column:2}
+@media (max-width:640px){
+  #view[data-module="library"] .glossterm{grid-template-columns:minmax(0,1fr);padding:14px 16px}
+  #view[data-module="library"] .termname{grid-row:auto}
+  #view[data-module="library"] .termdef,#view[data-module="library"] .termfoot{grid-column:1}
+}
+
+/* Calculators: a grid of cards, not a list. */
+#view[data-module="tools"] .picklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:12px;
+  border:0;background:none;overflow:visible}
+#view[data-module="tools"] .pickrow{border:1px solid var(--line);border-radius:var(--radius-card);background:var(--surface);padding:16px 18px;min-height:76px}
+#view[data-module="tools"] .picklist .pickrow:last-child{border-bottom:1px solid var(--line)}
+#view[data-module="tools"] .pickrow:hover{border-color:var(--muted);background:var(--surface)}
+#view[data-module="tools"] .pickrow svg{stroke:var(--muted)}
+#view[data-module="tools"] .pickname b{font-family:var(--serif);font-size:17px;font-weight:500}
+#view[data-module="tools"] .pickgroup + .pickgroup{margin-top:18px}
+
+/* The plant's headline: its photograph on the specimen mat, larger. */
+/* The figure grows with it (it is held to 96px by .plantshot), and the mat is
+   padding inside the figure rather than a ring outside it, so nothing overlaps. */
+#view[data-space="reference"] .headline .plantshot{flex:0 0 132px;max-width:132px}
+#view[data-space="reference"] .headline .plantshot img{display:block;width:132px;height:132px;flex:none;padding:5px;
+  background:var(--specimen);border:1px solid var(--specimen-line);border-radius:var(--radius-card)}
+@media (max-width:640px){#view[data-space="reference"] .headline .plantshot{flex:0 0 auto;max-width:100%}}
+#view[data-space="reference"] .plantphoto{box-shadow:0 0 0 4px var(--specimen),0 0 0 5px var(--specimen-line)}
+
+/* On a phone a chain step's line wraps — number, name, kind and „Open recipe"
+   did not fit in one line, and ran the page 11px past the edge (rc98: 25px). */
+@media (max-width:640px){
+  #view[data-space="reference"] .panel,#view[data-space="diary"] .panel{padding:16px}
+  #view[data-space="reference"] .chainhead{flex-wrap:wrap;row-gap:6px}
+  #view[data-space="reference"] .cols > .col,#view[data-space="diary"] .cols > .col{min-width:0}
+}
+
+/* The recipe's working view: the weigh list on the sunk surface. */
+#view[data-space="reference"] .weighbox,#view[data-space="reference"] .weighlist{border-radius:var(--radius-card)}
+
+/* ======================================================================
+   Editorial redesign, package 3 — the diary (1.1.0-design.3).
+   My work, Fabrics, preparation, group actions, the work form, the
+   result, the history and their editors and dialogs, in the same visual
+   language; scoped to `#view[data-space="diary"]`. Visual only: the
+   model, `prepActionIds`, inherited actions at a cut, group batches,
+   recipes, photographs, history and the delete guards are untouched.
+   The pigments' model is not this package's business — they take the
+   shared surfaces and nothing else.
+   ====================================================================== */
+
+/* Work cards: a record card with room, its title in the serif. */
+#view[data-space="diary"] .workrow{border-radius:var(--radius-card);padding:14px;background:var(--surface);gap:14px}
+#view[data-space="diary"] .workrow:hover{border-color:var(--muted)}
+#view[data-space="diary"] .workrow > div > b,#view[data-space="diary"] .workrow b:first-of-type{
+  font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.25}
+#view[data-space="diary"] .workthumb{width:64px;height:64px;border-radius:var(--radius-ctl)}
+#view[data-space="diary"] .workrowwrap{margin-bottom:10px}
+/* (A phone card's name wraps mid-phrase, as it did in rc98. Dropping the
+   progress line below the name was tried and reverted: the compact line's own
+   content is wider than a 320px screen, so the card then ran off the edge.
+   It wants the line itself redrawn, which is more than this package.) */
+
+
+/* The work form: stage cards, their heads on the sunk surface, roomier lines. */
+#view[data-space="diary"] .workcol{gap:16px}
+#view[data-space="diary"] .stagecard{border-radius:var(--radius-card)}
+#view[data-space="diary"] .stagecardhead{background:var(--sunk);padding:12px 16px}
+#view[data-space="diary"] .stagecardhead.sub{background:none;padding:10px 16px}
+#view[data-space="diary"] .stagecardhead b{font-size:11px;letter-spacing:.14em;font-weight:600}
+#view[data-space="diary"] .stepline{padding:12px 16px}
+#view[data-space="diary"] .stepline.read{padding:10px 16px}
+#view[data-space="diary"] .prepcard{border-radius:var(--radius-card);padding:16px}
+#view[data-space="diary"] .prepcardhead b{font-family:var(--serif);font-size:16px;font-weight:500}
+
+/* Finishing: the questions numbered as in the prototype's steps. */
+#view[data-space="diary"] .finishq{border-radius:var(--radius-card);padding:18px 20px}
+#view[data-space="diary"] .finishnum{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+#view[data-space="diary"] .finishask{font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.3}
+
+/* The result's colour specimens sit on the neutral mat (the swatch itself
+   already carries it; the caption keeps its place). */
+#view[data-space="diary"] .reviewswatches{gap:18px}
+
+/* The group action: the same panels, the quantities on the sunk surface. */
+#view[data-module="batch"] .scaledbox{border-radius:var(--radius-card);background:var(--sunk);padding:14px 16px}
+#view[data-module="batch"] .pickbox{border-radius:var(--radius-card)}
+#view[data-module="batch"] .summaryline{border-radius:var(--radius-card)}
+#view[data-module="batch"] .stepnum{background:var(--indigo);color:#fff}
+
+/* A piece: its history reads as a column of events; the photographs bigger. */
+#view[data-module="fabrics"] .timeline{padding-left:2px}
+#view[data-module="fabrics"] .tl{padding-bottom:18px}
+#view[data-module="fabrics"] .thumb{width:48px;height:48px;border-radius:var(--radius-ctl)}
+
+/* Editors: the form beside its rail, as the prototype's FormScaffold — the
+   rail falls under the fields on a narrow screen (it already does). */
+#view[data-space="diary"] .cols{gap:22px}
+@media (min-width:1024px){
+  #view[data-module="fabrics"] .cols > .col:last-child{position:sticky;top:96px;align-self:start}
+}
 </style>
 </head>
 <body>
