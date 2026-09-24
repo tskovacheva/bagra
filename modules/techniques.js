@@ -7,7 +7,7 @@ import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { t, text } from '../i18n.js';
 import { markClean } from '../dirty.js';
-import { page, panel, field, options, label, esc, empty, pairField, readPairs, searchBox, matches, icon, navigate, fieldGroup, backTo, actionBtn, deleteGuarded } from '../ui.js';
+import { page, panel, field, options, label, esc, empty, pairField, readPairs, searchBox, matches, icon, navigate, fieldGroup, backTo, actionBtn, deleteGuarded, facts, fact, readBlock } from '../ui.js';
 
 const CAT_ICONS = {
   resist: 'k-resist', shibori: 'k-shibori', printing: 'k-printing',
@@ -18,6 +18,7 @@ const CATEGORIES = ['resist', 'shibori', 'printing', 'bundling', 'post_treatment
 const PROCESSES = ['immersion', 'ecoprint', 'paste'];
 
 let filterCat = null;
+let editing = false;
 let query = '';
 let openId = null;
 let draft = null;
@@ -94,6 +95,30 @@ async function renderList(root) {
 
 // ---------------------------------------------------------------- form view
 
+// A technique is read before it is changed (design package 5). Opening one used
+// to land in the editor — every other reference module opens a record for
+// reading and keeps „Редактирай" for the change. Nothing is added or removed:
+// the same name, category, processes and description, in words.
+async function renderRead(root, r) {
+  const procs = (await Promise.all((r.appliesTo || []).map(p => label('process', p)))).join(' · ');
+  root.innerHTML = page({
+    title: text(r.name) || t('techniques.one'),
+    sub: await label('technique_category', r.category),
+    actions: `${backTo('#/techniques', t('nav.techniques'))}
+              ${actionBtn('edit', t('common.edit'), 'data-edit', 'primary')}`,
+    body: `
+      ${seedUI.recordNote('techniques', r.id)}
+      ${panel(`
+        ${facts([
+          fact(t('techniques.category'), await label('technique_category', r.category) || '—'),
+          fact(t('techniques.appliesTo'), procs || '—', '', { wide: true }),
+        ])}
+      `)}
+      ${text(r.description) ? panel(readBlock(t('techniques.description'),
+        `<div class="prose">${esc(text(r.description)).replace(/\n/g, '<br>')}</div>`)) : ''}`,
+  });
+}
+
 async function renderForm(root, r) {
   const isNew = openId === 'new';
 
@@ -151,9 +176,10 @@ export default {
   //   #/techniques          the list
   //   #/techniques/new      a new record
   //   #/techniques/<id>     the record
-  open(first) {
+  open(first, second) {
     draft = null;
     openId = first || null;
+    editing = openId === 'new' || second === 'edit';
   },
 
   reset() {
@@ -176,7 +202,8 @@ export default {
       // thrown render leaves the previous screen in place, which reads as the
       // address being ignored (§11b). The list is the honest answer.
       if (!draft) return navigate('#/techniques');
-      await renderForm(root, draft);
+      if (editing) await renderForm(root, draft);
+      else await renderRead(root, draft);
     } else {
       draft = null;
       await renderList(root);
@@ -193,6 +220,7 @@ export default {
     };
 
     root.onclick = async (e) => {
+      if (e.target.closest('[data-edit]')) return navigate(`#/techniques/${openId}/edit`);
       if (e.target.closest('[data-searchclear]')) { query = ''; return this.render(root); }
       const cat = e.target.closest('[data-cat]');
       if (cat) { filterCat = cat.dataset.cat || null; return this.render(root); }
