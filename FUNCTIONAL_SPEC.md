@@ -12276,3 +12276,44 @@ stages → its record); Home, About and its sections, the backup, the stub; BG a
 screens at 390 and 320px with no horizontal overflow and every control a finger target;
 data byte for byte unchanged; deep-check, screen-check, check-scope and the language check
 pass (the language check caught a Bulgarian quotation mark in the English sentence).
+
+## 14e. Editorial redesign, package 5 — the composition on real data (1.1.0-design.5)
+
+No new design: the approved v0 screens applied more closely, on the width a laptop
+actually has, against a preview loaded with a real backup. No model, data, seed content,
+field or action changed.
+
+**A finished work.** The review left its 820px working column, so a 1440px screen read at
+half width. The photograph is now large (16:10) with the **parameters in a panel beside
+it**; the result colours are a section of their own; „Как се разви" lays its stages across
+the width (a grid of stage cards above 1100px) instead of stacking them; the story, the
+life strip and the process take the whole section. Every field and both edit actions are
+the ones that were there. Two labels were added: „Параметри" and „Цветове от резултата".
+
+**A plant.** The inner measures are gone: `--measure` held a paragraph to 74/120 characters
+inside sections that were already half a screen wide, so lines broke twice over. Width is
+decided by the section now, and the opening description runs in two columns above 1280px.
+
+**The Reference.** The results are ResultCards — the colour first and large on the
+specimen mat (the shared `swatch()` helper, so an unmeasured colour still draws its empty
+swatch), then plant, part, fibre, mordant, process and pH, each named rather than joined
+with middots — in a responsive grid with the chosen record's panel beside them. The
+search, the ranking, the exact/near split and the picking are untouched.
+
+**My work.** The finished records keep their photographic cards: fewer and wider (from
+190px to 290px minimum), a 4:3 photograph, equal height, every action inside the card; the
+work in hand keeps its own wide row.
+
+**Techniques.** The flow is list → read → Edit → Save, as everywhere else in the reference:
+opening a technique used to land straight in the editor. `…/edit` is the editor's address;
+`deep-check`'s library-note guard now opens it there, with the same claim.
+
+**Checked.** 23 targeted checks: the trial detail's proportions at 1440 (column 1240 of
+1280, hero 881, parameters 343 beside it) and its stages on one line; the plant's text
+filling its section; 13 result cards with a big swatch and six named fields, picking and
+filters intact; the finished cards 300px wide and of equal height beside a 1240px current
+work row; the techniques flow end to end; BG and EN; 1600, 1440, 390 and 320px with no
+horizontal overflow and no screen filling less than 90% of its page; data unchanged.
+deep-check, screen-check, check-scope and the language check pass — deep-check caught all
+three shape changes (the colour search's rows, the empty swatch, the technique form) and
+each was corrected rather than waived.

@@ -15,6 +15,9 @@ audit; completed items are not repeated here. For the reasoning behind any decis
 - **Package 4 — done (1.1.0-design.4, §14d):** the pigments' surfaces, the screens without
   a mockup, the edge states, Home, and the phone — including the work card's progress
   strip, which had squeezed the card's name to nothing at 320px.
+- **Package 5 — done (1.1.0-design.5, §14e):** the approved composition applied on real
+  data — the trial detail, the plant, the Reference's result cards, the work list, and the
+  technique's read-before-edit flow.
 - **Still open:** the pigments' own model was never part of the design packages; the packs
   screen is still the stub it was.
 - **Decided:** the phone's bottom bar stays gone (owner, package 2).

@@ -12,6 +12,15 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.1.0-design.5 — 23 September 2026 (branch design/editorial-redesign)
+
+Editorial redesign, package 5 — the approved composition on real data (§14e). A finished work uses the page: a
+large photograph with its parameters beside it, the colours as their own section, „Как се разви" across the
+width. A plant's text is bounded by its section, not by an inner measure. The Reference answers with result
+cards — big swatch, then plant, part, fibre, mordant, process, pH — in a responsive grid, the search untouched.
+Fewer, wider, equal-height cards for finished work. A technique opens for reading, with Edit beside it. No model,
+data or seed content changed.
+
 ## 1.1.0-design.4 — 23 September 2026 (branch design/editorial-redesign)
 
 Editorial redesign, package 4 — integration and finishing (§14d). The work card's progress strip takes its own row
