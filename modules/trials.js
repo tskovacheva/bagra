@@ -1588,26 +1588,29 @@ async function renderReview(root, r) {
               <button class="btn quiet" data-refinish>${t('trials.editResult')}</button>
               ${actionBtn('edit', t('trials.editHistory'), 'data-edit', 'primary')}`,
     body: `
-      <div class="workcol">
+      <div class="workcol reviewcol">
+        <div class="reviewtop">
         <div class="reviewhero">
           ${hero ? `<img src="${hero}" alt="">`
                   : `<span class="trialnophoto">${esc(await label('process', r.processCode))}</span>`}
           ${r.assessment ? `<span class="statuschip ${esc(r.assessment)} onphoto">${esc(await label('assessment', r.assessment))}</span>` : ''}
         </div>
 
-        ${sw.length ? `<div class="reviewswatches">${sw.map(x => `
-          <span class="reviewswatch">
-            <span class="swatchblock" style="background:${esc(x.hex)}"></span>
-            ${x.caption ? `<span class="hint">${esc(x.caption)}</span>` : ''}
-          </span>`).join('')}</div>` : ''}
-
-        ${strip ? panel(readBlock(t('trials.lifeStrip'), strip)) : ''}
-
-        ${summaryFacts.length ? panel(`<div class="reviewfacts">${summaryFacts.map(f => `
+        ${summaryFacts.length ? `<div class="panel reviewparams"><h2>${t('trials.parameters')}</h2>
+          <div class="reviewfacts">${summaryFacts.map(f => `
           <div class="reviewfact">
             <span class="factvalue">${f.value}</span>
             <span class="factlabel">${f.mark ? icon(f.mark) : ''}${esc(f.label)}</span>
-          </div>`).join('')}</div>`) : ''}
+          </div>`).join('')}</div></div>` : ''}
+        </div>
+
+        ${sw.length ? panel(readBlock(t('trials.resultColours'), `<div class="reviewswatches">${sw.map(x => `
+          <span class="reviewswatch">
+            <span class="swatchblock" style="background:${esc(x.hex)}"></span>
+            ${x.caption ? `<span class="hint">${esc(x.caption)}</span>` : ''}
+          </span>`).join('')}</div>`)) : ''}
+
+        ${strip ? panel(readBlock(t('trials.lifeStrip'), strip)) : ''}
 
         ${r.assessmentWhy || r.nextTime || r.intent || r.notes ? panel(`
           <div class="story">

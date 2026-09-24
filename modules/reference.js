@@ -554,21 +554,40 @@ async function renderSearch(root) {
   // be read, and which half of the screen you got depended on which field you
   // had filled in. The badge changes with the question, because the question
   // changes what „how close is this" means; nothing else does.
+  // A result card (design package 5): the colour first and big, then what was
+  // dyed and how. The same record, the same ranking, the same picking — the
+  // fields are the ones the row already carried, each named rather than run
+  // together in a middot line.
   const rowFor = async (r, badge) => {
     const conf = r.confidence || 'unverified';
+    const k = r.key || {};
+    const plant = plantsById.get(k.dyeSource?.plantId);
+    const fields = [
+      [t('ref.field.plant'), plant ? text(plant.nameCommon) : '—'],
+      [t('ref.field.part'), k.dyeSource?.partCode ? await label('plant_part', k.dyeSource.partCode) : '—'],
+      [t('ref.field.fibre'), await label('fibre_class', k.fibreClass) || '—'],
+      [t('ref.field.mordant'), k.mordantCode && k.mordantCode !== 'none'
+        ? (await label('mordant_type', k.mordantCode)) + (k.mordantBand ? ` (${await label('mordant_strength', k.mordantBand)})` : '')
+        : t('ref.none')],
+      [t('ref.field.process'), await label('process', k.processCode) || '—'],
+      [t('ref.field.ph'), k.medium?.phCode ? await label('ph', k.medium.phCode) : '—'],
+    ];
     return `
-      <tr data-pick="${r.id}"${r.id === shownId ? ' class="on"' : ''}>
-        <td class="swatchcell">${swatch(r.expected?.swatchHex, 'thumb', r.expected?.swatchApprox)}</td>
-        <td>
-          <b>${esc(text(r.expected?.colourText) || '—')}</b>
-          <div class="hint">${esc(await sourceLine(r, plantsById))}</div>
-        </td>
-        <td>${esc(await conditionLine(r))}</td>
-        <td class="rowbadge">
-          ${badge ? `<span class="chip near">${esc(badge)}</span>` : ''}
-          <span class="confdot ${esc(conf)}" title="${esc(await label('confidence', conf))}"></span>
-        </td>
-      </tr>`;
+      <button class="resultcard${r.id === shownId ? ' on' : ''}" data-pick="${r.id}">
+        ${swatch(r.expected?.swatchHex, 'resultswatch', r.expected?.swatchApprox)}
+        <span class="resultbody">
+          <span class="resulttop">
+            <b>${esc(text(r.expected?.colourText) || '—')}</b>
+            <span class="rowbadge">
+              ${badge ? `<span class="chip near">${esc(badge)}</span>` : ''}
+              <span class="confdot ${esc(conf)}" title="${esc(await label('confidence', conf))}"></span>
+            </span>
+          </span>
+          <span class="resultfields">${fields.map(([labelText, value]) => `
+            <span class="resultfield"><span class="factlabel">${esc(labelText)}</span><span>${esc(value)}</span></span>`).join('')}
+          </span>
+        </span>
+      </button>`;
   };
 
   const colourRows = (await Promise.all(byColour.map(async ({ r }) => {
@@ -580,19 +599,11 @@ async function renderSearch(root) {
   // phone, where the panel follows the list rather than fighting it for width.
   const panelHtml = await detailPane(shown, plantsById);
 
+  // The results are a grid of cards (package 5), with the chosen one's panel
+  // beside them as before; on a phone the panel follows the grid.
   const split = (bodyHtml) => bodyHtml ? `
     <div class="refsplit">
-      <div class="panel flush">
-        <table class="grid">
-          <thead><tr>
-            <th class="swatchcell"></th>
-            <th>${t('ref.col.colour')}</th>
-            <th>${t('ref.col.conditions')}</th>
-            <th></th>
-          </tr></thead>
-          <tbody>${bodyHtml}</tbody>
-        </table>
-      </div>
+      <div class="resultgrid">${bodyHtml}</div>
       <aside class="refaside">${panelHtml}</aside>
     </div>` : '';
 
@@ -624,7 +635,7 @@ async function renderSearch(root) {
       ${nearRows ? `
         <h2 class="nearhead">${t('ref.nearSection')}</h2>
         <p class="hint">${t('ref.nearHint')}</p>
-        <div class="panel flush"><table class="grid"><tbody>${nearRows}</tbody></table></div>` : ''}`;
+        <div class="resultgrid">${nearRows}</div>` : ''}`;
 
   root.innerHTML = page({
     title: t('reference.title'),
