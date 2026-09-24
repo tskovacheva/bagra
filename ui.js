@@ -183,10 +183,17 @@ export const pageWork = ({ title, sub, primary = '', extra = '', up, upLabel, bo
 export const backTo = (hash, label) =>
   `<button class="btn quiet upto" data-goto="${esc(hash)}">${icon('a-back')}${esc(label)}</button>`;
 
+// The kicker over a page title — the name of the space the screen is in
+// (editorial redesign, package 2). Set by the router before each draw; it
+// names, it does not do anything, so it is plain text.
+let pageKicker = '';
+export function setPageKicker(text) { pageKicker = text || ''; }
+
 export function page({ title, sub, actions = '', body }) {
   return `
     <div class="pagehead">
       <div>
+        ${pageKicker ? `<p class="kicker">${esc(pageKicker)}</p>` : ''}
         <h1>${esc(title)}</h1>
         ${sub ? `<p class="sub">${esc(sub)}</p>` : ''}
       </div>

@@ -12114,3 +12114,213 @@ Rules in `fabric-logic.js`: `isPrepAction`, `actionIndex`, `prepCandidates`, `wo
 both. Only the direct parent is offered as possible for an old cut. Deleting a whole cloth that another's
 inheritance points at is not guarded here (a cloth with batches is already refused). Checked in Chromium in an
 isolated profile, 32 checks; no permanent guard was added to `check.sh` in this package.
+
+## 14a. Editorial redesign, package 1 — the visual foundation (1.1.0-design.1)
+
+> **§14a–§14e were written on `design/editorial-redesign`, a temporary branch off rc98.
+> The `1.1.0-design.*` numbers in them identify redesign PACKAGES, not releases of the
+> application. All five are merged into 1.0.0-rc99, which is where the work landed; the
+> application's line runs rc98 → rc99, towards 1.0.**
+
+Branch `design/editorial-redesign`, from rc98; rc98 itself untouched. The v0 exploration
+(„Bagra — Editorial Design Exploration") is authoritative for the look; this
+specification stays authoritative for function, data, routes, fields and calculations.
+Nothing in the model, IndexedDB, seed data, calculations or the service worker's logic
+changed.
+
+**Owner's decisions (21 September 2026).**
+
+- **Colour: Bagra's palette, not the prototype's green.** The prototype's working accent
+  was `--leaf` (green) on buttons, active navigation and filters. The fixed rule stands —
+  no green anywhere; the interface must not put a colour opinion beside dyed cloth.
+  Indigo marks where one is and what is chosen; controls are neutral, the primary action
+  **iron** (`#3A3733`) — which also ends primary buttons being indigo, against the rule
+  that indigo is navigation and active states only. Colour specimens sit on a neutral
+  mat (`--specimen #FBFBF9`, ring `--specimen-line #E7E6E0`), not on the cream surface.
+  Neutrals added are derived, not new hues: `--sunk #ECE7DD` (ground toward line).
+- **Type: local, with real Bulgarian Cyrillic.** Fraunces and Newsreader, the prototype's
+  serifs, ship Latin only (checked in the font packages). **Geist** for working text;
+  **Source Serif 4** for headings, the page lede and reading prose — the only candidate
+  with Bulgarian letterforms (`locl` BGR), so т, п, в, д take their Bulgarian shapes in
+  it. Geist has every Bulgarian letter but not the localised forms. Geist Mono is not
+  added; labels are Geist. Files in `fonts/` (latin, latin-ext, cyrillic, cyrillic-ext;
+  serif also italic), OFL-1.1 with licences beside them, cached by `sw.js` — the list
+  only. Rendering checked in Chrome with `CSS.getPlatformFontsForNode`: every text node in
+  BG and EN draws from the intended face, none from a fallback.
+
+**Navigation.** Laptop: two rows. Row 1 — the brand, the three spaces (Home, the
+reference, the diary) and a „⋯" menu with the backup, About, language, units and
+version. Row 2 — the modules of the space the address is in. Spaces and modules are read
+from `NAV`, unchanged; modules without an entry belong to a space by `SPACE_OF_HIDDEN`
+(`batch` → diary, `materials` and `packs` → reference). Phone (≤ 820px): a header with the
+menu button and the screen's name, and a drawer with every entry in the same groups; it
+closes on a choice, on Escape and on any change of address, and stays open while the
+language or units change. **The bottom bar is gone** — the prototype's header and drawer
+replace it; restoring it is a decision for the owner. No global „+": every „New…" is
+already in its page's header.
+
+**Controls and surfaces.** Radii 8px (controls), 14px (cards), 18px (panels, dialogs);
+buttons 9×16; fields on the surface with an indigo focus ring. The page is 1280px,
+centred, under the bar. The view's focus ring (it takes focus on every screen change) is
+no longer drawn on a mouse click.
+
+**Registers.** Serif for reading — page title, lede, `.prose`, botanical names; Geist for
+work — controls, tables, recipe steps read over a pot (`.workstep .prose`). `p.sub` only
+for the lede: the plant profile's sections are also `.sub` (rc89).
+
+**Checked.** Every space, module and menu entry reachable on the laptop; all 13 drawer
+entries at 390 and 320px, each ≥ 44px; 19 screens at 390 and 320px with no horizontal
+overflow or overlap; data byte for byte unchanged; `deep-check` and `screen-check` pass.
+
+**Left for later packages.** The reference modules and the diary themselves — cards,
+tables, record views, work cards (a work card's name still wraps in a narrow column at
+390px, as it did in rc98). Found and not fixed here, for the main line: on an empty
+database the home screen says „undefined" sources — the count is read from a tile removed
+long ago.
+
+## 14b. Editorial redesign, package 2 — the reference part (1.1.0-design.2)
+
+The reference modules — Reference, Plants, Recipes and chains, Materials, Techniques,
+Calculators, Library — in the prototype's visual language. Visual only: every control,
+field, filter, calculation, editor, source, warning and link is the one the module
+already draws; the Reference stays the search tool by colour and conditions, recipes keep
+the working view, scaling and chains. Diary and pigments untouched (package 3).
+
+**Scope.** The router sets `data-module` and `data-space` on `#view` before each draw, and
+the package's CSS is scoped to `#view[data-space="reference"]` or to one module. The page
+header takes a **kicker** — the space's name, from `nav.group.*`, passed through
+`setPageKicker()` in `ui.js` — shown in the reference space only for now.
+
+**What changed on screen.** A kicker and a rule under every reference page header; tables
+in a rounded panel with a sunk header row (above 640px — below it a table is stacked
+records, §13ae); filter boxes as pills, the chosen one indigo; the tab switch and the
+Library's three tabs as segmented pills (44px on a phone); result, colour and technique
+cards at 14px radius, technique names in the serif; **the glossary as a definition list**
+— the term in the serif beside its definition, in one panel, one column on a phone;
+**the calculators as a grid of cards**; the plant's photograph larger, on the specimen mat
+inside its figure. On a phone a chain step's line wraps: it ran the chain's working view
+past the edge (11px here, 25px in rc98) — the one overflow the package found.
+
+**Headings stay on the scale.** check-scope refused two sizes package 1 had set by hand —
+`h2` at 11.5px and the dialog title at 19px. `h2` is back on `--h-section`; the dialog
+title and a glossary term's name read `--h-dialog` and `--h-term`, steps in the scale.
+
+**Checked.** Filters, search, rows opening records, recipe scaling (400 g → 800 ml of
+vinegar), the recipes/chains switch, a chain's working view, the calculators, the
+glossary search and Library tabs, techniques, materials, the Reference answering a changed
+condition; BG and EN; 16 reference screens at 390 and 320px with no horizontal overflow;
+data byte for byte unchanged; deep-check, screen-check and check-scope pass (check-scope's
+UNDECLARED lines are rc98's own).
+
+## 14c. Editorial redesign, package 3 — the diary (1.1.0-design.3)
+
+My work, Fabrics, preparation, group actions, the work form, the result, the history and
+their editors and dialogs, in the same visual language. Visual only: the model,
+`prepActionIds`, `inheritedActionIds` at a cut, group batches, recipes, photographs, the
+history and the delete guards are exactly rc98's. The pigments' model is untouched; that
+module takes the shared surfaces and nothing else.
+
+**Scope.** The kicker now shows in the diary too (`data-space="diary"`), and the package's
+CSS is scoped to that space or to one module. The header, tables, filter pills, search and
+tab switch are the rules package 2 already wrote — extended to the diary rather than
+repeated.
+
+**What changed on screen.** Work cards at 14px radius with their title in the serif and a
+64px photograph; stage cards with their head on the sunk surface; roomier step lines; the
+preparation card's head in the serif; the finishing questions with indigo numbers and
+serif questions; the group action's quantities on the sunk surface with indigo step
+numbers; a piece's history with more room between events and 48px photographs; on a wide
+screen a piece's editor keeps its measure rail beside the fields.
+
+**Tried and reverted.** Dropping a work card's progress line below its name on a phone, so
+the name stops wrapping mid-phrase: the compact progress line's own content is wider than a
+320px screen, so the card then ran off the edge. The name wraps as it did in rc98; the
+line itself wants redrawing, which is more than a visual package.
+
+**Checked.** The real flows in Chromium: a new piece with a photograph → a mordant bath
+with its recipe → its history names it → a work started from the piece, its preparation
+ticked, two steps with temperature and notes → finished with an assessment and a result
+photograph → the result edited, then the steps edited → reload, both kept, the preparation
+link kept, the review showing preparation and steps; a group action over two pieces (one
+batch, an action of its own on each, and the finished work's own mark beside them); a cut
+piece inheriting all three recorded actions by reference while its work is offered only the
+two preparations; the delete guard still refusing a piece its history points at; BG and EN;
+10 diary screens at 390 and 320px with no horizontal overflow. deep-check, screen-check,
+check-scope and the language check pass.
+
+## 14d. Editorial redesign, package 4 — integration and finishing (1.1.0-design.4)
+
+The pigments' surfaces, the screens the exploration never drew, the edge states, Home
+beside the two finished spaces, and the phone. Visual only: no model, no calculation, no
+behaviour; the pigments keep their own model.
+
+**The work card's progress strip — the one real fault this package found.** A work card is
+a grid, and the compact strip is 150px that cannot shrink: in one row with the text it
+left the name 68px at 390px and **nothing at all** at 320px. On a phone the strip now
+takes a row of its own under the text. Nothing is dropped — every stage still shows — and
+the name has 232px at 390px and 162px at 320px, with no overflow. (Package 3 tried this
+with flex properties, which a grid ignores, saw the card overflow and reverted; the idea
+was right and the mechanism was wrong.)
+
+**What else changed.** The page header's rule reaches every screen, not only the two
+spaces. Edge states — empty, and the panels that stand in for them — read as one card with
+a dashed edge. Home takes the shared card radius and the serif for a card's name, and its
+continue cards go to one column on a phone. Pigments: colours on the neutral mat, the six
+stages numbered in indigo, the two columns collapsing at 900px, the context strip on the
+surface. About's four sections (За · Помощ · Безопасност · Условия) as the Library's pills,
+44px on a phone. The pack preview — the one screen that writes over her library — reads as
+a table: a sunk head, the record's name in the serif, room in the rows. The backup and the
+stubs keep the shared surfaces.
+
+**Text.** One sentence pointed at the old navigation: the backup „at the foot of the menu"
+now says the ⋯ menu at the top right, and the menu on a phone. Nothing else in About or
+Help describes where things are, so nothing else changed; no new functionality is claimed.
+
+**Checked.** Pigments end to end (list → new batch with its plant → saved with its six
+stages → its record); Home, About and its sections, the backup, the stub; BG and EN; 10
+screens at 390 and 320px with no horizontal overflow and every control a finger target;
+data byte for byte unchanged; deep-check, screen-check, check-scope and the language check
+pass (the language check caught a Bulgarian quotation mark in the English sentence).
+
+## 14e. Editorial redesign, package 5 — the composition on real data (1.1.0-design.5)
+
+No new design: the approved v0 screens applied more closely, on the width a laptop
+actually has, against a preview loaded with a real backup. No model, data, seed content,
+field or action changed.
+
+**A finished work.** The review left its 820px working column, so a 1440px screen read at
+half width. The photograph is now large (16:10) with the **parameters in a panel beside
+it**; the result colours are a section of their own; „Как се разви" lays its stages across
+the width (a grid of stage cards above 1100px) instead of stacking them; the story, the
+life strip and the process take the whole section. Every field and both edit actions are
+the ones that were there. Two labels were added: „Параметри" and „Цветове от резултата".
+
+**A plant.** The inner measures are gone: `--measure` held a paragraph to 74/120 characters
+inside sections that were already half a screen wide, so lines broke twice over. Width is
+decided by the section now. (The opening description ran in two columns above 1280px for a
+day; the owner's final adjustment put it back in ONE column, with an editorial line length
+of 78ch, in a section that still uses the wide page.)
+
+**The Reference.** The results are ResultCards — the colour first and large on the
+specimen mat (the shared `swatch()` helper, so an unmeasured colour still draws its empty
+swatch), then plant, part, fibre, mordant, process and pH, each named rather than joined
+with middots — in a responsive grid with the chosen record's panel beside them. The
+search, the ranking, the exact/near split and the picking are untouched.
+
+**My work.** The finished records keep their photographic cards: fewer and wider (from
+190px to 290px minimum), a 4:3 photograph, equal height, every action inside the card; the
+work in hand keeps its own wide row.
+
+**Techniques.** The flow is list → read → Edit → Save, as everywhere else in the reference:
+opening a technique used to land straight in the editor. `…/edit` is the editor's address;
+`deep-check`'s library-note guard now opens it there, with the same claim.
+
+**Checked.** 23 targeted checks: the trial detail's proportions at 1440 (column 1240 of
+1280, hero 881, parameters 343 beside it) and its stages on one line; the plant's text
+filling its section; 13 result cards with a big swatch and six named fields, picking and
+filters intact; the finished cards 300px wide and of equal height beside a 1240px current
+work row; the techniques flow end to end; BG and EN; 1600, 1440, 390 and 320px with no
+horizontal overflow and no screen filling less than 90% of its page; data unchanged.
+deep-check, screen-check, check-scope and the language check pass — deep-check caught all
+three shape changes (the colour search's rows, the empty swatch, the technique form) and
+each was corrected rather than waived.

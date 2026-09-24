@@ -12,6 +12,71 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc99 — 23 September 2026
+
+The editorial redesign, integrated onto rc98. `design/editorial-redesign` is merged and closed; main is again the
+only line, and the release it is working towards is still 1.0.
+
+What arrived, in one piece: local Geist and Source Serif 4 with real Bulgarian letterforms, Bagra's own palette in
+the exploration's composition (indigo for where one is, neutral controls, no green), a two-row bar on a laptop and
+a header with a drawer on a phone, the reference modules and the diary in one visual language, the pigments'
+surfaces and the screens that never had a mockup, and the composition applied on real data — a finished work that
+uses the page, a plant's text bounded by its section, the Reference answering with result cards, wider cards for
+finished work, and a technique that opens for reading with Edit beside it. §14a–§14e carry the decisions and the
+checks; the five packages are recorded below under their branch identifiers.
+
+Nothing in the model, the data, the seed content, the calculations or the service worker's logic changed. Two
+sentences of interface text changed: the help line about the backup, and two new labels on a finished work.
+
+**The `1.1.0-design.*` numbers below are identifiers of redesign packages on that branch, not releases of the
+application.** The application's line continues rc98 → rc99.
+
+## 1.1.0-design.5 — design package 5 (branch design/editorial-redesign, merged into 1.0.0-rc99)
+
+Editorial redesign, package 5 — the approved composition on real data (§14e). A finished work uses the page: a
+large photograph with its parameters beside it, the colours as their own section, „Как се разви" across the
+width. A plant's text is bounded by its section, not by an inner measure. The Reference answers with result
+cards — big swatch, then plant, part, fibre, mordant, process, pH — in a responsive grid, the search untouched.
+Fewer, wider, equal-height cards for finished work. A technique opens for reading, with Edit beside it. No model,
+data or seed content changed.
+
+## 1.1.0-design.4 — design package 4 (branch design/editorial-redesign, merged into 1.0.0-rc99)
+
+Editorial redesign, package 4 — integration and finishing (§14d). The work card's progress strip takes its own row
+on a phone (it had left the name 68px at 390px and nothing at 320px); the pigments' surfaces; the screens without a
+mockup — group actions, the backup, the pack preview, About, the stubs; one card for the edge states; Home on the
+shared cards and radii; About's sections as pills. The help sentence about the backup points at the ⋯ menu instead
+of the old menu's foot. No change to the model, calculations or behaviour.
+
+## 1.1.0-design.3 — design package 3 (branch design/editorial-redesign, merged into 1.0.0-rc99)
+
+Editorial redesign, package 3 — the diary (§14c). My work, Fabrics, preparation, group actions, the work form,
+the result, the history and their editors and dialogs in the same language, scoped to `data-space="diary"`; the
+kicker reaches the diary. Work and stage cards, the finishing questions, the group action's quantities, a piece's
+history and the editor's rail. No change to the model, `prepActionIds`, inherited actions, batches, recipes,
+photographs or the delete guards; the pigments' model untouched. A phone tweak to the work card was tried and
+reverted (it pushed the card past a 320px screen).
+
+## 1.1.0-design.2 — design package 2 (branch design/editorial-redesign, merged into 1.0.0-rc99)
+
+Editorial redesign, package 2 — the reference part (§14b). Reference, Plants, Recipes and chains, Materials,
+Techniques, Calculators and Library in the prototype's visual language, scoped by `data-space`/`data-module`: a
+kicker and rule under the page header, rounded tables with a sunk header row, pill filters and tabs, cards for
+techniques and calculators, the glossary as a definition list, the plant's photograph on the specimen mat. A chain
+step's line wraps on a phone (the chain view overflowed at 390px, already in rc98). Headings back on the one scale
+(check-scope: two sizes set by hand in package 1). No change to data, model, calculations or architecture.
+
+## 1.1.0-design.1 — design package 1 (branch design/editorial-redesign, from 1.0.0-rc98, merged into 1.0.0-rc99)
+
+Editorial redesign, package 1 — the visual foundation (§14a). Bagra's palette in the prototype's composition:
+indigo for where one is, neutral controls, the primary action in iron, no green; colour specimens on a neutral
+mat. Local Geist and Source Serif 4 (OFL-1.1) with real Bulgarian Cyrillic, cached by the worker (list only).
+A two-row top bar on a laptop, a header and drawer on a phone (the bottom bar gave way to it). Buttons, fields,
+panels and dialogs restyled. No change to model, data, routes, calculations or worker logic.
+
+Local testing (same build, no app change): `scripts/local/` starts the redesign at localhost:8799 with a
+separate Chrome test profile — its own database, apart from GitHub Pages and real data — and resets it.
+
 ## 1.0.0-rc98 — 21 September 2026
 
 Technical audit: protection of user data — backup, restore, merge, update — in isolated profiles.

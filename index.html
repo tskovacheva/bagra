@@ -2129,6 +2129,460 @@ label.inline      { display:inline-flex; gap:6px; align-items:center; margin-lef
   .swatchrow { flex-wrap:wrap; }
   .swatchfields { flex-basis:100%; }
 }
+
+/* ======================================================================
+   Editorial redesign, package 1 (design/editorial-redesign, from rc98).
+   The v0 exploration's composition — typography, spacing, radii, the
+   two-row bar — in Bagra's own palette: indigo marks where one is and
+   what is chosen; controls are neutral; no green anywhere (fixed decision).
+   A layer at the end of the sheet, so it wins by order and the earlier
+   rules it overrides stay readable beside it.
+   ====================================================================== */
+
+/* Local typefaces (OFL-1.1, fonts/LICENSE-*.txt), cached by the worker so
+   the app reads the same offline. Geist for work; Source Serif 4 for
+   reading — the only candidate with Bulgarian letterforms (locl BGR).
+   Fraunces and Newsreader, the prototype's serifs, have no Cyrillic. */
+@font-face{font-family:'Geist Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-cyrillic-ext-wght-normal.woff2) format('woff2');unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:'Geist Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Geist Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Geist Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Source Serif 4 Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-cyrillic-ext-wght-normal.woff2) format('woff2');unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:'Source Serif 4 Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Source Serif 4 Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Source Serif 4 Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Source Serif 4 Variable';font-style:italic;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-cyrillic-ext-wght-italic.woff2) format('woff2');unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:'Source Serif 4 Variable';font-style:italic;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-cyrillic-wght-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Source Serif 4 Variable';font-style:italic;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-latin-ext-wght-italic.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Source Serif 4 Variable';font-style:italic;font-weight:100 900;font-display:swap;src:url(fonts/source-serif-4-latin-wght-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --sans:'Geist Variable',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --serif:'Source Serif 4 Variable',Georgia,"Times New Roman",serif;
+  /* Neutrals derived from the palette, not new hues. */
+  --sunk:#ECE7DD;              /* ground mixed toward line: pressed and hovered */
+  --specimen:#FBFBF9;          /* the mat a colour sits on — neutral, not cream */
+  --specimen-line:#E7E6E0;
+  --indigo-tint:rgba(44,59,87,.09);
+  --h-dialog:19px;             /* a dialog's title: not a section heading, its own step */
+  --radius-ctl:8px;            /* buttons, fields */
+  --radius-card:14px;          /* cards */
+  --radius-panel:18px;         /* panels, tables, dialogs */
+  --bar:1280px;
+}
+body{font-family:var(--sans);font-size:15px;line-height:1.55;font-feature-settings:"kern"}
+html[lang="bg"] body{font-feature-settings:"kern","locl"}
+
+/* ---------- headings and reading text ---------- */
+h1{font-family:var(--serif);font-weight:500;font-size:34px;letter-spacing:-.012em;line-height:1.12}
+/* p.sub only: the plant profile's sections are also `.sub` (see rc89). */
+p.sub{font-family:var(--serif);font-size:16.5px;line-height:1.5;color:var(--muted)}
+/* Size from the one scale (§13bg, check-scope); only the tracking is the redesign's. */
+h2{letter-spacing:.15em;font-weight:600}
+.prose{font-family:var(--serif);font-size:16px;line-height:1.62}
+/* The working register: steps read over a pot stay in the working face. */
+.workstep .prose{font-family:var(--sans);font-size:15px;line-height:1.55}
+.latin{font-family:var(--serif);font-size:14.5px}
+.emptystate{font-family:var(--serif);font-size:16px}
+
+/* ---------- surfaces ---------- */
+.panel{border-radius:var(--radius-panel);padding:22px;border-color:var(--line)}
+.panel.flush{padding:0}
+.note{border-radius:var(--radius-ctl)}
+.chip{border-radius:999px}
+.box{border-radius:var(--radius-card)}
+.box.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+
+/* ---------- controls ---------- */
+.btn{border-radius:var(--radius-ctl);padding:9px 16px;font-size:14px;font-weight:500;border-color:var(--line);background:var(--surface);transition:border-color .12s,background .12s}
+.btn:hover{border-color:var(--muted);background:var(--surface)}
+/* The primary action is neutral — iron — because indigo is for where one is
+   and what is chosen, not for what one might do next (the palette rule). */
+.btn.primary{background:var(--iron);border-color:var(--iron);color:var(--surface)}
+.btn.primary:hover{background:var(--ink);border-color:var(--ink)}
+.btn.quiet{background:none;border-color:transparent;color:var(--muted)}
+.btn.quiet:hover{background:var(--sunk);color:var(--ink)}
+.btn.danger{color:var(--madder)}
+.btn.danger:hover{border-color:var(--madder)}
+.btn.contextual{padding:7px 11px}
+input[type=text],input[type=number],input[type=date],input[type=search],select,textarea{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-ctl);padding:9px 11px;font-size:14.5px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-offset:-1px;border-color:var(--indigo)}
+.fieldlabel{font-size:12.5px;letter-spacing:.01em}
+.searchbox{border-radius:var(--radius-ctl);background:var(--surface)}
+.langbtn{border-radius:var(--radius-ctl)}
+.langbtn[aria-pressed="true"]{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-tint)}
+
+/* ---------- colour specimens: a neutral mat, never cream ---------- */
+.refswatch,.swatchblock,.miniswatch{
+  box-shadow:0 0 0 3px var(--specimen),0 0 0 4px var(--specimen-line);margin:4px}
+
+/* ---------- dialog ---------- */
+.modal{border-radius:var(--radius-panel);padding:22px 24px}
+.modal h2{font-family:var(--serif);font-size:var(--h-dialog);letter-spacing:0;text-transform:none;color:var(--ink);font-weight:500}
+
+/* ---------- the page ---------- */
+.app{display:block;min-height:0}
+/* The view takes focus on every screen change so a screen reader starts at the
+   page; the ring that drew round the whole page on a mouse click said nothing. */
+.view:focus{outline:none}
+.view{max-width:var(--bar);padding-top:30px}
+
+/* ---------- the bar: two rows on a laptop ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top,0px)}
+.toprow,.modrow{max-width:var(--bar);margin-inline:auto;padding-inline:var(--pad)}
+.toprow{display:flex;align-items:center;gap:14px;min-height:60px}
+.topbar svg,.morepanel svg{width:17px;height:17px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.brand{border:0;background:none;cursor:pointer;display:flex;flex-direction:row;align-items:baseline;gap:9px;padding:6px 2px;min-height:44px;color:var(--ink)}
+.brand b{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:-.01em}
+.brand span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.spaces{display:flex;gap:4px;margin-left:6px}
+.spacebtn{display:inline-flex;align-items:center;gap:8px;border:0;background:none;border-radius:var(--radius-ctl);
+  padding:9px 13px;min-height:42px;font-size:14.5px;color:var(--muted);cursor:pointer}
+.spacebtn:hover{background:var(--sunk);color:var(--ink)}
+.spacebtn[aria-current]{background:var(--indigo-tint);color:var(--indigo);font-weight:600}
+.overflow{margin-left:auto;position:relative}
+.overflowbtn{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);
+  border-radius:var(--radius-ctl);color:var(--muted);cursor:pointer}
+.overflowbtn:hover{border-color:var(--muted);color:var(--ink)}
+.overflowbtn[aria-current]{border-color:var(--indigo);color:var(--indigo)}
+.overflowmenu{position:absolute;right:0;top:calc(100% + 6px);width:252px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius-card);padding:6px;z-index:40;
+  box-shadow:0 18px 40px -22px rgba(42,39,36,.45)}
+.overflowitem{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;text-align:left;
+  border-radius:var(--radius-ctl);padding:10px 10px;min-height:42px;font-size:14px;color:var(--ink);cursor:pointer}
+.overflowitem:hover{background:var(--sunk)}
+.overflowitem[aria-current="page"]{background:var(--indigo-tint);color:var(--indigo);font-weight:600}
+.overflowrow{display:flex;gap:4px;align-items:center;padding:8px 8px 4px;margin-top:4px;border-top:1px solid var(--line)}
+.overflowrow.version{font-size:12px;color:var(--muted)}
+.modrow{display:flex;gap:4px;overflow-x:auto;padding-block:8px;border-top:1px solid var(--line);scrollbar-width:none}
+.modrow::-webkit-scrollbar{display:none}
+.modbtn{display:inline-flex;align-items:center;gap:7px;flex:none;border:0;background:none;border-radius:var(--radius-ctl);
+  padding:8px 13px;min-height:38px;font-size:14px;color:var(--muted);cursor:pointer}
+.modbtn:hover{background:var(--sunk);color:var(--ink)}
+.modbtn[aria-current="page"]{background:var(--indigo);color:#fff}
+.menubtn,.mobiletitle{display:none}
+.topbar button:focus-visible,.morepanel button:focus-visible{outline:2px solid var(--indigo);outline-offset:1px}
+
+/* ---------- the phone: a header and a drawer ---------- */
+@media (max-width:820px){
+  .spaces,.modrow,.overflow,.brand{display:none}
+  .toprow{min-height:56px;gap:6px;padding-inline:8px}
+  .menubtn{display:grid;place-items:center;width:44px;height:44px;border:0;background:none;border-radius:var(--radius-ctl);color:var(--ink);cursor:pointer}
+  .menubtn svg{width:22px;height:22px}
+  .mobiletitle{display:block;font-family:var(--serif);font-size:19px;font-weight:500;min-width:0;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .view{padding:20px 14px calc(36px + env(safe-area-inset-bottom,0px))}
+  h1{font-size:28px}
+}
+.moresheet{position:fixed;inset:0;z-index:50;display:flex;align-items:stretch;justify-content:flex-start;
+  background:rgba(42,39,36,.32)}
+.morepanel{width:min(310px,86vw);max-height:none;height:100%;overflow-y:auto;background:var(--surface);
+  border-radius:0 var(--radius-panel) var(--radius-panel) 0;
+  padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(18px + env(safe-area-inset-bottom,0px));
+  box-shadow:18px 0 40px -24px rgba(42,39,36,.5)}
+.morehead{padding:4px 4px 10px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.drawerbrand{font-family:var(--serif);font-size:22px;font-weight:500}
+.morepanel .navhead{padding:14px 10px 4px}
+.drawerlist{display:flex;flex-direction:column;gap:2px}
+.draweritem{display:flex;align-items:center;gap:11px;width:100%;border:0;background:none;text-align:left;
+  border-radius:var(--radius-ctl);padding:10px 10px;min-height:44px;font-size:15px;color:var(--ink);cursor:pointer}
+.draweritem:hover{background:var(--sunk)}
+.draweritem[aria-current="page"]{background:var(--indigo);color:#fff}
+.morepanel .langrow{border-top:1px solid var(--line);margin-top:12px;padding:12px 6px 0}
+
+/* ======================================================================
+   Editorial redesign, package 2 — the reference part (1.1.0-design.2).
+   Scoped to the reference space (`#view[data-space="reference"]`, set by
+   the router) or to one module, so the diary and pigments are untouched
+   until package 3. Visual only: every control, field and route is the one
+   the module already draws.
+   ====================================================================== */
+:root{--h-term:17px}          /* a glossary term's name, in the scale */
+
+/* The page header: the space's name above, a rule below. */
+.kicker{margin:0 0 7px;font-size:10.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+#view[data-space="reference"] .pagehead,#view[data-space="diary"] .pagehead{align-items:flex-end;padding-bottom:20px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+#view[data-space="reference"] h1,#view[data-space="diary"] h1{font-size:36px}
+#view[data-space="reference"] p.sub,#view[data-space="diary"] p.sub{margin-top:6px;max-width:68ch}
+
+/* Tables: a rounded panel, a sunk header row, room in the cells. Above the
+   phone only — below 640px a table is stacked records (§13ae). */
+#view[data-space="reference"] .panel.flush,#view[data-space="diary"] .panel.flush{border-radius:var(--radius-panel)}
+@media (min-width:641px){
+  #view[data-space="reference"] .grid th,#view[data-space="diary"] .grid th{background:var(--sunk);font-size:10.5px;font-weight:600;letter-spacing:.14em;padding:12px 16px}
+  #view[data-space="reference"] .grid td,#view[data-space="diary"] .grid td{padding:13px 16px}
+  #view[data-space="reference"] .grid tbody tr:hover,#view[data-space="diary"] .grid tbody tr:hover{background:var(--ground)}
+}
+
+/* Filters: pills. The chosen one is indigo — a state, not a decoration. */
+#view[data-space="reference"] .boxes .box,#view[data-space="diary"] .boxes .box{border-radius:999px;padding:7px 15px}
+#view[data-space="reference"] .boxes .box.active,#view[data-space="diary"] .boxes .box.active{background:var(--indigo);border-color:var(--indigo)}
+#view[data-space="reference"] .searchbox,#view[data-space="diary"] .searchbox{min-height:44px;max-width:520px}
+
+/* Tabs — the segmented switch and the Library's three. */
+#view[data-space="reference"] .tabswitch,#view[data-space="diary"] .tabswitch{border-radius:999px;padding:3px;gap:2px}
+#view[data-space="reference"] .tabswitch .tab,#view[data-space="diary"] .tabswitch .tab{border-radius:999px;padding:7px 16px}
+#view[data-module="library"] .tabs{display:inline-flex;gap:2px;padding:3px;margin:0 0 22px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+#view[data-module="library"] .tabs .tab{display:inline-flex;align-items:center;min-height:38px;padding:7px 18px;border-radius:999px;
+  text-decoration:none;color:var(--muted);font-size:14px}
+#view[data-module="library"] .tabs .tab:hover{background:var(--sunk);color:var(--ink)}
+#view[data-module="library"] .tabs .tab.on{background:var(--indigo);color:#fff}
+@media (max-width:820px){#view[data-module="library"] .tabs .tab{min-height:44px}}
+
+/* Cards — result cards, colour cards, technique cards. */
+#view[data-space="reference"] .refcard{border-radius:var(--radius-card);padding:14px;background:var(--surface);border-color:var(--line)}
+#view[data-space="reference"] .refcard:hover{border-color:var(--muted)}
+#view[data-space="reference"] .techcards{gap:14px}
+#view[data-space="reference"] .techcard{border-radius:var(--radius-card);padding:18px 20px;background:var(--surface)}
+#view[data-space="reference"] .techcard:hover{border-color:var(--muted)}
+#view[data-space="reference"] .techname{font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.25}
+#view[data-space="reference"] .techdesc{font-size:13.5px;line-height:1.55}
+
+/* The glossary: a definition list — the term in the serif on the left, the
+   definition beside it — in one panel, as the prototype's Library. */
+#view[data-module="library"] .cards:has(> .glossterm){display:block;border:1px solid var(--line);border-radius:var(--radius-panel);
+  background:var(--surface);overflow:hidden}
+#view[data-module="library"] .glossterm{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:4px 28px;
+  margin:0;padding:16px 22px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}
+#view[data-module="library"] .glossterm:last-child{border-bottom:0}
+#view[data-module="library"] .termname{grid-row:1 / span 2;margin:0;font-family:var(--serif);font-size:var(--h-term);font-weight:500;line-height:1.3}
+#view[data-module="library"] .termdef{grid-column:2;font-family:var(--serif);font-size:15.5px;line-height:1.6;max-width:var(--measure)}
+#view[data-module="library"] .termfoot{grid-column:2}
+@media (max-width:640px){
+  #view[data-module="library"] .glossterm{grid-template-columns:minmax(0,1fr);padding:14px 16px}
+  #view[data-module="library"] .termname{grid-row:auto}
+  #view[data-module="library"] .termdef,#view[data-module="library"] .termfoot{grid-column:1}
+}
+
+/* Calculators: a grid of cards, not a list. */
+#view[data-module="tools"] .picklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:12px;
+  border:0;background:none;overflow:visible}
+#view[data-module="tools"] .pickrow{border:1px solid var(--line);border-radius:var(--radius-card);background:var(--surface);padding:16px 18px;min-height:76px}
+#view[data-module="tools"] .picklist .pickrow:last-child{border-bottom:1px solid var(--line)}
+#view[data-module="tools"] .pickrow:hover{border-color:var(--muted);background:var(--surface)}
+#view[data-module="tools"] .pickrow svg{stroke:var(--muted)}
+#view[data-module="tools"] .pickname b{font-family:var(--serif);font-size:17px;font-weight:500}
+#view[data-module="tools"] .pickgroup + .pickgroup{margin-top:18px}
+
+/* The plant's headline: its photograph on the specimen mat, larger. */
+/* The figure grows with it (it is held to 96px by .plantshot), and the mat is
+   padding inside the figure rather than a ring outside it, so nothing overlaps. */
+#view[data-space="reference"] .headline .plantshot{flex:0 0 132px;max-width:132px}
+#view[data-space="reference"] .headline .plantshot img{display:block;width:132px;height:132px;flex:none;padding:5px;
+  background:var(--specimen);border:1px solid var(--specimen-line);border-radius:var(--radius-card)}
+@media (max-width:640px){#view[data-space="reference"] .headline .plantshot{flex:0 0 auto;max-width:100%}}
+#view[data-space="reference"] .plantphoto{box-shadow:0 0 0 4px var(--specimen),0 0 0 5px var(--specimen-line)}
+
+/* On a phone a chain step's line wraps — number, name, kind and „Open recipe"
+   did not fit in one line, and ran the page 11px past the edge (rc98: 25px). */
+@media (max-width:640px){
+  #view[data-space="reference"] .panel,#view[data-space="diary"] .panel{padding:16px}
+  #view[data-space="reference"] .chainhead{flex-wrap:wrap;row-gap:6px}
+  #view[data-space="reference"] .cols > .col,#view[data-space="diary"] .cols > .col{min-width:0}
+}
+
+/* The recipe's working view: the weigh list on the sunk surface. */
+#view[data-space="reference"] .weighbox,#view[data-space="reference"] .weighlist{border-radius:var(--radius-card)}
+
+/* ======================================================================
+   Editorial redesign, package 3 — the diary (1.1.0-design.3).
+   My work, Fabrics, preparation, group actions, the work form, the
+   result, the history and their editors and dialogs, in the same visual
+   language; scoped to `#view[data-space="diary"]`. Visual only: the
+   model, `prepActionIds`, inherited actions at a cut, group batches,
+   recipes, photographs, history and the delete guards are untouched.
+   The pigments' model is not this package's business — they take the
+   shared surfaces and nothing else.
+   ====================================================================== */
+
+/* Work cards: a record card with room, its title in the serif. */
+#view[data-space="diary"] .workrow{border-radius:var(--radius-card);padding:14px;background:var(--surface);gap:14px}
+#view[data-space="diary"] .workrow:hover{border-color:var(--muted)}
+#view[data-space="diary"] .workrow > div > b,#view[data-space="diary"] .workrow b:first-of-type{
+  font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.25}
+#view[data-space="diary"] .workthumb{width:64px;height:64px;border-radius:var(--radius-ctl)}
+#view[data-space="diary"] .workrowwrap{margin-bottom:10px}
+/* On a phone the progress strip takes a row of its own under the text
+   (package 4). The card is a grid, and the strip is 150px that cannot shrink:
+   in one row with the name it left the name 68px at 390px and NOTHING at
+   320px. Nothing is dropped — every stage still shows; the strip simply stops
+   competing with the name. (Package 3 tried this with flex properties, which a
+   grid ignores, and the card overflowed; this is the same idea done right.) */
+@media (max-width:640px){
+  #view[data-space="diary"] .workrow{grid-template-columns:56px minmax(0,1fr) 16px;row-gap:10px}
+  #view[data-space="diary"] .workgo{grid-column:3;grid-row:1}
+  #view[data-space="diary"] .workprog{grid-column:1 / -1;min-width:0}
+  #view[data-space="diary"] .workprog .progline.compact{min-width:0;width:100%}
+}
+
+
+/* The work form: stage cards, their heads on the sunk surface, roomier lines. */
+#view[data-space="diary"] .workcol{gap:16px}
+#view[data-space="diary"] .stagecard{border-radius:var(--radius-card)}
+#view[data-space="diary"] .stagecardhead{background:var(--sunk);padding:12px 16px}
+#view[data-space="diary"] .stagecardhead.sub{background:none;padding:10px 16px}
+#view[data-space="diary"] .stagecardhead b{font-size:11px;letter-spacing:.14em;font-weight:600}
+#view[data-space="diary"] .stepline{padding:12px 16px}
+#view[data-space="diary"] .stepline.read{padding:10px 16px}
+#view[data-space="diary"] .prepcard{border-radius:var(--radius-card);padding:16px}
+#view[data-space="diary"] .prepcardhead b{font-family:var(--serif);font-size:16px;font-weight:500}
+
+/* Finishing: the questions numbered as in the prototype's steps. */
+#view[data-space="diary"] .finishq{border-radius:var(--radius-card);padding:18px 20px}
+#view[data-space="diary"] .finishnum{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+#view[data-space="diary"] .finishask{font-family:var(--serif);font-size:18px;font-weight:500;line-height:1.3}
+
+/* The result's colour specimens sit on the neutral mat (the swatch itself
+   already carries it; the caption keeps its place). */
+#view[data-space="diary"] .reviewswatches{gap:18px}
+
+/* The group action: the same panels, the quantities on the sunk surface. */
+#view[data-module="batch"] .scaledbox{border-radius:var(--radius-card);background:var(--sunk);padding:14px 16px}
+#view[data-module="batch"] .pickbox{border-radius:var(--radius-card)}
+#view[data-module="batch"] .summaryline{border-radius:var(--radius-card)}
+#view[data-module="batch"] .stepnum{background:var(--indigo);color:#fff}
+
+/* A piece: its history reads as a column of events; the photographs bigger. */
+#view[data-module="fabrics"] .timeline{padding-left:2px}
+#view[data-module="fabrics"] .tl{padding-bottom:18px}
+#view[data-module="fabrics"] .thumb{width:48px;height:48px;border-radius:var(--radius-ctl)}
+
+/* Editors: the form beside its rail, as the prototype's FormScaffold — the
+   rail falls under the fields on a narrow screen (it already does). */
+#view[data-space="diary"] .cols{gap:22px}
+@media (min-width:1024px){
+  #view[data-module="fabrics"] .cols > .col:last-child{position:sticky;top:96px;align-self:start}
+}
+
+/* ======================================================================
+   Editorial redesign, package 4 — integration and finishing (1.1.0-design.4).
+   The pigments in the approved language; the screens the exploration never
+   drew (group actions, the backup, the pack preview, About, the stubs); the
+   edge states; and the phone. Visual only: no model, no calculation, no
+   behaviour. The pigments keep their own model — this touches their
+   surfaces.
+   ====================================================================== */
+
+/* The page header everywhere, not only in the two spaces: Home and the
+   screens outside them get the same rule under the title. */
+#view .pagehead{align-items:flex-end;padding-bottom:20px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+#view h1{font-size:36px}
+@media (max-width:640px){#view h1{font-size:28px}#view .pagehead{padding-bottom:16px;margin-bottom:20px}}
+
+/* Edge states: one card for empty, loading and error, as the prototype's
+   EmptyState — a dashed edge so it reads as a place with nothing in it
+   rather than as a panel that failed to draw. */
+.emptystate{border:1px dashed var(--line);border-radius:var(--radius-panel);background:var(--surface);padding:42px 24px}
+.emptystate p:first-child{color:var(--ink)}
+.panel .emptystate{border:0;background:none;padding:26px 8px}
+
+/* Home, beside the two finished spaces: the same cards, the same radii. */
+#view[data-module="dashboard"] .tile,#view[data-module="dashboard"] .contcard{border-radius:var(--radius-card)}
+#view[data-module="dashboard"] .tilename{font-family:var(--serif);font-size:16px;font-weight:500}
+#view[data-module="dashboard"] .contlabel{font-family:var(--serif);font-size:17px;font-weight:500;line-height:1.25}
+#view[data-module="dashboard"] .seasonhead h2{letter-spacing:.15em}
+@media (max-width:640px){#view[data-module="dashboard"] .contcards{grid-template-columns:1fr}}
+
+/* Pigments: the batch's colours on the neutral mat, its stages numbered in
+   indigo, its two columns with the same gap as the other editors. */
+#view[data-module="pigments"] .swatch{box-shadow:0 0 0 3px var(--specimen),0 0 0 4px var(--specimen-line);margin:4px}
+#view[data-module="pigments"] .stepno{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+#view[data-module="pigments"] .pigmentcols{gap:22px}
+#view[data-module="pigments"] .contextstrip{border-radius:var(--radius-card);background:var(--surface)}
+@media (max-width:900px){#view[data-module="pigments"] .pigmentcols{grid-template-columns:minmax(0,1fr)}}
+
+/* About: its four sections as the Library's pills. */
+#view[data-module="about"] .tabs{display:inline-flex;gap:2px;padding:3px;margin:0 0 6px;border:1px solid var(--line);
+  border-radius:999px;background:var(--surface);flex-wrap:wrap}
+#view[data-module="about"] .tabs a{display:inline-flex;align-items:center;min-height:38px;padding:7px 16px;border-radius:999px;
+  text-decoration:none;color:var(--muted);font-size:14px}
+#view[data-module="about"] .tabs a:hover{background:var(--sunk);color:var(--ink)}
+#view[data-module="about"] .tabs a.on{background:var(--indigo);color:#fff}
+@media (max-width:820px){#view[data-module="about"] .tabs a{min-height:44px}}
+
+/* The pack preview — the one screen that writes over her library, so its rows
+   read like a table: the record, then what changes. */
+.difgroup{border:1px solid var(--line);border-radius:var(--radius-panel);background:var(--surface);overflow:hidden}
+.difhead{background:var(--sunk);padding:12px 16px}
+.difrow{padding:12px 16px}
+.difname{font-family:var(--serif);font-size:16px;font-weight:500}
+
+/* The backup and the other rare screens keep the shared surfaces; only their
+   radii were the older ones. */
+#view[data-module="tools"] .note,#view[data-module="about"] .note,#view[data-module="packs"] .note{border-radius:var(--radius-ctl)}
+
+/* ======================================================================
+   Editorial redesign, package 5 — the approved composition on real data
+   (1.1.0-design.5). No new design: the v0 screens applied more closely, on
+   the width a laptop actually has. No field, action or record changed.
+   ====================================================================== */
+
+/* A finished work: the photograph large, the figures beside it, everything
+   else across the section. The 820px column was the working form's measure
+   and made a 1440px screen read at half width. */
+.reviewcol{max-width:none}
+.reviewtop{display:grid;gap:16px;align-items:stretch}
+@media (min-width:1024px){.reviewtop{grid-template-columns:minmax(0,0.72fr) minmax(280px,0.28fr)}}
+.reviewhero img{max-height:none;aspect-ratio:16 / 10}
+.reviewparams{display:flex;flex-direction:column;justify-content:flex-start;background:var(--sunk);margin:0}
+.reviewparams .reviewfacts{flex-direction:column;flex-wrap:nowrap;gap:0;margin-top:6px}
+.reviewparams .reviewfact{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:9px 0;border-bottom:1px solid var(--line)}
+.reviewparams .reviewfact:last-child{border-bottom:0}
+#view[data-space="diary"] .reviewswatches{gap:18px}
+.reviewcol .story{max-width:none}
+/* „How it went": the stages across the width, not one under another. */
+@media (min-width:1100px){
+  .reviewcol .foldbody{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;align-items:start}
+  .reviewcol .foldbody > *{border:1px solid var(--line);border-radius:var(--radius-card);background:var(--surface);margin:0}
+  .reviewcol .procrow > summary{padding:12px 14px}
+  .reviewcol .procrow .procbody{padding:0 14px 12px}
+  .reviewcol .procrow.fixed{padding:12px 14px}
+}
+
+/* A plant's profile: the width belongs to the section, not to the paragraph.
+   The measure held every text to 74/120ch inside sections that were already
+   half a screen wide, so lines broke twice over. */
+#view[data-module="plants"] .prose,#view[data-module="plants"] .termdef{max-width:none}
+/* The opening description stays ONE column on a laptop (final adjustment): the
+   section may use the wide page, the sentences keep an editorial line length. */
+#view[data-module="plants"] .plantintro{max-width:78ch;font-size:17px}
+
+/* The Reference's results: a card each, its colour first and big. */
+.resultgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+.resultcard{display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;cursor:pointer;
+  border:1px solid var(--line);border-radius:var(--radius-card);background:var(--surface);color:inherit;font:inherit}
+.resultcard:hover{border-color:var(--muted)}
+.resultcard.on{border-color:var(--indigo);box-shadow:0 0 0 1px var(--indigo)}
+.resultswatch{display:flex;align-items:center;justify-content:center;height:74px;width:100%;
+  border-bottom:1px solid var(--specimen-line);background:var(--specimen);position:relative}
+.resultswatch .approx{position:absolute;right:8px;bottom:4px;font-size:12px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.resultbody{display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px}
+.resulttop{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.resulttop b{font-family:var(--serif);font-size:16px;font-weight:500;line-height:1.25}
+.resultfields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
+.resultfield{display:flex;flex-direction:column;gap:1px;min-width:0}
+.resultfield span:last-child{font-size:13px;color:var(--ink);overflow-wrap:anywhere}
+@media (min-width:1280px){.refsplit{grid-template-columns:minmax(0,1.6fr) minmax(300px,0.9fr)}}
+@media (max-width:820px){.refsplit{grid-template-columns:minmax(0,1fr)}.refaside{position:static}}
+
+/* My work: fewer, wider cards, each the same height with its actions inside. */
+#view[data-module="trials"] .trialgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px}
+#view[data-module="trials"] .piececard{display:flex;flex-direction:column;height:100%}
+#view[data-module="trials"] .trialcard{flex:1;display:flex;flex-direction:column;border-radius:var(--radius-card)}
+#view[data-module="trials"] .trialphoto{aspect-ratio:4 / 3;width:100%}
+#view[data-module="trials"] .trialphoto img{width:100%;height:100%;object-fit:cover}
+#view[data-module="trials"] .trialmeta{flex:1;display:flex;flex-direction:column;gap:5px;padding:12px 14px}
+#view[data-module="trials"] .trialmeta b{font-family:var(--serif);font-size:16px;font-weight:500;line-height:1.25}
+#view[data-module="trials"] .earlierruns{border:1px solid var(--line);border-top:0;
+  border-radius:0 0 var(--radius-card) var(--radius-card);padding:8px 12px}
+
+/* A wide screen is a wide screen: the working column may use it. */
+@media (min-width:1280px){
+  #view[data-module="fabrics"] .cols,#view[data-space="diary"] .cols{gap:26px}
+}
 </style>
 </head>
 <body>
@@ -2256,16 +2710,18 @@ label.inline      { display:inline-flex; gap:6px; align-items:center; margin-lef
     <symbol id="a-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M5.5 15.5h-.5a1.5 1.5 0 0 1-1.5-1.5v-9a1.5 1.5 0 0 1 1.5-1.5h9a1.5 1.5 0 0 1 1.5 1.5v.5"/></symbol>
     <symbol id="a-star" viewBox="0 0 24 24"><path d="m12 3.8 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.2l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9Z"/></symbol>
 
+    <!-- menu: the phone header opens the drawer (editorial redesign) -->
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></symbol>
+
     <!-- arrow-right: from what was meant to what happened -->
     <symbol id="i-then" viewBox="0 0 24 24"><path d="M4.5 12h15"/><path d="m13.5 6 6 6-6 6"/></symbol>
   </defs>
 </svg>
 
+<header class="topbar" id="topbar" aria-label="Основна навигация"></header>
 <div class="app">
-  <nav class="sidebar" id="sidebar" aria-label="Основна навигация"></nav>
   <div class="main"><main class="view" id="view" tabindex="-1"></main></div>
 </div>
-<nav class="bottomnav" id="bottomnav" aria-label="Основна навигация"></nav>
 <div class="moresheet" id="moresheet" hidden></div>
 
 <script type="module" src="app.js"></script>

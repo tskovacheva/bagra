@@ -9,7 +9,7 @@
 // edit. Everything here seeds, migrates or repairs, and all of it goes through
 // `putSystem` so it stays out of the backup counter.
 import { open, all, putSystem, putMigration, get, count, getSetting, setSetting } from './db.js';
-import { icon, labelCells, navigate } from './ui.js';
+import { icon, labelCells, navigate, setPageKicker } from './ui.js';
 import { initLang, setLang, getLang, t } from './i18n.js';
 import { initUnits, setSystem, getSystem } from './units.js';
 import { VOCABULARY, BANDS } from './vocab.js';
@@ -121,7 +121,8 @@ export const HIDDEN_MODULES = ['packs', 'materials', 'batch'];
 // Recipes — both read at the desk — while Trials and Fabrics sat behind "more",
 // on the one device where the work is actually recorded. Plants stays: that one
 // is read standing in front of the bed.
-const PHONE_NAV = ['dashboard', 'trials', 'plants', 'fabrics'];
+// (The phone bar that carried Home, My work, Plants and Fabrics gave way to the
+// header and drawer of the editorial redesign, package 1.)
 
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -158,43 +159,102 @@ function activeNav() {
   return navItems().some(n => navRoute(n) === full) ? full : id;
 }
 
+// ---------------------------------------------------------------- navigation
+//
+// Editorial redesign, package 1: the sidebar becomes a two-row bar at the top on
+// a laptop, and a header with a drawer on a phone. The NAV list above is still
+// the one source — the same groups, routes, labels and order; only where they
+// are drawn changes. Row 1 holds the three spaces (Home, the reference, the
+// diary) and an overflow menu for what belongs to neither; row 2 holds the
+// modules of the space the current address is in. Indigo marks where one is;
+// nothing else in the bar takes a colour.
+
+// The spaces, read from NAV's own headings rather than written out again.
+function navSpaces() {
+  const spaces = { reference: [], diary: [], footer: [] };
+  let group = null;
+  for (const n of NAV) {
+    if (n.heading) group = n.heading;
+    else if (n.footer) group = 'footer';
+    else if (group) spaces[group].push(n);
+  }
+  return spaces;
+}
+
+// Modules without an entry still belong somewhere: a group action is done to
+// cloth (§13bd), the old stock address opens a material (§11b).
+const SPACE_OF_HIDDEN = { batch: 'diary', materials: 'reference', packs: 'reference' };
+
+function spaceOf(active) {
+  if (active === 'dashboard') return 'home';
+  const s = navSpaces();
+  for (const key of ['reference', 'diary', 'footer'])
+    if (s[key].some(n => navRoute(n) === active)) return key;
+  return SPACE_OF_HIDDEN[active.split('/')[0]] || null;
+}
+
+const langButtons = () => `
+  <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
+  <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>`;
+const unitButtons = () => `
+  <button class="langbtn" data-units="metric" aria-pressed="${getSystem() === 'metric'}">${t('units.metric')}</button>
+  <button class="langbtn" data-units="imperial" aria-pressed="${getSystem() === 'imperial'}">${t('units.imperial')}</button>`;
+
 function renderNav() {
   const active = activeNav();
+  const space = spaceOf(active);
+  const spaces = navSpaces();
+  const current = (route) => route === active ? 'aria-current="page"' : '';
 
-  const entry = (n, cls) => `
-    <button class="${cls}" data-go="${navRoute(n)}"
-      ${navRoute(n) === active ? 'aria-current="page"' : ''}>
-      ${icon(n.icon)}<span>${esc(navLabel(n))}</span>
-    </button>`;
+  const spaceBtn = (key, go, iconId, label) => `
+    <button class="spacebtn" data-go="${go}" ${space === key ? 'aria-current="true"' : ''}>
+      ${icon(iconId)}<span>${esc(label)}</span></button>`;
+  const modules = (space === 'reference' || space === 'diary') ? spaces[space] : [];
 
-  // The label was written into index.html in Bulgarian and stayed so in English.
-  $('#sidebar').setAttribute('aria-label', t('nav.mainLabel'));
-  $('#bottomnav').setAttribute('aria-label', t('nav.mainLabel'));
-  $('#sidebar').innerHTML =
-    `<div class="brand"><b>${t('app.name')}</b><span>${t('app.tagline')}</span></div>` +
-    NAV.map(n => {
-      if (n.heading) return `<div class="navhead">${esc(t('nav.group.' + n.heading))}</div>`;
-      if (n.footer) return `<div class="navgap"></div><div class="navrule"></div>`;
-      return entry(n, 'navitem');
-    }).join('') +
-    `<div class="langrow">
-       <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
-       <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
-     </div>
-     <div class="langrow">
-       <button class="langbtn" data-units="metric" aria-pressed="${getSystem() === 'metric'}">${t('units.metric')}</button>
-       <button class="langbtn" data-units="imperial" aria-pressed="${getSystem() === 'imperial'}">${t('units.imperial')}</button>
-       <span class="version" title="${esc(t('app.version'))}">v${VERSION}</span>
-     </div>`;
+  const bar = $('#topbar');
+  bar.setAttribute('aria-label', t('nav.mainLabel'));
+  bar.innerHTML = `
+    <div class="toprow">
+      <button class="menubtn" data-more aria-label="${esc(t('nav.more'))}">${icon('i-menu')}</button>
+      <button class="brand" data-go="dashboard"><b>${t('app.name')}</b><span>${t('app.tagline')}</span></button>
+      <span class="mobiletitle">${esc(activeLabel(active))}</span>
+      <nav class="spaces" aria-label="${esc(t('nav.mainLabel'))}">
+        ${spaceBtn('home', 'dashboard', 'i-home', t('nav.dashboard'))}
+        ${spaces.reference.length ? spaceBtn('reference', navRoute(spaces.reference[0]), 'i-reference', t('nav.group.reference')) : ''}
+        ${spaces.diary.length ? spaceBtn('diary', navRoute(spaces.diary[0]), 'i-trial', t('nav.group.diary')) : ''}
+      </nav>
+      <div class="overflow">
+        <button class="overflowbtn" data-overflow aria-haspopup="true"
+          aria-expanded="${overflowOpen}" aria-label="${esc(t('nav.more'))}"
+          ${space === 'footer' ? 'aria-current="true"' : ''}>${icon('a-more')}</button>
+        <div class="overflowmenu" ${overflowOpen ? '' : 'hidden'}>
+          ${spaces.footer.map(n => `<button class="overflowitem" data-go="${navRoute(n)}" ${current(navRoute(n))}>
+            ${icon(n.icon)}<span>${esc(navLabel(n))}</span></button>`).join('')}
+          <div class="overflowrow">${langButtons()}</div>
+          <div class="overflowrow">${unitButtons()}</div>
+          <div class="overflowrow version" title="${esc(t('app.version'))}">v${VERSION}</div>
+        </div>
+      </div>
+    </div>
+    ${modules.length ? `<nav class="modrow" aria-label="${esc(t('nav.group.' + space))}">
+      ${modules.map(n => `<button class="modbtn" data-go="${navRoute(n)}" ${current(navRoute(n))}>
+        ${icon(n.icon)}<span>${esc(navLabel(n))}</span></button>`).join('')}
+    </nav>` : ''}`;
+}
 
-  const inSheet = !PHONE_NAV.includes(active);
-  $('#bottomnav').innerHTML = PHONE_NAV.map(id => {
-    const n = navItems().find(x => navRoute(x) === id);
-    return `<button data-go="${id}" ${id === active ? 'aria-current="page"' : ''}>
-      ${icon(n.icon)}<span>${esc(navLabel(n))}</span></button>`;
-  }).join('') +
-    `<button data-more ${inSheet ? 'aria-current="page"' : ''}>
-      ${icon('i-more')}<span>${t('nav.more')}</span></button>`;
+// What the phone header names: the entry that is lit, else the module.
+function activeLabel(active) {
+  const entry = navItems().find(n => navRoute(n) === active);
+  return entry ? navLabel(entry) : t('nav.' + active.split('/')[0]);
+}
+
+let overflowOpen = false;
+function setOverflow(open) {
+  overflowOpen = open;
+  const menu = document.querySelector('.overflowmenu');
+  const btn = document.querySelector('[data-overflow]');
+  if (menu) menu.hidden = !open;
+  if (btn) btn.setAttribute('aria-expanded', String(open));
 }
 
 // Two renders of one module could be in flight at once, and the one that
@@ -252,6 +312,12 @@ async function draw(fresh = false) {
   // a blank screen on every list in the application.
   if (MODULES[id].takesQuery) MODULES[id].open?.(...args, query);
   else MODULES[id].open?.(...args);
+  // The space names the page (kicker), and the module scopes the redesign's
+  // CSS — presentation only, set before the module draws (package 2).
+  const space = spaceOf(activeNav());
+  setPageKicker(space === 'reference' || space === 'diary' ? t('nav.group.' + space) : '');
+  view.dataset.module = id;
+  view.dataset.space = space || '';
   await MODULES[id].render(view);
   labelCells(view);
   view.focus({ preventScroll: true });
@@ -283,26 +349,19 @@ function renderSheet() {
   sheet.innerHTML = `
     <div class="morepanel" role="dialog" aria-modal="true" aria-label="${esc(t('nav.more'))}">
       <div class="morehead">
-        <h2>${t('nav.more')}</h2>
+        <b class="drawerbrand">${t('app.name')}</b>
         <button class="btn quiet" data-closemore>${t('common.close')}</button>
       </div>
       ${navGroups().map(g => `
         ${g.rule ? '<div class="navrule"></div>' : ''}
         ${g.heading ? `<div class="navhead">${esc(g.heading)}</div>` : ''}
-        <div class="moregrid">
-          ${g.items.map(n => `<button class="moreitem" data-go="${navRoute(n)}"
+        <div class="drawerlist">
+          ${g.items.map(n => `<button class="draweritem" data-go="${navRoute(n)}"
               ${navRoute(n) === active ? 'aria-current="page"' : ''}>
               ${icon(n.icon)}<span>${esc(navLabel(n))}</span></button>`).join('')}
         </div>`).join('')}
-      <div class="morelang">
-        <button class="langbtn" data-lang="bg" aria-pressed="${getLang() === 'bg'}">${t('lang.bg')}</button>
-        <button class="langbtn" data-lang="en" aria-pressed="${getLang() === 'en'}">${t('lang.en')}</button>
-      </div>
-      <div class="langrow">
-        <button class="langbtn" data-units="metric" aria-pressed="${getSystem() === 'metric'}">${t('units.metric')}</button>
-        <button class="langbtn" data-units="imperial" aria-pressed="${getSystem() === 'imperial'}">${t('units.imperial')}</button>
-        <span class="version">v${VERSION}</span>
-      </div>
+      <div class="langrow">${langButtons()}</div>
+      <div class="langrow">${unitButtons()}<span class="version">v${VERSION}</span></div>
     </div>`;
 }
 
@@ -391,12 +450,15 @@ document.addEventListener('click', async (e) => {
     return;
   }
 
+  if (e.target.closest('[data-overflow]')) { setOverflow(!overflowOpen); return; }
+  if (overflowOpen && !e.target.closest('.overflowmenu')) setOverflow(false);
   if (e.target.closest('[data-more]')) { openSheet(); return; }
   if (e.target.closest('[data-closemore]') || e.target.id === 'moresheet') { closeSheet(); return; }
 
   const go = e.target.closest('[data-go]');
   if (go) {
     closeSheet();
+    setOverflow(false);
     const target = '#/' + go.dataset.go;
     // Setting an unchanged hash fires no event, so the click would do nothing —
     // which is exactly what happened when returning to a module from a detail.
@@ -445,9 +507,14 @@ window.addEventListener('hashchange', () => {
   const fresh = arriving !== lastModule;
   lastModule = arriving;
   lastHash = location.hash;
+  // A move by any means — a link, the back button — closes the drawer and the
+  // menu, so nothing is left open over the new screen. (Not in route(): a
+  // language or units change redraws without moving, and keeps them open.)
+  closeSheet();
+  setOverflow(false);
   route(fresh);
 });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeSheet(); setOverflow(false); } });
 
 // ---------------------------------------------------------------- updates
 //

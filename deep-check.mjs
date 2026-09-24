@@ -2309,9 +2309,11 @@ const dirty = await import('./dirty.js');
     await settle();
     await new Promise(r => setTimeout(r, 400));
 
-    const rows = root.querySelectorAll('table.grid tbody tr');
+    // Result cards since design package 5 — the shape changed, the claim did
+    // not: a colour search must answer with results.
+    const rows = root.querySelectorAll('.resultcard');
     const cards = root.querySelectorAll('.refcard');
-    if (!rows.length) fail('colour', new Error('a colour search returned no rows'));
+    if (!rows.length) fail('colour', new Error('a colour search returned no results'));
     else if (cards.length)
       fail('colour', new Error(`${cards.length} full result cards came back instead of rows`));
     else console.log(`  colour: the answer is ${rows.length} rows, not a page of cards`);
@@ -6508,10 +6510,13 @@ const dirty = await import('./dirty.js');
     await drawList();
     if (countOf() !== base + 1) problems.push(`the list count went ${base} → ${countOf()}, not up by one`);
 
-    // 2b. Techniques only: the record IS the form, so the library button is a
-    // way out of unsaved work and has to ask, like every other way out.
+    // 2b. Techniques only: the EDITOR is where unsaved work lives, so the
+    // library button there is a way out of it and has to ask, like every other
+    // way out. (Since design package 5 the record opens for reading and the
+    // editor sits at `…/edit`; the claim is unchanged.)
     if (c.mod === 'techniques') {
-      await drawRecord();
+      mod.reset?.(); mod.open(id, 'edit'); await mod.render(root18); await settle();
+      await finished('[data-libdiffers-slot]', 'data-checked');
       const box = root18.querySelector('[data-pair^="name."], [data-f]');
       const btnT = root18.querySelector('[data-libdiffers] [data-sync]');
       if (!box || !btnT) problems.push('the technique form has no field to type in or no button on its note');

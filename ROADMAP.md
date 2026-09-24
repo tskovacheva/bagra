@@ -4,6 +4,28 @@
 audit; completed items are not repeated here. For the reasoning behind any decision,
 `FUNCTIONAL_SPEC.md` is the source of truth.
 
+## Editorial redesign — merged into 1.0.0-rc99, branch closed
+
+- **Package 1 — done (1.1.0-design.1, §14a):** palette roles, local Geist and Source
+  Serif 4, the two-row bar and the phone drawer, controls, fields, dialogs.
+- **Package 2 — done (1.1.0-design.2, §14b):** the reference modules in the prototype's
+  composition; the kicker; glossary as a definition list; calculators as cards.
+- **Package 3 — done (1.1.0-design.3, §14c):** the diary — My work, Fabrics, preparation,
+  group actions, the work form, the result and the history.
+- **Package 4 — done (1.1.0-design.4, §14d):** the pigments' surfaces, the screens without
+  a mockup, the edge states, Home, and the phone — including the work card's progress
+  strip, which had squeezed the card's name to nothing at 320px.
+- **Package 5 — done (1.1.0-design.5, §14e):** the approved composition applied on real
+  data — the trial detail, the plant, the Reference's result cards, the work list, and the
+  technique's read-before-edit flow.
+- **Merged.** rc99 is rc98 plus the five packages; `design/editorial-redesign` is closed and
+  main is the only line again. The `1.1.0-design.*` numbers were package identifiers.
+- **Still open, for the main line:** the pigments' own model was never part of the design
+  packages; the packs screen is still the stub it was; „undefined" sources on an empty home
+  screen (found in package 1, left for main).
+- **Decided:** the phone's bottom bar stays gone (owner, package 2).
+- **For the main line, not this branch:** „undefined" sources on an empty home screen.
+
 Three lists, kept apart on purpose:
 
 - **A — required before a paid v1.0.** Only what actually remains. Mostly not features:
