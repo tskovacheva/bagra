@@ -2546,9 +2546,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-
    The measure held every text to 74/120ch inside sections that were already
    half a screen wide, so lines broke twice over. */
 #view[data-module="plants"] .prose,#view[data-module="plants"] .termdef{max-width:none}
-/* The opening description stays ONE column on a laptop (final adjustment): the
-   section may use the wide page, the sentences keep an editorial line length. */
-#view[data-module="plants"] .plantintro{max-width:78ch;font-size:17px}
+/* One column, and no width of its own (rc100): the section decides how wide
+   the description is, exactly as it decides for everything else in the card. */
+#view[data-module="plants"] .plantintro{max-width:none;font-size:17px}
 
 /* The Reference's results: a card each, its colour first and big. */
 .resultgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}

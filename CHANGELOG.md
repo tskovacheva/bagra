@@ -12,6 +12,28 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc101 — 23 September 2026
+
+The aluminium acetate workflow calculates once (§15a). The mordant no longer doses 5–8% WOF of finished acetate on
+top of a solution that was already made for the cloth: its single line is the whole working solution, on `absolute`
+with no quantity, pointing at the preparation, and its `target` is gone. The preparation keeps the figures — 18%
+alum, 10% soda, 240% vinegar — and now names the mordant as its required follow-on. Attribution is modelled as two
+source codes, Boutrup & Ellis 11B underneath and Crafty Place as the adaptation, with the sentence in both
+languages in the notes. Silk mordanting is potassium alum alone; aluminium sulfate is not an option beside it.
+Chalk bath basis corrected to `grams_per_litre`. The other 18 seed recipes, both chains and the calculator are
+untouched.
+
+## 1.0.0-rc100 — 23 September 2026
+
+Seed recipes for the preparation baths and the aluminium acetate workflow (§15). Nine recipes become bundled
+content — silk and cellulose scouring, the tannin bath, silk mordanting, cellulose alum-and-soda mordanting,
+madder, preparing aluminium acetate, mordanting with it, and the chalk bath — with stable seed ids, BG and EN
+throughout and sources named. Two unproven claims are gone: madder „loses its dye above 70 °C" and vinegar
+„softens silk and brightens red". Chains are a pack now (`seed/chains.json`), with the update button a pack must
+have; two preparation chains ship. The aluminium acetate calculator starts from 8% WOF, 6% vinegar, anhydrous
+aluminium sulfate and soda ash — starting values only, the stoichiometry untouched. A plant's description is one
+column with no width of its own. No architecture, no user data.
+
 ## 1.0.0-rc99 — 23 September 2026
 
 The editorial redesign, integrated onto rc98. `design/editorial-redesign` is merged and closed; main is again the

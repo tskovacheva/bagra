@@ -12324,3 +12324,112 @@ horizontal overflow and no screen filling less than 90% of its page; data unchan
 deep-check, screen-check, check-scope and the language check pass — deep-check caught all
 three shape changes (the colour search's rows, the empty swatch, the technique form) and
 each was corrected rather than waived.
+
+## 15. Seed recipes for the preparation baths, and the aluminium acetate workflow (1.0.0-rc100)
+
+Nine recipes and two chains become bundled content, and the aluminium acetate path is
+settled end to end. No architecture, no UI model, no other data.
+
+**The recipes.** `silk-scour`, `cellulose-scour`, `tannin-bath`, `silk-mordant`,
+`cellulose-alum-soda-mordant`, `madder-dye`, `aluminium-acetate-prep`,
+`aluminium-acetate-mordant`, `chalk-bath` — stable seed ids, `origin: "seed"`,
+`distributable: true`, BG and EN throughout, no empty English step, no new substance (every
+line points at one that was already in the library), and the Bulgarian keeps the
+application's own words: закрепване, закрепител.
+
+- **Madder** is 25–50% WOF of dried root, the lower end lighter and the upper deeper. The
+  old flat claim that madder „loses its dye above 70 °C" is replaced by what actually
+  holds: it is sensitive to temperature, pH, the water and the mordant; lower temperatures
+  favour clearer reds and corals, higher ones move towards brick and brown.
+- **Silk mordanting** no longer says vinegar „softens the fibre and brightens red and
+  orange". The claim is simply not in the seed text.
+- **Aluminium acetate, prepared** is fixed to potassium alum because that is what most
+  people can buy: 18% WOF alum, 10% WOF soda ash, 240% WOF of 5% vinegar, scaling with the
+  cloth. Its note says plainly that alum and aluminium sulfate are NOT interchangeable gram
+  for gram, and sends the reader to the calculator for another reagent or strength.
+- **Aluminium acetate, used** is a cold bath at 5–8% WOF with 8% the default, for cellulose
+  and for silk — protein here means silk, not automatically wool — with a tannin
+  pre-treatment described as optional rather than part of the default chain, and a
+  `requiredFollowOn` to the chalk bath.
+- **The chalk bath** is 10 g of calcium carbonate per litre for about ten minutes; wheat
+  bran stays a traditional alternative in words, not an ingredient.
+
+**The calculator** keeps its stoichiometry and its freedom; only what it starts with
+changed: 8% WOF of finished acetate, 6% vinegar, anhydrous aluminium sulfate, soda ash.
+Potassium alum with 5% vinegar remains selectable and computes.
+
+**Chains are a pack now.** `seed/chains.json`, declared in `PACKS` beside the others, in
+the manifest and in the worker's list — and with its own „Обнови от библиотеката" button on
+the chains screen, because `try-pack-reachability` refuses a pack whose records could never
+be corrected on an installed copy. Two chains: the cellulose preparation (scour → tannin →
+alum and soda), and the aluminium acetate preparation (scour → prepare the acetate →
+mordant → chalk bath).
+
+**What the model could not express.** A chain cannot choose a step by fibre, so the
+acetate chain cannot say „cellulose scouring for cotton, silk scouring for silk". The
+cleanest available representation was used: cellulose scouring stands as the first step and
+the chain's note, in both languages, says to replace it with silk scouring for silk. The
+same note says the preparing step is only for making the acetate oneself. No data model was
+changed for either.
+
+**Sources.** Boutrup & Ellis (Recipe 11B) for the three aluminium acetate recipes; the
+studio's own guide for the six preparation and dye recipes. No duplicate source record was
+created. The studio guide is an attribution the owner should confirm or replace for the six
+— see the report.
+
+**Checked.** 26 targeted checks: the nine recipes installed with origin, distributable,
+BG/EN and sources; 18 g / 10 g / 240 ml at 100 g and 45 / 25 / 600 at 250 g; madder 25–50 g;
+the two removed claims absent; the follow-on to the chalk bath; the calculator's defaults
+and the potassium alum + 5% path; both chains pointing at recipes that exist and the pack's
+button present; a user fabric and a user recipe untouched by the new pack and still the
+user's; the plant description one column with no width of its own at 1600, 1440, 390 and
+320px, with no overflow. deep-check, screen-check, check-scope, the language check,
+referential integrity, recipe lines, pack reachability, pack lifecycle, older-backup restore
+and the cache list pass; two guards that assumed chains were never seeded and that the
+recipes list held only their fixtures were narrowed to their own records.
+
+## 15a. The aluminium acetate workflow: one calculation, not two (1.0.0-rc101)
+
+rc100 read the workflow as „prepare a solution, then dose 5–8% WOF of finished acetate".
+That is two calculations for one bath, and it assumes a powder most people do not have.
+The workflow is: **fibre weight → reagents for that weight → the working solution → the
+whole solution IS the mordant bath for that cloth → chalk bath.**
+
+**How the double scaling was removed.** `aluminium-acetate-mordant` had one ingredient line
+on `percent_wof`, 5–8, whose options were the acetate substance and the preparing recipe,
+plus `target: { percentWof: 8 }`. That line is now a single line on **`absolute`** with no
+quantity at all, whose one option is `seed:aluminium-acetate-prep`, and the `target` is
+gone. So nothing in the mordant scales with the cloth: there is nothing left to scale. The
+only figures in the workflow are the preparation's — 18% WOF potassium alum, 10% WOF soda
+ash, 240% WOF of 5% vinegar — which scale with the cloth as they always did (250 g → 45 g,
+25 g, 600 ml). The preparation now carries `requiredFollowOn: ['seed:aluminium-acetate-mordant']`,
+so the two read as one path, and the mordant keeps its own follow-on to the chalk bath.
+
+**How the attribution is modelled.** `sourceCodes` is a list, so both stand: the underlying
+reference `boutrup-ellis` (The Art and Science of Natural Dyes, Recipe 11B) and
+`crafty-place-practice` as the adaptation, on all three recipes of the workflow. The
+sentence a reader sees is in each recipe's notes, in both languages: „Crafty Place —
+адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B." No new
+source record was created and none was renamed; the workflow is not presented as identical
+to 11B.
+
+**The fixed variant stays convenient.** Potassium alum with 5% vinegar, in the figures
+above. For another form of the aluminium reagent or another vinegar, the note sends the
+reader to the calculator rather than to a gram-for-gram swap. The calculator is unchanged.
+
+**Silk mordanting is potassium alum.** The aluminium sulfate option is removed rather than
+kept beside it: the two carry different amounts of aluminium and are not a swap. The dose
+stays 10–15% WOF, the steps name the alum, and both notes say why a sulfate recipe would be
+a recipe of its own.
+
+**Also corrected.** The chalk bath's basis was written `per_litre` in rc100; the
+vocabulary's code is `grams_per_litre`. The acetate chain's note no longer calls the
+preparation optional.
+
+**Checked.** 15 targeted checks: the preparation's three figures at 250 g; „the whole
+solution" as the mordant's only line, with no 5–8% anywhere on its screen and no second
+figure when the cloth's weight changes; the record's shape (one `absolute` line pointing at
+the preparation, no target, both sources); the chalk follow-on; potassium alum alone on the
+silk mordant and 10–15 g at 100 g; 22 seed recipes and 2 chains still there. deep-check,
+screen-check, the language check, recipe lines, referential integrity, manifest, pack
+reachability and pack lifecycle pass.

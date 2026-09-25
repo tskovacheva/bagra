@@ -1198,9 +1198,11 @@ const dirty = await import('./dirty.js');
     recipes.reset?.();
     await recipes.render(root);
     await settle();
+    // Its own two, by name: chains are a seeded pack since rc100, so „the first
+    // two cards" are no longer necessarily the fixtures.
     let cards = [];
     for (let i = 0; i < 40 && cards.length < 2; i++) {
-      cards = [...root.querySelectorAll('.chaincard')];
+      cards = [...root.querySelectorAll('.chaincard')].filter(c => c.textContent.includes('zz-chain'));
       if (cards.length < 2) await new Promise(r => setTimeout(r, 25));
     }
     if (cards.length < 2) {

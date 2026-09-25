@@ -20,6 +20,10 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   technique's read-before-edit flow.
 - **Merged.** rc99 is rc98 plus the five packages; `design/editorial-redesign` is closed and
   main is the only line again. The `1.1.0-design.*` numbers were package identifiers.
+- **rc100:** the preparation baths, madder and the aluminium acetate workflow are seeded, and
+  chains are a pack. Open from it: the source for the six preparation recipes is the studio's
+  own guide and wants the owner's confirmation; a chain still cannot choose its first step by
+  fibre.
 - **Still open, for the main line:** the pigments' own model was never part of the design
   packages; the packs screen is still the stub it was; „undefined" sources on an empty home
   screen (found in package 1, left for main).

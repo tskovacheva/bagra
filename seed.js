@@ -78,6 +78,13 @@ export const PACKS = {
     // database. A default outlives the field it defaults.
     defaults: { colours: [], photoData: null },
   },
+  // The preparation chains (rc100). A chain is an ORDER of recipes, and the
+  // two here are the orders the studio actually works in; they point at seed
+  // recipe ids, so a chain never carries a copy of what a recipe says.
+  chains: {
+    file: 'seed/chains.json', store: 'chains', listKey: 'chains',
+    defaults: { notes: { bg: '', en: '' }, appliesTo: [], distributable: true },
+  },
   // Attribution for the whole library, in one place — §13r. Seeded rather than
   // left to the owner because a library that credits nobody is worse than one
   // that credits imperfectly, and the six here are attested.
