@@ -56,8 +56,12 @@ const state = {
   bath: { weight: 250, ratio: 30 },
   dry: { dried: 50, ratio: 6 },
   alum: {
-    weight: 500, percent: 6,
-    alSource: '', naSource: '', vinegar: 9, vinegarJar: '',
+    // rc100: the figures a studio starts from — 8% WOF of FINISHED aluminium
+    // acetate, 6% vinegar, anhydrous aluminium sulfate and soda ash. Only the
+    // starting values; every source and strength stays selectable, and the
+    // stoichiometry is untouched.
+    weight: 500, percent: 8,
+    alSource: 'seed:al_sulfate_anhydrous', naSource: 'seed:soda_ash', vinegar: 6, vinegarJar: '',
   },
   exhaust: { firstWeight: 250, strength: 50 },
   rev: { available: 200, limiting: 'aluminium' },

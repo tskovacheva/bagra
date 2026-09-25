@@ -1,11 +1,943 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.18.7",
+ "packVersion": "0.19.1",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
  },
  "recipes": [
+  {
+   "code": "silk-scour",
+   "type": "scour",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "protein"
+   ],
+   "sourceCodes": [
+    "crafty-place-guide"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "tempMaxC": 50,
+   "name": {
+    "bg": "Изпиране на коприна",
+    "en": "Silk scouring"
+   },
+   "notes": {
+    "bg": "Коприната се пере меко: без силно търкане, усукване и изстискване, и без рязка смяна на температурата. Изпирането маха апретурата и мазнината, за да поеме тъканта закрепителя и цвета равномерно.",
+    "en": "Silk is washed gently: no hard rubbing, wringing or twisting, and no sudden change of temperature. Scouring removes the finish and the grease, so the cloth takes mordant and colour evenly."
+   },
+   "ingredients": [
+    {
+     "id": "ss-1",
+     "roleCode": "surfactant",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 1,
+     "quantityMin": 1,
+     "quantityMax": 1,
+     "note": {
+      "bg": "Неутрален сапун или подходящ неутрален миещ препарат, 1% WOF.",
+      "en": "Neutral soap or a suitable neutral detergent, 1% WOF."
+     },
+     "options": [
+      {
+       "id": "ss-1-a",
+       "substanceId": "seed:neutral_soap",
+       "qtyMin": 1,
+       "qtyMax": 1
+      },
+      {
+       "id": "ss-1-b",
+       "substanceId": "seed:synthrapol",
+       "qtyMin": 1,
+       "qtyMax": 1
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "ss-s1",
+     "text": {
+      "bg": "Разтвори неутралния сапун във вода с температура до около 50 °C.",
+      "en": "Dissolve the neutral soap in water at up to about 50 °C."
+     }
+    },
+    {
+     "id": "ss-s2",
+     "text": {
+      "bg": "Намокри коприната и я потопи в банята. Движи я внимателно, без силно търкане, усукване или изстискване.",
+      "en": "Wet the silk out and put it in the bath. Move it gently, without hard rubbing, wringing or twisting."
+     }
+    },
+    {
+     "id": "ss-s3",
+     "text": {
+      "bg": "Поддържай топла, но не гореща баня, докато тъканта се почисти.",
+      "en": "Keep the bath warm but not hot, until the cloth is clean."
+     }
+    },
+    {
+     "id": "ss-s4",
+     "text": {
+      "bg": "Извади коприната и изплакни внимателно с вода с близка температура.",
+      "en": "Lift the silk out and rinse it gently in water of a similar temperature."
+     }
+    },
+    {
+     "id": "ss-s5",
+     "text": {
+      "bg": "Остави да се отцеди без усукване.",
+      "en": "Let it drain without wringing."
+     }
+    }
+   ]
+  },
+  {
+   "code": "cellulose-scour",
+   "type": "scour",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose"
+   ],
+   "sourceCodes": [
+    "crafty-place-guide"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "liquorRatio": 10,
+   "tempMinC": 85,
+   "tempMaxC": 90,
+   "heldMinutes": 60,
+   "name": {
+    "bg": "Изпиране на целулоза",
+    "en": "Cellulose scouring"
+   },
+   "notes": {
+    "bg": "Целулозата се изпира горещо и с алкална баня — восъците и апретурите по памука и лена не си отиват с топла вода. Изпирането е първата стъпка преди танин и закрепване.",
+    "en": "Cellulose is scoured hot and alkaline — the waxes and finishes on cotton and linen do not come off in warm water. Scouring is the first step before tannin and mordanting."
+   },
+   "ingredients": [
+    {
+     "id": "cs-1",
+     "roleCode": "surfactant",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 1,
+     "quantityMin": 1,
+     "quantityMax": 1,
+     "note": {
+      "bg": "Неутрален сапун или Синтрапол, 1% WOF.",
+      "en": "Neutral soap or Synthrapol, 1% WOF."
+     },
+     "options": [
+      {
+       "id": "cs-1-a",
+       "substanceId": "seed:neutral_soap",
+       "qtyMin": 1,
+       "qtyMax": 1
+      },
+      {
+       "id": "cs-1-b",
+       "substanceId": "seed:synthrapol",
+       "qtyMin": 1,
+       "qtyMax": 1
+      }
+     ]
+    },
+    {
+     "id": "cs-2",
+     "roleCode": "alkali",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 2,
+     "quantityMin": 2,
+     "quantityMax": 2,
+     "note": {
+      "bg": "Калцинирана сода, 2% WOF.",
+      "en": "Soda ash, 2% WOF."
+     },
+     "options": [
+      {
+       "id": "cs-2-a",
+       "substanceId": "seed:soda_ash",
+       "qtyMin": 2,
+       "qtyMax": 2
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "cs-s1",
+     "text": {
+      "bg": "Напълни съда с достатъчно вода, така че тъканта да може да се движи свободно.",
+      "en": "Fill the vessel with enough water for the cloth to move freely."
+     }
+    },
+    {
+     "id": "cs-s2",
+     "text": {
+      "bg": "Разтвори содата и неутралния сапун или миещия агент.",
+      "en": "Dissolve the soda ash and the neutral soap or detergent."
+     }
+    },
+    {
+     "id": "cs-s3",
+     "text": {
+      "bg": "Добави предварително намокрената целулозна тъкан.",
+      "en": "Add the cellulose cloth, wetted out beforehand."
+     }
+    },
+    {
+     "id": "cs-s4",
+     "text": {
+      "bg": "Загрей постепенно до около 90 °C.",
+      "en": "Bring it up gradually to about 90 °C."
+     }
+    },
+    {
+     "id": "cs-s5",
+     "text": {
+      "bg": "Поддържай около 60 минути, като разбъркваш периодично.",
+      "en": "Hold for about 60 minutes, stirring from time to time."
+     }
+    },
+    {
+     "id": "cs-s6",
+     "text": {
+      "bg": "Остави леко да се охлади.",
+      "en": "Let it cool a little."
+     }
+    },
+    {
+     "id": "cs-s7",
+     "text": {
+      "bg": "Изплакни обилно.",
+      "en": "Rinse well."
+     }
+    }
+   ]
+  },
+  {
+   "code": "tannin-bath",
+   "type": "tannin",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose"
+   ],
+   "sourceCodes": [
+    "crafty-place-guide"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "requiredFollowOn": [
+    "seed:cellulose-alum-soda-mordant"
+   ],
+   "name": {
+    "bg": "Танинова баня",
+    "en": "Tannin bath"
+   },
+   "notes": {
+    "bg": "Танинът дава на целулозата за какво да се хване: сам по себе си е и цвят, и основа за алуминиевото закрепване. Количеството зависи от избрания танин — шикалките са най-силни, миробаланът и дъбовият танин искат повече. След таниновата баня се продължава към закрепване; не се изпира с препарат между двете.",
+    "en": "Tannin gives cellulose something to hold on to: it is both a colour and the ground for aluminium mordanting. How much depends on which tannin — gallnut is the strongest, myrobalan and oak tannin want more. Mordanting follows; do not wash with detergent between the two."
+   },
+   "ingredients": [
+    {
+     "id": "tb-1",
+     "roleCode": "tannin",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": null,
+     "quantityMin": 8,
+     "quantityMax": 20,
+     "note": {
+      "bg": "Шикалки 8–10% WOF, миробалан 15–20% WOF или дъбов танин 20% WOF.",
+      "en": "Gallnut 8–10% WOF, myrobalan 15–20% WOF or oak tannin 20% WOF."
+     },
+     "options": [
+      {
+       "id": "tb-1-a",
+       "substanceId": "seed:tannin_gallnut",
+       "qtyMin": 8,
+       "qtyMax": 10
+      },
+      {
+       "id": "tb-1-b",
+       "substanceId": "seed:tannin_myrobalan",
+       "qtyMin": 15,
+       "qtyMax": 20
+      },
+      {
+       "id": "tb-1-c",
+       "substanceId": "seed:tannin_oak",
+       "qtyMin": 20,
+       "qtyMax": 20
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "tb-s1",
+     "text": {
+      "bg": "Разтвори избрания танин във вода.",
+      "en": "Dissolve the chosen tannin in water."
+     }
+    },
+    {
+     "id": "tb-s2",
+     "text": {
+      "bg": "Намокри добре предварително изпраната целулозна тъкан.",
+      "en": "Wet out the scoured cellulose cloth thoroughly."
+     }
+    },
+    {
+     "id": "tb-s3",
+     "text": {
+      "bg": "Потопи я в таниновата баня и движи внимателно за равномерна обработка.",
+      "en": "Put it in the tannin bath and move it gently, so it is treated evenly."
+     }
+    },
+    {
+     "id": "tb-s4",
+     "text": {
+      "bg": "Остави според избрания метод — по-дълго при стайна температура или по-кратко в затоплена баня.",
+      "en": "Leave it according to the method you follow — longer at room temperature, or a shorter time in a warmed bath."
+     }
+    },
+    {
+     "id": "tb-s5",
+     "text": {
+      "bg": "Извади и остави да се отцеди.",
+      "en": "Lift it out and let it drain."
+     }
+    },
+    {
+     "id": "tb-s6",
+     "text": {
+      "bg": "Продължи към алуминиевото закрепване. Не изпирай с препарат между двете бани.",
+      "en": "Go on to the aluminium mordant. Do not wash with detergent between the two baths."
+     }
+    }
+   ]
+  },
+  {
+   "code": "silk-mordant",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "protein"
+   ],
+   "sourceCodes": [
+    "crafty-place-guide"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "tempMinC": 50,
+   "tempMaxC": 60,
+   "name": {
+    "bg": "Закрепване на коприна",
+    "en": "Mordanting silk"
+   },
+   "notes": {
+    "bg": "Коприната се закрепва в топла, не гореща баня и се оставя да изстине в нея. Стипцата се разтваря отделно, преди да влезе платът. Рецептата е с калиева стипца; алуминиевият сулфат е друго вещество с друго съдържание на алуминий и не се заменя грам за грам.",
+    "en": "Silk is mordanted in a warm, not hot bath and left to cool in it. The alum is dissolved separately, before the cloth goes in. This recipe is for potassium alum; aluminium sulfate is a different substance with a different aluminium content and is not swapped gram for gram."
+   },
+   "ingredients": [
+    {
+     "id": "sm-1",
+     "roleCode": "aluminium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": null,
+     "quantityMin": 10,
+     "quantityMax": 15,
+     "note": {
+      "bg": "Калиева стипца, 10–15% WOF. Алуминиевият сулфат не е заместител грам за грам и има своя рецепта.",
+      "en": "Potassium alum, 10–15% WOF. Aluminium sulfate is not a gram-for-gram substitute and has a recipe of its own."
+     },
+     "options": [
+      {
+       "id": "sm-1-a",
+       "substanceId": "seed:alum_potassium_12",
+       "qtyMin": 10,
+       "qtyMax": 15
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "sm-s1",
+     "text": {
+      "bg": "Разтвори калиевата стипца в малко топла вода.",
+      "en": "Dissolve the potassium alum in a little warm water."
+     }
+    },
+    {
+     "id": "sm-s2",
+     "text": {
+      "bg": "Долей достатъчно вода за свободно движение на коприната.",
+      "en": "Top up with enough water for the silk to move freely."
+     }
+    },
+    {
+     "id": "sm-s3",
+     "text": {
+      "bg": "Добави предварително намокрената коприна.",
+      "en": "Add the silk, wetted out beforehand."
+     }
+    },
+    {
+     "id": "sm-s4",
+     "text": {
+      "bg": "Загрявай постепенно до около 50–60 °C и движи внимателно.",
+      "en": "Bring it up gradually to about 50–60 °C, moving it gently."
+     }
+    },
+    {
+     "id": "sm-s5",
+     "text": {
+      "bg": "Поддържай според времето на рецептата.",
+      "en": "Hold for the time the recipe gives."
+     }
+    },
+    {
+     "id": "sm-s6",
+     "text": {
+      "bg": "Остави да се охлади в банята.",
+      "en": "Let it cool in the bath."
+     }
+    },
+    {
+     "id": "sm-s7",
+     "text": {
+      "bg": "Извади и отцеди внимателно.",
+      "en": "Lift it out and drain it gently."
+     }
+    }
+   ]
+  },
+  {
+   "code": "cellulose-alum-soda-mordant",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose"
+   ],
+   "sourceCodes": [
+    "crafty-place-guide"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "tempMinC": 55,
+   "tempMaxC": 60,
+   "heldMinutes": 90,
+   "name": {
+    "bg": "Закрепване на целулоза със стипца и сода",
+    "en": "Mordanting cellulose with alum and soda"
+   },
+   "notes": {
+    "bg": "Двата компонента се разтварят отделно и содата се добавя бавно — иначе се утаява. Банята върви след таниновата и завършва с бавно охлаждане в нея.",
+    "en": "The two are dissolved separately and the soda goes in slowly — added fast it precipitates. The bath follows the tannin one and ends by cooling slowly in it."
+   },
+   "ingredients": [
+    {
+     "id": "cm-1",
+     "roleCode": "aluminium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 15,
+     "quantityMin": 15,
+     "quantityMax": 15,
+     "note": {
+      "bg": "Алуминиев компонент, 15% WOF.",
+      "en": "The aluminium component, 15% WOF."
+     },
+     "options": [
+      {
+       "id": "cm-1-a",
+       "substanceId": "seed:alum_potassium_12",
+       "qtyMin": 15,
+       "qtyMax": 15
+      },
+      {
+       "id": "cm-1-b",
+       "substanceId": "seed:al_sulfate_18",
+       "qtyMin": 15,
+       "qtyMax": 15
+      }
+     ]
+    },
+    {
+     "id": "cm-2",
+     "roleCode": "sodium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 2,
+     "quantityMin": 2,
+     "quantityMax": 2,
+     "note": {
+      "bg": "Натриев карбонат (калцинирана сода), 2% WOF.",
+      "en": "Sodium carbonate (soda ash), 2% WOF."
+     },
+     "options": [
+      {
+       "id": "cm-2-a",
+       "substanceId": "seed:soda_ash",
+       "qtyMin": 2,
+       "qtyMax": 2
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "cm-s1",
+     "text": {
+      "bg": "Загрей водата до около 60 °C.",
+      "en": "Heat the water to about 60 °C."
+     }
+    },
+    {
+     "id": "cm-s2",
+     "text": {
+      "bg": "Разтвори алуминиевия компонент отделно и добави към банята.",
+      "en": "Dissolve the aluminium component separately and add it to the bath."
+     }
+    },
+    {
+     "id": "cm-s3",
+     "text": {
+      "bg": "Разтвори натриевия карбонат отделно и добавяй бавно при разбъркване.",
+      "en": "Dissolve the sodium carbonate separately and add it slowly, stirring."
+     }
+    },
+    {
+     "id": "cm-s4",
+     "text": {
+      "bg": "Добави предварително обработената с танин и намокрена целулозна тъкан.",
+      "en": "Add the cellulose cloth, tanned beforehand and wetted out."
+     }
+    },
+    {
+     "id": "cm-s5",
+     "text": {
+      "bg": "Поддържай около 60 °C за 1–2 часа и движи периодично.",
+      "en": "Hold at about 60 °C for one to two hours, moving it from time to time."
+     }
+    },
+    {
+     "id": "cm-s6",
+     "text": {
+      "bg": "Остави да се охлади в банята.",
+      "en": "Let it cool in the bath."
+     }
+    },
+    {
+     "id": "cm-s7",
+     "text": {
+      "bg": "Извади, изплакни леко и продължи към багрене или сушене.",
+      "en": "Lift it out, rinse lightly and go on to dyeing or drying."
+     }
+    }
+   ]
+  },
+  {
+   "code": "madder-dye",
+   "type": "dye",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "crafty-place-guide"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "tempMinC": 45,
+   "tempMaxC": 60,
+   "heldMinutes": 60,
+   "name": {
+    "bg": "Багрене с брош",
+    "en": "Dyeing with madder"
+   },
+   "notes": {
+    "bg": "25–50% WOF сух корен: долният край дава по-светли резултати, горният — по-наситен цвят. Резултатът зависи и от влакното, водата, закрепителя, pH и температурата.\n\nБрошът е чувствителен към температура, pH, водата и вида на закрепителя. По-ниските температури обикновено подпомагат по-ясни червени и коралови тонове, а по-високите могат да изместят цвета към по-топли, тухлени и кафеникави нюанси.",
+    "en": "25–50% WOF of dried root: the lower end gives lighter results, the upper a deeper colour. The outcome also depends on the fibre, the water, the mordant, the pH and the temperature.\n\nMadder is sensitive to temperature, pH, the water and the kind of mordant. Lower temperatures usually favour clearer reds and corals, while higher ones can move the colour towards warmer, brick and brownish tones."
+   },
+   "ingredients": [
+    {
+     "id": "md-1",
+     "roleCode": "dyestuff",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": null,
+     "quantityMin": 25,
+     "quantityMax": 50,
+     "note": {
+      "bg": "Сух корен от брош, 25–50% WOF.",
+      "en": "Dried madder root, 25–50% WOF."
+     },
+     "options": [
+      {
+       "id": "md-1-a",
+       "plantId": "seed:rubia_tinctorum",
+       "partCode": "root",
+       "qtyMin": 25,
+       "qtyMax": 50
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "md-s1",
+     "text": {
+      "bg": "Накисни сухия корен в студена вода за няколко часа или за една нощ.",
+      "en": "Soak the dried root in cold water for some hours or overnight."
+     }
+    },
+    {
+     "id": "md-s2",
+     "text": {
+      "bg": "При нужда натроши или нарежи корена след накисването.",
+      "en": "Break or cut the root up after soaking, if it needs it."
+     }
+    },
+    {
+     "id": "md-s3",
+     "text": {
+      "bg": "Добави корена и течността от накисването към багрилната баня.",
+      "en": "Add the root and its soaking water to the dye bath."
+     }
+    },
+    {
+     "id": "md-s4",
+     "text": {
+      "bg": "Добави предварително намокрената и подходящо закрепена тъкан.",
+      "en": "Add the cloth, wetted out and suitably mordanted."
+     }
+    },
+    {
+     "id": "md-s5",
+     "text": {
+      "bg": "Загрявай постепенно и избягвай силно кипене.",
+      "en": "Bring it up gradually and keep it off a hard boil."
+     }
+    },
+    {
+     "id": "md-s6",
+     "text": {
+      "bg": "Поддържай избраната температура около 45–60 минути, като движиш внимателно.",
+      "en": "Hold the chosen temperature for about 45–60 minutes, moving the cloth gently."
+     }
+    },
+    {
+     "id": "md-s7",
+     "text": {
+      "bg": "По желание остави да се охлади в банята за по-дълбок цвят.",
+      "en": "If you wish, let it cool in the bath for a deeper colour."
+     }
+    },
+    {
+     "id": "md-s8",
+     "text": {
+      "bg": "Изплакни и остави да изсъхне.",
+      "en": "Rinse and let it dry."
+     }
+    }
+   ]
+  },
+  {
+   "code": "aluminium-acetate-prep",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "crafty-place-practice",
+    "boutrup-ellis"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "vinegarPercent": 5,
+   "name": {
+    "bg": "Приготвяне на работен разтвор алуминиев ацетат",
+    "en": "Preparing a working aluminium acetate solution"
+   },
+   "notes": {
+    "bg": "Разтворът се прави на момента, за теглото на тъканта, която ще се закрепва — готов алуминиев ацетат на прах рядко се намира. Количествата по-долу се преизчисляват спрямо това тегло, а полученият разтвор се използва изцяло за банята на същата тъкан. Затова няма второ смятане: един път се смята — тук.\n\nCrafty Place — адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. Удобният фиксиран вариант е с калиева стипца и 5% оцет. При друга форма на алуминиевия реагент или друга концентрация на оцета не заменяй количеството грам за грам — използвай калкулатора „Алуминиев ацетат“ и избери точната форма и концентрация.",
+    "en": "The solution is made on the spot, for the weight of the cloth that will be mordanted — finished aluminium acetate powder is rarely to hand. The quantities below scale with that weight, and the whole solution goes into the bath for that same cloth. So there is no second calculation: it is worked out once, here.\n\nCrafty Place — adapted from Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. The convenient fixed variant is with potassium alum and 5% vinegar. For another form of the aluminium reagent or another strength of vinegar, do not swap the quantity gram for gram — use the aluminium acetate calculator and choose the exact form and strength."
+   },
+   "ingredients": [
+    {
+     "id": "aap-1",
+     "roleCode": "aluminium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 18,
+     "quantityMin": 18,
+     "quantityMax": 18,
+     "note": {
+      "bg": "Калиева стипца, 18% WOF — 18 г на 100 г влакно.",
+      "en": "Potassium alum, 18% WOF — 18 g to 100 g of fibre."
+     },
+     "options": [
+      {
+       "id": "aap-1-a",
+       "substanceId": "seed:alum_potassium_12",
+       "qtyMin": 18,
+       "qtyMax": 18
+      }
+     ]
+    },
+    {
+     "id": "aap-2",
+     "roleCode": "sodium_source",
+     "basis": "percent_wof",
+     "unit": "g",
+     "quantity": 10,
+     "quantityMin": 10,
+     "quantityMax": 10,
+     "note": {
+      "bg": "Натриев карбонат (калцинирана сода), 10% WOF — 10 г на 100 г влакно.",
+      "en": "Sodium carbonate (soda ash), 10% WOF — 10 g to 100 g of fibre."
+     },
+     "options": [
+      {
+       "id": "aap-2-a",
+       "substanceId": "seed:soda_ash",
+       "qtyMin": 10,
+       "qtyMax": 10
+      }
+     ]
+    },
+    {
+     "id": "aap-3",
+     "roleCode": "acid_source",
+     "basis": "percent_wof",
+     "unit": "ml",
+     "quantity": 240,
+     "quantityMin": 240,
+     "quantityMax": 240,
+     "note": {
+      "bg": "Бял оцет 5%, 240% WOF — 240 мл на 100 г влакно.",
+      "en": "White vinegar 5%, 240% WOF — 240 ml to 100 g of fibre."
+     },
+     "options": [
+      {
+       "id": "aap-3-a",
+       "substanceId": "seed:acetic_acid",
+       "qtyMin": 240,
+       "qtyMax": 240
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "aap-s1",
+     "text": {
+      "bg": "Използвай съд с поне двойно по-голям обем от количеството оцет, защото сместа се разпенва.",
+      "en": "Use a vessel at least twice the volume of the vinegar, because the mixture foams up."
+     }
+    },
+    {
+     "id": "aap-s2",
+     "text": {
+      "bg": "При разбъркване смеси стипцата, натриевия карбонат и оцета. Добавяй содата постепенно.",
+      "en": "Stirring, mix the alum, the sodium carbonate and the vinegar. Add the soda gradually."
+     }
+    },
+    {
+     "id": "aap-s3",
+     "text": {
+      "bg": "Изчакай разпенването да приключи и разтворът да се успокои.",
+      "en": "Wait for the foaming to stop and the solution to settle."
+     }
+    },
+    {
+     "id": "aap-s4",
+     "text": {
+      "bg": "Полученият разтвор е работният разтвор за тази тъкан. Използва се цял в банята за закрепване.",
+      "en": "What results is the working solution for this cloth. The whole of it goes into the mordant bath."
+     }
+    }
+   ],
+   "requiredFollowOn": [
+    "seed:aluminium-acetate-mordant"
+   ]
+  },
+  {
+   "code": "aluminium-acetate-mordant",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "crafty-place-practice",
+    "boutrup-ellis"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "requiredFollowOn": [
+    "seed:chalk-bath"
+   ],
+   "name": {
+    "bg": "Закрепване с алуминиев ацетат",
+    "en": "Mordanting with aluminium acetate"
+   },
+   "notes": {
+    "bg": "Банята е самият работен разтвор: приготвя се по теглото на тъканта и се използва цял. Няма второ мащабиране — количеството алуминий вече е решено при приготвянето.\n\nЗа целулоза и за коприна; протеиново тук значи коприна, не автоматично вълна. Банята е студена или хладка и не се нагрява.\n\nТаниновата предварителна обработка не е задължителна за този начин на работа. При някои методи и цели се прави, но не е част от основната верига.\n\nСлед банята задължително следва баня с креда (калциев карбонат) — тя свързва закрепителя, а не просто регулира pH.\n\nCrafty Place — адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B.",
+    "en": "The bath is the working solution itself: made for the weight of the cloth and used whole. There is no second scaling — how much aluminium there is was settled when it was made.\n\nFor cellulose and for silk; protein here means silk, not automatically wool. The bath is cold or cool and is not heated.\n\nA tannin pre-treatment is not required for this way of working. Some methods and aims call for one, but it is not part of the default chain.\n\nA chalk bath (calcium carbonate) must follow — it binds the mordant rather than merely adjusting the pH.\n\nCrafty Place — adapted from Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B."
+   },
+   "ingredients": [
+    {
+     "id": "aam-1",
+     "roleCode": "aluminium_source",
+     "basis": "absolute",
+     "unit": "ml",
+     "quantity": null,
+     "quantityMin": null,
+     "quantityMax": null,
+     "note": {
+      "bg": "Целият работен разтвор, приготвен за теглото на тази тъкан. Не се мери наново и не се смята втори процент.",
+      "en": "The whole working solution, made for the weight of this cloth. It is not measured again and no second percentage is worked out."
+     },
+     "options": [
+      {
+       "id": "aam-1-a",
+       "recipeId": "seed:aluminium-acetate-prep"
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "aam-s1",
+     "text": {
+      "bg": "Изсипи целия работен разтвор в съда и долей студена вода, колкото тъканта да се движи свободно.",
+      "en": "Pour the whole working solution into the vessel and top up with cold water, so the cloth can move freely."
+     }
+    },
+    {
+     "id": "aam-s2",
+     "text": {
+      "bg": "Добави предварително намокрената тъкан — целулоза или коприна.",
+      "en": "Add the cloth, wetted out beforehand — cellulose or silk."
+     }
+    },
+    {
+     "id": "aam-s3",
+     "text": {
+      "bg": "Остави в студената баня, като движиш периодично.",
+      "en": "Leave it in the cold bath, moving it from time to time."
+     }
+    },
+    {
+     "id": "aam-s4",
+     "text": {
+      "bg": "Извади и отцеди, без да изплакваш.",
+      "en": "Lift it out and drain it, without rinsing."
+     }
+    },
+    {
+     "id": "aam-s5",
+     "text": {
+      "bg": "Продължи към банята с креда.",
+      "en": "Go on to the chalk bath."
+     }
+    }
+   ]
+  },
+  {
+   "code": "chalk-bath",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "volume",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "sourceCodes": [
+    "crafty-place-practice",
+    "boutrup-ellis"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "defaultLitres": 5,
+   "heldMinutes": 10,
+   "name": {
+    "bg": "Баня с креда (калциев карбонат)",
+    "en": "Chalk bath (calcium carbonate)"
+   },
+   "notes": {
+    "bg": "Банята след алуминиевия ацетат: 10 г калциев карбонат на литър, тоест около 50 г на 5 литра. Пшеничните трици са традиционна алтернатива на кредата, но не са основната съставка тук.",
+    "en": "The bath after aluminium acetate: 10 g of calcium carbonate per litre, that is about 50 g to 5 litres. Wheat bran is a traditional alternative to chalk, but it is not the ingredient here."
+   },
+   "ingredients": [
+    {
+     "id": "cb-1",
+     "roleCode": "assistant",
+     "basis": "grams_per_litre",
+     "unit": "g",
+     "quantity": 10,
+     "quantityMin": 10,
+     "quantityMax": 10,
+     "note": {
+      "bg": "Калциев карбонат, 10 г на литър — около 50 г на 5 литра.",
+      "en": "Calcium carbonate, 10 g per litre — about 50 g to 5 litres."
+     },
+     "options": [
+      {
+       "id": "cb-1-a",
+       "substanceId": "seed:calcium_carbonate",
+       "qtyMin": 10,
+       "qtyMax": 10
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "cb-s1",
+     "text": {
+      "bg": "Разбъркай калциевия карбонат в топла вода.",
+      "en": "Stir the calcium carbonate into warm water."
+     }
+    },
+    {
+     "id": "cb-s2",
+     "text": {
+      "bg": "Потопи обработената с алуминиев ацетат тъкан за около 10 минути и движи периодично.",
+      "en": "Put the cloth that came out of the aluminium acetate in for about 10 minutes, moving it from time to time."
+     }
+    },
+    {
+     "id": "cb-s3",
+     "text": {
+      "bg": "Извади и изплакни добре.",
+      "en": "Lift it out and rinse it well."
+     }
+    }
+   ]
+  },
   {
    "code": "pigment-lake-master",
    "type": "pigment",

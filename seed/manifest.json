@@ -26,7 +26,11 @@
   },
   "recipes": {
    "packId": "bagra-recipes",
-   "version": "0.18.7"
+   "version": "0.19.1"
+  },
+  "chains": {
+   "packId": "bagra-chains",
+   "version": "0.1.1"
   }
  }
 }

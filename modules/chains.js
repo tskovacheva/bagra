@@ -12,6 +12,7 @@ import { all, get, put, newRecord, uid, setSetting } from '../db.js';
 import { t, text } from '../i18n.js';
 import { tempWith } from '../units.js';
 import { page, panel, field, options, label, esc, empty, note, pairField, readPairs, navigate , fieldGroup, actionBtn, backTo, deleteGuarded } from '../ui.js';
+import * as seedUI from '../seed-ui.js';
 import { expandChain } from '../calc/scale.js';
 
 const FIBRE_CLASSES = ['cellulose', 'protein'];
@@ -71,7 +72,7 @@ export async function renderList(root, host) {
   root.innerHTML = page({
     title: t('chains.title'),
     sub: t('chains.sub'),
-    actions: `${host.tabs()}
+    actions: `${host.tabs()}${seedUI.syncButton('chains')}
       <button class="btn primary" data-new-chain ${recipes.length < 2 ? 'disabled' : ''}>${t('chains.new')}</button>`,
     body: `${recipes.length < 2 ? note(t('chains.noRecipes'), 'warn') : ''}${panel(table, 'flush')}`,
   });
@@ -361,6 +362,8 @@ export default {
   },
 
   async render(root, host) {
+    // The pack preview stands in place of the screen while it is open (rc100).
+    if (seedUI.isOpen()) return seedUI.render(root, () => this.render(root, host));
     if (openId) {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('chains', openId));
@@ -381,6 +384,13 @@ export default {
 
     root.onclick = async (e) => {
       // Through the address, like everything else (§8.0d).
+      if (e.target.closest('[data-sync]')) {
+        // The chains are a pack since rc100, so a correction to a seeded chain
+        // has a way to reach a copy that is already installed.
+        try { await seedUI.open('chains'); return seedUI.render(root, () => this.render(root, host)); }
+        catch (err) { alert(err.message); }
+        return;
+      }
       if (e.target.closest('[data-new-chain]')) return navigate('#/recipes/chains/new');
       const row = e.target.closest('[data-open-chain]');
       if (row) return navigate(`#/recipes/chains/${row.dataset.openChain}`);

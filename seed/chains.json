@@ -1,0 +1,93 @@
+{
+ "packId": "bagra-chains",
+ "packVersion": "0.1.1",
+ "description": "Preparation chains: the order a piece goes through before it is dyed.",
+ "chains": [
+  {
+   "code": "prep-cellulose-tannin-alum",
+   "appliesTo": [
+    "cellulose"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "name": {
+    "bg": "Подготовка на целулоза с танин и стипца",
+    "en": "Preparation of cellulose with tannin and alum"
+   },
+   "notes": {
+    "bg": "Трите бани, в реда, в който вървят: изпиране, танин, закрепване със стипца и сода. Между таниновата баня и закрепването не се изпира с препарат.",
+    "en": "The three baths, in the order they go: scouring, tannin, mordanting with alum and soda. No detergent wash between the tannin bath and the mordant."
+   },
+   "steps": [
+    {
+     "id": "pc-1",
+     "order": 0,
+     "recipeId": "seed:cellulose-scour",
+     "choices": {},
+     "note": ""
+    },
+    {
+     "id": "pc-2",
+     "order": 1,
+     "recipeId": "seed:tannin-bath",
+     "choices": {},
+     "note": ""
+    },
+    {
+     "id": "pc-3",
+     "order": 2,
+     "recipeId": "seed:cellulose-alum-soda-mordant",
+     "choices": {},
+     "note": ""
+    }
+   ]
+  },
+  {
+   "code": "prep-aluminium-acetate",
+   "appliesTo": [
+    "cellulose",
+    "protein"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "name": {
+    "bg": "Подготовка с алуминиев ацетат",
+    "en": "Preparation with aluminium acetate"
+   },
+   "notes": {
+    "bg": "За целулоза и за коприна. Изпирането е първата стъпка и зависи от влакното: целулозата се изпира горещо и с алкална баня, коприната — меко и до около 50 °C. Веригата не може да избира стъпка според влакното, затова тук стои изпирането на целулоза; при коприна замени първата стъпка с „Изпиране на коприна“.\n\nРаботният разтвор се приготвя по теглото на тъканта и се използва цял в следващата баня — смята се веднъж. След закрепването задължително следва банята с креда.",
+    "en": "For cellulose and for silk. Scouring comes first and depends on the fibre: cellulose is scoured hot and alkaline, silk gently and up to about 50 °C. A chain cannot choose a step by fibre, so cellulose scouring stands here; for silk, replace the first step with silk scouring.\n\nThe working solution is made for the weight of the cloth and used whole in the bath that follows — it is worked out once. The chalk bath must follow the mordant."
+   },
+   "steps": [
+    {
+     "id": "pa-1",
+     "order": 0,
+     "recipeId": "seed:cellulose-scour",
+     "choices": {},
+     "note": "Целулоза. При коприна: „Изпиране на коприна“. / Cellulose. For silk: silk scouring."
+    },
+    {
+     "id": "pa-2",
+     "order": 1,
+     "recipeId": "seed:aluminium-acetate-prep",
+     "choices": {},
+     "note": "Приготвя се по теглото на тъканта. / Made for the weight of the cloth."
+    },
+    {
+     "id": "pa-3",
+     "order": 2,
+     "recipeId": "seed:aluminium-acetate-mordant",
+     "choices": {},
+     "note": ""
+    },
+    {
+     "id": "pa-4",
+     "order": 3,
+     "recipeId": "seed:chalk-bath",
+     "choices": {},
+     "note": ""
+    }
+   ]
+  }
+ ]
+}
