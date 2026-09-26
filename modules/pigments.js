@@ -12,14 +12,14 @@
 // leaving it to be discovered — an unlabelled column of grams read a year later
 // looks exactly like stock on hand.
 //
-// A JOURNAL ENTRY, NOT A WORKFLOW (§15d). A batch says what it was made from,
+// A JOURNAL ENTRY, NOT A WORKFLOW (§13fg). A batch says what it was made from,
 // which recipe it followed, what actually went in, what happened, and what came
 // out. The recipe already describes the method; the batch records this time.
 // Until rc105 it carried six fixed stages, a recipe-or-chain choice, a
 // classification of every departure from the recipe, a quality rating and six
 // kinds of product swatch. Pigment-making is occasional, and that was a
 // workflow engine for something done a few times a year. What was taken out is
-// listed in §15d, and old records keep every field they had.
+// listed in §13fg, and old records keep every field they had.
 
 import { all, get, put, remove, newRecord, uid } from '../db.js';
 import { linesFromRecipe } from '../recipe-lines.js';
@@ -32,7 +32,7 @@ import { page, panel, field, fieldGroup, esc, empty, pairField, readPairs, navig
 let openId = null;
 let draft = null;
 
-// The shape a batch is written in from rc105 (§15d). Fields an older batch
+// The shape a batch is written in from rc105 (§13fg). Fields an older batch
 // carries and this one does not — `stages`, `finishedOn`, `quality`,
 // `swatchHex`, `swatchName`, a swatch's `kind`, `substrate` and `viaId` — are
 // left on those records and shown read-only where they hold something; nothing
@@ -50,10 +50,10 @@ function blank() {
     rawWeightG: null,
     // Always a recipe for a new batch. `viaKind` stays in the shape because an
     // older batch may say `chain`, and that batch is shown as made by its
-    // chain rather than reinterpreted (§15d).
+    // chain rather than reinterpreted (§13fg).
     viaKind: 'recipe',
     viaId: '',
-    // WHAT WAS ACTUALLY PUT IN (§13dr, simplified at §15d). Taken from the
+    // WHAT WAS ACTUALLY PUT IN (§13dr, simplified at §13fg). Taken from the
     // recipe once, then edited as the work went. The lines still carry `was`
     // because `linesFromRecipe` is shared with the paste print (§13ee), but
     // this screen does not classify or display departures.
@@ -62,7 +62,7 @@ function blank() {
     // What happened this time, in one text. Replaces the six stages.
     process: { bg: '', en: '' },
     yieldG: null,
-    // Simple colour records: a colour, a name, a short note (§15d).
+    // Simple colour records: a colour, a name, a short note (§13fg).
     swatches: [],
     photos: [],
     // „Резултат и извод" — what came out and what to change next time.
@@ -102,7 +102,7 @@ async function renderList(root) {
     const shown = list.map(x => ({ b: x, w: swatchOf(x) }))
       .find(({ b: x, w }) => x.status !== 'failed' && w)?.w || null;
 
-    // Three columns. Quality left the list at §15d: it is no longer entered,
+    // Three columns. Quality left the list at §13fg: it is no longer entered,
     // and a column that is empty for every new batch reads as work left undone.
     const rows = list.map(b => {
       const failed = b.status === 'failed';
@@ -153,7 +153,7 @@ async function renderList(root) {
 // instead of searching the source for a string it half remembers (§13cz).
 export function canTakeLines(batch, recipe) {
   if (!recipe) return false;
-  // An older batch made by a chain has no recipe lines to take (§15d).
+  // An older batch made by a chain has no recipe lines to take (§13fg).
   if (batch.viaKind === 'chain') return false;
   // The one that matters: an evening's entries are not replaced by one click.
   if ((batch.lines || []).length) return false;
@@ -167,7 +167,7 @@ async function renderBatch(root, b, plants, recipes, chains, recipesAll) {
   const parts = (plant?.parts || []).map(x => x.partCode);
   // An older batch may say it was made by a chain. It is shown as that, read
   // only: turning it into a recipe would be a guess about which step of the
-  // chain made the pigment (§15d).
+  // chain made the pigment (§13fg).
   const byChain = b.viaKind === 'chain';
   const chain = byChain ? chains.find(c => c.id === b.viaId) : null;
   const recipe = byChain ? null : recipesAll.find(r => r.id === b.viaId);
@@ -218,7 +218,7 @@ async function renderBatch(root, b, plants, recipes, chains, recipesAll) {
   `);
 
   // 3. What I actually used. A plain editable list: what, how much, a note.
-  // No classification against the recipe (§15d). A line an older batch struck
+  // No classification against the recipe (§13fg). A line an older batch struck
   // out is still drawn struck, because that is what she wrote; × removes any
   // line.
   const canTake = canTakeLines(b, recipe);
@@ -321,7 +321,7 @@ async function renderBatch(root, b, plants, recipes, chains, recipesAll) {
   `);
 
   // What an older batch recorded and the screen no longer asks for. Shown, not
-  // edited, so nothing she wrote disappears from view (§15d).
+  // edited, so nothing she wrote disappears from view (§13fg).
   const legacyRows = [];
   if (b.finishedOn) legacyRows.push(`${t('pigments.finished')}: ${esc(b.finishedOn)}`);
   if (b.quality) legacyRows.push(`${t('pigments.qualityLabel')}: ${esc(t('pigments.quality.' + b.quality))}`);
@@ -494,7 +494,7 @@ export default {
                            amount: null, unit: '', note: { bg: '', en: '' } });
         return this.render(root);
       }
-      // A line is removed outright (§15d). It used to be struck through when
+      // A line is removed outright (§13fg). It used to be struck through when
       // it came from the recipe, so the departure could be read; the batch no
       // longer reads departures, and a struck row is a row in the way.
       const lineDel = e.target.closest('[data-line-del]');

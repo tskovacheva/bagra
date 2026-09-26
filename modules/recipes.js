@@ -82,7 +82,11 @@ const SHOWS = {
 // is one no longer offered — so saving an untouched form never changes it.
 async function typeOptions(selected) {
   const html = await options('recipe_type', selected, '');
-  return html.replace(/<option value="([^"]*)"( selected)?>[^<]*<\/option>/g,
+  // Built from a string rather than written as a regex literal: check-scope.js
+  // strips string literals by their quotes and does not know regex syntax, so
+  // the double quotes in a literal made it read the rest of this file as one
+  // string and report five declared names as undeclared (§13fh).
+  return html.replace(new RegExp('<option value="([^"]*)"( selected)?>[^<]*</option>', 'g'),
     (opt, code) => (!code || TYPES.includes(code) || code === selected) ? opt : '');
 }
 
