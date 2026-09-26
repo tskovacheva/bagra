@@ -4623,7 +4623,7 @@ const dirty = await import('./dirty.js');
   else console.log('  pigments: the list says which question it answers');
 
   // A failed batch keeps its process and its conclusion — that is the whole
-  // reason to record it (§15d; its stages until then). If it ever renders an empty result panel instead, the most
+  // reason to record it (§13fg; its stages until then). If it ever renders an empty result panel instead, the most
   // useful record in the module reads as unfinished rather than as instructive.
   if (!/failed \?[\s\S]{0,400}pigments\.noResult/.test(src))
     fail('pigments', new Error('a failed batch does not show its own panel — it would read as unfinished'));
@@ -4657,7 +4657,7 @@ const dirty = await import('./dirty.js');
   else console.log('  pigments: only a recipe that produces something can start a batch');
 }
 
-// ---- 24h'. A pigment batch is a journal entry, not a workflow (§15d) ------
+// ---- 24h'. A pigment batch is a journal entry, not a workflow (§13fg) ------
 //
 // rc105 took the six fixed stages, the recipe-or-chain choice, the departure
 // chips, quality, and the kind / substrate / recipe of each swatch off the

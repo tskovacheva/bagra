@@ -82,6 +82,16 @@ export const FIELD_LABELS = {
     phTarget: 'recipes.phTarget',
     tempC: 'seed.field.temperature', tempMinC: 'seed.field.temperature',
     tempMaxC: 'seed.field.temperature',
+    origin: 'recipes.origin', liquorRatio: 'recipes.liquorRatio',
+    vinegarPercent: 'recipes.vinegarPercent', defaultLitres: 'recipes.defaultLitres',
+  },
+  // Chains became a pack at rc100 (§13fc) and had no entry here, so the preview
+  // would have named every changed field by its raw key (§13fh). Existing labels
+  // only — the chain screen's own, or the recipe's where a chain has no word of
+  // its own for the same thing.
+  chains: {
+    name: 'chains.name', appliesTo: 'recipes.appliesTo', steps: 'chains.steps',
+    notes: 'common.notes', distributable: 'recipes.distributable', origin: 'recipes.origin',
   },
 };
 

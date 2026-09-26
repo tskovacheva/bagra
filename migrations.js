@@ -151,7 +151,7 @@ export async function migratePigmentSwatchList() {
 }
 
 
-// The six stages become one text (§15d).
+// The six stages become one text (§13fg).
 //
 // Pigment-making is occasional, and a fixed six-stage workflow was more
 // structure than a batch needs: the recipe already says how the work goes, and

@@ -467,7 +467,7 @@ const DICT = {
     'tools.aceticAcid': 'от които оцетна киселина',
     'tools.noAcid': 'Този натриев източник вече носи ацетата — оцет не е нужен.',
     'tools.finishing': 'След обработката със закрепител е нужна варова баня — тя свързва закрепителя, а не просто регулира pH.',
-    'tools.verify': 'Стехиометрията е разписана открито в calc/alum-acetate.js, за да може да се провери. Сверена с Boutrup и Ellis, The Art and Science of Natural Dyes (2018): тяхната стандартна рецепта — 18% стипца, 10% натриев карбонат, 240% оцет 5% — съвпада със сметката за алуминиев сулфат около 14-хидрат, с около 10% работен излишък. За калиева стипца същите проценти дават близо 65% излишък сода и оцет.',
+    'tools.verify': 'Стехиометрията е разписана открито в calc/alum-acetate.js, за да може да се провери. Калкулаторът е отделен инструмент за изчисление. Фиксираната рецепта на Crafty Place е отделна практическа рецепта, адаптирана по Boutrup и Ellis, рецепта 11B, с калиева стипца — от нея не се очаква да съвпада числено с резултата от калкулатора. Различните алуминиеви соли и хидратни форми не се заменят грам за грам.',
 
     'tools.reverse': 'Планиране на покупка',
     'tools.noSubstances': 'Няма записани вещества.',
@@ -542,7 +542,7 @@ const DICT = {
     'recipes.quantity': 'Количество',
     'recipes.basis': 'Спрямо какво',
     'recipes.refersTo': 'Процентът е от',
-    'recipes.refersToHint': 'Готов продукт или суровина. 5–8% готов ацетат и 15–20% сурова стипца са едно и също нещо.',
+    'recipes.refersToHint': 'Готовият алуминиев ацетат и суровият алуминиев източник са различни бази за изчисление. Обичайни ориентири са 5–8% WOF за готов ацетат и 15–20% WOF за сурова стипца.',
     'recipes.whenFibre': 'Само при',
     'recipes.whenFibreAny': 'винаги',
 
@@ -1968,7 +1968,7 @@ const DICT = {
     'tools.aceticAcid': 'of which acetic acid',
     'tools.noAcid': 'This sodium source already carries the acetate — no vinegar needed.',
     'tools.finishing': 'A chalk finishing bath is required afterwards — it binds the mordant, it does not merely adjust pH.',
-    'tools.verify': 'The stoichiometry is written out in calc/alum-acetate.js so it can be checked. Cross-checked against Boutrup and Ellis, The Art and Science of Natural Dyes (2018): their standard recipe — 18% alum, 10% soda ash, 240% of 5% vinegar — matches the arithmetic for aluminium sulfate at roughly 14-hydrate, with about 10% working excess. With potassium alum the same percentages give close to 65% excess soda and vinegar.',
+    'tools.verify': 'The stoichiometry is written out in calc/alum-acetate.js so it can be checked. The calculator is a separate calculation tool. The fixed Crafty Place recipe is a separate practical recipe, adapted from Boutrup and Ellis, Recipe 11B, using potassium alum — it is not expected to equal the calculator result. Different aluminium salts and hydration states are not substituted gram for gram.',
 
     'tools.reverse': 'Planning a purchase',
     'tools.noSubstances': 'No substances recorded.',
@@ -2043,7 +2043,7 @@ const DICT = {
     'recipes.quantity': 'Quantity',
     'recipes.basis': 'Basis',
     'recipes.refersTo': 'Percentage of',
-    'recipes.refersToHint': 'Finished product or raw input. 5–8% finished acetate and 15–20% raw alum are the same practice.',
+    'recipes.refersToHint': 'Finished aluminium acetate and the raw aluminium source are different calculation bases. Typical working ranges are 5–8% WOF for finished acetate and 15–20% WOF for raw alum.',
     'recipes.whenFibre': 'Only for',
     'recipes.whenFibreAny': 'always',
 

@@ -150,10 +150,10 @@ try {
       status: 'done', date: '2026-07-02', finishedOn: '2026-07-09',
       plantId: 'seed:rubia_tinctorum', partCode: 'root', rawWeightG: 300,
       viaKind: 'recipe', viaId: 'fixture:recipes',
-      // One text in place of the six stages (§15d), long enough to wrap.
+      // One text in place of the six stages (§13fg), long enough to wrap.
       process: { bg: 'Три часа на слаб огън, без да завира. Утаих с повече стипца, '
         + 'защото водата беше мека. Промих пет пъти, суших четири дни на хартия.', en: '' },
-      // A plain list since §15d. One line from an older batch is still struck,
+      // A plain list since §13fg. One line from an older batch is still struck,
       // so that row is drawn and measured rather than only reasoned about.
       linesFrom: { recipeId: 'fixture:recipes', recipeName: { bg: 'Лаков пигмент — основна рецепта', en: '' },
                    takenOn: '2026-07-02' },
@@ -176,7 +176,7 @@ try {
       yieldG: 18, quality: 'good',
       // Three swatches: the first in the rc105 shape (colour, name, note), the
       // other two as an older batch left them — with a kind and a surface, so
-      // the read-only line under them is drawn (§15d) — and one of those with
+      // the read-only line under them is drawn (§13fg) — and one of those with
       // no measured colour, so the dashed absence is drawn at all four widths.
       swatches: [
         { id: 'fx-w1', hex: '#A03D3B', name: { bg: 'марена, топла и малко мътна', en: '' },

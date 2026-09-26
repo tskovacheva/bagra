@@ -12,9 +12,26 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc107 — 26 September 2026
+
+The release gate repaired, and nothing else (§13fh). The rc100–rc105 specification sections are renumbered from
+§15–§15d to §13fc–§13fg, so „Visual identity" is the only §15; every citation follows. The one regex literal
+`check-scope.js` could not read is built with `new RegExp`, same pattern and flags. The pack preview gains the
+`chains` field dictionary and four recipe labels, all existing i18n keys. `check-boot.mjs` reads the navigation from
+`#topbar` and checks reachability by walking the bar from Home. `sh check.sh --release` runs start to finish.
+No behaviour, data, seed, pigment or calculator change.
+
+## 1.0.0-rc106 — 26 September 2026
+
+Wording only, two strings in both languages. `recipes.refersToHint` no longer calls 5–8% finished acetate and 15–20%
+raw alum the same thing: they are different calculation bases. `tools.verify` no longer says the fixed 18% / 10% /
+240% recipe matches the stoichiometry for 14-hydrate aluminium sulfate; it says the calculator is a separate tool and
+the fixed Crafty Place recipe a separate practical one (Boutrup & Ellis 11B, potassium alum), not expected to equal
+it, with salts and hydrates not substituted gram for gram (§13ff). No logic, test, seed, model or layout changed.
+
 ## 1.0.0-rc105 — 26 September 2026
 
-The pigment batch is a journal entry, not a workflow (§15d). Gone from the screen: the six fixed stages, the
+The pigment batch is a journal entry, not a workflow (§13fg). Gone from the screen: the six fixed stages, the
 recipe-or-chain choice, the departure chips and struck lines, quality, the second date, and a swatch's kind, surface
 and recipe. In their place one „Процес / бележки" field; the result keeps yield, simple swatches (colour, name, note),
 photographs — reachable from the screen for the first time — and „Резултат и извод". A batch starts from a recipe
@@ -34,7 +51,7 @@ scripts were never part of the app, never cached by the worker and never ran in 
 
 ## 1.0.0-rc103 — 23 September 2026
 
-The aluminium acetate calculator reads WOF two ways (§15c): as the finished acetate, as before, or as the chosen
+The aluminium acetate calculator reads WOF two ways (§13ff): as the finished acetate, as before, or as the chosen
 aluminium source, the way practical recipes state it. A selector says which, with an explanation that the two are
 different sums. Mode 1's formula and numbers are unchanged (311 g at 8% → 24.9 / 20.9 / 19.4 g and 366 ml); mode 2
 starts from the salt (100 g at 18% potassium alum → 18 g of alum, 7.7 g of acetate, 6 g of soda, 137 ml of 5%
@@ -44,14 +61,14 @@ journal data changed.
 
 ## 1.0.0-rc102 — 23 September 2026
 
-About and Getting started carry the owner's own texts (§15b). „Какво е Багра" with its three sections, the
+About and Getting started carry the owner's own texts (§13fe). „Какво е Багра" with its three sections, the
 „Справочник или дневник?" block beside it, and „Как се започва" with two ways to begin and five numbered
 sections — all in BG and EN, in the tabs that already existed. `about.js` gained a section helper and the module
 its own heading and paragraph rhythm; nothing was shortened. No route, module, data or navigation changed.
 
 ## 1.0.0-rc101 — 23 September 2026
 
-The aluminium acetate workflow calculates once (§15a). The mordant no longer doses 5–8% WOF of finished acetate on
+The aluminium acetate workflow calculates once (§13fd). The mordant no longer doses 5–8% WOF of finished acetate on
 top of a solution that was already made for the cloth: its single line is the whole working solution, on `absolute`
 with no quantity, pointing at the preparation, and its `target` is gone. The preparation keeps the figures — 18%
 alum, 10% soda, 240% vinegar — and now names the mordant as its required follow-on. Attribution is modelled as two
@@ -62,7 +79,7 @@ untouched.
 
 ## 1.0.0-rc100 — 23 September 2026
 
-Seed recipes for the preparation baths and the aluminium acetate workflow (§15). Nine recipes become bundled
+Seed recipes for the preparation baths and the aluminium acetate workflow (§13fc). Nine recipes become bundled
 content — silk and cellulose scouring, the tannin bath, silk mordanting, cellulose alum-and-soda mordanting,
 madder, preparing aluminium acetate, mordanting with it, and the chalk bath — with stable seed ids, BG and EN
 throughout and sources named. Two unproven claims are gone: madder „loses its dye above 70 °C" and vinegar

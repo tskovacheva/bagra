@@ -86,7 +86,7 @@ A section may appear under more than one heading; that is what the index is for.
 
 **Materials, substances and stock** — §3 · §11b · §13bs
 
-**Pigments** — §13bv · §13bx · §13by · §13bz · §13dr · §13ds · §15d
+**Pigments** — §13bv · §13bx · §13by · §13bz · §13dr · §13ds · §13fg
 
 **The Library — glossary, pH, sources** — §9 · §13r · §13bt · §13bu · §13cb
 
@@ -6659,7 +6659,7 @@ with the source text left intact, which is the only way to know either is real.
 
 ## 13bx. The pigment batch, fully specified (1.0.0-rc9)
 
-> **Superseded in part at rc105 by §15d.** The stages, the chain, `finishedOn` and `quality`
+> **Superseded in part at rc105 by §13fg.** The stages, the chain, `finishedOn` and `quality`
 > are no longer on the batch screen or written into a new batch. The list decisions stand.
 
 §13bv agreed the shape. Writing the screen brief against it found seven places where the shape was
@@ -10037,7 +10037,7 @@ is for, and it is the clearest argument yet for rc51.
 
 ## 13dr. What actually went in, and what it departed from (1.0.0-rc51)
 
-> **Superseded in part at rc105 by §15d.** A pigment batch no longer displays departures or
+> **Superseded in part at rc105 by §13fg.** A pigment batch no longer displays departures or
 > strikes a line out. The lines, `was`, and `departureOf` remain — the paste print reads them.
 
 Fifth release of the pigment model (item 17). A batch holds the lines that were really used,
@@ -10132,7 +10132,7 @@ was fixed at the outset and holds here.
 
 ## 13ds. Three colours from one batch (1.0.0-rc52)
 
-> **Superseded in part at rc105 by §15d.** A swatch is now a colour, a name and a note; `kind`,
+> **Superseded in part at rc105 by §13fg.** A swatch is now a colour, a name and a note; `kind`,
 > `substrate` and `viaId` are shown read-only on older swatches and no longer asked for.
 
 Sixth and last release of the pigment model agreed in item 17. A batch's colour becomes a
@@ -12334,7 +12334,7 @@ deep-check, screen-check, check-scope and the language check pass — deep-check
 three shape changes (the colour search's rows, the empty swatch, the technique form) and
 each was corrected rather than waived.
 
-## 15. Seed recipes for the preparation baths, and the aluminium acetate workflow (1.0.0-rc100)
+## 13fc. Seed recipes for the preparation baths, and the aluminium acetate workflow (1.0.0-rc100)
 
 Nine recipes and two chains become bundled content, and the aluminium acetate path is
 settled end to end. No architecture, no UI model, no other data.
@@ -12397,7 +12397,7 @@ referential integrity, recipe lines, pack reachability, pack lifecycle, older-ba
 and the cache list pass; two guards that assumed chains were never seeded and that the
 recipes list held only their fixtures were narrowed to their own records.
 
-## 15a. The aluminium acetate workflow: one calculation, not two (1.0.0-rc101)
+## 13fd. The aluminium acetate workflow: one calculation, not two (1.0.0-rc101)
 
 rc100 read the workflow as „prepare a solution, then dose 5–8% WOF of finished acetate".
 That is two calculations for one bath, and it assumes a powder most people do not have.
@@ -12443,7 +12443,7 @@ silk mordant and 10–15 g at 100 g; 22 seed recipes and 2 chains still there. d
 screen-check, the language check, recipe lines, referential integrity, manifest, pack
 reachability and pack lifecycle pass.
 
-## 15b. About and Getting started: the texts the owner wrote (1.0.0-rc102)
+## 13fe. About and Getting started: the texts the owner wrote (1.0.0-rc102)
 
 Content only. No route, no module, no data, no navigation; the one visual change is what
 the longer texts need in order to be read.
@@ -12479,7 +12479,7 @@ deep-check pass — deep-check asked About to say „офлайн" and Help to s
 new texts say „offline-first" and „Резервно копие"; the guard now accepts either wording,
 with its claim unchanged.
 
-## 15c. The aluminium acetate calculator reads WOF two ways (1.0.0-rc103)
+## 13ff. The aluminium acetate calculator reads WOF two ways (1.0.0-rc103)
 
 The calculator knew one question — how much of everything for a target of FINISHED
 aluminium acetate — and practical recipes ask the other: „18% WOF of potassium alum, then
@@ -12526,7 +12526,7 @@ seed recipe, no chain, no substance record, no journal data.
 
 ---
 
-## 15d. A pigment batch is a journal entry, not a workflow (1.0.0-rc105)
+## 13fg. A pigment batch is a journal entry, not a workflow (1.0.0-rc105)
 
 Pigment-making in this studio is occasional. The batch had grown past what that needs: six
 fixed stages each with a note, a date and photographs (§13bx); a choice between a recipe and a
@@ -12648,3 +12648,63 @@ in a trial uses them.
 Found before any change was made, and left alone because none of it is the pigments. Recorded
 in `DOCUMENTATION_DECISIONS_NEEDED.md` item 33. rc105 passes every layer that rc104 passed,
 run one by one.
+
+---
+
+## 13fh. The release gate repaired, and nothing else (1.0.0-rc107)
+
+`sh check.sh --release` had stopped on four faults since rc100 at the latest, none of them in
+the application's behaviour (`DOCUMENTATION_DECISIONS_NEEDED.md` item 33). This package repairs
+those four and changes nothing a person using the application would notice.
+
+**1. Two sections called §15.** „Visual identity and naming" is §15 and stays §15:
+`scripts/order-spec.py` places §15 in Part I, and §15.1–§15.5 are cited from the
+specification and from `index.html`. The sections written from rc100 to rc105 are decision
+records, which belong to Part V, and are renumbered into its sequence after §13fb:
+
+    §15  (rc100) Seed recipes for the preparation baths …   →  §13fc
+    §15a (rc101) The aluminium acetate workflow …           →  §13fd
+    §15b (rc102) About and Getting started …                →  §13fe
+    §15c (rc103) The calculator reads WOF two ways          →  §13ff
+    §15d (rc105) A pigment batch is a journal entry …       →  §13fg
+
+Section content is unchanged. Every citation was updated — 34 of `§15a`–`§15d` across
+comments, checks and documents, and one bare `§15` in `CHANGELOG.md` that meant the rc100
+section. The bare `§15` and `§15.x` citations that remain all mean visual identity, and were
+checked one by one. Item 33 keeps its original wording, because it describes the state before
+this repair. `.spec-sections` was regenerated from the headings.
+
+**2. `check-scope.js` and a regex literal.** The literal in `typeOptions` (`modules/recipes.js`)
+contains double quotes; the checker removes string literals by their quotes and does not know
+regex syntax, so it read the rest of the file as one string and reported five declared names
+as undeclared. The literal is now `new RegExp('…', 'g')`. `String()` of the old and new regex
+is identical — same source, same flags — and both give the same matches and the same
+replacement on a sample list of options. The checker itself is unchanged.
+
+**3. Pack field labels.** `chains` had become a pack at rc100 with no field dictionary, and four
+recipe fields had no label, so the pack preview would print the raw key. `seed-ui.js`
+`FIELD_LABELS` gains `recipes.origin`, `liquorRatio`, `vinegarPercent`, `defaultLitres`, and a
+`chains` dictionary for its six fields — `name`, `appliesTo`, `steps`, `notes`,
+`distributable`, `origin`. Every label is an existing i18n key present in both languages, so
+no text was written; the only visible effect is that the preview now names these fields in
+words.
+
+**4. `check-boot.mjs` and the old sidebar.** The redesign (§14a) moved navigation into
+`#topbar`: row 1 carries the three spaces and an overflow menu, row 2 the modules of the
+current space. The check still looked for `#sidebar .navitem` and reported „navigation is
+empty". It now asks for three space buttons and a non-empty overflow menu in `#topbar`.
+
+The orphan check had to change in kind, not only in selector. The sidebar showed every entry
+at once; row 2 shows one space's modules, so a single reading of the bar would call the other
+space's modules orphans. The check now walks the bar from Home — opens every address the bar
+offers, reads the bar again there, until nothing new appears — and a module is reachable if
+that walk reaches it. `HIDDEN_MODULES` stays the declared exception list.
+
+Seen failing three ways, each against a temporary edit of `app.js` that was then restored: a
+module removed from `NAV` („no way in from the navigation bar: pigments"), an empty bar (no
+space buttons, empty overflow), and an emptied `HIDDEN_MODULES` („materials, packs, batch").
+The navigation itself was not touched: the test follows the application.
+
+**Nothing else.** No behaviour, model, seed record, recipe, chain, pigment code, calculator or
+screen changed. `modules/pigments.js`, `migrations.js` and the check scripts appear among the
+changed files only because their comments cite section numbers.

@@ -243,7 +243,7 @@ node scripts/try-recipe-lines-named.mjs || exit 1
 
 # 3x. The aluminium acetate calculator answers two questions — what the finished
 #     acetate should be, and what a given weight of a chosen salt gives. They are
-#     different sums and drifted into one once; the regressions hold both (§15c).
+#     different sums and drifted into one once; the regressions hold both (§13ff).
 node scripts/try-alum-acetate-modes.mjs || exit 1
 
 # 3j. A required follow-on must resolve, and a recipe that is only ever done

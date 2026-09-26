@@ -1254,6 +1254,8 @@ point at recipes by id and are unaffected either way.
 
 ## 33. The release gate fails at rc104, before the pigments package touched anything (rc105)
 
+**Settled at rc107** — all four repaired, and nothing else; recorded in §13fh.
+
 Found when `sh check.sh --release` was run on the rc104 ZIP as it arrived, as a baseline. The
 run stops at the first failure, so the CI job on `main` has most likely been red since rc100.
 None of the four is in the pigments, and rc105 deliberately leaves all four alone so that it
@@ -1262,7 +1264,7 @@ stays one change. Every other layer passes when run on its own, on rc104 and on 
 1. **Two headings `## 15.` in the specification** — „Visual identity and naming" and the rc100
    seed-recipe section. Layer 1c stops the run here. `.spec-sections` also lists `## 15.`
    twice. Either heading can be renamed; §15.3 (visual identity) and §15, §15a–§15d (rc100
-   onward) are both cited, so the choice decides which citations change.
+   onward) were both cited, so the choice decides which citations change.
 2. **`check-scope.js` misreads `modules/recipes.js`.** The regex literal in `typeOptions`
    contains double quotes; the checker strips string literals by their quotes and does not
    know regex syntax, so it reads the rest of the file as one string and reports five declared

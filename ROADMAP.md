@@ -24,10 +24,10 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   chains are a pack. Open from it: the source for the six preparation recipes is the studio's
   own guide and wants the owner's confirmation; a chain still cannot choose its first step by
   fibre.
-- **rc105:** the pigment batch simplified to a journal entry (§15d) — the pigments' own model,
+- **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
-- **The release gate is red at rc104** for four reasons unrelated to rc105
-  (`DOCUMENTATION_DECISIONS_NEEDED.md` item 33). Proposed as one small package of its own.
+- **rc107:** the release gate passes again (§13fh). It had been red since rc100 at the latest
+  for four reasons unrelated to the application (`DOCUMENTATION_DECISIONS_NEEDED.md` item 33).
 - **Still open, for the main line:** the packs screen is still the stub it was; „undefined" sources on an empty home
   screen (found in package 1, left for main).
 - **Decided:** the phone's bottom bar stays gone (owner, package 2).
@@ -460,7 +460,7 @@ agreed. It is not built. In rough order of dependency:
 - ~~**Swatches on the batch become a list**~~ — **DONE at rc52.** Kind, substrate, recipe,
   colour, name. The hex is optional and an unmeasured swatch says so.
 
-**Simplified at rc105 (§15d).** The stages, the chain, quality, the departure display and the
+**Simplified at rc105 (§13fg).** The stages, the chain, quality, the departure display and the
 swatch's kind, surface and recipe left the batch screen. The lines and the swatch list stay, in
 the simpler form; older batches keep and show what they recorded.
 

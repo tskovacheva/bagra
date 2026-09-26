@@ -65,9 +65,20 @@ try {
   await new Promise(r => setTimeout(r, 1200));
 
   const view = document.getElementById('view');
-  const navItems = document.querySelectorAll('#sidebar .navitem').length;
+  // The navigation after the editorial redesign (§14a, §13fh): a two-row bar in
+  // `#topbar`. Row 1 holds the three spaces — Home, the reference, the diary —
+  // and an overflow menu for what belongs to neither; row 2 holds the modules
+  // of the space the address is in. This check followed the old sidebar
+  // (`#sidebar .navitem`) for five releases after it was gone, and reported
+  // „navigation is empty" on a bar that was full.
+  const bar = document.getElementById('topbar');
+  const spaces = bar ? bar.querySelectorAll('.spacebtn[data-go]').length : 0;
+  const overflow = bar ? bar.querySelectorAll('.overflowitem[data-go]').length : 0;
+  const navItems = bar ? bar.querySelectorAll('[data-go]').length : 0;
 
-  if (!navItems) fail('render', new Error('navigation is empty'));
+  if (!spaces) fail('render', new Error('navigation is empty — no space buttons in #topbar'));
+  else if (spaces < 3) fail('render', new Error(`#topbar shows ${spaces} space(s), expected Home, the reference and the diary`));
+  if (!overflow) fail('render', new Error('the overflow menu in #topbar holds no entries'));
   if (!view || view.innerHTML.trim().length < 40) fail('render', new Error('the view rendered nothing'));
 
   // Visiting every module catches a module that only throws when opened.
@@ -80,15 +91,34 @@ try {
     }
 
     // A module with no way in is a module that quietly stops being used. The
-    // sidebar carries more entries than there are modules — the backup and the
+    // bar carries more entries than there are modules — the backup and the
     // calculators are one module at two addresses — so this counts the reverse
     // direction: every module must be reachable.
-    const reachable = new Set([...document.querySelectorAll('#sidebar [data-go]')]
-      .map(b => b.dataset.go.split('/')[0]));
+    //
+    // Reachable means reachable by following the bar, not present in it at
+    // once: row 2 shows only the modules of the current space, so a single
+    // reading of the bar sees one space's modules and would call the other
+    // space's orphans. Starting from Home, every address the bar offers is
+    // opened and the bar read again there, until nothing new appears — the
+    // walk a person makes with the mouse.
+    const targets = () => [...document.querySelectorAll('#topbar [data-go]')].map(b => b.dataset.go);
+    location.hash = '#/dashboard';
+    await new Promise(r => setTimeout(r, 60));
+    const seen = new Set(['dashboard']);
+    const queue = targets();
+    while (queue.length) {
+      const go = queue.shift();
+      if (seen.has(go)) continue;
+      seen.add(go);
+      location.hash = '#/' + go;
+      await new Promise(r => setTimeout(r, 60));
+      for (const next of targets()) if (!seen.has(next)) queue.push(next);
+    }
+    const reachable = new Set([...seen].map(go => go.split('/')[0]));
     const hidden = new Set(app.HIDDEN_MODULES || []);
     const orphans = app.MODULE_IDS.filter(id => !reachable.has(id) && !hidden.has(id));
     if (orphans.length)
-      fail('navigation', new Error(`no way in from the sidebar: ${orphans.join(', ')}`));
+      fail('navigation', new Error(`no way in from the navigation bar: ${orphans.join(', ')}`));
   }
 
   // Every vocabulary term must reach the database, and the database must be
@@ -107,7 +137,7 @@ try {
   }
 
   if (!failed) console.log(
-    `boots cleanly — ${app.MODULE_IDS.length} modules, ${navItems} sidebar entries, first view rendered.`);
+    `boots cleanly — ${app.MODULE_IDS.length} modules, ${spaces} spaces and ${navItems} entries in the bar, every module reachable from it, first view rendered.`);
 } catch (err) {
   fail('import', err);
 }
