@@ -150,12 +150,11 @@ try {
       status: 'done', date: '2026-07-02', finishedOn: '2026-07-09',
       plantId: 'seed:rubia_tinctorum', partCode: 'root', rawWeightG: 300,
       viaKind: 'recipe', viaId: 'fixture:recipes',
-      stages: ['extraction', 'laking', 'washing', 'filtering', 'drying', 'grinding']
-        .map((code, i) => ({ id: 'fx-stage-' + i, code, date: '',
-          note: { bg: 'три часа на слаб огън, без да завира', en: '' }, photos: [] })),
-      // Lines with one of each departure, so the panel is measured with its
-      // chips and its struck row drawn rather than empty (§13dr). An empty
-      // table at 390px tells you nothing about a full one.
+      // One text in place of the six stages (§15d), long enough to wrap.
+      process: { bg: 'Три часа на слаб огън, без да завира. Утаих с повече стипца, '
+        + 'защото водата беше мека. Промих пет пъти, суших четири дни на хартия.', en: '' },
+      // A plain list since §15d. One line from an older batch is still struck,
+      // so that row is drawn and measured rather than only reasoned about.
       linesFrom: { recipeId: 'fixture:recipes', recipeName: { bg: 'Лаков пигмент — основна рецепта', en: '' },
                    takenOn: '2026-07-02' },
       lines: [
@@ -175,12 +174,13 @@ try {
           was: { name: 'Калцинирана сода', amount: 5, unit: 'g', roleCode: 'alkali' } },
       ],
       yieldG: 18, quality: 'good',
-      // Three swatches from one batch, which is the whole claim of §13ds — and
-      // one of them with no measured colour, so the dashed absence is drawn at
-      // all four widths rather than only reasoned about.
+      // Three swatches: the first in the rc105 shape (colour, name, note), the
+      // other two as an older batch left them — with a kind and a surface, so
+      // the read-only line under them is drawn (§15d) — and one of those with
+      // no measured colour, so the dashed absence is drawn at all four widths.
       swatches: [
-        { id: 'fx-w1', kind: 'pigment', substrate: { bg: '', en: '' }, viaId: '',
-          hex: '#A03D3B', name: { bg: 'марена, топла и малко мътна', en: '' }, photos: [] },
+        { id: 'fx-w1', hex: '#A03D3B', name: { bg: 'марена, топла и малко мътна', en: '' },
+          note: { bg: 'след стриване на ахат', en: '' }, photos: [] },
         { id: 'fx-w2', kind: 'watercolour', substrate: { bg: 'хартия', en: '' }, viaId: '',
           hex: '#C4585A', name: { bg: 'по-светла на четка', en: '' }, photos: [] },
         { id: 'fx-w3', kind: 'pastel', substrate: { bg: 'зърнеста хартия', en: '' }, viaId: '',
@@ -188,7 +188,7 @@ try {
       ],
       swatchHex: '#A03D3B',
       swatchName: { bg: 'марена, топла и малко мътна', en: '' },
-      photos: [], notes: { bg: '', en: '' },
+      photos: [], notes: { bg: 'Следващия път по-малко стипца — цветът излезе по-хладен.', en: '' },
     });
     await seeded('trials', {
       status: 'planned', title: 'дъб и клен върху коприна, къс сноп',
@@ -251,9 +251,10 @@ try {
     '#/fabrics', { route: '#/fabrics', open: true },
     '#/trials', '#/trials/new', { route: '#/trials', open: true },
     // Making a pigment is work on a substance (§13bx), and until now it was
-    // work nobody looked at: the batch screen puts a wide column of six stages
-    // beside a folding aside, which is the arrangement most likely to break at
-    // 390px, and it had never been drawn there.
+    // work nobody looked at: the batch screen puts a wide column of panels
+    // (source, recipe, the lines table, process, result) beside an aside, which
+    // is the arrangement most likely to break at 390px — the lines table
+    // above all — and it had never been drawn there.
     //
     // The empty form as well as an opened record, because the two are
     // different screens — `renderBatch` draws a heading of „Нова партида" and

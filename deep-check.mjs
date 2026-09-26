@@ -4622,8 +4622,8 @@ const dirty = await import('./dirty.js');
     fail('pigments', new Error('pigments.noStockNote has no translation'));
   else console.log('  pigments: the list says which question it answers');
 
-  // A failed batch keeps its stages and its note — that is the whole reason to
-  // record it. If it ever renders an empty result panel instead, the most
+  // A failed batch keeps its process and its conclusion — that is the whole
+  // reason to record it (§15d; its stages until then). If it ever renders an empty result panel instead, the most
   // useful record in the module reads as unfinished rather than as instructive.
   if (!/failed \?[\s\S]{0,400}pigments\.noResult/.test(src))
     fail('pigments', new Error('a failed batch does not show its own panel — it would read as unfinished'));
@@ -4655,6 +4655,95 @@ const dirty = await import('./dirty.js');
   if (!/output === 'pigment'/.test(src))
     fail('pigments', new Error('the batch screen offers every recipe, including ones that keep no record'));
   else console.log('  pigments: only a recipe that produces something can start a batch');
+}
+
+// ---- 24h'. A pigment batch is a journal entry, not a workflow (§15d) ------
+//
+// rc105 took the six fixed stages, the recipe-or-chain choice, the departure
+// chips, quality, and the kind / substrate / recipe of each swatch off the
+// batch screen. Each of those is one well-meaning commit from coming back,
+// and each is checked on the RENDERED screen rather than in the source, so a
+// guard cannot pass on a comment that mentions the word.
+//
+// And the other direction: an older batch that carries every one of those
+// fields still opens, still says what it said — the chain it was made by, its
+// quality, its old swatch's kind — and its stage notes arrive in `process`.
+// Recipes and chains are compared before and after: simplifying a batch must
+// not touch a single recipe of hers.
+{
+  const snap = async () => JSON.stringify({
+    r: (await db.all('recipes')).sort((a, b) => a.id.localeCompare(b.id)),
+    c: (await db.all('chains')).sort((a, b) => a.id.localeCompare(b.id)),
+  });
+  const before = await snap();
+  const { migratePigmentProcessNotes } = await import('./migrations.js');
+  const { text: i18nText } = await import('./i18n.js');
+  const chain = (await db.all('chains'))[0];
+  const oldShape = {
+    id: 'zz-pig-old', origin: 'user', status: 'planned', date: '2026-05-01',
+    finishedOn: '2026-05-09', plantId: 'seed:rubia_tinctorum', partCode: 'root',
+    rawWeightG: 100, viaKind: 'chain', viaId: chain?.id || 'zz-no-chain',
+    stages: [
+      { id: 's1', code: 'extraction', date: '2026-05-02', note: { bg: 'три часа на слаб огън', en: '' }, photos: [] },
+      { id: 's2', code: 'laking', date: '', note: { bg: '', en: '' }, photos: [] },
+    ],
+    lines: [], linesFrom: null, yieldG: 12, quality: 'good',
+    swatches: [{ id: 'w1', kind: 'watercolour', substrate: { bg: 'хартия', en: '' }, viaId: '',
+                 hex: '#A03D3B', name: { bg: 'марена', en: '' }, photos: [] }],
+    photos: [], notes: { bg: '', en: '' },
+  };
+  await db.putRaw('pigmentBatches', oldShape);
+  await migratePigmentProcessNotes();
+  location.hash = '#/pigments/zz-pig-old';
+  await settle();
+
+  const wrong = [];
+  const has = (sel) => !!root.querySelector(sel);
+  if (has('[data-s]')) wrong.push('a stage field is on the screen');
+  if (has('[data-f="viaKind"]')) wrong.push('the recipe-or-chain choice is offered');
+  if (has('.dep-added, .dep-changed, .dep-swapped')) wrong.push('departure chips are drawn');
+  if (has('[data-f="quality"]')) wrong.push('quality is asked for');
+  if (has('[data-f="finishedOn"]')) wrong.push('a second date is asked for');
+  if (has('[data-w$=".kind"], [data-w$=".substrate"], [data-w$=".viaId"]'))
+    wrong.push('a swatch asks what it is, what it is on, or its recipe');
+  const proc = root.querySelector('[data-pair="process.bg"]');
+  if (!proc) wrong.push('there is no Process / notes field');
+  else if (proc.value !== 'Извличане (2026-05-02): три часа на слаб огън')
+    wrong.push(`the stage notes did not arrive in process: ${JSON.stringify(proc.value)}`);
+  const body = root.textContent;
+  if (chain && !body.includes(i18nText(chain.name))) wrong.push('an old chain-made batch no longer names its chain');
+  if (!body.includes('2026-05-09')) wrong.push('an old batch hides the finishing date it recorded');
+  if (!root.querySelector('.swatchfields .hint')) wrong.push('an old swatch hides the kind it recorded');
+  const stored = await db.get('pigmentBatches', 'zz-pig-old');
+  if (!Array.isArray(stored.stages) || stored.stages.length !== 2) wrong.push('the migration took the stages away');
+
+  // A new batch: nothing of the old shape is written, and saving writes process.
+  location.hash = '#/pigments/new';
+  await settle();
+  if (has('[data-s]') || has('[data-f="viaKind"]')) wrong.push('the new-batch form still carries the old workflow');
+  const offered = [...root.querySelectorAll('[data-f="viaId"] option')].map(o => o.value).filter(Boolean);
+  const recipesNow = await db.all('recipes');
+  const notPigment = offered.filter(id => recipesNow.find(r => r.id === id)?.output !== 'pigment');
+  if (notPigment.length) wrong.push(`the recipe list offers a recipe that makes no pigment: ${notPigment[0]}`);
+  const box = root.querySelector('[data-pair="process.bg"]');
+  if (box) box.value = 'утаих с повече стипца';
+  const idsBefore = new Set((await db.all('pigmentBatches')).map(b => b.id));
+  await click(root.querySelector('[data-save]'));
+  const made = (await db.all('pigmentBatches')).find(b => !idsBefore.has(b.id));
+  if (!made) wrong.push('saving a new batch wrote nothing');
+  else {
+    if ('stages' in made) wrong.push('a new batch was written with stages');
+    if ('quality' in made || 'finishedOn' in made) wrong.push('a new batch was written with quality or a second date');
+    if (made.viaKind !== 'recipe') wrong.push(`a new batch was written as made by ${made.viaKind}`);
+    if (made.process?.bg !== 'утаих с повече стипца') wrong.push('Process / notes was not saved');
+    await db.removeSystem('pigmentBatches', made.id);
+  }
+  await db.removeSystem('pigmentBatches', 'zz-pig-old');
+
+  if (await snap() !== before) wrong.push('a recipe or a chain changed');
+
+  if (wrong.length) fail('pigments', new Error(wrong.join('; ')));
+  else console.log('  pigments: a batch is a journal entry, and an older one keeps what it said');
 }
 
 // ---- 24i. A recipe screen shows the fields its type has ------------------
@@ -5780,11 +5869,13 @@ const dirty = await import('./dirty.js');
   // The version on the screen is THE version, not a number typed into a text.
   if (!about.includes(VERSION))
     problems.push(`the About screen does not show ${VERSION}`);
-  if (!about.includes('офлайн')) problems.push('About does not say the application works offline');
+  // The claim, not one spelling of it: the rc102 text says „offline-first".
+  if (!/офлайн|offline/i.test(about)) problems.push('About does not say the application works offline');
 
   const help = await show('#/about/help');
   if (help.length < 400) problems.push('the Help text is too short to be help');
-  if (!help.includes('Архив') && !help.includes('архив'))
+  // Likewise: rc102's Help says „Резервно копие", which is the same thing.
+  if (!/архив|резервно копие/i.test(help))
     problems.push('Help does not tell the reader to make a backup');
 
   const safety = await show('#/about/safety');

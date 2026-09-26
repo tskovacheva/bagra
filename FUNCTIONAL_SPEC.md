@@ -86,7 +86,7 @@ A section may appear under more than one heading; that is what the index is for.
 
 **Materials, substances and stock** — §3 · §11b · §13bs
 
-**Pigments** — §13bv · §13bx · §13by · §13bz
+**Pigments** — §13bv · §13bx · §13by · §13bz · §13dr · §13ds · §15d
 
 **The Library — glossary, pH, sources** — §9 · §13r · §13bt · §13bu · §13cb
 
@@ -6659,6 +6659,9 @@ with the source text left intact, which is the only way to know either is real.
 
 ## 13bx. The pigment batch, fully specified (1.0.0-rc9)
 
+> **Superseded in part at rc105 by §15d.** The stages, the chain, `finishedOn` and `quality`
+> are no longer on the batch screen or written into a new batch. The list decisions stand.
+
 §13bv agreed the shape. Writing the screen brief against it found seven places where the shape was
 not a specification — five fields it did not name and two questions only the owner could answer.
 Both answers simplified the model rather than enlarging it.
@@ -10034,6 +10037,9 @@ is for, and it is the clearest argument yet for rc51.
 
 ## 13dr. What actually went in, and what it departed from (1.0.0-rc51)
 
+> **Superseded in part at rc105 by §15d.** A pigment batch no longer displays departures or
+> strikes a line out. The lines, `was`, and `departureOf` remain — the paste print reads them.
+
 Fifth release of the pigment model (item 17). A batch holds the lines that were really used,
 may hold lines the recipe never had, and remembers which of them departed.
 
@@ -10125,6 +10131,9 @@ was fixed at the outset and holds here.
 ---
 
 ## 13ds. Three colours from one batch (1.0.0-rc52)
+
+> **Superseded in part at rc105 by §15d.** A swatch is now a colour, a name and a note; `kind`,
+> `substrate` and `viaId` are shown read-only on older swatches and no longer asked for.
 
 Sixth and last release of the pigment model agreed in item 17. A batch's colour becomes a
 list of swatches, each saying what it is, what it is on, and by which recipe.
@@ -12433,3 +12442,209 @@ the preparation, no target, both sources); the chalk follow-on; potassium alum a
 silk mordant and 10–15 g at 100 g; 22 seed recipes and 2 chains still there. deep-check,
 screen-check, the language check, recipe lines, referential integrity, manifest, pack
 reachability and pack lifecycle pass.
+
+## 15b. About and Getting started: the texts the owner wrote (1.0.0-rc102)
+
+Content only. No route, no module, no data, no navigation; the one visual change is what
+the longer texts need in order to be read.
+
+**Where each block went.** The About screen already had the four tabs §13eg gave it, so
+nothing new was created.
+
+- **„Какво е Багра" / „What Bagra is"** — the About tab. Two opening paragraphs, then three
+  sections with headings: Справочникът, Дневникът, Данните ти.
+- **„Справочник или дневник?" / „Reference or Journal?"** — a panel of its own directly
+  under it, on the same tab. It explains the split the whole application rests on, so it
+  reads where the split is described rather than on a screen of its own.
+- **„Как се започва" / „Getting started"** — the Help tab, with the two ways to begin as a
+  list and the five numbered sections as headings, and the workflow line
+  (тъкан → изпиране → танин/закрепване → опит → резултат) set as a figure.
+
+**Structural adaptation.** Only presentation: `about.js` gained a `section()` helper (a
+heading and its paragraphs) because the texts went from four paragraphs to five sections,
+and a wall of paragraphs with no headings is not read. The module's CSS scope gained
+heading spacing, paragraph rhythm, list indents and the figure for the workflow line. The
+panel keeps the page's width; the reading text keeps the shared measure. Nothing was
+shortened.
+
+**Terminology.** Справочник / Reference and Дневник / Journal stay distinct and stay the
+application's own words; no „Наръчник / Guide" section was invented.
+
+**Checked.** 14 targeted checks: 43 keys complete in BG and EN; every heading renders on
+both tabs; the „Reference or Journal?" block sits on the About tab; the workflow line, the
+group action, the inherited history and the calculator-not-gram-for-gram warning all
+present in both languages; the four tabs read at 390 and 320px with no horizontal overflow
+and tabs that are finger targets; no page errors. The language check, screen-check and
+deep-check pass — deep-check asked About to say „офлайн" and Help to say „архив", and the
+new texts say „offline-first" and „Резервно копие"; the guard now accepts either wording,
+with its claim unchanged.
+
+## 15c. The aluminium acetate calculator reads WOF two ways (1.0.0-rc103)
+
+The calculator knew one question — how much of everything for a target of FINISHED
+aluminium acetate — and practical recipes ask the other: „18% WOF of potassium alum, then
+what?" It now asks which, with a selector („Процентът се отнася за:" / „WOF refers to:")
+and an explanation under it that the two are different sums and may give different
+quantities.
+
+**Mode 1 — finished aluminium acetate.** Unchanged, formula and all. The regression the
+owner supplied holds: 311 g of cloth at 8%, anhydrous aluminium sulfate, anhydrous sodium
+carbonate, 6% vinegar → 24.9 g of Al(CH₃COO)₃, 20.9 g of Al₂(SO₄)₃, 19.4 g of Na₂CO₃ and
+366 ml of vinegar.
+
+**Mode 2 — aluminium source.** The percentage is read against the chosen SALT: 100 g of
+cloth at 18% potassium alum starts from exactly 18 g of alum, and the soda and the vinegar
+follow from the aluminium that 18 g actually carries — 7.7 g of acetate, 6.0 g of soda,
+136.7 ml of 5% vinegar. The same 18% of anhydrous aluminium sulfate carries nearly three
+times the aluminium (21.5 g of acetate), which is the point: no salt is a gram-for-gram
+substitute for another, and neither is a hydrate for its anhydrous form.
+
+**One path, read from either end.** `aluminiumAcetate()` takes `mode` ('finished' |
+'source'); in 'source' mode it derives the moles of aluminium from the salt's own molar
+mass and `alPerUnit` and rejoins the existing stoichiometry, so there is one chemistry and
+two entry points rather than two formulas. `targetG`, the way a chain states what the next
+step needs, still overrides both. The field's label follows the mode — „Цел (% WOF готов
+ацетат)" or „Алуминиев източник (% WOF)" — and the aluminium source, sodium source and
+vinegar strength stay visible in both.
+
+**The fixed recipe stays a recipe.** 18% alum, 10% soda ash, 240% of 5% vinegar is the
+Crafty Place method adapted from Boutrup & Ellis 11B; the stoichiometry for those 18 g
+returns 6 g of soda and 137 ml, and the calculator says nowhere that the two „match". A
+guard holds that too. Vinegar strength moves the volume and not the acid: the same acetic
+acid is 240 ml at 5% and 200 ml at 6%.
+
+**The guard.** `scripts/try-alum-acetate-modes.mjs`, wired into `check.sh`: eleven
+regressions across both modes, four aluminium salts, two vinegar strengths, sodium acetate
+(which needs no acid), and the claim that the modes differ. Seen failing — three cases —
+with mode 2 deliberately broken.
+
+**Checked.** The eleven regressions, and sixteen on the screen: the selector and its two
+options, the explanation, the label following the mode, the owner's 311 g case computed in
+the interface, mode 2 starting from exactly 18 g, the different answer when switching back,
+both languages, and the selector at 390 and 320px with no overflow. Nothing else moved: no
+seed recipe, no chain, no substance record, no journal data.
+
+---
+
+## 15d. A pigment batch is a journal entry, not a workflow (1.0.0-rc105)
+
+Pigment-making in this studio is occasional. The batch had grown past what that needs: six
+fixed stages each with a note, a date and photographs (§13bx); a choice between a recipe and a
+chain; every line of what went in classified against the recipe as same, added, changed,
+swapped or removed (§13dr); a quality rating; and swatches that each said what product they
+were — dye, pigment, watercolour, pastel, ink, glaze — on what surface and by which recipe
+(§13ds). That is a workflow engine for something done a few times a year. The owner's
+decision: a batch says what it was made from, which recipe it followed, what actually went
+in, what happened, and what came out. The recipe already describes the method; the batch
+records this time.
+
+**This section supersedes, for the batch screen and for every batch written from rc105:** the
+`stages` of §13bx, `viaKind: chain` and `finishedOn` of §13bx, `quality` of §13bx, the
+departure display and the struck line of §13dr, and the swatch's `kind`, `substrate` and
+`viaId` of §13ds. The decisions those sections record about the list — grouped by plant ×
+part, the most recent successful batch's colour on the group, no remainder tracked and the
+list saying so — stand unchanged.
+
+### The shape from rc105
+
+    pigmentBatches
+      status        done · failed           — one box, „Не се получи" / „It did not work"
+      date          one date
+      plantId, partCode, rawWeightG         — the source
+      viaKind       'recipe' for every new batch
+      viaId         a recipe with output 'pigment'
+      lines[]       { id, name, amount, unit, note, roleCode, substanceId, was }
+      linesFrom     { recipeId, recipeName, takenOn }
+      process       { bg, en }              — NEW: „Процес / бележки" / „Process / notes"
+      yieldG        optional
+      swatches[]    { id, hex, name{bg,en}, note{bg,en}, photos[] }   — note is new
+      photos[]      now reachable from the screen; it never was before
+      notes         { bg, en }              — relabelled „Резултат и извод" / „Result and conclusion"
+
+**Lines keep `was` and `roleCode`.** `linesFromRecipe` and `departureOf` are shared with the
+paste print in a trial (§13ee), which still reads departures, and changing what they write
+would change that screen. The batch screen writes them and never reads them. A line is now
+removed outright with ×; a line an older batch struck out is still drawn struck, with „marked
+as left out (older record)", because that is what was written.
+
+**One recipe, modified by what was done.** The batch still starts from a single master pigment
+recipe and takes its lines once, while the list is empty (`canTakeLines`, §13dr). No
+per-plant recipes. Choosing a recipe now redraws the screen, so the „take the lines" button
+appears at once instead of after saving and reopening — a small fault found while building this.
+
+### Three calls made in the plan and not objected to
+
+1. **`planned` leaves the screen; `failed` stays**, as a box. A failed batch is the most
+   useful note for the next attempt and must not read as zero grams (§13bx). The box writes
+   `failed` when ticked and `done` when a failed batch is unticked; a batch that says
+   `planned` and is never ticked keeps saying it — saving must not rewrite a state nobody
+   chose. New batches are `done`.
+2. **Quality is not entered and not listed.** Kept optional it stays half-central: an empty
+   column on every new batch reads as work left undone.
+3. **Only `output: 'pigment'`.** `extract` recipes were offered too. None ships. A batch that
+   already names some other recipe keeps it in the dropdown, so opening and saving it changes
+   nothing.
+
+### Older records: nothing deleted, nothing hidden
+
+The migration `pigmentProcessNotes` (`migrations.js`) gives every batch without `process`
+one, built DETERMINISTICALLY from its stages: each stage with a note or a date becomes a line
+in the fixed stage order, under the stage's own name in that language —
+`Извличане (2026-05-02): три часа на слаб огън`. An empty stage is left out. The Bulgarian
+half is written from the Bulgarian notes and the English half from the English ones; nothing
+is translated; a stage with only a date goes into the Bulgarian half alone. A bare-string note
+from before the language pair is read as Bulgarian. An unknown stage code keeps its code as
+its name. The stage names are written into the migration, not read from `i18n.js`, so the
+result does not depend on the interface language when it ran.
+
+**`stages` is not removed** — migrations add (§13cv). It stays on the record as the way back,
+as `swatchHex` did at §13ds. Structural write, so `updatedAt` does not move; idempotent, so a
+batch that has `process` is never touched again.
+
+Everything else an older batch recorded is shown read-only, never edited, never
+reinterpreted:
+
+| Older field | On the screen from rc105 |
+|---|---|
+| `viaKind: 'chain'` | „Older record — made by the chain X", no recipe dropdown, no lines to take. Converting it to a recipe would be a guess about which step made the pigment. `refs.js` still counts the chain as used, so it cannot be deleted from under the batch. |
+| `finishedOn`, `quality` | In a small aside panel, „Fields from an older version. They are kept, and no longer filled in." |
+| photographs on a stage | Beside the batch's photographs, labelled as from the stages. Shown where they are, not copied — no image stored twice. `countUserPhotos` already counts them. |
+| a swatch's `kind`, `substrate`, `viaId` | One read-only line under that swatch. `refs.js` still protects the swatch's recipe. |
+| `swatchHex`, `swatchName` | Untouched, as since §13ds. |
+
+No real pigment batch was available to migrate against: the three older-backup fixtures carry
+none. The migration is proven on synthetic batches covering every older shape listed above.
+
+### Guards
+
+- **24h' in `deep-check.mjs`, on the rendered screen.** An older batch with stages, a chain,
+  quality, a second date and a typed swatch is written, migrated and opened: no stage field,
+  no recipe-or-chain choice, no departure chips, no quality, no second date, no swatch kind /
+  surface / recipe control; its stage note is in Process / notes word for word; its chain,
+  its finishing date and its swatch's kind are still shown; its `stages` still stored. A new
+  batch offers only pigment recipes, and saved, carries no `stages`, `quality` or
+  `finishedOn`, `viaKind: 'recipe'`, and the process text. Recipes and chains are compared
+  byte for byte before and after. Seen failing against the rc104 screen (twelve findings), and
+  with the migration deleting stages, the older date hidden, and one recipe altered — each
+  caught.
+- **`scripts/try-pigment-lines.mjs`**, ten new assertions on the migration. Seen failing under
+  six mutations: overwriting a written process, deleting stages, keeping empty stages,
+  repeating a date-only stage in English, dropping an unknown stage, stamping `updatedAt`.
+- **`screen-check.mjs`** fixture moved to the new shape, keeping one struck older line and two
+  older swatches so the read-only lines are measured at every width.
+- **`scripts/try-restore-older.mjs`** expects the new marker.
+
+### Not changed
+
+Trials, the paste print's departures, fabrics, batches of cloth, the calculators, the
+aluminium acetate work, every seed recipe and chain, the recipe screen, the vocabulary
+(`swatch_kind` stays — older swatches name their kind through it). Twenty-four dictionary keys
+the old screen alone used were removed from both languages; `pigments.dep.*`, `wasLabel`,
+`lineOut`, `lineBack`, `linesTitle`, `linesHint` and `takeLines` stay, because the paste print
+in a trial uses them.
+
+### The release gate was already red at rc104
+
+Found before any change was made, and left alone because none of it is the pigments. Recorded
+in `DOCUMENTATION_DECISIONS_NEEDED.md` item 33. rc105 passes every layer that rc104 passed,
+run one by one.

@@ -27,24 +27,37 @@ your water, your fabrics and your local plants.
 
 ## Running a build locally, with a test database
 
-For trying a build without touching the published app or real data. Nothing is published and no GitHub Pages setting is involved.
+For trying a build without touching the published app or real data. Nothing is published
+and no GitHub Pages setting is involved.
 
-- **macOS:** double-click `scripts/local/start-design-mac.command` (the first time,
-  right-click → Open, because the file is not signed).
-- **Windows:** double-click `scripts/local/start-design-windows.bat`. Needs Python
-  (python.org, with „Add python.exe to PATH" ticked).
-- **Linux:** `sh scripts/local/start-design-linux.sh`.
+Open a terminal in this folder and serve it:
 
-It serves the project at `http://localhost:8799` and opens Chrome with a separate test
-profile. The database belongs to the address: that origin has its own IndexedDB, service
-worker and cache, shared with neither GitHub Pages nor any other port — and the separate
-profile keeps even that apart from the everyday browser. It starts empty; do not import a
-real backup into it. To start again from empty, close the test window and run
-`reset-design-test-data-mac.command` / `…-windows.bat`, which deletes that profile only.
-Stop the server with Ctrl+C (macOS, Linux) or by closing its window (Windows).
+```
+python3 -m http.server 8799        # macOS, Linux
+py -m http.server 8799             # Windows
+```
 
-After replacing the files with a newer build, the app offers the update like the
-published one; accept it, or reset the profile.
+Then open `http://localhost:8799` in the browser. Stop the server with Ctrl+C.
+
+**The test database is separate because the address is.** A browser keeps IndexedDB, the
+service worker and its cache per origin, so `http://localhost:8799` has its own, shared
+with neither GitHub Pages nor any other port. It starts empty; do not import a real backup
+into it.
+
+For a stricter separation — one that keeps even this apart from the everyday browser —
+start Chrome with a profile of its own:
+
+```
+chrome --user-data-dir="%LOCALAPPDATA%\bagra-test-profile" http://localhost:8799     # Windows
+open -na "Google Chrome" --args --user-data-dir="$HOME/.bagra-test-profile" http://localhost:8799   # macOS
+```
+
+Deleting that profile folder starts again from empty.
+
+(Scripts that did this with a double-click were removed in 1.0.0-rc104: Windows Defender
+flagged the `.bat` files heuristically — a command file that starts a server and launches a
+browser looks like something it watches for — and a false alarm on every download is worse
+than typing one line.)
 
 ## Modules
 
@@ -73,7 +86,7 @@ reference: a batch of made pigment is a thing on a shelf, not a fact about the w
 | Module | Nature |
 |---|---|
 | My work | Trials, in five screens — dyeing, eco print and, since rc62, printing with a paste |
-| Pigments | Batches of made pigment, worked from a recipe that declares an output |
+| Pigments | Batches of made pigment: source, pigment recipe, what was actually used, process notes, result |
 | Fabrics | One record per physical piece, with a lifecycle and group actions |
 
 **Beside the spaces, in a menu** — the backup and About, with the language and the units.

@@ -1249,3 +1249,33 @@ point at recipes by id and are unaffected either way.
 - **A.** Neutral label „Пасти / Pastes" on `paste`, then move the mordant paste. One label, one field.
 - **B.** „Пасти за печат / Printing pastes" for the three print pastes, and the watercolour, pastel and binder
   recipes in a category of their own — a new category code and four recipes' `type`.
+
+---
+
+## 33. The release gate fails at rc104, before the pigments package touched anything (rc105)
+
+Found when `sh check.sh --release` was run on the rc104 ZIP as it arrived, as a baseline. The
+run stops at the first failure, so the CI job on `main` has most likely been red since rc100.
+None of the four is in the pigments, and rc105 deliberately leaves all four alone so that it
+stays one change. Every other layer passes when run on its own, on rc104 and on rc105 alike.
+
+1. **Two headings `## 15.` in the specification** — „Visual identity and naming" and the rc100
+   seed-recipe section. Layer 1c stops the run here. `.spec-sections` also lists `## 15.`
+   twice. Either heading can be renamed; §15.3 (visual identity) and §15, §15a–§15d (rc100
+   onward) are both cited, so the choice decides which citations change.
+2. **`check-scope.js` misreads `modules/recipes.js`.** The regex literal in `typeOptions`
+   contains double quotes; the checker strips string literals by their quotes and does not
+   know regex syntax, so it reads the rest of the file as one string and reports five declared
+   names — `draft`, `openId`, `filterType`, `query`, `favOnly` — as undeclared. Present at
+   rc101 already. A one-line fix: build that regex with `new RegExp('…')`; checked to give the
+   identical pattern.
+3. **`try-pack-field-labels`** — `chains` has no field dictionary at all (chains became a pack
+   at rc100), and `recipes.origin`, `liquorRatio`, `vinegarPercent`, `defaultLitres` have no
+   label, so the pack preview would print the raw field name.
+4. **`check-boot.mjs` looks for `#sidebar .navitem`.** The redesign moved navigation into
+   `#topbar` with space and module buttons, so the boot check reports „navigation is empty".
+   Its orphan check also assumes one sidebar holding every entry, which the two-row bar does
+   not.
+
+**Recommended:** one small package for these four and nothing else, before 1.0 — a release
+gate that has been red for five releases is a gate nobody is reading. **Asked of the owner.**

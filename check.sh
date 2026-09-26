@@ -241,6 +241,11 @@ node scripts/try-pack-field-labels.mjs || exit 1
 #     scripts/try-recipe-lines-named.mjs (§13dv).
 node scripts/try-recipe-lines-named.mjs || exit 1
 
+# 3x. The aluminium acetate calculator answers two questions — what the finished
+#     acetate should be, and what a given weight of a chosen salt gives. They are
+#     different sums and drifted into one once; the regressions hold both (§15c).
+node scripts/try-alum-acetate-modes.mjs || exit 1
+
 # 3j. A required follow-on must resolve, and a recipe that is only ever done
 #     after another one must be pointed at. §5.4 makes a follow-on a step the
 #     work view draws and scales, so a dangling id is a bath that silently does

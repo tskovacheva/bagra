@@ -64,6 +64,7 @@ export async function runMigrations() {
   await runOnce('recipeTempRange', 1, migrateRecipeTempRange);
   await runOnce('pigmentBatchLines', 1, migratePigmentBatchLines);
   await runOnce('pigmentSwatchList', 1, migratePigmentSwatchList);
+  await runOnce('pigmentProcessNotes', 1, migratePigmentProcessNotes);
   await runOnce('recipeSourceList', 1, migrateRecipeSourceList);
   await runOnce('actionIds', 1, healActionIds);
 }
@@ -147,6 +148,84 @@ export async function migratePigmentSwatchList() {
     touched++;
   }
   if (touched) console.info(`gave ${touched} pigment batch(es) a swatch list`);
+}
+
+
+// The six stages become one text (§15d).
+//
+// Pigment-making is occasional, and a fixed six-stage workflow was more
+// structure than a batch needs: the recipe already says how the work goes, and
+// the batch only has to say what happened this time. From rc105 a batch has one
+// field, `process`, and no stages.
+//
+// DETERMINISTIC, NOT INTERPRETED. Each stage that carries a note or a date
+// becomes one line, in the fixed order the stages were always in, under the
+// stage's own name in that language:
+//
+//     Извличане (2026-05-02): три часа на слаб огън
+//
+// A stage with neither is left out — an empty heading is not information. The
+// Bulgarian half is written from the Bulgarian notes and the English half from
+// the English ones; nothing is translated. The names are written out here, not
+// read from i18n.js, so the result does not depend on which language the
+// application happened to be in when it ran.
+//
+// `stages` IS NOT REMOVED. Migrations add (§13cv). The old list stays on the
+// record as the way back if the joining proves wrong, as `swatchHex` did at
+// §13ds; the screen no longer reads it except for photographs a stage carried,
+// which are shown where they are rather than copied, so no image is stored twice.
+//
+// Idempotent: a batch that already has `process` is skipped, so a second run —
+// or a batch the owner has since written in — is never touched.
+const STAGE_NAMES = {
+  extraction: { bg: 'Извличане', en: 'Extraction' },
+  laking:     { bg: 'Утаяване',  en: 'Laking' },
+  washing:    { bg: 'Промиване', en: 'Washing' },
+  filtering:  { bg: 'Филтриране', en: 'Filtering' },
+  drying:     { bg: 'Сушене',    en: 'Drying' },
+  grinding:   { bg: 'Стриване',  en: 'Grinding' },
+};
+
+export function processFromStages(stages) {
+  const out = { bg: '', en: '' };
+  for (const lang of ['bg', 'en']) {
+    const lines = [];
+    for (const s of Array.isArray(stages) ? stages : []) {
+      if (!s) continue;
+      // A note may be the {bg, en} pair the screen wrote, or a bare string from
+      // a record older than the pair; a bare string is read as Bulgarian, the
+      // language the application is used in.
+      const note = typeof s.note === 'string'
+        ? (lang === 'bg' ? s.note : '')
+        : String(s.note?.[lang] || '');
+      const text = note.trim();
+      const date = String(s.date || '').trim();
+      // A stage with a date and no note goes into the Bulgarian half only.
+      // Repeated in English it would be a heading with nothing after it in the
+      // half nobody wrote, which reads as a translation that was lost.
+      if (!text && !date) continue;
+      if (!text && lang === 'en') continue;
+      // An unknown stage code keeps its code as its name rather than being
+      // dropped: a stage this table does not know is still a stage someone
+      // wrote in.
+      const name = STAGE_NAMES[s.code]?.[lang] || String(s.code || '?');
+      lines.push(`${name}${date ? ` (${date})` : ''}${text ? `: ${text}` : ''}`);
+    }
+    out[lang] = lines.join('\n');
+  }
+  return out;
+}
+
+export async function migratePigmentProcessNotes() {
+  let touched = 0;
+  for (const b of await all('pigmentBatches')) {
+    if (b.process && typeof b.process === 'object') continue;
+    b.process = processFromStages(b.stages);
+    // Structural (§13cv): the owner has not touched this record.
+    await putMigration('pigmentBatches', b);
+    touched++;
+  }
+  if (touched) console.info(`gave ${touched} pigment batch(es) a process note`);
 }
 
 

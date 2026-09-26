@@ -35,7 +35,13 @@ export const isSodiumSource    = (sub) => !!(sub?.naPerUnit && sub?.molarMass);
  *
  * @param {object} o
  * @param {number} o.fabricWeightG       weight of goods
- * @param {number} o.percentWof          target, expressed as FINISHED aluminium acetate
+ * @param {number} o.percentWof          the percentage, read according to `mode`
+ * @param {string} [o.mode='finished']    what the percentage refers to:
+ *        'finished' — the FINISHED aluminium acetate (the stoichiometric target);
+ *        'source'   — the chosen ALUMINIUM SOURCE, as practical recipes state it.
+ *        The two are different questions and give different quantities: 18% WOF
+ *        of potassium alum is not 18% WOF of aluminium acetate, and no salt is
+ *        a gram-for-gram substitute for another.
  * @param {string} o.aluminiumSource     key of ALUMINIUM_SOURCES
  * @param {string} o.sodiumSource        key of SODIUM_SOURCES
  * @param {number} [o.vinegarPercent=9]  strength of the vinegar, if acid is needed
@@ -44,6 +50,7 @@ export const isSodiumSource    = (sub) => !!(sub?.naPerUnit && sub?.molarMass);
 export function aluminiumAcetate({
   fabricWeightG,
   percentWof,
+  mode = 'finished',
   targetG: targetOverride = null,   // grams of finished acetate, when known directly
   aluminiumSubstance,
   sodiumSubstance,
@@ -58,12 +65,20 @@ export function aluminiumAcetate({
   // Target, stated as finished product (§5.1 — basisRefersTo). In a chain the
   // figure comes from whatever step will consume it, rather than from a
   // percentage: the preparation exists to serve the mordanting that follows.
-  const targetG = targetOverride != null
-    ? targetOverride
-    : effectiveWeight * (percentWof / 100);
-  const molesAcetate = targetG / ALUMINIUM_ACETATE_M;   // = moles of aluminium
+  //
+  // In 'source' mode the percentage is read against the aluminium SALT instead,
+  // and the finished acetate is what follows from it — the same chemistry, read
+  // from the other end. Everything downstream (soda, acid) is derived from the
+  // aluminium it actually carries, so a different salt or hydration state gives
+  // different quantities rather than the same number under another name.
+  const bySource = targetOverride == null && mode === 'source';
+  const aluminiumG = bySource ? effectiveWeight * (percentWof / 100) : null;
+  const molesAcetate = bySource
+    ? (aluminiumG / aluminiumSubstance.molarMass) * aluminiumSubstance.alPerUnit
+    : (targetOverride != null ? targetOverride : effectiveWeight * (percentWof / 100)) / ALUMINIUM_ACETATE_M;
+  const targetG = molesAcetate * ALUMINIUM_ACETATE_M;   // moles of acetate = moles of aluminium
   const molesAlSource = molesAcetate / aluminiumSubstance.alPerUnit;
-  const aluminiumG = molesAlSource * aluminiumSubstance.molarMass;
+  const aluminiumGrams = bySource ? aluminiumG : molesAlSource * aluminiumSubstance.molarMass;
 
   // Three acetate groups per aluminium.
   const acetateEquivalents = molesAcetate * 3;
@@ -84,7 +99,8 @@ export function aluminiumAcetate({
 
   return {
     targetAluminiumAcetateG: round(targetG),
-    aluminiumSource: { id: aluminiumSubstance.id, formula: aluminiumSubstance.formula, grams: round(aluminiumG) },
+    mode: targetOverride != null ? 'target' : mode,
+    aluminiumSource: { id: aluminiumSubstance.id, formula: aluminiumSubstance.formula, grams: round(aluminiumGrams) },
     sodiumSource: { id: sodiumSubstance.id, formula: sodiumSubstance.formula, grams: round(sodiumG) },
     acid,
     // Choosing sodium acetate removes the acid line entirely: the conversion

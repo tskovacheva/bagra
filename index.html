@@ -2583,6 +2583,25 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);outline-
 @media (min-width:1280px){
   #view[data-module="fabrics"] .cols,#view[data-space="diary"] .cols{gap:26px}
 }
+
+/* ======================================================================
+   About and Getting started (rc102): the texts grew from four paragraphs to
+   five sections, so they need a hierarchy and a rhythm to be read. Scoped to
+   the one module; no typography changed anywhere else.
+   ====================================================================== */
+#view[data-module="about"] .panel > h2 + p{margin-top:2px}
+#view[data-module="about"] h3{font-size:var(--h-sub);font-weight:600;color:var(--ink);
+  margin:26px 0 8px;letter-spacing:0;text-transform:none}
+#view[data-module="about"] p{margin:0 0 12px;line-height:1.62;max-width:var(--measure)}
+#view[data-module="about"] ul{margin:0 0 12px;padding-left:20px;max-width:var(--measure)}
+#view[data-module="about"] li{margin:0 0 6px;line-height:1.55}
+#view[data-module="about"] .figure.flow{font-family:var(--serif);font-size:17px;color:var(--ink);
+  background:var(--sunk);border-radius:var(--radius-ctl);padding:10px 14px;display:inline-block;margin:0 0 12px}
+@media (min-width:1024px){
+  /* The reading text keeps a comfortable measure inside a wide panel; the
+     panel itself still uses the page. */
+  #view[data-module="about"] .panel{padding:26px 30px}
+}
 </style>
 </head>
 <body>

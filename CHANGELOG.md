@@ -12,6 +12,43 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc105 — 26 September 2026
+
+The pigment batch is a journal entry, not a workflow (§15d). Gone from the screen: the six fixed stages, the
+recipe-or-chain choice, the departure chips and struck lines, quality, the second date, and a swatch's kind, surface
+and recipe. In their place one „Процес / бележки" field; the result keeps yield, simple swatches (colour, name, note),
+photographs — reachable from the screen for the first time — and „Резултат и извод". A batch starts from a recipe
+with `output: 'pigment'` only. Migration `pigmentProcessNotes` joins each older batch's stage notes and dates into
+`process`, deterministically, and keeps `stages`; older chains, dates, quality, stage photographs and swatch kinds
+are shown read-only. New guard 24h' on the rendered screen, ten new migration assertions, screen fixture moved to the
+new shape. No recipe, chain, trial, fabric, calculator or seed data changed. The release gate was already red at
+rc104 for four unrelated reasons, recorded as decision item 33 and left alone.
+
+## 1.0.0-rc104 — 23 September 2026
+
+`scripts/local/` removed — the four double-click helpers for running a build locally. Windows Defender flagged the
+`.bat` files heuristically (a command file that starts a Python server and launches Chrome with arguments is a
+shape it watches for); there was nothing in them but those two commands, and a virus warning on every download is
+worse than a line typed in a terminal. README now gives the commands instead. No application file changed: the
+scripts were never part of the app, never cached by the worker and never ran in the browser.
+
+## 1.0.0-rc103 — 23 September 2026
+
+The aluminium acetate calculator reads WOF two ways (§15c): as the finished acetate, as before, or as the chosen
+aluminium source, the way practical recipes state it. A selector says which, with an explanation that the two are
+different sums. Mode 1's formula and numbers are unchanged (311 g at 8% → 24.9 / 20.9 / 19.4 g and 366 ml); mode 2
+starts from the salt (100 g at 18% potassium alum → 18 g of alum, 7.7 g of acetate, 6 g of soda, 137 ml of 5%
+vinegar) and derives the rest from the aluminium that salt carries. New guard `try-alum-acetate-modes.mjs` in
+check.sh, eleven regressions across four salts and two vinegar strengths. No seed recipe, chain, substance or
+journal data changed.
+
+## 1.0.0-rc102 — 23 September 2026
+
+About and Getting started carry the owner's own texts (§15b). „Какво е Багра" with its three sections, the
+„Справочник или дневник?" block beside it, and „Как се започва" with two ways to begin and five numbered
+sections — all in BG and EN, in the tabs that already existed. `about.js` gained a section helper and the module
+its own heading and paragraph rhythm; nothing was shortened. No route, module, data or navigation changed.
+
 ## 1.0.0-rc101 — 23 September 2026
 
 The aluminium acetate workflow calculates once (§15a). The mordant no longer doses 5–8% WOF of finished acetate on
