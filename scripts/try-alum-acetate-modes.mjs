@@ -1,5 +1,5 @@
 // scripts/try-alum-acetate-modes.mjs — the aluminium acetate calculator answers
-// two different questions and must keep answering both (§15c).
+// two different questions and must keep answering both (§13ff).
 //
 //   mode 'finished' — the % WOF is the FINISHED acetate (the stoichiometric target)
 //   mode 'source'   — the % WOF is the chosen aluminium SALT, as recipes state it

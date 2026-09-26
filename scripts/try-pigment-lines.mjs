@@ -225,7 +225,7 @@ JSON.stringify(Object.fromEntries((await all('pigmentBatches')).map(b => [b.id, 
   ? ok('a second run changes nothing')
   : bad('a second swatch run changed the data');
 
-// ---- the six stages become one text (§15d) ---------------------------------
+// ---- the six stages become one text (§13fg) ---------------------------------
 //
 // rc105 replaced the fixed stages with one `process` field. The migration
 // joins what the stages said, deterministically, and keeps `stages` as it was.
