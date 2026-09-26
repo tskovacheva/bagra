@@ -41,8 +41,8 @@ export const CONTACT = '';
 // so that adding one is a deliberate act and a missing translation is visible
 // here rather than as a gap on the screen.
 const PARAS = {
-  about: ['about.what', 'about.reference', 'about.diary', 'about.offline'],
-  help: ['help.start', 'help.plants', 'help.recipes', 'help.trials', 'help.backup'],
+  about: ['about.what', 'about.what2'],
+  help: [],
   safety: ['safety.lead', 'safety.powders', 'safety.vessels', 'safety.iron',
            'safety.plants', 'safety.disposal', 'safety.children', 'safety.calc'],
   legal: [],
@@ -50,13 +50,28 @@ const PARAS = {
 
 const paras = (key) => PARAS[key].map(k => `<p>${esc(t(k))}</p>`).join('');
 
+// A section of the long texts: a heading and its paragraphs (rc102). The texts
+// grew from four paragraphs to five sections, and a wall of <p> with no
+// headings is not read — the hierarchy is what makes it findable.
+const section = (titleKey, keys) => `
+  <h3>${esc(t(titleKey))}</h3>
+  ${keys.map(k => `<p>${esc(t(k))}</p>`).join('')}`;
+
 function renderAbout() {
   const report = CONTACT
     ? `<p>${esc(t('about.reportTo'))} <a href="mailto:${esc(CONTACT)}">${esc(CONTACT)}</a></p>`
     : note(t('about.reportNoAddress'), 'warn');
 
   return `
-    ${panel(`<h2>${esc(t('about.title'))}</h2>${paras('about')}`)}
+    ${panel(`<h2>${esc(t('about.title'))}</h2>${paras('about')}
+      ${section('about.referenceTitle', ['about.reference', 'about.reference2', 'about.reference3'])}
+      ${section('about.diaryTitle', ['about.diary', 'about.diary2', 'about.diary3'])}
+      ${section('about.dataTitle', ['about.offline', 'about.offline2'])}`)}
+    <div style="height:16px"></div>
+    ${panel(`<h2>${esc(t('about.vsTitle'))}</h2>
+      <p>${esc(t('about.vsRef'))}</p>
+      <p>${esc(t('about.vsDiary'))}</p>
+      <p>${esc(t('about.vsBoth'))}</p>`)}
     <div style="height:16px"></div>
     ${panel(`
       <h2>${esc(t('about.versionTitle'))}</h2>
@@ -75,7 +90,20 @@ function renderAbout() {
       <p class="hint">${esc(t('about.reportVersion', { version: VERSION, lang: getLang() }))}</p>`)}`;
 }
 
-const renderHelp = () => panel(`<h2>${esc(t('help.title'))}</h2>${paras('help')}`);
+const renderHelp = () => panel(`<h2>${esc(t('help.title'))}</h2>
+  <p>${esc(t('help.intro'))}</p>
+  <ul>
+    <li>${esc(t('help.wayInfo'))}</li>
+    <li>${esc(t('help.wayRecord'))}</li>
+  </ul>
+  ${section('help.s1Title', ['help.plants', 'help.reference', 'help.recipes', 'help.materials'])}
+  ${section('help.s2Title', ['help.start', 'help.flowLead'])}
+  <p class="figure flow">${esc(t('help.flow'))}</p>
+  <p>${esc(t('help.flowNote'))}</p>
+  <p>${esc(t('help.group'))}</p>
+  ${section('help.s3Title', ['help.trials', 'help.trials2', 'help.trials3'])}
+  ${section('help.s4Title', ['help.chains', 'help.chains2'])}
+  ${section('help.s5Title', ['help.yourData', 'help.backup'])}`);
 
 // The safety text is the one document here that is not paperwork. It is read by
 // somebody about to weigh a metal salt, so it opens with what to do and not with

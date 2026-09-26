@@ -61,6 +61,10 @@ const state = {
     // starting values; every source and strength stays selectable, and the
     // stoichiometry is untouched.
     weight: 500, percent: 8,
+    // What the percentage refers to (rc103): the FINISHED acetate, as the
+    // stoichiometric target, or the chosen aluminium SOURCE, as practical
+    // recipes state it. Two different questions, two different answers.
+    mode: 'finished',
     alSource: 'seed:al_sulfate_anhydrous', naSource: 'seed:soda_ash', vinegar: 6, vinegarJar: '',
   },
   exhaust: { firstWeight: 250, strength: 50 },
@@ -125,7 +129,7 @@ function render(root) {
   const naSub = naSources.find(x => x.id === a.naSource) || naSources[0];
 
   const alum = aluminiumAcetate({
-    fabricWeightG: a.weight, percentWof: a.percent,
+    fabricWeightG: a.weight, percentWof: a.percent, mode: a.mode,
     aluminiumSubstance: alSub, sodiumSubstance: naSub, vinegarPercent: a.vinegar,
   });
 
@@ -156,7 +160,13 @@ function render(root) {
   const bodies = {
     alum: `
       ${field(t('tools.fabricWeight'), num('alum.weight', a.weight))}
-      ${field(t('tools.targetWof'), num('alum.percent', a.percent, '0.5'), t('tools.targetWofHint'))}
+      ${field(t('tools.wofRefers'), `<select data-calc="alum.mode">
+        <option value="finished"${a.mode === 'finished' ? ' selected' : ''}>${t('tools.wofRefers.finished')}</option>
+        <option value="source"${a.mode === 'source' ? ' selected' : ''}>${t('tools.wofRefers.source')}</option>
+      </select>`, t('tools.wofRefersHint'))}
+      ${field(a.mode === 'source' ? t('tools.sourceWof') : t('tools.targetWof'),
+        num('alum.percent', a.percent, '0.5'),
+        a.mode === 'source' ? t('tools.sourceWofHint') : t('tools.targetWofHint'))}
       ${field(t('tools.alSource'), substanceSelect('alum.alSource', alSources, alSub?.id))}
       ${field(t('tools.naSource'), substanceSelect('alum.naSource', naSources, naSub?.id))}
       ${alum?.acid ? field(t('tools.vinegarPercent'),
