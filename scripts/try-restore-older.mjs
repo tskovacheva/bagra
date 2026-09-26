@@ -164,7 +164,7 @@ for (const file of files) {
 
     // 4. repairs
     const expected = ['doubleStateEvents', 'fabricActions', 'plantPhotos', 'recipeTempRange',
-      'pigmentBatchLines', 'pigmentSwatchList', 'recipeSourceList'];
+      'pigmentBatchLines', 'pigmentSwatchList', 'pigmentProcessNotes', 'recipeSourceList'];
     const unmarked = expected.filter(k => !(state.markers?.[k] >= 1));
     if (unmarked.length) fail(`${label} migrations`, `not marked as run: ${unmarked.join(', ')}`);
     const noList = state.recipes.filter(r => r.sourceCode && !Array.isArray(r.sourceCodes));

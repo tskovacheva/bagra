@@ -225,4 +225,77 @@ JSON.stringify(Object.fromEntries((await all('pigmentBatches')).map(b => [b.id, 
   ? ok('a second run changes nothing')
   : bad('a second swatch run changed the data');
 
+// ---- the six stages become one text (§15d) ---------------------------------
+//
+// rc105 replaced the fixed stages with one `process` field. The migration
+// joins what the stages said, deterministically, and keeps `stages` as it was.
+// Each assertion is a way the joining could have gone wrong quietly.
+
+const { migratePigmentProcessNotes, processFromStages } = await import('../migrations.js');
+
+await putSystem('pigmentBatches', { id: 'pr-full', stages: [
+  { id: 'a', code: 'extraction', date: '2026-05-02', note: { bg: 'три часа', en: 'three hours' }, photos: [] },
+  { id: 'b', code: 'laking', date: '', note: { bg: '', en: '' }, photos: [] },
+  { id: 'c', code: 'drying', date: '2026-05-05', note: { bg: '', en: '' }, photos: ['data:image/jpeg;base64,AA'] },
+  { id: 'd', code: 'grinding', date: '', note: { bg: 'на ахатов хаван', en: '' }, photos: [] },
+] });
+// A note written before the {bg, en} pair: a bare string.
+await putSystem('pigmentBatches', { id: 'pr-string', stages: [{ id: 'a', code: 'washing', note: 'пет пъти' }] });
+// A stage code the table does not know is still something she wrote.
+await putSystem('pigmentBatches', { id: 'pr-odd', stages: [{ id: 'a', code: 'soaking', note: { bg: 'нощ', en: '' } }] });
+await putSystem('pigmentBatches', { id: 'pr-empty', stages: [
+  { id: 'a', code: 'extraction', date: '', note: { bg: '', en: '' }, photos: [] }] });
+await putSystem('pigmentBatches', { id: 'pr-none' });
+// Written by rc105 itself, or edited since: never touched.
+await putSystem('pigmentBatches', { id: 'pr-new', process: { bg: 'нейният текст', en: '' },
+  stages: [{ id: 'a', code: 'extraction', note: { bg: 'друго', en: '' } }] });
+
+const prStamps = Object.fromEntries((await all('pigmentBatches')).map(b => [b.id, b.updatedAt]));
+const prStages = JSON.stringify((await all('pigmentBatches')).map(b => [b.id, b.stages ?? null]));
+await migratePigmentProcessNotes();
+const pr = Object.fromEntries((await all('pigmentBatches')).map(b => [b.id, b]));
+
+pr['pr-full'].process.bg === 'Извличане (2026-05-02): три часа\nСушене (2026-05-05)\nСтриване: на ахатов хаван'
+  ? ok('stage notes and dates are joined in stage order, and an empty stage is left out')
+  : bad(`pr-full became ${JSON.stringify(pr['pr-full'].process.bg)}`);
+
+pr['pr-full'].process.en === 'Extraction (2026-05-02): three hours'
+  ? ok('the English half is written from the English notes only, and a date alone stays in Bulgarian')
+  : bad(`pr-full en became ${JSON.stringify(pr['pr-full'].process.en)}`);
+
+pr['pr-string'].process.bg === 'Промиване: пет пъти'
+  ? ok('a note older than the language pair is read as Bulgarian, not lost')
+  : bad(`pr-string became ${JSON.stringify(pr['pr-string'].process)}`);
+
+pr['pr-odd'].process.bg === 'soaking: нощ'
+  ? ok('a stage the table does not know keeps its code as its name rather than being dropped')
+  : bad(`pr-odd became ${JSON.stringify(pr['pr-odd'].process)}`);
+
+pr['pr-empty'].process.bg === '' && pr['pr-empty'].process.en === ''
+  && pr['pr-none'].process.bg === '' && pr['pr-none'].process.en === ''
+  ? ok('a batch with nothing in its stages, or no stages at all, gets an empty pair')
+  : bad('an empty batch was given invented text');
+
+pr['pr-new'].process.bg === 'нейният текст'
+  ? ok('a batch that already has a process is not overwritten')
+  : bad('the migration overwrote a written process');
+
+JSON.stringify((await all('pigmentBatches')).map(b => [b.id, b.stages ?? null])) === prStages
+  ? ok('stages are kept exactly as they were — photographs included')
+  : bad('the migration changed or removed stages');
+
+Object.entries(pr).every(([id, b]) => b.updatedAt === prStamps[id])
+  ? ok('no updatedAt moved')
+  : bad('a batch was stamped as freshly edited by the process migration');
+
+const prSnapshot = JSON.stringify(pr);
+await migratePigmentProcessNotes();
+JSON.stringify(Object.fromEntries((await all('pigmentBatches')).map(b => [b.id, b]))) === prSnapshot
+  ? ok('a second run changes nothing')
+  : bad('a second process run changed the data');
+
+processFromStages(undefined).bg === '' && processFromStages([null]).bg === ''
+  ? ok('a missing or broken stage list answers rather than throwing')
+  : bad('a broken stage list produced text');
+
 process.exit(failed ? 1 : 0);
