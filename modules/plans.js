@@ -12,9 +12,9 @@
 
 import { all, get, put, uid } from '../db.js';
 import { t } from '../i18n.js';
-import { markClean } from '../dirty.js';
+import { markClean, markDirty } from '../dirty.js';
 import { page, panel, field, esc, empty, navigate, backTo, actionBtn, fmtDate,
-         deleteGuarded } from '../ui.js';
+         deleteGuarded, flash } from '../ui.js';
 
 // The four states, in the order a plan moves through them. Interface labels
 // only (i18n.js, `plans.status.*`) — not vocabulary: nothing else in the model
@@ -94,7 +94,7 @@ function renderPlan(root, p) {
 
   const items = p.items.map((it, i) => `
     <div class="checkitem${it.checked ? ' ticked' : ''}">
-      <label class="check"><input type="checkbox" data-i="${i}.checked"${it.checked ? ' checked' : ''}
+      <label class="check"><input type="checkbox" data-i="${i}.checked" data-saves-itself${it.checked ? ' checked' : ''}
         aria-label="${esc(t('plans.itemDone'))}"></label>
       <input type="text" data-i="${i}.text" value="${esc(it.text)}"
         aria-label="${esc(t('plans.itemText'))}" placeholder="${esc(t('plans.itemPlaceholder'))}">
@@ -130,6 +130,27 @@ function renderPlan(root, p) {
         </div>
       </div>`,
   });
+}
+
+let tickQueue = Promise.resolve();
+
+// Writes one line's tick into the stored plan. Returns true when written.
+export async function persistTick(planId, itemId, checked) {
+  try {
+    const stored = await get('plans', planId);
+    const line = stored?.items?.find(i => i.id === itemId);
+    if (!line) { markDirty(); return false; }   // nothing stored yet: it goes with Save
+    line.checked = checked;
+    const written = await put('plans', stored);   // stamps updatedAt
+    if (draft?.id === planId) draft.updatedAt = written?.updatedAt ?? stored.updatedAt;
+    return true;
+  } catch (err) {
+    // The tick is still in the draft, so Save will carry it; say so rather
+    // than let a tick look saved that is not.
+    markDirty();
+    flash(t('plans.tickFailed'));
+    return false;
+  }
 }
 
 function readForm(root) {
@@ -203,11 +224,32 @@ export default {
       }
     };
 
-    // The tick redraws its own row only, so a line struck through shows at
-    // once without redrawing the form under the cursor.
+    // A tick is a finished act and is written at once (§13fk). Only the tick:
+    // the title, notes, status and the words of a line wait for Save.
+    //
+    // WHAT IS WRITTEN is the STORED plan with one line's `checked` changed —
+    // never the draft. The draft may hold notes typed a minute ago and not
+    // saved; writing it would save them behind her back, and writing a stale
+    // copy over the stored one could undo a save. The draft is updated too, so
+    // a Save later carries the same tick and cannot revert it.
+    //
+    // The line is found by its id, not its position: a line removed in the
+    // form and not yet saved moves every index after it, and the stored plan
+    // still has it.
+    //
+    // A new plan not yet saved, or a line added and not yet saved, has nothing
+    // stored to patch; the tick stays in the draft and goes with Save, and the
+    // form is marked as holding unsaved work. Ticks are written one after
+    // another, never interleaved, so two quick ones cannot each read the plan
+    // before the other has written it.
     root.onchange = (e) => {
       if (!draft || e.target.type !== 'checkbox' || !e.target.dataset.i) return;
       e.target.closest('.checkitem')?.classList.toggle('ticked', e.target.checked);
+      const it = draft.items[Number(e.target.dataset.i.split('.')[0])];
+      if (!it) return;
+      it.checked = e.target.checked;
+      const planId = draft.id, itemId = it.id, checked = it.checked;
+      tickQueue = tickQueue.then(() => persistTick(planId, itemId, checked)).catch(() => {});
     };
   },
 };

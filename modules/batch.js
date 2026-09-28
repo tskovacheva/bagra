@@ -57,6 +57,22 @@ const PRECONDITIONS = [
 // application that refuses it is wrong more often than the person is.
 const RECENT_DAYS = 30;
 
+// Which chosen pieces an action is written to (§13fm).
+//
+// Washing is the one action whose whole point is to move a piece OUT of the
+// first box. A piece already washed — or mordanted, dyed, finished, which all
+// imply it — gains nothing from a second „washed" but a meaningless event, and
+// because the box is read from the latest box-moving action, it would be moved
+// BACK to „washed". So a group wash is written only to pieces still in a box
+// before „washed"; the rest are named and left alone.
+//
+// Every other action keeps its behaviour: mordanting a finished shawl again is
+// how a piece is reworked (§13am), and the application does not argue with it.
+export function eligibleFor(action, fabric) {
+  if (action !== 'wash') return true;
+  return STATE_ORDER.indexOf(currentState(fabric)) < STATE_ORDER.indexOf(boxAfter('wash'));
+}
+
 function recentlyDone(fabric, actionCode) {
   const same = (fabric.actions || [])
     .filter(a => a.actionCode === actionCode && a.date)
@@ -218,10 +234,15 @@ async function qtyLine(ing, substances) {
 // ------------------------------------------------------------------- write
 
 async function save(fabrics) {
-  const chosen = fabrics.filter(f => picked.has(f.id));
-  if (!chosen.length) return flash(t('batch.pickSomething'));
+  const all_ = fabrics.filter(f => picked.has(f.id));
+  if (!all_.length) return flash(t('batch.pickSomething'));
+  // A chain decides its own actions step by step; the eligibility rule is for
+  // one action chosen by name (§13fm).
+  const chosen = chainId ? all_ : all_.filter(f => eligibleFor(actionCode, f));
+  const skipped = all_.length - chosen.length;
+  if (!chosen.length) return flash(t('batch.noneEligible', { box: await label('fabric_state', boxAfter(actionCode)) }));
 
-  const weightG = totalWeight(fabrics) || null;
+  const weightG = chosen.reduce((sum, f) => sum + (Number(f.weightG) || 0), 0) || null;
   const recipes = new Map((await all('recipes')).map(r => [r.id, r]));
 
   // A chain writes one batch per step. Same pieces, same weight, separate
@@ -291,7 +312,9 @@ async function save(fabrics) {
   }
 
   markClean();
-  flash(t('batch.saved', { n: chosen.length, k: plan.length }));
+  flash(skipped
+    ? t('batch.savedSkipped', { n: chosen.length, k: plan.length, s: skipped })
+    : t('batch.saved', { n: chosen.length, k: plan.length }));
   const back = returnTo;
   reset();
   if (back) { await setSetting('returnTo', null); returnTo = null;
@@ -432,6 +455,25 @@ async function renderForm(root) {
     date: fmtDate(date),
   }) : '';
 
+  // What will happen, said before it happens (§13fm): how many of the chosen
+  // pieces the action is written to, the box they end in, the date, and
+  // whether a recipe goes with it. The pieces left alone are named.
+  const chosenPieces = fabrics.filter(f => picked.has(f.id));
+  const eligible = chainId ? chosenPieces : chosenPieces.filter(f => eligibleFor(actionCode, f));
+  const left = chosenPieces.filter(f => !eligible.includes(f));
+  const recipeName = chainId ? text(chains.find(c => c.id === chainId)?.name)
+    : text(recipes.find(r => r.id === recipeId)?.name);
+  const outcome = picked.size ? `
+    <div class="batchoutcome" data-outcome>
+      <p>${moves && !chainId
+        ? t('batch.outcomeMoves', { n: eligible.length, box: esc(await label('fabric_state', moves)) })
+        : t('batch.outcomeRecords', { n: eligible.length, what: esc(await label('fabric_action', actionCode)) })}</p>
+      ${left.length ? `<p class="hint" data-outcome-left>${t('batch.outcomeLeft', {
+        n: left.length, list: esc(left.map(f => f.label || f.name).join(', ')) })}</p>` : ''}
+      <p class="hint">${esc(fmtDate(date))} \u00B7 ${recipeName
+        ? esc(t('batch.withRecipe', { name: recipeName })) : t('batch.withoutRecipe')}</p>
+    </div>` : '';
+
   root.innerHTML = page({
     title: t('batch.title'),
     sub: t('batch.sub'),
@@ -464,9 +506,9 @@ async function renderForm(root) {
       ${panel(`
         <h2><span class="stepnum">3</span> ${t('batch.theAction')}</h2>
         <div class="cols2">
-          ${field(t('batch.recipe'), `
+          ${field(t('batch.recipeOptional'), `
             <select data-recipe>
-              <option value="">${t('common.choose')}</option>
+              <option value="">${t('batch.noRecipeOption')}</option>
               ${recipes.map(r => `<option value="${r.id}"${recipeId === r.id ? ' selected' : ''}>${esc(text(r.name))}</option>`).join('')}
               ${chains.length ? `<optgroup label="${t('batch.chains')}">${chains.map(c =>
                 `<option value="chain:${c.id}"${chainId === c.id ? ' selected' : ''}>${esc(text(c.name))}</option>`).join('')}</optgroup>` : ''}
@@ -480,8 +522,9 @@ async function renderForm(root) {
       `)}
 
       ${summary ? `<p class="summaryline">${esc(summary)}</p>` : ''}
+      ${outcome}
       <div class="formactions">
-        <button class="btn primary" data-save ${picked.size ? '' : 'disabled'}>${t('batch.save')}</button>
+        <button class="btn primary" data-save ${eligible.length ? '' : 'disabled'}>${t('batch.save')}</button>
       </div>`,
   });
 }
@@ -539,10 +582,12 @@ export default {
     // handler. Every other module in the application does it this way.
     root.onclick = async (e) => {
       const act = e.target.closest('[data-action]');
-      if (act) { actionCode = act.dataset.action; recipeId = ''; chainId = ''; return this.render(root); }
+      // Both read the form first: a redraw that does not, drops the note and the
+      // deviation typed a moment ago (§13fm).
+      if (act) { readForm(root); actionCode = act.dataset.action; recipeId = ''; chainId = ''; return this.render(root); }
 
       const box = e.target.closest('[data-box]');
-      if (box) { boxFilter = box.dataset.box || null; return this.render(root); }
+      if (box) { readForm(root); boxFilter = box.dataset.box || null; return this.render(root); }
 
       const open = e.target.closest('[data-open]');
       if (open) return navigate(`#/fabrics/${open.dataset.open}`);

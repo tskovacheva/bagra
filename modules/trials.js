@@ -19,6 +19,8 @@ import { daysSinceMordanted, currentState, treatmentsOf, compositionTotal, cover
          photoTimeline, actionIndex, prepCandidates } from '../fabric-logic.js';
 import { reserveLabel } from './fabrics.js';
 import { trialStepWarnings } from '../calc/scale.js';
+import { BUNDLE_STEP_TYPES, PREPARED_KINDS, blankPrep, blankLayer, bundleFromSteps,
+         printSideOf } from '../ecoprint-bundle.js';
 
 const ENHANCEMENTS = ['cloth_mordant', 'botanical_mordant', 'predye_substantive',
                       'blanket_mordant', 'blanket_dye', 'ph_modifier'];
@@ -83,6 +85,8 @@ function blank() {
     techniqueIds: [],
     water: { sourceCode: '', note: '' },
     steps: [],
+    // The eco-print bundle, bottom to top (§13fl). Empty on other processes.
+    bundle: { layers: [], roll: '' },
     placements: [],
     assessment: '',
     assessmentWhy: '',
@@ -212,6 +216,39 @@ function stageRuns(steps = []) {
   return runs;
 }
 
+// The runs a screen lists. On an eco-print trial with a bundle, the four
+// construction step types are shown BY the bundle and not again as steps
+// (§13fl); they stay in the record, with their indices, so nothing that edits a
+// step by its position moves.
+function visibleRuns(r) {
+  const runs = stageRuns(r.steps);
+  if (!isEcoPrint(r) || !r.bundle) return runs;
+  return runs
+    .map(run => ({ ...run, items: run.items.filter(({ st }) => !BUNDLE_STEP_TYPES.includes(st.typeCode)) }))
+    .filter(run => run.items.length)
+    // Two runs of one stage that met only across a hidden step become one.
+    .reduce((out, run) => {
+      const last = out[out.length - 1];
+      if (last && last.code === run.code) last.items.push(...run.items); else out.push(run);
+      return out;
+    }, []);
+}
+
+// A completed trial whose DATE is moved past its completion date (§13fl).
+//
+// Applied only when the trial date itself was changed in this edit: moving it
+// forward and leaving the completion date a week behind is the fault the
+// owner's record showed. NOT applied otherwise, because a finishing date
+// earlier than the trial date is also how past work is recorded — written down
+// today, finished last May — and that date is chosen on the finishing screen,
+// on purpose (§13au). One on or after the trial date is always kept.
+let dateAtOpen = null;
+export function alignFinishedOn(r, dateBefore) {
+  if (r.date === dateBefore) return r;
+  if (statusOf(r) === 'complete' && r.finishedOn && r.date && r.finishedOn < r.date) r.finishedOn = r.date;
+  return r;
+}
+
 const statusChip = async (r) =>
   `<span class="statuschip ${statusOf(r)}">${esc(await label('trial_status', statusOf(r)))}</span>`;
 
@@ -225,7 +262,7 @@ const statusChip = async (r) =>
 // The two fixed ends are read, not stored: raw cloth is the fabric record, done
 // is `status: complete`.
 async function progressMarks(r) {
-  const runs = stageRuns(r.steps);
+  const runs = visibleRuns(r);
   const finished = statusOf(r) === 'complete';
   const marks = [
     { code: 'raw', done: (r.fabricIds || []).length > 0 },
@@ -978,8 +1015,90 @@ async function reviewPreparation(r) {
     </details>`;
 }
 
+// ---------------------------------------------------------------- the bundle
+//
+// „Подреждане на вързопа" (§13fl): the stack from the bottom up, one row a
+// layer, moved with ↑ ↓ and removed with ×. A blanket or printing cloth carries
+// a small preparation of its own — washed, what it was dipped in, for how long,
+// the bath — in words, because „1–2 min" and „3 g in ~3 L, shared by five" are
+// what was known, and a number field would ask for more than that.
+async function bundleCard(r) {
+  if (!isEcoPrint(r)) return '';
+  const b = r.bundle || { layers: [], roll: '' };
+  const layers = b.layers || [];
+  const last = layers.length - 1;
+  const rows = (await Promise.all(layers.map(async (l, i) => {
+    const stepPhotos = l.stepId ? ((r.steps || []).find(st => st.id === l.stepId)?.photos || []) : [];
+    const prep = PREPARED_KINDS.includes(l.kind) ? (l.prep || blankPrep()) : null;
+    return `
+      <div class="layerrow">
+        <span class="stepnum">${i + 1}</span>
+        <select data-layer="${i}.kind" aria-label="${esc(t('trials.layerKind'))}">${
+          await options('bundle_layer', l.kind, t('trials.layerKind'))}</select>
+        <input type="text" data-layer="${i}.what" value="${esc(l.what || '')}"
+          placeholder="${esc(t('trials.layerWhatPh'))}" aria-label="${esc(t('trials.layerWhatPh'))}">
+        <span class="layerbtns">
+          <button class="btn quiet" data-layer-up="${i}" aria-label="${esc(t('trials.layerUp'))}"${i === 0 ? ' disabled' : ''}>\u2191</button>
+          <button class="btn quiet" data-layer-down="${i}" aria-label="${esc(t('trials.layerDown'))}"${i === last ? ' disabled' : ''}>\u2193</button>
+          <button class="btn quiet" data-layer-del="${i}" aria-label="${esc(t('trials.layerDel'))}">\u00D7</button>
+        </span>
+      </div>
+      ${prep ? `
+        <div class="layerprep">
+          <div class="navhead">${t('trials.prepTitle')}</div>
+          <label class="check"><input type="checkbox" data-layer-prep="${i}.washed"${prep.washed ? ' checked' : ''}>
+            ${t('trials.prepWashed')}</label>
+          <input type="text" data-layer-prep="${i}.treatment" value="${esc(prep.treatment)}"
+            placeholder="${esc(t('trials.prepTreatmentPh'))}" aria-label="${esc(t('trials.prepTreatment'))}">
+          <input type="text" data-layer-prep="${i}.duration" value="${esc(prep.duration)}"
+            placeholder="${esc(t('trials.prepDurationPh'))}" aria-label="${esc(t('trials.prepDuration'))}">
+          <input type="text" data-layer-prep="${i}.bath" value="${esc(prep.bath)}"
+            placeholder="${esc(t('trials.prepBathPh'))}" aria-label="${esc(t('trials.prepBath'))}">
+          <input type="text" data-layer-prep="${i}.note" value="${esc(prep.note)}"
+            placeholder="${esc(t('trials.prepNote'))}" aria-label="${esc(t('trials.prepNote'))}">
+        </div>` : ''}
+      ${stepPhotos.length ? `<div class="stepphotos layerphotos" title="${esc(t('trials.layerPhotos'))}">${
+        stepPhotos.map(src => `<div class="stepphoto"><img src="${src}" alt=""></div>`).join('')}</div>` : ''}`;
+  }))).join('');
+
+  return `
+    <div class="stagecard bundlecard">
+      <div class="stagecardhead">
+        ${stageIcon('colour')}
+        <b>${t('trials.bundleTitle')}</b>
+      </div>
+      <p class="hint">${t('trials.bundleHint')}</p>
+      ${rows || `<p class="hint">${t('trials.layerEmpty')}</p>`}
+      ${actionBtn('add', t('trials.layerAdd'), 'data-layer-add', 'contextual')}
+      <label class="field"><span class="fieldlabel">${t('trials.roll')}</span>
+        <input type="text" data-f="bundle.roll" value="${esc(b.roll || '')}" placeholder="${esc(t('trials.rollPh'))}"></label>
+    </div>`;
+}
+
+// The same bundle, read.
+async function reviewBundle(r) {
+  if (!isEcoPrint(r) || !(r.bundle?.layers || []).length) return '';
+  const rows = (await Promise.all(r.bundle.layers.map(async (l, i) => {
+    const p = PREPARED_KINDS.includes(l.kind) && l.prep ? l.prep : null;
+    const prep = p ? [p.washed ? t('trials.prepWashed') : '', p.treatment, p.duration, p.bath, p.note]
+      .filter(x => String(x || '').trim()).join(' \u00B7 ') : '';
+    return `<li><b>${esc(await label('bundle_layer', l.kind) || '\u2014')}</b>${
+      l.what ? ` \u2014 ${esc(l.what)}` : ''}${prep ? `<div class="hint">${esc(prep)}</div>` : ''}</li>`;
+  }))).join('');
+  return `
+    <details class="procrow bundlerow">
+      <summary>
+        <span class="procdot">\u2713</span>
+        ${stageIcon('colour')}
+        <span class="procname">${t('trials.bundleTitle')}</span>
+        <span class="hint">${esc(r.bundle.roll || '')}</span>
+      </summary>
+      <div class="procbody"><ol class="layerlist">${rows}</ol></div>
+    </details>`;
+}
+
 async function stageCards(r) {
-  const runs = stageRuns(r.steps);
+  const runs = visibleRuns(r);
   // Shown for the bath too, under its own name (§13ap).
   //
   // It used to be eco print only, reasoning that a card headed "plants and
@@ -1045,6 +1164,7 @@ async function stageCards(r) {
 
   return `
     ${await preparationCard(r)}
+    ${await bundleCard(r)}
     ${cards.join('')}
     ${orphan}
     ${runs.length ? '' : `<p class="hint">${t('trials.noStepsYet')}</p>`}
@@ -1116,7 +1236,8 @@ async function stepRow(r, st, i) {
     <div class="stepopen">
       ${warnHtml}
       <div class="stepgrid">
-        <select data-step="${i}.typeCode">${await options('step_type', st.typeCode, t('trials.stepType'))}</select>
+        <select data-step="${i}.typeCode">${withoutCodes(await options('step_type', st.typeCode, t('trials.stepType')),
+          isEcoPrint(r) && r.bundle ? BUNDLE_STEP_TYPES.filter(c => c !== st.typeCode) : [])}</select>
         <select data-step="${i}.stageCode" title="${esc(t('trials.stage'))}">${await options('trial_stage', stageOf(st))}</select>
         <select data-step="${i}.source">${recipeOptions}</select>
         <button class="btn quiet" data-newrecipe="${i}" title="${esc(t('trials.newRecipe'))}">+</button>
@@ -1146,13 +1267,13 @@ async function stepRow(r, st, i) {
         <div class="stepdyes">${await placementsBlock(r, st.id)}</div>` : ''}
 
       <div class="steptimefields">
+        <label class="inlinefield"><span>${t('trials.held')}</span>
+          <input type="number" step="5" min="0" data-step="${i}.heldMinutes" value="${st.heldMinutes ?? ''}"></label>
         <label class="inlinefield"><span>${t('trials.temp')}</span>
           <input type="number" step="5" data-step="${i}.tempC" value="${st.tempC ?? ''}"></label>
         <label class="check approxcheck" title="${esc(t('common.approxHint'))}">
           <input type="checkbox" data-step-bool="${i}.tempApprox"${st.tempApprox ? ' checked' : ''}>
           ${t('common.approx')}</label>
-        <label class="inlinefield"><span>${t('trials.held')}</span>
-          <input type="number" step="5" min="0" data-step="${i}.heldMinutes" value="${st.heldMinutes ?? ''}"></label>
         <label class="inlinefield"><span>${t('trials.rest')}</span>
           <input type="number" step="10" min="0" data-step="${i}.restMinutes" value="${st.restMinutes ?? ''}"></label>
       </div>
@@ -1364,6 +1485,37 @@ const DYE_STEPS = ['dye', 'bundle_boil', 'print_paste'];
 //
 // One list, filtered, rather than a second list per step: a placement is a
 // placement, and two stores of the same thing drift apart (§13ak).
+// An option list without some of its options. Built from a string: a regex
+// literal with quotes in it is what check-scope.js cannot read (§13fh).
+function withoutCodes(html, codes) {
+  let out = html;
+  for (const c of codes) out = out.replace(new RegExp('<option value="' + c + '"[^>]*>[^<]*</option>', 'g'), '');
+  return out;
+}
+
+// Which side of the leaf faced the receiving cloth (§13fl). Chosen in relative
+// terms; an older `face_up` / `face_down` is kept as written and never
+// rewritten. When the bundle settles what it meant, that meaning is shown under
+// it; when it does not, the old words are shown and nothing is added.
+async function printSideField(i, pl, r) {
+  const side = printSideOf(pl, r.bundle?.layers);
+  const legacy = side.how === 'derived' || side.how === 'legacy'
+    ? `<p class="hint">${t('trials.legacyFacing')}: ${esc(await label('facing', pl.facing))}${
+        side.how === 'derived' ? ` \u2014 ${t('trials.legacyFacingMeans')} ${esc(await label('print_side', side.code))}` : ''}</p>` : '';
+  return `
+    <select data-place="${i}.printSide" aria-label="${esc(t('trials.printSide'))}">${
+      await options('print_side', pl.printSide || '', t('trials.printSideNone'))}</select>
+    ${pl.printSide ? '' : legacy}`;
+}
+
+async function printSideText(pl, r) {
+  const side = printSideOf(pl, r.bundle?.layers);
+  if (side.how === 'set') return await label('print_side', side.code);
+  if (side.how === 'derived') return `${await label('print_side', side.code)} (${t('trials.legacyFacing')}: ${await label('facing', pl.facing)})`;
+  if (side.how === 'legacy') return `${t('trials.legacyFacing')}: ${await label('facing', pl.facing)}`;
+  return '';
+}
+
 async function placementsBlock(r, stepId = null) {
   // Forty-eight rows in a dropdown is a list you scroll, not one you choose
   // from. A datalist lets three letters do it, and works with a phone keyboard.
@@ -1422,7 +1574,7 @@ async function placementsBlock(r, stepId = null) {
 
           ${isEcoPrint(r) ? `
             <div class="placemain">
-              <select data-place="${i}.facing">${await options('facing', pl.facing, t('trials.facing'))}</select>
+              ${await printSideField(i, pl, r)}
               <select data-place="${i}.printQuality">${await options('print_quality', pl.printQuality, t('trials.printQuality'))}</select>
               <input type="text" data-place="${i}.localTreatment" value="${esc(pl.localTreatment || '')}" placeholder="${t('trials.localPlaceholder')}">
             </div>` : ''}
@@ -1537,7 +1689,7 @@ async function renderReview(root, r) {
     { label: t('trials.repeat'), value: esc(await label('repeat', r.repeat)), mark: 'i-again' },
   ].filter(x => x.value);
 
-  const runs = stageRuns(r.steps);
+  const runs = visibleRuns(r);
   const processRows = (await Promise.all(runs.map(async (run) => {
     const bits = [t('trials.nActions', { n: run.items.length })];
     if (run.code === 'colour' && (r.placements || []).length)
@@ -1640,6 +1792,7 @@ async function renderReview(root, r) {
           <div class="foldbody">
             ${head}
             ${prepRow}
+            ${await reviewBundle(r)}
             ${processRows || `<p class="hint">${t('trials.noStepsYet')}</p>`}
             ${tail}
           </div>
@@ -1724,7 +1877,7 @@ async function reviewPlacements(r) {
       pl.partCode ? await label('plant_part', pl.partCode) : '',
       pl.condition ? await label('placement_condition', pl.condition) : '',
       pl.extractionMode ? await label('extraction_mode', pl.extractionMode) : '',
-      pl.facing ? await label('facing', pl.facing) : '',
+      isEcoPrint(r) ? await printSideText(pl, r) : '',
       pl.printQuality ? await label('print_quality', pl.printQuality) : '',
       pl.localTreatment || '',
     ].filter(Boolean).join(' \u00B7 ');
@@ -2055,6 +2208,24 @@ function readWork(root) {
 
   draft.placements = patchList('place', draft.placements);
 
+  // The bundle's layers, patched in place like the lists above; a layer's
+  // preparation is a small object of its own, so it has a reader of its own.
+  if (draft.bundle && root.querySelector('[data-layer], [data-layer-add]')) {
+    const layers = (draft.bundle.layers || []).map(l => ({ ...l, prep: l.prep ? { ...l.prep } : l.prep }));
+    for (const el of root.querySelectorAll('[data-layer]')) {
+      const [i, key] = el.dataset.layer.split('.');
+      if (layers[Number(i)]) layers[Number(i)][key] = el.value;
+    }
+    for (const el of root.querySelectorAll('[data-layer-prep]')) {
+      const [i, key] = el.dataset.layerPrep.split('.');
+      const l = layers[Number(i)];
+      if (!l) continue;
+      l.prep = l.prep || blankPrep();
+      l.prep[key] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+    draft.bundle = { ...draft.bundle, layers };
+  }
+
   const steps = patchList('step', draft.steps);
   for (const st of steps) {
     if (st.source === undefined) continue;
@@ -2162,6 +2333,7 @@ export default {
         // screen with nothing on it is the worst outcome this app has.
         if (!found) { openId = null; screen = null; draft = null; return this.render(root); }
         draft = structuredClone(found);
+        dateAtOpen = draft.date;
         if (openId === 'new' && handoff) {
           const cloth = await get('fabrics', handoff);
           if (cloth) {
@@ -2201,6 +2373,10 @@ export default {
           handoff = null;
         }
       }
+      // An eco-print trial the migration has not seen — switched to eco print
+      // since, or restored from a file — gets its bundle the same way, in
+      // memory; it is written only if she saves (§13fl).
+      if (isEcoPrint(draft) && !draft.bundle) draft.bundle = bundleFromSteps(draft.steps, uid);
       // Which screen the record gets is decided by the record plus the address,
       // never by a flag: finished work is reviewed, unfinished work is worked on.
       if (screen === 'finish') await renderFinish(root, draft);
@@ -2549,6 +2725,27 @@ export default {
         return redraw();
       }
 
+      // The bundle's layers (§13fl).
+      if (e.target.closest('[data-layer-add]')) {
+        readWork(root);
+        draft.bundle = draft.bundle || { layers: [], roll: '' };
+        draft.bundle.layers = [...(draft.bundle.layers || []), { ...blankLayer(''), id: uid() }];
+        return redraw();
+      }
+      const lup = e.target.closest('[data-layer-up]');
+      const ldown = e.target.closest('[data-layer-down]');
+      if (lup || ldown) {
+        readWork(root);
+        const i = Number(lup ? lup.dataset.layerUp : ldown.dataset.layerDown);
+        const j = i + (lup ? -1 : 1);
+        const layers = draft.bundle.layers;
+        if (j < 0 || j >= layers.length) return;
+        [layers[i], layers[j]] = [layers[j], layers[i]];
+        return redraw();
+      }
+      const ldel = e.target.closest('[data-layer-del]');
+      if (ldel) { readWork(root); draft.bundle.layers.splice(Number(ldel.dataset.layerDel), 1); return redraw(); }
+
       const phdel = e.target.closest('[data-photo-del]');
       if (phdel) { readWork(root); draft.resultPhotos.splice(Number(phdel.dataset.photoDel), 1); return redraw(); }
 
@@ -2560,7 +2757,13 @@ export default {
         // never applied silently — the app does not decide the work is over.
         if (draft.assessment && draft.status !== 'complete'
             && confirm(t('trials.markComplete'))) draft.status = 'complete';
+        alignFinishedOn(draft, dateAtOpen);
         await put('trials', draft);
+        dateAtOpen = draft.date;
+        // Saved. This screen stays open after Save, so the guard's own rule —
+        // clean once the form leaves the screen — never fired, and the next
+        // step away warned about work that was already written (§13fl).
+        markClean();
         // A brand-new trial has been living at `#/trials/new`; once it has an id
         // its address is its own, so a reload after saving reopens the work
         // rather than an empty new one.
@@ -2582,6 +2785,13 @@ export default {
     };
 
     root.onchange = async (e) => {
+      // A layer's kind decides whether it carries a preparation (§13fl).
+      if (e.target.dataset?.layer?.endsWith('.kind') && draft) {
+        readWork(root);
+        const l = draft.bundle.layers[Number(e.target.dataset.layer.split('.')[0])];
+        if (l && PREPARED_KINDS.includes(l.kind) && !l.prep) l.prep = blankPrep();
+        return this.render(root);
+      }
       // Preparation chosen for this work (rc95). The first tick turns „not
       // marked" into a list; untick everything and it is an explicit „none".
       const prepPick = e.target.closest('[data-prep-pick]');
