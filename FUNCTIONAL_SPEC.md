@@ -13364,3 +13364,62 @@ calcium carbonate bath, the provenance and safety notes, the source record, not 
 Garcia, eight steps. In the application: the old AA id resolves, the new recipe opens, and shows no
 „% WOF" outside the note that says it has none. Seen failing with an alum line at % WOF, with the old
 AA steps, with a sodium source on the lime, and with the AA alum at 20 %.
+
+---
+
+## 13fr. Three corrections: the pH colours, the chalk bath's words, the order of reliability (1.0.0-rc117)
+
+No data model, schema, recipe id, quantity or scaling changed.
+
+### The pH scale (Library → pH)
+
+**Defined in `modules/library.js`:** `PH_STEPS`, fourteen colours, one per place on the bar, and
+`PH_BANDS`, the five named bands with the swatch each shows in the legend.
+
+    1 #A94442  2 #B75545  3 #C96A45  │ 4 #D8913F  5 #D9AA3B  6 #C9B84A │ 7 #7E8B63 │
+    8 #5F8F86  9 #4C8090 10 #466E8C  │ 11 #566487 12 #665B82 13 #75527A 14 #7C496D
+    legend: 1–3 #B75545 · 4–6 #D9AA3B · 7 #7E8B63 · 8–10 #4C8090 · 11–14 #665B82
+
+The old bar was five flat bands — madder, weld, grey at 7, indigo and iron above it — which read as
+interface colours rather than as a progression, and ended in graphite. Now: muted reds, ochre and yellow,
+an olive at 7, teal and blue, violet; nothing near black.
+
+**The olive at 7 is the application's one green**, by the owner's decision at this release. The rule
+„no green" (§13ef, the palette) is about the working surface a swatch is judged against; this is a scale
+to be read. Recorded here so the exception is not later taken for a slip.
+
+**The number on each place** is written in whichever of the two inks (`--ink`, `--surface`) contrasts
+more, by the WCAG formula (`inkFor`). The old rule — a threshold on raw luminance — put light ink on 3, 7
+and 8, where dark reads better. With either ink, four mid-tones stay below 4.5:1 — 3 at 3.98, 7 and 8 at
+4.07, 9 at 4.31 — which is the most two inks from the palette can do on these colours without changing
+the palette or the type. Recorded, not hidden.
+
+**Visual only.** The band edges, the names, the texts, what moves pH which way — unchanged.
+
+### The chalk bath's words
+
+`seed:chalk-bath` is now the follow-on of two systems — the aluminium acetate working solution and
+Nicoleta's Al/Fe impregnation (§13fq) — and its wording assumed the first. Changed: the second step,
+from „the cloth that came out of the aluminium acetate" to **„Потопи обработената тъкан в банята с
+калциев карбонат за около 10 минути и я движи периодично." / „Immerse the treated fabric in the calcium
+carbonate bath for about 10 minutes, moving it periodically."**, and the notes' opening, from „the bath
+after aluminium acetate" to „the bath after the mordant treatment". Same id, same 10 g/L, 5 L and ten
+minutes, same three steps, same follow-on links. Recipes pack 0.20.1.
+
+### Reliability, in the owner's order
+
+Reliability means how far she can rely on a statement in practice: **own trial > literature > practice >
+needs testing** (`own_trial` 1, `literature` 2, `practice` 3, `unverified` 4; the older `confirmed` and
+`contradicted` after). The first press on the heading (▲) puts the strongest first; the second (▼) the
+weakest. Codes and labels unchanged.
+
+### Checks
+
+- deep-check `ph-scale`, rewritten: the fourteen places in `PH_STEPS` order; 7 alone neutral; no step
+  darker than 3:1 against black and none of the three old interface colours; every number in the ink
+  that reads better, and at least 3.3:1; the legend's five swatches, each one of the steps its band
+  spans. Seen failing with the old ink rule (3, 7 and 8) and with graphite at 14.
+- `try-recipe-content.mjs`: the chalk bath's id, 10 g/L, 5 L, ten minutes, three steps, the new second
+  step in both languages, and nothing in its steps or opening that assumes aluminium acetate.
+- `try-reference-observations.mjs`: the rank table itself, and with one record marked „own trial", ▲
+  reading own trial → literature → practice → needs testing and ▼ the reverse.

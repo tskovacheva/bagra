@@ -1290,6 +1290,13 @@ gate that has been red for five releases is a gate nobody is reading. **Asked of
 
 ## 34. `try-withdrawal-in-use.mjs` fails under load, in rc107 as in rc108 (rc108)
 
+**Seen again at rc117, in deep-check.** Its `match` block navigates to a trial and presses Save after
+`settle()`; on a slow machine — here, just after the container restarted — Save was pressed before the
+trial had loaded, `readWork` found no draft, and three runs in a row failed with „a placement found no
+reference record". rc116 passed on the same machine minutes later, a bisection passed at every step,
+and five later runs of rc117 passed. Same class as above: a fixed wait where a condition should be.
+Not changed at rc117.
+
 **In part at rc114:** the service-worker reload — which made it fail even run alone — is removed from the
 check. The fixed 400 ms waits remain, and it still fails under CPU load.
 
@@ -1337,6 +1344,8 @@ not offered? **Asked of the owner.** The group rule can follow whichever is chos
 ---
 
 ## 37. Recipe metadata the schema cannot hold, and the chalk bath's wording (rc116)
+
+**Chalk bath wording settled at rc117 (§13fr).** The recipe metadata remains open.
 
 Nicoleta's Al/Fe impregnation (§13fq) wanted three things recipes cannot say as data: what it is FOR
 (eco print), what KIND of application it is (a concentrated impregnation), and that it is EXPERIMENTAL.

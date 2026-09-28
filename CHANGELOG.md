@@ -12,6 +12,13 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc117 — 28 September 2026
+
+Three corrections (§13fr). The pH bar in the Library in fourteen muted steps from red through ochre, olive at 7, teal
+and blue to violet — no graphite; each number in the ink that reads better on it; the legend's swatches to match.
+The chalk bath says „the treated fabric" instead of assuming aluminium acetate — same id, 10 g/L. Reliability in
+Reference sorts own trial > literature > practice > needs testing. Recipes pack 0.20.1.
+
 ## 1.0.0-rc116 — 28 September 2026
 
 Recipe content (§13fq). `seed:aluminium-acetate-prep` keeps its id and figures; its steps now read alum in warm water,

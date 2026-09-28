@@ -5941,24 +5941,42 @@ const dirty = await import('./dirty.js');
   else {
     if (cells.map(c => c.textContent.trim()).join(',') !== Array.from({ length: 14 }, (_, i) => i + 1).join(','))
       problems.push('the numbers on the bar are not 1 to 14 in order');
-    // Every colour is one of the five the module declares. Not „is it coloured"
-    // — a bar of invented colours would pass that, and the palette is a fixed
-    // decision (no green, and never the colour a dye turns).
-    const { PH_BANDS } = await import('./modules/library.js');
-    if (!PH_BANDS) problems.push('the module does not expose its bands for checking');
+    // Every place in its own declared step, in order (§13fr) — not „is it
+    // coloured": a bar of invented colours would pass that. The steps are a
+    // fixed decision; no colour a dye turns, and no black at the alkaline end.
+    const { PH_BANDS, PH_STEPS, contrast } = await import('./modules/library.js');
+    if (!PH_BANDS || !PH_STEPS) problems.push('the module does not expose its steps and bands for checking');
     else {
-      const allowed = new Set(PH_BANDS.map(b => b.hex.toLowerCase()));
       const hexOf = (rgb) => '#' + (rgb.match(/\d+/g) || [])
         .map(n => Number(n).toString(16).padStart(2, '0')).join('');
-      const strays = [...new Set(cells.map(c => hexOf(c.style.background)))]
-        .filter(h => !allowed.has(h));
-      if (strays.length) problems.push(`the bar uses ${strays.join(', ')}, which is not a declared band`);
-      // And the right number in the right band: 7 alone is neutral, and 8 is not.
-      const neutral = PH_BANDS.find(b => b.key === 'neutral');
-      if (hexOf(cells[6].style.background) !== neutral.hex.toLowerCase())
-        problems.push('7 is not drawn as the neutral band');
-      if (hexOf(cells[7].style.background) === neutral.hex.toLowerCase())
-        problems.push('8 is drawn as neutral too — the bands are off by one');
+      const got = cells.map(c => hexOf(c.style.background));
+      const want = PH_STEPS.map(h => h.toLowerCase());
+      if (got.join() !== want.join()) problems.push(`the bar is ${got.join(' ')}, not the fourteen declared steps in order`);
+      // Each place in the right band: 7 alone is neutral, and 8 is not.
+      if (cells[6].dataset.band !== 'neutral' || cells[7].dataset.band === 'neutral')
+        problems.push('the bands are off by one around 7');
+      // Nothing dark enough to read as black or graphite, and none of the old
+      // interface colours the alkaline end used to borrow.
+      const old = ['#2c3b57', '#3a3733', '#5c574e'];
+      const dark = PH_STEPS.filter(h => contrast(h, '#000000') < 3);
+      if (dark.length || want.some(h => old.includes(h)))
+        problems.push(`a near-black or old interface colour is back: ${[...dark, ...want.filter(h => old.includes(h))].join(', ')}`);
+      // The number on each place is written in whichever ink reads better, and
+      // reads at 3.3:1 at least — the best either ink manages on the palest mid-tones.
+      const inkHex = { 'var(--ink)': '#2a2724', 'var(--surface)': '#fffdf8' };
+      cells.forEach((c, k) => {
+        const ink = inkHex[c.style.color] || hexOf(c.style.color);
+        const other = ink === '#2a2724' ? '#fffdf8' : '#2a2724';
+        const mine = contrast(want[k], ink), theirs = contrast(want[k], other);
+        if (mine < theirs) problems.push(`${k + 1}: the other ink would read better (${mine.toFixed(2)} < ${theirs.toFixed(2)})`);
+        if (mine < 3.3) problems.push(`${k + 1}: ${mine.toFixed(2)}:1 is too faint`);
+      });
+      // The legend's five swatches are the five representatives, in order.
+      const legend = [...root.querySelectorAll('.phband .swatch')].map(sw => hexOf(sw.style.background));
+      const reps = ['#b75545', '#d9aa3b', '#7e8b63', '#4c8090', '#665b82'];
+      if (legend.join() !== reps.join()) problems.push(`the legend shows ${legend.join(' ')}`);
+      if (!PH_BANDS.every(b => PH_STEPS.slice(b.from - 1, b.to).map(h => h.toLowerCase()).includes(b.hex.toLowerCase())))
+        problems.push('a legend swatch is not one of the steps its band spans');
     }
   }
   // The names stay. A bar alone is pretty and unreadable to someone who has not
@@ -5968,7 +5986,7 @@ const dirty = await import('./dirty.js');
 
   lib.reset?.();
   if (problems.length) fail('ph-scale', new Error(problems.join('; ')));
-  else console.log('  ph-scale: fourteen places, each in its own declared band, with the names kept below');
+  else console.log('  ph-scale: fourteen places in the declared steps, the better ink on each, the five names and swatches below');
 }
 
 // ---- What actually went into the paste (§13ee)
