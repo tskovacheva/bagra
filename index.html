@@ -428,6 +428,23 @@ td.favcell,th.favcell{width:28px;padding-left:6px;padding-right:0;text-align:cen
 }
 .statuschip.planned{border-color:var(--weld);color:#8a6f14}
 .checklist{display:flex;flex-direction:column;gap:6px}
+/* What a group action will do, before it does it (§13fm). */
+.batchoutcome{margin:8px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.batchoutcome p{margin:2px 0}
+/* The eco-print bundle, bottom to top (§13fl). A layer is its number, its
+   kind, its words and three buttons; on a narrow screen the buttons wrap to a
+   line of their own rather than squeeze the words out. */
+.layerrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 4px}
+.layerrow select{flex:1 1 150px;min-width:0}
+.layerrow input[type=text]{flex:2 1 170px;min-width:0}
+.layerbtns{display:inline-flex;gap:2px;flex:none;margin-left:auto}
+.layerbtns .btn{min-width:44px;justify-content:center}
+.layerprep{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;
+  margin:4px 0 10px 28px;padding:8px 10px;border-left:2px solid var(--line)}
+.layerprep .navhead{grid-column:1/-1;margin:0}
+.layerphotos{margin-left:28px}
+.layerlist{margin:0;padding-left:22px}
+.layerlist li{margin:4px 0}
 /* A plan's line (§13fj): the tick, the words, the ×. The words take whatever
    is left and may shrink to nothing rather than push the row past the edge. */
 .checkitem{display:flex;align-items:center;gap:6px}

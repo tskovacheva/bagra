@@ -296,6 +296,14 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     line, delete; a backup carries them, a restore brings them back, and a
   #     backup from before Plans restores to an empty list.
   node scripts/try-plans.mjs || exit 1
+  # 4c. The eco-print trial as the owner wrote one (§13fl): the bundle built
+  #     from older steps and shown once, the blanket's preparation, which side
+  #     faced the receiving cloth, a whole sprig, duration before temperature,
+  #     the completion date, and no unsaved-work warning after Save.
+  node scripts/try-ecoprint.mjs || exit 1
+  # 4d. A group wash (§13fm): thirteen scarves, no recipe, one date; a mixed
+  #     group in which nothing already washed or later is moved back.
+  node scripts/try-batch-wash.mjs || exit 1
   # 5. Booting proves the app starts; it stops at each module's list. Read
   #    views and forms are where the imports actually get used, so they are
   #    opened too. See deep-check.mjs.
@@ -398,7 +406,9 @@ if [ "$HAVE_SHIM" = 1 ]; then
        node scripts/try-plant-id-change.mjs $REL || exit 1
        # Plans at 390 and 320px in both languages: nothing past the edge, every
        # tick and × a finger's size (§13fj).
-       node scripts/try-plans-screens.mjs $REL || exit 1 ;;
+       node scripts/try-plans-screens.mjs $REL || exit 1
+       # The eco-print bundle at 390 and 320px in both languages (§13fl).
+       node scripts/try-ecoprint-screens.mjs $REL || exit 1 ;;
     2) ;;
     *) exit 1 ;;
   esac

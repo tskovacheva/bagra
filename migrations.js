@@ -9,6 +9,7 @@
 import { all, get, putMigration, getSetting, setSetting, uid } from './db.js';
 import { migrateAll } from './migrate-actions.js';
 import { migratePlantPhotos } from './migrate-photos.js';
+import { bundleFromSteps } from './ecoprint-bundle.js';
 
 // ---------------------------------------------------------------- migrations
 //
@@ -65,6 +66,7 @@ export async function runMigrations() {
   await runOnce('pigmentBatchLines', 1, migratePigmentBatchLines);
   await runOnce('pigmentSwatchList', 1, migratePigmentSwatchList);
   await runOnce('pigmentProcessNotes', 1, migratePigmentProcessNotes);
+  await runOnce('ecoprintBundleLayers', 1, migrateEcoprintBundleLayers);
   await runOnce('recipeSourceList', 1, migrateRecipeSourceList);
   await runOnce('actionIds', 1, healActionIds);
 }
@@ -148,6 +150,30 @@ export async function migratePigmentSwatchList() {
     touched++;
   }
   if (touched) console.info(`gave ${touched} pigment batch(es) a swatch list`);
+}
+
+
+// An eco-print trial gains its bundle, read from its steps (§13fl).
+//
+// Adds `bundle: { layers, roll }` to every eco-print trial that lacks one, by
+// `bundleFromSteps` — each construction step one layer, in order, its kind
+// taken from its role and never guessed. THE STEPS ARE NOT TOUCHED: they stay
+// in the record, and only the eco-print screen stops listing the four
+// construction types, because the bundle now shows them. Placements keep their
+// `facing`; nothing is written into `printSide`, which is hers to choose.
+//
+// Structural write (§13cv), idempotent: a trial that has a bundle is skipped.
+// Other processes are not touched.
+export async function migrateEcoprintBundleLayers() {
+  let touched = 0;
+  for (const tr of await all('trials')) {
+    if (!String(tr.processCode || '').startsWith('ecoprint')) continue;
+    if (tr.bundle && typeof tr.bundle === 'object') continue;
+    tr.bundle = bundleFromSteps(tr.steps, uid);
+    await putMigration('trials', tr);
+    touched++;
+  }
+  if (touched) console.info(`gave ${touched} eco-print trial(s) a bundle`);
 }
 
 

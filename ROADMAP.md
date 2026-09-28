@@ -26,7 +26,10 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
-- **rc109:** Plans v1 (§13fj) — intent before work, a checklist per plan. Next, when wanted: a line → a trial.
+- **rc112:** group washing without a recipe; nothing moved back to washed (§13fm).
+- **rc111:**- **rc111:** eco-print bundle bottom to top, blanket preparation, relative leaf side, whole sprig, heat labels, two bug fixes (§13fl).
+- **rc110:**- **rc110:** a plan's tick saves itself; Plans vs Trials and backup direction written down (§13fk).
+- **rc109:** Plans v1- **rc109:** Plans v1 (§13fj) — intent before work, a checklist per plan. Next, when wanted: a line → a trial.
 - **rc108:** English on a first opening; the backup check sees references that no longer resolve
   (§13fi). The owner's backup has one — a finished action naming a trial that is gone — reported,
   not repaired.

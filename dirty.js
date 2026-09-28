@@ -68,7 +68,11 @@ export function install(confirmLeave) {
   // Capture phase, so it is seen before a module's own handler redraws.
   const touched = (e) => {
     if (!document.querySelector(SAVE)) return;      // no form open, nothing to protect
-    if (e.target.matches?.(CONTROL)) dirty = true;
+    // A control that writes its own change at once (`data-saves-itself`, the
+    // tick on a plan's line, §13fk) leaves nothing unsaved behind it, so it
+    // does not make the form dirty. If its write fails, the module marks the
+    // form dirty itself.
+    if (e.target.matches?.(CONTROL) && !e.target.closest('[data-saves-itself]')) dirty = true;
   };
   document.addEventListener('input', touched, true);
   document.addEventListener('change', touched, true);

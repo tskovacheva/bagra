@@ -88,6 +88,7 @@ A section may appear under more than one heading; that is what the index is for.
 
 **Pigments** — §13bv · §13bx · §13by · §13bz · §13dr · §13ds · §13fg
 **Plans** — §13fj
+**Eco-print bundle** — §13fl
 
 **The Library — glossary, pH, sources** — §9 · §13r · §13bt · §13bu · §13cb
 
@@ -713,6 +714,12 @@ loss: the intended figure has no reference value — the reference is built from
 keeping both would double the fields on every step to record something consulted almost never.
 Where a divergence is itself interesting, it belongs in the step note, in the user's own words, at
 her discretion.
+
+**Plans are not the twin this section refuses** (§13fj, rc109). A plan holds loose intent — a
+comparison, a list of variants, what to try and why — *before* any trial exists. Once something
+becomes a concrete trial, the trial is the single experimental record, opened as `planned` as above,
+and the plan does not duplicate it. **Plan** = intention, comparison, checklist. **Trial** = what was
+actually done. Nothing converts one into the other yet.
 
 ### 8.0b Stages, not step types
 
@@ -7860,6 +7867,14 @@ not hold the newer stores. Clearing those would read a gap in the file as an
 instruction to delete — a migration that guesses (§13.1), in the other
 direction. A store absent from the file is left alone.
 
+**Compatibility runs forward, not back** (rc110). A backup restores into the version that wrote it
+and into any later one: an older file into a newer application is the case this section guards. The
+reverse is not guaranteed. An application older than the backup does not know the stores or fields
+added after it, and `validateBackup` skips a list whose store it does not know — so the restore
+completes and quietly leaves those out. rc109's `plans` is the first such store; `schemaVersion`
+stays 3, and nothing is done to support restoring a newer backup into an older application
+(`DOCUMENTATION_DECISIONS_NEEDED.md` item 35).
+
 `merge` is unchanged in what it does: it can still only ever add. It is checked
 in that direction too, because the correction is exactly the kind that turns the
 safe mode into the destructive one by accident.
@@ -12866,7 +12881,8 @@ format is unchanged apart from carrying one more list, and `schemaVersion` stays
 - A backup from before Plans has no `plans` list. Restored onto a device, it gives an empty
   Plans list; restored onto a device that already has plans, it leaves them — the documented rule
   for a store a file does not carry (§13co), which clears nothing on the strength of a gap.
-- An application OLDER than rc109 restoring a newer backup skips the `plans` list silently,
+- An application OLDER than rc109 restoring a newer backup skips the `plans` list silently (the
+  general rule is in §13co),
   because it does not know the store. Raising `schemaVersion` would make it refuse the whole file
   instead. Left as it is; recorded as a question (`DOCUMENTATION_DECISIONS_NEEDED.md` item 35).
 
@@ -12896,3 +12912,205 @@ filters, links to plants, recipes, fabrics or trials, sharing, a format of its o
 
 The intended next step is **a line → a trial**. It needs one optional field on a line — the id of
 the trial made from it — and a button; nothing in the v1 shape has to change for it.
+
+---
+
+## 13fk. A tick on a plan is saved at once (1.0.0-rc110)
+
+A tick is a finished act; pressing Save after it was one step too many, and a tick forgotten
+unsaved is a line done twice. **Only the tick** is written at once. Title, notes, status and the
+words of a line still wait for Save — this is not autosave.
+
+**What is written is the stored plan with one line's `checked` changed, never the draft.** The
+draft can hold notes typed a minute ago and not saved: writing it would save them without her
+asking, and writing a stale copy over the stored plan could undo an earlier save. So the change
+handler reads the stored plan, finds the line **by its id** — a line removed in the form and not
+yet saved shifts every index after it, and the stored plan still has it — sets `checked`, and
+writes it through `put`, which stamps `updatedAt` and counts toward the backup reminder like any
+edit. The draft's line takes the same value, so a later Save carries the tick and cannot revert
+it. Ticks are written one after another through a queue, so two quick ones cannot both read the
+plan before either has written.
+
+- **Nothing stored to patch** — a plan never saved, or a line added and not saved: the tick stays
+  in the draft, goes with Save, and the form is marked as holding unsaved work.
+- **The write fails:** the shared `flash` says the tick was not saved and to press Save; the form
+  is marked unsaved; the draft still carries the tick, so Save stores it.
+- **The unsaved-work guard.** `dirty.js` marked a form dirty on any control. A control marked
+  `data-saves-itself` no longer does: a tick leaves nothing unsaved behind it, and a prompt on
+  leaving would claim otherwise. Unsaved typing elsewhere still counts. The attribute is on the
+  tick alone.
+
+**Checks** (`scripts/try-plans.mjs`, fifteen new): ticking and unticking are stored without Save;
+`updatedAt` moves; the plan stays open and is not left dirty by a tick alone; reopened, the tick is
+there; with title, notes and status typed and unsaved, a tick stores none of them, the form still
+shows them and is still unsaved, and Save then keeps both the words and the tick; after an unsaved
+removal the tick reaches its own line and the removal is not stored; a tick on a never-saved plan
+writes nothing and Save carries it; a failed write is shown, stores nothing, leaves the form unsaved,
+and Save then stores the tick. Seen failing when the whole form is read and saved on a tick, when
+the line is found by position, without the `dirty.js` exemption, and with no write at all.
+
+No change to the plan's shape, the IndexedDB version or `schemaVersion`.
+
+---
+
+## 13fl. The eco-print trial as it is actually built (1.0.0-rc111)
+
+Found in one real record — the owner's silk scarf of 25 September 2026: foil, a cotton blanket dipped
+in iron, leaves, the silk laid on top, rolled round a rod, steamed ninety minutes at about 100 °C.
+The screen could not say it without contradicting itself. The fixes, each small, and no new workflow.
+
+### Dates
+
+The completion date lives on the finishing screen, and the trial date on the working screen; both are
+shown, so both are kept. The record had `date 2026-09-25` and `finishedOn 2026-09-18` — a finish a
+week before the start, left behind when the date was moved. **Rule** (`alignFinishedOn`): when the
+working screen saves a completed trial whose `date` was changed in that edit, a `finishedOn` earlier
+than the new `date` becomes `date`; one on or after it is kept.
+
+**Narrower than first agreed, and why.** The rule as agreed — any `finishedOn` earlier than `date` is
+brought up — failed an existing guard (§13au): past work is recorded with today's `date` and its real
+finishing day chosen on the finishing screen, which is earlier on purpose. Applying the rule on every
+save would overwrite that chosen day. So it applies only when the trial date itself moves, and never
+on the finishing screen. Consequence: the owner's record as it stands (date already moved, not
+re-edited) is not changed by an ordinary save; its completion date is corrected on the finishing
+screen, or by touching the date.
+
+### The unsaved-work warning after Save
+
+The working screen stays open after Save, and `dirty.js` clears its mark only when the form leaves the
+screen — so the next step away warned about work already written. The save path now calls
+`markClean()` after a successful `put`. Only there: unsaved typing still warns.
+
+### The bundle, bottom to top
+
+    trial.bundle = {
+      layers: [ { id, kind, what, note, stepId, prep } ],   // from the bottom up
+      roll: text                                             // „around a wooden rod"
+    }
+    kind (vocabulary `bundle_layer`): barrier · carrier_blanket · printing_cloth · plants ·
+                                      receiving_cloth · other
+    prep (carrier_blanket, printing_cloth): { washed, treatment, duration, bath, note } — words
+
+No layer is assumed to be first or last. Rows are moved with ↑ ↓ and removed with ×; no dragging.
+The blanket's preparation is a mini-block of text fields — „1–2 min", „3 g iron salt / ~3 L water,
+shared by five" are what was known — not a second fabric workflow. The cloth kinds reuse
+`bundle_role`'s codes, so an older step's role carries over unchanged.
+
+**On an eco-print trial the four construction step types — `lay_base`, `arrange`, `lay_blanket`,
+`bundle` — are shown by the bundle and not again as steps**, and the step-type list no longer offers
+them there. The steps stay in the record with their indices; other processes are unchanged. The
+colour stage then holds the plants and the heat treatment, so the working screen reads: main fabric and
+preparation, bundle, plants, heat, result.
+
+### Older records
+
+Migration `ecoprintBundleLayers` (add-only, structural, idempotent) gives every eco-print trial
+without a bundle one built by `bundleFromSteps`: each construction step one layer in step order,
+`arrange` → plants, a laying step → the kind its `roleCode` names, no role → `other` with its words
+kept; the `bundle` step's words become `roll`. A layer keeps its step's id, so the step's photographs
+are shown beside it, not copied. A trial switched to eco print later, or restored, gets the same
+bundle in memory when opened, written only on Save. The owner's record becomes foil → blanket →
+plants → silk.
+
+### Which side of the leaf
+
+A placement gains `printSide` (vocabulary `print_side`): **printing/vein side toward receiving
+fabric** or **face side toward receiving fabric**, or not specified. The old `facing` —
+`face_up` / `face_down` — is kept and never rewritten. `printSideOf` reads it only when the bundle
+settles it: exactly one plants layer and exactly one receiving cloth. „Face down" with the receiving
+cloth above the leaves is the vein side toward it; below them, the face. Otherwise the old words are
+shown as written, marked as an older record, with nothing added. The owner's walnut reads as vein
+side toward the silk (older record: face down) — which is also what her note says.
+
+The plant part's own `facing` (plants screen, item 13) is not touched.
+
+### A whole sprig
+
+`plant_part` gains `aerial` — „стрък / надземна част" / „whole sprig / aerial part": stem, leaves and
+flower, no root. Not `whole`, which is the whole plant.
+
+### Heat treatment
+
+The temperature field was labelled „°C" and the time field „При температура (мин)" — the word
+„temperature" sat on the minutes. 90 and 100 were entered the wrong way round. Now **Duration (min)**
+first, then **Temperature (°C)** with its approximate mark, the same order in both languages, on every
+step. The owner's record still holds 90/100 swapped and the yarrow as `flower`: her data, corrected by
+her.
+
+### Checks
+
+- `scripts/try-ecoprint.mjs` — her record as the fixture (photographs replaced): the migration's four
+  layers, steps and facing untouched, updatedAt still, a dye bath untouched, idempotent, no role →
+  `other`; `printSideOf` both ways round, two receiving cloths and no bundle left as written, a chosen
+  side winning; the working screen shows four layers once, one step, one preparation block, the old
+  step photographs; Duration then Temperature, stored 90 / 100 with approximate kept; the completion
+  date following a moved date, a later one kept, an earlier one for past work kept when the date is
+  untouched; edit → save → leave with no warning, edit → leave with one; the
+  whole scenario typed in the wrong order and reordered, the blanket's preparation, the rod, a leaf
+  vein-side to the silk, yarrow as a sprig, nothing written into `facing`; the read view's layers and
+  the older walnut's reading. Seen failing without `markClean`, without the date rule, with the rule applied on every save, with the
+  construction steps shown again, and with `facing` read absolutely.
+- `scripts/try-ecoprint-screens.mjs` — the bundle card at 390 and 320px in both languages: nothing
+  past the edge, ↑ ↓ × at 44px, text fields not squeezed. Seen failing with an unwrapping row and with
+  20px buttons.
+- The language layer fingerprints the data; the vocabulary gained nine terms, so its entry count moved.
+  Accepted with `--accept-data`, which reported that one line and nothing else.
+
+---
+
+## 13fm. Washing a group of pieces, with or without a recipe (1.0.0-rc112)
+
+The owner's case: thirteen silk scarves entered as unwashed, all washed on 28 September, to be
+recorded together — select, „Изпиране", date, apply.
+
+### Why it looked as if a recipe were required
+
+Nothing in the code required one. Run against her own database the same afternoon, the group
+action wrote thirteen `wash` actions with `recipeId: null`. What asked for a recipe was the screen:
+the first field of „Действие" was „Рецепта" with the placeholder „избери…", the list under it held
+both washing recipes and three preparation chains, the next field was „Отклонение от рецептата",
+and the line above the button named a recipe where there was one. Everything said a recipe was the
+next step; only a grey hint said otherwise.
+
+**The field is now „Рецепта (по желание)" / „Recipe (optional)", its empty choice reads „без
+рецепта" / „no recipe"**, and the screen states the outcome before the button:
+
+    13 ще бъдат отбелязани като „изпран".
+    28.09.2026 · без рецепта
+
+No action's validation changed: none required a recipe before, and none does now. The recipe list
+per action (`RECIPE_TYPES_FOR`) is unchanged.
+
+### Washing is written only to pieces before „washed"
+
+A piece's box is read from its latest box-moving action (`currentState`), so a `wash` added to a
+finished piece moved it BACK to „изпран". A group wash is now written only to pieces in a box before
+„изпран" by `STATE_ORDER` (`eligibleFor`) — today that is `unwashed`; a piece washed, mordanted, dyed
+or finished is named and left alone:
+
+    2 ще бъдат отбелязани като „изпран".
+    2 вече са след това състояние и няма да се променят: П-043, П-042.
+
+The batch record and the per-piece actions cover only the pieces written to, and the confirmation
+says how many were left. If none are eligible, the button is disabled. **Only washing.** Every other
+action keeps its behaviour — mordanting a finished shawl again is how a piece is reworked (§13am) —
+and a chain chosen in the recipe field decides its own actions as before.
+
+**Open (item 36):** the single-piece action on a fabric's own screen can still wash a finished piece
+and move it back. Group and single now differ on this one case, deliberately left for the owner.
+
+### Also fixed on the way
+
+Clicking an action or a box filter redrew the form without reading it first, so a note or a
+deviation typed a moment earlier was lost. Both now read the form before redrawing.
+
+### Checks
+
+`scripts/try-batch-wash.mjs`: thirteen unwashed scarves, washing, no recipe, 28 September, a note —
+the outcome sentence, no recipe selected, the button enabled; afterwards all thirteen washed, one
+`wash` action each with `recipeId: null` and the date, one batch holding thirteen pieces with the
+date and the note, the confirmation, the fabrics list, nothing left marked unsaved. A mixed group of
+two unwashed, one washed and one finished: two named as left, two advance, the other two unchanged
+and without a new action, the confirmation saying so. A wash with only a finished piece cannot be
+recorded; mordanting it can. Seen failing without the eligibility rule and with the note dropped by a
+filter click.

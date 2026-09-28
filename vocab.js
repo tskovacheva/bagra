@@ -14,7 +14,7 @@ export const DIMENSIONS = [
   'material_category', 'mordant_type', 'tannin_type', 'colour_effect',
   'dye_class', 'recipe_type', 'ingredient_role', 'basis', 'basis_refers_to', 'application',
   'process', 'enhancement', 'bundle_role', 'step_type', 'medium_where',
-  'placement_condition', 'facing', 'print_quality', 'confidence',
+  'placement_condition', 'facing', 'print_side', 'bundle_layer', 'print_quality', 'confidence',
   'technique_category', 'assessment', 'water_source', 'season', 'swatch_kind',
   'trial_status', 'trial_stage',
 ];
@@ -133,6 +133,10 @@ export const VOCABULARY = [
   // could not express (§13aw).
   V('plant_part', 'heartwood', 'сърцевинна дървесина', 'heartwood', 10),
   V('plant_part', 'whole',  'цяло',     'whole plant', 11),
+  // A sprig as it is picked — stem, leaves and flower together, no root (§13fl).
+  // Not `whole`, which is the whole plant. Yarrow on an eco print is laid this
+  // way, and forcing it into `flower` recorded a part that was not the one used.
+  V('plant_part', 'aerial', 'стрък / надземна част', 'whole sprig / aerial part', 12),
 
   // Tannins, without saying which kind (§13ba). The audit reports „high
   // tannins" — the level, not the subtype — and choosing gallo, ellagi or
@@ -570,6 +574,26 @@ export const VOCABULARY = [
 
   V('facing', 'face_down', 'с лицето надолу', 'face down', 1),
   V('facing', 'face_up',   'с лицето нагоре', 'face up', 2),
+
+  // Which side of the leaf faces the cloth that receives the print (§13fl).
+  // Relative, not absolute: „face down" means the opposite thing when the
+  // receiving cloth is laid above the plants rather than below them, and a
+  // bundle can be built either way. A placement's `printSide` holds these; its
+  // old `facing` is kept and shown as it was written.
+  V('print_side', 'back_to_receiving', 'жилките / печатащата страна към приемащия плат',
+    'printing/vein side toward receiving fabric', 1),
+  V('print_side', 'face_to_receiving', 'лицевата страна към приемащия плат',
+    'face side toward receiving fabric', 2),
+
+  // One layer of an eco-print bundle, listed from the bottom up (§13fl). The
+  // cloth codes are `bundle_role`'s, so a bundle built from older steps keeps
+  // the words it was written with.
+  V('bundle_layer', 'barrier',         'фолио / бариера',     'foil / barrier', 1),
+  V('bundle_layer', 'carrier_blanket', 'одеяло / носещ плат', 'blanket / carrier cloth', 2),
+  V('bundle_layer', 'printing_cloth',  'печатащ плат',        'printing cloth', 3),
+  V('bundle_layer', 'plants',          'растения',            'plants', 4),
+  V('bundle_layer', 'receiving_cloth', 'приемащ плат',        'receiving fabric', 5),
+  V('bundle_layer', 'other',           'друго',               'other', 6),
 
   V('print_quality', 'sharp',   'ясен',    'sharp', 1),
   V('print_quality', 'soft',    'мек',     'soft', 2),

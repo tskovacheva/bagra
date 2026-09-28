@@ -530,7 +530,7 @@ const dirty = await import('./dirty.js');
       trials.reset?.();
       trials.open(done.id);
       await trials.render(root);
-      const readHeads = [...root.querySelectorAll('.stagecardhead:not(.sub) > b, .procrow:not(.fixed) .procname')].map(el => el.textContent.trim());
+      const readHeads = [...root.querySelectorAll('.stagecard:not(.bundlecard) > .stagecardhead:not(.sub) > b, .procrow:not(.fixed):not(.bundlerow) .procname')].map(el => el.textContent.trim());
       if (readHeads.length !== 5)
         fail('stages', new Error(`the review shows ${readHeads.length} runs, not five`));
       else if (!root.querySelector('[data-edit]'))
@@ -543,7 +543,7 @@ const dirty = await import('./dirty.js');
     trials.open(woven.id);
     await trials.render(root);
 
-    const heads = [...root.querySelectorAll('.stagecardhead:not(.sub) > b, .procrow:not(.fixed) .procname')].map(el => el.textContent.trim());
+    const heads = [...root.querySelectorAll('.stagecard:not(.bundlecard) > .stagecardhead:not(.sub) > b, .procrow:not(.fixed):not(.bundlerow) .procname')].map(el => el.textContent.trim());
     // Five runs, not four stages: colouring is entered, left for the print,
     // and entered again. That second visit is the thing being protected.
     if (heads.length !== 5)
@@ -563,7 +563,7 @@ const dirty = await import('./dirty.js');
     const after = root.querySelectorAll('.stagecard .stepline').length;
     if (after !== 6) fail('stages', new Error('adding a step to a stage did nothing'));
     else {
-      const nowHeads = [...root.querySelectorAll('.stagecardhead:not(.sub) > b, .procrow:not(.fixed) .procname')].map(el => el.textContent.trim());
+      const nowHeads = [...root.querySelectorAll('.stagecard:not(.bundlecard) > .stagecardhead:not(.sub) > b, .procrow:not(.fixed):not(.bundlerow) .procname')].map(el => el.textContent.trim());
       if (nowHeads.length !== 5)
         fail('stages', new Error(`the new step broke the grouping: ${nowHeads.join(' | ')}`));
       else console.log('  stages: a step added to a stage stays inside it');
@@ -2757,7 +2757,9 @@ const dirty = await import('./dirty.js');
   await settle();
   const line = root.querySelector('[data-place-open]');
   if (line) { await click(line); await settle(); }
-  if (!root.querySelector('[data-place="0.facing"]'))
+  // The position question is asked relative to the receiving cloth since
+  // rc111 (§13fl): `printSide`, not the absolute `facing`.
+  if (!root.querySelector('[data-place="0.printSide"]'))
     fail('bath', new Error('eco print lost its position questions'));
   else console.log('  bath: eco print keeps its position questions');
 

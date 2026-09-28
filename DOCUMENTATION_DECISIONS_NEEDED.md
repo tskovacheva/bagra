@@ -328,6 +328,10 @@ declared and never used. Nothing was written into any of the three.
 
 ## 13. „The back of the leaf prints better" has nowhere to go, and the word for it is a trap
 
+**In part settled at rc111 (§13fl)** for the TRIAL: a placement now records which side faced the
+receiving cloth (`printSide`), relative rather than „face up/down". The plant-level rule — which side
+prints better for a species — is still open, and the plant part's own `facing` field is unchanged.
+
 **Raised by 1.0.0-rc35.** The owner set the rule: for roughly nine plants in ten the BACK of
 the leaf gives the stronger print, with exceptions — eucalyptus prints strongly from both
 sides. It is a good rule and the library needs it. It cannot be written down yet, for two
@@ -1301,6 +1305,9 @@ teaches the person running it to run it again until it passes. **Asked of the ow
 
 ## 35. A newer backup restored by an older application loses its plans silently (rc109)
 
+**Settled at rc110 by the owner:** leave it. `schemaVersion` stays 3, restore logic is unchanged, and
+the boundary — compatibility runs forward, not back — is written in §13co.
+
 Plans added a store. `validateBackup` skips a list whose store it does not know, so rc108 or
 earlier, given an rc109 backup, restores everything except the plans and says nothing. Raising
 `schemaVersion` from 3 to 4 would make the older application refuse the whole file instead —
@@ -1310,3 +1317,13 @@ a new store (not for `pigmentBatches` either), so the policy is unwritten.
 **Options:** leave it — an older application meeting a newer backup is rare while every copy
 updates itself; raise the number whenever a store is added; or have the restore report the lists
 it did not recognise. **Asked of the owner.**
+
+---
+
+## 36. Washing a finished piece: group and single now differ (rc112)
+
+A group wash is written only to pieces before „washed" (§13fm). The action on one fabric's own screen
+was not changed: it can still wash a finished piece, and because the box follows the latest
+box-moving action, the piece moves back to „washed". Is that a deliberate rework — washing out an old
+mordant before starting again — or should a wash on a later piece be recorded without moving it, or
+not offered? **Asked of the owner.** The group rule can follow whichever is chosen.

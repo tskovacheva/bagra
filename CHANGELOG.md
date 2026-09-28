@@ -12,6 +12,32 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc112 — 28 September 2026
+
+Group action: washing (§13fm). The recipe field reads „Recipe (optional)" with „no recipe" as its empty choice, and
+the screen states the outcome before the button — how many will be marked washed, which are left, the date, the
+recipe or none. A group wash is written only to pieces before „washed"; washed, mordanted, dyed and finished pieces
+are named and not moved back. A note typed before clicking an action or a filter is no longer lost. New check
+try-batch-wash.mjs.
+
+## 1.0.0-rc111 — 28 September 2026
+
+Eco-print usability and correctness (§13fl), from the owner's silk-scarf trial. A bundle listed bottom to top
+(foil, blanket, plants, receiving cloth — any order), with ↑ ↓ ×, a rolling note, and a small preparation block for a
+blanket; built for older trials from their steps by an add-only migration, the steps kept and no longer listed twice.
+A placement records which side faced the receiving cloth; older face up/down kept and read only when the bundle
+settles it. `aerial` — a whole sprig — as a plant part. Duration before Temperature, both labelled with their units.
+A completed trial's finishing date is never earlier than its date. No unsaved-work warning after Save. New checks
+try-ecoprint.mjs and try-ecoprint-screens.mjs.
+
+## 1.0.0-rc110 — 28 September 2026
+
+Plans polish (§13fk). A tick on a plan's line is saved at once — only the tick, patched into the stored plan by the
+line's id, never the unsaved draft; title, notes, status and line text still wait for Save. A failed write is flashed
+and left to Save; a tick no longer marks the form unsaved (`data-saves-itself` in dirty.js). §8.0a now says plans
+hold intent before a trial exists and never duplicate one; §13co says backup compatibility runs forward, not back.
+Fifteen new assertions in try-plans.mjs.
+
 ## 1.0.0-rc109 — 27 September 2026
 
 Plans v1 (§13fj). A new diary entry, second in the row: title, status (idea · planned · in progress · done), notes, and
