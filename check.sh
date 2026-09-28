@@ -128,8 +128,12 @@ node check-scope.js modules || exit 1
 # 2a. The invariants of §13bd: the action vocabulary and the code agree, tannin
 #     and an afterbath do not move a piece between boxes, and every action
 #     belongs to a batch or to a trial. Pass a backup file to check real data
-#     too; without one it checks the code alone.
-node check-actions.mjs || exit 1
+#     too; without one it checks the code alone. Run with --selftest so the
+#     reference guard (4b, §13fi) is broken on purpose every release and FAILS
+#     the gate if it cannot see a missing trial or batch. Against a real backup
+#     it exits 2 on a dangling reference — the gate never passes one, so that
+#     code belongs to a person running it by hand.
+node check-actions.mjs --selftest || exit 1
 
 # 3. `capture="environment"` on a file input does not prefer the camera — it
 #    removes the gallery and the file system as options. It shipped on the three
@@ -283,6 +287,15 @@ esac
 
 if [ "$HAVE_SHIM" = 1 ]; then
   node check-boot.mjs || exit 1
+  # 4a. The language a device opens in (§13fi): English when nothing is
+  #     stored, the stored choice otherwise, a click stored through setLang,
+  #     and no setting written merely because the default applied. Three
+  #     launches, each its own process over an empty database.
+  node scripts/try-language-default.mjs || exit 1
+  # 4b. Plans (§13fj), through the real screen: create, edit, tick, remove a
+  #     line, delete; a backup carries them, a restore brings them back, and a
+  #     backup from before Plans restores to an empty list.
+  node scripts/try-plans.mjs || exit 1
   # 5. Booting proves the app starts; it stops at each module's list. Read
   #    views and forms are where the imports actually get used, so they are
   #    opened too. See deep-check.mjs.
@@ -382,7 +395,10 @@ if [ "$HAVE_SHIM" = 1 ]; then
        # A pack withdrawal against her work, and ceilings on the read view (§13ep).
        node scripts/try-withdrawal-in-use.mjs $REL || exit 1
        # Sappanwood's new id against an installed copy (§13es).
-       node scripts/try-plant-id-change.mjs $REL || exit 1 ;;
+       node scripts/try-plant-id-change.mjs $REL || exit 1
+       # Plans at 390 and 320px in both languages: nothing past the edge, every
+       # tick and × a finger's size (§13fj).
+       node scripts/try-plans-screens.mjs $REL || exit 1 ;;
     2) ;;
     *) exit 1 ;;
   esac

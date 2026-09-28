@@ -52,6 +52,12 @@ const fail=(l,e)=>{failed=true;console.log(`FAIL ${l}: ${e?.message||e}`);
   if(e?.stack) console.log(e.stack.split('\n').slice(1,4).join('\n'));};
 process.on('unhandledRejection',e=>{console.log(e && e.stack);fail('rejection',e);});
 
+// This check reads the Bulgarian interface: its assertions name Bulgarian
+// labels and terms. Since rc108 a device with no stored choice opens in
+// English (§13fi), so the harness makes the choice a Bulgarian user has made,
+// through the same setting `setLang` writes, before the application starts.
+// The English first opening is checked in scripts/try-language-default.mjs.
+await (await import('./db.js')).setSetting('language', 'bg');
 await import('./app.js');
 await new Promise(r=>setTimeout(r,1500));
 

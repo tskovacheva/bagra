@@ -133,9 +133,10 @@ export async function importBackup(payload, mode = 'merge') {
     // recovering from data loss should not be met with an interface in the
     // other one. `fabricLabelCounter` stays in the snapshot: losing it means
     // the next piece takes a number that is already on a label in the studio.
-    // Absence is preserved as carefully as a value — no row means Bulgarian by
-    // default (i18n.js), so restoring one where there was none would change the
-    // language just as surely.
+    // Absence is preserved as carefully as a value — no row means the
+    // application default, English since rc108 (`DEFAULT_LANG` in i18n.js,
+    // §13fi), so restoring one where there was none would change the language
+    // just as surely.
     const language = await get('settings', 'language');
     // The unit system travels with the person, not with the work — same
     // argument as the language, and the same trap: restoring a phone's backup

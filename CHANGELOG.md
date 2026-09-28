@@ -12,6 +12,26 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc109 — 27 September 2026
+
+Plans v1 (§13fj). A new diary entry, second in the row: title, status (idea · planned · in progress · done), notes, and
+a checklist of plain lines that are added, edited, ticked and removed. The list shows status, progress („3 / 8") and
+the date last changed. A store of its own (IndexedDB 10), carried by backup and restore like every other; a backup
+from before Plans restores to an empty list. No links, dates or filters. New checks `try-plans.mjs` and
+`try-plans-screens.mjs` (390 and 320px, both languages); `screen-check` measures the new screens. No trial, fabric,
+recipe, pigment, calculator or seed change.
+
+## 1.0.0-rc108 — 27 September 2026
+
+English on a first opening, and references that resolve (§13fi). A device with no stored language opens in English
+(`DEFAULT_LANG` in i18n.js, `<html lang="en">`); a stored choice wins on every launch; nothing is written merely
+because the default applied; the browser language is not consulted; a restore still leaves the device's language
+alone. `deep-check.mjs` and `screen-check.mjs` now choose Bulgarian explicitly, since they assert and measure the
+Bulgarian interface. New layer `try-language-default.mjs`. `check-actions.mjs` gains guard 4b: every action's
+`trialId` and `batchId` must name a record the backup holds; a dangling one is listed and exits 2, a structural
+failure exits 1, nothing is repaired. `--selftest` runs on its own again and is now part of the gate. No
+translation, backup format, seed, pigment or calculator change.
+
 ## 1.0.0-rc107 — 26 September 2026
 
 The release gate repaired, and nothing else (§13fh). The rc100–rc105 specification sections are renumbered from

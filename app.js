@@ -34,10 +34,11 @@ import packs      from './modules/packs.js';
 import library    from './modules/library.js';
 import pigments   from './modules/pigments.js';
 import batch      from './modules/batch.js';
+import plans      from './modules/plans.js';
 
 const MODULES = {
   dashboard, reference, plants, fabrics, substances, materials,
-  recipes, techniques, trials, tools, packs, library, batch, pigments, about,
+  recipes, techniques, trials, tools, packs, library, batch, pigments, plans, about,
 };
 
 // The sidebar carries everything, in two halves plus a footer (§11.3).
@@ -78,6 +79,11 @@ const NAV = [
 
   { heading: 'diary' },
   { id: 'trials',     icon: 'i-trial' },
+  // Plans sit beside the work they lead to (§13fj). Second, not first: the
+  // diary's space button opens the first entry of the row, and that stays
+  // „My work" — a plan is the lighter layer before it, not the diary's front
+  // door.
+  { id: 'plans',      icon: 'i-plan' },
   { id: 'pigments',   icon: 'i-mortar' },
   { id: 'fabrics',    icon: 'i-fabric' },
 

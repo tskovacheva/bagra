@@ -87,6 +87,7 @@ A section may appear under more than one heading; that is what the index is for.
 **Materials, substances and stock** — §3 · §11b · §13bs
 
 **Pigments** — §13bv · §13bx · §13by · §13bz · §13dr · §13ds · §13fg
+**Plans** — §13fj
 
 **The Library — glossary, pH, sources** — §9 · §13r · §13bt · §13bu · §13cb
 
@@ -7933,8 +7934,9 @@ restore in order to change the language, and a person recovering from data loss
 should not be met with an interface in the other one; restoring a phone's backup
 onto the laptop leaves the laptop as it was.
 
-Absence is preserved as carefully as a value. No `language` row means Bulgarian
-by default (`i18n.js`), so writing one where there was none would change the
+Absence is preserved as carefully as a value. No `language` row means the
+application default — English since rc108 (`DEFAULT_LANG` in `i18n.js`, §13fi;
+Bulgarian until then) — so writing one where there was none would change the
 language just as surely as overwriting one.
 
 `fabricLabelCounter` **stays in the snapshot**. It is state rather than
@@ -12708,3 +12710,189 @@ The navigation itself was not touched: the test follows the application.
 **Nothing else.** No behaviour, model, seed record, recipe, chain, pigment code, calculator or
 screen changed. `modules/pigments.js`, `migrations.js` and the check scripts appear among the
 changed files only because their comments cite section numbers.
+
+---
+
+## 13fi. English on a first opening, and references that resolve (1.0.0-rc108)
+
+Two release-readiness decisions, and nothing else.
+
+### The language a device opens in
+
+**Decided by the owner for the commercial 1.0:** a device that has never chosen a language opens in
+**English**. The rule, in full:
+
+    no stored `language` setting  →  English (`DEFAULT_LANG`)
+    a stored `language` setting   →  that language, on every launch
+
+`i18n.js` holds `DEFAULT_LANG = 'en'`, and both the in-memory starting value and the fallback of
+`initLang` read it, so no Bulgarian state exists between the page loading and the setting being
+read. The page shell says `<html lang="en">` for the same reason; `renderNav` already writes the
+bar's accessible name in the chosen language.
+
+- **Nothing is written because the default applied.** Absence goes on meaning „the application
+  default", so a later change of default would still reach a device that never chose.
+- **A choice is stored through `setLang`**, as before — Bulgarian or English, including English
+  after Bulgarian. A stored `en` is kept, not dropped as equal to the default.
+- **The browser's and the system's language are not consulted.** The choice is made once, in the
+  interface, by the person.
+- **Language is a device preference, not backup data** (§13co): a restore neither imports nor
+  removes it, whichever language the backup carries.
+- Translations are unchanged.
+
+**The checks that read the Bulgarian interface now say so.** `deep-check.mjs` asserts Bulgarian
+labels and `screen-check.mjs` measures the Bulgarian screens — the longer language, the one a phone
+breaks on. Both booted a fresh database and got Bulgarian by default; under the new default
+`deep-check` failed five assertions and `screen-check` silently measured English instead. Each now
+stores `bg` through the same setting before anything is asserted or measured, which is exactly the
+state of a device whose user chose Bulgarian. English layout is not measured at four widths; the
+English screens are covered for stray Bulgarian by `try-language-screens.mjs` (§13eh).
+
+**Guard: `scripts/try-language-default.mjs`.** Three launches, each a separate process over an
+empty database — the application reads the setting once at start-up, and a module graph cannot be
+booted twice in one process:
+
+- nothing stored: the shell and the application are English, `<html lang>` is `en`, the bar has no
+  Cyrillic and its English button is pressed, and still no setting is written; a click on
+  Bulgarian switches the interface and stores `bg`, a click on English switches back and stores
+  `en`;
+- `bg` stored: opens in Bulgarian, bar included; `en` stored: opens in English, still stored.
+
+Seen failing five ways against rc107's Bulgarian default, and once against a variant that wrote
+the default into the setting. `try-backup-restore.mjs` gains the reverse case — an English device
+is not switched by a backup that carries Bulgarian, and a device with no choice gets none from it.
+
+### A reference that is filled is not a reference that resolves
+
+`check-actions.mjs` run against the owner's backup reported every action „in a batch or a trial" —
+and one of them names trial `dc0cbc30-…`, which the backup does not contain. Guard 4 proved the
+field was filled; nothing proved it pointed at anything. The application does not break over it:
+the piece's history draws the row without its link.
+
+**The invariant (guard 4b):** every migrated fabric action that names a `trialId` names a trial in
+the backup's `trials`; every one that names a `batchId` names a batch the application would hold —
+the backup's `batchActions` store, plus the batches `migrateFabricActions` would create for pieces
+not yet migrated. The two are the application's own representation, not a second reading of the
+model. A backup older than the batch store may carry no `batchActions`; then the migrated batches
+alone are what a restore would hold.
+
+**Detection only.** Nothing is deleted, nulled, invented or rewritten; the file is only read. The
+report names the piece, the action and the missing id:
+
+    DANGLING 1 reference(s) to a record that is not in the backup:
+      fabric П-01 / finish → missing trial dc0cbc30-e2b2-4b03-8baa-c0de85946480
+
+**Two kinds of result, two exit codes.** `1` is structural — a check could not run, the data has
+the wrong shape (no `trials` list; a `batchActions` that is not a list), ids collide, the migration
+is not idempotent, an action names nothing. `2` is a sound backup with a dangling reference. The
+second is not `0`: a dangling reference is shown and never accepted quietly, and no id is
+special-cased anywhere. The release gate never passes a backup, so exit 2 belongs to a person
+running the check by hand; a caller that wants to tolerate a known historical finding can read the
+listed ids and decide.
+
+**The gate runs the self-test.** `check.sh` layer 2a now runs `check-actions.mjs --selftest`. Guard
+4b's self-test builds one piece with four actions — a missing trial, a missing batch, a present
+trial, a present batch — and requires exactly the two missing ones, then silence when both records
+are present. Unlike the three older self-test lines, a blind 4b **fails** the run; seen failing with
+each half of the guard disabled. `--selftest` on its own had never run: the first argument was read
+as the backup's file name, and it stopped on ENOENT. The backup is now the first argument that is
+not a flag.
+
+Nothing else was widened into a referential-integrity framework; `try-referential-integrity.mjs`
+remains the application-level check.
+
+**Against the owner's backup of 27 September 2026:** exit 2, fourteen actions, every batch
+reference resolved, one dangling reference — `fabric П-01 / finish → missing trial
+dc0cbc30-e2b2-4b03-8baa-c0de85946480`, the known one. The file's checksum was the same before and
+after.
+
+---
+
+## 13fj. Plans v1 — what she means to try, before it is work (1.0.0-rc109)
+
+The diary records what was done. A plan records intent: what to try, why, which variants, and
+which of them are already done. „Compare four mordants for eco print on cotton", „test fig
+leaves", „the same bath with less iron". It is useful on its own, without a trial behind it.
+
+### The record
+
+    plans
+      id, title, createdAt, updatedAt
+      status    idea · planned · active · done
+      notes     free text
+      items[]   { id, text, checked }
+
+Nothing else — no provenance fields (a plan is never seeded, packed or distributed), no dates to
+meet, no priority, no tags, no links. `title` and `notes` are personal free text (§13.1, kind 2):
+stored as written, never a `{bg, en}` pair. Status labels are interface strings
+(`plans.status.*`), not vocabulary: nothing else in the model reads them.
+
+A line is text and a tick. „N5 — with 5 g Fe" is written the way it would be on paper; it is not
+a structured experiment. A line saved with no words is dropped — nobody wrote it.
+
+### The screens
+
+**List** — title, status chip, progress as „3 / 8", and the date last changed. Open plans first,
+newest touched first; finished ones after. No filters: the list is short, and the order already
+puts finished plans out of the way.
+
+**One plan** — two columns on a laptop, one on a phone, in the order title · status · notes ·
+checklist. The checklist adds, edits, ticks and removes lines. **No reordering in v1**: the one
+existing pattern is the chain editor's ↑ ↓ buttons, and two more buttons per line would crowd a
+320px row for a feature nobody has asked for yet.
+
+Everything follows the conventions already in the application: an explicit Save, the
+unsaved-work guard, `deleteGuarded` and its shared dialog, the trial's `statuschip` (`idea` takes
+the plain chip; planned, active and done take the planned, in-progress and complete colours), and
+the `.grid` table that becomes cards on a phone. `refs.js` declares `plans` with no incoming paths —
+nothing points at a plan, so a delete is always allowed — and the first full release run
+required the declaration: `try-referential-integrity.mjs` refuses a guarded delete on a store the
+policy does not know. The only new CSS is the checklist row: tick,
+words, ×, where the words may shrink rather than push the row past the edge and the tick and ×
+keep 44px.
+
+### Where it sits
+
+The diary row, second — **My work · Plans · Pigments · Fabrics**. Beside the work it leads to.
+Not first, because the diary's space button opens the first entry of its row and that stays My
+work: a plan is the lighter layer before it, not the diary's front door.
+
+### Storage, backup, restore
+
+A store of its own, `plans` (IndexedDB version 10), created by the upgrade loop that only ever
+adds. Backup and restore iterate the stores, so plans travel with no code of their own; the backup
+format is unchanged apart from carrying one more list, and `schemaVersion` stays 3.
+
+- A backup from before Plans has no `plans` list. Restored onto a device, it gives an empty
+  Plans list; restored onto a device that already has plans, it leaves them — the documented rule
+  for a store a file does not carry (§13co), which clears nothing on the strength of a gap.
+- An application OLDER than rc109 restoring a newer backup skips the `plans` list silently,
+  because it does not know the store. Raising `schemaVersion` would make it refuse the whole file
+  instead. Left as it is; recorded as a question (`DOCUMENTATION_DECISIONS_NEEDED.md` item 35).
+
+### Checks
+
+- `scripts/try-plans.mjs` (jsdom, the real screen): create with three lines, one empty; the saved
+  record has exactly its seven fields and each line exactly three; edit title, notes, status, a
+  line's text, tick and untick; remove a line; progress on the list; backup carries the plans;
+  replace and merge restores bring them back unchanged; the rc56 fixture restores to an empty
+  list and does not delete a plan written since; delete through the shared dialog; every key the
+  screen uses is in both languages, and no Bulgarian is written into the module. Seen failing
+  when empty lines are kept, when a line's text is not read, and with one English key removed.
+- `scripts/try-plans-screens.mjs` (Chromium): list, empty form and a plan with long lines, at 390
+  and 320px, in Bulgarian and English — no sideways scroll, nothing past the edge, every tick and
+  × at least 44 × 44, a line's words at least 150px wide. It waits for the view to stop changing
+  rather than for a fixed time (item 34). Seen failing with a fixed-width text field and with the
+  tick's label at its natural 13px — the second of which `screen-check` does not see, because it
+  measures height only.
+- `screen-check.mjs` measures `#/plans`, the empty form and an opened plan at its four widths;
+  `try-screen-coverage.mjs` required it. `try-restore-older.mjs` counts `plans` as her work and
+  opens `#/plans` after each restore.
+
+### Not in v1, and how the next step fits
+
+Not built: scheduling, reminders, priorities, deadlines, dependencies, subtasks, kanban, tags,
+filters, links to plants, recipes, fabrics or trials, sharing, a format of its own.
+
+The intended next step is **a line → a trial**. It needs one optional field on a line — the id of
+the trial made from it — and a button; nothing in the v1 shape has to change for it.

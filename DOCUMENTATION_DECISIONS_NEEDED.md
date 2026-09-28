@@ -1281,3 +1281,32 @@ stays one change. Every other layer passes when run on its own, on rc104 and on 
 
 **Recommended:** one small package for these four and nothing else, before 1.0 — a release
 gate that has been red for five releases is a gate nobody is reading. **Asked of the owner.**
+
+---
+
+## 34. `try-withdrawal-in-use.mjs` fails under load, in rc107 as in rc108 (rc108)
+
+The first full rc108 release run stopped here — the iron bath's read-view warning read as `null`.
+Run alone it passed twice; a second full run passed from start to finish. Under four busy CPU
+cores it fails on BOTH rc107 and rc108, and on different assertions each time (the kept recipe's
+„stays" line, the preview's checkbox). The check waits a fixed 400 ms after the element it waits
+for, and some of what it reads is drawn later than that on a slow machine. Not caused by rc108,
+and left alone because it is outside that package.
+
+**Recommended:** replace the fixed waits with waits for the specific text or attribute each
+assertion reads, in a package of its own. A release gate that sometimes fails on a correct build
+teaches the person running it to run it again until it passes. **Asked of the owner.**
+
+---
+
+## 35. A newer backup restored by an older application loses its plans silently (rc109)
+
+Plans added a store. `validateBackup` skips a list whose store it does not know, so rc108 or
+earlier, given an rc109 backup, restores everything except the plans and says nothing. Raising
+`schemaVersion` from 3 to 4 would make the older application refuse the whole file instead —
+honest, and also a refusal to restore anything at all. The schema number has never been raised for
+a new store (not for `pigmentBatches` either), so the policy is unwritten.
+
+**Options:** leave it — an older application meeting a newer backup is rare while every copy
+updates itself; raise the number whenever a store is added; or have the restore report the lists
+it did not recognise. **Asked of the owner.**

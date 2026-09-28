@@ -8,11 +8,22 @@
 
 import { getSetting, setSetting } from './db.js';
 
-let lang = 'bg';
+// The application's default language, used when this device has never chosen
+// one (§13fi). English, because the commercial 1.0 opens to a buyer who may
+// read no Bulgarian. Only ABSENCE of a stored choice means the default: once
+// `setLang` has written a language, that is what every later launch opens in.
+// Nothing is written merely because the default applied, and the browser's
+// language is deliberately not consulted — the choice is the person's, made
+// once in the interface.
+export const DEFAULT_LANG = 'en';
+
+// The same value from the first line, so nothing reads a Bulgarian `lang`
+// before `initLang` has run.
+let lang = DEFAULT_LANG;
 export const getLang = () => lang;
 
 export async function initLang() {
-  lang = await getSetting('language', 'bg');
+  lang = await getSetting('language', DEFAULT_LANG);
   document.documentElement.lang = lang;
   return lang;
 }
@@ -713,6 +724,33 @@ const DICT = {
     'nav.sources': 'Източници',
     'nav.library': 'Библиотека',
     'nav.pigments': 'Пигменти',
+    'nav.plans': 'Планове',
+    'plans.title': 'Планове',
+    'plans.sub': 'Какво искам да опитам, защо, и кои варианти — преди да е станало работа.',
+    'plans.new': 'Нов план',
+    'plans.untitled': 'План без заглавие',
+    'plans.empty': 'Още няма планове.',
+    'plans.emptyHint': 'Например: сравнение на закрепители за еко принт върху памук, с по един ред за всеки вариант.',
+    'plans.titleLabel': 'Заглавие',
+    'plans.titlePlaceholder': 'Какво искам да опитам',
+    'plans.statusLabel': 'Състояние',
+    'plans.status.idea': 'Идея',
+    'plans.status.planned': 'Планирано',
+    'plans.status.active': 'В ход',
+    'plans.status.done': 'Приключено',
+    'plans.notes': 'Бележки',
+    'plans.notesPlaceholder': 'Защо, какво очаквам, какво да не забравя.',
+    'plans.checklist': 'Списък',
+    'plans.checklistEmpty': 'Още няма редове. Един ред за всеки вариант или стъпка.',
+    'plans.addItem': 'Добави ред',
+    'plans.itemText': 'Текст на реда',
+    'plans.itemPlaceholder': 'напр. N5 — с 5 г Fe',
+    'plans.itemDone': 'Направено',
+    'plans.itemDelete': 'Махни реда',
+    'plans.progress': 'Готово',
+    'plans.updated': 'Променен',
+    'plans.delete': 'Изтрий плана',
+    'plans.confirmDelete': 'Да се изтрие ли този план?',
     'pigments.title': 'Пигменти',
     'pigments.pickPlantFirst': 'Първо избери растение.',
     'pigments.noRecipes': 'Още няма рецепта, която да произвежда пигмент.',
@@ -2215,6 +2253,33 @@ const DICT = {
     'nav.sources': 'Sources',
     'nav.library': 'Library',
     'nav.pigments': 'Pigments',
+    'nav.plans': 'Plans',
+    'plans.title': 'Plans',
+    'plans.sub': 'What I want to try, why, and which variants — before it becomes work.',
+    'plans.new': 'New plan',
+    'plans.untitled': 'Untitled plan',
+    'plans.empty': 'No plans yet.',
+    'plans.emptyHint': 'For example: a comparison of mordants for eco print on cotton, one line for each variant.',
+    'plans.titleLabel': 'Title',
+    'plans.titlePlaceholder': 'What I want to try',
+    'plans.statusLabel': 'Status',
+    'plans.status.idea': 'Idea',
+    'plans.status.planned': 'Planned',
+    'plans.status.active': 'In progress',
+    'plans.status.done': 'Done',
+    'plans.notes': 'Notes',
+    'plans.notesPlaceholder': 'Why, what I expect, what not to forget.',
+    'plans.checklist': 'Checklist',
+    'plans.checklistEmpty': 'No lines yet. One line for each variant or step.',
+    'plans.addItem': 'Add a line',
+    'plans.itemText': 'Line text',
+    'plans.itemPlaceholder': 'e.g. N5 — with 5 g Fe',
+    'plans.itemDone': 'Done',
+    'plans.itemDelete': 'Remove the line',
+    'plans.progress': 'Done',
+    'plans.updated': 'Updated',
+    'plans.delete': 'Delete plan',
+    'plans.confirmDelete': 'Delete this plan?',
     'pigments.title': 'Pigments',
     'pigments.pickPlantFirst': 'Choose a plant first.',
     'pigments.noRecipes': 'No recipe yet produces a pigment.',

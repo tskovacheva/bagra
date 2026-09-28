@@ -117,6 +117,11 @@ try {
   // One record each, with the fields the list actually prints, and deliberately
   // long ones: a phone is broken by the longest name, not the average.
   await page.evaluate(async () => {
+    // Measured in Bulgarian, as before rc108: it is the longer language, and
+    // a phone is broken by the longest label. A device with no stored choice
+    // now opens in English (§13fi), so the Bulgarian user is chosen here,
+    // through `setLang`, before any screen is measured.
+    await (await import('./i18n.js')).setLang('bg');
     const db = await import('./db.js');
     const seeded = async (store, record) => {
       if ((await db.all(store)).some(r => r.id?.startsWith?.('fixture:'))) return;
@@ -146,6 +151,17 @@ try {
     // and part and shows the swatch of the most recent successful batch, so a
     // planned record would draw the emptier of the two arrangements and leave
     // the one with a colour in it unmeasured.
+    // A plan with a long title and a long line, one ticked, so the struck-
+    // through row and the widest text are both drawn.
+    await seeded('plans', { id: 'fixture:plan',
+      title: 'Сравнителен тест на закрепители за еко принт върху памук, осем варианта',
+      createdAt: '2026-09-20T09:00:00.000Z', updatedAt: '2026-09-21T09:00:00.000Z',
+      status: 'active', notes: 'Същото платно, същите листа, същото време на пара.',
+      items: [
+        { id: 'fx-i1', text: 'N0 — без Fe', checked: true },
+        { id: 'fx-i2', text: 'A3 — алуминиев ацетат и леко одеяло с желязо, накиснато за една нощ', checked: false },
+        { id: 'fx-i3', text: 'TI3 — титанов оксалат', checked: false },
+      ] });
     await seeded('pigmentBatches', {
       status: 'done', date: '2026-07-02', finishedOn: '2026-07-09',
       plantId: 'seed:rubia_tinctorum', partCode: 'root', rawWeightG: 300,
@@ -266,6 +282,9 @@ try {
     // `?pieces=` query it draws the picker, which is the screen a person meets
     // first.
     '#/batch',
+    // Plans (§13fj): a checklist row is a tick, a text field and a ×, side by
+    // side, and a long line is where it would run past a phone's edge.
+    '#/plans', '#/plans/new', { route: '#/plans', open: true },
   ];
 
   // A fixed delay is a guess, and the guess was 280ms. The plants list renders

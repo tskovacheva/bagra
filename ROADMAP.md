@@ -26,6 +26,10 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
+- **rc109:** Plans v1 (§13fj) — intent before work, a checklist per plan. Next, when wanted: a line → a trial.
+- **rc108:** English on a first opening; the backup check sees references that no longer resolve
+  (§13fi). The owner's backup has one — a finished action naming a trial that is gone — reported,
+  not repaired.
 - **rc107:** the release gate passes again (§13fh). It had been red since rc100 at the latest
   for four reasons unrelated to the application (`DOCUMENTATION_DECISIONS_NEEDED.md` item 33).
 - **Still open, for the main line:** the packs screen is still the stub it was; „undefined" sources on an empty home

@@ -172,6 +172,12 @@ const INCOMING = {
   trials: [
     { store: 'fabrics', label: 'refs.fabrics', count: (r, id) => (r.actions || []).filter(a => a.trialId === id).length },
   ],
+  // Nothing points at a plan in v1 (§13fj), so a delete is always allowed —
+  // but the store is declared rather than absent, so the delete goes through
+  // the same policy as every other and the coverage guard can see it was
+  // thought about. If a plan's line ever names a trial, that is a pointer OUT
+  // of the plan, and it belongs under `trials` above.
+  plans: [],
 };
 
 /**

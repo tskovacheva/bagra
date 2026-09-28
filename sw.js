@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v1.0.0-rc107';   // keep in step with version.js
+const CACHE = 'bagra-v1.0.0-rc109';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -78,6 +78,7 @@ const FILES = [
   './modules/library.js',
   './modules/about.js',
   './modules/pigments.js',
+  './modules/plans.js',
   './modules/batch.js',
 
   // The shipped plant photographs (§13cr). They left the plant record in rc28
