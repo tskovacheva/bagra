@@ -125,6 +125,92 @@ try {
   p = await only();
   is(p.items.map(i => i.text), ['N5 — с 5 г Fe'], 'a removed line is gone after saving');
 
+  // A tick writes itself (§13fk), and writes nothing else.
+  console.log('a tick is saved at once');
+  const dirty = await import('../dirty.js');
+  await db.removeSystem('plans', p.id);
+  await go('#/plans/new');
+  type('[data-f="title"]', 'Смокинови листа');
+  type('[data-f="notes"]', 'Първа бележка.');
+  for (const text of ['памук, стипца', 'коприна, без закрепител']) {
+    await click(view.querySelector('[data-item-add]'));
+    const inputs = view.querySelectorAll('.checkitem input[type=text]');
+    inputs[inputs.length - 1].value = text;
+  }
+  await click(view.querySelector('[data-save]'));
+  let q = await only();
+  await go('#/plans/' + q.id);
+  const u0 = q.updatedAt;
+  await wait(20);
+
+  tick(0, true); await wait(150);
+  let s = await db.get('plans', q.id);
+  is(s.items.map(i => i.checked), [true, false], 'unticked → ticked is stored without Save');
+  is(s.updatedAt > u0, true, 'and moves updatedAt');
+  is([location.hash, dirty.isDirty()], ['#/plans/' + q.id, false],
+     'the plan stays open, and nothing is left unsaved by a tick alone');
+  await go('#/plans'); await go('#/plans/' + q.id);
+  is(view.querySelector('[data-i="0.checked"]').checked, true, 'reopened, the tick is there');
+  tick(0, false); await wait(150);
+  is((await db.get('plans', q.id)).items[0].checked, false, 'ticked → unticked is stored without Save');
+
+  // The stale-draft regression: typed, not saved, then a tick.
+  type('[data-f="title"]', 'Смокинови листа — втори кръг');
+  type('[data-f="notes"]', 'Втора бележка, още незапазена.');
+  view.querySelector('[data-f="status"]').value = 'active';
+  const before = await db.get('plans', q.id);
+  tick(1, true); await wait(150);
+  s = await db.get('plans', q.id);
+  is([s.title, s.notes, s.status], [before.title, before.notes, before.status],
+     'a tick does not save the title, notes or status typed beside it');
+  is(s.items.map(i => i.checked), [false, true], 'only the tick is written');
+  is([view.querySelector('[data-f="title"]').value, view.querySelector('[data-f="notes"]').value,
+      view.querySelector('[data-f="status"]').value],
+     ['Смокинови листа — втори кръг', 'Втора бележка, още незапазена.', 'active'],
+     'and the unsaved words are still in the form');
+  is(dirty.isDirty(), true, 'which still counts as unsaved work');
+  await click(view.querySelector('[data-save]'));
+  s = await db.get('plans', q.id);
+  is([s.title, s.notes, s.status, s.items.map(i => i.checked)],
+     ['Смокинови листа — втори кръг', 'Втора бележка, още незапазена.', 'active', [false, true]],
+     'Save then keeps both the new words and the tick already stored');
+
+  // A line removed in the form and not saved shifts every index after it.
+  // The tick must land on the line it was made on, found by id.
+  await go('#/plans/' + q.id);
+  await click(view.querySelector('[data-item-del="0"]'));
+  tick(0, false); await wait(150);
+  s = await db.get('plans', q.id);
+  is(s.items.map(i => [i.text, i.checked]), [['памук, стипца', false], ['коприна, без закрепител', false]],
+     'after an unsaved removal, the tick reaches its own line and the removal is not saved');
+  await click(view.querySelector('[data-save]'));
+
+  // Nothing stored to patch: a new plan's tick waits for Save.
+  await go('#/plans/new');
+  await click(view.querySelector('[data-item-add]'));
+  view.querySelector('.checkitem input[type=text]').value = 'нов ред';
+  const count = (await db.all('plans')).length;
+  tick(0, true); await wait(150);
+  is([(await db.all('plans')).length, dirty.isDirty()], [count, true],
+     'a tick on a plan never saved writes nothing, and the form keeps its unsaved mark');
+  await click(view.querySelector('[data-save]'));
+  is((await db.all('plans')).find(x => x.items[0]?.text === 'нов ред')?.items[0].checked, true,
+     'and Save carries that tick');
+
+  // A write that fails says so and leaves the tick to Save.
+  await go('#/plans/' + q.id);
+  const flashEl = () => document.getElementById('flash');
+  const realPut = IDBObjectStore.prototype.put;
+  IDBObjectStore.prototype.put = function () { throw new Error('disk full'); };
+  tick(0, true); await wait(150);
+  IDBObjectStore.prototype.put = realPut;
+  is([(await db.get('plans', q.id)).items[0].checked, dirty.isDirty(), !!flashEl()?.classList.contains('on')],
+     [false, true, true], 'a failed write is shown, stored nothing, and leaves the form unsaved');
+  await click(view.querySelector('[data-save]'));
+  is((await db.get('plans', q.id)).items[0].checked, true, 'Save then stores that tick');
+  for (const x of await db.all('plans')) if (x.id !== q.id) await db.removeSystem('plans', x.id);
+  p = await only();
+
   // 9, 10. Backup and restore.
   console.log('backup and restore');
   const backup = await exportAll();
