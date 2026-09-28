@@ -67,12 +67,26 @@ const PH_SHIFTS = {
 // is for. These say only where a reading falls.
 // Exported so a check can ask which colours are allowed instead of repeating
 // them — a second copy of the palette is exactly how a stray colour survives.
+//
+// rc117 (§13fr): fourteen steps rather than five flat bands, running acid →
+// warm red → ochre → a muted olive at 7 → teal and blue → violet. The earlier
+// bar went grey at 7 and navy-to-graphite above it, which read as interface
+// colours rather than as a progression. The owner's palette, kept muted; no
+// black at the alkaline end. The olive at 7 is the one green in the
+// application, by the owner's decision: this is a scale to be read, not the
+// working surface a swatch is judged against.
+export const PH_STEPS = [
+  '#A94442', '#B75545', '#C96A45', '#D8913F', '#D9AA3B', '#C9B84A', '#7E8B63',
+  '#5F8F86', '#4C8090', '#466E8C', '#566487', '#665B82', '#75527A', '#7C496D',
+];
+// The five names, each with the swatch its legend shows — a representative of
+// the steps it spans, not a sixth colour.
 export const PH_BANDS = [
-  { from: 1,  to: 3,  key: 'strongAcid',    hex: '#A03D3B' },
-  { from: 4,  to: 6,  key: 'weakAcid',      hex: '#C9A227' },
-  { from: 7,  to: 7,  key: 'neutral',       hex: '#5C574E' },
-  { from: 8,  to: 10, key: 'weakAlkaline',  hex: '#2C3B57' },
-  { from: 11, to: 14, key: 'strongAlkaline', hex: '#3A3733' },
+  { from: 1,  to: 3,  key: 'strongAcid',    hex: '#B75545' },
+  { from: 4,  to: 6,  key: 'weakAcid',      hex: '#D9AA3B' },
+  { from: 7,  to: 7,  key: 'neutral',       hex: '#7E8B63' },
+  { from: 8,  to: 10, key: 'weakAlkaline',  hex: '#4C8090' },
+  { from: 11, to: 14, key: 'strongAlkaline', hex: '#665B82' },
 ];
 
 let tab = 'glossary';
@@ -193,14 +207,27 @@ async function renderGlossary(root, sources) {
 // disagree about where 7 stops being neutral.
 const bandOf = (n) => PH_BANDS.find(b => n >= b.from && n <= b.to);
 
-// Dark ground or light? Computed from the band's own colour rather than listed
-// per band: the palette is a fixed decision and may be re-tuned, and a list of
-// „this one is dark" would then be a second copy of a fact the colour already
-// holds. Plain relative luminance, which is enough to choose between two inks.
+// Dark ink or light? Computed from the step's own colour rather than listed per
+// step: the palette may be re-tuned, and a list of „this one is dark" would be a
+// second copy of a fact the colour already holds. Since rc117 (§13fr) it picks
+// whichever of the two inks CONTRASTS more, by the WCAG formula — the old
+// threshold on raw luminance put light ink on the mid-tones (3, 7, 8), where
+// the dark one reads better. Exported for the check.
+const INK = { dark: '#2A2724', light: '#FFFDF8' };   // --ink and --surface
+const relLum = (hex) => {
+  const c = (i) => { const v = parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+  return 0.2126 * c(0) + 0.7152 * c(1) + 0.0722 * c(2);
+};
+export const contrast = (a, b) => {
+  const [x, y] = [relLum(a), relLum(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+export function inkFor(hex) {
+  return contrast(hex, INK.dark) >= contrast(hex, INK.light) ? INK.dark : INK.light;
+}
 function inkOn(hex) {
-  const v = (i) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16) / 255;
-  const lum = 0.2126 * v(0) + 0.7152 * v(1) + 0.0722 * v(2);
-  return lum > 0.55 ? 'var(--ink)' : 'var(--surface)';
+  return inkFor(hex) === INK.dark ? 'var(--ink)' : 'var(--surface)';
 }
 
 function renderPh() {
@@ -212,13 +239,10 @@ function renderPh() {
   // looked at. The numbers sit ON the bar for the same reason: a number under a
   // stripe has to be counted across to.
   //
-  // The colours are the five already declared above — where a reading falls,
+  // The colours are the fourteen steps declared above — where a reading falls,
   // never what a dye turns. A bath at pH 11 is not black.
-  const bar = Array.from({ length: 14 }, (_, i) => {
-    const n = i + 1;
-    const b = bandOf(n);
-    return `<span style="background:${b.hex};color:${inkOn(b.hex)}">${n}</span>`;
-  }).join('');
+  const bar = PH_STEPS.map((hex, i) =>
+    `<span style="background:${hex};color:${inkOn(hex)}" data-band="${bandOf(i + 1).key}">${i + 1}</span>`).join('');
 
   // The names stay, under the bar, as a legend rather than as the scale itself.
   // Removing them would make the bar pretty and unreadable to anyone who has not

@@ -19,7 +19,7 @@ import { massWith } from '../units.js';
 import { page, panel, field, label, esc, empty, note, today, fmtDate,
          navigate, icon, flash, searchBox, matches, backTo, actionBtn } from '../ui.js';
 import { markClean } from '../dirty.js';
-import { currentState, treatmentsOf, fibreClass, STATE_ORDER, worksUsingActions } from '../fabric-logic.js';
+import { currentState, treatmentsOf, fibreClass, STATE_ORDER, worksUsingActions, eligibleFor } from '../fabric-logic.js';
 import { MANUAL_ACTIONS, movesBox, boxAfter } from '../migrate-actions.js';
 import { scaleRecipe, recipeWarnings, expandChain } from '../calc/scale.js';
 
@@ -57,21 +57,8 @@ const PRECONDITIONS = [
 // application that refuses it is wrong more often than the person is.
 const RECENT_DAYS = 30;
 
-// Which chosen pieces an action is written to (§13fm).
-//
-// Washing is the one action whose whole point is to move a piece OUT of the
-// first box. A piece already washed — or mordanted, dyed, finished, which all
-// imply it — gains nothing from a second „washed" but a meaningless event, and
-// because the box is read from the latest box-moving action, it would be moved
-// BACK to „washed". So a group wash is written only to pieces still in a box
-// before „washed"; the rest are named and left alone.
-//
-// Every other action keeps its behaviour: mordanting a finished shawl again is
-// how a piece is reworked (§13am), and the application does not argue with it.
-export function eligibleFor(action, fabric) {
-  if (action !== 'wash') return true;
-  return STATE_ORDER.indexOf(currentState(fabric)) < STATE_ORDER.indexOf(boxAfter('wash'));
-}
+// Which chosen pieces an action is written to: `eligibleFor` in fabric-logic.js,
+// shared with the single-piece screen since rc113 (§13fm, §13fn).
 
 function recentlyDone(fabric, actionCode) {
   const same = (fabric.actions || [])

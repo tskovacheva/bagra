@@ -1,6 +1,6 @@
 // modules/fabrics.js — one record is one physical piece (§3, A.1).
 
-import { all, get, put, newRecord, getSetting, setSetting, uid } from '../db.js';
+import { all, get, put, putTogether, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t, text } from '../i18n.js';
 import { massWith, gsmWith } from '../units.js';
 import { shrinkThumb } from '../photo.js';
@@ -11,8 +11,25 @@ import { ACTION_FOR_STATE } from '../migrate-actions.js';
 import {
   compositionTotal, dyeReceptiveFraction, fibreClass, compositionWarnings,
   currentState, stateHistory, daysSinceMordanted, STATE_ORDER, photoTimeline,
-  treatmentsOf,
+  treatmentsOf, eligibleFor,
 } from '../fabric-logic.js';
+
+// The boxes a hand-entered change may move a piece to. „Washed" is shown and
+// disabled on a piece already past it (§13fn): the same rule as the group
+// action, and a disabled option says why it is not there where a missing one
+// would only puzzle. Built from a string — a regex literal with quotes in it is
+// what check-scope.js cannot read (§13fh).
+//
+// „Неизпран" is not in the list at all (§13fo). It is where a piece begins, not
+// something done to it: there is no action that returns cloth to it, and
+// choosing it used to write a meaningless `other`. It stays a choice for a NEW
+// piece's initial box, which is a different field.
+async function transitionOptions(record) {
+  let html = await options('fabric_state', '', t('common.choose'));
+  html = html.replace(new RegExp('<option value="unwashed"[^>]*>[^<]*</option>'), '');
+  return eligibleFor('wash', record) ? html
+    : html.replace(new RegExp('<option value="scoured"'), '<option value="scoured" disabled');
+}
 
 const STATE_ICONS = {
   unwashed: 's-unwashed',
@@ -504,8 +521,9 @@ async function renderForm(root, record) {
               : `<p class="note">${t('fabrics.nowIn', { state: esc(await label('fabric_state', currentState(record))) })}</p>
                  <ul class="history">${historyRows}</ul>
                  <div class="addstate">
-                   ${field(t('fabrics.newTransition'), `<select data-newstate>${await options('fabric_state', '', t('common.choose'))}</select>`)}
-                   ${field(t('common.date'), `<input type="date" data-newstate-date value="${today()}">`)}
+                   ${field(t('fabrics.newTransition'), `<select data-newstate data-saves-itself>${await transitionOptions(record)}</select>`,
+                     eligibleFor('wash', record) ? '' : t('fabrics.washNotOffered'))}
+                   ${field(t('common.date'), `<input type="date" data-newstate-date data-saves-itself value="${today()}">`)}
                    <button class="btn quiet" data-add-state>${t('fabrics.addTransition')}</button>
                  </div>`}
           `)}
@@ -664,28 +682,48 @@ export default {
         const code = root.querySelector('[data-newstate]').value;
         const date = root.querySelector('[data-newstate-date]').value;
         if (!code) return;
+        // A box with no action behind it — `unwashed` — is not a change that
+        // can be made (§13fo). It is no longer offered; this refuses it if
+        // chosen anyway, instead of writing `other` as it used to.
+        const action = ACTION_FOR_STATE[code];
+        if (!action) return flash(t('fabrics.notATransition'));
+        // The saved piece, not the form. The change of box is its own act and
+        // is written at once; what is typed in the form and not saved stays
+        // unsaved (§13fo). Eligibility is judged on the saved history too.
+        const saved = await get('fabrics', draft.id);
+        if (!saved) return flash(t('fabrics.notATransition'));
+        // The same rule as the group action (§13fn): a piece already past
+        // „washed" is not washed back into it.
+        if (!eligibleFor(action, saved)) return flash(t('fabrics.washNotOffered'));
+        // The form is read into the draft — only so the redraw below shows
+        // what she typed. Nothing of it is written here.
         readForm(root);
         // Written to `actions` like everything else (§13bd). A hand-entered
         // change of state is still one action on one piece, so it gets a batch
-        // of one rather than being the one kind of action that belongs to
-        // nothing — the invariant is what the guard checks.
-        draft.actions = draft.actions || [];
+        // of one — and the batch and the action are written in one
+        // transaction, so neither exists without the other.
         const batch = newRecord({
-          actionCode: ACTION_FOR_STATE[code] || 'other',
-          date, recipeId: null, chainId: null,
-          fabricIds: [draft.id], totalWeightG: draft.weightG ?? null,
+          actionCode: action, date, recipeId: null, chainId: null,
+          fabricIds: [saved.id], totalWeightG: saved.weightG ?? null,
           deviation: '', note: '',
         });
-        await put('batchActions', batch);
-        draft.actions.push({
-          id: uid(), fabricId: draft.id,
-          actionCode: ACTION_FOR_STATE[code] || 'other',
+        const entry = {
+          id: uid(), fabricId: saved.id, actionCode: action,
           fromStateCode: code, date,
           recipeId: null, chainId: null, trialId: null, batchId: batch.id,
           note: '', deviation: '', observation: '',
           createdAt: new Date().toISOString(),
-        });
-        await put('fabrics', draft);
+        };
+        const patched = { ...saved, actions: [...(saved.actions || []), entry] };
+        try {
+          await putTogether([['batchActions', batch], ['fabrics', patched]]);
+        } catch (err) {
+          return flash(t('fabrics.transitionFailed'));
+        }
+        // The draft takes the saved history, so a later Save writes [A, B] and
+        // not the stale [A] it was opened with. Its other fields — the unsaved
+        // ones — are left exactly as typed, and so is the unsaved mark.
+        draft.actions = patched.actions;
         return renderForm(root, draft);
       }
 

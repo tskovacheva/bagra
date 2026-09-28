@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": "16",
+ "packVersion": "17",
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -966,6 +966,23 @@
    "note": {
     "bg": "В Багра името му идва само чрез Алисън Кели, която посочва, че сложният закрепител е нейна адаптация на негова формула. Първоизточникът не е проверен и Багра не му приписва авторството самостоятелно.",
     "en": "He reaches Bagra only through Alison Kelly, who states that the compound mordant is her adaptation of a formula of his. The original has not been checked, and Bagra does not attribute the formula to him on its own authority."
+   }
+  },
+  {
+   "code": "nicoleta-practice",
+   "kind": "person",
+   "name": {
+    "bg": "Практическа рецепта от Николета",
+    "en": "Practitioner recipe from Nicoleta"
+   },
+   "author": {
+    "bg": "Николета",
+    "en": "Nicoleta"
+   },
+   "url": "",
+   "note": {
+    "bg": "Концентрирана Al/Fe импрегнираща смес за еко принт върху памук, предадена лично. Посоченият от нея произход от India Flint не е потвърден в Eco Colour.",
+    "en": "A concentrated Al/Fe impregnation mixture for eco-printing on cotton, shared in person. Her attribution to India Flint has not been confirmed in Eco Colour."
    }
   }
  ]

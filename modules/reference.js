@@ -10,10 +10,11 @@ import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
 import { rankByColour, colourDifference, colourDistance } from '../calc/colour.js';
 import { bandRange } from '../vocab.js';
-import { t, text } from '../i18n.js';
+import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { page, panel, field, options, label, favStar, esc, empty, note, pairField, readPairs,
-         fact, facts, prose, readBlock, fmtDate, navigate, backTo, actionBtn, icon, deleteGuarded } from '../ui.js';
+         fact, facts, prose, readBlock, fmtDate, navigate, backTo, actionBtn, icon, deleteGuarded,
+         searchBox, matches } from '../ui.js';
 
 let mode = 'search';
 let openId = null;
@@ -29,6 +30,10 @@ let query = { plantId: '', partCode: '', fibreClass: '', processCode: '',
               mordantCode: '', mordantBand: '', phCode: '', colourHex: '' };
 let showMore = false;
 let favOnly = false;
+// The Records table (§13fp): a search over what each row SAYS, in the reader's
+// language, and one sorted column. Both survive a redraw; neither is stored.
+let listQuery = '';
+let listSort = { col: '', dir: 1 };
 
 const host = {
   tabs: () => `
@@ -307,18 +312,35 @@ async function influenceBlock(record) {
     <h2>${t('ref.influences')}</h2>${rows.join('')}</div>`;
 }
 
+// One observation: one placement from one trial, read from the trial as it is
+// now (§13fp). Nothing of it is copied into the combination — edit the trial
+// and this changes. Fields the placement does not have are left out, not
+// shown as dashes; the trial is one tap away for the rest.
+async function observationItem({ trial, placement: pl }) {
+  const bits = [
+    fmtDate(trial.date),
+    pl.printQuality ? await label('print_quality', pl.printQuality) : '',
+  ].filter(Boolean).map(esc).join(' \u00B7 ');
+  return `
+    <div class="observation" data-observation="${esc(trial.id)}">
+      ${pl.resultHex ? swatch(pl.resultHex, 'thumb') : ''}
+      <div class="obsbody">
+        <b>${esc(pl.resultColour || t('ref.obsNoColour'))}</b>
+        ${bits ? `<span class="hint"> ${bits}</span>` : ''}
+        ${pl.observation ? `<p class="hint">${esc(pl.observation)}</p>` : ''}
+        <a class="obslink" href="#/trials/${esc(trial.id)}">${esc(trial.title || t('trials.one'))} \u2192</a>
+      </div>
+    </div>`;
+}
+
 async function detailPane(record, plantsById) {
   if (!record) return '';
   const k = record.key || {};
   const e = record.expected || {};
   const mine = await placementsFor(record);
 
-  const trials = mine.slice(0, 4).map(({ trial, placement }) => `
-    <div class="detailtrial">
-      <b>${esc(placement.resultColour || '—')}</b>
-      <span class="hint">${esc(fmtDate(trial.date))}</span>
-      ${placement.observation ? `<p class="hint">${esc(placement.observation)}</p>` : ''}
-    </div>`).join('');
+  const trials = (await Promise.all(mine.slice(0, 4).map(observationItem))).join('')
+    + (mine.length > 4 ? `<p class="hint">${t('ref.obsMore', { n: mine.length - 4 })}</p>` : '');
 
   return `
     <div class="refdetail">
@@ -712,6 +734,15 @@ async function renderSearch(root) {
 
 // ------------------------------------------------------------- records view
 
+// The columns that sort, and how (§13fp). Reliability sorts by how far she can
+// rely on the statement in practice (§13fr, the owner's order): her own test,
+// then literature, then practitioners' advice, then „needs testing" — not by
+// the alphabet of a label, which differs by language. The first press (▲)
+// puts the strongest first; the second (▼) the weakest. The two codes older
+// records may carry come after.
+const SORTABLE = [{ key: 'colour' }, { key: 'source' }, { key: 'conditions' }, { key: 'confidence' }];
+export const CONFIDENCE_RANK = { own_trial: 1, literature: 2, practice: 3, unverified: 4, confirmed: 5, contradicted: 6 };
+
 async function renderList(root) {
   const plants = await all('plants');
   const plantsById = new Map(plants.map(p => [p.id, p]));
@@ -719,28 +750,78 @@ async function renderList(root) {
   const favCount = allRecords.filter(r => r.favorite).length;
   const records = favOnly ? allRecords.filter(r => r.favorite) : allRecords;
 
-  const rows = await Promise.all(records.map(async r => `
-    <tr data-open="${r.id}">
-      <td class="favcell">${favStar(r)}</td>
-      <td class="withthumb">${swatch(r.expected?.swatchHex, 'thumb')}
-        ${esc(text(r.expected?.colourText) || '—')}</td>
-      <td>${esc(await sourceLine(r, plantsById))}</td>
-      <td>${esc(await conditionLine(r))}</td>
-      <td>${esc(await label('claim_confidence', r.confidence) || '')}</td>
-    </tr>`));
+  // Each row as the words it shows (§13fp). Searching and sorting both work on
+  // these — the localised labels — so „стипца" finds alum and a column sorts
+  // the way it reads, never by an internal code.
+  const shown = await Promise.all(records.map(async (r, i) => ({
+    r, i,
+    colour: text(r.expected?.colourText) || '',
+    source: await sourceLine(r, plantsById),
+    conditions: await conditionLine(r),
+    confidence: await label('claim_confidence', r.confidence) || '',
+    confRank: CONFIDENCE_RANK[r.confidence] ?? 99,
+  })));
+  // favourites → search → sort
+  const found = shown.filter(x => matches(listQuery, x.colour, x.source, x.conditions, x.confidence));
+  const col = SORTABLE.find(c => c.key === listSort.col);
+  if (col) {
+    const collator = new Intl.Collator(getLang(), { sensitivity: 'base', numeric: true });
+    found.sort((a, b) => (col.key === 'confidence'
+      ? a.confRank - b.confRank
+      : collator.compare(a[col.key], b[col.key])) * listSort.dir || a.i - b.i);
+  }
 
-  const table = records.length ? `
+  const rows = found.map(x => `
+    <tr data-open="${x.r.id}">
+      <td class="favcell">${favStar(x.r)}</td>
+      <td class="withthumb">${swatch(x.r.expected?.swatchHex, 'thumb')}
+        ${esc(x.colour || '—')}</td>
+      <td>${esc(x.source)}</td>
+      <td>${esc(x.conditions)}</td>
+      <td>${esc(x.confidence)}</td>
+    </tr>`);
+
+  const head = (key, text_) => {
+    const on = listSort.col === key;
+    // The arrow is drawn by CSS, so it is not part of the head's text: on a
+    // phone the heads become the labels of each card (`labelCells`), and a
+    // label reading „Резултат ▲" would carry the sort into every row.
+    const dir = on ? (listSort.dir > 0 ? ' asc' : ' desc') : '';
+    return `<th aria-sort="${on ? (listSort.dir > 0 ? 'ascending' : 'descending') : 'none'}">
+      <button class="sorthead${on ? ' on' : ''}${dir}" data-sort="${key}">${text_}</button></th>`;
+  };
+  // On a phone the table's head is hidden and each row is a card, so the heads
+  // cannot be pressed. The same sort is offered there as one select.
+  const sortLabels = { colour: t('ref.col.colour'), source: t('ref.col.source'),
+    conditions: t('ref.col.conditions'), confidence: t('ref.confidence') };
+  const sortSelect = `<label class="sortselect"><span class="hint">${t('ref.sortBy')}</span>
+    <select data-sortsel aria-label="${esc(t('ref.sortBy'))}">
+      <option value="">${t('ref.sortNone')}</option>
+      ${SORTABLE.flatMap(c => [1, -1].map(d => {
+        const v = `${c.key}:${d}`;
+        const sel = listSort.col === c.key && listSort.dir === d ? ' selected' : '';
+        return `<option value="${v}"${sel}>${esc(sortLabels[c.key])} ${d > 0 ? '\u2191' : '\u2193'}</option>`;
+      })).join('')}
+    </select></label>`;
+
+  const table = !records.length
+    ? empty(favOnly ? t('ref.emptyFav') : t('ref.empty'), favOnly ? '' : t('ref.emptyHint'))
+    : !found.length
+      ? `<div data-nomatch>${empty(t('ref.noMatch', { q: listQuery }), '')}</div>`
+      : `
     <table class="grid">
       <thead><tr>
         <th class="favcell"></th>
-        <th>${t('ref.col.colour')}</th>
-        <th>${t('ref.col.source')}</th>
-        <th>${t('ref.col.conditions')}</th>
-        <th>${t('ref.confidence')}</th>
+        ${head('colour', t('ref.col.colour'))}
+        ${head('source', t('ref.col.source'))}
+        ${head('conditions', t('ref.col.conditions'))}
+        ${head('confidence', t('ref.confidence'))}
       </tr></thead>
       <tbody>${rows.join('')}</tbody>
-    </table>` : empty(favOnly ? t('ref.emptyFav') : t('ref.empty'),
-                    favOnly ? '' : t('ref.emptyHint'));
+    </table>`;
+  const search = records.length ? `<div class="filterrow">${searchBox(listQuery, t('ref.searchRecords'))}
+    ${sortSelect}
+    <span class="hint" data-count>${t('ref.shownOf', { n: found.length, of: records.length })}</span></div>` : '';
 
   // A trusted result is exactly the thing worth pinning, so the chip appears
   // here as it does on plants and recipes — one row, one shape, everywhere.
@@ -762,7 +843,7 @@ async function renderList(root) {
     actions: `${host.tabs()}
       ${seedUI.syncButton('combinations')}
       ${actionBtn('add', t('ref.new'), 'data-new', 'primary')}`,
-    body: `${chips}${panel(table, 'flush')}`,
+    body: `${chips}${search}${panel(table, 'flush')}`,
   });
 }
 
@@ -793,17 +874,10 @@ async function renderRead(root, r) {
 
   const mine = await placementsFor(r);
 
-  const cards = (await Promise.all(mine.map(async ({ trial, placement }) => `
+  const cards = (await Promise.all(mine.map(async (m) => `
     <div class="placement" style="background:var(--surface)">
-      ${placement.photo ? `<div class="placephoto"><img src="${placement.photo}" alt=""></div>` : ''}
-      <div class="placebody">
-        <div class="refhead">
-          <b>${esc(placement.resultColour || '—')}</b>
-          <span class="hint">${fmtDate(trial.date)}</span>
-        </div>
-        <div class="hint">${esc(trial.title || t('trials.one'))}</div>
-        ${placement.observation ? `<div class="prose"><p>${esc(placement.observation)}</p></div>` : ''}
-      </div>
+      ${m.placement.photo ? `<div class="placephoto"><img src="${m.placement.photo}" alt=""></div>` : ''}
+      <div class="placebody">${await observationItem(m)}</div>
     </div>`))).join('');
 
   root.innerHTML = page({
@@ -1012,6 +1086,10 @@ export default {
       if (!draft || (openId !== 'new' && draft.id !== openId)) {
         draft = openId === 'new' ? blank() : structuredClone(await get('combinations', openId));
       }
+      // An address naming a record that is not there — a placement's link to a
+      // record since removed, or a bookmark — goes back to the list rather than
+      // throwing and leaving the last screen up (§11b, §13fp).
+      if (!draft) return navigate(mode === 'records' ? '#/reference/records' : '#/reference');
       if (editing || openId === 'new') await renderForm(root, draft);
       else await renderRead(root, draft);
     } else if (mode === 'records') {
@@ -1028,6 +1106,14 @@ export default {
         e.stopPropagation();
         await toggleFavorite('combinations', fav.dataset.fav);
         if (draft && draft.id === fav.dataset.fav) draft.favorite = !draft.favorite;
+        return this.render(root);
+      }
+      if (e.target.closest('[data-searchclear]')) { listQuery = ''; return this.render(root); }
+      // First press ascending, the next descending, on one column at a time.
+      const sorter = e.target.closest('[data-sort]');
+      if (sorter) {
+        const key = sorter.dataset.sort;
+        listSort = listSort.col === key ? { col: key, dir: -listSort.dir } : { col: key, dir: 1 };
         return this.render(root);
       }
       if (e.target.closest('[data-favonly]')) { favOnly = true; return this.render(root); }
@@ -1109,7 +1195,24 @@ export default {
       }
     };
 
+    // The Records search redraws as you type, keeping the cursor, as the plant
+    // list does.
+    root.oninput = (e) => {
+      if (e.target.dataset.search === undefined) return;
+      listQuery = e.target.value;
+      const at = e.target.selectionStart;
+      this.render(root).then(() => {
+        const box = root.querySelector('[data-search]');
+        if (box) { box.focus(); box.setSelectionRange(at, at); }
+      });
+    };
+
     root.onchange = async (e) => {
+      if (e.target.matches('[data-sortsel]')) {
+        const [col, dir] = e.target.value.split(':');
+        listSort = col ? { col, dir: Number(dir) } : { col: '', dir: 1 };
+        return this.render(root);
+      }
       if (e.target.dataset.q) {
         query[e.target.dataset.q] = e.target.value;
         if (e.target.dataset.q === 'plantId') query.partCode = '';

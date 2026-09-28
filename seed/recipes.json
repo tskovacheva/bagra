@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.19.1",
+ "packVersion": "0.20.1",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -679,8 +679,8 @@
     "en": "Preparing a working aluminium acetate solution"
    },
    "notes": {
-    "bg": "Разтворът се прави на момента, за теглото на тъканта, която ще се закрепва — готов алуминиев ацетат на прах рядко се намира. Количествата по-долу се преизчисляват спрямо това тегло, а полученият разтвор се използва изцяло за банята на същата тъкан. Затова няма второ смятане: един път се смята — тук.\n\nCrafty Place — адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. Удобният фиксиран вариант е с калиева стипца и 5% оцет. При друга форма на алуминиевия реагент или друга концентрация на оцета не заменяй количеството грам за грам — използвай калкулатора „Алуминиев ацетат“ и избери точната форма и концентрация.",
-    "en": "The solution is made on the spot, for the weight of the cloth that will be mordanted — finished aluminium acetate powder is rarely to hand. The quantities below scale with that weight, and the whole solution goes into the bath for that same cloth. So there is no second calculation: it is worked out once, here.\n\nCrafty Place — adapted from Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. The convenient fixed variant is with potassium alum and 5% vinegar. For another form of the aluminium reagent or another strength of vinegar, do not swap the quantity gram for gram — use the aluminium acetate calculator and choose the exact form and strength."
+    "bg": "Количествата са изчислени за тази тъкан. Приготви работния разтвор непосредствено преди употреба.\n\nДобавяй натриевия карбонат бавно и на малки порции — сместа отделя CO₂ и може да се разпени силно. Използвай съд с поне двойно по-голям обем от течността.\n\nПолученото е работен разтвор на алуминиев ацетат, а не чист алуминиев ацетат.\n\nCrafty Place — адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. Удобният фиксиран вариант е с калиева стипца и 5% оцет. При друга форма на алуминиевия реагент или друга концентрация на оцета не заменяй количеството грам за грам — използвай калкулатора „Алуминиев ацетат“ и избери точната форма и концентрация.",
+    "en": "The quantities are calculated for this fabric. Prepare the working solution immediately before use.\n\nAdd the sodium carbonate slowly and in small portions — the mixture releases CO₂ and may foam strongly. Use a vessel at least twice the volume of the liquid.\n\nWhat results is a working aluminium acetate solution, not pure aluminium acetate.\n\nCrafty Place — adapted from Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. The convenient fixed variant is with potassium alum and 5% vinegar. For another form of the aluminium reagent or another strength of vinegar, do not swap the quantity gram for gram — use the aluminium acetate calculator and choose the exact form and strength."
    },
    "ingredients": [
     {
@@ -751,29 +751,36 @@
     {
      "id": "aap-s1",
      "text": {
-      "bg": "Използвай съд с поне двойно по-голям обем от количеството оцет, защото сместа се разпенва.",
-      "en": "Use a vessel at least twice the volume of the vinegar, because the mixture foams up."
+      "bg": "Разтвори стипцата в топла вода.",
+      "en": "Dissolve the potassium alum in warm water."
      }
     },
     {
      "id": "aap-s2",
      "text": {
-      "bg": "При разбъркване смеси стипцата, натриевия карбонат и оцета. Добавяй содата постепенно.",
-      "en": "Stirring, mix the alum, the sodium carbonate and the vinegar. Add the soda gradually."
+      "bg": "Добави оцета и останалата вода, необходима за работната баня.",
+      "en": "Add the vinegar and the remaining water required for the working bath."
      }
     },
     {
      "id": "aap-s3",
      "text": {
-      "bg": "Изчакай разпенването да приключи и разтворът да се успокои.",
-      "en": "Wait for the foaming to stop and the solution to settle."
+      "bg": "Добавяй натриевия карбонат бавно и на малки порции при разбъркване.",
+      "en": "Add the sodium carbonate slowly, in small portions, while stirring."
      }
     },
     {
      "id": "aap-s4",
      "text": {
-      "bg": "Полученият разтвор е работният разтвор за тази тъкан. Използва се цял в банята за закрепване.",
-      "en": "What results is the working solution for this cloth. The whole of it goes into the mordant bath."
+      "bg": "Сместа ще започне да шупва и да отделя CO₂. При нужда изчаквай силното шупване да отслабне между порциите.",
+      "en": "The mixture will effervesce and release CO₂. If necessary, allow the strong foaming to subside between additions."
+     }
+    },
+    {
+     "id": "aap-s5",
+     "text": {
+      "bg": "Когато шупването приключи и разтворът се успокои, използвай получения работен разтвор на алуминиев ацетат за закрепване на тъканта.",
+      "en": "When the effervescence has finished and the solution has settled, use the resulting working aluminium acetate solution for mordanting the fabric."
      }
     }
    ],
@@ -888,8 +895,8 @@
     "en": "Chalk bath (calcium carbonate)"
    },
    "notes": {
-    "bg": "Банята след алуминиевия ацетат: 10 г калциев карбонат на литър, тоест около 50 г на 5 литра. Пшеничните трици са традиционна алтернатива на кредата, но не са основната съставка тук.",
-    "en": "The bath after aluminium acetate: 10 g of calcium carbonate per litre, that is about 50 g to 5 litres. Wheat bran is a traditional alternative to chalk, but it is not the ingredient here."
+    "bg": "Банята след закрепващата обработка: 10 г калциев карбонат на литър, тоест около 50 г на 5 литра. Пшеничните трици са традиционна алтернатива на кредата, но не са основната съставка тук.",
+    "en": "The bath after the mordant treatment: 10 g of calcium carbonate per litre, that is about 50 g to 5 litres. Wheat bran is a traditional alternative to chalk, but it is not the ingredient here."
    },
    "ingredients": [
     {
@@ -925,8 +932,8 @@
     {
      "id": "cb-s2",
      "text": {
-      "bg": "Потопи обработената с алуминиев ацетат тъкан за около 10 минути и движи периодично.",
-      "en": "Put the cloth that came out of the aluminium acetate in for about 10 minutes, moving it from time to time."
+      "bg": "Потопи обработената тъкан в банята с калциев карбонат за около 10 минути и я движи периодично.",
+      "en": "Immerse the treated fabric in the calcium carbonate bath for about 10 minutes, moving it periodically."
      }
     },
     {
@@ -934,6 +941,175 @@
      "text": {
       "bg": "Извади и изплакни добре.",
       "en": "Lift it out and rinse it well."
+     }
+    }
+   ]
+  },
+  {
+   "code": "nicoleta-al-fe-impregnation",
+   "type": "mordant",
+   "output": "none",
+   "scaleBy": "weight",
+   "appliesTo": [
+    "cellulose"
+   ],
+   "sourceCodes": [
+    "nicoleta-practice"
+   ],
+   "distributable": true,
+   "origin": "seed",
+   "requiredFollowOn": [
+    "seed:chalk-bath"
+   ],
+   "name": {
+    "bg": "Концентрирана Al/Fe импрегнираща система за еко принт",
+    "en": "Concentrated Al/Fe impregnation system for eco-print"
+   },
+   "notes": {
+    "bg": "Концентрирана импрегнираща смес за еко принт върху целулоза (памук) — не е обичайна баня с алуминиев ацетат и не е заместител на рецептата „Приготвяне на работен разтвор алуминиев ацетат“.\n\nКоличествата са фиксирана партида, а не % WOF. Капацитетът на сместа спрямо теглото на плата не е стандартизиран — изпитва се на практика. Рецептата е практическа и експериментална.\n\nСлед изсъхване следва отделна баня с калциев карбонат — използва се стандартизираната „Баня с креда“ от библиотеката. Оригиналната мярка (около една супена лъжица на леген вода) не е превърната в концентрация.\n\nБезопасност: калциевият хидроксид е силно алкален — ръкавици и защита за очите, без контакт с кожата и очите. Железният сулфат — без вдишване на праха, с ръкавици, без контакт с очите. Концентрираната смес — без контакт с кожата и очите.\n\nПрактическа рецепта, предадена от Николета за еко принт върху памук. Посоченият от нея произход от India Flint не е потвърден в книгата Eco Colour. Оригиналният метод не задава WOF или количествен капацитет спрямо теглото на плата. Настоящата seed версия запазва оригиналните пропорции в 1/4 партида.",
+    "en": "A concentrated impregnation mixture for eco-printing on cellulose (cotton) — not an ordinary aluminium acetate bath, and not a replacement for “Preparing a working aluminium acetate solution”.\n\nThe quantities are a fixed batch, not % WOF. The capacity of the mixture relative to fabric weight is not standardised — it is established in practice. The recipe is a practitioner, experimental one.\n\nAfter drying, a separate calcium carbonate bath follows — the library’s standardised “Chalk bath” is used. The original measure (about a tablespoon in a basin of water) is not turned into a concentration.\n\nSafety: calcium hydroxide is strongly alkaline — gloves and eye protection, no contact with skin or eyes. Ferrous sulfate — do not inhale the dust, wear gloves, avoid eye contact. The concentrated mixture — avoid contact with skin and eyes.\n\nPractitioner recipe shared by Nicoleta for eco-printing on cotton. The attribution to India Flint has not been confirmed in Eco Colour. The original method does not define WOF or fabric capacity. This seed version preserves the original proportions as a 1/4 batch."
+   },
+   "ingredients": [
+    {
+     "id": "nic-1",
+     "roleCode": "aluminium_source",
+     "basis": "absolute",
+     "unit": "g",
+     "quantity": 25,
+     "quantityMin": 25,
+     "quantityMax": 25,
+     "note": {
+      "bg": "Калиево-алуминиева стипца, 25 г.",
+      "en": "Potassium alum, 25 g."
+     },
+     "options": [
+      {
+       "id": "nic-1-o",
+       "substanceId": "seed:alum_potassium_12",
+       "qtyMin": 25,
+       "qtyMax": 25
+      }
+     ]
+    },
+    {
+     "id": "nic-2",
+     "roleCode": "acid_source",
+     "basis": "absolute",
+     "unit": "ml",
+     "quantity": 250,
+     "quantityMin": 250,
+     "quantityMax": 250,
+     "note": {
+      "bg": "Ябълков оцет, около 6%, 250 мл.",
+      "en": "Apple cider vinegar, about 6%, 250 ml."
+     },
+     "options": [
+      {
+       "id": "nic-2-o",
+       "substanceId": "seed:acetic_acid",
+       "qtyMin": 250,
+       "qtyMax": 250
+      }
+     ]
+    },
+    {
+     "id": "nic-3",
+     "roleCode": "modifier",
+     "basis": "absolute",
+     "unit": "g",
+     "quantity": 2.5,
+     "quantityMin": 2.5,
+     "quantityMax": 2.5,
+     "note": {
+      "bg": "Железен сулфат, зелен камък (FeSO₄·7H₂O), 2,5 г.",
+      "en": "Ferrous sulfate heptahydrate (FeSO₄·7H₂O), 2.5 g."
+     },
+     "options": [
+      {
+       "id": "nic-3-o",
+       "substanceId": "seed:iron_sulfate",
+       "qtyMin": 2.5,
+       "qtyMax": 2.5
+      }
+     ]
+    },
+    {
+     "id": "nic-4",
+     "roleCode": "alkali",
+     "basis": "absolute",
+     "unit": "g",
+     "quantity": 13.75,
+     "quantityMin": 13.75,
+     "quantityMax": 13.75,
+     "note": {
+      "bg": "Калциев хидроксид, гасена вар (Ca(OH)₂), 13,75 г.",
+      "en": "Calcium hydroxide, slaked lime (Ca(OH)₂), 13.75 g."
+     },
+     "options": [
+      {
+       "id": "nic-4-o",
+       "substanceId": "seed:calcium_hydroxide",
+       "qtyMin": 13.75,
+       "qtyMax": 13.75
+      }
+     ]
+    }
+   ],
+   "steps": [
+    {
+     "id": "nic-s1",
+     "text": {
+      "bg": "Изпери плата предварително при висока температура с натриев карбонат и обикновен сапун. Методът не задава количества — виж „Изпиране на целулоза“.",
+      "en": "Scour the cloth first at a high temperature with sodium carbonate and ordinary soap. The method gives no quantities — see “Cellulose scour”."
+     }
+    },
+    {
+     "id": "nic-s2",
+     "text": {
+      "bg": "В съд сложи 250 мл ябълков оцет (около 6%) и 25 г стипца. Бъркай, докато стипцата се разтвори, доколкото е възможно. Ако е нужно, добави съвсем малко вода — сместа остава концентрирана, не се разрежда до баня.",
+      "en": "Put 250 ml of apple cider vinegar (about 6%) and 25 g of alum in a container. Stir until the alum has dissolved as far as it will. If needed, add only a little water — the mixture stays concentrated and is not diluted into a bath."
+     }
+    },
+    {
+     "id": "nic-s3",
+     "text": {
+      "bg": "С ръкавици: добави 2,5 г железен сулфат и бъркай около 2–3 минути.",
+      "en": "Wearing gloves: add 2.5 g of ferrous sulfate and stir for about 2–3 minutes."
+     }
+    },
+    {
+     "id": "nic-s4",
+     "text": {
+      "bg": "С ръкавици и защита за очите: добави 13,75 г калциев хидроксид при разбъркване. Сместа може да остане мътна, с утайка или частично утаена — не е нужно да се избистря. Разбърквай периодично, докато се използва.",
+      "en": "Wearing gloves and eye protection: add 13.75 g of calcium hydroxide while stirring. The mixture may stay cloudy, in suspension or partly settled — it does not need to clear. Stir it from time to time while it is in use."
+     }
+    },
+    {
+     "id": "nic-s5",
+     "text": {
+      "bg": "Потопи сухия или влажен памучен плат в сместа за около 5 минути, като го движиш периодично.",
+      "en": "Immerse the dry or damp cotton cloth in the mixture for about 5 minutes, moving it from time to time."
+     }
+    },
+    {
+     "id": "nic-s6",
+     "text": {
+      "bg": "Извади плата, изстискай го и го остави да изсъхне.",
+      "en": "Take the cloth out, wring it out and let it dry."
+     }
+    },
+    {
+     "id": "nic-s7",
+     "text": {
+      "bg": "След изсъхване: отделна баня с калциев карбонат — „Баня с креда“.",
+      "en": "Once dry: a separate calcium carbonate bath — the “Chalk bath”."
+     }
+    },
+    {
+     "id": "nic-s8",
+     "text": {
+      "bg": "Изплакни с вода, без препарат.",
+      "en": "Rinse with water, without detergent."
      }
     }
    ]
