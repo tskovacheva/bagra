@@ -12,6 +12,38 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc116 — 28 September 2026
+
+Recipe content (§13fq). `seed:aluminium-acetate-prep` keeps its id and figures; its steps now read alum in warm water,
+then vinegar and water, then soda slowly in portions, and its notes lead with preparing it just before use and the
+CO₂ foaming. New `seed:nicoleta-al-fe-impregnation` — a concentrated Al/Fe impregnation for eco print on cellulose: a
+fixed 1/4 batch (25 g alum, 250 ml ~6 % cider vinegar, 2.5 g FeSO₄·7H₂O, 13.75 g Ca(OH)₂), no WOF, not an aluminium
+acetate, followed by the existing chalk bath, credited to Nicoleta with her India Flint attribution marked
+unconfirmed. New source `nicoleta-practice`. Packs: recipes 0.20.0, sources 17. New check try-recipe-content.mjs.
+
+## 1.0.0-rc115 — 28 September 2026
+
+Reference (§13fp). „Мои наблюдения" under a record: each trial placement linked by `combinationId`, read from the
+trial — swatch, colour, date, print quality, note, and a link to the trial; nothing copied into the combination and no
+link guessed. A missing record's address returns to the list instead of throwing. The Records table gains a search
+over its visible words and sortable columns (Result, Dye source, Conditions, Reliability; a select on phones), after
+the favourites filter. New checks try-reference-observations.mjs and try-reference-screens.mjs.
+
+## 1.0.0-rc114 — 28 September 2026
+
+A change of box on a piece's form is its own act (§13fo). „Unwashed" is no longer offered as a change on an existing
+piece and writes nothing if forced (it used to write `other`). The change is written to the saved piece — batch and
+action in one transaction (`putTogether`) — without the form's unsaved typing; the form keeps the typing and its
+unsaved mark, and a later Save keeps the new action. A failed write leaves neither record. New check
+try-fabric-transition.mjs.
+
+## 1.0.0-rc113 — 28 September 2026
+
+Washing one piece follows the group's rule (§13fn). On a piece's form, „washed" is disabled — with the reason — for a
+piece already washed or further on, and the record button checks the same rule, so nothing is washed back. One
+function, `eligibleFor` in fabric-logic.js, for both screens. Rework and existing history unchanged. A later rinse is
+recorded as „other" with a note. New check try-fabric-wash.mjs.
+
 ## 1.0.0-rc112 — 28 September 2026
 
 Group action: washing (§13fm). The recipe field reads „Recipe (optional)" with „no recipe" as its empty choice, and

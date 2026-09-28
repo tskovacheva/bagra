@@ -74,7 +74,7 @@ material record are not, and are never distributed.
 |---|---|
 | Reference | The reference engine — combinations, searched by key |
 | Plants | 57 species, bilingual, each with a description, parts, chemistry and colours |
-| Recipes | 16 procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
+| Recipes | 23 seeded procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
 | Materials | What a substance *is* — formula, ceiling, disposal — with the jars on the shelf |
 | Techniques | Controlled vocabulary — 21 records |
 | Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, reverse, timer |
@@ -339,7 +339,8 @@ Principal sources so far: Chandra Rice ([chandrarice.ca](https://www.chandrarice
 aluminium acetate calculator; Joy Boutrup and Catharine Ellis, *The Art and Science of Natural
 Dyes*. The recipes draw on Natalie Stopka, *From Plant to Pigment*; Joanne Green, *Natural
 Watercolor Paint Making*; Nicola Cliffe, *Printing with Natural Dyes*; Alison Kelly, *Printing
-from the Garden*, crediting Michel Garcia; and the Maiwa School of Textiles.
+from the Garden*, crediting Michel Garcia; the Maiwa School of Textiles; and one practitioner recipe
+shared by Nicoleta, whose own attribution to India Flint is recorded as unconfirmed.
 
 A recipe may credit more than one source, because one often is more than one: the compound
 mordant is Garcia's, as Kelly gives it. What the register does NOT record is which came first —

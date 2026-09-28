@@ -26,7 +26,11 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
-- **rc112:** group washing without a recipe; nothing moved back to washed (§13fm).
+- **rc116:** the AA working solution reworded; Nicoleta's Al/Fe impregnation added (§13fq). Open: recipe `usedFor` / `standardised` (item 37).
+- **rc115:**- **rc115:** Reference shows linked observations; Records search and sort (§13fp). Later, perhaps: link an observation to a record from Reference.
+- **rc114:**- **rc114:** a change of box saves only itself; „unwashed" is not a change (§13fo).
+- **rc113:**- **rc113:** one washing rule for a piece and a group (§13fn).
+- **rc112:**- **rc112:** group washing without a recipe; nothing moved back to washed (§13fm).
 - **rc111:**- **rc111:** eco-print bundle bottom to top, blanket preparation, relative leaf side, whole sprig, heat labels, two bug fixes (§13fl).
 - **rc110:**- **rc110:** a plan's tick saves itself; Plans vs Trials and backup direction written down (§13fk).
 - **rc109:** Plans v1- **rc109:** Plans v1 (§13fj) — intent before work, a checklist per plan. Next, when wanted: a line → a trial.

@@ -69,6 +69,24 @@ export function compositionWarnings(composition = []) {
 export const STATE_ORDER =
   ['unwashed', 'scoured', 'mordanted', 'dyed', 'finished'];
 
+// Whether an action may be written to a piece — one rule for the group action
+// and for the single piece (§13fm, §13fn).
+//
+// Washing is the lifecycle step OUT of the first box: unwashed → washed. A
+// piece already washed, mordanted, dyed or finished gains nothing from it but a
+// meaningless event, and because the box follows the latest box-moving action
+// it would be moved BACK to washed. So `wash` is allowed only on a piece in a
+// box before the one washing leads to. A later rinse or re-wash is a real
+// event and a different one; until it has an action of its own it is recorded
+// as `other`, with a note, which moves nothing.
+//
+// Every other action is allowed as before: mordanting a finished shawl again is
+// how a piece is reworked (§13am).
+export function eligibleFor(action, fabric) {
+  if (action !== 'wash') return true;
+  return STATE_ORDER.indexOf(currentState(fabric)) < STATE_ORDER.indexOf(boxAfter('wash'));
+}
+
 // The box a piece is in, read from its actions (§13bd).
 //
 // Only a box-moving action counts. Under the old rule the latest event of any

@@ -164,6 +164,33 @@ export async function put(store, record) {
 }
 
 /**
+ * Several records a person wrote as one act, in ONE transaction: all of them,
+ * or none (§13fo). Each is stamped; the edit is counted once. For the one path
+ * that needs it — a hand-entered change of box on a piece, which writes a batch
+ * of one and the piece's action that points at it, and must not leave either
+ * without the other.
+ */
+export async function putTogether(pairs) {
+  const db = await open();
+  const names = [...new Set(pairs.map(([store]) => store))];
+  const now = new Date().toISOString();
+  await new Promise((resolve, reject) => {
+    const t = db.transaction(names, 'readwrite');
+    t.oncomplete = () => resolve();
+    t.onerror = () => reject(t.error || new Error('write failed'));
+    t.onabort = () => reject(t.error || new Error('write aborted'));
+    try {
+      for (const [store, record] of pairs) { record.updatedAt = now; t.objectStore(store).put(record); }
+    } catch (err) {
+      try { t.abort(); } catch { /* already gone */ }
+      reject(err);
+    }
+  });
+  await bumpChangeCounter();
+  return pairs.map(([, record]) => record);
+}
+
+/**
  * The application wrote something on its own account — a seed pack, a pack
  * update, a migration, a repair. It happened now, so it is stamped; it is not
  * her work, so it is not counted.

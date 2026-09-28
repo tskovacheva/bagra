@@ -89,6 +89,7 @@ A section may appear under more than one heading; that is what the index is for.
 **Pigments** — §13bv · §13bx · §13by · §13bz · §13dr · §13ds · §13fg
 **Plans** — §13fj
 **Eco-print bundle** — §13fl
+**Reference: observations, Records search and sort** — §13fp
 
 **The Library — glossary, pH, sources** — §9 · §13r · §13bt · §13bu · §13cb
 
@@ -13096,8 +13097,7 @@ says how many were left. If none are eligible, the button is disabled. **Only wa
 action keeps its behaviour — mordanting a finished shawl again is how a piece is reworked (§13am) —
 and a chain chosen in the recipe field decides its own actions as before.
 
-**Open (item 36):** the single-piece action on a fabric's own screen can still wash a finished piece
-and move it back. Group and single now differ on this one case, deliberately left for the owner.
+**Settled at rc113 (§13fn):** the single-piece screen follows the same rule.
 
 ### Also fixed on the way
 
@@ -13114,3 +13114,253 @@ two unwashed, one washed and one finished: two named as left, two advance, the o
 and without a new action, the confirmation saying so. A wash with only a finished piece cannot be
 recorded; mordanting it can. Seen failing without the eligibility rule and with the note dropped by a
 filter click.
+
+---
+
+## 13fn. Washing one piece follows the group's rule (1.0.0-rc113)
+
+**Decided by the owner:** `wash` is the lifecycle step unwashed → washed, and never moves a piece
+backwards. rc112 applied that to the group action; the change-of-box field on a piece's own form did
+not. Choosing „изпран" there on a finished piece wrote a `wash` action, and because the box follows
+the latest box-moving action, the piece went back to „изпран".
+
+**One function.** `eligibleFor(action, fabric)` moved from `modules/batch.js` to `fabric-logic.js`,
+and both screens import it. For `wash` it asks whether the piece's box is before the box washing
+leads to, by `STATE_ORDER` and `boxAfter('wash')` — no list of states is written out. Every other
+action answers yes.
+
+**On the piece's form.** For a piece already washed, mordanted, dyed or finished, „изпран" is shown
+**disabled** in the list of boxes, with the reason under the field: the piece is already past it, and
+a rinse or a re-wash is recorded as a group action „друго" with a note. A disabled option says why
+it is not there; a missing one would only puzzle. The button that records the change checks the same
+rule, so no route around the disabled option writes the event.
+
+**History.** A valid wash writes what it always wrote: one `wash` action, `recipeId: null`, in a batch
+of one. An ineligible one writes nothing. Wash events already in a piece's history are not touched.
+
+**A later rinse is a different event.** Rinsing after dyeing, washing out excess dye, washing after a
+modifier, washing a finished piece before rework: real, and not the lifecycle step. No new state and
+no new action in rc113; `other` with a note records it and moves nothing. A `rinse` action that moves
+no box may be added later.
+
+**Rework is unchanged.** Mordanting, dyeing or finishing a later piece again is allowed as before
+(§13am).
+
+**Checks** — `scripts/try-fabric-wash.mjs`: an unwashed piece washed from its form with no recipe —
+washed, one action, a batch of one; a washed, a mordanted, a dyed and a finished piece — „washed"
+disabled with its reason, and with the choice forced past the disabled option, no event and the same
+box; a finished piece mordanted again; `eligibleFor` for all five boxes, the group action importing
+it with no copy of its own, and no other action refused. Seen failing without the check behind the
+option, and with the option not disabled.
+
+---
+
+## 13fo. A change of box on a piece's form is its own act (1.0.0-rc114)
+
+Two faults found while writing §13fn, both in the „change of box" field on a piece's edit form.
+
+**„Неизпран" was offered as a change and wrote `other`.** `ACTION_FOR_STATE.unwashed` is `null` — it
+is where cloth starts, not something done to it — and the handler fell back to `'other'`, so choosing
+it wrote a meaningless event that moved nothing. It is now **not in the list** on an existing piece,
+and the handler refuses any box with no action behind it, with a message saying so. It remains the
+initial box for a new piece, which is a different field. Events of this kind already in a history are
+left as they are.
+
+**Adding a change saved the whole form.** The handler read the form into the draft and wrote the
+draft: a name or a note typed and not saved was saved with it. Now the change is written the way a
+plan's tick is (§13fk):
+
+1. the SAVED piece is read, and eligibility is judged on its history (§13fn);
+2. the batch of one and the action pointing at it are written **in one transaction**, to the saved
+   piece with the action appended (`putTogether` in `db.js` — one transaction across stores, each
+   record stamped, the edit counted once; made for this path);
+3. the draft takes the saved history, so a later Save writes `[A, B]` rather than the stale `[A]` the
+   form was opened with; the draft's other fields keep what was typed, unsaved.
+
+**The unsaved mark.** The box and date fields of the change carry `data-saves-itself` (§13fk), so
+choosing them marks nothing. A form with nothing else typed is not left dirty by a change; one with
+typing beside it stays dirty, warns on leaving, and Save writes the typing and keeps the change.
+
+**Failure.** If the write fails, the transaction is aborted — the batch and the action exist together
+or not at all — the screen says the change was not recorded, and the typing is still in the form,
+still unsaved.
+
+Unchanged: the rc113 washing rule, rework, `other` on the group action, the group action itself.
+
+**Checks** — `scripts/try-fabric-transition.mjs`: „unwashed" absent on an existing piece and, forced,
+writing no action and no batch; still offered as a new piece's initial box; a change on a clean form
+written at once, the form not dirty, leaving without a question; a change with name and notes typed —
+the saved piece keeps the old name and notes and gains the action and its batch, the form shows the
+typing and stays dirty, leaving warns, Save then writes the typing and keeps all three actions once
+each; a write failing on its second store leaves neither record, says so, and keeps the typing; a
+finished piece not washed back and still mordanted again. Seen failing against the rc113 handler
+(twelve findings), without the draft taking the saved history, and without the dirty exemption.
+
+**Also, to make the gate run:** `try-withdrawal-in-use.mjs` failed on this release — and, run alone,
+on rc113 too — with the view empty at its first navigation: the service worker's first-load reload
+landing after the check had moved on. The check now removes the worker before the page loads, as
+`try-plans-screens.mjs` does. Passed three runs in three. Under artificial CPU load it still fails on
+its fixed 400 ms waits; that part of item 34 is unchanged.
+
+---
+
+## 13fp. Reference shows her observations; Records can be searched and sorted (1.0.0-rc115)
+
+### Reference knowledge and a journal observation
+
+- **A reference combination** is expected, accumulated knowledge: what this plant and part, on this
+  fibre, with this mordant, by this process, is known to give.
+- **A journal observation** is one real result from one trial: a placement's colour, swatch, print
+  quality and note.
+- **`placement.combinationId`** is the explicit link between the two, set in the trial.
+
+The trial stays the source of truth for the observation. Reference reads it and copies nothing: no
+new combination is made from a trial, and no colour, note, quality or date is written into a
+combination. Edit the trial and Reference shows the new value.
+
+### „Мои наблюдения" / „My observations"
+
+`placementsFor(record)` — which existed — collects every placement in every trial whose
+`combinationId` is the record's id, newest trial first. One renderer, `observationItem`, now draws
+each in both places a record is shown (the search pane, up to four with a count of the rest; the full
+record, all of them): the swatch from `resultHex`, the colour words, the trial date, the print
+quality, the observation, and the trial's title as a link to `#/trials/<id>` — the trial's own
+screen, not a copy of it. A field the placement lacks is left out; a placement with no colour reads
+„без описан цвят" rather than a dash. The section and its strings were renamed from „Мои позиции" to
+„Мои наблюдения"; the heading line no longer says „Потвърдено от n" — an observation can disagree
+with what was expected, so it says „n твои наблюдения под този запис".
+
+**Unlinked placements are not guessed.** No match on plant, part, mordant, process or colour: a
+placement without `combinationId` appears under no record, even one with the same plant and part.
+Linking an observation to a record from Reference is a possible later step, not built.
+
+**Robustness.** A link to a record that does not exist shows nowhere and breaks nothing. Opening the
+address of a missing record — which used to throw in `renderRead` and leave the last screen up — now
+returns to the list (§11b). Nothing is repaired or deleted.
+
+### Records: search
+
+A search box above the table (the shared `searchBox`), filtering as she types, over the words each row
+SHOWS in the reader's language: the result colour, the dye source (plant and part), the conditions
+(mordant and strength, fibre, process, pH) and the reliability label. Case- and accent-insensitive
+through the shared `matches`; no query language. „n of m" beside it; „Нищо не отговаря на …" when
+nothing does; × clears it.
+
+### Records: sort
+
+The four headings — Result, Dye source, Conditions, Reliability — are buttons: first press ascending,
+second descending, one column at a time, the arrow drawn by CSS (so it is not in the text `labelCells`
+gives each phone card). Text columns sort with `Intl.Collator` in the reader's language; Reliability
+sorts in its vocabulary's order (literature, own trial, practice, needs testing), not by the alphabet
+of a label. Equal rows keep the library's order. On a phone the table head is hidden and rows become
+cards, so the same sort is offered there as one select.
+
+**Order of operations:** favourites filter → search → sort. Each control leaves the others as they
+were.
+
+About 160 records: everything is computed on render, no index, no cache.
+
+### Checks
+
+- `scripts/try-reference-observations.mjs` (jsdom): the walnut record shows its own expected result and
+  one observation from the silk scarf — топло кафяво, 25.09.2026, ясен, the note, the title, a swatch in
+  #9c846d, a link to the trial; an unlinked yarrow and an unlinked walnut leaf are not shown; an empty
+  placement shows no dashes; the combination is byte-for-byte unchanged and carries nothing of the
+  observation; after the trial is edited Reference shows the new colour and the combination is still
+  unchanged; a link to a missing record and the address of one break nothing. Records: search by plant,
+  colour, process, mordant; no match; clearing; sort by source both ways, result both ways, reliability;
+  the sort kept while searching and mirrored in the phone select; favourites then search. Seen failing
+  without descending, without the search, without the missing-record guard, and with links guessed from
+  plant and part.
+- `scripts/try-reference-screens.mjs` (Chromium): Records and the walnut record at 390 and 320px in both
+  languages — no sideways scroll, nothing past the edge, the phone's sort select and the trial link at
+  44px, the search not squeezed. Seen failing with the sort select hidden on a phone.
+
+---
+
+## 13fq. Two recipes: the AA working solution reworded, and a concentrated Al/Fe impregnation (1.0.0-rc116)
+
+Content only. No recipe screen, calculator, scaling rule, trial or fabric behaviour changed.
+
+### `seed:aluminium-acetate-prep` — how it is made, reworded
+
+**The id is kept** — every trial and batch that names it still resolves to it. Its ingredients (18 %
+potassium alum, 10 % soda ash, 240 % 5 % vinegar, all WOF), type, scaling, fibres, follow-on to
+`seed:aluminium-acetate-mordant` and `vinegarPercent` are unchanged; scaled for 28, 100, 364 and 1000 g
+it gives exactly what rc115 gave. Only `steps` and `notes` changed.
+
+The old second step read „mix the alum, the sodium carbonate and the vinegar", which reads as all at
+once. The five steps now: dissolve the alum in warm water; add the vinegar and the rest of the water;
+add the sodium carbonate slowly, in small portions, stirring; let the CO₂ foaming subside between
+portions; when it has settled, use the working solution. The notes open with the helper sentence
+(quantities for this cloth, made just before use) and the safety note (soda slowly — CO₂, strong
+foaming); the vessel-size advice from the old first step moved into that note rather than being lost;
+and the result is named a *working aluminium acetate solution*, not pure aluminium acetate. The
+attribution paragraph is as it was.
+
+### `seed:nicoleta-al-fe-impregnation` — new
+
+„Концентрирана Al/Fe импрегнираща система за еко принт" / „Concentrated Al/Fe impregnation system for
+eco-print". A practitioner recipe shared by Nicoleta, for eco print on cellulose — **not** an aluminium
+acetate and not a replacement for one.
+
+**A 1/4 batch, not WOF.** 25 g potassium alum, 250 ml apple cider vinegar (about 6 %), 2.5 g FeSO₄·7H₂O,
+13.75 g Ca(OH)₂, each with basis `absolute`, so the quantities never move with the cloth. No `target`,
+no liquor ratio, no fabric weight anywhere: the original method does not say how much cloth the
+mixture treats, and the recipe says so rather than inventing a capacity.
+
+**Not an aluminium acetate.** Roles aluminium source, acid, modifier (iron) and alkali (lime) — no
+`sodium_source`, so the aluminium acetate calculation (`applyAluminiumAcetate`, which needs both an
+aluminium and a sodium source and a WOF target) cannot take it. Type `mordant`, so the group action
+offers it for mordanting; `appliesTo: ['cellulose']`.
+
+**Steps:** scour hot with sodium carbonate and soap (no quantities — the method gives none); alum into
+the vinegar with the least water that helps; iron, stirred 2–3 minutes; lime, stirred — cloudy,
+suspended or settling is expected, stir during use; the cloth in for about five minutes; wring and dry;
+the chalk bath; rinse with water, no detergent.
+
+**The chalk bath is the library's own.** `requiredFollowOn: ['seed:chalk-bath']` (10 g/L CaCO₃). The
+original „a tablespoon in a basin" is not encoded as a figure, and no second calcium carbonate bath was
+made. The chalk bath's own second step still speaks of „the cloth that came out of the aluminium
+acetate"; it was not edited, being outside this package — see item 37.
+
+**Provenance.** A new source, `nicoleta-practice` (kind `person`, author Николета / Nicoleta). The note,
+in both languages, as the owner wrote it: practitioner recipe; the attribution to India Flint not
+confirmed in *Eco Colour*; no WOF or capacity in the original; the 1/4 batch keeps its proportions. Not
+credited to India Flint or Michel Garcia. **Safety** — lime strongly alkaline (gloves, eyes); ferrous
+sulfate dust (gloves, eyes); the concentrated mixture — in the notes and at the steps where each goes in.
+
+### What the schema could and could not say
+
+| Wanted | Fits? | How |
+|---|---|---|
+| batch without WOF | yes | basis `absolute` on every ingredient; the amount field hides itself (§13dz) |
+| fibre: cellulose | yes | `appliesTo: ['cellulose']` |
+| source note | yes | `notes` + a `sources` register entry |
+| not an ordinary AA | yes | no `sodium_source`; its own code and name |
+| `recommendedUses: ['eco-print']` | **no** | said in the name and notes only |
+| `applicationType: concentrated_impregnation` | **no** | said in the name and notes only |
+| `status: experimental / practitioner` | **no** | said in the notes; the source's kind is `person` |
+
+Recipes have no field for any of the last three, and none was added (item 37). The smallest change that
+would carry them: one optional `recipe.usedFor` list over the `process` vocabulary (`ecoprint`), and one
+optional `recipe.standardised: false`. Neither is read by anything today.
+
+### Data movement
+
+Pack versions: recipes 0.19.1 → 0.20.0, sources 16 → 17, in the files and `manifest.json`. The language
+layer's data fingerprint was accepted with `--accept-data`, which listed exactly: the two packs in the
+manifest, the AA recipe (its step count), the new recipe and source, and the order lists they join.
+Compared record by record with rc115, no other recipe, source or seed file changed.
+
+### Check
+
+`scripts/try-recipe-content.mjs`: the AA recipe's id, three ingredients, type, scaling, fibres,
+follow-on and vinegar strength; its scaled figures at 100 and 364 g; five steps in the right order, in
+both languages; the notes' opening. Nicoleta's recipe: one record, the four exact quantities, the
+vinegar's kind and strength, `absolute` everywhere and identical at 100 and 500 g, no target or fabric
+weight, no sodium source, type and fibre and name, the chalk bath as follow-on and still the only
+calcium carbonate bath, the provenance and safety notes, the source record, not credited to Flint or
+Garcia, eight steps. In the application: the old AA id resolves, the new recipe opens, and shows no
+„% WOF" outside the note that says it has none. Seen failing with an alum line at % WOF, with the old
+AA steps, with a sodium source on the lime, and with the AA alum at 20 %.

@@ -304,6 +304,21 @@ if [ "$HAVE_SHIM" = 1 ]; then
   # 4d. A group wash (§13fm): thirteen scarves, no recipe, one date; a mixed
   #     group in which nothing already washed or later is moved back.
   node scripts/try-batch-wash.mjs || exit 1
+  # 4e. Washing one piece by the same rule (§13fn): nothing past „washed" is
+  #     washed back, from the form or around it; rework is unchanged.
+  node scripts/try-fabric-wash.mjs || exit 1
+  # 4f. A change of box on a piece's form is its own act (§13fo): written to the
+  #     saved piece in one transaction, never with the form's unsaved typing;
+  #     „unwashed" is not a change of box.
+  node scripts/try-fabric-transition.mjs || exit 1
+  # 4g. Reference (§13fp): her linked observations under a record, read from
+  #     the trial and guessed for nothing; the Records table searched and
+  #     sorted, with the favourites filter.
+  node scripts/try-reference-observations.mjs || exit 1
+  # 4h. Recipe content (§13fq): the AA working solution keeps its id, figures and
+  #     scaling with its steps in the right order; Nicoleta's Al/Fe impregnation
+  #     is a fixed batch, not WOF, not an aluminium acetate, with the chalk bath.
+  node scripts/try-recipe-content.mjs || exit 1
   # 5. Booting proves the app starts; it stops at each module's list. Read
   #    views and forms are where the imports actually get used, so they are
   #    opened too. See deep-check.mjs.
@@ -408,7 +423,9 @@ if [ "$HAVE_SHIM" = 1 ]; then
        # tick and × a finger's size (§13fj).
        node scripts/try-plans-screens.mjs $REL || exit 1
        # The eco-print bundle at 390 and 320px in both languages (§13fl).
-       node scripts/try-ecoprint-screens.mjs $REL || exit 1 ;;
+       node scripts/try-ecoprint-screens.mjs $REL || exit 1
+       # Reference's Records and a record's observations at 390 and 320px (§13fp).
+       node scripts/try-reference-screens.mjs $REL || exit 1 ;;
     2) ;;
     *) exit 1 ;;
   esac

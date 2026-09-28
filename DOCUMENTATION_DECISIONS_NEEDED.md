@@ -1290,6 +1290,9 @@ gate that has been red for five releases is a gate nobody is reading. **Asked of
 
 ## 34. `try-withdrawal-in-use.mjs` fails under load, in rc107 as in rc108 (rc108)
 
+**In part at rc114:** the service-worker reload — which made it fail even run alone — is removed from the
+check. The fixed 400 ms waits remain, and it still fails under CPU load.
+
 The first full rc108 release run stopped here — the iron bath's read-view warning read as `null`.
 Run alone it passed twice; a second full run passed from start to finish. Under four busy CPU
 cores it fails on BOTH rc107 and rc108, and on different assertions each time (the kept recipe's
@@ -1322,8 +1325,25 @@ it did not recognise. **Asked of the owner.**
 
 ## 36. Washing a finished piece: group and single now differ (rc112)
 
+**Settled at rc113 (§13fn):** `wash` never moves a piece back; both screens use one rule. A later rinse
+is recorded as `other` for now.
+
 A group wash is written only to pieces before „washed" (§13fm). The action on one fabric's own screen
 was not changed: it can still wash a finished piece, and because the box follows the latest
 box-moving action, the piece moves back to „washed". Is that a deliberate rework — washing out an old
 mordant before starting again — or should a wash on a later piece be recorded without moving it, or
 not offered? **Asked of the owner.** The group rule can follow whichever is chosen.
+
+---
+
+## 37. Recipe metadata the schema cannot hold, and the chalk bath's wording (rc116)
+
+Nicoleta's Al/Fe impregnation (§13fq) wanted three things recipes cannot say as data: what it is FOR
+(eco print), what KIND of application it is (a concentrated impregnation), and that it is EXPERIMENTAL.
+All three are in its name and notes. **Proposed, not built:** an optional `usedFor` list over the
+`process` vocabulary and an optional `standardised: false`. Nothing reads either today; they would matter
+once the recipe list is filtered by use.
+
+Separately: the chalk bath, now the follow-on of two recipes, still says in its second step „the cloth
+that came out of the aluminium acetate". True for one of them. A one-word edit to „the mordanted cloth"
+would fit both. **Asked of the owner** — it was outside rc116.

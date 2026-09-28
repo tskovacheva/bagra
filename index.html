@@ -428,6 +428,19 @@ td.favcell,th.favcell{width:28px;padding-left:6px;padding-right:0;text-align:cen
 }
 .statuschip.planned{border-color:var(--weld);color:#8a6f14}
 .checklist{display:flex;flex-direction:column;gap:6px}
+/* One observation under a reference record (§13fp). */
+.observation{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.observation:first-child{border-top:0}
+.observation .thumb{flex:none;margin-top:3px}
+.obsbody{min-width:0}
+.obsbody p{margin:2px 0}
+.obslink{display:inline-block;padding:10px 0;min-height:44px;box-sizing:border-box}
+/* A sortable column head is a button that looks like the head it replaces. */
+.sorthead{all:unset;cursor:pointer;font:inherit;color:inherit;min-height:44px;display:inline-flex;align-items:center}
+.sorthead.on{color:var(--ink)}
+.sorthead.asc::after{content:" \25B2";font-size:10px}
+.sorthead.desc::after{content:" \25BC";font-size:10px}
+.sortselect{display:none}
 /* What a group action will do, before it does it (§13fm). */
 .batchoutcome{margin:8px 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 .batchoutcome p{margin:2px 0}
@@ -2011,6 +2024,8 @@ a,.sourcenote{overflow-wrap:anywhere}
    with the lists in hand, not one to guess at here. */
 @media (max-width:640px){
   .grid thead{display:none}
+  .sortselect{display:flex;align-items:center;gap:6px}
+  .sortselect select{min-height:44px}
   .grid,.grid tbody,.grid tr,.grid td{display:block;width:auto}
   .grid tbody tr{
     border:1px solid var(--line);border-radius:10px;
