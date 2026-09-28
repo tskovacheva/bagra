@@ -52,7 +52,7 @@ const files = fs.readdirSync(DIR).filter(f => f.endsWith('.json.gz')).sort();
 if (!files.length) { console.log('FAIL older restore: no fixtures in ' + DIR); process.exit(1); }
 
 // The stores that hold HER work. Everything else is library or regenerated.
-const WORK = ['fabrics', 'trials', 'stock', 'chains', 'batchActions', 'photos', 'pigmentBatches'];
+const WORK = ['fabrics', 'trials', 'stock', 'chains', 'batchActions', 'photos', 'pigmentBatches', 'plans'];
 
 let failed = false;
 const fail = (what, why) => { failed = true; console.log(`FAIL ${what}: ${why}`); };
@@ -93,7 +93,7 @@ const KEY_RE = new RegExp(`\\b(?:${PREFIXES.join('|')})\\.[a-zA-Z_]+\\.[a-zA-Z0-
 const VIEWS = ['#/dashboard', '#/reference', '#/reference/records', '#/plants', '#/recipes',
   '#/recipes/chains', '#/substances', '#/techniques', '#/tools', '#/tools/backup',
   '#/library', '#/library/ph', '#/library/sources', '#/about', '#/fabrics', '#/trials',
-  '#/pigments', '#/batch'];
+  '#/pigments', '#/batch', '#/plans'];
 
 for (const file of files) {
   const label = file.replace('.json.gz', '');

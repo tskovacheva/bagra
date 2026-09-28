@@ -218,12 +218,27 @@ await importBackup(enBackup, 'replace');
 is(await db.getSetting('language'), 'bg',
    'a backup carrying English did not switch a Bulgarian device');
 
-// Absence is a value too: no row means Bulgarian by default, so restoring one
-// where there was none changes the language just as surely as overwriting it.
+// And the other way round: an English device is not switched by a backup
+// that carries Bulgarian (§13fi).
+await db.setSetting('language', 'en');
+const bgBackup = await exportAll();
+bgBackup.data.settings = (bgBackup.data.settings || [])
+  .filter(row => row.key !== 'language')
+  .concat([{ key: 'language', value: 'bg' }]);
+await importBackup(bgBackup, 'replace');
+is(await db.getSetting('language'), 'en',
+   'a backup carrying Bulgarian did not switch an English device');
+
+// Absence is a value too: no row means the application default — English
+// since rc108 (§13fi) — so restoring one where there was none changes the
+// language just as surely as overwriting it.
 await db.removeSystem('settings', 'language');
 await importBackup(enBackup, 'replace');
 is(await db.get('settings', 'language'), undefined,
    'and a device that had never chosen one still has not');
+await importBackup(bgBackup, 'replace');
+is(await db.get('settings', 'language'), undefined,
+   'not even from a backup that carries Bulgarian');
 
 // The other direction: the tag counter IS part of the snapshot, because losing
 // it means the next piece takes a number already on a label in the studio.
