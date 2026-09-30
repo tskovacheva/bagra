@@ -192,7 +192,9 @@ byGlossary.byStore.some(b => b.store === 'glossary')
   ? ok('a source used by a glossary term is seen')
   : fail('the glossary path is not checked');
 
-const byRecipe = await findReferences('sources', 'seed:joanne-green-watercolour');
+// Since rc118 every seeded recipe credits the studio's practice, and the books
+// stay in the Library uncited by any recipe (§13fs).
+const byRecipe = await findReferences('sources', 'seed:crafty-place-practice');
 byRecipe.byStore.some(b => b.store === 'recipes')
   ? ok('a source used by a recipe is seen')
   : fail('the recipe path is not checked');

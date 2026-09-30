@@ -42,6 +42,19 @@ await new Promise(r => setTimeout(r, 900));
 
 const browser = await puppeteer.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-dev-shm-usage'], protocolTimeout: 60000 });
 const page = await browser.newPage();
+// Since rc118 the recipe pack hands a record it no longer carries over to the
+// owner instead of offering to remove it (`retiredToPersonal`, §13fs). This
+// check is about the ORDINARY withdrawal — offered, refused while her work uses
+// the record — which every other pack still has; so it is run against the
+// recipe pack with that flag taken off, served by the page's own fetch. The
+// handover is held in try-recipe-provenance.mjs.
+await page.setRequestInterception(true);
+page.on('request', (req) => {
+  if (!/\/seed\/recipes\.json(\?|$)/.test(req.url())) return req.continue();
+  const pack = JSON.parse(fs.readFileSync('seed/recipes.json', 'utf8'));
+  delete pack.retiredToPersonal;
+  req.respond({ status: 200, contentType: 'application/json', body: JSON.stringify(pack) });
+});
 const errors = [];
 page.on('pageerror', e => errors.push(String(e)));
 // The confirmation is the person's own act: the box ticked in the preview and
@@ -49,6 +62,12 @@ page.on('pageerror', e => errors.push(String(e)));
 // here and recorded — an alert left open blocks the page.
 const dialogs = [];
 page.on('dialog', d => { dialogs.push(d.message()); d.accept().catch(() => {}); });
+// No service worker (item 34, §13fo): on a first load it takes control and
+// reloads the page, and when that reload lands after the first navigation the
+// view is empty and every assertion after it reads nothing. It failed this way
+// on rc113 and rc114 alike, run alone. The check is about withdrawal, not the
+// worker; try-plans-screens.mjs does the same.
+await page.evaluateOnNewDocument(() => { delete Navigator.prototype.serviceWorker; });
 await page.setViewport({ width: 1280, height: 900 });
 await page.goto(`http://localhost:${PORT}/index.html`, { waitUntil: 'networkidle0' });
 await page.waitForFunction(() => document.querySelector('#view')?.textContent?.length > 50, { timeout: 30000 });
@@ -60,7 +79,16 @@ const go = async (hash, waitFor) => {
 };
 
 // ---- A. the ceiling on the read view ----
-await go('#/recipes/seed:iron-bath-dark', '.weighbox');
+// An iron bath at 1–2.5 % WOF, as the library's own was until rc118 — now a
+// recipe of hers (§13fs), written here as one.
+await page.evaluate(async () => {
+  const db = await import('./db.js');
+  await db.put('recipes', db.newRecord({ id: 'zz-iron-bath', type: 'mordant', output: 'none', scaleBy: 'weight',
+    appliesTo: ['cellulose', 'protein'], name: { bg: 'желязна баня', en: 'iron bath' }, notes: { bg: '', en: '' }, steps: [],
+    ingredients: [{ id: 'z1', roleCode: 'modifier', basis: 'percent_wof', unit: 'g', quantity: null, quantityMin: 1,
+      quantityMax: 2.5, options: [{ id: 'z1o', substanceId: 'seed:iron_sulfate', qtyMin: 1, qtyMax: 2.5 }] }] }));
+});
+await go('#/recipes/zz-iron-bath', '.weighbox');
 const warn = await page.evaluate(() => {
   const box = document.querySelector('.weighbox');
   const w = box?.querySelector('[data-weigh-warnings]');
