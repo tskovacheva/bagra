@@ -73,6 +73,9 @@ function renderAbout() {
       <p>${esc(t('about.vsDiary'))}</p>
       <p>${esc(t('about.vsBoth'))}</p>`)}
     <div style="height:16px"></div>
+    ${panel(`<h2>${esc(t('about.recipesTitle'))}</h2>
+      <p data-provenance>${esc(t('about.recipesText'))}</p>`)}
+    <div style="height:16px"></div>
     ${panel(`
       <h2>${esc(t('about.versionTitle'))}</h2>
       <p class="figure">${esc(VERSION)}</p>

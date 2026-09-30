@@ -294,7 +294,8 @@ async function renderList(root) {
         </button>` : ''}
       </div>
       <div class="filterrow">${searchBox(query, t('recipes.search'))}</div>
-      ${panel(table, 'flush')}`,
+      ${panel(table, 'flush')}
+      <p class="hint" data-provenance-note>${t('recipes.provenanceNote')}</p>`,
   });
 }
 

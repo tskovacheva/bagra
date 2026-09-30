@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.20.1",
+ "packVersion": "0.21.0",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -15,7 +15,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "crafty-place-guide"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -104,7 +104,7 @@
     "cellulose"
    ],
    "sourceCodes": [
-    "crafty-place-guide"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -231,7 +231,7 @@
     "cellulose"
    ],
    "sourceCodes": [
-    "crafty-place-guide"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -335,7 +335,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "crafty-place-guide"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -433,7 +433,7 @@
     "cellulose"
    ],
    "sourceCodes": [
-    "crafty-place-guide"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -560,7 +560,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "crafty-place-guide"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -668,8 +668,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "crafty-place-practice",
-    "boutrup-ellis"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -679,8 +678,8 @@
     "en": "Preparing a working aluminium acetate solution"
    },
    "notes": {
-    "bg": "Количествата са изчислени за тази тъкан. Приготви работния разтвор непосредствено преди употреба.\n\nДобавяй натриевия карбонат бавно и на малки порции — сместа отделя CO₂ и може да се разпени силно. Използвай съд с поне двойно по-голям обем от течността.\n\nПолученото е работен разтвор на алуминиев ацетат, а не чист алуминиев ацетат.\n\nCrafty Place — адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. Удобният фиксиран вариант е с калиева стипца и 5% оцет. При друга форма на алуминиевия реагент или друга концентрация на оцета не заменяй количеството грам за грам — използвай калкулатора „Алуминиев ацетат“ и избери точната форма и концентрация.",
-    "en": "The quantities are calculated for this fabric. Prepare the working solution immediately before use.\n\nAdd the sodium carbonate slowly and in small portions — the mixture releases CO₂ and may foam strongly. Use a vessel at least twice the volume of the liquid.\n\nWhat results is a working aluminium acetate solution, not pure aluminium acetate.\n\nCrafty Place — adapted from Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B. The convenient fixed variant is with potassium alum and 5% vinegar. For another form of the aluminium reagent or another strength of vinegar, do not swap the quantity gram for gram — use the aluminium acetate calculator and choose the exact form and strength."
+    "bg": "Количествата са изчислени за тази тъкан. Приготви работния разтвор непосредствено преди употреба.\n\nДобавяй натриевия карбонат бавно и на малки порции — сместа отделя CO₂ и може да се разпени силно. Използвай съд с поне двойно по-голям обем от течността.\n\nПолученото е работен разтвор на алуминиев ацетат, а не чист алуминиев ацетат.\n\nПрактическа работна рецепта от практиката на Crafty Place. Удобният фиксиран вариант е с калиева стипца и 5% оцет. При друга форма на алуминиевия реагент или друга концентрация на оцета не заменяй количеството грам за грам — използвай калкулатора „Алуминиев ацетат“ и избери точната форма и концентрация.",
+    "en": "The quantities are calculated for this fabric. Prepare the working solution immediately before use.\n\nAdd the sodium carbonate slowly and in small portions — the mixture releases CO₂ and may foam strongly. Use a vessel at least twice the volume of the liquid.\n\nWhat results is a working aluminium acetate solution, not pure aluminium acetate.\n\nPractical working recipe used in Crafty Place practice. The convenient fixed variant is with potassium alum and 5% vinegar. For another form of the aluminium reagent or another strength of vinegar, do not swap the quantity gram for gram — use the aluminium acetate calculator and choose the exact form and strength."
    },
    "ingredients": [
     {
@@ -798,8 +797,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "crafty-place-practice",
-    "boutrup-ellis"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -811,8 +809,8 @@
     "en": "Mordanting with aluminium acetate"
    },
    "notes": {
-    "bg": "Банята е самият работен разтвор: приготвя се по теглото на тъканта и се използва цял. Няма второ мащабиране — количеството алуминий вече е решено при приготвянето.\n\nЗа целулоза и за коприна; протеиново тук значи коприна, не автоматично вълна. Банята е студена или хладка и не се нагрява.\n\nТаниновата предварителна обработка не е задължителна за този начин на работа. При някои методи и цели се прави, но не е част от основната верига.\n\nСлед банята задължително следва баня с креда (калциев карбонат) — тя свързва закрепителя, а не просто регулира pH.\n\nCrafty Place — адаптирано по Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B.",
-    "en": "The bath is the working solution itself: made for the weight of the cloth and used whole. There is no second scaling — how much aluminium there is was settled when it was made.\n\nFor cellulose and for silk; protein here means silk, not automatically wool. The bath is cold or cool and is not heated.\n\nA tannin pre-treatment is not required for this way of working. Some methods and aims call for one, but it is not part of the default chain.\n\nA chalk bath (calcium carbonate) must follow — it binds the mordant rather than merely adjusting the pH.\n\nCrafty Place — adapted from Boutrup & Ellis, The Art and Science of Natural Dyes, Recipe 11B."
+    "bg": "Банята е самият работен разтвор: приготвя се по теглото на тъканта и се използва цял. Няма второ мащабиране — количеството алуминий вече е решено при приготвянето.\n\nЗа целулоза и за коприна; протеиново тук значи коприна, не автоматично вълна. Банята е студена или хладка и не се нагрява.\n\nТаниновата предварителна обработка не е задължителна за този начин на работа. При някои методи и цели се прави, но не е част от основната верига.\n\nСлед банята задължително следва баня с креда (калциев карбонат) — тя свързва закрепителя, а не просто регулира pH.\n\nПрактическа работна рецепта от практиката на Crafty Place.",
+    "en": "The bath is the working solution itself: made for the weight of the cloth and used whole. There is no second scaling — how much aluminium there is was settled when it was made.\n\nFor cellulose and for silk; protein here means silk, not automatically wool. The bath is cold or cool and is not heated.\n\nA tannin pre-treatment is not required for this way of working. Some methods and aims call for one, but it is not part of the default chain.\n\nA chalk bath (calcium carbonate) must follow — it binds the mordant rather than merely adjusting the pH.\n\nPractical working recipe used in Crafty Place practice."
    },
    "ingredients": [
     {
@@ -883,8 +881,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "crafty-place-practice",
-    "boutrup-ellis"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "origin": "seed",
@@ -946,175 +943,6 @@
    ]
   },
   {
-   "code": "nicoleta-al-fe-impregnation",
-   "type": "mordant",
-   "output": "none",
-   "scaleBy": "weight",
-   "appliesTo": [
-    "cellulose"
-   ],
-   "sourceCodes": [
-    "nicoleta-practice"
-   ],
-   "distributable": true,
-   "origin": "seed",
-   "requiredFollowOn": [
-    "seed:chalk-bath"
-   ],
-   "name": {
-    "bg": "Концентрирана Al/Fe импрегнираща система за еко принт",
-    "en": "Concentrated Al/Fe impregnation system for eco-print"
-   },
-   "notes": {
-    "bg": "Концентрирана импрегнираща смес за еко принт върху целулоза (памук) — не е обичайна баня с алуминиев ацетат и не е заместител на рецептата „Приготвяне на работен разтвор алуминиев ацетат“.\n\nКоличествата са фиксирана партида, а не % WOF. Капацитетът на сместа спрямо теглото на плата не е стандартизиран — изпитва се на практика. Рецептата е практическа и експериментална.\n\nСлед изсъхване следва отделна баня с калциев карбонат — използва се стандартизираната „Баня с креда“ от библиотеката. Оригиналната мярка (около една супена лъжица на леген вода) не е превърната в концентрация.\n\nБезопасност: калциевият хидроксид е силно алкален — ръкавици и защита за очите, без контакт с кожата и очите. Железният сулфат — без вдишване на праха, с ръкавици, без контакт с очите. Концентрираната смес — без контакт с кожата и очите.\n\nПрактическа рецепта, предадена от Николета за еко принт върху памук. Посоченият от нея произход от India Flint не е потвърден в книгата Eco Colour. Оригиналният метод не задава WOF или количествен капацитет спрямо теглото на плата. Настоящата seed версия запазва оригиналните пропорции в 1/4 партида.",
-    "en": "A concentrated impregnation mixture for eco-printing on cellulose (cotton) — not an ordinary aluminium acetate bath, and not a replacement for “Preparing a working aluminium acetate solution”.\n\nThe quantities are a fixed batch, not % WOF. The capacity of the mixture relative to fabric weight is not standardised — it is established in practice. The recipe is a practitioner, experimental one.\n\nAfter drying, a separate calcium carbonate bath follows — the library’s standardised “Chalk bath” is used. The original measure (about a tablespoon in a basin of water) is not turned into a concentration.\n\nSafety: calcium hydroxide is strongly alkaline — gloves and eye protection, no contact with skin or eyes. Ferrous sulfate — do not inhale the dust, wear gloves, avoid eye contact. The concentrated mixture — avoid contact with skin and eyes.\n\nPractitioner recipe shared by Nicoleta for eco-printing on cotton. The attribution to India Flint has not been confirmed in Eco Colour. The original method does not define WOF or fabric capacity. This seed version preserves the original proportions as a 1/4 batch."
-   },
-   "ingredients": [
-    {
-     "id": "nic-1",
-     "roleCode": "aluminium_source",
-     "basis": "absolute",
-     "unit": "g",
-     "quantity": 25,
-     "quantityMin": 25,
-     "quantityMax": 25,
-     "note": {
-      "bg": "Калиево-алуминиева стипца, 25 г.",
-      "en": "Potassium alum, 25 g."
-     },
-     "options": [
-      {
-       "id": "nic-1-o",
-       "substanceId": "seed:alum_potassium_12",
-       "qtyMin": 25,
-       "qtyMax": 25
-      }
-     ]
-    },
-    {
-     "id": "nic-2",
-     "roleCode": "acid_source",
-     "basis": "absolute",
-     "unit": "ml",
-     "quantity": 250,
-     "quantityMin": 250,
-     "quantityMax": 250,
-     "note": {
-      "bg": "Ябълков оцет, около 6%, 250 мл.",
-      "en": "Apple cider vinegar, about 6%, 250 ml."
-     },
-     "options": [
-      {
-       "id": "nic-2-o",
-       "substanceId": "seed:acetic_acid",
-       "qtyMin": 250,
-       "qtyMax": 250
-      }
-     ]
-    },
-    {
-     "id": "nic-3",
-     "roleCode": "modifier",
-     "basis": "absolute",
-     "unit": "g",
-     "quantity": 2.5,
-     "quantityMin": 2.5,
-     "quantityMax": 2.5,
-     "note": {
-      "bg": "Железен сулфат, зелен камък (FeSO₄·7H₂O), 2,5 г.",
-      "en": "Ferrous sulfate heptahydrate (FeSO₄·7H₂O), 2.5 g."
-     },
-     "options": [
-      {
-       "id": "nic-3-o",
-       "substanceId": "seed:iron_sulfate",
-       "qtyMin": 2.5,
-       "qtyMax": 2.5
-      }
-     ]
-    },
-    {
-     "id": "nic-4",
-     "roleCode": "alkali",
-     "basis": "absolute",
-     "unit": "g",
-     "quantity": 13.75,
-     "quantityMin": 13.75,
-     "quantityMax": 13.75,
-     "note": {
-      "bg": "Калциев хидроксид, гасена вар (Ca(OH)₂), 13,75 г.",
-      "en": "Calcium hydroxide, slaked lime (Ca(OH)₂), 13.75 g."
-     },
-     "options": [
-      {
-       "id": "nic-4-o",
-       "substanceId": "seed:calcium_hydroxide",
-       "qtyMin": 13.75,
-       "qtyMax": 13.75
-      }
-     ]
-    }
-   ],
-   "steps": [
-    {
-     "id": "nic-s1",
-     "text": {
-      "bg": "Изпери плата предварително при висока температура с натриев карбонат и обикновен сапун. Методът не задава количества — виж „Изпиране на целулоза“.",
-      "en": "Scour the cloth first at a high temperature with sodium carbonate and ordinary soap. The method gives no quantities — see “Cellulose scour”."
-     }
-    },
-    {
-     "id": "nic-s2",
-     "text": {
-      "bg": "В съд сложи 250 мл ябълков оцет (около 6%) и 25 г стипца. Бъркай, докато стипцата се разтвори, доколкото е възможно. Ако е нужно, добави съвсем малко вода — сместа остава концентрирана, не се разрежда до баня.",
-      "en": "Put 250 ml of apple cider vinegar (about 6%) and 25 g of alum in a container. Stir until the alum has dissolved as far as it will. If needed, add only a little water — the mixture stays concentrated and is not diluted into a bath."
-     }
-    },
-    {
-     "id": "nic-s3",
-     "text": {
-      "bg": "С ръкавици: добави 2,5 г железен сулфат и бъркай около 2–3 минути.",
-      "en": "Wearing gloves: add 2.5 g of ferrous sulfate and stir for about 2–3 minutes."
-     }
-    },
-    {
-     "id": "nic-s4",
-     "text": {
-      "bg": "С ръкавици и защита за очите: добави 13,75 г калциев хидроксид при разбъркване. Сместа може да остане мътна, с утайка или частично утаена — не е нужно да се избистря. Разбърквай периодично, докато се използва.",
-      "en": "Wearing gloves and eye protection: add 13.75 g of calcium hydroxide while stirring. The mixture may stay cloudy, in suspension or partly settled — it does not need to clear. Stir it from time to time while it is in use."
-     }
-    },
-    {
-     "id": "nic-s5",
-     "text": {
-      "bg": "Потопи сухия или влажен памучен плат в сместа за около 5 минути, като го движиш периодично.",
-      "en": "Immerse the dry or damp cotton cloth in the mixture for about 5 minutes, moving it from time to time."
-     }
-    },
-    {
-     "id": "nic-s6",
-     "text": {
-      "bg": "Извади плата, изстискай го и го остави да изсъхне.",
-      "en": "Take the cloth out, wring it out and let it dry."
-     }
-    },
-    {
-     "id": "nic-s7",
-     "text": {
-      "bg": "След изсъхване: отделна баня с калциев карбонат — „Баня с креда“.",
-      "en": "Once dry: a separate calcium carbonate bath — the “Chalk bath”."
-     }
-    },
-    {
-     "id": "nic-s8",
-     "text": {
-      "bg": "Изплакни с вода, без препарат.",
-      "en": "Rinse with water, without detergent."
-     }
-    }
-   ]
-  },
-  {
    "code": "pigment-lake-master",
    "type": "pigment",
    "output": "pigment",
@@ -1133,8 +961,8 @@
      "roleCode": "dyestuff",
      "basis": "percent_of_carrier",
      "note": {
-      "bg": "Спрямо тежестта на носителя, не на тъкан. Стопка дава таблица с процент за всяко растение; тук е вписан само брошът, защото другите две растения в таблицата не са в библиотеката или името им е двусмислено. Останалите се добавят като опции, когато процентът им е потвърден.",
-      "en": "Per cent of the weight of the carrier, not of cloth. Stopka gives a table with a figure per plant; only madder is entered here, because the other two plants in the table are not in the library or their name is ambiguous. The rest are added as options once their figure is confirmed."
+      "bg": "Спрямо тежестта на носителя, не на тъкан. Процентът зависи от растението; тук е вписан само брошът. Останалите се добавят като опции, когато процентът им е потвърден.",
+      "en": "Per cent of the weight of the carrier, not of cloth. The figure depends on the plant; only madder is entered here. The rest are added as options once their figure is confirmed."
      },
      "unit": "g",
      "quantity": null,
@@ -1231,7 +1059,7 @@
    },
    "distributable": true,
    "sourceCodes": [
-    "natalie-stopka-pigment"
+    "crafty-place-practice"
    ]
   },
   {
@@ -1308,94 +1136,7 @@
    },
    "distributable": true,
    "sourceCodes": [
-    "joanne-green-watercolour"
-   ]
-  },
-  {
-   "code": "pastels-from-pigment",
-   "type": "paste",
-   "output": "none",
-   "name": {
-    "bg": "Меки пастели от пигмент",
-    "en": "Soft pastels from pigment"
-   },
-   "appliesTo": [],
-   "scaleBy": "raw",
-   "target": {
-    "percentWof": null,
-    "basisRefersTo": "dyestuff"
-   },
-   "ingredients": [
-    {
-     "roleCode": "pigment",
-     "basis": "absolute",
-     "note": {
-      "bg": "Готов пигмент, стрит на фин прах.",
-      "en": "Finished pigment, ground fine."
-     }
-    },
-    {
-     "roleCode": "filler",
-     "basis": "ratio_to_dyestuff",
-     "note": {
-      "bg": "Пълнител — креда или каолин. Повече пълнител дава по-светъл пастел. Съотношението нарочно няма число: решава се при всяка партида, според тона и консистенцията, които търсиш. Празно тук значи „решава се на място\", не „още не е вписано\".",
-      "en": "Filler — chalk or kaolin. More filler gives a paler pastel. The proportion is deliberately not a figure: it is decided batch by batch, for the shade and the consistency you are after. Empty here means “decided at the slab”, not “not yet entered”."
-     },
-     "options": [
-      {
-       "id": "opt-past-chalk",
-       "substanceId": "seed:calcium_carbonate"
-      },
-      {
-       "id": "opt-past-kaolin",
-       "substanceId": "seed:kaolin"
-      }
-     ]
-    },
-    {
-     "roleCode": "binder",
-     "basis": "absolute",
-     "note": {
-      "bg": "Свързващ разтвор, накапван малко по малко. При Стопка 3.5 мл на около две лъжици пигмент.",
-      "en": "Binder solution, dripped in a little at a time. Stopka gives 3.5 ml to about two spoons of pigment."
-     },
-     "options": [
-      {
-       "id": "past-b-oat",
-       "recipeId": "seed:pastel-binder-oat"
-      }
-     ],
-     "quantity": 3.5,
-     "unit": "ml"
-    }
-   ],
-   "steps": [
-    {
-     "text": {
-      "bg": "Смеси пигмента с пълнителя на сухо, докато цветът стане равномерен.",
-      "en": "Mix the pigment with the filler dry, until the colour is even."
-     }
-    },
-    {
-     "text": {
-      "bg": "Добавяй свързващия разтвор на капки, докато сместа се събере на топка, която не лепне.",
-      "en": "Add the binder in drops until the mixture gathers into a ball that does not stick."
-     }
-    },
-    {
-     "text": {
-      "bg": "Разточи пръчици и ги остави да съхнат на въздух няколко дни, върху попивателна хартия.",
-      "en": "Roll sticks and leave them to dry in air for several days, on absorbent paper."
-     }
-    }
-   ],
-   "notes": {
-    "bg": "Съотношението пигмент към пълнител прави гамата: чист пигмент дава наситен пастел, повече пълнител — по-светъл. Не се води; записва се пигментът.",
-    "en": "The pigment-to-filler ratio makes the range: pure pigment gives a saturated pastel, more filler a paler one. Not logged; what is recorded is the pigment."
-   },
-   "distributable": true,
-   "sourceCodes": [
-    "natalie-stopka-pigment"
+    "crafty-place-practice"
    ]
   },
   {
@@ -1538,79 +1279,8 @@
    },
    "distributable": true,
    "sourceCodes": [
-    "joanne-green-watercolour"
+    "crafty-place-practice"
    ]
-  },
-  {
-   "code": "pastel-binder-oat",
-   "type": "paste",
-   "output": "none",
-   "scaleBy": "raw",
-   "name": {
-    "bg": "Свързващ разтвор за пастели — овес",
-    "en": "Pastel binder — oat water"
-   },
-   "notes": {
-    "bg": "Овесен свързващ разтвор по рецептура, представена от Натали Стопка, на мястото на гум трагакант. Прави се предварително и се използва студен.",
-    "en": "An oat binder after a formula presented by Natalie Stopka, in place of gum tragacanth. Made in advance and used cold."
-   },
-   "ingredients": [
-    {
-     "id": "pbo-1",
-     "roleCode": "binder",
-     "basis": "ratio_to_dyestuff",
-     "quantity": 1,
-     "unit": "g",
-     "note": {
-      "bg": "Овесени ядки. При Стопка 7.5 г на 240 мл вода. Коя форма на овеса има предвид Стопка — люспи, цели зърна или друга — не е потвърдено.",
-      "en": "Oats. Stopka gives 7.5 g to 240 ml of water. Which form of oat she means — rolled, whole groats or another — has not been confirmed."
-     },
-     "options": [
-      {
-       "id": "pbo-o1",
-       "substanceId": "seed:oats"
-      }
-     ]
-    },
-    {
-     "id": "pbo-2",
-     "roleCode": "solvent",
-     "basis": "ratio_to_dyestuff",
-     "quantity": 32,
-     "unit": "ml",
-     "note": {
-      "bg": "Вода, 240 мл на 7.5 г овес.",
-      "en": "Water, 240 ml to 7.5 g of oats."
-     }
-    }
-   ],
-   "steps": [
-    {
-     "id": "pbo-s1",
-     "text": {
-      "bg": "Накисни овесените ядки във водата и остави да стоят, докато водата стане хлъзгава.",
-      "en": "Soak the oats in the water and leave until the water turns slippery."
-     }
-    },
-    {
-     "id": "pbo-s2",
-     "text": {
-      "bg": "Прецеди. Ядките се изхвърлят, разтворът се пази.",
-      "en": "Strain. The oats are discarded, the liquid is kept."
-     }
-    },
-    {
-     "id": "pbo-s3",
-     "text": {
-      "bg": "Използвай студен. Не се пази дълго — прави се за деня.",
-      "en": "Use cold. It does not keep — make it for the day."
-     }
-    }
-   ],
-   "sourceCodes": [
-    "natalie-stopka-pigment"
-   ],
-   "distributable": true
   },
   {
    "code": "mordant-print-paste",
@@ -1622,16 +1292,15 @@
     "protein"
    ],
    "sourceCodes": [
-    "nicola-cliffe-printing",
-    "maiwa-print-paint"
+    "crafty-place-practice"
    ],
    "name": {
     "bg": "Паста за печат със закрепител",
     "en": "Mordant print paste"
    },
    "notes": {
-    "bg": "Прави около 200 мл. Пастата носи закрепителя, не багрилото: печата се върху плат без закрепител, после платът влиза в багрилната баня и цвят хваща само там, където е печатано. Най-добре с адективно багрило — субстантивното оцветява и фона. Количествата на Клиф и на Maiwa съвпадат.",
-    "en": "Makes about 200 ml. The paste carries the mordant, not the dye: it is printed onto unmordanted cloth, and when the cloth goes into the dye bath only the printed areas take colour. Best with an adjective dye — a substantive one will colour the ground as well. Cliffe's figures and Maiwa's agree."
+    "bg": "Прави около 200 мл. Пастата носи закрепителя, не багрилото: печата се върху плат без закрепител, после платът влиза в багрилната баня и цвят хваща само там, където е печатано. Най-добре с адективно багрило — субстантивното оцветява и фона. Сходни пропорции се срещат в няколко източника за печат с паста.",
+    "en": "Makes about 200 ml. The paste carries the mordant, not the dye: it is printed onto unmordanted cloth, and when the cloth goes into the dye bath only the printed areas take colour. Best with an adjective dye — a substantive one will colour the ground as well. Similar proportions appear across several sources on paste printing."
    },
    "ingredients": [
     {
@@ -1782,96 +1451,6 @@
    "distributable": true
   },
   {
-   "code": "dye-print-paste",
-   "type": "paste",
-   "output": "none",
-   "scaleBy": "raw",
-   "appliesTo": [
-    "cellulose",
-    "protein"
-   ],
-   "sourceCodes": [
-    "nicola-cliffe-printing"
-   ],
-   "name": {
-    "bg": "Багрилна паста без закрепител",
-    "en": "Dye print paste, no mordant"
-   },
-   "notes": {
-    "bg": "Прави около 200 мл. Нанася се върху плат, предварително обработен със закрепител — пастата няма закрепител и сама няма да задържи адективно багрило. Дали фонът ще остане чист, зависи от багрилото, от плата и от предварителната му обработка. Клиф посочва срок на съхранение около две седмици в затворен съд; това не е проверена гаранция — изхвърли пастата, ако мирише, мухляса или промени консистенцията си.",
-    "en": "Makes about 200 ml. It is printed onto cloth that has already been mordanted — the paste has no mordant and will not fix an adjective dye on its own. Whether the ground stays clear depends on the dye, the cloth and how it was prepared. Cliffe gives a keeping time of about two weeks in a closed jar; that is not a verified guarantee — discard the paste if it smells, grows mould or changes consistency."
-   },
-   "ingredients": [
-    {
-     "id": "dpp-1",
-     "roleCode": "dyestuff",
-     "basis": "absolute",
-     "unit": "ml",
-     "note": {
-      "bg": "200 мл багрилен разтвор от извличане, или 5–10 г екстракт, разтворен в 200 мл топла вода. Започвай с по-малко — още екстракт винаги може да се добави.",
-      "en": "200 ml of dye solution from an extraction, or 5–10 g of extract dissolved in 200 ml of warm water. Start with less — more extract can always be added."
-     },
-     "quantity": 200,
-     "options": []
-    },
-    {
-     "id": "dpp-2",
-     "roleCode": "thickener",
-     "basis": "absolute",
-     "unit": "g",
-     "note": {
-      "bg": "Нишесте 5–10 г за печат с калъп, или гуар гума 2–4 г за ситопечат. Нишестето покрива калъпа по-добре; с гума ръбът остава по-остър и не се разлива.",
-      "en": "5–10 g cornflour for block printing, or 2–4 g guar gum for screen printing. The starch covers a block better; with gum the edge stays sharper and does not spread."
-     },
-     "options": [
-      {
-       "id": "dpp-o1",
-       "substanceId": "seed:cornflour",
-       "qtyMin": 5,
-       "qtyMax": 10
-      },
-      {
-       "id": "dpp-o2",
-       "substanceId": "seed:guar_gum",
-       "qtyMin": 2,
-       "qtyMax": 4
-      }
-     ]
-    }
-   ],
-   "steps": [
-    {
-     "id": "dpp-s1",
-     "text": {
-      "bg": "Сипи разтвора в съд с широко гърло.",
-      "en": "Pour the solution into a wide-necked container."
-     }
-    },
-    {
-     "id": "dpp-s2",
-     "text": {
-      "bg": "С НИШЕСТЕ: поръси го, докато бъркаш, после сгъсти на водна баня. Бъркай непрекъснато, докато пастата се сгъсти и стане полупрозрачна.",
-      "en": "WITH STARCH: sprinkle it in while stirring, then thicken over a water bath. Stir constantly until the paste has thickened and become translucent."
-     }
-    },
-    {
-     "id": "dpp-s3",
-     "text": {
-      "bg": "С ГУМА: в студен разтвор, по малко, с усърдно бъркане. Ако стане на бучки, пасатор или прецеждане през ситна цедка.",
-      "en": "WITH GUM: into a cold solution, a little at a time, stirring thoroughly. If it lumps, use a stick blender or push it through a fine sieve."
-     }
-    },
-    {
-     "id": "dpp-s4",
-     "text": {
-      "bg": "Нанеси с калъп или през сито върху плата, обработен със закрепител.",
-      "en": "Apply to the mordanted cloth with a block or through a screen."
-     }
-    }
-   ],
-   "distributable": true
-  },
-  {
    "code": "dye-mordant-print-paste",
    "type": "paste",
    "output": "none",
@@ -1881,7 +1460,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "nicola-cliffe-printing"
+    "crafty-place-practice"
    ],
    "name": {
     "bg": "Готова паста със закрепител",
@@ -2000,19 +1579,19 @@
     "protein"
    ],
    "sourceCodes": [
-    "alison-kelly-printing"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "requiredFollowOn": [
     "seed:oatmeal-fixing-bath"
    ],
    "name": {
-    "bg": "Сложен закрепител — светъл резултат",
-    "en": "Compound mordant — bright outcome"
+    "bg": "Алуминиево-железен закрепител за еко принт",
+    "en": "Aluminium–iron mordant for eco-print"
    },
    "notes": {
-    "bg": "Алуминиев ацетат, направен на място от стипца, оцет и сода, с малко желязо. Платът влиза СУХ и изсъхва отново — така оцетът се изпарява и връзката се затяга. Задължително следва баня с овесени ядки. Количествата са от партидата на Кели, преизчислени на 100 г плат. Използвана версия: Алисън Кели. Авторката посочва, че е адаптирала формула на Мишел Гарсия, като е заменила калциевия хидроксид със сода. Първоизточникът не е проверен.",
-    "en": "Aluminium acetate made in place from alum, vinegar and soda ash, with a little iron. The cloth goes in DRY and dries again — that is how the vinegar evaporates and the bond tightens. An oatmeal bath must follow. The quantities are Kelly's batch, recalculated to 100 g of cloth. Version used: Alison Kelly. She states that she adapted a formula by Michel Garcia, replacing calcium hydroxide with soda ash. The original has not been checked."
+    "bg": "Алуминиев ацетат, направен на място от стипца, оцет и сода, с малко желязо. Платът влиза СУХ и изсъхва отново — така оцетът се изпарява и връзката се затяга. Задължително следва баня с овесени ядки. Количествата са за 100 г плат.\n\nПовече желязо води до по-тъмни и по-сиви резултати. Ако искаш такъв резултат, увеличавай железния сулфат постепенно, в рамките на консервативните граници на Багра, и първо изпробвай върху мостра.\n\nПрактическа работна рецепта от практиката на Crafty Place.",
+    "en": "Aluminium acetate made in place from alum, vinegar and soda ash, with a little iron. The cloth goes in DRY and dries again — that is how the vinegar evaporates and the bond tightens. An oatmeal bath must follow. The quantities are for 100 g of cloth.\n\nMore iron gives darker, greyer results. If you want that, increase the ferrous sulfate gradually, within Bagra’s conservative limits, and test on a sample first.\n\nPractical working recipe used in Crafty Place practice."
    },
    "ingredients": [
     {
@@ -2160,175 +1739,6 @@
    ]
   },
   {
-   "code": "compound-mordant-dark",
-   "type": "mordant",
-   "output": "none",
-   "scaleBy": "weight",
-   "appliesTo": [
-    "cellulose",
-    "protein"
-   ],
-   "sourceCodes": [
-    "alison-kelly-printing"
-   ],
-   "distributable": true,
-   "requiredFollowOn": [
-    "seed:oatmeal-fixing-bath"
-   ],
-   "name": {
-    "bg": "Сложен закрепител — тъмен резултат",
-    "en": "Compound mordant — dark outcome"
-   },
-   "notes": {
-    "bg": "Същият закрепител с повече желязо и малко повече сода — по-тъмен и по-плътен отпечатък. Желязото натъжава цветовете: жълтото става маслинено, а с танини дава сиво и почти черно. Задължително следва баня с овесени ядки. Количествата са от партидата на Кели, преизчислени на 100 г плат. Използвана версия: Алисън Кели. Авторката посочва, че е адаптирала формула на Мишел Гарсия, като е заменила калциевия хидроксид със сода. Първоизточникът не е проверен.",
-    "en": "The same mordant with more iron and a little more soda — a darker, bolder print. Iron saddens the colours: yellows go olive, and with tannins it gives greys and near-blacks. An oatmeal bath must follow. The quantities are Kelly's batch, recalculated to 100 g of cloth. Version used: Alison Kelly. She states that she adapted a formula by Michel Garcia, replacing calcium hydroxide with soda ash. The original has not been checked."
-   },
-   "ingredients": [
-    {
-     "id": "cmd-1",
-     "roleCode": "acid_source",
-     "basis": "percent_wof",
-     "unit": "ml",
-     "quantity": 200,
-     "quantityMin": 200,
-     "quantityMax": 200,
-     "note": {
-      "bg": "Дестилиран бял оцет. 200 мл на 100 г плат.",
-      "en": "Distilled white vinegar. 200 ml to 100 g of cloth."
-     },
-     "options": [
-      {
-       "id": "cmd-1-o",
-       "substanceId": "seed:acetic_acid",
-       "qtyMin": 200,
-       "qtyMax": 200
-      }
-     ]
-    },
-    {
-     "id": "cmd-2",
-     "roleCode": "aluminium_source",
-     "basis": "percent_wof",
-     "unit": "g",
-     "quantity": 20,
-     "quantityMin": 20,
-     "quantityMax": 20,
-     "note": {
-      "bg": "Калиева стипца. Разтваря се докрай, преди да влезе каквото и да е друго.",
-      "en": "Potassium alum. Dissolved completely before anything else goes in."
-     },
-     "options": [
-      {
-       "id": "cmd-2-o",
-       "substanceId": "seed:alum_potassium_12",
-       "qtyMin": 20,
-       "qtyMax": 20
-      }
-     ]
-    },
-    {
-     "id": "cmd-3",
-     "roleCode": "modifier",
-     "basis": "percent_wof",
-     "unit": "g",
-     "quantity": null,
-     "quantityMin": 2,
-     "quantityMax": 4,
-     "note": {
-      "bg": "Железен сулфат. Твърде много желязо може да увреди коприната и вълната — за тях върви към долната граница.",
-      "en": "Ferrous sulfate. Too much iron can damage silk and wool — for those, stay at the lower end."
-     },
-     "options": [
-      {
-       "id": "cmd-3-o",
-       "substanceId": "seed:iron_sulfate",
-       "qtyMin": 2,
-       "qtyMax": 4
-      }
-     ]
-    },
-    {
-     "id": "cmd-4",
-     "roleCode": "alkali",
-     "basis": "percent_wof",
-     "unit": "g",
-     "quantity": 12,
-     "quantityMin": 12,
-     "quantityMax": 12,
-     "note": {
-      "bg": "Сода. Влиза бавно и последна.",
-      "en": "Soda ash. It goes in slowly, and last."
-     },
-     "options": [
-      {
-       "id": "cmd-4-o",
-       "substanceId": "seed:soda_ash",
-       "qtyMin": 12,
-       "qtyMax": 12
-      }
-     ]
-    }
-   ],
-   "steps": [
-    {
-     "id": "cmd-s1",
-     "text": {
-      "bg": "С маска: претегли стипцата и я сложи в съда. Добави оцета и бъркай, докато се разтвори напълно.",
-      "en": "Wearing a mask: weigh the alum and put it in the vessel. Add the vinegar and whisk until it is completely dissolved."
-     }
-    },
-    {
-     "id": "cmd-s2",
-     "text": {
-      "bg": "Добави железния сулфат и бъркай, докато се разтвори. Всичко трябва да е разтворено, преди да влезе содата — иначе разтворът става мътен.",
-      "en": "Add the ferrous sulfate and whisk until dissolved. Everything must be fully dissolved before the soda ash goes in, or the mordant turns murky."
-     }
-    },
-    {
-     "id": "cmd-s3",
-     "text": {
-      "bg": "Добавяй содата бавно, малко по малко. Ако влезе бързо, сместа прелива. Пенене и отделяне на газ е нормално — не вдишвай парите.",
-      "en": "Add the soda ash slowly, a little at a time. Too fast and it boils over. Frothing and off-gassing are normal — do not breathe the fumes."
-     }
-    },
-    {
-     "id": "cmd-s4",
-     "text": {
-      "bg": "С ръкавици: сложи СУХИЯ плат в разтвора и го работи с ръце 1–2 минути.",
-      "en": "Wearing gloves: put the DRY cloth into the solution and work it with your hands for one to two minutes."
-     }
-    },
-    {
-     "id": "cmd-s5",
-     "text": {
-      "bg": "Извади плата и го изстискай леко над съда, като пазиш течността.",
-      "en": "Take the cloth out and wring it gently over the vessel, keeping the liquid."
-     }
-    },
-    {
-     "id": "cmd-s6",
-     "text": {
-      "bg": "Закачи го опънат, ъгъл до ъгъл, без гънки и застъпвания. Сгънат върху себе си плат дава ивици.",
-      "en": "Hang it taut, corner to corner, with no folds or overlaps. Cloth folded onto itself streaks."
-     }
-    },
-    {
-     "id": "cmd-s7",
-     "text": {
-      "bg": "Остави да изсъхне НАПЪЛНО. Това не е изчакване, а част от рецептата: докато водата се изпарява, закрепителят влиза навътре във влакното, а оцетът се изпарява.",
-      "en": "Let it dry COMPLETELY. This is not waiting, it is part of the recipe: as the water evaporates the mordant moves into the fibre, and the vinegar evaporates with it."
-     }
-    },
-    {
-     "id": "cmd-s8",
-     "text": {
-      "bg": "Веднага щом изсъхне, мини на банята с овесени ядки.",
-      "en": "As soon as it is dry, go on to the oatmeal bath."
-     }
-    }
-   ]
-  },
-  {
    "code": "oatmeal-fixing-bath",
    "type": "mordant",
    "output": "none",
@@ -2338,7 +1748,7 @@
     "protein"
    ],
    "sourceCodes": [
-    "alison-kelly-printing"
+    "crafty-place-practice"
    ],
    "distributable": true,
    "name": {
@@ -2346,8 +1756,8 @@
     "en": "Oatmeal or bran fixing bath"
    },
    "notes": {
-    "bg": "Прави се СЛЕД сложния закрепител и след като платът е изсъхнал напълно. Използва се, за да се отмие несвързаният закрепител от повърхността на плата. Рецептата предвижда разтворът да се използва и за още плат. Повторната употреба не е гарантирано безопасна: ако го използваш, дръж го покрит и на хладно, и го изхвърли при мехурчета, мухъл или миризма. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор. Използвана версия: Алисън Кели, като част от процедурата със сложния закрепител.",
-    "en": "Done AFTER the compound mordant and after the cloth has dried completely. It is used to rinse unbound mordant off the surface of the cloth. The recipe has the solution used for more cloth. Reuse is not guaranteed to be safe: if you reuse it, keep it covered and cool, and discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats. Version used: Alison Kelly, as part of the compound mordant procedure."
+    "bg": "Прави се СЛЕД алуминиево-железния закрепител и след като платът е изсъхнал напълно. Използва се, за да се отмие несвързаният закрепител от повърхността на плата. Рецептата предвижда разтворът да се използва и за още плат. Повторната употреба не е гарантирано безопасна: ако го използваш, дръж го покрит и на хладно, и го изхвърли при мехурчета, мухъл или миризма. По-старото име на тази стъпка е „торене“, защото преди овеса се е използвала кравешка тор. Може да се използва и вместо банята с креда; двете бани не са химически равностойни.",
+    "en": "Done AFTER the aluminium–iron mordant and after the cloth has dried completely. It is used to rinse unbound mordant off the surface of the cloth. The recipe has the solution used for more cloth. Reuse is not guaranteed to be safe: if you reuse it, keep it covered and cool, and discard it at the first bubbles, mould or smell. The older name for this step is “dunging”, because cow manure was used before oats. It can also be used instead of the chalk bath; the two baths are not chemically equivalent."
    },
    "ingredients": [
     {
@@ -2416,155 +1826,7 @@
      }
     }
    ]
-  },
-  {
-   "code": "soy-milk-bath",
-   "type": "mordant",
-   "output": "none",
-   "scaleBy": "weight",
-   "appliesTo": [
-    "cellulose"
-   ],
-   "sourceCodes": [
-    "alison-kelly-printing"
-   ],
-   "distributable": true,
-   "name": {
-    "bg": "Баня със соево мляко",
-    "en": "Soy milk bath"
-   },
-   "notes": {
-    "bg": "Соевият протеин ляга върху целулозата и ѝ дава това, което ѝ липсва: коприната и вълната се свързват с растителния цвят сами, памукът и хартията — не. Може да се прави след сложния закрепител, за по-наситен отпечатък, или самостоятелно — тогава в процеса няма метални соли и прахове, но устойчивостта на пране може да е ограничена. Соевото мляко е свързващо вещество, не метален закрепител. Използва се неподсладено и неовкусено мляко, за предпочитане био.",
-    "en": "Soy protein settles onto cellulose and gives it what it lacks: silk and wool bond with plant colour by themselves, cotton and paper do not. It can follow the compound mordant, for a more saturated print, or stand alone — the process then involves no metal salts and no powders, though washfastness may be limited. Soy milk is a binder, not a metal mordant. Use unsweetened, unflavoured milk, preferably organic."
-   },
-   "ingredients": [
-    {
-     "id": "smb-1",
-     "roleCode": "assistant",
-     "basis": "percent_wof",
-     "unit": "ml",
-     "quantity": 1000,
-     "quantityMin": 1000,
-     "quantityMax": 1000,
-     "note": {
-      "bg": "Соево мляко, 1 л на 100 г плат, долято с вода, колкото платът да се движи свободно.",
-      "en": "Soy milk, 1 litre to 100 g of cloth, topped up with water so the cloth can move freely."
-     },
-     "options": [
-      {
-       "id": "smb-1-o",
-       "substanceId": "seed:soy_milk",
-       "qtyMin": 1000,
-       "qtyMax": 1000
-      }
-     ]
-    }
-   ],
-   "steps": [
-    {
-     "id": "smb-s1",
-     "text": {
-      "bg": "Сипи млякото в кофа и долей вода, колкото платът да е потопен и да се движи свободно.",
-      "en": "Pour the milk into a bucket and top up with enough water for the cloth to be submerged and move freely."
-     }
-    },
-    {
-     "id": "smb-s2",
-     "text": {
-      "bg": "Сложи намокрения плат. Провери нивото — трябва да има място за движение. Остави 12 часа.",
-      "en": "Add the wetted-out cloth. Check the level — there must be room to move. Leave for twelve hours."
-     }
-    },
-    {
-     "id": "smb-s3",
-     "text": {
-      "bg": "Разбърквай внимателно от време на време.",
-      "en": "Stir gently now and then."
-     }
-    },
-    {
-     "id": "smb-s4",
-     "text": {
-      "bg": "След 12 часа извади плата и го изстискай над кофата. Закачи го да изсъхне напълно.",
-      "en": "After twelve hours take the cloth out and wring it over the bucket. Hang it to dry completely."
-     }
-    },
-    {
-     "id": "smb-s5",
-     "text": {
-      "bg": "Когато е напълно сух, изплакни добре. Оттук може да се печата, или да се прибере за по-късно.",
-      "en": "When it is completely dry, rinse well. You can print from here, or store it for later."
-     }
-    }
-   ]
-  },
-  {
-   "code": "iron-bath-dark",
-   "type": "mordant",
-   "output": "none",
-   "scaleBy": "weight",
-   "appliesTo": [
-    "cellulose",
-    "protein"
-   ],
-   "sourceCodes": [
-    "alison-kelly-printing"
-   ],
-   "distributable": true,
-   "name": {
-    "bg": "Желязна баня за тъмен резултат",
-    "en": "Iron bath for a dark outcome"
-   },
-   "notes": {
-    "bg": "Желязото действа още в малко количество. Платът влиза в банята НЕПОСРЕДСТВЕНО преди печат, защото желязото се окислява бързо във вода и пожълтява плата. Твърде много желязо може да увреди коприната и вълната. Около 1% дава по-наситен резултат, до 2.5% — по-тъмен. Внимание: 2.5% е над консервативния праг от 2% WOF, който библиотеката дава за железния сулфат — калкулаторът ще го отбележи. Горната стойност е от публикуваната рецепта; при вълна и коприна остани на или под 2%. Останалата вода пожълтява след няколко минути от окисляването. Не я изливай в канализацията: събирай отработените разтвори на метални соли отделно и ги изхвърляй според местните изисквания и информационния лист за безопасност на продукта.",
-    "en": "Iron works even in small amounts. The cloth goes into the bath IMMEDIATELY before printing, because in water the iron oxidises quickly and leaves a yellow cast on the cloth. Too much iron can damage silk and wool. Around 1% gives a more saturated result, up to 2.5% a darker one. Note: 2.5% is above the conservative 2% WOF ceiling the library gives for ferrous sulfate, and the calculator will flag it. The upper figure is the published recipe's; on wool and silk, stay at or below 2%. After a few minutes the leftover water yellows from oxidation. Do not pour it down the drain: collect spent metal-salt solutions separately and dispose of them according to local requirements and the product's safety data sheet."
-   },
-   "ingredients": [
-    {
-     "id": "ibd-1",
-     "roleCode": "modifier",
-     "basis": "percent_wof",
-     "unit": "g",
-     "quantity": null,
-     "quantityMin": 1,
-     "quantityMax": 2.5,
-     "note": {
-      "bg": "Железен сулфат, 1–2.5% от теглото на плата — над 2% е над консервативния праг на библиотеката. Мери точно.",
-      "en": "Ferrous sulfate, 1–2.5% of the weight of the cloth — above 2% is over the library's conservative ceiling. Measure it accurately."
-     },
-     "options": [
-      {
-       "id": "ibd-1-o",
-       "substanceId": "seed:iron_sulfate",
-       "qtyMin": 1,
-       "qtyMax": 2.5
-      }
-     ]
-    }
-   ],
-   "steps": [
-    {
-     "id": "ibd-s1",
-     "text": {
-      "bg": "С маска: претегли железния сулфат и го сложи в съда. Добави 2 л студена вода на 100 г плат и бъркай, докато прахът се разтвори напълно — може да отнеме около минута.",
-      "en": "Wearing a mask: weigh the ferrous sulfate into the vessel. Add 2 litres of cold water per 100 g of cloth and whisk until the powder is fully dissolved — this may take a minute or so."
-     }
-    },
-    {
-     "id": "ibd-s2",
-     "text": {
-      "bg": "С ръкавици: потопи плата и го работи с ръце около 15 секунди.",
-      "en": "Wearing gloves: immerse the cloth and work it with your hands for about fifteen seconds."
-     }
-    },
-    {
-     "id": "ibd-s3",
-     "text": {
-      "bg": "Изстискай леко и остави да поизсъхне на въже — влажен, не капещ, когато го слагаш за печат.",
-      "en": "Wring gently and let it dry slightly on a line — damp, not dripping, when you lay it out to print."
-     }
-    }
-   ]
   }
- ]
+ ],
+ "retiredToPersonal": true
 }
