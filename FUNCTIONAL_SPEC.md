@@ -10931,6 +10931,10 @@ Seen failing with the figures turned back into ratios, and with the per-option r
 
 ## 13ec. The compound mordant, and three baths beside it (1.0.0-rc61)
 
+> **Superseded in part at rc118 by §13fs.** The recipes no longer credit the books this section
+> names — they credit the studio's practice, and the books stay in the Library. Recipes named
+> here that left the distributed library are the owner's own.
+
 From Alison Kelly's book, crediting Michel Garcia's recipe — the attribution the owner asked
 for, and no commentary in the record about the book disagreeing with itself.
 
@@ -11908,6 +11912,10 @@ no-warning recipe, and `try-recipe-lines-named` keeps its excused line as a comm
 
 ## 13eu. Attribution audit, package 1: eight recipes and their sources (1.0.0-rc80)
 
+> **Superseded in part at rc118 by §13fs.** The recipes no longer credit the books this section
+> names — they credit the studio's practice, and the books stay in the Library. Recipes named
+> here that left the distributed library are the owner's own.
+
 Stage 3 of the 1.0 audit — provenance, sources, and whether the texts stand on their own. Scope fixed by
 the owner: the three Cliffe print pastes, the five Kelly recipes, and the register entries they cite.
 Before and after: `docs/attribution/rc80-eight-recipes.md`.
@@ -11982,6 +11990,10 @@ edit script was seen refusing both a second run and a quantity changed alongside
 
 ## 13ev. Attribution audit, closing package: the six remaining recipes (1.0.0-rc81)
 
+> **Superseded in part at rc118 by §13fs.** The recipes no longer credit the books this section
+> names — they credit the studio's practice, and the books stay in the Library. Recipes named
+> here that left the distributed library are the owner's own.
+
 Stage 3 closes. Same four-way distinction as §13eu — source, version used, authorship, Bagra's text — applied
 to the pigment, watercolour and pastel recipes. Before and after: `docs/attribution/rc81-six-recipes.md`.
 Recipes pack 0.18.2, sources pack 14 → 15. No quantity, range, unit, role, source code, step, follow-on or
@@ -12017,6 +12029,10 @@ B6d), so the register corrections of both packages reach new installs only.
 `distributable` on five records, the oat substance's name, and three smaller questions — DECISIONS §29.
 
 ## 13ew. Attribution audit: the owner's decisions, and five recipes for approval (1.0.0-rc82)
+
+> **Superseded in part at rc118 by §13fs.** The recipes no longer credit the books this section
+> names — they credit the studio's practice, and the books stay in the Library. Recipes named
+> here that left the distributed library are the owner's own.
 
 Recipes pack 0.18.3, substances 0.7.6. `scripts/attribution-stage3c.py`, run once from the rc81 data; it refuses a
 second run and any change to a figure, step, follow-on or `distributable`.
@@ -12057,6 +12073,10 @@ DECISIONS §30a and not built, because today it would fail on exactly the five r
 `scripts/export-approval.py`, so it cannot drift from the data. Regenerate it after any correction.
 
 ## 13ex. Stage 3 closed: the marker, and four recipes approved (1.0.0-rc83)
+
+> **Superseded in part at rc118 by §13fs.** The recipes no longer credit the books this section
+> names — they credit the studio's practice, and the books stay in the Library. Recipes named
+> here that left the distributed library are the owner's own.
 
 Recipes pack 0.18.4, `scripts/attribution-stage3d.py`. Targeted checks only, by the owner's instruction — not a
 full release run.
@@ -13423,3 +13443,96 @@ weakest. Codes and labels unchanged.
   step in both languages, and nothing in its steps or opening that assumes aluminium acetate.
 - `try-reference-observations.mjs`: the rank table itself, and with one record marked „own trial", ▲
   reading own trial → literature → practice → needs testing and ▼ the reverse.
+
+---
+
+## 13fs. The commercial recipe library, and the owner's own (1.0.0-rc118)
+
+**The policy — for every recipe added from now on.**
+
+- Seed recipes are **practical working recipes curated through Crafty Place practice**, developed with
+  reference to several sources, practical experience and comparison of methods. Some are adapted or
+  modified. They are credited to `crafty-place-practice` and to nothing else, and their text names no
+  person, book or numbered recipe as their origin. This does not claim the chemistry for the studio.
+- The **Library** holds books, articles and other sources used for research and comparison. A source
+  there does not mean a recipe reproduces it verbatim. Useful sources stay, cited by no recipe.
+- A recipe **shared privately by a practitioner** is not distributed without explicit permission.
+- **Personal recipes stay separate** from the commercial seed, and leaving the seed never deletes them.
+- The full statement is in About („За рецептите в Багра" / „About the recipes in Bagra"); a short one
+  sits under the recipe list. Neither says that every recipe has been personally tested.
+
+### Sixteen recipes ship (23 at rc117)
+
+`silk-scour`, `cellulose-scour`, `tannin-bath`, `silk-mordant`, `cellulose-alum-soda-mordant`,
+`madder-dye`, `aluminium-acetate-prep`, `aluminium-acetate-mordant`, `chalk-bath`, `pigment-lake-master`,
+`watercolour-from-pigment`, `watercolour-binder`, `mordant-print-paste`, `dye-mordant-print-paste`,
+`compound-mordant-bright`, `oatmeal-fixing-bath` — all `seed:`. IDs, quantities, WOF and scaling
+unchanged.
+
+**Personal only (7):** `nicoleta-al-fe-impregnation`, `pastels-from-pigment`, `pastel-binder-oat`,
+`dye-print-paste`, `compound-mordant-dark`, `soy-milk-bath`, `iron-bath-dark`.
+
+**The aluminium–iron mordant.** `compound-mordant-bright` keeps its id and the figures the owner has
+tested — 20 % alum, 200 % vinegar, 0.4–0.8 % ferrous sulfate, 10 % soda, all WOF, followed by the oatmeal
+bath — and is renamed „Алуминиево-железен закрепител за еко принт" / „Aluminium–iron mordant for
+eco-print". The owner decided against carrying the darker formula (2–4 % iron, 12 % soda): untested by
+her, and above the library's conservative 2 % iron ceiling. The recipe says only that more iron gives
+darker, greyer results and is increased gradually, within Bagra's limits, on a sample first.
+`compound-mordant-dark` itself is personal, not merged or removed.
+
+**Text removed:** „Crafty Place — adapted from Boutrup & Ellis, …, Recipe 11B" on both aluminium
+acetate recipes (now „Practical working recipe used in Crafty Place practice."); Stopka's table in the
+lake pigment's carrier line; „Cliffe's figures and Maiwa's agree" on the mordant paste (now „similar
+proportions appear across several sources"); Kelly's batch, Kelly as the version used and Garcia as
+her source on the aluminium–iron mordant; Kelly as the version used on the oatmeal bath, which also now
+says it can stand in for the chalk bath and that the two are not chemically equivalent.
+
+**Sources.** `nicoleta-practice` leaves the pack: it existed only for the withdrawn recipe. Every other
+source stays — Boutrup & Ellis, Stopka, Green, Cliffe, Maiwa, Kelly, Garcia and the rest — in the
+Library, now cited by no recipe. `crafty-place-practice`'s own note states the policy. Packs: recipes
+0.21.0, sources 18.
+
+### Handing a recipe over instead of withdrawing it
+
+The ordinary withdrawal (§13cb, §13eo) offers a record the pack no longer carries for removal, ticked
+unless edited or in use — and on the owner's database that would have removed six of her recipes at the
+next Apply. The recipe pack now declares **`retiredToPersonal: true`**:
+
+- a seeded record the pack no longer carries is listed as „Стават твои" / „Becoming yours", ticked —
+  handing over removes nothing;
+- applying it rewrites the record with every field as it was, `origin: 'user'`, no `packId` or
+  `packVersion`, and `retiredFrom: 'bagra-recipes'`; the id stays, so nothing that points at it dangles;
+- a fresh install never receives it, since the pack does not carry it;
+- the record's own screen says the library no longer distributes it and that it will stay, unchanged.
+
+A flag rather than a list of codes, because a list would write the names of the withdrawn recipes —
+Nicoleta's among them — back into the commercial pack. It applies to the recipe pack only; every other
+pack keeps the ordinary withdrawal unchanged.
+
+**The owner's database** (backup of 28 September 2026, recipes at pack 0.18.7): 23 recipes before —
+22 seeded, one her own; after the update as offered, 23 — the 16, the six of the seven she had (Nicoleta's
+recipe was not yet installed there; on a copy that has it, it is handed over the same way), and her own
+madder pigment, untouched. 19 recipe references in trials, fabrics and pigment batches, none dangling.
+
+### Checks
+
+- `scripts/try-recipe-provenance.mjs`: the sixteen codes in order; the flag; no seed file naming
+  Nicoleta; every recipe crediting the studio alone; no person, book or numbered recipe in any recipe's
+  text; the books still in the Library; `nicoleta-practice` gone; the aluminium–iron mordant renamed, same
+  id, same four figures, the general note, no trace of 2–4 % or 12 %, the oatmeal bath after it; a fresh
+  install holding exactly the sixteen; the two notes on screen. An rc117 library simulated — seven records,
+  one edited, two used by a trial and a pigment batch, and a recipe of her own — updated as offered: all
+  seven handed over, none offered for removal, each intact with its id, the edit kept, the references
+  resolving, a second update finding nothing, and 16 + 8 at the end. Seen failing without the flag, with a
+  handover that deletes, and with „Adapted from Boutrup & Ellis" put back into a recipe.
+- Guards that read the withdrawn recipes now use records of their own: deep-check's paste without a
+  mordant, its source list (a recipe of hers crediting two books), its amount field (madder dye), its
+  recipe-as-ingredient (the watercolour and its binder); the iron-ceiling warning in
+  `try-withdrawal-in-use.mjs` reads an iron bath written by the check. That script's withdrawal half runs
+  against the recipe pack with `retiredToPersonal` taken off, because the ordinary withdrawal it holds is
+  still every other pack's. `try-recipe-lines-named.mjs` lost three excuses for lines that no longer ship;
+  `try-pack-lifecycle.mjs` finds a recipe's credit through `crafty-place-practice`. deep-check's amount
+  field now asks that the OTHER recipe's typed figure is absent, since the madder dye opens at its own
+  default weight rather than empty.
+- The first full run failed once in deep-check's pH match — the timing fault of item 34, independent of
+  the recipes (it writes its own). Two runs of deep-check alone and the next full run passed.

@@ -319,6 +319,9 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     scaling with its steps in the right order; Nicoleta's Al/Fe impregnation
   #     is a fixed batch, not WOF, not an aluminium acetate, with the chalk bath.
   node scripts/try-recipe-content.mjs || exit 1
+  # 4i. The commercial recipe library (§13fs): sixteen recipes, studio-credited,
+  #     no person or book in them; the rest handed to the owner, never removed.
+  node scripts/try-recipe-provenance.mjs || exit 1
   # 5. Booting proves the app starts; it stops at each module's list. Read
   #    views and forms are where the imports actually get used, so they are
   #    opened too. See deep-check.mjs.

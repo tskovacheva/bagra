@@ -74,7 +74,7 @@ material record are not, and are never distributed.
 |---|---|
 | Reference | The reference engine — combinations, searched by key |
 | Plants | 57 species, bilingual, each with a description, parts, chemistry and colours |
-| Recipes | 23 seeded procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
+| Recipes | 16 seeded procedures with proportions; sequences inside. A line can be filled by another recipe — a binder solution is made, not bought (§13dy) |
 | Materials | What a substance *is* — formula, ceiling, disposal — with the jars on the shelf |
 | Techniques | Controlled vocabulary — 21 records |
 | Calculators | %WOF, solutions, bath volume, drying, alum acetate, exhaust, reverse, timer |
@@ -129,10 +129,15 @@ Nothing is updated without the preview.
   and offer to create a reference record, pre-filled with the raw observations. Averaging
   "grey-green" and "grey-brown" produces nothing meaningful; the practitioner writes what it
   means.
-- **Sources are credited, never claimed.** Seeded recipes are written as procedures in the
-  app's own words with the source named. Records default to `distributable: false` — legitimate
-  to hold locally, not automatically ours to redistribute. Facts are free; wording and a
-  compiled database are not, so no plant ships from a single source.
+- **Seed recipes are the studio's working recipes; the Library holds the research.** Since
+  rc118 (§13fs) every recipe that ships is a practical working recipe curated and adapted in
+  Crafty Place practice, credited to that practice, written in the app's own words and naming no
+  person or book as its author. The books and articles consulted stay in the Library as research
+  and comparison sources — a source listed there does not mean a recipe reproduces it verbatim —
+  and the same statement is in About. A recipe shared privately by a practitioner is not
+  distributed without explicit permission. Records default to `distributable: false` — legitimate
+  to hold locally, not automatically ours to redistribute. Facts are free; wording and a compiled
+  database are not, so no plant ships from a single source.
 - **A mark accompanies a label, never replaces it.** Sixteen drawings nobody has seen before
   are sixteen guesses, and a picture cannot be read aloud or searched.
 - **Safety is a level and a set of actions, not a word.** One flag reading "toxic" would put
@@ -337,11 +342,11 @@ a record cannot be deleted.
 Principal sources so far: Chandra Rice ([chandrarice.ca](https://www.chandrarice.ca)) —
 *Ecoprinting 101*, *The Eco Printer's Field List*, *The Ecoprinter's Plant Guide*, and the
 aluminium acetate calculator; Joy Boutrup and Catharine Ellis, *The Art and Science of Natural
-Dyes*. The recipes draw on Natalie Stopka, *From Plant to Pigment*; Joanne Green, *Natural
-Watercolor Paint Making*; Nicola Cliffe, *Printing with Natural Dyes*; Alison Kelly, *Printing
-from the Garden*, crediting Michel Garcia; the Maiwa School of Textiles; and one practitioner recipe
-shared by Nicoleta, whose own attribution to India Flint is recorded as unconfirmed.
+Dyes*. For research and comparison the Library also lists Natalie Stopka, *From Plant to
+Pigment*; Joanne Green, *Natural Watercolor Paint Making*; Nicola Cliffe, *Printing with Natural
+Dyes*; Alison Kelly, *Printing from the Garden*; Michel Garcia; and the Maiwa School of Textiles.
+The recipes themselves are the studio's working recipes (§13fs).
 
-A recipe may credit more than one source, because one often is more than one: the compound
-mordant is Garcia's, as Kelly gives it. What the register does NOT record is which came first —
-that is a relationship between sources, not a field, and it stays in the recipe's own words.
+Until rc117 a recipe credited the books it drew on, sometimes more than one. Since rc118 a recipe
+credits the studio's practice, and the relationship between a recipe and the books behind it is
+the disclaimer's, not a field (§13fs).

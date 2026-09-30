@@ -137,7 +137,9 @@ async function noteHtml(name, id) {
   if (!st) return '';
   // A withdrawn record her work uses stays (§13eo) — saying „the update will
   // offer to remove it" would be untrue for it.
-  const msg = st.withdrawn
+  const msg = st.retired
+    ? t('seed.recordRetired')
+    : st.withdrawn
     ? t(st.inUse ? 'seed.recordWithdrawnInUse' : st.edited ? 'seed.recordWithdrawnEdited' : 'seed.recordWithdrawn', { n: st.inUse })
     : t(st.edited ? 'seed.recordDiffersEdited' : 'seed.recordDiffers',
         { fields: esc(fieldNames(name, st.fields)) });
@@ -235,7 +237,7 @@ export async function render(root, onDone) {
   const total = state.chosen.size;
 
   const nothing = !diff.added.length && !diff.changed.length
-               && !diff.edited.length && !diff.withdrawn.length;
+               && !diff.edited.length && !diff.withdrawn.length && !diff.retired.length;
 
   root.innerHTML = page({
     title: t('seed.previewTitle'),
@@ -252,6 +254,8 @@ export async function render(root, onDone) {
             ticked: 'edited', hint: t('seed.editedHint') })}
           ${await group('seed.groupWithdrawn', diff.withdrawn, {
             ticked: 'withdrawn', hint: t('seed.withdrawnHint') })}
+          ${await group('seed.groupRetired', diff.retired, {
+            ticked: 'retired', hint: t('seed.retiredHint') })}
           <p class="hint">${t('seed.unchanged', { n: diff.unchanged.length })}</p>
         `),
   });
@@ -268,7 +272,7 @@ export async function render(root, onDone) {
     }
 
     if (e.target.closest('[data-apply]')) {
-      const offered = [...diff.added, ...diff.changed, ...diff.edited, ...diff.withdrawn];
+      const offered = [...diff.added, ...diff.changed, ...diff.edited, ...diff.withdrawn, ...diff.retired];
       const all = offered.filter(x => state.chosen.has(x.id));
       const n = await applyDiff(diff.store, all, diff.pack);
       // This is the ONLY place a pack version becomes „applied" (§13cu). A boot

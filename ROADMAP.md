@@ -26,7 +26,8 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
-- **rc117:** pH colours, the chalk bath's wording, reliability order (§13fr).
+- **rc118:** the commercial recipe library — 16 recipes, studio-credited; 7 handed to the owner (§13fs).
+- **rc117:**- **rc117:** pH colours, the chalk bath's wording, reliability order (§13fr).
 - **rc116:**- **rc116:** the AA working solution reworded; Nicoleta's Al/Fe impregnation added (§13fq). Open: recipe `usedFor` / `standardised` (item 37).
 - **rc115:**- **rc115:** Reference shows linked observations; Records search and sort (§13fp). Later, perhaps: link an observation to a record from Reference.
 - **rc114:**- **rc114:** a change of box saves only itself; „unwashed" is not a change (§13fo).

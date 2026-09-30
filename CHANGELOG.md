@@ -12,6 +12,16 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc118 — 28 September 2026
+
+The commercial recipe library (§13fs). Sixteen recipes ship, each credited to Crafty Place practice and naming no
+person or book; the books stay in the Library. Seven recipes are the owner's alone — Nicoleta's Al/Fe impregnation,
+the pastels and their oat binder, the dye paste without mordant, the dark compound mordant, the soy milk bath, the
+dark iron bath — and the recipe pack hands them over instead of removing them (`retiredToPersonal`): same id, same
+content, origin user. The light compound mordant becomes the „Aluminium–iron mordant for eco-print", tested figures
+unchanged, with a general note on more iron. `nicoleta-practice` leaves the Library. A statement on the recipes in
+About and a short one under the recipe list. Packs: recipes 0.21.0, sources 18. New check try-recipe-provenance.mjs.
+
 ## 1.0.0-rc117 — 28 September 2026
 
 Three corrections (§13fr). The pH bar in the Library in fourteen muted steps from red through ochre, olive at 7, teal

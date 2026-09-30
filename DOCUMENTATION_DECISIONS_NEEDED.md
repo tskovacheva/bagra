@@ -1356,3 +1356,11 @@ once the recipe list is filtered by use.
 Separately: the chalk bath, now the follow-on of two recipes, still says in its second step „the cloth
 that came out of the aluminium acetate". True for one of them. A one-word edit to „the mordanted cloth"
 would fit both. **Asked of the owner** — it was outside rc116.
+
+---
+
+## 38. The commercial recipe library (rc118) — settled
+
+Settled by the owner and recorded in §13fs: sixteen recipes ship, credited to the studio's practice;
+seven are hers alone and are handed over, never removed (`retiredToPersonal`); the books stay in the
+Library. The darker aluminium–iron formula is hers, not the library's.

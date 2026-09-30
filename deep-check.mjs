@@ -6150,10 +6150,16 @@ const dirty = await import('./dirty.js');
   // And the other way, or the check above would pass on a resolver that simply
   // says „alum" to everything: a work whose only step carries a recipe with no
   // mordant in it stays unmordanted.
+  // A paste of her own with nothing but a thickener in it: the library's dye
+  // paste without mordant, which this used to read, is personal since rc118 (§13fs).
+  await db.put('recipes', db.newRecord({ id: 'zz-paste-nomordant-recipe', type: 'paste', output: 'none',
+    scaleBy: 'raw', name: { bg: 'паста без закрепител', en: 'paste without mordant' }, notes: { bg: '', en: '' },
+    ingredients: [{ id: 'z1', roleCode: 'thickener', basis: 'absolute', unit: 'g', quantity: 5,
+                    quantityMin: 5, quantityMax: 5, options: [] }], steps: [] }));
   await db.put('trials', {
     ...(await db.get('trials', id)), id: 'zz-paste-nomordant',
     steps: [{ id: 's1', typeCode: 'print_paste', stageCode: 'decorate',
-              recipeId: 'seed:dye-print-paste', applicationCode: 'screen', photos: [] }],
+              recipeId: 'zz-paste-nomordant-recipe', applicationCode: 'screen', photos: [] }],
   });
   const m2 = await trials.mordantOfTrial?.(await db.get('trials', 'zz-paste-nomordant'));
   if (m2 && m2.code)
@@ -6161,19 +6167,19 @@ const dirty = await import('./dirty.js');
 
   await db.remove('trials', id);
   await db.remove('trials', 'zz-paste-nomordant');
+  await db.remove('recipes', 'zz-paste-nomordant-recipe');
   await db.remove('fabrics', 'zz-paste-cloth');
   trials.reset?.();
   if (problems.length) fail('paste-work', new Error(problems.join('; ')));
   else console.log('  paste-work: the dyestuff is asked for, the block is recorded, and the mordant is found in the paste');
 }
 
-// ---- Kelly's mordants, at 100 g of cloth (§13ec)
+// ---- The aluminium–iron mordant, at 100 g of cloth (§13ec, §13fs)
 //
-// The compound mordant is given TWICE in the book and the two do not agree. The
-// owner chose the BATCH, recalculated to 100 g of cloth, so the figures below
-// are the ones she decided on — and the state that decides is 100 g, where the
-// two readings differ most: the soda is 10 g by the batch and 5 g by the page
-// of percentages. A guard that typed 250 g would agree with both.
+// The figures the owner decided on and has tested, at 100 g of cloth — the
+// state where a batch and a page of percentages disagree most (10 g of soda by
+// one, 5 g by the other). Since rc118 there is one such mordant in the library;
+// the darker variant is hers alone, and this no longer reads it.
 {
   const recipes = (await import('./modules/recipes.js')).default;
   const problems = [];
@@ -6191,12 +6197,6 @@ const dirty = await import('./dirty.js');
   for (const want of ['20 g', '200 ml', '0.4–0.8 g', '10 g'])
     if (!bright.includes(want)) problems.push(`bright: ${want} is not in the weigh list — „${bright.slice(0, 110)}"`);
 
-  const dark = await at100('seed:compound-mordant-dark');
-  for (const want of ['2–4 g', '12 g'])
-    if (!dark.includes(want)) problems.push(`dark: ${want} is not in the weigh list — „${dark.slice(0, 110)}"`);
-  // Bright and dark differ in the SODA as well as the iron, which is why they
-  // are two records and not one with a choice on one line.
-  if (dark.includes(' 10 g')) problems.push('dark carries the bright soda figure');
 
   // §5.4: the bath is a step the work view draws, not a footnote. It is the
   // whole method — the cloth dries hard and then the bath fixes it — so a
@@ -6207,12 +6207,10 @@ const dirty = await import('./dirty.js');
   if (!follow) problems.push('the compound mordant does not draw its fixing bath');
   else if (!follow.textContent.includes('овес')) problems.push('the follow-on drawn is not the oatmeal bath');
 
-  const iron = await at100('seed:iron-bath-dark');
-  if (!iron.includes('1–2.5 g')) problems.push(`the iron bath does not show 1–2.5 g at 100 g: „${iron.slice(0, 80)}"`);
 
   recipes.reset?.();
-  if (problems.length) fail('kelly-mordants', new Error(problems.join('; ')));
-  else console.log('  kelly-mordants: the batch figures at 100 g, bright and dark apart, and the bath drawn under the mordant');
+  if (problems.length) fail('al-fe-mordant', new Error(problems.join('; ')));
+  else console.log('  al-fe-mordant: the tested figures at 100 g, and the oatmeal bath drawn under the mordant');
 }
 
 // ---- The three print pastes (§13eb)
@@ -6247,19 +6245,19 @@ const dirty = await import('./dirty.js');
   // A thickener whose amount depends on WHICH thickener: the range is on the
   // option, so the figure must change with the choice rather than being one
   // number for both.
-  const dye = await open('seed:dye-print-paste');
-  if (!dye.includes('5–10 g')) problems.push(`the starch range is not shown: „${dye.slice(0, 90)}"`);
+  // The dye paste without mordant, and its starch range, left the library at
+  // rc118 (§13fs).
 
   const both = await open('seed:dye-mordant-print-paste');
   for (const want of ['5 g', '2–3 g'])
     if (!both.includes(want)) problems.push(`the ready-to-use paste does not show ${want}`);
-  // Cliffe's, not Maiwa's: aluminium acetate, and no vinegar anywhere.
+  // Aluminium acetate, and no vinegar anywhere.
   if (!both.includes('ацетат')) problems.push('the ready-to-use paste does not name aluminium acetate');
   if (both.includes('Оцетна')) problems.push('the ready-to-use paste has vinegar in it — that is the recipe that was not chosen');
 
   recipes.reset?.();
   if (problems.length) fail('print-pastes', new Error(problems.join('; ')));
-  else console.log('  print-pastes: three batches, every figure on screen without a field, and the marker is optional');
+  else console.log('  print-pastes: two batches, every figure on screen without a field, and the marker is optional');
 }
 
 // ---- 18i. One shape for what a record credits (§13ea)
@@ -6312,9 +6310,15 @@ const dirty = await import('./dirty.js');
   // person reads, not at a field: a recipe crediting two sources must show
   // both. The mordant paste since rc82 (§13ew) — the watercolour binder, which
   // this used to read, credits only Green now that the studio's code is off.
-  recipes.reset?.(); recipes.open('seed:mordant-print-paste');
+  // A recipe of hers crediting two sources: the library's recipes credit the
+  // studio's practice alone since rc118 (§13fs), so none of them credits two.
+  await db.put('recipes', db.newRecord({ id: 'zz-two-sources', type: 'paste', output: 'none', scaleBy: 'raw',
+    name: { bg: 'две', en: 'two' }, notes: { bg: '', en: '' }, ingredients: [], steps: [],
+    sourceCodes: ['nicola-cliffe-printing', 'maiwa-print-paint'] }));
+  recipes.reset?.(); recipes.open('zz-two-sources');
   await recipes.render(root); await settle();
   const shown = root.textContent || '';
+  await db.remove('recipes', 'zz-two-sources');
   const { sourceCodeOf } = await import('./refs.js');
   const { text: i18nText } = await import('./i18n.js');
   const reg = new Map((await db.all('sources')).map(x => [sourceCodeOf(x), x]));
@@ -6414,10 +6418,12 @@ const dirty = await import('./dirty.js');
   }
 
   // b. The figure belongs to the recipe it was typed on.
-  await draw('seed:pastel-binder-oat');
+  await draw('seed:madder-dye');
   const other = field();
-  if (!other) problems.push('no amount field on the oat binder, which does scale');
-  else if (other.value !== '') problems.push(`a figure typed on another recipe is still in this one's field: „${other.value}"`);
+  if (!other) problems.push('no amount field on the madder dye, which does scale');
+  // Its own default may fill it (the madder dye opens at its usual weight);
+  // what must not be there is the figure typed on the other recipe.
+  else if (other.value === '7,5' || other.value === '7.5') problems.push(`a figure typed on another recipe is still in this one's field: „${other.value}"`);
   await draw('seed:watercolour-binder');
   if (field()?.value !== '7,5' && field()?.value !== '7.5')
     problems.push(`coming back to the recipe lost its own figure: „${field()?.value}"`);
@@ -6442,11 +6448,8 @@ const dirty = await import('./dirty.js');
   const refs = await import('./refs.js');
   const problems = [];
 
-  recipes.reset?.(); recipes.open('seed:pastels-from-pigment');
-  await recipes.render(root); await settle();
-  const text0 = root.querySelector('.weighbox')?.textContent || '';
-  if (!text0.includes('овес')) problems.push('the pastel weigh list does not name the oat binder recipe');
-  if (text0.includes('Гума арабика')) problems.push('the pastel weigh list still names a substance for its binder');
+  // The pastels and their oat binder are personal since rc118 (§13fs); the
+  // watercolour and its binder solution carry the same shape.
 
   recipes.reset?.(); recipes.open('seed:watercolour-from-pigment');
   await recipes.render(root); await settle();
@@ -6457,9 +6460,9 @@ const dirty = await import('./dirty.js');
   // The delete policy. Asked of refs.js rather than of a screen, because that
   // is the one place that decides, and a path it does not know about is a path
   // that silently permits a delete.
-  const blocked = await refs.findReferences('recipes', 'seed:pastel-binder-oat');
+  const blocked = await refs.findReferences('recipes', 'seed:watercolour-binder');
   if (!blocked || !blocked.total)
-    problems.push('a binder recipe used by the pastel recipe can be deleted — refs.js does not see the pointer');
+    problems.push('a binder recipe used by the watercolour recipe can be deleted — refs.js does not see the pointer');
 
   // And the other direction: a recipe nothing points at is still deletable, or
   // the check above would pass on a policy that simply refuses everything.

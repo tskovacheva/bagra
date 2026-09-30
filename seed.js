@@ -393,7 +393,7 @@ export async function diffPack(name) {
 
   const diff = {
     store, pack, defaults,
-    added: [], changed: [], edited: [], withdrawn: [], unchanged: [],
+    added: [], changed: [], edited: [], withdrawn: [], retired: [], unchanged: [],
   };
 
   // The store read once, not once per row. The list screens now ask this on
@@ -442,6 +442,17 @@ export async function diffPack(name) {
   for (const row of stored.values()) {
     if (row.origin !== 'seed' || row.packId !== pack.packId) continue;
     if (codes.has(row.id)) continue;
+    // RETIRED TO PERSONAL (§13fs). A pack that declares `retiredToPersonal`
+    // stops distributing what it no longer carries WITHOUT taking it away: the
+    // record is not offered for removal but handed over — it becomes hers,
+    // unchanged, under the same id, so nothing that points at it dangles. A
+    // flag on the pack rather than a list of codes, because a list would put the
+    // name of a record the pack must no longer carry back into the pack. Other
+    // packs keep the ordinary withdrawal above.
+    if (pack.retiredToPersonal === true) {
+      diff.retired.push({ id: row.id, name: nameOf(row), retire: true });
+      continue;
+    }
     // A withdrawn record her own work points at is not removed (§13eo). The
     // pack can stop shipping a recipe; it cannot take away the recipe a pigment
     // batch of hers was made from. Counted here, so the preview can say so.
@@ -472,6 +483,8 @@ export function defaultChosen(diff) {
     ...diff.added.map(e => e.id),
     ...diff.changed.map(e => e.id),
     ...diff.withdrawn.filter(e => !e.edited && !e.inUse).map(e => e.id),
+    // Handing a record over removes nothing, so it is offered ticked.
+    ...diff.retired.map(e => e.id),
   ]);
 }
 
@@ -501,6 +514,7 @@ export async function recordStatus(name, id) {
   if ((e = hit(diff.changed))) return { fields: e.fields, edited: false };
   if ((e = hit(diff.edited))) return { fields: e.fields, edited: true };
   if ((e = hit(diff.withdrawn))) return { withdrawn: true, edited: !!e.edited, inUse: e.inUse || 0 };
+  if ((e = hit(diff.retired))) return { retired: true };
   return null;
 }
 
@@ -520,6 +534,17 @@ export async function applyDiff(store, entries, pack) {
     // A withdrawal is the one entry that is not a write. It is marked on the
     // entry rather than inferred from a missing `row`, because inferring it
     // would make a malformed entry delete a record.
+    // Handed over (§13fs): the stored record, every field of it, with only its
+    // provenance changed — hers now, no longer the pack's. `retiredFrom` says
+    // where it came from; nothing is deleted.
+    if (entry.retire) {
+      const existing = await get(store, entry.id);
+      if (!existing || existing.origin !== 'seed') continue;
+      const { packId: _p, packVersion: _v, ...rest } = existing;
+      await putSystem(store, { ...rest, origin: 'user', retiredFrom: pack.packId });
+      n++;
+      continue;
+    }
     if (entry.remove) {
       // Asked again at the moment of removal, not trusted from the preview: a
       // record her work points at stays, whatever was ticked (§13eo).
