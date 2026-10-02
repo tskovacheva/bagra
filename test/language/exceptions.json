@@ -84,6 +84,10 @@
   {
    "id": "seed.usSpelling | sources.json:cuce-rosa-canina author:fiber",
    "reason": "The title of a publication or the name of a journal, quoted as published (owner, 16 September 2026: original titles are kept). American spelling is the publisher's, not ours."
+  },
+  {
+   "id": "code.cyrillic | modules/library.js: const tag = `${await getSetting('fabricLabelPrefix', 'П')}-028`;",
+   "reason": "Same decision as the fabrics.js line (§13ei, owner, 16 September 2026): „П\" is the default of the studio's own tag prefix, an identifier printed on physical labels and the same in either language. The Studio System's example tag (§13gc) reads her setting so it looks like her real tags."
   }
  ]
 }

@@ -167,6 +167,28 @@ is((await db.get('plants', 'seed:quercus_robur')).nameCommon.bg, 'моето и�
    'an edited seeded record was not overwritten by the gate');
 
 // ---------------------------------------------------------------- migration
+console.log('a kept record whose file is no longer shipped (§13gd)');
+{
+  const { repointPlantPhotos } = await import('../migrate-photos.js');
+  const table = JSON.parse(fs.readFileSync('seed/plant-photos.json', 'utf8')).photos;
+  const sappan = table['seed:biancaea_sappan'];
+  await db.putRaw('plants', { id: 'seed:paubrasilia_echinata', origin: 'seed', code: 'paubrasilia_echinata', updatedAt: '2026-01-01T00:00:00.000Z',
+    photoSrc: 'seed/images/plants/paubrasilia_echinata.jpg', photoHash: sappan.hash,
+    photoCredit: { author: 'J.M.Garg', licence: 'GFDL' } });
+  const lost = { id: 'seed:nowhere', origin: 'seed', code: 'nowhere', updatedAt: '2026-01-01T00:00:00.000Z',
+    photoSrc: 'seed/images/plants/nowhere.jpg', photoHash: 'f'.repeat(64) };
+  await db.putRaw('plants', lost);
+  const shippedBefore = JSON.stringify(await db.get('plants', 'seed:quercus_robur'));
+  is(await repointPlantPhotos(), 1, 'exactly one record is pointed elsewhere');
+  const kept = await db.get('plants', 'seed:paubrasilia_echinata');
+  is([kept.photoSrc, kept.photoHash, kept.photoCredit?.licence, kept.updatedAt], [sappan.src, sappan.hash, 'CC BY 3.0', '2026-01-01T00:00:00.000Z'],
+     'the kept record names the shipped file with its hash, carries its credit, and is not restamped');
+  is(JSON.stringify(await db.get('plants', 'seed:nowhere')), JSON.stringify(lost), 'a hash no shipped file has: left exactly as it was, nothing guessed');
+  is(JSON.stringify(await db.get('plants', 'seed:quercus_robur')), shippedBefore, 'a record whose file ships: untouched');
+  is(await repointPlantPhotos(), 0, 'a second run does nothing');
+  await db.remove('plants', 'seed:nowhere'); await db.remove('plants', 'seed:paubrasilia_echinata');
+}
+
 console.log('\nan existing installation keeps the photograph she chose');
 
 const { migratePlantPhotos } = await import('../migrate-photos.js');

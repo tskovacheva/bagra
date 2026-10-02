@@ -114,6 +114,36 @@ const noteText = await page.evaluate(() => document.querySelector('[data-libdiff
 if (!noteText) console.log('  debug', await page.evaluate(() => location.hash + ' | ' + (document.querySelector('[data-libdiffers-slot]')?.outerHTML || 'no slot').slice(0, 300)));
 const expected = await page.evaluate(async () => (await import('./i18n.js')).t('seed.recordWithdrawnInUse', { n: 1 }).slice(0, 40));
 ok(noteText.includes(expected), `the kept plant says why it stays: „${noteText.slice(0, 80)}"`);
+
+// The kept record's photograph (§13gd). It names the file it was shipped with;
+// rc122 stopped shipping that file — the same picture ships as the new
+// sappanwood's. The start points the record there, with the file's credit.
+const was = await page.evaluate(async (o) => (await (await import('./db.js')).get('plants', o)).photoSrc, OLD_P);
+const status = await page.evaluate(async (src) => (await fetch(src)).status, was);
+ok(status === 404, `the kept record names a file the release no longer ships (${was} → ${status})`);
+const mine = await page.evaluate(async () => {
+  const db = await import('./db.js');
+  const pid = (await db.all('plants')).find(p => p.photoSrc && p.id !== 'seed:biancaea_sappan' && p.id !== 'seed:paubrasilia_echinata')?.id;
+  return { pid, before: JSON.stringify(await db.get('plants', pid)), trial: JSON.stringify(await db.get('trials', 'zz-sappan-trial')) };
+});
+await page.evaluate(async () => (await import('./migrations.js')).runMigrations());
+const now = await page.evaluate(async (o) => { const p = await (await import('./db.js')).get('plants', o);
+  return { src: p.photoSrc, hash: p.photoHash, licence: p.photoCredit?.licence, url: p.photoCredit?.licenceUrl }; }, OLD_P);
+ok(now.src === 'seed/images/plants/biancaea_sappan.jpg' && now.hash === FIX.plant.photoHash,
+   `the start points it at the shipped file with the same picture (${now.src})`);
+ok(now.licence === 'CC BY 3.0' && now.url === 'https://creativecommons.org/licenses/by/3.0/', 'and gives it the credit that file ships with');
+const untouched = await page.evaluate(async (m) => {
+  const db = await import('./db.js');
+  return JSON.stringify(await db.get('plants', m.pid)) === m.before && JSON.stringify(await db.get('trials', 'zz-sappan-trial')) === m.trial;
+}, mine);
+ok(untouched, 'a plant whose file ships, and her trial on the old id, are untouched');
+const again = await page.evaluate(async () => (await import('./migrate-photos.js')).repointPlantPhotos());
+ok(again === 0, 'run again, it does nothing');
+await page.evaluate(h => { location.hash = '#/blank'; location.hash = h; }, `#/plants/${OLD_P}`);
+const shown = await page.waitForFunction(() => [...document.querySelectorAll('#view img')]
+  .some(i => i.src.endsWith('/seed/images/plants/biancaea_sappan.jpg') && i.complete && i.naturalWidth > 0), { timeout: 15000 })
+  .then(() => true, () => false);
+ok(shown, 'and its screen shows the photograph');
 await page.evaluate(() => { location.hash = '#/blank'; location.hash = '#/trials/zz-sappan-trial'; });
 await new Promise(r => setTimeout(r, 1000));
 ok(await page.evaluate(() => location.hash === '#/trials/zz-sappan-trial'), 'the trial on the old plant still opens');

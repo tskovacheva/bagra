@@ -134,7 +134,7 @@ async function buildA() {
 
   await db.putRaw('recipes', { id: 'own-recipe', origin: 'user', packId: null, packVersion: null,
     editedByUser: false, editedFields: [], type: 'dye', output: 'none', scaleBy: 'weight', version: 1,
-    name: { bg: 'моя брош', en: 'my madder' }, notes: { bg: '', en: '' }, ingredients: [], steps: [],
+    name: { bg: 'моя брош', en: 'my madder' }, shortCode: 'PAS + COT', notes: { bg: '', en: '' }, ingredients: [], steps: [],
     requiredFollowOn: [], sourceCodes: [], createdAt: OLDER, updatedAt: OLD });
   await db.putRaw('chains', { id: 'own-chain', origin: 'user', name: { bg: 'моята АА верига', en: 'my AA chain' },
     notes: { bg: '', en: '' }, appliesTo: [], steps: [

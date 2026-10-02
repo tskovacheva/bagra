@@ -38,6 +38,14 @@ const refs = [...html.matchAll(/(?:href|src)="([^"#:]+)"/g), ...html.matchAll(/u
 const loose = [...new Set(refs)].filter(u => !list.includes('./' + u.replace(/^\.\//, '')));
 loose.length ? fail('index.html loads files the release does not carry: ' + loose.join(', ')) : ok(`all ${new Set(refs).size} files index.html loads are in the release`);
 
+// The table of shipped photographs names only shipped files (§13gd). rc122
+// stopped shipping one and left its entry: the table then said a file shipped
+// that did not, and a kept record pointing at it looked fine to every check.
+const photoTable = JSON.parse(fs.readFileSync('seed/plant-photos.json', 'utf8')).photos;
+const notShipped = Object.entries(photoTable).filter(([, e]) => !fs.existsSync(e.src) || !list.includes('./' + e.src)).map(([k, e]) => `${k} → ${e.src}`);
+notShipped.length ? fail('plant-photos.json names files the release does not ship: ' + notShipped.join(', '))
+  : ok(`every one of the ${Object.keys(photoTable).length} photographs in plant-photos.json is on disk and in the release`);
+
 const ver = fs.readFileSync('version.js', 'utf8').match(/VERSION = '([^']+)'/)[1];
 sw.includes(`const CACHE = 'bagra-v${ver}'`) ? ok(`the release is named for ${ver}`) : fail('the worker cache name does not carry ' + ver);
 const head = fs.readFileSync('CHANGELOG.md', 'utf8').match(/^## (\S+)/m)?.[1];
