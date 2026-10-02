@@ -2,7 +2,7 @@
 
 import { all, get, put, putTogether, newRecord, getSetting, setSetting, uid } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
-import { STUDIO_STATUSES, deriveStudioStatus, deriveProcessTrail, studioLabel } from '../studio.js';
+import { STUDIO_STATUSES, deriveStudioStatus, deriveProcessTrail, deriveProcessSummary, codeWithName, studioLabel } from '../studio.js';
 import { studioBadge, studioStyle, workingLabel, printWorkingLabel } from '../studio-ui.js';
 import { massWith, gsmWith } from '../units.js';
 import { shrinkThumb } from '../photo.js';
@@ -312,6 +312,7 @@ async function studioCard(r) {
   const ctx = {
     recipes: new Map((await all('recipes')).map(x => [x.id, x])),
     trials: new Map((await all('trials')).map(x => [x.id, x])),
+    plants: new Map((await all('plants')).map(x => [x.id, x])),
   };
   studioRead = { fabric: r, ctx };
   const trail = deriveProcessTrail(r, ctx, getLang());
@@ -327,7 +328,35 @@ async function studioCard(r) {
         <p class="mono studiotrail">${trail.text ? esc(trail.text) : `<span class="hint">${t('fabrics.studio.noTrail')}</span>`}${
           trail.finished ? ` <span class="chip">${esc(t('fabrics.studio.finished'))}</span>` : ''}</p>
       </div>
-    </div>`);
+    </div>`) + processSummaryCard(r, ctx);
+}
+
+// The process summary (§13ge): what was done to this piece, in rows that can
+// be copied onto a tag — only the rows the record can fill, in the order a
+// person reads a piece: stage, preparation, technique, what coloured it, the
+// plants, when. Derived on every draw; nothing of it is stored on the piece.
+function processSummaryCard(r, ctx) {
+  const lang = getLang();
+  const p = deriveProcessSummary(r, ctx, lang);
+  const row = (key, value) => value ? `<tr><th scope="row">${t('fabrics.summary.' + key)}</th><td>${value}</td></tr>` : '';
+  const list = (xs) => xs && xs.length ? esc(xs.join(', ')) : '';
+  const rows = [
+    row('status', studioBadge(r)),
+    row('preparation', p.preparation ? `<span class="mono">${esc(p.preparation)}</span>` : ''),
+    row('technique', p.technique ? esc(p.technique.label) : ''),
+    row('paste', p.pasteCode ? `<span class="mono">${esc(p.pasteCode)}</span>` : ''),
+    row('blanket', p.blanket?.material ? esc(p.blanket.material) : ''),
+    row('blanketTreatment', p.blanket?.treatment ? esc(p.blanket.treatment) : ''),
+    row('blanketBath', p.blanket?.bath ? esc(p.blanket.bath) : ''),
+    row('dye', list(p.dye)),
+    row('modifiers', p.modifiers ? esc(p.modifiers.map(m => codeWithName(m, lang)).join(', ')) : ''),
+    row('plants', list(p.plants)),
+    row('date', p.date ? esc(fmtDate(p.date)) : ''),
+  ].join('');
+  return `<div style="height:16px"></div>${panel(`
+    <h2>${t('fabrics.summary.title')}</h2>
+    <table class="facts processsummary"><tbody>${rows}</tbody></table>
+    ${p.trialId ? `<p><button class="btn quiet" data-trial="${esc(p.trialId)}">${t('fabrics.summary.openTrial')}</button></p>` : ''}`)}`;
 }
 
 async function renderRead(root, r) {
