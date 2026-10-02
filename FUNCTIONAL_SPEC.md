@@ -13945,6 +13945,10 @@ runtime code; npm packages are test-only. App icons are first-party (Stage 7a). 
 - **A photograph shipped that nothing showed (P1).** `paubrasilia_echinata.jpg`, withdrawn with its
   plant at rc77, was still cached and shipped with no visible credit; moved to
   `archive/withdrawn/images/`.
+  **Corrected at rc128 (§13gd): that judgement was wrong.** The file was unused by the PACK, but §13es
+  had kept it on purpose — a withdrawn record kept because her work points at it still names it, on
+  every copy installed before rc78. Those copies lost the picture. §13gd points such records at the
+  shipped file with the same picture.
 - **The icon sprite's licence did not ship (P1).** The 62 marks in `index.html` are redrawn from
   Lucide (§13bh documents twelve; the rest are not recorded, so the sprite is treated as
   Lucide-derived as a whole). Lucide is ISC, with an MIT notice for icons derived from Feather; both
@@ -14224,3 +14228,150 @@ Data safety: one plan field holds a picture, inside a record the backup already 
 the round-trip above, nothing in backup.js changed. Update safety: no change to the worker or the
 start. Commercial content: a person's picture is her data, never a shipped asset. `dist/`: the same
 files, rebuilt.
+
+---
+
+## 13gc. Studio System v1 — status colours, the working label, the code dictionary (1.0.0-rc127)
+
+A paper tag pinned to a piece of cloth, in the colour of the stage it has reached; the same colour in
+the app. From across the studio the colour says how far along a piece is; in the hand, the tag says
+which piece and what was done to it. **Labels render the history; they never store another one.**
+
+### The audit, and three decisions the owner took
+
+The model has five boxes (`STATE_ORDER`), each the result of the latest box-moving action: `unwashed`,
+`scoured` (wash), `mordanted` (mordant), `dyed` (dye, also from work), `finished` (finish). Tannin is
+not a box (§13bd): it is a treatment a piece carries, because from tannin a piece may go to an eco
+print, to a paste print, wait for alum or be finished as it is. `finished` is not „dyed": a piece can
+be finished washed and tanned and never dyed. The tag number is `fabric.label` (`П-028`) — reserved
+on save, stepping over numbers in use, a hand-typed duplicate refused, its prefix a setting because
+the tag does not change language: the permanent identifier, reused. Every action keeps its
+`recipeId`, date, bath and work, so the whole history is derivable; the chemistry is not — a recipe
+offers alternatives, and an action records the recipe, not the choice.
+
+1. **T is derived, not a box.** A washed piece carrying tannin applied since it was washed shows as T.
+   §13bd stands; tannin before the wash does not count; a mordant afterwards makes it M.
+2. **`finished` stays its own state.** The tag's colour is the last processing stage reached; a
+   finished piece is shown as that stage with „завършен" beside it, and the filter keeps an
+   uncoloured „Завършен". The five studio chips count pieces still in work.
+3. **Recipes gain an optional `shortCode`**, naming the WHOLE treatment the recipe applies; a recipe
+   without one is shown by its name.
+
+### The five
+
+| Code | BG | EN | Colour | Icon |
+|---|---|---|---|---|
+| RAW | Неизпран | Raw / Unwashed | `#9DB08E` sage | `s-unwashed` |
+| W | Изпран | Washed | `#8FAAC4` muted blue | `s-scoured` |
+| T | Таниниран | Tannin treated | `#BD8450` warm ochre | `c-tannin` |
+| M | Мордантиран | Mordanted | `#D8C35A` mustard | `s-mordanted` |
+| D | Обагрен / отпечатан | Dyed / Printed | `#E08A73` coral | `s-dyed` |
+
+Dark text (#2A2724) reads on each at 4.7:1 or more; the closest two are 50 apart in RGB; none is
+saturated beyond 0.6 or red. A first choice of ochre and mustard was only 37 apart and was moved.
+These are status tokens beside the palette, not part of it: the working surface stays neutral and
+colour appears only where it is the information — always with its icon, code and name. The
+interface's own green rule is about the working surface; sage here is a status, at the owner's word.
+The icons are the sprite's own.
+
+### One derivation each, in studio.js
+
+`deriveStudioStatus(fabric)` → `{ code, status, finished, box }` — behind the filter chips, the list,
+the record and the label. `deriveStudioTreatmentSummary(fabric, { recipes, trials }, lang)` →
+`{ text, date }`: M — the latest mordant's code and every treatment after it („AA + CaCO₃"); T — the
+tannin since the wash; W — the wash's recipe; D — the technique of the colouring work (`EP` for an eco
+print, `DYE` for a bath, `MP` or `DMP` for a paste). `deriveProcessTrail(...)` → every stage reached,
+in order, with what did it: `W → M (AA + CaCO₃) → D (EP)`; finishing ends the trail without becoming
+a stage. All pure; studio-ui.js draws them.
+
+### On screen
+
+**Fabrics:** the five chips carry their colour as an edge and a tint, with icon, code, name and count;
+„Завършен" beside them, uncoloured. Every row's badge is the same token as its chip. **The record:**
+the badge beside the name; a Studio label card — the working label as it prints, the trail, and two
+Print buttons. **The label:** 70 × 40 mm, the tag number, `M · МОРДАНТИРАН`, the summary, the date.
+Print shows that label and nothing else (`@page` 70 × 40 mm); „for coloured paper" prints it black on
+white, for paper already the stage's colour. „Мордантиран" is the stage's name in the Studio System;
+„закрепител" stays the word for mordant everywhere else (193 times in the seed) — no global replace.
+
+**Library → Система за ателието / Studio System:** the five as a legend, from the same tokens; how to
+read a tag, drawn by the same function from a made-up piece numbered with her own prefix; the trail
+explained; the code dictionary, searchable, each code with its BG and EN names, group, formula, kind
+of code and use; and the note that codes are an identification aid and do not replace the complete
+record.
+
+### The code dictionary
+
+35 codes in five groups. Each says what kind of code it is and claims no more: **formula** (as
+chemistry writes it — Fe, Na₂CO₃, CaCO₃, Ca(OH)₂, NaOH, K₂CO₃, NaHCO₃, AcOH, Na₂S₂O₄), **practical**
+(dyers' abbreviations — AA, PAS, AS, ATF, COT, CA, TA), **studio** (Bagra's own, not a standard —
+the five stages, TAN, SOY, VINEGAR, FRU, GLU, MOL, AAc, DYE, EP, MP, DMP, PIG, BLK, IND).
+Collision rules, held by the gate: one code one meaning; COT is cream of tartar, never cotton; AA
+aluminium acetate and AAc ascorbic acid; CA citric acid, never calcium; vinegar is VINEGAR with its
+strength, not AcOH; a formula wins an ambiguity; fibres and plants are not coded.
+
+**Recipe codes (recipes pack 0.21.1)**, each the whole of what the recipe applies, read from its
+ingredients: `silk-mordant` PAS · `cellulose-alum-soda-mordant` PAS/AS + Na₂CO₃ (either alum) ·
+`aluminium-acetate-mordant` AA · `chalk-bath` CaCO₃ · `tannin-bath` TAN · `compound-mordant-bright`
+PAS + Fe + Na₂CO₃ + VINEGAR · `mordant-print-paste` MP · `dye-mordant-print-paste` DMP. No code where
+the dictionary has no honest one: the scours, the oat bath, the aluminium acetate preparation (not a
+treatment of cloth), madder and the pigment recipes. Installed copies receive the codes through the
+usual recipe update; a recipe she edited is not offered them and shows its name.
+
+### Data
+
+No store, no `DB_VERSION`, no migration. `finished` untouched. The only data change is the optional
+`shortCode`; it travels with a recipe in every backup (`try-data-safety`: a recipe of hers carries
+„PAS + COT" through replace and merge onto a clean installation). A backup from before restores as
+it was and its pieces read by recipe name.
+
+### Checks
+
+- `try-studio.mjs`: the five unique in code, colour, icon and both names; icons in the sprite;
+  contrast, distance, saturation, not red; 35 codes none twice nor twice by case; the collision rules;
+  the eight recipe codes, every token in the dictionary; eleven status fixtures (T before and after the
+  wash, finished from dyed and from tanned, unmigrated, state-only); nine summaries (AA + CaCO₃ dated by
+  the chalk, PAS + COT, the name fallback in both languages, TAN, EP, DMP, DYE, RAW); four trails; every
+  cloth in an rc56 backup read without change.
+- `try-studio-screens.mjs` (Chromium, 1280 and 390 px): each chip's colour, code and count; each row's
+  badge in its chip's token; badge text at 11.7:1 or better on its tint; no sideways scroll; T and
+  Finished filter to their pieces; the record's badge, label and trail; Print alone, 70 × 40 mm, coral
+  in colour and white in ink, cleaned up after; the Library tab in both languages with the legend in
+  the same tokens, all 35 codes, the example tag and trail, the note, and search.
+
+---
+
+## 13gd. A kept record's photograph, pointed at the same picture (1.0.0-rc128)
+
+**The fault, found by the owner on her own copy.** Sappanwood took its own id at rc78 (§13es); the old
+record `seed:paubrasilia_echinata` stays in any copy where her work points at it, and still names the
+file it shipped with, `seed/images/plants/paubrasilia_echinata.jpg`. §13es said that file stays for
+that reason. Package 3 (§13fx, rc122) judged it unused by looking at the PACK, where no record names it,
+and stopped shipping it: on her copy the kept plant lost its photograph. And `seed/plant-photos.json`
+kept the file's entry, so the table of shipped photographs named a file that did not ship — no check
+compared the two.
+
+**The same picture ships.** `paubrasilia_echinata.jpg` and `biancaea_sappan.jpg` are the same file, byte
+for byte (SHA-256 `fa856059…`), and the kept record carries that hash.
+
+**The repair — cleaner than shipping the file twice.**
+- `repointPlantPhotos()` (migrate-photos.js), at every start: a plant record whose `photoSrc` is not a
+  shipped file is pointed at the shipped file with the SAME hash, and given the credit that file ships
+  with (taken from the library record that shows it, so a normal start still does not fetch the plant
+  pack). A record whose hash no shipped file has is left exactly as it is — nothing is guessed. Only
+  the picture's address and credit of a library record change; her trials, batches and recipes keep
+  the old id as §13es decided. Structural (§13cv): not restamped.
+- **Not a marked pass.** A marker would be written even when the table could not be read offline (the
+  P2 of §13ft), and a later release that stops shipping another file is covered without a new marker.
+  Once done it does nothing; its cost is one file from the worker's cache and the plant store.
+- `seed/plant-photos.json` loses the stale entry: the table names shipped files only.
+
+**Checks.**
+- `try-release-files.mjs`: every photograph in `plant-photos.json` is on disk and in the release. Would
+  have failed at rc122.
+- `try-boot-and-photos.mjs`: one record pointed, its hash and the CC BY 3.0 credit, not restamped; a hash
+  no file has left alone; a record whose file ships untouched; a second run does nothing — and the
+  unchanged start still fetches no plant pack.
+- `try-plant-id-change.mjs` (Chromium, the real rc77 record): the kept record's file answers 404; the start
+  points it at `biancaea_sappan.jpg` with its credit; another plant and her trial on the old id untouched;
+  run again, nothing; the plant's screen shows the photograph.

@@ -8,7 +8,7 @@
 
 import { all, get, putMigration, getSetting, setSetting, uid } from './db.js';
 import { migrateAll } from './migrate-actions.js';
-import { migratePlantPhotos } from './migrate-photos.js';
+import { migratePlantPhotos, repointPlantPhotos } from './migrate-photos.js';
 import { bundleFromSteps } from './ecoprint-bundle.js';
 
 // ---------------------------------------------------------------- migrations
@@ -69,6 +69,10 @@ export async function runMigrations() {
   await runOnce('ecoprintBundleLayers', 1, migrateEcoprintBundleLayers);
   await runOnce('recipeSourceList', 1, migrateRecipeSourceList);
   await runOnce('actionIds', 1, healActionIds);
+  // Every start, unmarked (§13gd): a kept plant record naming a photograph file
+  // the release no longer ships is pointed at the shipped file with the same
+  // picture. A no-op once done.
+  await repointPlantPhotos();
 }
 
 // Every action carries an id (rc95), because a work now points at its

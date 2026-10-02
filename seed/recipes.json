@@ -1,6 +1,6 @@
 {
  "packId": "bagra-recipes",
- "packVersion": "0.21.0",
+ "packVersion": "0.21.1",
  "description": {
   "bg": "Начален набор рецепти. Пигментната се води — от нея излизат партиди. Акварелът и пастелите се четат и следват, но не се записват.",
   "en": "A starting set of recipes. The pigment one is worked — batches come out of it. Watercolour and pastels are read and followed but not logged."
@@ -242,6 +242,7 @@
     "bg": "Танинова баня",
     "en": "Tannin bath"
    },
+   "shortCode": "TAN",
    "notes": {
     "bg": "Танинът дава на целулозата за какво да се хване: сам по себе си е и цвят, и основа за алуминиевото закрепване. Количеството зависи от избрания танин — шикалките са най-силни, миробаланът и дъбовият танин искат повече. След таниновата баня се продължава към закрепване; не се изпира с препарат между двете.",
     "en": "Tannin gives cellulose something to hold on to: it is both a colour and the ground for aluminium mordanting. How much depends on which tannin — gallnut is the strongest, myrobalan and oak tannin want more. Mordanting follows; do not wash with detergent between the two."
@@ -345,6 +346,7 @@
     "bg": "Закрепване на коприна",
     "en": "Mordanting silk"
    },
+   "shortCode": "PAS",
    "notes": {
     "bg": "Коприната се закрепва в топла, не гореща баня и се оставя да изстине в нея. Стипцата се разтваря отделно, преди да влезе платът. Рецептата е с калиева стипца; алуминиевият сулфат е друго вещество с друго съдържание на алуминий и не се заменя грам за грам.",
     "en": "Silk is mordanted in a warm, not hot bath and left to cool in it. The alum is dissolved separately, before the cloth goes in. This recipe is for potassium alum; aluminium sulfate is a different substance with a different aluminium content and is not swapped gram for gram."
@@ -444,6 +446,7 @@
     "bg": "Закрепване на целулоза със стипца и сода",
     "en": "Mordanting cellulose with alum and soda"
    },
+   "shortCode": "PAS/AS + Na₂CO₃",
    "notes": {
     "bg": "Двата компонента се разтварят отделно и содата се добавя бавно — иначе се утаява. Банята върви след таниновата и завършва с бавно охлаждане в нея.",
     "en": "The two are dissolved separately and the soda goes in slowly — added fast it precipitates. The bath follows the tannin one and ends by cooling slowly in it."
@@ -808,6 +811,7 @@
     "bg": "Закрепване с алуминиев ацетат",
     "en": "Mordanting with aluminium acetate"
    },
+   "shortCode": "AA",
    "notes": {
     "bg": "Банята е самият работен разтвор: приготвя се по теглото на тъканта и се използва цял. Няма второ мащабиране — количеството алуминий вече е решено при приготвянето.\n\nЗа целулоза и за коприна; протеиново тук значи коприна, не автоматично вълна. Банята е студена или хладка и не се нагрява.\n\nТаниновата предварителна обработка не е задължителна за този начин на работа. При някои методи и цели се прави, но не е част от основната верига.\n\nСлед банята задължително следва баня с креда (калциев карбонат) — тя свързва закрепителя, а не просто регулира pH.\n\nПрактическа работна рецепта от практиката на Crafty Place.",
     "en": "The bath is the working solution itself: made for the weight of the cloth and used whole. There is no second scaling — how much aluminium there is was settled when it was made.\n\nFor cellulose and for silk; protein here means silk, not automatically wool. The bath is cold or cool and is not heated.\n\nA tannin pre-treatment is not required for this way of working. Some methods and aims call for one, but it is not part of the default chain.\n\nA chalk bath (calcium carbonate) must follow — it binds the mordant rather than merely adjusting the pH.\n\nPractical working recipe used in Crafty Place practice."
@@ -891,6 +895,7 @@
     "bg": "Баня с креда (калциев карбонат)",
     "en": "Chalk bath (calcium carbonate)"
    },
+   "shortCode": "CaCO₃",
    "notes": {
     "bg": "Банята след закрепващата обработка: 10 г калциев карбонат на литър, тоест около 50 г на 5 литра. Пшеничните трици са традиционна алтернатива на кредата, но не са основната съставка тук.",
     "en": "The bath after the mordant treatment: 10 g of calcium carbonate per litre, that is about 50 g to 5 litres. Wheat bran is a traditional alternative to chalk, but it is not the ingredient here."
@@ -1298,6 +1303,7 @@
     "bg": "Паста за печат със закрепител",
     "en": "Mordant print paste"
    },
+   "shortCode": "MP",
    "notes": {
     "bg": "Прави около 200 мл. Пастата носи закрепителя, не багрилото: печата се върху плат без закрепител, после платът влиза в багрилната баня и цвят хваща само там, където е печатано. Най-добре с адективно багрило — субстантивното оцветява и фона. Сходни пропорции се срещат в няколко източника за печат с паста.",
     "en": "Makes about 200 ml. The paste carries the mordant, not the dye: it is printed onto unmordanted cloth, and when the cloth goes into the dye bath only the printed areas take colour. Best with an adjective dye — a substantive one will colour the ground as well. Similar proportions appear across several sources on paste printing."
@@ -1466,6 +1472,7 @@
     "bg": "Готова паста със закрепител",
     "en": "Ready-to-use dye paste with a mordant"
    },
+   "shortCode": "DMP",
    "notes": {
     "bg": "Прави около 200 мл. Носи и багрилото, и закрепителя, затова се нанася направо върху плат без закрепител и не следва багрилна баня. Количеството екстракт е различно за всяко багрило; обичайният обхват е 1–10%. Претегли го и го увеличавай постепенно до желания тон. Не се пази — прави само колкото ще използваш.",
     "en": "Makes about 200 ml. It carries both the dye and the mordant, so it goes straight onto unmordanted cloth and no dye bath follows. The amount of extract differs from dye to dye; the usual range is 1–10%. Weigh it, and increase it gradually until you reach the shade you want. It does not keep — make only what you will use."
@@ -1589,6 +1596,7 @@
     "bg": "Алуминиево-железен закрепител за еко принт",
     "en": "Aluminium–iron mordant for eco-print"
    },
+   "shortCode": "PAS + Fe + Na₂CO₃ + VINEGAR",
    "notes": {
     "bg": "Алуминиев ацетат, направен на място от стипца, оцет и сода, с малко желязо. Платът влиза СУХ и изсъхва отново — така оцетът се изпарява и връзката се затяга. Задължително следва баня с овесени ядки. Количествата са за 100 г плат.\n\nПовече желязо води до по-тъмни и по-сиви резултати. Ако искаш такъв резултат, увеличавай железния сулфат постепенно, в рамките на консервативните граници на Багра, и първо изпробвай върху мостра.\n\nПрактическа работна рецепта от практиката на Crafty Place.",
     "en": "Aluminium acetate made in place from alum, vinegar and soda ash, with a little iron. The cloth goes in DRY and dries again — that is how the vinegar evaporates and the bond tightens. An oatmeal bath must follow. The quantities are for 100 g of cloth.\n\nMore iron gives darker, greyer results. If you want that, increase the ferrous sulfate gradually, within Bagra’s conservative limits, and test on a sample first.\n\nPractical working recipe used in Crafty Place practice."

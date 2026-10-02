@@ -12,6 +12,27 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc128 — 2 October 2026
+
+The sappanwood record kept from rc77 has its photograph again (§13gd). rc122 stopped shipping
+`paubrasilia_echinata.jpg` as unused, but a copy whose work points at the old id keeps that record, and
+it named the file (§13es had said so). The same picture ships as `biancaea_sappan.jpg`, byte for byte:
+every start now points a record whose file no longer ships at the shipped file with the same hash, and
+its credit. Nothing is guessed, nothing of hers changes. `plant-photos.json` drops the stale entry, and
+the gate checks that it names shipped files only.
+
+## 1.0.0-rc127 — 2 October 2026
+
+Studio System v1 (§13gc). Five stage colours with icon, code and name — RAW sage, W blue, T ochre,
+M mustard, D coral — on the fabric filter chips, every row and the record, from one derivation:
+`deriveStudioStatus`. T is derived (a washed piece carrying tannin; §13bd stands); `finished` stays
+its own uncoloured state and a finished piece keeps the colour of its last stage. The record gains a
+working label — tag number, stage, what did it, date, 70 × 40 mm, Print in colour or in ink for
+coloured paper — and its process trail, `W → M (AA + CaCO₃) → D (EP)`, both derived, nothing stored.
+Recipes gain an optional `shortCode` naming the whole treatment (eight seeded; recipes pack 0.21.1);
+a recipe without one shows its name. Library → Studio System: the legend, how to read a tag, the
+trail, and a 35-code dictionary with its collision rules. New checks try-studio and try-studio-screens.
+
 ## 1.0.0-rc126 — 30 September 2026
 
 Pre-1.0 polish (§13gb). **Bagra** in English too: the window title, the welcome and the backup error no

@@ -77,3 +77,57 @@ async function sha256(text) {
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+
+/**
+ * A plant record whose photograph file is no longer shipped is pointed at the
+ * shipped file with the SAME photograph (§13gd).
+ *
+ * A withdrawn plant kept because her work points at it (§13es, §13eo) still
+ * names the file it was shipped with. rc122 stopped shipping
+ * `paubrasilia_echinata.jpg` — §13fx judged it unused from the PACK, where no
+ * record named it, and missed the installed copies, where the kept record did.
+ * The same photograph ships as `biancaea_sappan.jpg`, byte for byte: the hash
+ * the record carries finds it. So the record is pointed there and given the
+ * credit that file now ships with. Nothing is guessed — a record whose hash
+ * matches no shipped file is left as it is — and nothing of hers is touched:
+ * this is the library's own record, and only its picture's address changes.
+ *
+ * Not a marked pass: every start, cheaply (one cached file, the plant store),
+ * and silently a no-op once done. A marker would be written even when the table
+ * could not be read offline (DECISIONS P2 of §13ft); and a later release that
+ * stops shipping another file is covered without a new marker.
+ *
+ * @returns {Promise<number>} records pointed at a shipped file
+ */
+export async function repointPlantPhotos() {
+  // The table of shipped photographs only — never the plant pack, which a
+  // normal start does not fetch (try-boot-and-photos holds that).
+  let table = null;
+  try {
+    const t = await fetch('seed/plant-photos.json');
+    if (t.ok) table = (await t.json()).photos || null;
+  } catch { /* offline and uncached: next start */ }
+  if (!table) return 0;
+
+  const entries = Object.values(table);
+  const shipped = new Set(entries.map(e => e.src));
+  const byHash = new Map(entries.map(e => [e.hash, e.src]));
+  const plants = await all('plants');
+  // The credit a file ships with is on the library record that shows it.
+  const creditOf = new Map(plants.filter(p => p.photoSrc && shipped.has(p.photoSrc) && p.photoCredit && !p.editedByUser)
+    .map(p => [p.photoSrc, p.photoCredit]));
+
+  let n = 0;
+  for (const plant of plants) {
+    if (!plant.photoSrc || shipped.has(plant.photoSrc)) continue;
+    const src = plant.photoHash ? byHash.get(plant.photoHash) : null;
+    if (!src) continue;
+    plant.photoSrc = src;
+    if (creditOf.has(src)) plant.photoCredit = { ...creditOf.get(src) };
+    // Structural (§13cv): the same picture at another address is not an edit.
+    await putMigration('plants', plant);
+    n++;
+  }
+  if (n) console.info(`plant photographs: ${n} record(s) pointed at the shipped file with the same picture`);
+  return n;
+}
