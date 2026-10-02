@@ -1,6 +1,6 @@
 {
  "packId": "bagra-core",
- "packVersion": "18",
+ "packVersion": "19",
  "description": "Books, courses, people and sites the library rests on. Attribution lives here rather than on each record: the same procedure usually arrives by several routes at once — read in a book, taught at a workshop, taught again elsewhere — and a field on the record holds only one of them. Listed with thanks. This list is a start and is expected to grow.",
  "sources": [
   {
@@ -932,8 +932,8 @@
     "en": "Maiwa School of Textiles"
    },
    "note": {
-    "bg": "Онлайн курс. Дава същата паста със закрепител със същите количества като Клиф, а от него са взети предупрежденията при разбъркването. Неговата готова паста със закрепител е по друга химия — стипца, държана в разтвор с оцет — и не е избрана за библиотеката.",
-    "en": "An online course. It gives the same mordant paste with the same figures as Cliffe, and its mixing warnings are taken from here. Its ready-to-use mordant paste follows different chemistry — alum kept in solution with vinegar — and was not the one chosen for the library."
+    "bg": "Онлайн курс за печат и рисуване с натурални багрила — пасти със закрепител и без, сгъстители, нанасяне. В Библиотеката е като източник за проучване и сравнение на методите за печат с паста.",
+    "en": "An online course on printing and painting with natural dyes — pastes with and without a mordant, thickeners, application. In the Library as a source for research and for comparing methods of paste printing."
    }
   },
   {
@@ -964,8 +964,8 @@
     "en": "Michel Garcia"
    },
    "note": {
-    "bg": "В Багра името му идва само чрез Алисън Кели, която посочва, че сложният закрепител е нейна адаптация на негова формула. Първоизточникът не е проверен и Багра не му приписва авторството самостоятелно.",
-    "en": "He reaches Bagra only through Alison Kelly, who states that the compound mordant is her adaptation of a formula of his. The original has not been checked, and Bagra does not attribute the formula to him on its own authority."
+    "bg": "Името му се среща в литературата за сложните закрепители с алуминий и желязо. В Библиотеката е за проучване и сравнение на методи; Багра не му приписва рецепта.",
+    "en": "His name appears in the literature on compound aluminium and iron mordants. In the Library for research and comparison of methods; Bagra attributes no recipe to him."
    }
   }
  ]

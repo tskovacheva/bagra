@@ -1,6 +1,6 @@
 {
  "packId": "bagra-plants-bg",
- "packVersion": "0.14.2",
+ "packVersion": "0.14.4",
  "description": {
   "bg": "Багрилни растения в България — от ръководството на Crafty Place.",
   "en": "Dye plants of Bulgaria — from the Crafty Place guide."
@@ -174,7 +174,9 @@
     "licence": "CC0",
     "source": "https://commons.wikimedia.org/wiki/File:Hard-to-peel_onion_skin.jpeg",
     "taxon": "Allium cepa",
-    "note": "Onion skins; dye-relevant material."
+    "note": "Onion skins; dye-relevant material.",
+    "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -446,7 +448,9 @@
     "licence": "Public Domain",
     "source": "https://commons.wikimedia.org/wiki/File:Alnus_glutinosa_04475.JPG",
     "taxon": "Alnus glutinosa",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -692,7 +696,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Betula_pendula_01.jpg",
     "taxon": "Betula pendula",
-    "note": "Leaves + catkins."
+    "note": "Leaves + catkins.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -868,10 +874,15 @@
    },
    "photoCredit": {
     "author": "Pseudoanas",
-    "licence": "Public Domain / CC0",
+    "licence": "CC0",
     "source": "https://commons.wikimedia.org/wiki/File:Carthamus_tinctorius_050709b.JPG",
     "taxon": "Carthamus tinctorius",
-    "note": "Flower emphasized; dye-relevant part."
+    "note": "Flower emphasized; dye-relevant part.",
+    "licenceAlternatives": [
+     "Public Domain"
+    ],
+    "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -1112,7 +1123,9 @@
     "author": "Ogrodnikk",
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Coreopsis_tinctoria_kwiaty2.JPG",
-    "taxon": "Coreopsis tinctoria"
+    "taxon": "Coreopsis tinctoria",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -1328,7 +1341,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Cosmos_sulphureus_at_Kadavoor.jpg",
     "taxon": "Cosmos sulphureus",
-    "note": "Representative species for mixed record; top-view flower."
+    "note": "Representative species for mixed record; top-view flower.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -1601,7 +1616,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:(ms)_Cotinus_coggygria_5.jpg",
     "taxon": "Cotinus coggygria",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -1827,7 +1844,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:CornusMas_Fruits_01.jpg",
     "taxon": "Cornus mas",
-    "note": "Leaves + fruit."
+    "note": "Leaves + fruit.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -2056,7 +2075,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:(MHNT)_Cornus_sanguinea_%E2%80%93_leaves_and_flowers.jpg",
     "taxon": "Cornus sanguinea",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -2338,7 +2359,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Hawthorn_1_April_2023_(1).jpg",
     "taxon": "Crataegus monogyna",
-    "note": "Representative species for mixed record."
+    "note": "Representative species for mixed record.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -2568,7 +2591,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Geranium_macrorrhizum_kz04.jpg",
     "taxon": "Geranium macrorrhizum",
-    "note": "Photo from Vitosha."
+    "note": "Photo from Vitosha.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -2850,7 +2875,9 @@
     "licence": "Public Domain",
     "source": "https://commons.wikimedia.org/wiki/File:Hypericum_perforatum_Habitus_DehesaBoyalPuertollano.jpg",
     "taxon": "Hypericum perforatum",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -3037,7 +3064,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Isatis_tinctoria_002.JPG",
     "taxon": "Isatis tinctoria",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -3329,7 +3358,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Juglans-regia-fruit.JPG",
     "taxon": "Juglans regia",
-    "note": "Leaves + green fruit."
+    "note": "Leaves + green fruit.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -3544,7 +3575,9 @@
     "author": "Sten Porse",
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Lavandula-angustifolia-flowering.JPG",
-    "taxon": "Lavandula angustifolia"
+    "taxon": "Lavandula angustifolia",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "subshrub",
    "habitat": [
@@ -3778,7 +3811,9 @@
     "licence": "CC BY 3.0 US",
     "source": "https://commons.wikimedia.org/wiki/File:Starr-110217-1512-Malus_pumila-Dorsett_Golden_fruit_and_leaves-Olinda-Maui_(24958276932).jpg",
     "taxon": "Malus domestica / Malus pumila",
-    "note": "Leaves + fruit."
+    "note": "Leaves + fruit.",
+    "licenceUrl": "https://creativecommons.org/licenses/by/3.0/us/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -3987,7 +4022,9 @@
     "author": "Andrew Dunn",
     "licence": "CC BY-SA 2.0",
     "source": "https://commons.wikimedia.org/wiki/File:Medlar_pomes_and_leaves.jpg",
-    "taxon": "Mespilus germanica"
+    "taxon": "Mespilus germanica",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -4233,7 +4270,9 @@
     "author": "Ivar Leidus",
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Origanum_vulgare_-_harilik_pune.jpg",
-    "taxon": "Origanum vulgare"
+    "taxon": "Origanum vulgare",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -4419,10 +4458,18 @@
    },
    "photoCredit": {
     "author": "YAMAMAYA",
-    "licence": "GFDL",
+    "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Fruits_Prunus_domestica.jpg",
     "taxon": "Prunus domestica",
-    "note": "Approved visual choice. GFDL is less convenient than CC; preserve license text."
+    "note": "Approved visual choice. GFDL is less convenient than CC; preserve license text.",
+    "licenceAlternatives": [
+     "CC BY-SA 2.5",
+     "CC BY-SA 2.0",
+     "CC BY-SA 1.0",
+     "GFDL 1.2+"
+    ],
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -4620,7 +4667,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Pomegranate_(opened).jpg",
     "taxon": "Punica granatum",
-    "note": "Rind clearly visible."
+    "note": "Rind clearly visible.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -4950,7 +4999,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Quercus_robur_acorns_and_leaves.jpg",
     "taxon": "Quercus robur",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -5221,7 +5272,9 @@
     "licence": "CC BY 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Reseda_luteola_RF.jpg",
     "taxon": "Reseda luteola",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -5462,7 +5515,9 @@
     "licence": "Public Domain",
     "source": "https://commons.wikimedia.org/wiki/File:Rhamnus_catharticus_leaves_and_fruit.jpg",
     "taxon": "Rhamnus cathartica",
-    "note": "Low resolution, but approved."
+    "note": "Low resolution, but approved.",
+    "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -5682,13 +5737,6 @@
      "en": ""
     }
    },
-   "photoCredit": {
-    "author": "wynjym",
-    "licence": "CC BY-ND 2.0",
-    "source": "https://www.flickr.com/photos/wynjym/1076737816",
-    "taxon": "Rhus coriaria",
-    "note": "Rhus coriaria — the spice sumac, not the ornamental R. typhina."
-   },
    "plantType": "shrub",
    "habitat": [
     "wild",
@@ -5699,9 +5747,18 @@
     "bg": "Сицилианският сумак е листопаден храст от семейство Смрадликови, естествен за Средиземноморието и Западна Азия. Листата и киселите червени плодове са богати на танини; растението има дълга употреба в кожарството, кулинарията и багренето.",
     "en": "Sicilian sumac is a deciduous shrub in the cashew family, native to the Mediterranean and western Asia. Its leaves and tart red fruits are rich in tannins, and the plant has a long history in tanning, cooking and dyeing."
    },
-   "photoHash": "3ad39589dfb9fad2d5ba540ec04f6d787c90daa848a28fe18fa5873246f9db1f",
+   "dyeClass": "substantive",
    "photoSrc": "seed/images/plants/rhus_coriaria.jpg",
-   "dyeClass": "substantive"
+   "photoHash": "cecc0b827ae1240f5b785083060ef668918731489b6df6bb67e5a5f93108e87f",
+   "photoCredit": {
+    "author": "Lazaregagnidze",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:%E1%83%97%E1%83%A3%E1%83%97%E1%83%A3%E1%83%91%E1%83%9D_Rhus_coriaria_Gerbersumach,_Gew%C3%BCrzsumach.JPG",
+    "taxon": "Rhus coriaria",
+    "note": "Rhus coriaria, Shio-mgvime. From the Commons 960 px rendition of the 4288×2848 original; cropped to the fruiting panicle with leaflets either side.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "cropped-resized"
+   }
   },
   {
    "code": "rosmarinus_officinalis",
@@ -5911,7 +5968,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Salvia_rosmarinus_flowering_Coves_del_Drac_Mallorca.jpg",
     "taxon": "Salvia rosmarinus",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "subshrub",
    "habitat": [
@@ -6138,7 +6197,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Rubia_tinctorum_001.JPG",
     "taxon": "Rubia tinctorum",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -6365,7 +6426,9 @@
     "licence": "CC0",
     "source": "https://commons.wikimedia.org/wiki/File:20130628Salix_alba.jpg",
     "taxon": "Salix alba",
-    "note": "Representative species for generic/mixed willow record."
+    "note": "Representative species for generic/mixed willow record.",
+    "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -6589,7 +6652,9 @@
     "licence": "CC0",
     "source": "https://commons.wikimedia.org/wiki/File:Tagetes_erecta_(flowers)_02.jpg",
     "taxon": "Tagetes erecta",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -6850,7 +6915,9 @@
     "author": "Naturpuur",
     "licence": "CC BY 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Thymian_(Thymus_vulgaris),_Nationalpark_Hohe_Tauern.jpg",
-    "taxon": "Thymus vulgaris / spp."
+    "taxon": "Thymus vulgaris / spp.",
+    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "modified": "resized"
    },
    "plantType": "subshrub",
    "habitat": [
@@ -7067,7 +7134,9 @@
     "licence": "CC0",
     "source": "https://commons.wikimedia.org/wiki/File:Tilia_cordata_-_leaves.jpg",
     "taxon": "Tilia cordata",
-    "note": "Leaves emphasized."
+    "note": "Leaves emphasized.",
+    "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -7301,7 +7370,9 @@
     "author": "Michael Gasperl (Migas)",
     "licence": "CC BY 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Urtica_dioica_(Bl%C3%BCten).jpg",
-    "taxon": "Urtica dioica"
+    "taxon": "Urtica dioica",
+    "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -7507,7 +7578,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Persicaria_tinctoria_bergianska.JPG",
     "taxon": "Persicaria tinctoria",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -7767,7 +7840,9 @@
     "licence": "CC BY 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Tanacetum_vulgare_RF.jpg",
     "taxon": "Tanacetum vulgare",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -8019,7 +8094,9 @@
     "licence": "CC BY 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Cota_tinctoria_2_RF.jpg",
     "taxon": "Cota tinctoria",
-    "note": "Flowers emphasized."
+    "note": "Flowers emphasized.",
+    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -8214,7 +8291,9 @@
     "licence": "CC0",
     "source": "https://commons.wikimedia.org/wiki/File:Rhamnus_saxatilis_(Felsen-Kreuzdorn)_IMG_7430.JPG",
     "taxon": "Rhamnus saxatilis",
-    "note": "Representative species; not ideal fruit-focused image, but approved."
+    "note": "Representative species; not ideal fruit-focused image, but approved.",
+    "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -8414,10 +8493,15 @@
    },
    "photoCredit": {
     "author": "J.M.Garg",
-    "licence": "GFDL",
+    "licence": "CC BY 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Caesalpinia_sappan_(Sappan_wood)_W_IMG_3340.jpg",
     "taxon": "Biancaea sappan",
-    "note": "Shows sappanwood (Biancaea sappan)."
+    "note": "Shows sappanwood (Biancaea sappan).",
+    "licenceAlternatives": [
+     "GFDL 1.2+"
+    ],
+    "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -8617,7 +8701,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Khair_(Acacia_catechu)_leaves_%26_flowers_at_Hyderabad,_AP_W_IMG_7262.jpg",
     "taxon": "Senegalia catechu (syn. Acacia catechu)",
-    "note": "Leaves + flowers."
+    "note": "Leaves + flowers.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -8899,7 +8985,9 @@
     "licence": "CC BY-SA 2.5",
     "source": "https://commons.wikimedia.org/wiki/File:Castanea_sativa_leaves_and_immature_fruit.jpg",
     "taxon": "Castanea sativa",
-    "note": "Sweet chestnut, not horse chestnut."
+    "note": "Sweet chestnut, not horse chestnut.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.5/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -9087,7 +9175,9 @@
     "licence": "CC BY 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Lawsonia_inermis_Leaf_Detail.png",
     "taxon": "Lawsonia inermis",
-    "note": "Leaves are the dye-relevant part."
+    "note": "Leaves are the dye-relevant part.",
+    "licenceUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -9384,7 +9474,9 @@
     "author": "O. Pichard",
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Achillea_millefolium_vallee-de-grace-amiens_80_22062007_1.jpg",
-    "taxon": "Achillea millefolium"
+    "taxon": "Achillea millefolium",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -9605,7 +9697,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Sage_-_Salvia_officinalis.jpg",
     "taxon": "Salvia officinalis",
-    "note": "Leaves emphasized."
+    "note": "Leaves emphasized.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "subshrub",
    "habitat": [
@@ -9852,7 +9946,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Mentha-piperita.JPG",
     "taxon": "Mentha × piperita",
-    "note": "Representative species for Mentha spp."
+    "note": "Representative species for Mentha spp.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -10061,7 +10157,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Melissa_officinalis_Lemon_balm.jpg",
     "taxon": "Melissa officinalis",
-    "note": null
+    "note": null,
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -10284,7 +10382,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Calendula_officinalis_g1.jpg",
     "taxon": "Calendula officinalis",
-    "note": "Flower heads emphasized."
+    "note": "Flower heads emphasized.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "herb",
    "habitat": [
@@ -10518,7 +10618,9 @@
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Eucalyptus_cinerea_leaves.jpg",
     "taxon": "Eucalyptus cinerea",
-    "note": "Representative species; record notes E. cinerea for warm orange/rust eco prints."
+    "note": "Representative species; record notes E. cinerea for warm orange/rust eco prints.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -10765,7 +10867,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Persea_americana_fruit_2.JPG",
     "taxon": "Persea americana",
-    "note": "Plant/tree context with fruit; user-preferred replacement."
+    "note": "Plant/tree context with fruit; user-preferred replacement.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "tree",
    "habitat": [
@@ -11012,7 +11116,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Rosa_palustris_flowering_branch_001.JPG",
     "taxon": "Rosa palustris",
-    "note": "Representative species; leafy flowering branch chosen to support eco-print use of leaves."
+    "note": "Representative species; leafy flowering branch chosen to support eco-print use of leaves.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -11351,7 +11457,9 @@
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Corylus_avellana.jpg",
     "taxon": "Corylus avellana",
-    "note": "Leaves + nuts; useful for leaf/hull profile."
+    "note": "Leaves + nuts; useful for leaf/hull profile.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "plantType": "shrub",
    "habitat": [
@@ -11625,7 +11733,9 @@
     "author": "Diego7864",
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Pelargonium_zonale_a_SA.jpg",
-    "taxon": "Pelargonium zonale"
+    "taxon": "Pelargonium zonale",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Зоналното мушкато е многогодишен полухраст от Южна Африка, широко отглеждан като саксийно и балконско растение. Разпознава се по закръглените листа с тъмна зона и богатите съцветия, които цъфтят продължително през топлия сезон.",
@@ -11950,7 +12060,9 @@
     "author": "H. Zell",
     "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Sambucus_nigra_0002.JPG",
-    "taxon": "Sambucus nigra L."
+    "taxon": "Sambucus nigra L.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Черният бъз е листопаден храст или малко дърво, широко разпространено в Европа и Западна Азия. Среща се край гори, пътища и населени места; ароматните цветове и тъмните плодове имат дълга хранителна и лечебна употреба.",
@@ -12248,9 +12360,14 @@
    },
    "photoCredit": {
     "author": "Fir0002",
-    "licence": "CC BY-SA 3.0 (also GFDL)",
+    "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Blackberry_fruits10.jpg",
-    "taxon": "Rubus fruticosus L."
+    "taxon": "Rubus fruticosus L.",
+    "licenceAlternatives": [
+     "GFDL"
+    ],
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Къпините са бодливи многогодишни храсти от род Rubus, широко разпространени в Европа и умерените области. Образуват гъсти храсталаци по горски окрайнини, поляни и крайпътни места и дават ядливи тъмни плодове в края на лятото. В практиката под това име често се разбира сборният вид Rubus fruticosus agg.",
@@ -12516,7 +12633,9 @@
     "author": "Juni (jam343)",
     "licence": "CC BY 2.0",
     "source": "https://commons.wikimedia.org/wiki/File:Dahlia_pinnata.jpg",
-    "taxon": "Dahlia pinnata Cav."
+    "taxon": "Dahlia pinnata Cav.",
+    "licenceUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Далиите са многогодишни грудкови растения, произхождащи от Мексико и Централна Америка и отглеждани в Европа като градински цветя. Съвременните сортове са изключително разнообразни по форма и цвят и цъфтят продължително от лятото до първите слани.",
@@ -12761,7 +12880,9 @@
     "author": "Robert Flogaus-Faust",
     "licence": "CC BY 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Genista_tinctoria_2_RF.jpg",
-    "taxon": "Genista tinctoria L."
+    "taxon": "Genista tinctoria L.",
+    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Багрилната жълтуга е нисък листопаден храст от семейство Бобови, разпространен в Европа и Западна Азия. Расте по слънчеви ливади, редки гори и храсталаци и има дълга история като местен източник на жълто багрило.",
@@ -12969,7 +13090,9 @@
     "author": "David Delon",
     "licence": "Public Domain",
     "source": "https://commons.wikimedia.org/wiki/File:Alkanna_tinctoria.jpg",
-    "taxon": "Alkanna tinctoria Tausch"
+    "taxon": "Alkanna tinctoria Tausch",
+    "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Багрилната алкана е многогодишно тревисто растение от семейство Грапаволистни, характерно за сухи и каменисти места в Средиземноморието и Югоизточна Европа. От древността е ценена заради червеникавия пигмент в корените, използван за оцветяване на текстил, масла и козметика.",
@@ -13217,7 +13340,9 @@
     "author": "Krzysztof Ziarnek, Kenraiz",
     "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Rheum_rhabarbarum_kz03.jpg",
-    "taxon": "Rheum rhabarbarum L."
+    "taxon": "Rheum rhabarbarum L.",
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Градинският ревен е едро многогодишно растение от семейство Лападови, отглеждано заради месестите листни дръжки. Произходът на културните форми е свързан с азиатски видове Rheum; коренищата презимуват и всяка пролет дават мощна нова листна маса.",
@@ -13478,9 +13603,14 @@
    },
    "photoCredit": {
     "author": "MPF (assumed by Commons)",
-    "licence": "CC BY-SA 3.0 / CC BY 2.5",
+    "licence": "CC BY-SA 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Fraxinus_excelsior.jpg",
-    "taxon": "Fraxinus excelsior L."
+    "taxon": "Fraxinus excelsior L.",
+    "licenceAlternatives": [
+     "CC BY 2.5"
+    ],
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Обикновеният ясен е високо листопадно дърво, естествено за голяма част от Европа и Западна Азия. Среща се в влажни и плодородни широколистни гори и е ценен заради еластичната си, здрава дървесина.",
@@ -13762,9 +13892,14 @@
    },
    "photoCredit": {
     "author": "Emőke Dénes",
-    "licence": "CC BY-SA 4.0 (also CC BY-SA 2.5)",
+    "licence": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Rosales_-_Frangula_alnus_-_3.jpg",
-    "taxon": "Frangula alnus Mill. (syn. Rhamnus frangula L.)"
+    "taxon": "Frangula alnus Mill. (syn. Rhamnus frangula L.)",
+    "licenceAlternatives": [
+     "CC BY-SA 2.5"
+    ],
+    "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "modified": "resized"
    },
    "description": {
     "bg": "Елшовият зърнастец е листопаден храст или малко дърво, естествено за Европа, Северна Африка и Западна Азия. Предпочита влажни гори, храсталаци и торфени места; кората му има дълга история в билкарството и традиционните багрилни практики.",
