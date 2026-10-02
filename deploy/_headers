@@ -1,0 +1,21 @@
+# Bagra production response headers (spec §13ga).
+# Format: Cloudflare Pages / Netlify `_headers` (a path line, then indented headers).
+# make-release.mjs copies this file to dist/_headers; the host reads it and does not serve it.
+#
+# CACHING. Nothing here is content-hashed: app.js is app.js in every release. So
+# nothing is `immutable` and nothing has a long max-age. `no-cache` means „store,
+# but revalidate before use" — a 304 when unchanged, the new file when not. The
+# service worker is the offline cache and installs each release with
+# `cache: 'reload'`, past this layer; HTTP caching only serves the first visit
+# and browsers without a worker, and both must get ONE release, not a mix.
+#
+# CSP. No inline script, no inline handler, no eval, no remote resource. Styles
+# keep 'unsafe-inline' (one <style> block, style attributes in templates).
+# Photographs are data: URLs; the backup download is a blob: URL.
+
+/*
+  Cache-Control: no-cache
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'

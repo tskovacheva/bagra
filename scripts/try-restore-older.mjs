@@ -62,11 +62,17 @@ const server = spawn('python3', ['-m', 'http.server', String(PORT)], { cwd: proc
 process.on('exit', () => { try { server.kill(); } catch {} });
 await new Promise(r => setTimeout(r, 900));
 
-const browser = await puppeteer.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
+// One browser PER FIXTURE (§13ft). Run in one browser, the second fixture's
+// first navigation timed out every time while each passed on its own — state
+// left by a 300-screen walk, not a fault in the restore. A release layer that
+// fails for a reason unrelated to what it guards is the layer people learn to
+// walk past, so each file gets a browser of its own and a longer allowance.
+const launch = () => puppeteer.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
+const NAV = { waitUntil: 'networkidle0', timeout: 120000 };
 const BASE = `http://localhost:${PORT}/index.html`;
 
 const booted = (page) => page.waitForFunction(
-  () => document.querySelector('#view')?.textContent?.length > 50, { timeout: 30000 });
+  () => document.querySelector('#view')?.textContent?.length > 50, { timeout: 120000 });
 
 async function settle(page) {
   await page.evaluate(() => new Promise(res => {
@@ -98,15 +104,19 @@ const VIEWS = ['#/dashboard', '#/reference', '#/reference/records', '#/plants', 
 for (const file of files) {
   const label = file.replace('.json.gz', '');
   const payload = JSON.parse(zlib.gunzipSync(fs.readFileSync(`${DIR}/${file}`)).toString('utf8'));
+  const browser = await launch();
   const ctx = await browser.createBrowserContext();
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
+  // No service worker, as in the other browser checks: its first claim reloads
+  // the page and kills whatever is being evaluated at that moment (§13ft).
+  await page.evaluateOnNewDocument(() => { delete Navigator.prototype.serviceWorker; });
   const t0 = errors.length;
 
   try {
     await page.setViewport({ width: 1280, height: 900 });
-    await page.goto(BASE, { waitUntil: 'networkidle0' });
+    await page.goto(BASE, NAV);
     await booted(page);
 
     const report = await page.evaluate(async (p) => {
@@ -115,7 +125,7 @@ for (const file of files) {
     }, payload);
 
     // The restore screen reloads (modules/tools.js). So does this.
-    await page.reload({ waitUntil: 'networkidle0' });
+    await page.reload(NAV);
     await booted(page);
     await settle(page);
     if (errors.length > t0) { fail(`${label} boot after restore`, errors[t0]); continue; }
@@ -229,10 +239,10 @@ for (const file of files) {
     fail(label, err?.message || err);
   } finally {
     await ctx.close();
+    await browser.close();
   }
 }
 
-await browser.close();
 if (failed) { console.log('older-backup restore FAILED'); process.exit(1); }
 console.log('older-backup restore passed');
 process.exit(0);

@@ -88,21 +88,25 @@ try {
   tick(1, true);
   await click(view.querySelector('[data-save]'));
   let p = await only();
-  is(Object.keys(p).sort(), ['createdAt', 'id', 'items', 'notes', 'status', 'title', 'updatedAt'],
-     'a plan carries exactly its seven fields');
+  is(Object.keys(p).sort(), ['createdAt', 'id', 'items', 'notes', 'referenceImage', 'sourceLabel', 'sourceUrl', 'status', 'title', 'updatedAt'],
+     'a plan carries exactly its ten fields — the seven of v1 and the three optional of v1.1 (§13gb)');
+  is([p.sourceLabel, p.sourceUrl, p.referenceImage], ['', '', ''], 'the three new ones empty when nothing was given');
   is([p.title, p.status, p.notes], ['Сравнение на закрепители', 'planned', 'Същото платно, същите листа.'],
      'title, status and notes are saved as typed');
   is(p.items.map(i => [i.text, i.checked]), [['N0 — без Fe', false], ['N5 — с 5 г Fe', true]],
      'two lines are saved, the ticked one ticked, and the empty third is not kept');
   is(p.items.every(i => Object.keys(i).sort().join() === 'checked,id,text'), true,
      'a line carries exactly id, text and checked');
-  is(location.hash, '#/plans', 'saving returns to the list');
+  is(location.hash, '#/plans/' + p.id, 'saving opens the plan just saved, to read (§13gb)');
+  is([!!view.querySelector('[data-edit]'), view.querySelectorAll('input[type=text], textarea, select').length],
+     [true, 0], 'which is not a form: an Edit button and no text field');
+  await go('#/plans');
   is(view.querySelector('tbody tr td.num')?.textContent.trim(), '1 / 2', 'the list shows its progress');
 
   // 2, 3, 5, 6. Edit everything, reopen, and look again.
   const firstStamp = p.updatedAt;
   await wait(20);
-  await go('#/plans/' + p.id);
+  await go('#/plans/' + p.id + '/edit');
   type('[data-f="title"]', 'Сравнение на закрепители, памук');
   type('[data-f="notes"]', 'Пара 90 минути.');
   view.querySelector('[data-f="status"]').value = 'active';
@@ -116,7 +120,7 @@ try {
   is(p.items.map(i => [i.text, i.checked]), [['N0 — оригинал без Fe', true], ['N5 — с 5 г Fe', false]],
      'an edited line is saved, and a tick can be taken off as well as put on');
   is(p.updatedAt > firstStamp, true, 'saving moves updatedAt');
-  await go('#/plans/' + p.id);
+  await go('#/plans/' + p.id + '/edit');
   is(view.querySelector('[data-f="status"]').value, 'active', 'the status reads back on reopening');
 
   // 7. Remove a line.
@@ -139,7 +143,7 @@ try {
   }
   await click(view.querySelector('[data-save]'));
   let q = await only();
-  await go('#/plans/' + q.id);
+  await go('#/plans/' + q.id + '/edit');
   const u0 = q.updatedAt;
   await wait(20);
 
@@ -147,9 +151,9 @@ try {
   let s = await db.get('plans', q.id);
   is(s.items.map(i => i.checked), [true, false], 'unticked → ticked is stored without Save');
   is(s.updatedAt > u0, true, 'and moves updatedAt');
-  is([location.hash, dirty.isDirty()], ['#/plans/' + q.id, false],
+  is([location.hash, dirty.isDirty()], ['#/plans/' + q.id + '/edit', false],
      'the plan stays open, and nothing is left unsaved by a tick alone');
-  await go('#/plans'); await go('#/plans/' + q.id);
+  await go('#/plans'); await go('#/plans/' + q.id + '/edit');
   is(view.querySelector('[data-i="0.checked"]').checked, true, 'reopened, the tick is there');
   tick(0, false); await wait(150);
   is((await db.get('plans', q.id)).items[0].checked, false, 'ticked → unticked is stored without Save');
@@ -177,7 +181,7 @@ try {
 
   // A line removed in the form and not saved shifts every index after it.
   // The tick must land on the line it was made on, found by id.
-  await go('#/plans/' + q.id);
+  await go('#/plans/' + q.id + '/edit');
   await click(view.querySelector('[data-item-del="0"]'));
   tick(0, false); await wait(150);
   s = await db.get('plans', q.id);
@@ -198,7 +202,7 @@ try {
      'and Save carries that tick');
 
   // A write that fails says so and leaves the tick to Save.
-  await go('#/plans/' + q.id);
+  await go('#/plans/' + q.id + '/edit');
   const flashEl = () => document.getElementById('flash');
   const realPut = IDBObjectStore.prototype.put;
   IDBObjectStore.prototype.put = function () { throw new Error('disk full'); };
@@ -237,9 +241,61 @@ try {
   await importBackup(old, 'replace');
   is((await db.all('plans')).length, 1, 'an older backup does not delete plans written since (§13co)');
 
+  // v1.1 (§13gb): reading, the source, the picture, and a plan from before.
+  console.log('v1.1 — read, source, picture');
+  await go('#/plans/' + p.id);
+  is([!!view.querySelector('[data-edit]'), !view.querySelector('[data-save]'), !view.querySelector('[data-f]')],
+     [true, true, true], 'opening a plan shows it to read: Edit, no Save, no field');
+  is(view.querySelectorAll('.checklist input[type=checkbox]').length, p.items.length, 'its checklist is there, tickable');
+  is(view.querySelectorAll('.checklist input[type=text]').length, 0, 'and its lines are text, not fields');
+  await click(view.querySelector('[data-edit]'));
+  is(location.hash, '#/plans/' + p.id + '/edit', 'Edit opens the editor');
+  type('[data-f="sourceLabel"]', 'Printing with Botanicals — Laura Mead');
+  type('[data-f="sourceUrl"]', 'javascript:alert(1)');
+  await click(view.querySelector('[data-save]'));
+  is([location.hash, (await db.get('plans', p.id)).sourceUrl], ['#/plans/' + p.id + '/edit', ''],
+     'a javascript: address is refused, and nothing is saved');
+  type('[data-f="sourceUrl"]', 'facebook.com/groups/ecoprint/posts/123');
+  await click(view.querySelector('[data-save]'));
+  let srcPlan = await db.get('plans', p.id);
+  is([srcPlan.sourceLabel, srcPlan.sourceUrl], ['Printing with Botanicals — Laura Mead', 'https://facebook.com/groups/ecoprint/posts/123'],
+     'a bare address gains https://, the label is kept as typed');
+  is(location.hash, '#/plans/' + p.id, 'and Save returns to the plan, read');
+  const link = view.querySelector('a[target="_blank"]');
+  is([link?.getAttribute('href'), link?.getAttribute('rel')], ['https://facebook.com/groups/ecoprint/posts/123', 'noopener noreferrer'],
+     'the source opens in a new tab, with no opener and no referrer');
+  is(view.textContent.includes('Printing with Botanicals — Laura Mead'), true, 'and its label is shown');
+
+  // The picture: what photo.js would have made, put in the record as the
+  // editor's file input puts it (the canvas resize itself is a browser's job —
+  // try-plans-screens.mjs does it in Chromium).
+  const PIX = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP////////////////////////////////////////////////////////////////////////////////////wAALCAABAAEBAREA/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AKp//2Q==';
+  await db.put('plans', { ...srcPlan, referenceImage: PIX });
+  await go('#/plans'); await go('#/plans/' + p.id);
+  is(view.querySelector('img.planref')?.getAttribute('src'), PIX, 'the picture is shown on the plan');
+  await go('#/plans/' + p.id + '/edit');
+  is(!!view.querySelector('[data-refimg-remove]'), true, 'the editor offers to replace or remove it');
+  await click(view.querySelector('[data-save]'));
+  is((await db.get('plans', p.id)).referenceImage, PIX, 'saving the editor keeps it');
+
+  // A plan written by rc125 — none of the three fields.
+  const legacy = { id: 'plan-rc125', title: 'стар план', status: 'active', notes: 'бележка',
+    items: [{ id: 'l1', text: 'ред', checked: true }], createdAt: '2026-09-01T00:00:00.000Z', updatedAt: '2026-09-02T00:00:00.000Z' };
+  await db.putRaw('plans', legacy);
+  await go('#/plans/plan-rc125');
+  is([view.textContent.includes('стар план'), !!view.querySelector('a[target="_blank"]'), !!view.querySelector('img.planref'),
+      view.querySelector('.checklist input[type=checkbox]')?.checked], [true, false, false, true],
+     'a plan from before opens: its title, its tick, no source block and no picture');
+  is(JSON.stringify(await db.get('plans', 'plan-rc125')), JSON.stringify(legacy), 'and reading it changes nothing');
+  await go('#/plans/plan-rc125/edit');
+  await click(view.querySelector('[data-save]'));
+  const re = await db.get('plans', 'plan-rc125');
+  is([re.status, re.items, re.notes], [legacy.status, legacy.items, legacy.notes], 'saved again, its status, checklist and notes are as they were');
+  await db.remove('plans', 'plan-rc125');
+
   // 8. Delete, through the same dialog every other delete uses.
   console.log('deleting');
-  await go('#/plans/' + p.id);
+  await go('#/plans/' + p.id + '/edit');
   await click(view.querySelector('[data-delete]'));
   const okBtn = document.querySelector('.modalback [data-ok]');
   is(!!okBtn, true, 'deleting asks first, in the shared confirmation dialog');

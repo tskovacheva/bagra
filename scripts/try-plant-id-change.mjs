@@ -45,6 +45,12 @@ const page = await browser.newPage();
 const errors = [];
 page.on('pageerror', e => errors.push(String(e)));
 page.on('dialog', d => d.accept().catch(() => {}));
+// No service worker, as in the other browser checks (§13ft). On a fresh profile
+// the worker's first `clients.claim()` fires `controllerchange`, the application
+// reloads itself, and whatever this script was evaluating at that moment dies
+// with „Execution context was destroyed" — a race that failed the release run
+// once in four. The worker is not what this check is about.
+await page.evaluateOnNewDocument(() => { delete Navigator.prototype.serviceWorker; });
 await page.goto(`http://localhost:${PORT}/index.html`, { waitUntil: 'networkidle0' });
 await page.waitForFunction(() => document.querySelector('#view')?.textContent?.length > 50, { timeout: 30000 });
 
