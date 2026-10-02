@@ -17,13 +17,15 @@
 // time — no copy, no back-link stored anywhere (§13.6). A deep-check guard
 // (24d) fails the build if a glossary term ever names a code vocab.js explains.
 
-import { all, get, put, newRecord } from '../db.js';
+import { all, get, put, newRecord, getSetting } from '../db.js';
 import { t, text, getLang } from '../i18n.js';
 import { markClean } from '../dirty.js';
 import { VOCABULARY } from '../vocab.js';
 import { page, panel, field, esc, empty, pairField, readPairs, navigate, backTo, actionBtn, icon, deleteGuarded } from '../ui.js';
 import { markEdited } from '../seed.js';
 import * as seedUI from '../seed-ui.js';
+import { STUDIO_STATUSES, STUDIO_CODES, studioLabel, deriveProcessTrail } from '../studio.js';
+import { studioStyle, workingLabel } from '../studio-ui.js';
 
 // A seeded source shipped with `kind: 'reference'` and another with
 // `kind: 'website'`, neither of which was here — so the screen printed the
@@ -36,7 +38,8 @@ import * as seedUI from '../seed-ui.js';
 // every seeded kind against this list, from the data end.
 const KINDS = ['book', 'course', 'person', 'site', 'reference', 'other'];
 
-const TABS = ['glossary', 'ph', 'sources'];
+// `studio` (§13gc): the studio's colours, its codes, how to read a tag.
+const TABS = ['glossary', 'ph', 'sources', 'studio'];
 
 // The order a reader is walked through the craft: what a dye is, how the cloth
 // is prepared, how it is dyed, the two processes that have rules of their own,
@@ -230,6 +233,72 @@ function inkOn(hex) {
   return inkFor(hex) === INK.dark ? 'var(--ink)' : 'var(--surface)';
 }
 
+// ---- Studio System (§13gc) ---------------------------------------------------
+//
+// The legend is drawn from the same tokens the fabric screens use, and the
+// dictionary from the same list the gate checks: there is no second copy of
+// either to fall out of step. The example tag and trail are drawn by the same
+// functions a real piece's are, from a piece made up for the purpose.
+async function renderStudio() {
+  const lang = getLang();
+  const q = query.trim().toLowerCase();
+  const legend = STUDIO_STATUSES.map(st => `
+    <tr data-studio="${st.code}">
+      <td><span class="studiobadge" style="${studioStyle(st.hex)}">${icon(st.icon)}<b>${esc(st.code)}</b></span></td>
+      <td><b>${esc(studioLabel(st, lang))}</b><div class="hint">${esc(lang === 'en' ? st.bg : st.en)}</div></td>
+      <td class="mono">${esc(st.hex)}</td>
+      <td>${esc(st.explain[lang] || st.explain.bg)}</td>
+    </tr>`).join('');
+  const rows = STUDIO_CODES
+    .filter(c => !q || [c.code, c.bg, c.en, c.formula || '', c.use.bg, c.use.en].some(x => String(x).toLowerCase().includes(q)))
+    .map(c => `
+    <tr data-code="${esc(c.code)}">
+      <td class="mono"><b>${esc(c.code)}</b></td>
+      <td>${esc(lang === 'en' ? c.en : c.bg)}<div class="hint">${esc(lang === 'en' ? c.bg : c.en)}</div></td>
+      <td>${esc(t('library.studio.cat.' + c.category))}</td>
+      <td class="mono">${esc(c.formula || '—')}</td>
+      <td>${esc(t('library.studio.type.' + c.type))}</td>
+      <td>${esc(c.use[lang] || c.use.bg)}</td>
+    </tr>`).join('');
+
+  // A piece made up to show a tag and a trail: washed, tanned, mordanted with
+  // aluminium acetate and a chalk bath, then eco-printed.
+  const ctx = {
+    recipes: new Map([['x-aa', { id: 'x-aa', shortCode: 'AA' }], ['x-ca', { id: 'x-ca', shortCode: 'CaCO₃' }],
+                      ['x-tan', { id: 'x-tan', shortCode: 'TAN' }]]),
+    trials: new Map([['x-ep', { id: 'x-ep', processCode: 'ecoprint', steps: [] }]]),
+  };
+  const act = (actionCode, date, extra = {}) => ({ id: actionCode + date, actionCode, date, ...extra });
+  // Her own tag prefix, as her pieces are numbered (fabrics.js).
+  const tag = `${await getSetting('fabricLabelPrefix', 'П')}-028`;
+  const mordanted = { label: tag, actions: [act('wash', '2026-09-28'),
+    act('mordant', '2026-10-01', { recipeId: 'x-aa' }), act('neutralise', '2026-10-02', { recipeId: 'x-ca' })] };
+  const printed = { label: tag, actions: [...mordanted.actions.slice(0, 1), act('tannin', '2026-09-29', { recipeId: 'x-tan' }),
+    ...mordanted.actions.slice(1), act('dye', '2026-10-04', { trialId: 'x-ep' })] };
+
+  return `
+    ${panel(`<h2>${t('library.studio.colours')}</h2>
+      <p class="hint">${t('library.studio.coloursHint')}</p>
+      <table class="grid studiolegend"><tbody>${legend}</tbody></table>`, 'flush')}
+    <div style="height:16px"></div>
+    ${panel(`<h2>${t('library.studio.read')}</h2>
+      <div class="studiocard">${workingLabel(mordanted, ctx)}
+        <div class="studioside"><p>${t('library.studio.readHint')}</p></div></div>`)}
+    <div style="height:16px"></div>
+    ${panel(`<h2>${t('library.studio.trail')}</h2>
+      <p class="mono studiotrail">${esc(deriveProcessTrail(printed, ctx, lang).text)}</p>
+      <p>${t('library.studio.trailHint')}</p>
+      <p class="note">${t('library.studio.note')}</p>`)}
+    <div style="height:16px"></div>
+    ${panel(`<h2>${t('library.studio.codes')}</h2>
+      <p class="hint">${t('library.studio.codesHint')}</p>
+      <table class="grid studiocodes">
+        <thead><tr><th>${t('library.studio.col.code')}</th><th>${t('library.studio.col.name')}</th><th>${t('library.studio.col.category')}</th>
+          <th>${t('library.studio.col.formula')}</th><th>${t('library.studio.col.type')}</th><th>${t('library.studio.col.use')}</th></tr></thead>
+        <tbody>${rows || `<tr><td colspan="6" class="hint">${t('library.studio.noMatch')}</td></tr>`}</tbody>
+      </table>`, 'flush')}`;
+}
+
 function renderPh() {
   // THE SCALE AS ONE BAR, 1 to 14 (§13ef).
   //
@@ -325,9 +394,10 @@ async function renderShell(root) {
   let body;
   if (tab === 'glossary') body = await renderGlossary(root, sources);
   else if (tab === 'ph') body = renderPh();
+  else if (tab === 'studio') body = await renderStudio();
   else body = renderSources(sources);
 
-  const search = tab === 'glossary'
+  const search = tab === 'glossary' || tab === 'studio'
     ? `<input type="search" data-q value="${esc(query)}" placeholder="${t('library.search')}">`
     : '';
 

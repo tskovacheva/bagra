@@ -1,7 +1,9 @@
 // modules/fabrics.js — one record is one physical piece (§3, A.1).
 
 import { all, get, put, putTogether, newRecord, getSetting, setSetting, uid } from '../db.js';
-import { t, text } from '../i18n.js';
+import { t, text, getLang } from '../i18n.js';
+import { STUDIO_STATUSES, deriveStudioStatus, deriveProcessTrail, studioLabel } from '../studio.js';
+import { studioBadge, studioStyle, workingLabel, printWorkingLabel } from '../studio-ui.js';
 import { massWith, gsmWith } from '../units.js';
 import { shrinkThumb } from '../photo.js';
 import { page, panel, field, options, label, esc, empty, note, today, fmtDate,
@@ -72,7 +74,8 @@ export async function treatmentTags(fabric) {
     `<span class="tag">${esc(await label('fabric_action', code))}</span>`))).join('');
 }
 
-let filterState = null;   // null = all boxes
+let filterState = null;   // null = all; a studio code (RAW, W, T, M, D), or 'finished' (§13gc)
+let studioRead = null;    // the record on screen and what its label is drawn from, for Print
 let openId = null;        // null = list, 'new' = blank form, id = that record
 let draft = null;
 // Reading is the default; the form opens only when asked for.
@@ -186,21 +189,39 @@ async function renderList(root) {
 
   // The box inventory: "what is in the mordanted box" is a query, not a
   // memory exercise (§3, A.1).
-  const counts = {};
+  //
+  // The studio's five colours, read through the one derivation (§13gc), and
+  // `finished` beside them, uncoloured: a finished piece has left the working
+  // shelves, and its tag keeps the colour of the last stage it reached. So the
+  // five count the pieces still in work, and „Завършен" counts the rest.
+  const studio = new Map(fabrics.map(f => [f.id, deriveStudioStatus(f)]));
+  const counts = { finished: 0 };
   for (const f of fabrics) {
-    const s = currentState(f);
-    counts[s] = (counts[s] || 0) + 1;
+    const s = studio.get(f.id);
+    if (s.finished) counts.finished++;
+    else counts[s.code] = (counts[s.code] || 0) + 1;
   }
+  const lang = getLang();
+  const boxes = [
+    ...STUDIO_STATUSES.map(st => `
+    <button class="box studio${filterState === st.code ? ' active' : ''}" data-box="${st.code}" style="${studioStyle(st.hex)}">
+      <span class="boxicon">${icon(st.icon)}</span>
+      <span class="boxname"><b>${esc(st.code)}</b> ${esc(studioLabel(st, lang))}</span>
+      <span class="boxcount">${counts[st.code] || 0}</span>
+    </button>`),
+    `
+    <button class="box${filterState === 'finished' ? ' active' : ''}" data-box="finished">
+      <span class="boxicon">${icon(STATE_ICONS.finished)}</span>
+      <span class="boxname">${esc(await label('fabric_state', 'finished'))}</span>
+      <span class="boxcount">${counts.finished}</span>
+    </button>`];
 
-  const boxes = await Promise.all(STATE_ORDER.map(async code => `
-    <button class="box${filterState === code ? ' active' : ''}" data-box="${code}">
-      <span class="boxicon">${icon(STATE_ICONS[code])}</span>
-      <span class="boxname">${esc(await label('fabric_state', code))}</span>
-      <span class="boxcount">${counts[code] || 0}</span>
-    </button>`));
-
+  const inBox = (f) => {
+    const s = studio.get(f.id);
+    return filterState === 'finished' ? s.finished : (!s.finished && s.code === filterState);
+  };
   const shown = (filterState
-    ? fabrics.filter(f => currentState(f) === filterState)
+    ? fabrics.filter(inBox)
     : fabrics
   ).filter(f => matches(query, f.label, f.name, f.notes))
    .sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
@@ -218,7 +239,7 @@ async function renderList(root) {
       <td>${esc(await label('fibre_class', fibreClass(f.composition)))}</td>
       <td>${esc(await label('fabric_structure', f.structure))}</td>
       <td class="num">${f.weightG ? f.weightG + ' ' + t('fabrics.grams') : '—'}</td>
-      <td>${await stateChip(currentState(f))}${await treatmentTags(f)}${
+      <td>${studioBadge(f)}${await treatmentTags(f)}${
         cured != null ? `<span class="hint"> · ${t('common.days', { n: cured })}</span>` : ''}</td>
     </tr>`;
   }));
@@ -283,6 +304,31 @@ async function renderList(root) {
 // what is it made of, how long since it was mordanted, what has already been
 // done to it. Its history is the point, so it reads as a biography rather than
 // as a list of fields.
+
+// The studio card on the record (§13gc): the working label as it will print,
+// the way the piece has come in codes, and Print — in colour, or in ink for
+// paper already the stage's colour. All of it read from the piece's actions.
+async function studioCard(r) {
+  const ctx = {
+    recipes: new Map((await all('recipes')).map(x => [x.id, x])),
+    trials: new Map((await all('trials')).map(x => [x.id, x])),
+  };
+  studioRead = { fabric: r, ctx };
+  const trail = deriveProcessTrail(r, ctx, getLang());
+  return panel(`
+    <h2>${t('fabrics.studio.label')}</h2>
+    <div class="studiocard">
+      ${workingLabel(r, ctx)}
+      <div class="studioside">
+        <p class="hint">${t('fabrics.studio.labelHint')}</p>
+        <p><button class="btn quiet" data-print-label="colour">${t('fabrics.studio.print')}</button>
+           <button class="btn quiet" data-print-label="ink">${t('fabrics.studio.printInk')}</button></p>
+        <h3>${t('fabrics.studio.trail')}</h3>
+        <p class="mono studiotrail">${trail.text ? esc(trail.text) : `<span class="hint">${t('fabrics.studio.noTrail')}</span>`}${
+          trail.finished ? ` <span class="chip">${esc(t('fabrics.studio.finished'))}</span>` : ''}</p>
+      </div>
+    </div>`);
+}
 
 async function renderRead(root, r) {
   const qty = Number(r.quantity?.value) || 1;
@@ -354,13 +400,15 @@ async function renderRead(root, r) {
       <div class="headline">
         ${r.photoData ? `<img src="${r.photoData}" alt="">` : ''}
         <div class="headlinebody">
-          <h2>${esc(r.name || '—')} ${await stateChip(currentState(r))}</h2>
+          <h2>${esc(r.name || '—')} ${studioBadge(r)}</h2>
           <div class="latin">${esc(r.label || '')}</div>
           ${cured != null ? `<p class="hint">${t('fabrics.curedFor', { n: cured })}</p>` : ''}
           ${qty > 1 ? `<p class="hint">${t('fabrics.pieces', { n: qty })}</p>` : ''}
           ${parent ? `<p class="hint" data-open="${parent.id}" style="cursor:pointer">${t('fabrics.fromBatch', { label: esc(parent.label) })}</p>` : ''}
         </div>
       </div>
+
+      ${await studioCard(r)}
 
       <div class="cols">
         <div class="col">
@@ -628,6 +676,8 @@ export default {
 
       if (e.target.closest('[data-new]')) return navigate('#/fabrics/new');
       if (e.target.closest('[data-edit]')) return navigate(`#/fabrics/${openId}/edit`);
+      const pr = e.target.closest('[data-print-label]');
+      if (pr && studioRead) return printWorkingLabel(studioRead.fabric, studioRead.ctx, { ink: pr.dataset.printLabel === 'ink' });
 
       // Handing off to the trial. Everything needed travels in the address —
       // no hidden channel — so the back button, a reload and a bookmark all
