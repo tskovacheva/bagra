@@ -374,6 +374,12 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #      upgrade → export → clean restore, a file from a newer database refused,
   #      validation before any destruction, and an IndexedDB opened at v6.
   node scripts/try-data-safety.mjs || exit 1
+  # 5c''. Studio System v1 (§13gc): the five statuses — unique, iconed, readable,
+  #      told apart, not red; the code dictionary and its collision rules; the
+  #      recipes' short codes, every token in the dictionary; deriveStudioStatus,
+  #      deriveStudioTreatmentSummary and the trail on fixtures for every case,
+  #      finished and unmigrated included; an rc56 backup read without change.
+  node scripts/try-studio.mjs || exit 1
   # 5d. The history cannot be orphaned by a delete (§13cq). Six modules offered
   #     a plain physical delete while other records held their ids, and nothing
   #     checked — so deleting a recipe left every trial that used it pointing at
@@ -462,6 +468,10 @@ if [ "$HAVE_SHIM" = 1 ]; then
        node scripts/try-ecoprint-screens.mjs $REL || exit 1
        # Reference's Records and a record's observations at 390 and 320px (§13fp).
        node scripts/try-reference-screens.mjs $REL || exit 1
+       # Studio System on screen (§13gc): chips and badges in one token, the
+       # filters, the record's label and trail, Print alone in colour and in
+       # ink at 70 × 40 mm, the Library tab in both languages.
+       node scripts/try-studio-screens.mjs $REL || exit 1
        # Backups WRITTEN BY rc6, rc45 and rc56, restored by this build and
        # started, every screen and every record of hers opened (§11.5, §13ft).
        # In the tree since rc67 and never in the gate; the fault it was waiting

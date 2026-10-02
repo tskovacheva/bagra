@@ -84,6 +84,7 @@ export const FIELD_LABELS = {
     tempMaxC: 'seed.field.temperature',
     origin: 'recipes.origin', liquorRatio: 'recipes.liquorRatio',
     vinegarPercent: 'recipes.vinegarPercent', defaultLitres: 'recipes.defaultLitres',
+    shortCode: 'recipes.shortCode',
   },
   // Chains became a pack at rc100 (§13fc) and had no entry here, so the preview
   // would have named every changed field by its raw key (§13fh). Existing labels

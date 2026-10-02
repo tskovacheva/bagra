@@ -26,6 +26,8 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
+- **rc128:** kept sappanwood record shows its photograph again — repointed by hash; plant-photos table checked against the release (§13gd).
+- **rc127:** Studio System v1 — stage colours, working label, process trail, code dictionary (§13gc).
 - **rc126:** Bagra in English; Plans v1.1 (read view, source, one picture); pigment colour in the list (§13gb).
 - **rc125:** production readiness — `_headers` in the artifact (revalidate everything, CSP), update matrix under production headers, try-production.mjs, runbook (§13ga). Open: §42.
 - **rc124:** sumac photograph restored — CC BY-SA 3.0, cropped and credited as such; 57 photographs (§13fz).
