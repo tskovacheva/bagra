@@ -143,6 +143,53 @@ await go('#/fabrics/f-d');
 is(await page.evaluate(() => document.querySelector('#view .studiotrail')?.textContent.trim()), 'W → M (AA + CaCO₃) → D (EP)',
    'the trail of a printed piece: W → M (AA + CaCO₃) → D (EP)');
 
+// The process summary (§13ge): a full eco print, the rows it can fill and no
+// other, in order; the work one press away; and the piece in the database
+// exactly as it was — the summary is drawn, never stored.
+const fx = await page.evaluate(async () => {
+  const db = await import('./db.js');
+  const [p1, p2] = (await db.all('plants')).filter(p => p.nameCommon?.bg && p.nameCommon?.en).slice(0, 2);
+  await db.put('trials', db.newRecord({ id: 'tr-ep-full', processCode: 'ecoprint', title: 'еко с одеяло', steps: [],
+    placements: [{ id: 'pl1', plantId: p1.id }, { id: 'pl2', plantId: p2.id }],
+    bundle: { roll: '', layers: [{ id: 'L1', kind: 'receiving_cloth', what: 'коприна', note: '', stepId: null, prep: null },
+      { id: 'L2', kind: 'carrier_blanket', what: 'памук', note: '', stepId: null, prep: { washed: true, treatment: 'Fe', duration: '', bath: 'брош', note: '' } }] } }));
+  const act = (actionCode, date, extra = {}) => ({ id: 'a-' + actionCode + date, actionCode, date, batchId: null, trialId: null, recipeId: null, note: '', ...extra });
+  await db.put('fabrics', db.newRecord({ id: 'f-ep', label: 'П-107', name: 'коприна', composition: [{ fibreCode: 'silk', percent: 100 }], actions: [
+    act('wash', '2026-09-28'), act('mordant', '2026-10-01', { recipeId: 'seed:aluminium-acetate-mordant' }),
+    act('neutralise', '2026-10-02', { recipeId: 'seed:chalk-bath' }), act('dye', '2026-10-04', { trialId: 'tr-ep-full' })] }));
+  return { names: { bg: [p1.nameCommon.bg, p2.nameCommon.bg].join(', '), en: [p1.nameCommon.en, p2.nameCommon.en].join(', ') },
+           stored: JSON.stringify(await db.get('fabrics', 'f-ep')) };
+});
+const readSummary = () => page.evaluate(() => ({
+  title: [...document.querySelectorAll('#view h2')].map(h => h.textContent.trim()).find(x => /Обобщение|Process summary/.test(x)),
+  rows: [...document.querySelectorAll('#view .processsummary tr')].map(tr => [tr.querySelector('th').textContent.trim(), tr.querySelector('td').textContent.replace(/\s+/g, ' ').trim()]),
+  trial: document.querySelector('#view [data-trial="tr-ep-full"]')?.textContent.trim(),
+}));
+await go('#/fabrics/f-ep');
+const sb = await readSummary();
+is(sb.title, 'Обобщение на обработката', 'the card is there, under the label');
+is(sb.rows.map(r => r[0]), ['Етап', 'Подготовка', 'Техника', 'Одеяло (BLK)', 'Обработка на одеялото', 'Баня на одеялото', 'Растения', 'Дата'],
+   'the rows an eco print fills, in order — no Dye, no Modifier, no empty row');
+const dyedOn = await page.evaluate(async () => (await import('./ui.js')).fmtDate('2026-10-04'));
+is(sb.rows.slice(1).map(r => r[1]), ['AA + CaCO₃', 'EP · Еко принт', 'памук', 'Fe', 'брош', fx.names.bg, dyedOn],
+   'what each says, codes with their names, the blanket in its own words');
+is(sb.trial, 'Отвори опита', 'the work is one press away');
+is(await page.evaluate(async () => JSON.stringify(await (await import('./db.js')).get('fabrics', 'f-ep'))), fx.stored,
+   'and the piece in the database is exactly as it was — the summary is not stored');
+await page.evaluate(async () => (await import('./i18n.js')).setLang('en'));
+await go('#/fabrics/f-ep');
+const se = await readSummary();
+is([se.title, se.rows.find(r => r[0] === 'Plants')?.[1], se.rows.find(r => r[0] === 'Technique')?.[1]], ['Process summary', fx.names.en, 'EP · Eco-print'],
+   'in English: the labels, the plant names, the technique');
+await page.evaluate(async () => (await import('./i18n.js')).setLang('bg'));
+await go('#/fabrics/f-raw');
+is((await readSummary()).rows.map(r => r[0]), ['Етап'], 'a raw piece: its stage and nothing else');
+await go('#/fabrics/f-ep');
+await page.click('#view [data-trial="tr-ep-full"]');
+await page.waitForFunction(() => location.hash === '#/trials/tr-ep-full', { timeout: 10000 })
+  .then(() => ok('„Open Trial" opens the work'), () => fail('„Open Trial" did not open the work'));
+await go('#/fabrics/f-d');
+
 await page.evaluate(() => { window.__printed = 0; window.print = () => { window.__printed++; }; });
 for (const mode of ['colour', 'ink']) {
   await page.click(`#view [data-print-label="${mode}"]`);

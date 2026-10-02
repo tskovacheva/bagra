@@ -11,7 +11,7 @@ import zlib from 'node:zlib';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 process.chdir(ROOT);
-const { STUDIO_STATUSES, STUDIO_CODES, codeTokens, deriveStudioStatus, deriveStudioTreatmentSummary, deriveProcessTrail } =
+const { STUDIO_STATUSES, STUDIO_CODES, codeTokens, deriveStudioStatus, deriveStudioTreatmentSummary, deriveProcessTrail, deriveProcessSummary, codeWithName } =
   await import('../studio.js');
 
 let failed = false;
@@ -134,6 +134,68 @@ is(deriveProcessTrail(tpd, ctx).text, 'W → T (TAN) → M (PAS + COT) → D (DY
 const fin = deriveProcessTrail(F(...ep.actions, A('finish', '2026-10-10')), ctx);
 is([fin.text, fin.finished], ['W → M (AA + CaCO₃) → D (EP)', true], 'finishing ends the trail without becoming a stage');
 is(deriveProcessTrail(F(), ctx).text, '', 'no actions: no trail');
+
+// ---- the process summary (§13ge)
+console.log('deriveProcessSummary');
+const plants = new Map([
+  ['seed:eucalyptus_cinerea', { id: 'seed:eucalyptus_cinerea', nameCommon: { bg: 'евкалипт', en: 'eucalyptus' } }],
+  ['seed:rosa_canina', { id: 'seed:rosa_canina', nameCommon: { bg: 'шипка', en: 'dog rose' } }],
+  ['seed:rubia_tinctorum', { id: 'seed:rubia_tinctorum', nameCommon: { bg: 'брош', en: 'madder' } }],
+]);
+recipes.set('seed:cellulose-alum-soda-mordant', { id: 'seed:cellulose-alum-soda-mordant', shortCode: 'PAS/AS + Na₂CO₃', name: { bg: 'Стипца и сода', en: 'Alum and soda' } });
+recipes.set('seed:mordant-print-paste', { id: 'seed:mordant-print-paste', shortCode: 'MP', name: { bg: 'Паста', en: 'Paste' } });
+trials.set('tr-ep-full', { id: 'tr-ep-full', processCode: 'ecoprint',
+  placements: [{ plantId: 'seed:eucalyptus_cinerea' }, { plantId: 'seed:rosa_canina' }, { plantId: 'seed:eucalyptus_cinerea' }],
+  bundle: { layers: [{ kind: 'receiving_cloth', what: 'коприна' },
+                     { kind: 'carrier_blanket', what: 'памук', prep: { treatment: 'Fe', bath: 'брош' } },
+                     { kind: 'plants', what: '' }] },
+  steps: [] });
+trials.set('tr-madder', { id: 'tr-madder', processCode: 'immersion', placements: [{ plantId: 'seed:rubia_tinctorum' }], steps: [] });
+trials.set('tr-walnut-fe', { id: 'tr-walnut-fe', processCode: 'immersion', placements: [{ plantId: 'seed:rubia_tinctorum' }],
+  steps: [{ typeCode: 'dye' }, { typeCode: 'post_iron' }] });
+trials.set('tr-mp', { id: 'tr-mp', processCode: 'paste', placements: [{ plantId: 'seed:rubia_tinctorum' }],
+  steps: [{ typeCode: 'print_paste', recipeId: 'seed:mordant-print-paste' }] });
+const cx = { recipes, trials, plants };
+const silk = { id: 'silk', label: 'П-104', composition: [{ fibreCode: 'silk', percent: 100 }], actions: [
+  A('wash', '2026-09-28'), A('mordant', '2026-10-01', { recipeId: 'seed:aluminium-acetate-mordant' }),
+  A('neutralise', '2026-10-02', { recipeId: 'seed:chalk-bath' }), A('dye', '2026-10-04', { trialId: 'tr-ep-full' })] };
+const frozen = JSON.stringify(silk);
+const eps = deriveProcessSummary(silk, cx, 'bg');
+is({ code: eps.status.code, preparation: eps.preparation, technique: eps.technique, blanket: eps.blanket, plants: eps.plants, date: eps.date,
+     trialId: eps.trialId, dye: eps.dye, modifiers: eps.modifiers },
+   { code: 'D', preparation: 'AA + CaCO₃', technique: { code: 'EP', label: 'EP · Еко принт' },
+     blanket: { material: 'памук', treatment: 'Fe', bath: 'брош' }, plants: ['евкалипт', 'шипка'], date: '2026-10-04', trialId: 'tr-ep-full' },
+   'eco print: AA + CaCO₃, EP · Еко принт, the blanket in its own words, the plants once each');
+is(deriveProcessTrail(silk, cx, 'bg').text, 'W → M (AA + CaCO₃) → D (EP · BLK памук)', 'its trail: D carries BLK and the blanket — no plant list');
+is(deriveProcessSummary(silk, cx, 'en').plants, ['eucalyptus', 'dog rose'], 'in English, the plants are named in English');
+is(deriveProcessSummary(silk, cx, 'en').technique.label, 'EP · Eco-print', 'and the technique too');
+
+const bath = F(A('wash', '2026-01-01'), A('mordant', '2026-01-02', { recipeId: 'seed:aluminium-acetate-mordant' }), A('dye', '2026-01-03', { trialId: 'tr-madder' }));
+const b = deriveProcessSummary(bath, cx, 'bg');
+is([b.technique.label, b.dye, b.plants, b.blanket], ['DYE · Потапящо багрене', ['брош'], undefined, undefined], 'dye bath: DYE, its dyestuff as Dye — not as eco-print plants');
+is(deriveProcessTrail(bath, cx, 'en').text, 'W → M (AA) → D (DYE · madder)', 'its trail: D (DYE · madder)');
+is(deriveProcessSummary(F(A('dye', '2026-01-03', { trialId: 'tr-walnut-fe' })), cx, 'bg').modifiers, ['Fe'], 'an iron afterbath on the work: Fe, because it is recorded');
+is(b.modifiers, undefined, 'and none where none is recorded');
+is(codeWithName('Fe', 'en'), 'Fe · Iron / ferrous sulfate', 'a modifier is shown with its name');
+const mp = deriveProcessSummary(F(A('dye', '2026-01-03', { trialId: 'tr-mp' })), cx, 'bg');
+is([mp.technique.code, mp.dye, mp.pasteCode], ['MP', ['брош'], undefined], 'a mordant print: MP, its dyestuff; the paste code is not repeated when it is the technique');
+
+const tan = F(A('wash', '2026-01-01'), A('tannin', '2026-01-02', { recipeId: 'seed:tannin-bath' }), A('mordant', '2026-01-03', { recipeId: 'own-pas' }));
+is(deriveProcessSummary(tan, cx, 'bg').preparation, 'TAN → PAS + COT', 'tannin path: TAN → PAS + COT');
+is(deriveProcessTrail(tan, cx, 'bg').text, 'W → T (TAN) → M (PAS + COT)', 'and its trail');
+
+const either = F(A('wash', '2026-01-01'), A('mordant', '2026-01-02', { recipeId: 'seed:cellulose-alum-soda-mordant' }));
+is(deriveProcessSummary(either, cx, 'bg').preparation, 'PAS/AS + Na₂CO₃', 'a recipe offering PAS or AS stays PAS/AS — never PAS');
+
+const bare = deriveProcessSummary(F(A('wash', '2026-01-01')), cx, 'bg');
+is(Object.keys(bare).sort(), ['date', 'status'], 'a washed piece: its status and date, and no empty field at all');
+is(Object.keys(deriveProcessSummary(F(), cx, 'bg')), ['status'], 'a raw piece: its status alone');
+is(JSON.stringify(silk), frozen, 'deriving the summary writes nothing to the piece');
+
+// No module stores a summary on a piece (§13ge): it is drawn, every time.
+const writers = fs.readdirSync('modules').map(f => 'modules/' + f).concat(['studio.js', 'studio-ui.js', 'migrations.js'])
+  .filter(f => /(processSummary|studioSummary|treatmentSummary)\s*[:=](?!=)/.test(fs.readFileSync(f, 'utf8').replace(/\/\/.*$/gm, '')));
+is(writers, [], 'no module assigns a stored summary field');
 
 // ---- data written by older releases
 console.log('older data');
