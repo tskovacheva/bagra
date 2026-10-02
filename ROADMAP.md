@@ -26,6 +26,14 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
+- **rc126:** Bagra in English; Plans v1.1 (read view, source, one picture); pigment colour in the list (§13gb).
+- **rc125:** production readiness — `_headers` in the artifact (revalidate everything, CSP), update matrix under production headers, try-production.mjs, runbook (§13ga). Open: §42.
+- **rc124:** sumac photograph restored — CC BY-SA 3.0, cropped and credited as such; 57 photographs (§13fz).
+- **rc123:** photograph licences — CC alternatives for the two GFDL, sumac withdrawn, deed link and „resized" on every credit (§13fy).
+- **rc122:** Commercial content package 3 — release artifact `dist/` from an allowlist; Library provenance notes neutral; asset licences registered and gated (§13fx). Open: §41.
+- **rc121:** no activation while any window holds unsaved work; manifest `id` pinned (§13fv); deep-check's waiting made deterministic (§13fw).
+- **rc120:** Production Update & Release Safety package 2 — the release is one cache, no mixed pages; update matrix U1–U7 in the gate; rollback rule (§13fu). Open: §40.
+- **rc119:** Commercial Data Safety package 1 — the merge-migration P0 fixed; round-trip test onto a clean install; older-backup restore in the release gate (§13ft). Open: §39.
 - **rc118:** the commercial recipe library — 16 recipes, studio-credited; 7 handed to the owner (§13fs).
 - **rc117:**- **rc117:** pH colours, the chalk bath's wording, reliability order (§13fr).
 - **rc116:**- **rc116:** the AA working solution reworded; Nicoleta's Al/Fe impregnation added (§13fq). Open: recipe `usedFor` / `standardised` (item 37).
@@ -205,6 +213,11 @@ taking.
    and on a laptop, that makes combining them impossible and makes restoring dangerous. This
    is independent of everything above and is wanted regardless of what is decided about
    copies.
+
+**Audited at rc119 (§13ft).** Backup covers every store of hers, replace is an atomic snapshot,
+merge now repairs what it brings in, and both are tested onto a clean installation. What is
+left of A5 for 1.0 is in DOCUMENTATION_DECISIONS_NEEDED §39: when persistent storage is asked
+and what the screen promises, and a manual Safari check of the download.
 
 Not decided here: whether any of the four ships before 1.0. Item 4 is the cheapest and the
 most clearly correct; item 1 is the largest and touches a fixed decision.

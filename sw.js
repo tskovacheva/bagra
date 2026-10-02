@@ -4,7 +4,7 @@
 // must keep this list correct; a file missing here is a file that silently
 // stops updating. Bump CACHE on every deploy (§14.3).
 
-const CACHE = 'bagra-v1.0.0-rc118';   // keep in step with version.js
+const CACHE = 'bagra-v1.0.0-rc126';   // keep in step with version.js
 
 const FILES = [
   './',
@@ -120,7 +120,6 @@ const FILES = [
   './seed/images/plants/biancaea_sappan.jpg',
   // Kept: an installed copy may keep the old sappanwood record (§13es), and its
   // photoSrc names this file.
-  './seed/images/plants/paubrasilia_echinata.jpg',
   './seed/images/plants/pelargonium_zonale.jpg',
   './seed/images/plants/persea_americana.jpg',
   './seed/images/plants/persicaria_tinctoria.jpg',
@@ -160,33 +159,125 @@ self.addEventListener('install', (e) => {
     c.addAll(FILES.map(u => new Request(u, { cache: 'reload' })))));
 });
 
+// „Обнови" is a REQUEST, not an order (§13fv).
+//
+// rc120 activated on the word of the window that asked. Another window with
+// unsaved work was then told rather than reloaded — but by that moment this
+// worker was already active, the old release's cache was gone, and that window
+// went on running the old code against the new release while a clean window
+// could start the new release's migrations. One client on the old version after
+// the new one is active is exactly what the release-is-the-cache rule forbids.
+//
+// So this worker, while still WAITING, asks every open Багра window whether it
+// holds unsaved work, and activates only if every one of them answers „no".
+// The list comes from the browser (`clients.matchAll`, uncontrolled windows
+// included), not from whoever happens to reply — which is why this is not a
+// BroadcastChannel: a broadcast cannot tell silence from absence. A window that
+// does not answer within the wait (frozen in the background, or running a
+// release too old to know the question) counts as NOT clean. Silence is never
+// read as consent; the person is told to save or close the other window.
+//
+// The window that asked has already settled its own unsaved work (app.js) and
+// is not asked again.
+const ASK_MS = 4000;
+
+function ask(client) {
+  return new Promise((resolve) => {
+    const ch = new MessageChannel();
+    const timer = setTimeout(() => resolve('silent'), ASK_MS);
+    ch.port1.onmessage = (m) => { clearTimeout(timer); resolve(m.data && m.data.dirty ? 'dirty' : 'clean'); };
+    try { client.postMessage({ type: 'bagra-dirty?' }, [ch.port2]); }
+    catch { clearTimeout(timer); resolve('silent'); }
+  });
+}
+
+async function activateIfSafe(requester) {
+  const others = (await self.clients.matchAll({ type: 'window', includeUncontrolled: true }))
+    .filter(c => !requester || c.id !== requester.id);
+  const answers = await Promise.all(others.map(ask));
+  const dirty = answers.filter(a => a === 'dirty').length;
+  const silent = answers.filter(a => a === 'silent').length;
+  if (!dirty && !silent) { await self.skipWaiting(); return; }
+  if (requester) requester.postMessage({ type: 'bagra-update-blocked', dirty, silent });
+}
+
 self.addEventListener('message', (e) => {
-  if (e.data === 'skip-waiting') self.skipWaiting();
+  // The plain string is what rc120's page sends; it is held to the same rule.
+  if (e.data === 'skip-waiting' || (e.data && e.data.type === 'bagra-update')) {
+    e.waitUntil(activateIfSafe(e.source));
+  }
 });
 
+// Only THIS application's old caches go (§13fu). Cache Storage belongs to the
+// ORIGIN, not to the worker's scope, and Багра has been served from an origin it
+// shares with Глина (`tskovacheva.github.io`): deleting every name but our own
+// deleted the other application's offline copy at each of our updates.
+//
+// Deleted at activation and not before. Activation happens only when no page is
+// open (the browser's own rule), or when „Обнови" was pressed and EVERY other
+// open window answered that it holds no unsaved work (§13fv). Those windows
+// reload on `controllerchange` (app.js); none of them has anything to keep, so
+// none needs the old release once this worker is active.
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys
+        .filter(k => k.startsWith('bagra-') && k !== CACHE)
+        .map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
 
-// Network first, cache as fallback: the app must keep working offline, but a
-// deployed change should not wait a week to appear.
+// THE RELEASE IS THE CACHE (§13fu).
 //
-// `cache: 'no-cache'` (rc98): the network copy is revalidated with the server
-// (a 304 when nothing changed) rather than taken from the HTTP cache while it
-// is „fresh" — which was also how a stale file got copied into the new cache.
+// Until rc120 every request went to the network first, file by file, and the
+// answer was copied into the running version's cache. Each file was therefore
+// whatever the server held at the moment it was asked for — so a page could
+// boot with `app.js` from the new release and `ui.js` from the old one, and did
+// whenever one request of fifty failed on a phone in the studio: the failed one
+// came from the cache, the rest from the server. A missing export between two
+// such files is a blank screen; a matching one is two releases writing to one
+// database. And the copies polluted the old cache, so an update that never
+// completed left an offline copy that was half of each.
+//
+// Now a release is one unit. `install` fills a cache named for the version with
+// every file in FILES, all or nothing (`addAll` rejects the whole install if
+// one file fails, and the old worker simply carries on). The running worker
+// answers every file of the release from ITS OWN cache — never `caches.match`
+// across all of them, which during an install would find the next version's
+// half-filled one. A new version reaches a page only by a new worker being
+// activated, which happens when the person presses „Обнови" or when no page of
+// the old version is open.
+//
+// A file of the release missing from the cache (evicted, or a cache damaged by
+// hand) is fetched from the network and NOT stored: storing it would put
+// whatever the server holds today into yesterday's release. Anything outside
+// the release is left to the network, with the cache as a fallback, and is
+// never written either. Other origins are not touched.
+const SCOPE = new URL('./', self.location).href;
+const RELEASE = new Set(FILES.map(f => new URL(f, self.location).href));
+
 self.addEventListener('fetch', (e) => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(
-    fetch(e.request, { cache: 'no-cache' })
-      .then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
-        return res;
-      })
-      .catch(() => caches.match(e.request).then(hit => hit || caches.match('./index.html')))
-  );
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+
+  // A navigation inside the scope is the application shell, whatever its query.
+  const isShell = req.mode === 'navigate' && req.url.startsWith(SCOPE);
+  const key = isShell ? new URL('./index.html', self.location).href : url.origin + url.pathname;
+
+  e.respondWith(caches.open(CACHE).then(async (cache) => {
+    if (isShell || RELEASE.has(key)) {
+      const hit = await cache.match(key);
+      if (hit) return hit;
+      return fetch(req);
+    }
+    try { return await fetch(req); }
+    catch (err) {
+      const hit = await cache.match(req);
+      if (hit) return hit;
+      throw err;
+    }
+  }));
 });

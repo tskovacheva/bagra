@@ -2,7 +2,10 @@
 // Migrations only ever ADD. Nothing is renamed or removed, ever.
 
 const DB_NAME = 'bagra';
-const DB_VERSION = 10;  // 8: the glossary store (§13bt); 9: pigmentBatches (§13bx); 10: plans (§13fj)
+// Exported so a backup can say which database shape wrote it, and a restore can
+// refuse a file from a NEWER one (§13ft) rather than drop its unknown stores
+// in silence.
+export const DB_VERSION = 10;  // 8: the glossary store (§13bt); 9: pigmentBatches (§13bx); 10: plans (§13fj)
 
 // Every top-level entity from §13 gets a store. Nested lists (steps,
 // placements, state events) are embedded in their parent, not stored apart.
@@ -76,7 +79,19 @@ export function open() {
       }
     };
 
-    req.onsuccess = () => { _db = req.result; resolve(_db); };
+    req.onsuccess = () => {
+      _db = req.result;
+      // A newer version of the application is opening this database at a
+      // higher version (§13fu). Holding on would leave that page waiting on a
+      // blank screen until this one is closed. Letting go makes this page's
+      // next write fail loudly — the old code cannot open the upgraded
+      // database — instead of blocking the new one or writing old shapes into it.
+      _db.onversionchange = () => { try { _db.close(); } catch { /* gone */ } _db = null; };
+      resolve(_db);
+    };
+    // The other side: an older page did not let go. Waiting is correct — the
+    // upgrade proceeds as soon as it closes — and the reason is logged.
+    req.onblocked = () => console.warn('database upgrade waiting for another open Багра window to close');
     req.onerror = () => reject(req.error);
   });
 }

@@ -12,6 +12,103 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc126 — 30 September 2026
+
+Pre-1.0 polish (§13gb). **Bagra** in English too: the window title, the welcome and the backup error no
+longer say Rubia; *Rubia tinctorum* is untouched and the gate tells the two apart. **Plans v1.1:**
+opening a plan shows it to read — status, notes, source, picture, a tickable checklist — with Edit
+leading to the editor, and Save returning to the plan; optional `sourceLabel` and `sourceUrl` (http(s)
+only, opened in a new tab, never embedded) and one `referenceImage`, resized as a result photograph is
+and kept in the record, so it travels with every backup. **Pigments:** the colour recorded on a batch
+now shows in the list — it was drawn 0×0 — outlined, beside its name, from the same swatch.
+
+## 1.0.0-rc125 — 30 September 2026
+
+Production architecture and deployment readiness, package 4 (§13ga). The artifact carries the host's
+configuration: `deploy/_headers` → `dist/_headers` — every path revalidates (`no-cache`, nothing
+immutable, since no file name is content-hashed), a Content-Security-Policy allowing script only from
+the origin, nosniff, a referrer policy, no framing. The update matrix now runs under those headers,
+with a walk through every route and a photograph of hers as a data: URL; a policy that refused
+anything the application does fails it. New try-production.mjs: reproducible build, root deployment,
+manifest and worker scope, one visible version, header policy, no credential pattern. README's
+production text no longer names GitHub Pages; runbook in docs/PRODUCTION_RELEASE.md. The owner's
+confirmation of the mordant-paste wording is recorded (DECISIONS §41.2).
+
+## 1.0.0-rc124 — 30 September 2026
+
+The sumac has a photograph again (§13fz): Lazaregagnidze's *Rhus coriaria*, CC BY-SA 3.0, cropped to
+the fruiting panicle with the leaflets either side so the square thumbnail shows the fruit, then
+resized as every plant photograph is. Its credit says „Cropped and resized for Bagra". Every plant
+ships a photograph again — 57. New `scripts/add-plant-photo.py` adds one photograph in the current
+file model, with an optional crop it refuses under ND. Plants pack 0.14.4.
+
+## 1.0.0-rc123 — 30 September 2026
+
+Photograph licences (§13fy). The two GFDL photographs use the CC licence their Commons source also
+offers — plum CC BY-SA 3.0, sappanwood CC BY 3.0 — and the GFDL text leaves the release. The sumac
+photograph (CC BY-ND, added by hand, a crop not provable) is withdrawn to the archive; the plant
+ships without one until a free replacement is added. Every photograph's credit gains a link to its
+licence deed and „Resized for Bagra", from `licenceUrl` and `modified` in the plant pack (0.14.3).
+try-commercial-content checks deed, author, source, modification and refuses ND and GFDL.
+
+## 1.0.0-rc122 — 30 September 2026
+
+Commercial seed, asset and provenance hygiene, package 3 (§13fx). **P0:** the release was the
+repository, which a static host would publish whole — journal backups, withdrawn records, working
+notes, the specification. `scripts/make-release.mjs` now builds `dist/` from an allowlist (the
+worker's files, sw.js, licence texts) and checks it; only `dist/` is deployed. **P0:** two Library
+notes still said shipped recipe content came from them (Maiwa, Garcia); both are research
+bibliography now, entries kept (sources pack 19). An unshown withdrawn photograph left the release;
+the Lucide notice for the icon sprite and the GFDL text for two photographs ship in `licences/`.
+`assets.json` registers every shipped asset's licence. New check try-commercial-content.mjs; the
+update matrix runs against `dist/`. Open for the owner: DOCUMENTATION_DECISIONS_NEEDED §41.
+
+## 1.0.0-rc121 — 30 September 2026
+
+„Обнови" activates nothing while another window holds unsaved work (§13fv). The waiting worker
+asks every open Багра window, by the browser's own list, over a MessageChannel; it activates only
+if all answer that they are clean. A dirty window, or one that does not answer in 4 s, refuses the
+update, and the window that pressed is told why — rc120 activated first and told the dirty window
+afterwards, leaving old code running against the new release. The manifest gains a pinned
+`"id": "/bagra"`. try-update.mjs: U7 becomes U7a–U7d (clean windows; a dirty window; a waiting
+release that raises DB_VERSION; a silent window), seen failing on rc120.
+
+deep-check.mjs waits for what the application is doing (§13fw). Its failures moved from place to
+place, on rc120 as on rc121: the start was a fixed 1.5 s sleep, and `settle()` read 30 ms without a
+change as finished — also true before a render has begun. It now waits for the end of the start
+(observed), and for idle: no handler promise, no database step, no undispatched navigation, no mark
+still counting, then a stable view. A diagnostic `BAGRA_DC_LATENCY` reproduces both causes; ten
+consecutive runs pass. No application code changed.
+
+## 1.0.0-rc120 — 30 September 2026
+
+Production update & release safety, package 2 (§13fu). **P0:** the worker was network-first file
+by file and copied every answer into the running release's cache, so one page could boot half the
+old release and half the new — whenever one request failed — and a failed update left an offline
+copy that was half of each. Now a release is one cache, installed all or nothing, and the running
+worker answers its files from its own cache only; a new version arrives when „Обнови" is pressed
+or no old window is open. Only `bagra-*` caches are cleaned (Глина shared an origin). The first
+install no longer reloads; „Обнови" asks about unsaved work; another window with unsaved work is
+told instead of reloaded; an older page lets go of the database for a newer one. New checks
+try-update.mjs (U1–U7, worker on, seen failing on rc119) and try-release-files.mjs. A rollback
+rule in §13fu. Open for the owner: DOCUMENTATION_DECISIONS_NEEDED §40.
+
+## 1.0.0-rc119 — 30 September 2026
+
+Commercial Data Safety, package 1 (§13ft). An audit of backup, restore and migration, and only
+what it found. **P0:** a merge of an older backup left the added records unrepaired for ever,
+because the database's markers said every repair had run — eco-print trials without a bundle,
+whose construction steps then vanished from the screen once saved; the same after a replace
+from a file with no settings. After any restore the marker is now the lower of the database's
+and the file's, repair by repair. Also: the replace question is asked after validation and
+names the file's date and how many of her records go; a backup carries `appVersion` and
+`dbVersion` and a file from a newer database is refused; a merge counts the records of hers it
+kept in place of a different version in the file; the backup link is attached when clicked and
+its address kept alive (Safari). New check try-data-safety.mjs — each restore onto a clean
+installation in its own process, compared record by record. try-restore-older.mjs, in the tree
+since rc67, joins the release gate with one browser per fixture. Open for the owner:
+DOCUMENTATION_DECISIONS_NEEDED §39.
+
 ## 1.0.0-rc118 — 28 September 2026
 
 The commercial recipe library (§13fs). Sixteen recipes ship, each credited to Crafty Place practice and naming no

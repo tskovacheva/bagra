@@ -1,13 +1,12 @@
-# Багра / Rubia
+# Багра / Bagra
 
 A record-keeping and **reference** application for natural dyeing and eco printing,
 by [Crafty Place](https://crafty.place).
 
-**Live: [tskovacheva.github.io/bagra](https://tskovacheva.github.io/bagra)**
+**Production (from 1.0): https://bagra.crafty.place** — deployed from `dist/` only (docs/PRODUCTION_RELEASE.md). Any GitHub Pages copy is development, never production.
 
-Багра in Bulgarian, Rubia in English — after *Rubia tinctorum*, madder, one of the two
-oldest dyes in the world. The app is bilingual, so it carries two names rather than a
-translation.
+Багра in Bulgarian, Bagra in English — one name in both languages since 1.0.0-rc126 (§13gb). *Rubia
+tinctorum* stays what it always was: madder, a plant in the library.
 
 ---
 
@@ -204,8 +203,15 @@ separate — but two things will destroy it, and both are avoidable:
    backup first.
 
 Калкулатори → Резервно копие downloads everything as a dated JSON file, and shows how many edits have happened
-since the last one. The app also asks the browser for persistent storage so the database is not
-evicted when space runs short.
+since the last one. The app asks the browser for persistent storage when that screen is opened, so
+the database is not evicted when space runs short — which does not protect it from clearing site
+data, and on an iPhone Safari may still remove storage for a site not used for a while; installing
+it to the home screen is safer (DOCUMENTATION_DECISIONS_NEEDED §39).
+
+**Restoring.** *Return the database to the file* is a snapshot: it asks first, naming the file's date
+and how many of your records will go, and either restores everything or nothing. *Add only what is
+missing* never overwrites; it says how many of your records differed in the file and were kept as
+they are here. A file from a newer version of the app is refused — update first (§13ft).
 
 ## Running it locally
 
@@ -219,7 +225,7 @@ Then open `http://localhost:8000`.
 
 ## Deploying
 
-Static files on GitHub Pages. Before every deploy:
+Production is `dist/` only, uploaded to Cloudflare Pages (`wrangler pages deploy dist`) — never the repository, which is private. The procedure, staging included, is docs/PRODUCTION_RELEASE.md (§13ga). Before every deploy:
 
 ```sh
 sh check.sh
@@ -280,7 +286,13 @@ number that increments for everything communicates nothing; from 0.55 onward the
 
 Installed copies do not need to be closed and reopened: the app checks for a new worker whenever
 it becomes visible, when the network returns, and every fifteen minutes, and offers a *new version
-— update* bar rather than swapping code mid-edit. Калкулатори → Резервно копие also has a manual check. A module missing from that list is a module that silently stops
+— update* bar rather than swapping code mid-edit. **A release is one cache (§13fu):** until *Update*
+is pressed, or every window is closed, an installed copy runs the release it has — a plain reload
+does not bring in the new one. That is what keeps a page from ever holding two releases.
+
+**If a release is bad:** never roll the database back; roll code back only to a release with the
+same `DB_VERSION`, and ship it under a NEW version number so installed copies see an update. If the
+bad release raised `DB_VERSION`, fix forward. Serve over HTTPS only. Калкулатори → Резервно копие also has a manual check. A module missing from that list is a module that silently stops
 updating — the one mistake this architecture invites.
 
 ## Documents

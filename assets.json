@@ -1,0 +1,50 @@
+{
+  "about": "Every distributed non-code file, and the licence it ships under (spec §13fx). Read by scripts/make-release.mjs and scripts/try-commercial-content.mjs. A file the release carries that matches no entry here, or an entry whose licence is unknown or non-commercial, fails the release gate. Plant photographs are licensed per photograph in seed/plants.json → photoCredit, which this file points at rather than copies.",
+  "licenceTexts": [
+    "fonts/LICENSE-geist.txt",
+    "fonts/LICENSE-source-serif-4.txt",
+    "licences/LICENSE-lucide.txt"
+  ],
+  "entries": [
+    {
+      "path": "icons/",
+      "type": "app icon (PNG)",
+      "creator": "Crafty Place — drawn for Bagra (Stage 7a): a printed leaf in madder on unbleached linen",
+      "licence": "first-party",
+      "attribution": "none",
+      "notes": "favicon, 192 and 512, plain and maskable"
+    },
+    {
+      "path": "fonts/geist-",
+      "type": "font (woff2)",
+      "creator": "The Geist Project Authors (Vercel)",
+      "licence": "OFL-1.1",
+      "attribution": "licence text ships beside the font",
+      "notes": "fonts/LICENSE-geist.txt"
+    },
+    {
+      "path": "fonts/source-serif-4-",
+      "type": "font (woff2)",
+      "creator": "Adobe / Google (Source Serif 4)",
+      "licence": "OFL-1.1",
+      "attribution": "licence text ships beside the font",
+      "notes": "fonts/LICENSE-source-serif-4.txt"
+    },
+    {
+      "path": "index.html#sprite",
+      "type": "inline SVG icon sprite (62 symbols)",
+      "creator": "redrawn from Lucide (some Lucide icons derive from Feather)",
+      "licence": "ISC (Lucide) + MIT (Feather)",
+      "attribution": "notice ships: licences/LICENSE-lucide.txt",
+      "notes": "Treated as Lucide-derived as a whole: the spec documents twelve marks as Lucide (§13bh) and the origin of the rest is not recorded. Shipping the notice satisfies both licences whichever marks derive."
+    },
+    {
+      "path": "seed/images/plants/",
+      "type": "plant photograph (JPEG)",
+      "creator": "per photograph",
+      "licence": "per photograph — seed/plants.json photoCredit (licence, licenceUrl, modified)",
+      "attribution": "author and licence shown on the plant's screen (§13at)",
+      "notes": "CC0, Public Domain mark, CC BY, CC BY-SA. No ND, no NC, no GFDL-only (rc123). Every file resized by the import scripts, which scale both axes by one factor — no crop."
+    }
+  ]
+}

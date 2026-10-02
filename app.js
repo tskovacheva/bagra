@@ -447,7 +447,16 @@ document.addEventListener('click', async (e) => {
   if (up) { navigate(up.dataset.goto); return; }
 
   if (e.target.closest('[data-doupdate]')) {
-    if (waitingWorker) waitingWorker.postMessage('skip-waiting');
+    // Unsaved work is asked about HERE, in words, before the new version is
+    // let in — not left to the browser's generic „leave site?" after the
+    // worker has already been activated for every open page (§13fu).
+    if (dirty.isDirty()) {
+      if (!confirm(t('update.unsavedFirst'))) return;
+      dirty.markClean();
+    }
+    // A request to the waiting worker, which asks every other window first and
+    // answers `bagra-update-blocked` if any holds unsaved work (§13fv).
+    if (waitingWorker) waitingWorker.postMessage({ type: 'bagra-update' });
     else location.reload();
     return;
   }
@@ -531,13 +540,13 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeShe
 
 let waitingWorker = null;
 
-function showUpdateBar() {
-  if (document.getElementById('updatebar')) return;
+function showUpdateBar(message = t('update.available')) {
+  document.getElementById('updatebar')?.remove();
   const bar = document.createElement('div');
   bar.id = 'updatebar';
   bar.className = 'updatebar';
   bar.innerHTML = `
-    <span>${esc(t('update.available'))}</span>
+    <span>${esc(message)}</span>
     <button class="btn primary" data-doupdate>${esc(t('update.reload'))}</button>
     <button class="btn quiet" data-dismissupdate aria-label="${esc(t('common.close'))}">×</button>`;
   document.body.appendChild(bar);
@@ -545,6 +554,18 @@ function showUpdateBar() {
 
 async function registerWorker() {
   if (!('serviceWorker' in navigator)) return;
+  // The waiting worker's question — „do you hold unsaved work?" — and its
+  // answer when the update was refused (§13fv). Answered from the one dirty
+  // flag the whole application keeps (dirty.js).
+  navigator.serviceWorker.addEventListener('message', (e) => {
+    const m = e.data || {};
+    if (m.type === 'bagra-dirty?') { e.ports?.[0]?.postMessage({ dirty: dirty.isDirty() }); return; }
+    if (m.type === 'bagra-update-blocked') {
+      showUpdateBar(m.dirty ? t('update.blockedDirty') : t('update.blockedSilent'));
+    }
+  });
+  // Messages from a worker wait in a queue until the page says it is listening.
+  navigator.serviceWorker.startMessages?.();
   try {
     // updateViaCache:'none' keeps the browser from serving a stale sw.js,
     // which would hide every later change behind an HTTP cache.
@@ -567,9 +588,19 @@ async function registerWorker() {
       });
     });
 
+    // A page that STARTED without a worker is not changing version when one
+    // takes control: it is the first install, the code on screen is the code
+    // just cached, and reloading it only threw away whatever was being typed —
+    // and failed the browser checks at random (§13fu).
+    const hadController = !!navigator.serviceWorker.controller;
     let reloading = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (reloading) return;
+      if (reloading || !hadController) return;
+      // Another open page pressed „Обнови". This one is still running the old
+      // version against the new worker's cache, and must not stay that way —
+      // but a form with unsaved work is not reloaded from under the person.
+      // She is told, saves, and reloads with the button (§13fu).
+      if (dirty.isDirty()) { showUpdateBar(t('update.activeElsewhere')); waitingWorker = null; return; }
       reloading = true;
       location.reload();
     });

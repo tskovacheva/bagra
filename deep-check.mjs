@@ -22,11 +22,109 @@ import fs from 'fs';
 import { JSDOM } from 'jsdom';
 import 'fake-indexeddb/auto';
 
+// DIAGNOSTIC, off unless set (§13fw): BAGRA_DC_LATENCY=<ms> makes every
+// IndexedDB step take at least that long. fake-indexeddb schedules each step
+// through `globalThis.setImmediate`, read at call time, so this slows the
+// database and nothing else. A slow disk or a busy machine is what it stands
+// for; it is how the harness's waiting is tested on purpose instead of by luck.
+// Never set by check.sh.
+if (process.env.BAGRA_DC_LATENCY) {
+  const ms = Number(process.env.BAGRA_DC_LATENCY);
+  globalThis.setImmediate = (fn, ...args) => setTimeout(fn, ms, ...args);
+}
+
+// Database work in flight, counted (§13fw). Every step fake-indexeddb takes is
+// scheduled through `setImmediate`; each scheduled step is held here until it
+// has run. A render's reads chain through microtasks, which finish before any
+// timer the harness polls on, so between two polls the count is either the
+// next step already scheduled or zero because the chain is done.
+const dbSteps = new Set();
+{
+  const baseSI = globalThis.setImmediate, baseCI = globalThis.clearImmediate;
+  globalThis.setImmediate = (fn, ...args) => {
+    const h = baseSI((...x) => { dbSteps.delete(h); fn(...x); }, ...args);
+    dbSteps.add(h);
+    return h;
+  };
+  globalThis.clearImmediate = (h) => { dbSteps.delete(h); return baseCI(h); };
+}
+
 const dom = new JSDOM(fs.readFileSync('index.html','utf8'),
   { url:'https://example.org/bagra/', runScripts:'outside-only' });
 const d=(n,v)=>Object.defineProperty(global,n,{value:v,configurable:true,writable:true});
 d('window',dom.window); d('document',dom.window.document); d('location',dom.window.location);
-d('navigator',dom.window.navigator); d('HTMLElement',dom.window.HTMLElement);
+// The end of the application's start, observed rather than guessed (§13fw).
+// The start's last statement is `registerWorker()`, whose first line is
+// `'serviceWorker' in navigator` — the only such test in the application. A
+// `has` trap on navigator resolves `started` at exactly that moment: after the
+// packs, the repairs and the first route. It stood as a fixed 1.5 s sleep, and a
+// database only a little slower than usual left the harness checking a library
+// that was still being written.
+let startDone; const started = new Promise(r => { startDone = r; });
+d('navigator', new Proxy(dom.window.navigator, {
+  has(t, k) { if (k === 'serviceWorker') startDone(); return Reflect.has(t, k); },
+  get(t, k) { const v = Reflect.get(t, k, t); return typeof v === 'function' ? v.bind(t) : v; },
+}));
+d('HTMLElement',dom.window.HTMLElement);
+
+// Every promise an event handler returns, until it settles (§13fw).
+//
+// A click or a hash change starts an async re-render that the dispatcher does
+// not await: the handler is `root.onclick = async …` or an async listener, and
+// its promise is dropped. `settle()` used to infer the end of that work from
+// the screen not changing for 30 ms — which is ALSO true in the gap between the
+// click and the render's first write, while the handler is still reading the
+// database. On a busy machine the gap outlasted 30 ms, the harness read the old
+// screen, and the check failed wherever that happened to be. So the handlers
+// themselves are recorded: every listener and every on<event> property is
+// wrapped, before the application loads, and a promise it returns is held here
+// until it settles. Wrapped once per function, so removeEventListener still
+// finds it.
+const pending = new Set();
+let hashSeen = null;   // set once the start has finished
+const track = (ret) => {
+  if (ret && typeof ret.then === 'function') {
+    const p = Promise.resolve(ret).catch(() => {}).finally(() => pending.delete(p));
+    pending.add(p);
+  }
+  return ret;
+};
+{
+  const ET = dom.window.EventTarget.prototype;
+  const realAdd = ET.addEventListener, realRemove = ET.removeEventListener;
+  const wrapped = new WeakMap();
+  ET.addEventListener = function (type, fn, opts) {
+    if (typeof fn !== 'function') return realAdd.call(this, type, fn, opts);
+    let w = wrapped.get(fn);
+    // The application's `hashchange` listener calls `route()` and drops its
+    // promise — ordinary browser code, but it means a navigation's render is
+    // invisible to handler tracking. What IS visible: whether the address has
+    // been dispatched yet. `hashSeen` is the address the last dispatch saw.
+    if (!w) { w = function (...a) {
+      if (type === 'hashchange') hashSeen = location.hash;
+      return track(fn.apply(this, a));
+    }; wrapped.set(fn, w); }
+    return realAdd.call(this, type, w, opts);
+  };
+  ET.removeEventListener = function (type, fn, opts) {
+    return realRemove.call(this, type, (typeof fn === 'function' && wrapped.get(fn)) || fn, opts);
+  };
+  let props = 0;
+  for (const proto of [dom.window.HTMLElement.prototype, dom.window.Document.prototype]) {
+    for (const name of Object.getOwnPropertyNames(proto).filter(n => /^on[a-z]+$/.test(n))) {
+      const desc = Object.getOwnPropertyDescriptor(proto, name);
+      if (!desc || !desc.set || !desc.configurable) continue;
+      Object.defineProperty(proto, name, { ...desc, set(fn) {
+        desc.set.call(this, typeof fn === 'function' ? function (...a) { return track(fn.apply(this, a)); } : fn);
+      } });
+      props++;
+    }
+  }
+  // If jsdom ever moves these accessors, the harness must say so, not wait on nothing.
+  if (!Object.getOwnPropertyDescriptor(dom.window.HTMLElement.prototype, 'onclick')?.set)
+    throw new Error('deep-check: cannot see HTMLElement.onclick — the handler tracking would be blind');
+  if (props < 20) throw new Error(`deep-check: only ${props} on<event> properties wrapped — the handler tracking would be partial`);
+}
 d('Image',dom.window.Image); d('FileReader',dom.window.FileReader); d('Blob',dom.window.Blob);
 d('URL',dom.window.URL); d('alert',()=>{});
 // Counted, not merely stubbed: several checks below care about whether the
@@ -59,7 +157,10 @@ process.on('unhandledRejection',e=>{console.log(e && e.stack);fail('rejection',e
 // The English first opening is checked in scripts/try-language-default.mjs.
 await (await import('./db.js')).setSetting('language', 'bg');
 await import('./app.js');
-await new Promise(r=>setTimeout(r,1500));
+await Promise.race([started, new Promise((_, rej) =>
+  setTimeout(() => rej(new Error('the application did not finish starting within 60 s')), 60000))])
+  .catch(e => { fail('start', e); });
+hashSeen = location.hash;
 
 const db = await import('./db.js');
 const { photoOf } = await import('./ui.js');
@@ -118,14 +219,35 @@ for (const store of ['plants','recipes','combinations']) {
 // of milliseconds. A flat sleep passed for a year and then began failing one run
 // in ten the moment the plant list grew — a check that fails at random teaches
 // people to re-run it, which is the opposite of what it is for.
-const settle = async (max = 1500) => {
-  let last = -1, stable = 0, waited = 0;
-  while (waited < max) {
+// Since §13fw it waits first for every handler the event started (`pending`,
+// above) and only then for the screen to hold still — the second stage covers
+// work a handler set going without awaiting. A screen that never settles is a
+// FAIL, named, and not a silent return: the old version gave up after 1.5 s
+// without a word and let the next line read whatever was there.
+// Idle means all of: no handler promise outstanding, no database step
+// scheduled, no address waiting to be dispatched, no library mark still
+// counting (seed-ui.js states `pending` on the element itself) — and, with all
+// of that true, the view's content the same on two polls in a row. Every term
+// is something the application did or is doing, observed; none is a guess at
+// how long it takes.
+const busy = () => {
+  const why = [];
+  if (pending.size) why.push(`${pending.size} handler(s)`);
+  if (dbSteps.size) why.push(`${dbSteps.size} database step(s)`);
+  if (hashSeen !== null && location.hash !== hashSeen) why.push('a navigation not yet dispatched');
+  if (document.querySelector('[data-counted="pending"],[data-checked="pending"]')) why.push('a library mark still counting');
+  return why;
+};
+const settle = async (max = 20000) => {
+  const deadline = Date.now() + max;
+  let last = null, stable = 0;
+  while (Date.now() < deadline) {
     await new Promise(r => setTimeout(r, 15));
-    waited += 15;
-    const now = root.innerHTML.length;
+    if (busy().length) { last = null; stable = 0; continue; }
+    const now = root.innerHTML;
     if (now === last) { if (++stable >= 2) return; } else { stable = 0; last = now; }
   }
+  fail('settle', new Error(`the screen did not settle within ${max} ms (${busy().join(', ') || 'the view kept changing'})`));
 };
 
 const click = async (el) => {

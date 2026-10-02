@@ -1,4 +1,4 @@
-# Багра / Rubia — Functional Specification
+# Багра / Bagra — Functional Specification
 
 *Natural dye and eco print notebook, by Crafty Place*
 
@@ -209,7 +209,9 @@ Consequences for the build:
 
 ### 15.1 Names
 - **Bulgarian:** Багра
-- **English:** Rubia — after *Rubia tinctorum*, madder, one of the two oldest dyes in the world
+- **English:** Bagra — **since 1.0.0-rc126 (§13gb)**. Until then the English name was Rubia, after *Rubia
+  tinctorum*; the owner settled on one name in both languages before 1.0. The paragraph below is the
+  reasoning of the earlier decision, kept as history.
 - **Attribution:** *by Crafty Place*
 
 A bilingual app may carry two names. Багра follows the same logic as Глина — an ordinary Bulgarian
@@ -13536,3 +13538,689 @@ madder pigment, untouched. 19 recipe references in trials, fabrics and pigment b
   default weight rather than empty.
 - The first full run failed once in deep-check's pH match — the timing fault of item 34, independent of
   the recipes (it writes its own). Two runs of deep-check alone and the next full run passed.
+
+---
+
+## 13ft. Commercial data safety, package 1 — what a restore promises (1.0.0-rc119)
+
+An audit, not a feature. The question: are the local data of a paying customer protected well
+enough for a commercial 1.0? The principle agreed for it: **loss, corruption or unexpected
+overwriting of a long-kept journal is a launch blocker.** Only what the audit showed to be a
+defect was changed; no cloud, no account, no new function.
+
+### What was found sound
+
+- **Coverage.** A backup carries every store except `vocabulary` and `bands`, which hold seed
+  data only and are regenerated at every start (nothing writes to them but the start itself).
+  Photographs are data URLs inside their records, so they travel in the JSON. Nothing of the
+  user's lives outside IndexedDB — no localStorage, no cookie, no cache entry.
+- **Replace is a snapshot and is atomic** (§13co): one transaction over every store the file
+  carries; a refused row aborts all of it. Now asserted across TWO stores, the cleared one
+  included.
+- **Ids and timestamps survive** both modes (`putRaw`); relationships are ids, so they survive
+  with them. Seed records are laid down again by the next start; the file never turns a
+  record of hers into a seed record.
+- **The seven personal recipes** (§13fs) and **`seed:aluminium-acetate-prep`** survive upgrade →
+  export → restore onto a clean installation, in both modes, whether the owner had applied the
+  recipe update before exporting or not; the update never offers the seven for removal.
+- **An IndexedDB opened at an older version** only gains stores; `vocabulary`/`bands` are
+  recreated below v7 by design.
+
+### The defect — a merge left its records unrepaired (P0)
+
+§13cw made each historical repair run once and put its marker in `settings`, so a snapshot of
+a database from before a repair restores the absence of the marker with the records that need
+it. That covered `replace` and nothing else. A **merge** adds old records into a database whose
+markers say every repair has run, so the added records were never repaired: on the rc56
+fixture, five eco-print trials without a `bundle` and four recipes without `sourceCodes`, for
+ever. Worse, the eco-print screen renders the roll field for every eco-print trial, so saving
+such a trial wrote `bundle: { roll: '' }`; the repair then skipped it for having a bundle, and
+its construction steps — still in the record — disappeared from the screen for good. The same
+happened to a `replace` from a file with no `settings` in it.
+
+**The rule now.** After any restore, the database's `migrations` marker is the **lower of its
+own and the file's, repair by repair** (`reopenMigrations` in backup.js). A file written by a
+build that had run a repair carries records already in its shape and reopens nothing; a file
+that had not reopens exactly the repairs its records need, and the reload that follows the
+restore runs them. Every repair is idempotent — the guard holds that — so a reopened one costs
+one walk over its store. A merge that added nothing reopens nothing.
+
+### Four smaller defects, fixed because they sit on the same path
+
+- **The replace question names the file.** The confirmation came before validation and said
+  „everything after this backup is lost", which is true of every file and so could not tell
+  last month's from last week's. Now the file is validated first, and the question says the
+  file's date and how many records of hers will go (`planReplace`). „Hers" is a record not
+  from the pack, or a pack record she edited; settings are not counted.
+- **A file from a newer database is refused.** `schemaVersion` describes the file and stood at 3
+  while the database went from 7 to 10, so it could not say the file came from a newer build.
+  A backup now carries `appVersion` and `dbVersion`; `dbVersion` above this build's is refused,
+  because restoring it would drop a store this build does not know. Files without the field
+  are read as before. **`schemaVersion` must still be raised when a record shape changes
+  incompatibly** — that part is discipline, not code.
+- **A merge says what it left out.** The policy is unchanged — what is already here wins, the
+  file never overwrites — but a record of hers that differed in the file was counted as
+  „skipped" together with identical ones. It is counted apart (`differ`) and the screen says
+  how many.
+- **The download survives Safari.** The link was clicked detached and its address revoked on
+  the next line, which Safari cannot take: the download fails while the screen says it was
+  made and the counter is reset. The link is now in the document when clicked and its address
+  lives a minute. **Not verified on a real Safari** — a manual release step.
+
+### Known and not fixed here (recorded in DOCUMENTATION_DECISIONS_NEEDED §39)
+
+- **„Downloaded" is not „saved".** `lastExportAt` and the counter move when the file is
+  handed to the browser; a cancelled save dialog cannot be seen from a web page.
+- **Persistent storage is asked only on the backup screen**, and „the browser keeps the data
+  permanently" overstates what `persist()` grants: it protects against eviction under
+  pressure, not against clearing site data, removing the home-screen app, or Safari's
+  deletion of script-written storage for a site not used for a while (installed home-screen
+  apps are treated differently). Commercial risk; the wording and the moment are UX work.
+- **`migrateFabricActions` writes cloth before its batches**, in separate transactions; an
+  interrupted run leaves an action pointing at a batch that was never written. Old databases
+  only (stateEvents), no content lost — the action carries the date, recipe and note.
+- P2: the plant-photo repair is marked run even when it bailed offline (the photograph stays
+  in the record); a replace from an older file leaves stores it does not carry (`plans`)
+  untouched; a merge brings in absent session settings (`returnTo`, `language`); a pack that
+  ever reused a handed-over code would offer to overwrite it as unedited; rows are checked for
+  a key, not for shape; a merge and a pack apply are not one transaction but are safe to rerun.
+
+### The migration matrix
+
+| | scenario | where |
+|---|---|---|
+| A | fresh install → current | `try-recipe-provenance`, check-boot, deep-check; the start in `try-data-safety` |
+| B | old populated DB → current | `try-restore-older` (rc6, rc45, rc56, each written by its own version); IndexedDB v6 → v10 in `try-data-safety` |
+| C | recent pre-commercial DB → current | rc56 fixture, replace and merge; the rc117 library in `try-data-safety` |
+| D | seeded recipe she edited | `try-data-safety`: kept through the update, replace keeps it, merge keeps the local one and counts the file's |
+| E | the seven personal recipes | `try-data-safety`, before and after Apply, both modes |
+| F | Plans + Trials + eco-print | `try-data-safety`: bundle, placements, `combinationId`, shared bath, all references |
+| G | failure | a repair that throws leaves no marker (`try-hardening`); a restore that fails leaves every store as it was (`try-backup-restore`, `try-data-safety`) |
+
+Invariants, for every scenario: every record of hers is present by id, field for field,
+`createdAt` and `updatedAt` included; every reference resolves; every repair is marked and its
+effect visible; the seven stay hers; the counter reads zero after a restore and the last backup
+is dated to the file.
+
+### Checks
+
+- **`scripts/try-data-safety.mjs`** (new, in `check.sh`): DB A built as an installation that
+  has lived, upgraded and exported; each restore runs in a **new process over an empty
+  database**, then the start sequence, then a record-by-record comparison. Seen failing on
+  rc118 at every fix above: five eco-print trials without a bundle after a merge and a start,
+  the same after a settings-less replace, a newer database accepted, no plan, no `differ`, the
+  link detached and revoked at once.
+- **`scripts/try-restore-older.mjs`** joins `check.sh --release` — in the tree since rc67, never
+  gated. It timed out on the second fixture in one browser while each passed alone; it now
+  opens a browser per fixture.
+- **Manual, before each release:** export in Safari on macOS and on an iPhone, open the file,
+  compare the counts with the backup screen.
+
+---
+
+## 13fu. Production update & release safety, package 2 — the release is the cache (1.0.0-rc120)
+
+An audit of how an installed copy is updated. The risk it was asked about: an installed
+customer getting mixed or stale application files, a broken worker, an update loop or a
+version mismatch that makes the application unusable or dangerous to her data.
+
+### How an update worked in rc119, and the defect (P0)
+
+The worker **did** wait to be told before taking over (`skip-waiting` from the „Обнови" bar),
+installed with `cache: 'reload'`, and named its cache for the version. But its `fetch` handler
+was **network-first, file by file**, and copied every answer into the running version's cache.
+So a release was never a unit:
+
+- after a deploy, an open page's next load took every file from the server as it stood — the
+  new release, under the old worker, before anyone pressed anything;
+- when one request of fifty failed (a phone in the garden), that file came from the cache and
+  the rest from the server — **one page, two releases**. A missing export between two such files
+  is a blank screen; a matching one is two releases writing to one database;
+- the copies polluted the old cache, so an update whose install failed left an offline copy
+  that was **half of each**, and booted that way;
+- the fallback read `caches.match` across every cache, including the next version's half-filled
+  one during its install.
+
+`try-update.mjs` showed all four on rc119: U2, U4, U5 with two labels in one page, and U3 booting
+a mixed cache offline.
+
+### The rule now
+
+**A release is one cache, installed all or nothing, and the running worker answers every file of
+its release from its own cache and nowhere else.**
+
+- `install` stores exactly `FILES`, from the server (`cache: 'reload'`), with `addAll` — one
+  failure abandons the install and the old worker simply carries on.
+- `fetch`: a navigation in scope is the cached `index.html`; a file of the release is answered
+  from `caches.open(CACHE)` — never `caches.match` across caches. A file of the release missing
+  from its cache is fetched and **not stored**: storing it would put today's server into
+  yesterday's release. Anything outside the release goes to the network with this cache as a
+  fallback, never written. Other origins are not touched.
+- A new version reaches a page only when a new worker is activated: the person presses
+  „Обнови", or no page of the old version is open (the browser then activates it by itself on
+  the next start).
+- `activate` deletes only caches named `bagra-*` other than its own. Cache Storage belongs to the
+  origin, and Багра has shared `tskovacheva.github.io` with Глина, whose offline copy it deleted
+  at every update.
+
+The price is deliberate: an online person with an open copy sees the new release when she
+presses „Обнови" or restarts the application — not on a plain reload.
+
+### Update activation and unsaved work (P1, fixed)
+
+- **First install does not reload.** A page that started without a worker was reloaded when the
+  worker first took control — throwing away anything typed in the first seconds, and failing the
+  browser checks at random (§13ft).
+- **„Обнови" with unsaved work asks first**, in the application's words, before the worker is
+  activated for every window.
+- **Another window with unsaved work is not reloaded.** When a different window activates the new
+  version, a window whose form is dirty gets the bar „new version started in another window —
+  save, then Update" instead of a reload. A clean window reloads at once.
+- **An older page lets go of the database** (`onversionchange` closes it) when a newer release
+  opens it at a higher version, so the new page is not left blank; the old page's next write then
+  fails loudly rather than writing old shapes. `onblocked` logs the wait. Both matter from the
+  next `DB_VERSION` bump, for every page running rc120 or later.
+
+### Found and not changed
+
+- **Version sources.** `version.js` is the one authority; `sw.js`'s `CACHE` is a second copy by
+  necessity (a classic worker cannot import the module), held equal by `check.sh`; the
+  changelog's newest entry is now held equal too. The manifest carries no version. Comments
+  naming old rc numbers are history, not version sources.
+- **Recovery without developer tools.** A broken `sw.js` fails its update and the old worker
+  goes on; a failed install leaves the old release whole; a damaged cache entry is fetched from
+  the network. A cache deleted by the person means offline fails until the next online start.
+  No case found that needs clearing site data.
+- **Paths.** Everything is relative (`sw.js`, `./`, `manifest.json`, `start_url` and `scope`
+  `./`); no host is named. Works at the root of `bagra.crafty.place` and under a sub-path.
+- **Secure context.** Required for the worker (registration is guarded; without it the
+  application runs online with no offline copy) — and for `crypto.subtle`, which the plant-photo
+  repair calls unguarded: served over plain HTTP the start would stop there. HTTPS is a hosting
+  requirement, not a degradation path (DOCUMENTATION_DECISIONS §40).
+- **The transition from rc119.** A copy running rc119's worker stays network-first until it
+  takes rc120; the one crossing is exposed as before. Pre-commercial copies only.
+- **Manifest.** Relative, standalone, 192 and 512 icons in `any` and `maskable`. `lang: "bg"`
+  against an English default (§13fi) and no `id` — content decisions, §40.
+
+### Rollback — the operational rule
+
+1. **Never roll a database back.** No release downgrades IndexedDB; migrations only add.
+2. **Code may be rolled back only to a release with the same `DB_VERSION`.** An older build
+   cannot open a database a newer one upgraded (`VersionError` — every read fails), and it
+   refuses the newer build's backups (§13ft).
+3. **A rollback ships as a NEW version number**: the good release's files under the next rc, with
+   its own `CACHE` name, through the ordinary gate. Re-serving an old `sw.js` byte for byte is
+   ignored by every copy that already has it; a new name installs, is announced, and replaces the
+   bad release the same way any update does.
+4. **When the bad release raised `DB_VERSION`, fix forward** — a new release on the new schema.
+
+### The update matrix, automated
+
+`scripts/try-update.mjs`, real Chromium with the worker on, one origin serving release A or B
+(a label in five files, so a mixed page answers with two), able to fail one file (404 or dropped
+connection) or go offline: **U1** fresh install, no reload, offline launch; **U2** found, held
+across a reload, taken, her work unchanged, the old cache gone; **U3** B's install fails on one
+file, two ways — A whole online and offline; **U4** B deployed, one file of it failing on reload —
+the page is A, whole; **U5** offline then online — found, not forced; **U6** a repair on the first
+start after an update, record not restamped; **U7** three windows — the one pressing is B, the
+clean one reloads, the dirty one is told and keeps its work. Seen failing on rc119's worker and
+start code in U1–U5 and U7.
+
+`scripts/try-release-files.mjs`, static: `sw.js` parses; every entry exists and none twice; every
+file `index.html` loads is in the release; the cache name and the changelog's newest entry carry
+the version; the manifest is relative with its icons present. Seen failing on each.
+
+**Not automatable here:** Safari/iOS worker behaviour (update timing, eviction of a home-screen
+app), a real host's HTTP headers, and a deploy that is not atomic on the host.
+
+---
+
+## 13fv. „Обнови" activates nothing while another window holds unsaved work (1.0.0-rc121)
+
+A remaining finding on §13fu, raised by the owner. The cache-per-release architecture stands.
+
+### The fault
+
+In rc120 the window that pressed „Обнови" sent `skip-waiting` and the new worker activated at
+once. A second window with unsaved work was then shown a notice instead of being reloaded — but
+by then the new worker was active, the old release's cache was deleted, that window was running
+the old code with its requests answered by the new release, and a clean window could already be
+running the new release's migrations. One client on the old version after activation is what
+§13fu exists to forbid; `onversionchange` covers only a schema bump, and there it leaves the
+draft visible and unsaveable.
+
+### The rule
+
+**The waiting worker activates only when every open Багра window has answered that it holds no
+unsaved work.**
+
+- „Обнови" settles the pressing window's own unsaved work (the confirmation of §13fu) and then
+  sends `{ type: 'bagra-update' }` to the WAITING worker. It is a request.
+- The worker lists every open window in its scope from the browser — `clients.matchAll`,
+  uncontrolled windows included — and asks each, other than the one that pressed, over its own
+  `MessageChannel`: „do you hold unsaved work?". A window answers from `dirty.js`.
+- **All answer „no"** → `skipWaiting()`, activation, the old `bagra-*` caches deleted, every window
+  reloaded on `controllerchange` as before.
+- **Any answers „yes"** → nothing is activated. The pressing window is told, in both languages,
+  that another window has unsaved changes and must be saved or closed first. It can press again.
+- **Any does not answer within 4 s** — frozen in the background, or running a release that does not
+  know the question — is treated as NOT clean, and the pressing window is told to close the other
+  windows. Silence is never read as consent.
+
+**Why not BroadcastChannel.** A broadcast is answered by whoever is listening, so it cannot tell
+„nobody is dirty" from „somebody did not hear". The worker's client list comes from the browser,
+so every window is asked by name and a missing answer is visible. The Clients API and
+`MessageChannel` exist wherever a service worker does, so there is no separate fallback to design:
+without a worker there is no waiting release and no update.
+
+**The old cache.** It is deleted at activation, and activation now happens only when no window is
+open (the browser's own rule) or when every open window has declared it has nothing to keep and
+reloads on `controllerchange`. No window needs the old release after that moment. The
+`update.activeElsewhere` notice of §13fu stays as a second line, for the milliseconds between the
+last answer and activation.
+
+**Transition.** rc120's page sends the plain `'skip-waiting'`; rc121's worker holds it to the same
+rule. rc120 pages do not answer the question, so an update from rc120 with two windows open is
+refused until the other is closed — safe, and pre-commercial only.
+
+### The manifest's identity (§40.3)
+
+`"id": "/bagra"`, added before any commercial installation. A browser knows an installed PWA by
+`id`, resolved against the origin of `start_url`; without one it is `start_url` itself, so any
+later change of start page would make installed copies a different application. `/bagra` is
+path-only and names no host, and `try-release-files.mjs` pins it: changing it becomes a decision.
+
+It cannot survive a change of ORIGIN, and nothing can: a browser binds an installed application —
+and its IndexedDB, and its caches — to the origin. Moving from `tskovacheva.github.io` or Vercel to
+`bagra.crafty.place` is a new installation with an empty database, reached by backup and restore
+(§11.4), whatever the `id`. This is why the production origin should be settled before the first
+customer installs.
+
+**`lang` is not the interface language.** It declares the language of the manifest's own text —
+`name`, `short_name`, `description`. The description is Bulgarian and the name mixed, so `"bg"`
+describes the manifest correctly. It does not contradict the English first opening (§13fi), which
+is the application's, not the manifest's. Left as it is; a translated manifest would be a
+branding decision.
+
+### Checks
+
+`try-update.mjs`: **U7a** three clean windows — one presses, all three are B, one cache. **U7b** a
+dirty second window — refused and told; B still waiting, A active with its cache, both windows A
+whole, the work kept; after a save, Update goes through and only then is A's cache gone. **U7c** B
+raises `DB_VERSION` (10 → 11, a transformation of the served `db.js`) — while B waits, a new window
+is A, the database stays at 10 and the dirty window can still save; after the save, 11, both
+records there. **U7d** a window that cannot answer — refused with its own message; once it is
+closed, Update goes through. U7b, U7c and U7d seen failing on rc120's worker and page at the
+refusal they expect. `try-release-files.mjs` pins the manifest `id`, seen failing on rc120's
+manifest.
+
+---
+
+## 13fw. deep-check waits for what the application is doing, not for a quiet moment (1.0.0-rc121)
+
+A fault in the release gate, not in the application. rc121's first release runs failed in
+`deep-check.mjs` at a different place each time — a step photograph, a reference match, a pH bath,
+a `null.title` rejection — and the same happened on rc120's files. Nothing in the application was
+changed.
+
+### Two causes, each reproduced on purpose
+
+`BAGRA_DC_LATENCY=<ms>` (diagnostic, off unless set, never set by `check.sh`) makes every
+IndexedDB step in the harness take at least that long: fake-indexeddb schedules its steps through
+`globalThis.setImmediate`, which the harness wraps. It stands for a busy machine and lets the
+waiting be tested deliberately.
+
+1. **The start was a fixed 1.5 s sleep.** The start (packs, repairs, first route) takes 0.4–0.6 s
+   on an idle machine; at 4 ms per step it does not finish in 1.5 s, and the first check read a
+   library still being written („a fresh install already differs from its own packs").
+2. **`settle()` took 30 ms without a change for „finished".** That is also true between a click and
+   the first write of its render, while the handler is still reading the database. With the start
+   fixed and the old `settle()`, 4 ms per step gave 18 failures, among them the step photograph
+   the gate had shown. rc53 had met the same fault and delayed PRODUCTION code by 150 ms
+   (`seed-ui.js`, `LATE_MS`) to stay clear of it.
+
+Handler promises alone did not close it: `app.js`'s `hashchange` listener calls `route()` and drops
+the promise — ordinary browser code — so a navigation's render is invisible to handler tracking.
+With tracking only, 4 ms still gave 13 failures.
+
+### What the harness waits for now
+
+- **The end of the start**, observed: its last statement is `registerWorker()`, whose first line is
+  the application's only `'serviceWorker' in navigator`; a `has` trap on `navigator` marks that
+  moment. 60 s without it is a FAIL.
+- **`settle()` waits for idle**, which means all of: no promise returned by an event handler still
+  outstanding (every listener and `on<event>` property is wrapped before the application loads);
+  no fake-indexeddb step scheduled; no address waiting for its `hashchange`; no library mark in
+  `data-counted/checked="pending"` — and, with all of that true, the view's content identical on
+  two polls in a row. Not settling in 20 s is a FAIL with its reason; it used to return silently
+  after 1.5 s.
+
+Deterministic because the harness polls from timers, and a render's database reads chain through
+microtasks that complete before any timer runs: between two polls there is either a next step
+already scheduled or none because the chain is done. Every term is something the application is
+doing, observed; none is an estimate of how long it takes.
+
+### Evidence
+
+At 4 ms per step: the original harness failed at the start; fixed start with the old `settle()`, 18
+failures; handler tracking only, 13; the final harness passed, and passed again at 10 ms per step
+with a second deep-check competing for the processor. Ten consecutive normal runs on one tree:
+10/10, 58–68 s each. No retry, no longer sleep, no assertion removed.
+
+`LATE_MS` in `seed-ui.js` stays: it also stops a search from starting a comparison per keystroke,
+which is a reason of the application's own.
+
+---
+
+## 13fx. Commercial seed, asset and provenance hygiene (1.0.0-rc122)
+
+Package 3 of the commercial readiness audit: whether what a customer receives is clean of private
+material, wrong attribution and assets of unknown licence.
+
+### Found sound
+
+The recipe pack holds exactly the sixteen of §13fs, each credited to `crafty-place-practice` alone,
+with no person, book or numbered recipe in its text; the seven personal recipes are in no seed file;
+`seed:aluminium-acetate-prep` is there once. 57 sources, no code twice; every source code in every
+pack resolves (an empty `sourceCode` is the application's own „no source", `library.js`). Fonts:
+Geist and Source Serif 4, OFL-1.1, bundled with their licences, no remote dependency. No third-party
+runtime code; npm packages are test-only. App icons are first-party (Stage 7a). No NC asset.
+
+### Fixed
+
+- **The release is an artifact, not the repository (P0).** A static host serving the repository
+  would have published the owner's journal backups (`test/older-backups`), withdrawn records
+  (`archive/`), the attribution working notes (`docs/`), this specification and the decision log.
+  `scripts/make-release.mjs` builds `dist/` from an ALLOWLIST — the worker's `FILES`, `sw.js`, and the
+  licence texts named in `assets.json` — and checks it: exactly that set, no forbidden path, every
+  file the worker installs and every file `index.html` loads present. 133 files at rc122. **Only
+  `dist/` is deployed.** The source repository must ALSO be private before launch — the artifact
+  and a private repository protect different things, and both are needed.
+- **Two Library notes said a shipped recipe came from them (P0).** rc118 took the attribution out of
+  the recipes and left it in the Library: Maiwa's course note said the mordant paste's mixing
+  warnings were „taken from here", and Garcia's that he „reaches Bagra only through Alison Kelly" for
+  the compound mordant. Both are now research bibliography — what the source covers, that it is in
+  the Library for research and comparison — and Garcia's says Bagra attributes no recipe to him. Both
+  entries stay. Sources pack 19.
+- **A photograph shipped that nothing showed (P1).** `paubrasilia_echinata.jpg`, withdrawn with its
+  plant at rc77, was still cached and shipped with no visible credit; moved to
+  `archive/withdrawn/images/`.
+- **The icon sprite's licence did not ship (P1).** The 62 marks in `index.html` are redrawn from
+  Lucide (§13bh documents twelve; the rest are not recorded, so the sprite is treated as
+  Lucide-derived as a whole). Lucide is ISC, with an MIT notice for icons derived from Feather; both
+  allow commercial use and require the notice in all copies. `licences/LICENSE-lucide.txt` ships.
+- **The GFDL text did not ship (P1).** Two photographs are GFDL only (`prunus_domestica`,
+  `biancaea_sappan`) and one more dual-licensed with it; the GFDL requires its text with every copy.
+  `licences/GFDL-1.2.txt` ships (SPDX text).
+
+### The asset registry
+
+`assets.json` (development file, not shipped): every distributed non-code file by path prefix —
+creator, licence, attribution, notes — and the licence texts to ship. Plant photographs are licensed
+per photograph in `photoCredit` and the registry points there. A shipped file matching no entry, or
+with an unknown or non-commercial licence, fails the gate.
+
+### Checks
+
+- **`scripts/make-release.mjs`** builds and verifies `dist/` (layer 3g'').
+- **`scripts/try-commercial-content.mjs`**: the sixteen by code, credited alone; no code twice;
+  `retiredToPersonal`; aluminium acetate once; sources unique and resolving; no Library note with the
+  provenance phrases rc121 carried (eight, BG and EN, narrow on purpose); the artifact built to a
+  temporary directory; none of the seven nor Nicoleta named in anything shipped; every shipped asset
+  under a known commercial licence; the GFDL text present when a GFDL photograph ships; the sprite
+  registered with its notice. Seen failing on: rc121's notes, a photograph set to CC BY-NC, a
+  document added to the worker's list, a personal recipe put back, an unregistered font.
+- **`try-update.mjs` runs against `dist/`** in the release gate, so the update matrix boots, installs,
+  goes offline and updates from the files that ship.
+
+### Left for the owner (DOCUMENTATION_DECISIONS §41)
+
+The warning text of `mordant-print-paste` (no Maiwa material in the repository to compare it
+against); whether the sumac photograph (CC BY-ND, 560×372, 3:2) was cropped; the exact GFDL version
+of the two photographs and whether Commons offers them under CC as well; a Credits page with licence
+links and „resized" notes (CC BY 4.0 asks for both where practicable); the repository made private;
+deploying `dist/` only.
+
+---
+
+## 13fy. Photograph licences: the CC alternatives, the deed, the change (1.0.0-rc123)
+
+A last licence-compliance pass on §13fx, asked by the owner.
+
+**The two GFDL photographs use the CC licence their source also offers.** Checked on Commons:
+`prunus_domestica` (YAMAMAYA) is offered under GFDL 1.2+ and CC BY-SA 3.0 / 2.5 / 2.0 / 1.0 —
+Bagra distributes it under **CC BY-SA 3.0**; `biancaea_sappan` (J.M.Garg) under GFDL 1.2+ or CC BY
+3.0, „you may select the license of your choice" — **CC BY 3.0**. Nothing ships under the GFDL, so
+its text left the release. The other choices recorded as dual are made the same way, the first
+named: CC0 over „Public Domain / CC0", CC BY-SA 3.0 over its GFDL and CC BY 2.5 alternatives, CC BY-SA
+4.0 over 2.5. What the source also offers is kept in `licenceAlternatives`.
+
+**The sumac photograph is withdrawn.** It was the one CC BY-ND image, and it was added by hand
+outside the import scripts (§13at), so nothing could show it was not cropped, and ND allows no
+adaptation. It is in `archive/withdrawn/images/` with its credit in `archive/README.md`; the plant
+ships without a photograph until a CC0, CC BY or CC BY-SA one replaces it (a file cannot be fetched
+from this build environment). `try-boot-and-photos.mjs` names it as withheld with its reason, and
+fails if it regains a photograph without leaving the list, or another plant loses one.
+
+**Every photograph says what was done to it.** Both import scripts scale both axes by one factor and
+re-encode — no crop in code — and the two checked against Commons agree: 1280×960 became 560×420,
+701×600 became 560×479. So every shipped photograph records `modified: 'resized'`, shown as
+„Преоразмерено за Багра" / „Resized for Bagra".
+
+**The credit beside the picture is the full attribution.** `photoCredit` gains `licenceUrl`, derived
+from the licence by one rule (CC licences to their deed on creativecommons.org, CC0 to the
+dedication, Public Domain to the Public Domain Mark). The plant screen shows: author · licence,
+linked to its deed · „source", linked to the original · the modification note. No credits page is
+needed for the photographs: everything the licences ask for is where the image appears.
+
+**Shipped photographs by licence (56):** CC BY-SA 3.0 21, CC BY-SA 4.0 13, CC0 6, CC BY 4.0 5,
+Public Domain 4, CC BY 3.0 3, CC BY 3.0 US 1, CC BY-SA 2.0 1, CC BY-SA 2.5 1, CC BY 2.0 1. No ND,
+no NC, no GFDL.
+
+**Checks.** `try-commercial-content.mjs` judges each shipped photograph: a recognised licence; the
+`licenceUrl` equal to that licence's deed, derived independently; author and source for an
+attribution licence; a modification status; NoDerivatives only with an audited no-adaptation record
+(the list is empty); GFDL refused; the GFDL text shipped if and only if a GFDL asset is. Seen failing
+on six broken copies, one per rule.
+
+---
+
+## 13fz. The sumac has a photograph again, cropped and said so (1.0.0-rc124)
+
+A corrective pass on §13fy, asked by the owner: the plant was not to ship without a photograph.
+
+**The photograph.** *Rhus coriaria* at Shio-mgvime by **Lazaregagnidze**, Wikimedia Commons, **CC BY-SA
+3.0 Unported** — checked on the Commons page; original 4288×2848. The file used is Commons' own
+960×638 rendition of it, supplied by the owner (this environment cannot fetch from Commons); its
+proportions are the original's.
+
+**Cropped, because the licence allows it and the screen needs it.** The plant screen shows a
+photograph as a 96 px square cut from the centre, and so do the season panel and the thumbnails. The
+crop (600×450 at 340,20 of the 960 px file, 4:3) puts the fruiting panicle — what makes this plant
+recognisable and what dyes — in the middle, with the serrated pinnate leaflets either side, so the
+square shows the fruit and the full frame shows the leaf. Then the import scripts' own resize and
+compression: 560×420, quality 72, progressive.
+
+**Said so.** `modified` gains a second value, `'cropped-resized'`, shown as „Изрязано и преоразмерено за
+Багра" / „Cropped and resized for Bagra". The other 56 stay `'resized'`. The commercial check accepts
+the two values and refuses a crop under any NoDerivatives licence.
+
+**In the current model.** `scripts/add-plant-photo.py` adds one plant's photograph as a file in
+`seed/images/plants/` with its hash in `seed/plant-photos.json` (SHA-256 of the JPEG as a data URL,
+what `migrate-photos.js` compares), with the import scripts' size and quality and an optional crop.
+It refuses a crop for an ND licence and writes `licenceUrl` and `modified` itself. The two import
+scripts of §13at/§13ay predate the file model and still write data URLs; this is the one to use now.
+
+**Invariants.** The withheld list in `try-boot-and-photos.mjs` is empty again: every plant ships a
+photograph. 57 photographs; `dist/` 132 files (77 non-code). Plants pack 0.14.4. Shipped photographs by
+licence: CC BY-SA 3.0 22, CC BY-SA 4.0 13, CC0 6, CC BY 4.0 5, Public Domain 4, CC BY 3.0 3, and one
+each of CC BY 3.0 US, CC BY-SA 2.0, CC BY-SA 2.5, CC BY 2.0. No ND, NC or GFDL.
+
+---
+
+## 13ga. Production architecture and deployment (1.0.0-rc125)
+
+Package 4 of the commercial readiness audit. What Bagra needs from a host, which host, and what the
+repository can settle before anyone touches an account. The runbook is `docs/PRODUCTION_RELEASE.md`.
+
+### What Bagra needs from a host
+
+Static files, a custom subdomain with automatic HTTPS, response headers set per path, deployments that
+switch atomically and are kept as history, and a way to upload a directory that is not a repository.
+No server code, no rendering, no build on the host.
+
+### The decision
+
+**Cloudflare Pages, Direct Upload, two projects.** `bagra` serves `https://bagra.crafty.place`; `bagra-staging`
+serves its own `*.pages.dev` origin. Chosen over the alternatives for one property more than any other:
+with Direct Upload the provider never sees the repository — `wrangler pages deploy dist` uploads a
+named directory — so deploying the repository root is not a mistake anyone can make. It reads the
+`_headers` format, switches deployments atomically, keeps them as history, and attaches a subdomain by
+CNAME from DNS held elsewhere, so `crafty.place` can stay with Wix. Netlify is the equivalent fallback
+(same `_headers` format, `netlify deploy --dir=dist`). Vercel would do it with its own header format.
+GitHub Pages cannot set response headers and serves a repository; it stays a development copy only.
+Prices and free-tier limits change and are to be checked by the owner at signup; none is assumed here.
+
+### The origin
+
+`https://bagra.crafty.place` is final, and it must exist before the first customer installs: an
+installed application, its IndexedDB, its caches and its storage belong to the origin, and a move is a
+new installation with an empty database reached only by backup and restore. Everything in `dist/` is
+relative (`./`, `sw.js`, `manifest.json`, `start_url` and `scope` `./`), so it runs at the root of that
+host with nothing changed. **The manifest `id` stays `/bagra`**: it resolves to
+`https://bagra.crafty.place/bagra`, an identifier and not a page, path-only so it names no host, and
+pinned by the gate (§13fv). `/` would serve equally; there is no reason to trade a pinned value for
+another before anyone has installed, nor any after.
+
+**Staging is another origin.** `*.pages.dev` of a separate project: its installs, database and caches
+can never be mistaken for production's, and search engines do not index `pages.dev` previews of a
+non-production project as the product. The same `dist/` goes to staging and then to production —
+promoted, not rebuilt — so the artifact carries no environment marker; the address says which it is.
+
+### Caching — every path revalidates
+
+No file name in Bagra is content-hashed: `app.js` is `app.js` in every release. So **nothing is
+`immutable` and nothing has a long lifetime**; every path is `Cache-Control: no-cache` — stored, but
+checked before use, a 304 when unchanged. The service worker is the offline cache: it installs each
+release with `cache: 'reload'`, past the HTTP cache (§13fu), and serves from its own. HTTP caching
+therefore serves only a first visit and a browser without a worker, and those must receive one
+release, not yesterday's `ui.js` beside today's `app.js`. `sw.js` in particular is `no-cache` and
+registered with `updateViaCache: 'none'`, so every start asks the server for it. Bagra is a few MB
+and a 304 costs nothing; a long lifetime would buy nothing and risk a mixed first load.
+
+### Security headers
+
+- **Content-Security-Policy:** `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
+  img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self';
+  object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`. Bagra has no inline
+  script, no inline handler, no `eval` and no remote resource, so script is locked to the origin with no
+  change. Styles keep `'unsafe-inline'` — one `<style>` block and 46 style attributes in templates;
+  removing them is a refactor with nothing to show for it, since inline style cannot run code.
+  Photographs of hers are `data:` URLs; the backup download is a `blob:` URL.
+- **`X-Content-Type-Options: nosniff`**, **`Referrer-Policy: strict-origin-when-cross-origin`** (links to
+  sources and licences send the origin only), **`Permissions-Policy`** turning off camera, microphone,
+  geolocation, payment and USB — none is used; photographs come through a file input.
+- **HTTPS:** the host's certificate, renewed automatically, and its HTTP → HTTPS redirect. **HSTS waits:**
+  a long max-age, and preload above all, are hard to undo on a domain that also carries the Wix site;
+  add a short max-age once production has run cleanly for a while.
+
+### Proven, not assumed
+
+`try-update.mjs`, run by the release gate against `dist/`, now applies `dist/_headers` to every response
+(the CSP above all) and reports a CSP refusal as a failure. U1 walks every route the navigation offers
+(18) and opens a plant showing a photograph of hers as a `data:` URL. Seen failing with a policy that
+refused `data:` images. Cache-Control alone is kept at the test server's five minutes, on purpose, so a
+worker reading through the HTTP cache would still be caught.
+
+`try-production.mjs`: two builds byte-identical (133 files); no host and no repository prefix in what
+runs (comments excepted); nothing loaded from another origin; manifest `./`, `./`, `/bagra`, standalone;
+the worker registered relatively at the root; version.js, the worker's cache name and the changelog
+agree; every path revalidates and nothing is immutable; script locked to the origin, no framing, no
+plugins; nosniff; no credential pattern. Seen failing on each.
+
+### The future entitlement boundary — not built
+
+A small API on its own origin, `api.bagra.crafty.place` (or a serverless function behind it). It holds
+commercial entitlement and nothing else — never a trial, a cloth, a journal or a photograph; those stay
+in the browser. The browser asks it whether a licence is valid; the Merchant of Record's webhook tells
+it about purchases and refunds, with a signing secret that lives there. A secret the customer must not
+know never enters `dist/`: the PWA can hold only what anyone can read. The CSP will need `connect-src`
+to name that origin when it exists; that is the one change to `_headers` it implies.
+
+### Monitoring
+
+An external uptime check on `https://bagra.crafty.place/`, alerting by e-mail; optionally a keyword check
+that `/version.js` holds the released version. No analytics, no crash reporting.
+
+---
+
+## 13gb. Pre-1.0 polish: one name, Plans v1.1, the pigment colour in the list (1.0.0-rc126)
+
+### Bagra in both languages
+
+The English interface said „Rubia" in three places: the application's name — and so every window
+title, `<page> · Rubia` — the backup-file error and the welcome. All three say Bagra; §15.1 records the
+change of decision. The Bulgarian was always Багра and the manifest always named Багра. *Rubia
+tinctorum*, Rubiaceae and the file names after them are the plant and untouched.
+`try-commercial-content.mjs` now refuses the product name „Rubia" anywhere in what ships while letting
+the genus stand, and requires `app.name` Багра / Bagra; seen failing on rc125's strings.
+
+### Plans v1.1
+
+**Plans list → the plan, to read → Edit.** `#/plans/<id>` now shows the plan as it stands — its status,
+its notes as text, the source, the picture, the checklist — with Edit at the top right and „Планове"
+back. Not a form with its fields disabled: no input, no select, no textarea. One thing works without
+Edit: a tick. §13fk made a tick a finished act written at once, and that holds here; the words of a line
+are text. `#/plans/<id>/edit` is the editor of v1, unchanged in behaviour; its back leads to the plan,
+and Save returns to the plan, read — as a cloth and a plant already do. `#/plans/new` is the editor.
+
+**Three optional fields**, absent on every plan written before and meaning nothing when absent:
+- `sourceLabel` — what the source is, in her words („Printing with Botanicals — Laura Mead");
+- `sourceUrl` — where it is. `http(s)` as typed; a bare `facebook.com/…` gains `https://`; any other
+  scheme (`javascript:`, `data:`, `file:`) is refused at Save and again when drawn, since a restored
+  backup can carry anything. Shown as „Отвори източника", `target="_blank"`, `rel="noopener noreferrer"`.
+  No embedding, no preview, no fetching: the address is followed by a person or not at all;
+- `referenceImage` — one picture, a screenshot or a photograph of where the idea came from.
+
+**The picture uses what Bagra already does with a person's pictures.** `photo.js` → `shrinkResult`:
+1280 px on the long side, JPEG quality 0.82, as a trial's result photograph — enough to read a
+screenshot of a post, a fraction of a phone camera's 12–20 MB. A data URL in the plan record, as trial
+and fabric photographs are: so it is in every backup without a change to the backup, restored with
+the plan in either mode, and gone when the plan is deleted — there is no second store to leave an
+orphan in. One picture: add, replace, remove. No gallery, no upload, no remote image.
+
+**No migration and no DB_VERSION change.** The fields are optional members of a record whose store
+already exists; an rc125 plan opens, reads, ticks and saves with its status, checklist and notes as
+they were (`try-plans.mjs`). The plan's guard of „exactly its seven fields" now names ten — the seven
+and the three.
+
+### The pigment colour in the list
+
+The colour is `swatches[].hex` on a batch, the field the batch screen edits with its colour picker. The
+list already drew it — into a `<span class="swatch sm">` that no rule gave a size: `.swatch` is sized
+only inside `.phband` and `.swatchrow`, so the colour was recorded and drawn 0×0. Now `.swatch.sm` is
+14 px in a row and `.swatchline .swatch` 28 px above a group's table, each with an inset outline so a
+near-white is still seen. The name and the colour come from the same swatch (the one with a colour,
+else the first; it used to be the first swatch's name beside another swatch's colour). The swatch is
+`aria-hidden`: the name beside it carries the information and is always shown. A batch without a
+colour draws its name alone. No field added.
+
+### Checks
+
+- `try-plans.mjs`: the read view (Edit, no Save, no field, tickable checklist, lines as text); Edit →
+  editor; a `javascript:` address refused and nothing saved; a bare address normalised; Save → the plan;
+  the link's target and rel; the picture shown and kept by a save; an rc125 plan without the fields.
+- `try-plans-screens.mjs` (Chromium): the read view and the editor at 390 and 320 px in both languages,
+  with a long source and a wide picture; a 2400×1600 picture given to the editor's file input becomes a
+  1280×853 JPEG, Save shows it on the plan, the record holds it. The pigment list at 1280 and 390 px:
+  the colour drawn 14×14 in its own colour, outlined, `aria-hidden`, beside its name; colour and name from
+  one swatch; no empty swatch; the group's colour above its table. Seen failing on rc125 (0 px wide).
+- `try-data-safety.mjs`: the plan in DB A carries a source and a picture, compared field for field after
+  replace and merge onto a clean installation.
+
+### Release impact
+
+Data safety: one plan field holds a picture, inside a record the backup already carries — covered by
+the round-trip above, nothing in backup.js changed. Update safety: no change to the worker or the
+start. Commercial content: a person's picture is her data, never a shipped asset. `dist/`: the same
+files, rebuilt.

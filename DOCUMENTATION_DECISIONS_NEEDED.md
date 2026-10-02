@@ -1364,3 +1364,89 @@ would fit both. **Asked of the owner** — it was outside rc116.
 Settled by the owner and recorded in §13fs: sixteen recipes ship, credited to the studio's practice;
 seven are hers alone and are handed over, never removed (`retiredToPersonal`); the books stay in the
 Library. The darker aluminium–iron formula is hers, not the library's.
+
+---
+
+## 39. Commercial data safety — what is left for the owner (rc119)
+
+**Raised by Commercial Data Safety package 1 (§13ft).** The P0 is fixed and gated. These are
+not defects the code can close on its own.
+
+1. **Persistent storage, and what the screen promises.** `persist()` is asked only when the
+   backup screen is opened, and „the browser keeps the data permanently" says more than it
+   grants. On Safari, a site used in the browser rather than from the home screen can lose
+   its storage after a period without use. **Decide:** ask at the first start; reword the line
+   to say what it protects against and what it does not; tell iPhone users to add Bagra to
+   the home screen. UX work, not in this package.
+2. **„Downloaded" is not „saved".** The counter resets when the file is handed to the
+   browser. A web page cannot see a cancelled save dialog. **Decide:** whether the screen
+   should say „handed to the browser — check it is in your files", and whether Help should say
+   where the file lands on an iPhone.
+3. **Manual Safari check before the first sale:** export on macOS Safari and on an iPhone,
+   open the file, compare counts. The rc119 fix for the download cannot be checked here.
+4. **`migrateFabricActions` order** (P1, old databases only). Writing the batches before the
+   cloth closes it; it wants a guard that can interrupt a migration, which is the work.
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 40. Production update — what is left for the owner (rc120)
+
+**Raised by Production Update & Release Safety package 2 (§13fu).** The P0 is fixed and gated.
+
+1. **What „Обнови" means now.** An open copy no longer picks up a deploy on a plain reload; it
+   runs its release until *Update* is pressed or every window is closed. That is the fix, and it
+   is also a change in what she will see while testing a deploy on her own phone: press *Update*
+   (or „Провери за нова версия" in the backup screen).
+2. **HTTPS is required, not preferred.** Over plain HTTP there is no worker (the application runs
+   online only) and the plant-photo repair stops the start at `crypto.subtle`. `bagra.crafty.place`
+   must be HTTPS-only; worth a line in the hosting checklist of the deployment package.
+3. ~~**Manifest content.**~~ **SETTLED at rc121 (§13fv):** `"id": "/bagra"`, pinned by the gate.
+   `lang: "bg"` is the language of the manifest's own text, not of the interface, and is left.
+   What remains is the ORIGIN: settle it before the first customer installs, because an
+   installed copy and its database belong to the origin (§13fv).
+4. **Manual checks on a real iPhone and in Safari** before the first sale: install to the home
+   screen, go offline, open; deploy a test release, see *Update*, press it, check the version in
+   the backup screen.
+5. **The rollback rule** in §13fu is an operating rule, not code. It wants a place in whatever
+   release checklist the deployment package writes.
+
+**Not decided. Asked of the owner.**
+
+---
+
+## 41. Commercial content — what is left for the owner (rc122)
+
+**Raised by Commercial Seed & Asset / Provenance package 3 (§13fx).** The two P0 are fixed and gated.
+
+1. **Make the source repository private before launch**, and **deploy `dist/` only** (`node
+   scripts/make-release.mjs`). The two protect different things; both are needed.
+2. ~~Warning text in `mordant-print-paste`.~~ **SETTLED (confirmed by the owner, rc125):** the warnings and the
+   practical instructions were written independently for Bagra / Crafty Place and are not copied from the
+   Maiwa course material.
+3. ~~Sumac photograph.~~ **SETTLED at rc124 (§13fz):** Lazaregagnidze, CC BY-SA 3.0, cropped and credited
+   as cropped; the withheld list is empty.
+4. ~~The two GFDL photographs.~~ **SETTLED at rc123:** CC BY-SA 3.0 and CC BY 3.0, as offered on Commons.
+5. ~~Credits page.~~ **SETTLED at rc123:** the deed link and „resized" are in each photograph's credit.
+
+**Not decided. Asked of the owner.**
+
+
+---
+
+## 42. Production — what only the owner can do (rc125)
+
+**Raised by Production Architecture & Deployment package 4 (§13ga).** The repository side is done and gated.
+
+1. **Make the source repository private.**
+2. **Cloudflare:** create an account; two Pages projects as **Direct Upload**, `bagra` and `bagra-staging`.
+   Check the current free-tier terms at signup.
+3. **DNS** (where `crafty.place` is managed — Wix today): `CNAME bagra → bagra.pages.dev`, then add
+   `bagra.crafty.place` as the custom domain of the `bagra` project; wait until the certificate is active.
+4. **Confirm** `https://bagra.crafty.place` answers over HTTPS and `http://` redirects — before the first customer.
+5. **Uptime monitor** on `https://bagra.crafty.place/` with an e-mail alert.
+6. **First release:** follow docs/PRODUCTION_RELEASE.md end to end, staging first, including the phone steps.
+7. **Later, not now:** a short HSTS max-age once production has run cleanly.
+
+**Not decided. Asked of the owner.**

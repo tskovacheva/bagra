@@ -32,7 +32,7 @@ fi
 #    The prototype/ directory is excluded on purpose: it holds layout sketches
 #    that are never loaded by the application and must not be cached.
 missing=0
-for f in $(find . -name node_modules -prune -o -name prototype -prune -o \
+for f in $(find . -name node_modules -prune -o -path ./dist -prune -o -name prototype -prune -o \
              -name scripts -prune -o -name '*.js' ! -name 'sw.js' \
              ! -name 'check-scope.js' ! -name 'check-boot.mjs' -print | sed 's|^\./||'); do
   grep -q "'\./$f'" sw.js || { echo "NOT CACHED: $f"; missing=1; }
@@ -140,7 +140,7 @@ node check-actions.mjs --selftest || exit 1
 #    photo inputs in the diary and made an already-taken photograph impossible
 #    to attach. Cheap to reintroduce by copying a nearby input, so guarded here.
 if grep -rn 'capture=' --include='*.js' --include='*.html' . \
-     | grep -v node_modules | grep -v '^\./check' \
+     | grep -v node_modules | grep -v '^\./dist/' | grep -v '^\./check' \
      | grep -vE '^[^:]+:[0-9]+: *(//|\*|<!--)'; then
   echo "CAPTURE ATTRIBUTE: a file input forces the camera and hides the gallery."
   exit 1
@@ -228,6 +228,29 @@ node scripts/try-pack-reachability.mjs || exit 1
 #     hand-maintained list in two releases found drifted from the code it
 #     describes. See scripts/try-manifest-agrees.mjs (§13dn).
 node scripts/try-manifest-agrees.mjs || exit 1
+
+# 3g'. The release as a set of files (§13fu). Since rc120 the worker's list IS the
+#      release — installed all or nothing and answered from — so a name with no
+#      file behind it fails every install of that release, for everyone. Every
+#      entry exists, none twice, the shell's own files are in it, the manifest is
+#      relative and its icons are there, and the changelog's newest entry is the
+#      version being shipped.
+node scripts/try-release-files.mjs || exit 1
+
+# 3g''. The commercial release artifact and what is in it (§13fx). `dist/` is built
+#      from an ALLOWLIST — the worker's files, sw.js, the licence texts — and
+#      checked: nothing more, nothing less, no test, archive, document or backup.
+#      Then the content: the sixteen recipes credited to the studio alone, none of
+#      the seven personal ones anywhere in what ships, every source code resolving,
+#      no Library note claiming a shipped recipe came from it, and every shipped
+#      asset under a known, commercial licence (assets.json, photoCredit).
+node scripts/make-release.mjs || exit 1
+node scripts/try-commercial-content.mjs || exit 1
+# 3g'''. Deployable as https://bagra.crafty.place/ (§13ga): two builds byte-identical; no
+#      host, prefix or remote load; manifest and worker fit a root deployment; one visible
+#      version; _headers revalidates everything, never immutable, CSP locks script to the
+#      origin; no credential pattern in what ships.
+node scripts/try-production.mjs || exit 1
 
 # 3h. Every field a pack carries is named in words. The preview, and from rc54
 #     the note on an open record, say WHICH fields differ; the dictionary
@@ -341,6 +364,16 @@ if [ "$HAVE_SHIM" = 1 ]; then
   #     both directions — that the snapshot mode removes and that the safe mode
   #     does not (§11.4).
   node scripts/try-backup-restore.mjs || exit 1
+  # 5c'. Commercial data safety (§13ft). The journal a customer paid to keep,
+  #      across the trip that matters: an installation that has lived, exported,
+  #      restored onto a NEW empty installation in each mode, started, and
+  #      compared record by record — ids, timestamps, references. Holds the P0
+  #      this layer was written for: a merge of an older file left its records
+  #      unrepaired for ever, because the markers said every repair had run.
+  #      Also the seven personal recipes and the aluminium acetate id through
+  #      upgrade → export → clean restore, a file from a newer database refused,
+  #      validation before any destruction, and an IndexedDB opened at v6.
+  node scripts/try-data-safety.mjs || exit 1
   # 5d. The history cannot be orphaned by a delete (§13cq). Six modules offered
   #     a plain physical delete while other records held their ids, and nothing
   #     checked — so deleting a recipe left every trial that used it pointing at
@@ -428,7 +461,21 @@ if [ "$HAVE_SHIM" = 1 ]; then
        # The eco-print bundle at 390 and 320px in both languages (§13fl).
        node scripts/try-ecoprint-screens.mjs $REL || exit 1
        # Reference's Records and a record's observations at 390 and 320px (§13fp).
-       node scripts/try-reference-screens.mjs $REL || exit 1 ;;
+       node scripts/try-reference-screens.mjs $REL || exit 1
+       # Backups WRITTEN BY rc6, rc45 and rc56, restored by this build and
+       # started, every screen and every record of hers opened (§11.5, §13ft).
+       # In the tree since rc67 and never in the gate; the fault it was waiting
+       # on (§19) was settled at rc87. One browser per fixture.
+       node scripts/try-restore-older.mjs $REL || exit 1
+       # Updating an installed copy, with the worker ON (§13fu) — every other
+       # browser check removes it. U1–U7: first install and offline launch; an
+       # update found, held and taken; an install that fails on one file; a
+       # new release with a failing file (rc119 booted half of each); offline
+       # then online; a repair on the first start after an update; two windows,
+       # one with unsaved work.
+       # Run against dist/, the artifact that ships, not the repository (§13fx):
+       # it boots, installs, goes offline and updates from exactly those files.
+       BAGRA_ROOT=dist node scripts/try-update.mjs $REL || exit 1 ;;
     2) ;;
     *) exit 1 ;;
   esac

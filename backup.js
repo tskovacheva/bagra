@@ -4,9 +4,29 @@
 // the owner has entered, meant to restore a device. A pack carries knowledge
 // and merges. Mixing the two would make both unreliable.
 
-import { STORES, all, get, putRaw, removeSystem, replaceStores, getSetting, setSetting, open } from './db.js';
+import { STORES, DB_VERSION, all, get, putRaw, removeSystem, replaceStores, getSetting, setSetting, open } from './db.js';
+import { VERSION } from './version.js';
 
 const SCHEMA_VERSION = 3;
+
+// Whose record is this, for the two questions a restore has to answer honestly:
+// „how many of HER records will a snapshot take away" and „how many of her
+// records did a merge leave out". A library record she never edited is not
+// hers in that sense — the next start lays it down again from the pack — and
+// counting it would make both numbers larger than anything she stands to lose,
+// which is how a warning stops being read (§13cx). No `origin` at all is read
+// as hers: only the pack writes `seed`.
+const isWork = (row) => !!row && (row.origin !== 'seed' || !!row.editedByUser);
+
+// Two records the same, whatever order their keys were written in. A record
+// read back from IndexedDB and the same record parsed from a file need not
+// list their fields in one order, and a comparison that minded would report a
+// difference nobody made.
+function stable(value) {
+  return JSON.stringify(value, (_k, v) => (v && typeof v === 'object' && !Array.isArray(v))
+    ? Object.fromEntries(Object.keys(v).sort().map(key => [key, v[key]]))
+    : v);
+}
 
 // Vocabulary and bands are regenerated from code on every start, so they are
 // not worth carrying. Everything else is either the user's work or a seeded
@@ -23,6 +43,12 @@ export async function exportAll() {
   return {
     format: 'bagra-backup',
     schemaVersion: SCHEMA_VERSION,
+    // Which build and which database shape wrote this (§13ft). `schemaVersion`
+    // describes the FILE and has stood at 3 while the database went from 7 to
+    // 10 underneath it, so on its own it could not tell a restore that the file
+    // came from a newer application. Additive: an older build ignores both.
+    appVersion: VERSION,
+    dbVersion: DB_VERSION,
     exportedAt: new Date().toISOString(),
     counts: Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v.length])),
     data,
@@ -36,8 +62,17 @@ export async function downloadBackup() {
   const a = document.createElement('a');
   a.href = url;
   a.download = `bagra-${new Date().toISOString().slice(0, 10)}.json`;
+  // In the document when it is clicked, and the address kept alive afterwards
+  // (§13ft). Revoking it on the next line is what Safari cannot take: the
+  // download starts asynchronously, finds its blob already gone, and fails —
+  // while this function goes on to reset the counter and the screen says the
+  // backup was downloaded. A minute is far longer than any download of a file
+  // made in memory needs, and the cost of keeping it is one blob.
+  a.style.display = 'none';
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 
   await setSetting('lastExportAt', new Date().toISOString());
   await setSetting('changeCounter', 0);
@@ -59,6 +94,14 @@ export function validateBackup(payload) {
   if (payload.schemaVersion > SCHEMA_VERSION) {
     throw new Error('backup is from a newer version of the app');
   }
+  // A file written by a newer DATABASE may carry a store this build does not
+  // know. Restoring it would drop that store without a word — a snapshot that
+  // is not the snapshot — so it is refused, and the answer is to update the
+  // application first (§13ft). Files from before rc119 carry no `dbVersion`
+  // and are read exactly as they always were.
+  if (typeof payload.dbVersion === 'number' && payload.dbVersion > DB_VERSION) {
+    throw new Error('backup is from a newer version of the app');
+  }
   const data = payload.data;
   if (!data || typeof data !== 'object') {
     throw new Error('the backup carries no data');
@@ -78,6 +121,75 @@ export function validateBackup(payload) {
   }
   if (!stores.length) throw new Error('the backup holds no restorable store');
   return { stores, counts: Object.fromEntries(stores.map(s => [s, data[s].length])) };
+}
+
+/**
+ * What a snapshot restore WOULD do, worked out before anything is written.
+ *
+ * Asked by the backup screen before its confirmation, so the question a person
+ * answers names the file (its date) and what she stands to lose (how many of
+ * her records are in the database and not in the file). A generic „everything
+ * after this backup is lost" cannot tell last month's file from last week's,
+ * and picking the wrong one of two is exactly the mistake a replace cannot
+ * undo (§13ft). Validates first, so nothing is computed for a file that will
+ * be refused.
+ */
+export async function planReplace(payload) {
+  const { stores, counts } = validateBackup(payload);
+  const data = payload.data;
+  const gone = {}, goneWork = {};
+  let removed = 0, removedWork = 0;
+  for (const name of stores) {
+    const keyPath = STORES[name].keyPath;
+    const inFile = new Set(data[name].map(r => r[keyPath]));
+    const leaving = (await all(name)).filter(r => !inFile.has(r[keyPath]));
+    gone[name] = leaving.length;
+    removed += leaving.length;
+    // Settings are state, not records — the counter, the pack state, the
+    // markers — and are never „her records" in the sense the question means.
+    goneWork[name] = name === 'settings' ? 0 : leaving.filter(isWork).length;
+    removedWork += goneWork[name];
+  }
+  return { stores, counts, gone, removed, goneWork, removedWork,
+           exportedAt: payload.exportedAt || null, appVersion: payload.appVersion || null };
+}
+
+/**
+ * The repairs a restore has made eligible again (§13ft).
+ *
+ * A migration's marker is data and travels with the data it describes
+ * (§13cw): a snapshot of a database from before a repair restores the absence
+ * of its marker along with the records that need it. That covered `replace`
+ * and nothing else. A MERGE adds old records into a database whose markers say
+ * every repair has run, so the added records were never repaired — an eco-print
+ * trial with no bundle, a recipe with no source list, a cloth still on
+ * `stateEvents` — and nothing would ever look at them again. Saving such a
+ * trial from its screen then wrote an empty bundle, the repair would skip it
+ * for having one, and its construction steps disappeared from the screen for
+ * good. The same happened to a `replace` from a file with no settings in it.
+ *
+ * The rule: after a restore the database's marker is the LOWER of its own and
+ * the file's, per repair. A file written by a build that had run a repair
+ * carries records already in its shape, and nothing is reopened for it; a file
+ * that had not, reopens exactly the repairs its records still need. Every
+ * repair is idempotent — a record already in shape is skipped — and the guard
+ * holds that, so reopening one costs a walk over the store at the next start
+ * and nothing else. The reload that follows a restore runs them.
+ *
+ * @returns {string[]} the repairs reopened
+ */
+async function reopenMigrations(data) {
+  const current = await getSetting('migrations', null);
+  if (!current || typeof current !== 'object') return [];
+  const row = Array.isArray(data.settings) ? data.settings.find(r => r && r.key === 'migrations') : null;
+  const inFile = (row && row.value && typeof row.value === 'object') ? row.value : {};
+  const kept = {}, reopened = [];
+  for (const [name, version] of Object.entries(current)) {
+    if ((Number(inFile[name]) || 0) >= version) kept[name] = version;
+    else reopened.push(name);
+  }
+  if (reopened.length) await setSetting('migrations', kept);
+  return reopened;
 }
 
 /**
@@ -121,12 +233,8 @@ export async function importBackup(payload, mode = 'merge') {
     // arithmetic reported nothing removed — while A had gone. The one thing a
     // person wants to know after a snapshot restore is precisely how many of
     // her records the file did not carry, and that is a set difference.
-    const gone = {};
-    for (const name of stores) {
-      const keyPath = STORES[name].keyPath;
-      const inFile = new Set(data[name].map(r => r[keyPath]));
-      gone[name] = (await all(name)).filter(r => !inFile.has(r[keyPath])).length;
-    }
+    // The same set difference the confirmation showed her (§13ft), from one place.
+    const { gone } = await planReplace(payload);
 
     // `language` is a property of the DEVICE, not of the work (§13co). Nobody
     // reaches for a restore in order to change the language, and a person
@@ -168,26 +276,51 @@ export async function importBackup(payload, mode = 'merge') {
     // A handoff address from another session, pointing at a screen this restore
     // may have just removed the record for (§13bo).
     await setSetting('returnTo', null);
+    // A file that carried its settings brought its own markers and this changes
+    // nothing; one that did not must not leave the old records under markers
+    // that say they were repaired.
+    report.reopened = await reopenMigrations(data);
 
     return report;
   }
 
-  const report = { added: 0, replaced: 0, skipped: 0, removed: 0, byStore: {} };
+  // MERGE — what is already here wins, and the file never overwrites.
+  //
+  // That policy is unchanged. What changed at §13ft is that it is no longer
+  // silent: a record of HERS that exists on both sides and differs was reported
+  // as „skipped", in one number with every record that was simply identical,
+  // so the version in the file — an edit made on the other device — was left
+  // out without anything saying so. It is counted apart now, as `differ`, and
+  // the screen says how many. Library records she never edited are not
+  // counted: the pack decides those, not the file.
+  const report = { added: 0, replaced: 0, skipped: 0, differ: 0, removed: 0, byStore: {} };
+  let addedWork = 0;
 
   for (const name of stores) {
-    const existing = new Set((await all(name)).map(r => r[STORES[name].keyPath]));
-    let added = 0, skipped = 0;
+    const keyPath = STORES[name].keyPath;
+    const existing = new Map((await all(name)).map(r => [r[keyPath], r]));
+    let added = 0, skipped = 0, differ = 0;
 
     for (const row of data[name]) {
-      if (existing.has(row[STORES[name].keyPath])) { skipped++; continue; }
+      const here = existing.get(row[keyPath]);
+      if (here) {
+        skipped++;
+        if (name !== 'settings' && isWork(row) && stable(here) !== stable(row)) differ++;
+        continue;
+      }
       await putRaw(name, row);
       added++;
+      if (name !== 'settings') addedWork++;
     }
 
-    report.byStore[name] = { added, skipped };
+    report.byStore[name] = { added, skipped, differ };
     report.added += added;
     report.skipped += skipped;
+    report.differ += differ;
   }
+
+  // Records came in from a file; the repairs they may still need are reopened.
+  report.reopened = addedWork ? await reopenMigrations(data) : [];
 
   return report;
 }
