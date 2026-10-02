@@ -13,6 +13,7 @@
 import { all, get, put, uid } from '../db.js';
 import { t } from '../i18n.js';
 import { markClean, markDirty } from '../dirty.js';
+import { shrinkResult } from '../photo.js';
 import { page, panel, field, esc, empty, navigate, backTo, actionBtn, fmtDate,
          deleteGuarded, flash } from '../ui.js';
 
@@ -27,14 +28,36 @@ export const PLAN_STATUSES = ['idea', 'planned', 'active', 'done'];
 const CHIP = { idea: '', planned: 'planned', active: 'in_progress', done: 'complete' };
 
 let openId = null;
+let mode = 'list';     // 'list' | 'view' | 'edit' (§13gb)
 let draft = null;
+
+// A source is an address someone can follow, and nothing else (§13gb). http(s)
+// as typed; a bare „facebook.com/…" gains https://; any other scheme —
+// javascript:, data:, file: — is refused, at Save and again when drawn, since a
+// restored backup can carry anything.
+export function normaliseUrl(raw) {
+  const v = String(raw || '').trim();
+  if (!v) return { ok: true, url: '' };
+  const withScheme = /^[a-z][a-z0-9+.-]*:/i.test(v) ? v : (/^[^\s/]+\.[^\s]+/.test(v) ? 'https://' + v : v);
+  try {
+    const u = new URL(withScheme);
+    return /^https?:$/.test(u.protocol) && u.hostname ? { ok: true, url: u.href } : { ok: false, url: v };
+  } catch { return { ok: false, url: v }; }
+}
 
 // The whole record. Nothing else is added to it — no provenance fields: a plan
 // is never seeded, never packed, never distributed.
+//
+// v1.1 (§13gb) adds three OPTIONAL fields, absent on every plan written before:
+// `sourceLabel` and `sourceUrl` — where the idea came from — and
+// `referenceImage`, one picture of it, a JPEG data URL made by photo.js exactly
+// as a trial's result photograph is. In the record, so it is in every backup
+// and goes when the plan goes. A plan without them is a complete plan.
 export function blankPlan() {
   const now = new Date().toISOString();
   return { id: uid(), title: '', createdAt: now, updatedAt: now,
-           status: 'idea', notes: '', items: [] };
+           status: 'idea', notes: '', items: [],
+           sourceLabel: '', sourceUrl: '', referenceImage: '' };
 }
 
 export const progressOf = (p) => {
@@ -86,7 +109,68 @@ async function renderList(root) {
   });
 }
 
-// ---- one plan ---------------------------------------------------------------
+// ---- one plan, to read -------------------------------------------------------
+//
+// What opening a plan shows (§13gb): the plan as it stands, not a form. The
+// checklist's ticks still work here — a tick is a finished act and is written
+// at once (§13fk), which is the one change a plan takes without „Edit"; the
+// words of a line, the title, the notes and the source are changed in the
+// editor. Nothing here is a disabled form control.
+
+function sourceBlock(p) {
+  const { ok, url } = normaliseUrl(p.sourceUrl);
+  const label = String(p.sourceLabel || '').trim();
+  if (!label && !(ok && url)) return '';
+  const link = ok && url
+    ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(t('plans.openSource'))}</a>` : '';
+  return `
+    <h2>${t('plans.source')}</h2>
+    ${label ? `<p>${esc(label)}</p>` : ''}
+    ${link ? `<p>${link}</p>` : ''}
+    ${!label && link ? `<p class="hint">${esc(new URL(url).hostname)}</p>` : ''}`;
+}
+
+function renderView(root, p) {
+  const { done, of } = progressOf(p);
+  const items = p.items.map((it, i) => `
+    <div class="checkitem${it.checked ? ' ticked' : ''}">
+      <label class="check"><input type="checkbox" data-i="${i}.checked" data-saves-itself${it.checked ? ' checked' : ''}
+        aria-label="${esc(t('plans.itemDone'))}"></label>
+      <span class="checktext">${esc(it.text)}</span>
+    </div>`).join('');
+  const notes = String(p.notes || '').trim();
+  const source = sourceBlock(p);
+
+  root.innerHTML = page({
+    title: p.title || t('plans.untitled'),
+    sub: '',
+    actions: `${backTo('#/plans', t('plans.title'))}
+              <button class="btn primary" data-edit>${t('plans.edit')}</button>`,
+    body: `
+      <div class="cols">
+        <div class="col">
+          ${panel(`
+            <p>${chip(p)}</p>
+            ${notes ? `<div class="plannotes">${esc(notes).replace(/\n/g, '<br>')}</div>`
+                    : `<p class="hint">${t('plans.noNotes')}</p>`}
+            <p class="hint">${esc(t('plans.updated'))}: ${esc(fmtDate(p.updatedAt || p.createdAt))}</p>
+          `)}
+          ${source ? `<div style="height:16px"></div>${panel(source)}` : ''}
+          ${p.referenceImage ? `<div style="height:16px"></div>${panel(`
+            <h2>${t('plans.referenceImage')}</h2>
+            <img class="planref" src="${esc(p.referenceImage)}" alt="${esc(t('plans.referenceImageAlt'))}">`)}` : ''}
+        </div>
+        <div class="col">
+          ${panel(`
+            <h2>${t('plans.checklist')}${of ? ` <span class="hint">${done} / ${of}</span>` : ''}</h2>
+            ${of ? `<div class="checklist">${items}</div>` : `<p class="hint">${t('plans.checklistEmpty')}</p>`}
+          `)}
+        </div>
+      </div>`,
+  });
+}
+
+// ---- one plan, to edit -------------------------------------------------------
 
 function renderPlan(root, p) {
   const isNew = openId === 'new';
@@ -104,7 +188,7 @@ function renderPlan(root, p) {
   root.innerHTML = page({
     title: isNew ? t('plans.new') : (p.title || t('plans.untitled')),
     sub: isNew ? t('plans.sub') : '',
-    actions: `${backTo('#/plans', t('plans.title'))}
+    actions: `${isNew ? backTo('#/plans', t('plans.title')) : backTo(`#/plans/${p.id}`, p.title || t('plans.untitled'))}
               <button class="btn primary" data-save>${t('common.save')}</button>`,
     body: `
       <div class="cols">
@@ -116,6 +200,25 @@ function renderPlan(root, p) {
               `<option value="${s}"${statusOf(p) === s ? ' selected' : ''}>${esc(t('plans.status.' + s))}</option>`).join('')}</select>`)}
             ${field(t('plans.notes'), `<textarea data-f="notes" rows="6"
               placeholder="${esc(t('plans.notesPlaceholder'))}">${esc(p.notes)}</textarea>`)}
+          `)}
+          <div style="height:16px"></div>
+          ${panel(`
+            <h2>${t('plans.source')}</h2>
+            ${field(t('plans.sourceLabel'), `<input type="text" data-f="sourceLabel" value="${esc(p.sourceLabel || '')}"
+              placeholder="${esc(t('plans.sourceLabelPlaceholder'))}">`)}
+            ${field(t('plans.sourceUrl'), `<input type="text" inputmode="url" autocomplete="off" data-f="sourceUrl"
+              value="${esc(p.sourceUrl || '')}" placeholder="https://">`, t('plans.sourceUrlHint'))}
+          `)}
+          <div style="height:16px"></div>
+          ${panel(`
+            <h2>${t('plans.referenceImage')}</h2>
+            ${p.referenceImage
+              ? `<img class="planref" src="${esc(p.referenceImage)}" alt="${esc(t('plans.referenceImageAlt'))}">
+                 <div style="height:8px"></div>
+                 <label class="btn">${t('plans.referenceImageReplace')}<input type="file" accept="image/*" data-refimg hidden></label>
+                 <button class="btn quiet" data-refimg-remove>${t('plans.referenceImageRemove')}</button>`
+              : `<p class="hint">${t('plans.referenceImageHint')}</p>
+                 <label class="btn">${t('plans.referenceImageAdd')}<input type="file" accept="image/*" data-refimg hidden></label>`}
           `)}
           ${!isNew ? `<div style="height:16px"></div>${panel(
             actionBtn('delete', t('plans.delete'), 'data-delete', 'destructive'))}` : ''}
@@ -170,8 +273,13 @@ export default {
   title: () => t('plans.title'),
   sub: () => t('plans.sub'),
 
-  open(first) { draft = null; openId = first || null; },
-  reset() { openId = null; draft = null; },
+  // `#/plans` the list; `#/plans/<id>` the plan to read; `#/plans/<id>/edit`
+  // and `#/plans/new` the editor (§13gb).
+  open(first, second) {
+    draft = null; openId = first || null;
+    mode = !openId ? 'list' : (openId === 'new' || second === 'edit') ? 'edit' : 'view';
+  },
+  reset() { openId = null; draft = null; mode = 'list'; },
 
   async render(root) {
     if (openId) {
@@ -182,7 +290,7 @@ export default {
       // throw that leaves the previous screen up (§11b).
       if (!draft) return navigate('#/plans');
       draft.items = Array.isArray(draft.items) ? draft.items : [];
-      renderPlan(root, draft);
+      if (mode === 'view') renderView(root, draft); else renderPlan(root, draft);
     } else {
       draft = null;
       await renderList(root);
@@ -194,14 +302,27 @@ export default {
       const row = e.target.closest('[data-open]');
       if (row) return navigate(`#/plans/${row.dataset.open}`);
       if (!draft) return;
+      if (e.target.closest('[data-edit]')) return navigate(`#/plans/${draft.id}/edit`);
+      if (mode === 'view') return;
+      if (e.target.closest('[data-refimg-remove]')) {
+        readForm(root);
+        draft.referenceImage = '';
+        markDirty();
+        return this.render(root);
+      }
       if (e.target.closest('[data-save]')) {
         readForm(root);
         draft.title = draft.title.trim();
+        draft.sourceLabel = String(draft.sourceLabel || '').trim();
+        const src = normaliseUrl(draft.sourceUrl);
+        if (!src.ok) { flash(t('plans.sourceUrlInvalid')); root.querySelector('[data-f="sourceUrl"]')?.focus(); return; }
+        draft.sourceUrl = src.url;
         // A line with no words is a line nobody wrote; it is not kept.
         draft.items = draft.items.filter(it => String(it.text || '').trim());
         await put('plans', draft);
         markClean();   // the put succeeded; leaving is not a departure from unsaved work (§13ad)
-        return navigate('#/plans');
+        // Back to the plan just saved, as it now reads (§13gb).
+        return navigate(`#/plans/${draft.id}`);
       }
       if (e.target.closest('[data-item-add]')) {
         readForm(root);
@@ -242,7 +363,18 @@ export default {
     // form is marked as holding unsaved work. Ticks are written one after
     // another, never interleaved, so two quick ones cannot each read the plan
     // before the other has written it.
-    root.onchange = (e) => {
+    root.onchange = async (e) => {
+      // One reference picture, made the way a trial's result photograph is
+      // (photo.js: 1280 px long side, JPEG 0.82) — a screen's worth, not a
+      // phone camera's 12 MB (§13gb).
+      if (draft && mode === 'edit' && e.target.matches?.('[data-refimg]')) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        readForm(root);
+        try { draft.referenceImage = await shrinkResult(file); markDirty(); }
+        catch { flash(t('plans.referenceImageFailed')); }
+        return this.render(root);
+      }
       if (!draft || e.target.type !== 'checkbox' || !e.target.dataset.i) return;
       e.target.closest('.checkitem')?.classList.toggle('ticked', e.target.checked);
       const it = draft.items[Number(e.target.dataset.i.split('.')[0])];

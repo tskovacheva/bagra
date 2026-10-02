@@ -479,14 +479,25 @@ export function plantSwatches(plant, combinations = [], max = 6) {
 // that asks for nothing still gets its line, because a reader deciding whether
 // they may reuse a picture needs to be told, and "nothing here" does not tell
 // them anything.
+//
+// What CC BY asks for, beside the picture (§13fy): the author, the source, the
+// licence WITH a link to its deed, and whether the image was changed. The
+// author and the licence stay in one line as before; the licence name now
+// opens the deed and „source" opens the original, as two links rather than one
+// line pointing at the source. `modified` says what Bagra did to the file — the
+// import scripts resize, both axes by one factor, and nothing else.
 function photoCredit(p) {
   const c = p.photoCredit;
   if (!c || !(c.author || c.licence)) return '';
-  const bits = [c.author, c.licence].filter(Boolean).map(esc);
-  const line = bits.join(' \u00B7 ');
-  return `<figcaption class="credit">${
-    c.source ? `<a href="${esc(c.source)}" target="_blank" rel="noopener">${line}</a>` : line
-  }${c.taxon && c.taxon !== p.nameBotanical
+  const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+  const bits = [
+    c.author ? esc(c.author) : '',
+    c.licence ? (c.licenceUrl ? link(c.licenceUrl, c.licence) : esc(c.licence)) : '',
+    c.source ? link(c.source, t('plants.photoSource')) : '',
+    c.modified === 'resized' ? esc(t('plants.photoResized'))
+      : c.modified === 'cropped-resized' ? esc(t('plants.photoCroppedResized')) : '',
+  ].filter(Boolean);
+  return `<figcaption class="credit">${bits.join(' \u00B7 ')}${c.taxon && c.taxon !== p.nameBotanical
       ? ` <span class="hint">${esc(c.taxon)}</span>` : ''}</figcaption>`;
 }
 

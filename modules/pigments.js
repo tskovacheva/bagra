@@ -106,12 +106,16 @@ async function renderList(root) {
     // and a column that is empty for every new batch reads as work left undone.
     const rows = list.map(b => {
       const failed = b.status === 'failed';
+      // The colour and its name from the SAME swatch (§13gb): the one with a
+      // recorded colour, else the first. The swatch is decoration — the name
+      // beside it carries the information, and stays.
+      const w = swatchOf(b) || (b.swatches || [])[0] || null;
       return `
         <tr data-open="${b.id}">
           <td>${failed ? `<span class="tag">${t('pigments.status.failed')}</span> ` : ''}${
-            swatchOf(b) && !failed
-              ? `<span class="swatch sm" style="background:${esc(swatchOf(b).hex)}"></span> `
-              : ''}${esc(text((b.swatches || [])[0]?.name) || '—')}</td>
+            w?.hex && !failed
+              ? `<span class="swatch sm" aria-hidden="true" style="background:${esc(w.hex)}"></span> `
+              : ''}${esc(text(w?.name) || '—')}</td>
           <td>${b.yieldG != null && !failed ? `${b.yieldG} g` : '—'}</td>
           <td>${esc(b.date || '')}</td>
         </tr>`;
@@ -120,7 +124,7 @@ async function renderList(root) {
     cards.push(panel(`
       <h2>${esc(name)}${part ? ` <span class="hint">${esc(part)}</span>` : ''}</h2>
       ${shown ? `<div class="swatchline">
-        <span class="swatch" style="background:${esc(shown.hex)}"></span>
+        <span class="swatch" aria-hidden="true" style="background:${esc(shown.hex)}"></span>
         <span>${esc(text(shown.name))}</span></div>` : ''}
       <table class="grid">
         <thead><tr>

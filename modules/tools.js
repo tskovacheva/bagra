@@ -10,7 +10,7 @@ import { page, panel, field, fact, note, esc, icon, navigate, backTo } from '../
 import { wofGrams, solutionGrams, bathLitres, freshFromDried, exhaustBath } from '../calc/basic.js';
 import { aluminiumAcetate, fromAvailable, isAluminiumSource, isSodiumSource } from '../calc/alum-acetate.js';
 import { all, count } from '../db.js';
-import { downloadBackup, importBackup, readFile, backupState, ensurePersistence } from '../backup.js';
+import { downloadBackup, importBackup, validateBackup, planReplace, readFile, backupState, ensurePersistence } from '../backup.js';
 import { VERSION } from '../version.js';
 import { text } from '../i18n.js';
 
@@ -488,9 +488,23 @@ export default {
         if (!file) return;
         try {
           const payload = await readFile(file);
-          if (importMode === 'replace' && !confirm(t('backup.confirmReplace'))) {
-            e.target.value = '';
-            return;
+          // Refused BEFORE anything is asked (§13ft). The confirmation used to
+          // come first, so a person agreed to lose her newer work on behalf of
+          // a file that then turned out not to be a backup at all.
+          validateBackup(payload);
+          if (importMode === 'replace') {
+            // The question names the file and what goes. „Everything entered
+            // after this backup is lost" is true of every backup, and so does
+            // not tell last month's file from last week's.
+            const plan = await planReplace(payload);
+            const question = t('backup.confirmReplacePlan', {
+              date: plan.exportedAt ? plan.exportedAt.slice(0, 10) : t('backup.dateUnknown'),
+              removed: plan.removedWork,
+            }) + '\n\n' + t('backup.confirmReplace');
+            if (!confirm(question)) {
+              e.target.value = '';
+              return;
+            }
           }
           const report = await importBackup(payload, importMode);
           // A snapshot restore and an add-only merge did different things and
@@ -500,7 +514,9 @@ export default {
           // how many of her newer records went.
           alert(importMode === 'replace'
             ? t('backup.restored', report)
-            : t('backup.imported', report));
+            // A merge keeps what is here; when that meant leaving out a
+            // different version of one of her records, it says so (§13ft).
+            : t('backup.imported', report) + (report.differ ? ' ' + t('backup.importedDiffer', report) : ''));
           location.reload();
         } catch (err) {
           alert(t('backup.badFile') + ' ' + (err?.message || ''));
