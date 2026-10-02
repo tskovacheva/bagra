@@ -14445,3 +14445,62 @@ summary is drawn.
 - `try-studio-screens.mjs` (Chromium): the card's rows and their order for a real eco-print work with a
   blanket and two library plants; each value; Open Trial opens the work; English labels and plant
   names; a raw piece's single row; the stored record unchanged.
+
+---
+
+## 13gf. Legacy finished pieces read their work; the label is neutral (1.0.0-rc130)
+
+### Why old finished pieces showed RAW, W or M
+
+`deriveStudioStatus` read a piece's ACTIONS. Pieces finished before the action model was whole carry
+„finish" and little else — sometimes a wash or a mordant before it — while the colouring they went
+through is recorded on the WORK: the piece is one of its pieces (`fabricIds`) in a completed eco print
+or dye bath. No dye action, so no D. `finished ⇒ D` would be wrong the other way: a piece can be
+finished washed and never coloured (§13gc).
+
+### The rule — in the one derivation everything uses
+
+`studioHistory(fabric, ctx)` (studio.js) is the piece's actions and, **only when they hold no dye
+action**, the colouring its work proves, added as a `dye` marked `derived` and placed before the
+finishing. `deriveStudioStatus`, the treatment summary, the trail and the process summary all read it, so
+the filter chips, the row, the record, the label and the summary cannot disagree. Priority: the piece's
+own actions; then the tannin projection; then the work's evidence; otherwise what the actions give.
+
+**Evidence is structured, and only this:** a work whose process colours cloth (`immersion`, `ecoprint`,
+`paste`), in which this piece is one of the pieces worked (`fabricIds` — the list a work's change
+applies to, §8.0) or which one of its own actions names (`trialId`); and the work is `complete` — or, for
+a finished piece, at least begun (a finished piece in a work never closed was worked; a planned work
+proves nothing). A box-moving action dated after the work wins. Photographs, captions, notes, names and
+guessed dates are not read.
+
+**A blanket cannot be made D by mistake.** §8.1 planned layers that point at a cloth; as built, a bundle
+layer is described in words and has no `fabricId`. A cloth used as a blanket is therefore never a piece
+of the work unless it was ticked as one — and then the model itself says it was worked.
+
+**Not stored.** Nothing is written to the piece; no migration; the backup is unchanged. `finished` stays
+its own state, shown beside the stage.
+
+**What stays unknowable.** A finished piece whose work does not list it in `fabricIds`, and none of whose
+actions names the work, has no structured link: its photographs may show a print, but nothing the
+application may read says so. Such a piece keeps the stage its actions give and needs a correction by
+hand — a dye action, or the piece ticked in its work.
+
+### The label, neutral
+
+The working label is linen on screen and white on paper, with dark text: Bagra does not print coloured
+labels; colour comes from the paper, if wanted. The stage is a mark — a 1.5 mm edge and a dot in the
+stage's token, with the stage's icon before `M · МОРДАНТИРАН` — and its code and name carry it in black
+and white. One Print; the colour-paper variant, its string and its style are gone.
+
+### Checks
+
+- `try-studio.mjs`: L1 finished, receiving piece of a completed eco print → D; L2 washed and mordanted, a
+  completed dye bath → D; L3 tanned, no work → T; L4 washed → W; L5 nothing → RAW; L6 a piece named only in
+  a blanket layer's words → not D; a finished piece in a work in progress → D, an active one → W; a planned
+  work → nothing; a later mordant wins; without the works passed in, nothing inferred; the trail
+  `W → M (AA) → D (DYE · madder)`; the summary reads the work (EP, the plants, the blanket, the date); the
+  colouring marked derived; nothing written.
+- `try-studio-screens.mjs`: L7 — a legacy piece is D in its row, the D chip excludes it and Finished
+  counts it, and its header, label and summary say D; its trail starts from the work; the stored record
+  unchanged. The label linen, the edge and dot in the chip's token, the icon present; exactly one Print;
+  printed black on white at 70 × 40 mm with the stage in code and words; the colour-paper string gone.

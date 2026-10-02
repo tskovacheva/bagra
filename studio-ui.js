@@ -16,9 +16,10 @@ export function studioStyle(hex) {
   return `--st:${hex};--st-tint:rgba(${r},${g},${b},.22)`;
 }
 
-/** The badge: icon, code, name — the colour never alone. `finished` beside it. */
-export function studioBadge(fabric, { code = true } = {}) {
-  const s = deriveStudioStatus(fabric);
+/** The badge: icon, code, name — the colour never alone. `finished` beside it.
+ *  `ctx.trials` lets a work prove a colouring the actions do not hold (§13gf). */
+export function studioBadge(fabric, { code = true, ctx = {} } = {}) {
+  const s = deriveStudioStatus(fabric, ctx);
   const lang = getLang();
   return `<span class="studiobadge" data-studio="${s.code}" style="${studioStyle(s.status.hex)}">${
     icon(s.status.icon)}${code ? `<b>${esc(s.code)}</b><span class="sep">·</span>` : ''}<span>${esc(studioLabel(s.status, lang))}</span></span>${
@@ -26,17 +27,23 @@ export function studioBadge(fabric, { code = true } = {}) {
 }
 
 /**
- * The working label (§13gc): 70 × 40 mm, the piece's own tag number, its stage
- * as code and name, what did it, and when. `ink` draws it black on white, for
- * printing on paper already the stage's colour.
+ * The working label (§13gc, redrawn at §13gf): 70 × 40 mm, the piece's own tag
+ * number, its stage as code and name, what did it, and when.
+ *
+ * The label itself is neutral — linen on screen, white on paper — with dark
+ * text: Bagra does not print coloured labels; a person who wants the colour
+ * prints on paper of that colour. The stage's colour appears only as a mark:
+ * a thin edge and a dot before the code, in the same token as the chips and
+ * badges. The code, the name and the stage's icon carry everything, so the
+ * label says it all in black and white.
  */
-export function workingLabel(fabric, ctx, { ink = false } = {}) {
-  const s = deriveStudioStatus(fabric);
+export function workingLabel(fabric, ctx) {
+  const s = deriveStudioStatus(fabric, ctx);
   const lang = getLang();
   const sum = deriveStudioTreatmentSummary(fabric, ctx, lang);
-  return `<div class="worklabel${ink ? ' ink' : ''}" data-studio="${s.code}" style="${studioStyle(s.status.hex)}">
+  return `<div class="worklabel" data-studio="${s.code}" style="${studioStyle(s.status.hex)}">
     <div class="wl-id">${esc(fabric.label || '—')}</div>
-    <div class="wl-stage">${esc(s.code)} · ${esc(studioLabel(s.status, lang).toLocaleUpperCase(lang))}</div>
+    <div class="wl-stage"><span class="wl-dot" aria-hidden="true"></span>${icon(s.status.icon)}<span>${esc(s.code)} · ${esc(studioLabel(s.status, lang).toLocaleUpperCase(lang))}</span></div>
     ${sum.text ? `<div class="wl-what">${esc(sum.text)}</div>` : ''}
     ${sum.date ? `<div class="wl-date">${esc(fmtDate(sum.date))}</div>` : ''}
   </div>`;
@@ -47,11 +54,11 @@ export function workingLabel(fabric, ctx, { ink = false } = {}) {
  * own at the end of the document; the print stylesheet hides every other child
  * of <body> while `printing-label` is set, and the container goes after.
  */
-export function printWorkingLabel(fabric, ctx, opts) {
+export function printWorkingLabel(fabric, ctx) {
   document.getElementById('printlabel')?.remove();
   const box = document.createElement('div');
   box.id = 'printlabel';
-  box.innerHTML = workingLabel(fabric, ctx, opts);
+  box.innerHTML = workingLabel(fabric, ctx);
   document.body.appendChild(box);
   document.body.classList.add('printing-label');
   const done = () => {

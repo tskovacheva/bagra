@@ -46,11 +46,67 @@ export const studioLabel = (s, lang) => (lang === 'en' ? s.en : s.bg);
 
 const byDate = (a, b) => (a.date || '').localeCompare(b.date || '') || (a.createdAt || '').localeCompare(b.createdAt || '');
 
+// ---- the history the studio reads (§13gf) -----------------------------------------
+//
+// The piece's own actions, and — only when they hold no colouring at all — the
+// colouring its WORK proves. Pieces finished before the action model was whole
+// carry „finish" and little else, while the work they went through says, in
+// structured fields, that they were dyed or printed. The work is read, never
+// written back: the result is a history the studio sees, with the colouring
+// marked `derived`.
+//
+// The evidence is structured and nothing else: a work whose process colours
+// cloth (immersion, eco print, paste), in which THIS piece is one of the pieces
+// worked (`fabricIds` — the list a work's state change applies to, §8.0) or
+// which one of its own actions names (`trialId`). The work must be complete —
+// or, for a finished piece, at least begun: a finished piece in a work never
+// closed was worked; a planned work proves nothing. A blanket is a layer
+// described in words, not a piece (§8.1 as built), so it cannot be proved
+// dyed by a work it was laid in. Photographs, notes and names are not read. A
+// box-moving action dated after the work wins: a piece mordanted again later
+// is at that later stage.
+const COLOURS_CLOTH = (p) => /^ecoprint/.test(p) || p === 'immersion' || p === 'paste';
+const isFinished = (fabric, hist) => {
+  const moves = hist.filter(a => a.actionCode && movesBox(a.actionCode));
+  if (moves.length) return moves[moves.length - 1].actionCode === 'finish';
+  if (fabric.actions) return fabric.state === 'finished';
+  const ev = [...(fabric.stateEvents || [])].sort(byDate);
+  return ev.length ? ev[ev.length - 1].stateCode === 'finished' : fabric.state === 'finished';
+};
+const trialList = (ctx) => (ctx && ctx.trials ? (ctx.trials instanceof Map ? [...ctx.trials.values()] : ctx.trials) : []);
+
+export function colouringEvidence(fabric, ctx = {}) {
+  const hist = actionHistory(fabric);
+  if (hist.some(a => a.actionCode === 'dye')) return null;
+  const finished = isFinished(fabric, hist);
+  const named = new Set(hist.filter(a => a.trialId).map(a => a.trialId));
+  const works = trialList(ctx).filter(tr => tr && COLOURS_CLOTH(String(tr.processCode || ''))
+    && ((tr.fabricIds || []).includes(fabric.id) || named.has(tr.id))
+    && (tr.status === 'complete' || (finished && tr.status !== 'planned')));
+  if (!works.length) return null;
+  const when = (tr) => tr.finishedOn || tr.date || null;
+  works.sort((a, b) => String(when(a) || '').localeCompare(String(when(b) || '')));
+  const work = works[works.length - 1];
+  const lastMove = [...hist].reverse().find(a => a.actionCode && a.actionCode !== 'finish' && movesBox(a.actionCode));
+  if (lastMove && lastMove.date && when(work) && lastMove.date > when(work)) return null;
+  return work;
+}
+
+/** The piece's actions, with the colouring its work proves added — never stored. */
+export function studioHistory(fabric, ctx = {}) {
+  const hist = actionHistory(fabric);
+  const work = colouringEvidence(fabric, ctx);
+  if (!work) return hist;
+  const dye = { id: 'derived:' + work.id, actionCode: 'dye', trialId: work.id, date: work.finishedOn || work.date || null, derived: true };
+  const i = hist.findIndex(a => a.actionCode === 'finish');
+  return i < 0 ? [...hist, dye] : [...hist.slice(0, i), dye, ...hist.slice(i)];
+}
+
 // The box the piece's processing reached, the finishing act left out: a
 // finished piece is shown in the colour of the last stage it went through
 // (decision 2), and it is the same box `currentState` gives every other piece.
-function processingBox(fabric) {
-  const acts = actionHistory(fabric).filter(a => a.actionCode && a.actionCode !== 'finish' && movesBox(a.actionCode));
+function processingBox(fabric, hist) {
+  const acts = hist.filter(a => a.actionCode && a.actionCode !== 'finish' && movesBox(a.actionCode));
   if (acts.length) return { box: boxAfter(acts[acts.length - 1].actionCode), at: acts[acts.length - 1] };
   if (fabric.actions) return { box: fabric.state && fabric.state !== 'finished' ? fabric.state : 'unwashed', at: null };
   // Not yet migrated (stateEvents): the latest state that is not `finished`.
@@ -70,16 +126,11 @@ function processingBox(fabric) {
  *
  * @returns {{ code: string, status: object, finished: boolean, box: string }}
  */
-export function deriveStudioStatus(fabric) {
-  const hist = actionHistory(fabric);
-  const finished = (() => {
-    const moves = hist.filter(a => a.actionCode && movesBox(a.actionCode));
-    if (moves.length) return moves[moves.length - 1].actionCode === 'finish';
-    if (fabric.actions) return fabric.state === 'finished';
-    const ev = [...(fabric.stateEvents || [])].sort(byDate);
-    return ev.length ? ev[ev.length - 1].stateCode === 'finished' : fabric.state === 'finished';
-  })();
-  const { box, at } = processingBox(fabric);
+export function deriveStudioStatus(fabric, ctx = {}) {
+  const own = actionHistory(fabric);
+  const finished = isFinished(fabric, own);
+  const hist = studioHistory(fabric, ctx);
+  const { box, at } = processingBox(fabric, hist);
   let code = { unwashed: 'RAW', scoured: 'W', mordanted: 'M', dyed: 'D' }[box] || 'RAW';
   if (code === 'W') {
     const tannin = hist.filter(a => a.actionCode === 'tannin' && (!at || byDate(a, at) >= 0));
@@ -217,8 +268,8 @@ const join = (parts) => [...new Set(parts.filter(Boolean))].join(' + ');
  * @returns {{ text: string, date: string|null }}
  */
 export function deriveStudioTreatmentSummary(fabric, ctx = {}, lang = 'bg') {
-  const { code } = deriveStudioStatus(fabric);
-  const hist = actionHistory(fabric).filter(a => a.actionCode !== 'finish');
+  const { code } = deriveStudioStatus(fabric, ctx);
+  const hist = studioHistory(fabric, ctx).filter(a => a.actionCode !== 'finish');
   const last = (pred) => { const xs = hist.filter(pred); return xs.length ? xs[xs.length - 1] : null; };
   const after = (a) => hist.filter(b => byDate(b, a) > 0 || (byDate(b, a) === 0 && hist.indexOf(b) > hist.indexOf(a)));
 
@@ -253,7 +304,7 @@ export function deriveStudioTreatmentSummary(fabric, ctx = {}, lang = 'bg') {
  * @returns {{ steps: {code: string, detail: string}[], text: string, finished: boolean }}
  */
 export function deriveProcessTrail(fabric, ctx = {}, lang = 'bg') {
-  const hist = actionHistory(fabric);
+  const hist = studioHistory(fabric, ctx);
   const steps = [];
   const push = (code, detail) => {
     const prev = steps[steps.length - 1];
@@ -343,13 +394,13 @@ export function codeWithName(code, lang = 'bg') {
  *   date, trialId
  */
 export function deriveProcessSummary(fabric, ctx = {}, lang = 'bg') {
-  const s = deriveStudioStatus(fabric);
+  const s = deriveStudioStatus(fabric, ctx);
   const out = { status: s };
   const trail = deriveProcessTrail(fabric, ctx, lang);
   const prep = trail.steps.filter(x => x.code !== 'D' && x.detail).map(x => x.detail);
   if (prep.length) out.preparation = prep.join(' → ');
 
-  const hist = actionHistory(fabric).filter(a => a.actionCode === 'dye');
+  const hist = studioHistory(fabric, ctx).filter(a => a.actionCode === 'dye');
   const dye = hist.length ? hist[hist.length - 1] : null;
   if (dye) {
     const code = techniqueOf(dye, ctx);

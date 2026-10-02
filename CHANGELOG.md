@@ -12,6 +12,16 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc130 — 2 October 2026
+
+Legacy finished pieces read their work (§13gf). A piece finished before the action model was whole
+showed RAW, W or M although a completed eco print or dye bath lists it as one of its pieces. The studio
+now adds the colouring that work proves — only when the piece has no dye action, only from structured
+links (`fabricIds`, an action's `trialId`), never from photographs or notes — in the one history every
+screen reads; a later mordant wins, a planned work proves nothing, a blanket layer cannot make a cloth D.
+Nothing is stored. The studio label is neutral — linen, dark text, the stage as an edge and a dot with
+its icon — with a single Print; the colour-paper variant is gone.
+
 ## 1.0.0-rc129 — 2 October 2026
 
 Studio Process Summary v1 (§13ge). A piece's record shows what was done to it, row by row, to copy onto

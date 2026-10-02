@@ -2181,12 +2181,16 @@ table.lines input[type=number] { width: 6em; }
 .studiocard{ display:flex; flex-wrap:wrap; gap:18px; align-items:flex-start; }
 .studioside{ flex:1 1 220px; min-width:0; }
 .studiotrail{ overflow-wrap:anywhere; }
-.worklabel{ width:70mm; height:40mm; box-sizing:border-box; padding:3mm 4mm; border-radius:2mm; flex:0 0 auto;
-  background:var(--st); color:#2A2724; border:1px solid rgba(42,39,36,.35);
+.worklabel{ width:70mm; height:40mm; box-sizing:border-box; padding:3mm 4mm 3mm 5.5mm; border-radius:2mm; flex:0 0 auto;
+  position:relative; overflow:hidden; background:#FFFDF8; color:#2A2724; border:1px solid #DED8CA;
   display:flex; flex-direction:column; justify-content:space-between; font-family:var(--mono, ui-monospace, monospace); }
-.worklabel.ink{ background:#fff; border:1.2mm solid #2A2724; }
+/* The stage as a mark, not a fill (§13gf): a thin edge and a dot, in the
+   stage's own token. Everything else is dark on light. */
+.worklabel::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:1.5mm; background:var(--st); }
 .worklabel .wl-id{ font-size:6mm; font-weight:700; letter-spacing:.02em; }
-.worklabel .wl-stage{ font-size:3.6mm; font-weight:700; }
+.worklabel .wl-stage{ display:flex; align-items:center; gap:1.4mm; font-size:3.6mm; font-weight:700; }
+.worklabel .wl-stage svg{ width:3.8mm; height:3.8mm; flex:0 0 auto; }
+.worklabel .wl-dot{ width:2.6mm; height:2.6mm; border-radius:50%; background:var(--st); box-shadow:inset 0 0 0 .25mm rgba(42,39,36,.45); flex:0 0 auto; }
 .worklabel .wl-what{ font-size:3.4mm; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .worklabel .wl-date{ font-size:3.2mm; }
 #printlabel{ display:none; }
@@ -2195,7 +2199,8 @@ table.lines input[type=number] { width: 6em; }
   body.printing-label > *:not(#printlabel){ display:none !important; }
   body.printing-label{ background:#fff !important; margin:0; padding:0; }
   body.printing-label #printlabel{ display:block; }
-  body.printing-label .worklabel{ border-radius:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body.printing-label .worklabel{ border-radius:0; background:#fff; border:none; color:#000;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 }
 .processsummary th{ text-align:left; font-weight:500; color:var(--muted, #5C574E); padding:5px 14px 5px 0; vertical-align:top; white-space:nowrap; }
 .processsummary td{ padding:5px 0; overflow-wrap:anywhere; }

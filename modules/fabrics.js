@@ -194,7 +194,8 @@ async function renderList(root) {
   // `finished` beside them, uncoloured: a finished piece has left the working
   // shelves, and its tag keeps the colour of the last stage it reached. So the
   // five count the pieces still in work, and „Завършен" counts the rest.
-  const studio = new Map(fabrics.map(f => [f.id, deriveStudioStatus(f)]));
+  const studioCtx = { trials: new Map((await all('trials')).map(x => [x.id, x])) };
+  const studio = new Map(fabrics.map(f => [f.id, deriveStudioStatus(f, studioCtx)]));
   const counts = { finished: 0 };
   for (const f of fabrics) {
     const s = studio.get(f.id);
@@ -239,7 +240,7 @@ async function renderList(root) {
       <td>${esc(await label('fibre_class', fibreClass(f.composition)))}</td>
       <td>${esc(await label('fabric_structure', f.structure))}</td>
       <td class="num">${f.weightG ? f.weightG + ' ' + t('fabrics.grams') : '—'}</td>
-      <td>${studioBadge(f)}${await treatmentTags(f)}${
+      <td>${studioBadge(f, { ctx: studioCtx })}${await treatmentTags(f)}${
         cured != null ? `<span class="hint"> · ${t('common.days', { n: cured })}</span>` : ''}</td>
     </tr>`;
   }));
@@ -322,8 +323,7 @@ async function studioCard(r) {
       ${workingLabel(r, ctx)}
       <div class="studioside">
         <p class="hint">${t('fabrics.studio.labelHint')}</p>
-        <p><button class="btn quiet" data-print-label="colour">${t('fabrics.studio.print')}</button>
-           <button class="btn quiet" data-print-label="ink">${t('fabrics.studio.printInk')}</button></p>
+        <p><button class="btn quiet" data-print-label>${t('fabrics.studio.print')}</button></p>
         <h3>${t('fabrics.studio.trail')}</h3>
         <p class="mono studiotrail">${trail.text ? esc(trail.text) : `<span class="hint">${t('fabrics.studio.noTrail')}</span>`}${
           trail.finished ? ` <span class="chip">${esc(t('fabrics.studio.finished'))}</span>` : ''}</p>
@@ -341,7 +341,7 @@ function processSummaryCard(r, ctx) {
   const row = (key, value) => value ? `<tr><th scope="row">${t('fabrics.summary.' + key)}</th><td>${value}</td></tr>` : '';
   const list = (xs) => xs && xs.length ? esc(xs.join(', ')) : '';
   const rows = [
-    row('status', studioBadge(r)),
+    row('status', studioBadge(r, { ctx })),
     row('preparation', p.preparation ? `<span class="mono">${esc(p.preparation)}</span>` : ''),
     row('technique', p.technique ? esc(p.technique.label) : ''),
     row('paste', p.pasteCode ? `<span class="mono">${esc(p.pasteCode)}</span>` : ''),
@@ -429,7 +429,7 @@ async function renderRead(root, r) {
       <div class="headline">
         ${r.photoData ? `<img src="${r.photoData}" alt="">` : ''}
         <div class="headlinebody">
-          <h2>${esc(r.name || '—')} ${studioBadge(r)}</h2>
+          <h2>${esc(r.name || '—')} ${studioBadge(r, { ctx: { trials: new Map((await all('trials')).map(x => [x.id, x])) } })}</h2>
           <div class="latin">${esc(r.label || '')}</div>
           ${cured != null ? `<p class="hint">${t('fabrics.curedFor', { n: cured })}</p>` : ''}
           ${qty > 1 ? `<p class="hint">${t('fabrics.pieces', { n: qty })}</p>` : ''}
@@ -706,7 +706,7 @@ export default {
       if (e.target.closest('[data-new]')) return navigate('#/fabrics/new');
       if (e.target.closest('[data-edit]')) return navigate(`#/fabrics/${openId}/edit`);
       const pr = e.target.closest('[data-print-label]');
-      if (pr && studioRead) return printWorkingLabel(studioRead.fabric, studioRead.ctx, { ink: pr.dataset.printLabel === 'ink' });
+      if (pr && studioRead) return printWorkingLabel(studioRead.fabric, studioRead.ctx);
 
       // Handing off to the trial. Everything needed travels in the address —
       // no hidden channel — so the back button, a reload and a bookmark all
