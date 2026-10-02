@@ -11,7 +11,7 @@ import zlib from 'node:zlib';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 process.chdir(ROOT);
-const { STUDIO_STATUSES, STUDIO_CODES, codeTokens, deriveStudioStatus, deriveStudioTreatmentSummary, deriveProcessTrail, deriveProcessSummary, codeWithName } =
+const { STUDIO_STATUSES, STUDIO_CODES, codeTokens, deriveStudioStatus, deriveStudioTreatmentSummary, deriveProcessTrail, deriveProcessSummary, codeWithName, studioHistory } =
   await import('../studio.js');
 
 let failed = false;
@@ -191,6 +191,44 @@ const bare = deriveProcessSummary(F(A('wash', '2026-01-01')), cx, 'bg');
 is(Object.keys(bare).sort(), ['date', 'status'], 'a washed piece: its status and date, and no empty field at all');
 is(Object.keys(deriveProcessSummary(F(), cx, 'bg')), ['status'], 'a raw piece: its status alone');
 is(JSON.stringify(silk), frozen, 'deriving the summary writes nothing to the piece');
+
+// ---- legacy pieces: the work proves the colouring (§13gf)
+console.log('legacy reconstruction');
+const W = (id, processCode, status, fabricIds, extra = {}) => ({ id, processCode, status, fabricIds, date: '2025-06-10', placements: [], steps: [], ...extra });
+const legacyTrials = new Map([
+  ['w-ep', W('w-ep', 'ecoprint', 'complete', ['L1'], { placements: [{ plantId: 'seed:eucalyptus_cinerea' }],
+    bundle: { layers: [{ kind: 'carrier_blanket', what: 'П-120 памук', prep: { treatment: 'Fe' } }] } })],
+  ['w-dye', W('w-dye', 'immersion', 'complete', ['L2'], { placements: [{ plantId: 'seed:rubia_tinctorum' }] })],
+  ['w-open', W('w-open', 'ecoprint', 'in_progress', ['L1b', 'Lact'])],
+  ['w-plan', W('w-plan', 'ecoprint', 'planned', ['Lplan'])],
+  ['w-early', W('w-early', 'immersion', 'complete', ['Llate'], { date: '2025-01-01' })],
+]);
+const lx = { recipes, trials: legacyTrials, plants };
+const L = (id, ...actions) => ({ id, label: 'П-' + id, actions });
+const ls = (f) => { const r = deriveStudioStatus(f, lx); return r.code + (r.finished ? '+finished' : ''); };
+const done = (d = '2025-07-01') => A('finish', d);
+is(ls(L('L1', done())), 'D+finished', 'L1: finished, no dye action, the receiving piece of a completed eco print → D');
+is(ls(L('L2', A('wash', '2025-05-01'), A('mordant', '2025-05-02', { recipeId: 'seed:aluminium-acetate-mordant' }), done())), 'D+finished',
+   'L2: finished, washed and mordanted, a completed dye bath → D');
+is(ls(L('L3', A('wash', '2025-05-01'), A('tannin', '2025-05-02'), done())), 'T+finished', 'L3: finished, washed and tanned, no colouring work → T, not D');
+is(ls(L('L4', A('wash', '2025-05-01'), done())), 'W+finished', 'L4: finished, washed only → W');
+is(ls(L('L5', done())), 'RAW+finished', 'L5: finished, nothing recorded, no work → RAW');
+is(ls(L('L6', A('wash', '2025-05-01'), done())), 'W+finished',
+   'L6: a piece written into an eco print\'s blanket layer, not one of its pieces → not D');
+is(ls(L('L1b', done())), 'D+finished', 'a finished piece in a work never closed was worked → D');
+is(ls(L('Lact', A('wash', '2025-05-01'))), 'W', 'an ACTIVE piece in a work still in progress is not yet coloured → W');
+is(ls(L('Lplan', done())), 'RAW+finished', 'a planned work proves nothing, finished or not');
+is(ls(L('Llate', A('wash', '2024-12-01'), A('mordant', '2025-03-01'), done('2025-04-01'))), 'M+finished',
+   'a mordant dated after the work wins: the piece is at that later stage');
+is(ls(L('L1', done())) === ls(L('L1', done())) && deriveStudioStatus(L('L1', done())).code, 'RAW', 'without the works passed in, nothing is inferred');
+const leg = L('L2', A('wash', '2025-05-01'), A('mordant', '2025-05-02', { recipeId: 'seed:aluminium-acetate-mordant' }), done());
+const legBefore = JSON.stringify(leg);
+is(deriveProcessTrail(leg, lx, 'en').text, 'W → M (AA) → D (DYE · madder)', 'its trail gains the colouring the work proves');
+const lsum = deriveProcessSummary(L('L1', done()), lx, 'bg');
+is([lsum.status.code, lsum.technique?.code, lsum.plants, lsum.blanket?.material, lsum.trialId, lsum.date],
+   ['D', 'EP', ['евкалипт'], 'П-120 памук', 'w-ep', '2025-06-10'], 'and its summary reads the work as rc129 reads any colouring');
+is(studioHistory(leg, lx).find(a => a.actionCode === 'dye')?.derived, true, 'the colouring is marked derived');
+is(JSON.stringify(leg), legBefore, 'and nothing is written to the piece');
 
 // No module stores a summary on a piece (§13ge): it is drawn, every time.
 const writers = fs.readdirSync('modules').map(f => 'modules/' + f).concat(['studio.js', 'studio-ui.js', 'migrations.js'])

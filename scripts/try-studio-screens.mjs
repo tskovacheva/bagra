@@ -58,8 +58,13 @@ await page.evaluate(async () => {
   await mk('f-d', 'П-105', [act('wash', '2026-09-28'), act('mordant', '2026-10-01', { recipeId: AA }), act('neutralise', '2026-10-02', { recipeId: CA }),
                             act('dye', '2026-10-04', { trialId: 'tr-ep' })]);
   await mk('f-fin', 'П-106', [act('wash', '2026-09-20'), act('dye', '2026-09-22'), act('finish', '2026-09-30')]);
+  // A legacy piece (§13gf): finished, nothing but the finishing recorded, and
+  // the receiving piece of a completed eco print.
+  await mk('f-leg', 'П-108', [act('finish', '2025-07-01')]);
+  await db.put('trials', db.newRecord({ id: 'w-legacy', processCode: 'ecoprint', status: 'complete', date: '2025-06-10',
+    title: 'старо еко', fabricIds: ['f-leg'], steps: [], placements: [] }));
 });
-const want = { 'f-raw': 'RAW', 'f-w': 'W', 'f-t': 'T', 'f-m': 'M', 'f-d': 'D', 'f-fin': 'D' };
+const want = { 'f-raw': 'RAW', 'f-w': 'W', 'f-t': 'T', 'f-m': 'M', 'f-d': 'D', 'f-fin': 'D', 'f-leg': 'D' };
 const hexOf = Object.fromEntries(STUDIO_STATUSES.map(s => [s.code, s.hex.toLowerCase()]));
 const go = async (h) => {
   await page.evaluate(x => { location.hash = '#/blank'; location.hash = x; }, h);
@@ -90,14 +95,14 @@ for (const width of [1280, 390]) {
     c && c.st === hexOf[s.code] && c.count === (s.code === 'D' ? '1' : '1') && c.text.includes(s.code)
       ? ok(`chip ${s.code}: its colour, its code and name, count ${c.count}`) : fail(`chip ${s.code}: ${JSON.stringify(c)}`);
   }
-  is(r.chips.finished?.count, '1', 'the finished chip counts the finished piece, uncoloured');
+  is(r.chips.finished?.count, '2', 'the finished chip counts the two finished pieces, uncoloured');
   is(r.chips.finished?.st, null, 'and carries no studio colour');
   for (const [id, code] of Object.entries(want)) {
     const row = r.rows[id];
     row && row.code === code && row.st === hexOf[code] && row.st === r.chips[code].st && row.w > 30
       ? ok(`${id}: badge ${code} in the same token as its chip, ${row.w}px wide`) : fail(`${id}: ${JSON.stringify(row)}`);
   }
-  is(r.rows['f-fin'].finished, true, 'the finished piece: D, and „finished" beside it');
+  is([r.rows['f-fin'].finished, r.rows['f-leg'].finished], [true, true], 'the finished pieces: D, and „finished" beside each');
   // Text on the badge, against the tint over the panel: readable.
   const parse = (c) => c.match(/[\d.]+/g).map(Number);
   const lumOf = ([r_, g, b]) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r_) + 0.7152 * f(g) + 0.0722 * f(b); };
@@ -116,7 +121,7 @@ for (const width of [1280, 390]) {
   const tRows = await page.evaluate(() => [...document.querySelectorAll('#view tr[data-open]')].map(tr => tr.dataset.open));
   is(tRows, ['f-t'], 'the T chip shows the tanned piece and nothing else');
   await page.click('#view .box[data-box="finished"]'); await go('#/fabrics');
-  is(await page.evaluate(() => [...document.querySelectorAll('#view tr[data-open]')].map(tr => tr.dataset.open)), ['f-fin'], 'the finished chip shows the finished piece');
+  is(await page.evaluate(() => [...document.querySelectorAll('#view tr[data-open]')].map(tr => tr.dataset.open).sort()), ['f-fin', 'f-leg'], 'the finished chip shows the finished pieces');
   await page.click('#view .box[data-box=""]'); await go('#/fabrics');
 }
 
@@ -190,26 +195,50 @@ await page.waitForFunction(() => location.hash === '#/trials/tr-ep-full', { time
   .then(() => ok('„Open Trial" opens the work'), () => fail('„Open Trial" did not open the work'));
 await go('#/fabrics/f-d');
 
+// L7 (§13gf): one legacy piece, one status, wherever it is shown.
+await go('#/fabrics/f-leg');
+const l7 = await page.evaluate(() => ({
+  head: document.querySelector('#view .headline .studiobadge')?.dataset.studio,
+  label: document.querySelector('#view .worklabel')?.dataset.studio,
+  summary: document.querySelector('#view .processsummary .studiobadge')?.dataset.studio,
+  trail: document.querySelector('#view .studiotrail')?.textContent.trim(),
+}));
+is([l7.head, l7.label, l7.summary], ['D', 'D', 'D'], 'L7: the legacy piece is D in the record\'s header, its label and its summary — as in its row');
+is(l7.trail.startsWith('D (EP)'), true, 'and its trail reads the colouring from the work');
+is(await page.evaluate(async () => (await (await import('./db.js')).get('fabrics', 'f-leg')).actions.length), 1, 'nothing was written to the piece');
+
+// The label (§13gf): neutral, the stage a mark, one Print.
+await go('#/fabrics/f-d');
+const look = await page.evaluate(() => {
+  const l = document.querySelector('#view .worklabel');
+  return { bg: getComputedStyle(l).backgroundColor, edge: getComputedStyle(l, '::before').backgroundColor,
+           dot: getComputedStyle(l.querySelector('.wl-dot')).backgroundColor, icon: !!l.querySelector('.wl-stage svg'),
+           buttons: [...document.querySelectorAll('#view [data-print-label]')].map(b => b.textContent.trim()) };
+});
+is(look.bg, 'rgb(255, 253, 248)', 'the label is linen, not filled with the stage colour');
+is([look.edge, look.dot], ['rgb(224, 138, 115)', 'rgb(224, 138, 115)'], 'the stage shows as an edge and a dot, in the same token as its chip');
+is(look.icon, true, 'with the stage\'s icon beside the code');
+is(look.buttons, ['Отпечатай етикета'], 'exactly one Print, no colour-paper variant');
 await page.evaluate(() => { window.__printed = 0; window.print = () => { window.__printed++; }; });
-for (const mode of ['colour', 'ink']) {
-  await page.click(`#view [data-print-label="${mode}"]`);
-  await page.emulateMediaType('print');
-  const pr = await page.evaluate(() => {
-    const shown = [...document.body.children].filter(el => getComputedStyle(el).display !== 'none').map(el => el.id || el.tagName.toLowerCase());
-    const lab = document.querySelector('#printlabel .worklabel');
-    const b = lab?.getBoundingClientRect();
-    return { printed: window.__printed, shown, bg: lab && getComputedStyle(lab).backgroundColor, w: Math.round(b?.width || 0), h: Math.round(b?.height || 0),
-             text: lab?.textContent.replace(/\s+/g, ' ').trim() };
-  });
-  await page.emulateMediaType('screen');
-  is(pr.shown, ['printlabel'], `print (${mode}): the label and nothing else — no navigation, no screen`);
-  is([pr.w, pr.h], [265, 151], `print (${mode}): 70 × 40 mm`);
-  is(pr.bg, mode === 'ink' ? 'rgb(255, 255, 255)' : 'rgb(224, 138, 115)', `print (${mode}): ${mode === 'ink' ? 'black on white, for coloured paper' : 'in the stage\'s colour (D, coral)'}`);
-  is(pr.text.startsWith('П-105 D · ОБАГРЕН / ОТПЕЧАТАН EP'), true, `print (${mode}): the piece's own label`);
-  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
-  is(await page.evaluate(() => [!!document.getElementById('printlabel'), document.body.classList.contains('printing-label')]), [false, false],
-     `print (${mode}): afterwards, nothing left behind`);
-}
+await page.click('#view [data-print-label]');
+await page.emulateMediaType('print');
+const pr = await page.evaluate(() => {
+  const shown = [...document.body.children].filter(el => getComputedStyle(el).display !== 'none').map(el => el.id || el.tagName.toLowerCase());
+  const lab = document.querySelector('#printlabel .worklabel'); const b = lab?.getBoundingClientRect();
+  return { printed: window.__printed, shown, bg: lab && getComputedStyle(lab).backgroundColor, fg: lab && getComputedStyle(lab).color,
+           w: Math.round(b?.width || 0), h: Math.round(b?.height || 0), text: lab?.textContent.replace(/\s+/g, ' ').trim() };
+});
+await page.emulateMediaType('screen');
+is(pr.printed, 1, 'Print prints');
+is(pr.shown, ['printlabel'], 'the label and nothing else — no navigation, no screen');
+is([pr.w, pr.h], [265, 151], '70 × 40 mm');
+is([pr.bg, pr.fg], ['rgb(255, 255, 255)', 'rgb(0, 0, 0)'], 'black on white — readable from any printer, on any paper');
+is(pr.text.startsWith('П-105 D · ОБАГРЕН / ОТПЕЧАТАН EP'), true, 'and the stage is in words and code, not in colour alone');
+await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+is(await page.evaluate(() => [!!document.getElementById('printlabel'), document.body.classList.contains('printing-label')]), [false, false],
+   'afterwards, nothing left behind');
+is(await page.evaluate(async () => { const { t } = await import('./i18n.js'); return t('fabrics.studio.printInk'); }), 'fabrics.studio.printInk',
+   'the colour-paper string is gone from the dictionary');
 
 for (const lang of ['bg', 'en']) {
   console.log(`\nLibrary, Studio System (${lang})`);
