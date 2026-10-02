@@ -14375,3 +14375,73 @@ for byte (SHA-256 `fa856059…`), and the kept record carries that hash.
 - `try-plant-id-change.mjs` (Chromium, the real rc77 record): the kept record's file answers 404; the start
   points it at `biancaea_sappan.jpg` with its credit; another plant and her trial on the old id untouched;
   run again, nothing; the plant's screen shows the photograph.
+
+---
+
+## 13ge. Studio Process Summary v1 (1.0.0-rc129)
+
+On a piece's record, under the studio label: what was done to it, in rows that can be copied onto a tag
+by hand. A projection of what is recorded; nothing is stored. „Derive first; store only what cannot be
+recovered" — and nothing in this package needed storing.
+
+### What the record knows
+
+| Detail | | From |
+|---|---|---|
+| Stage | reliable | `deriveStudioStatus` (§13gc) |
+| Preparation | reliable to the recipe | the actions' recipes, their `shortCode` or name |
+| Technique | reliable | the colouring work's `processCode`; a paste work → MP / DMP |
+| Plants (eco print) | reliable | the work's placements → plant names in the language shown |
+| Dyestuff (bath, paste) | reliable | the work's placements (§13ed) |
+| Modifier | reliable when recorded | a `post_iron` step (Fe); a `post_modifier` step's recipe or words |
+| Blanket material, treatment, bath | as written | the carrier-blanket layer's `what` and `prep` — free text, shown in her words |
+| Date, the work | reliable | the colouring action's date and `trialId` |
+| Which alternative a recipe was made with | **not knowable** | the action records the recipe, not the choice |
+| The blanket as a cloth of her own | **not knowable** | a bundle layer has no `fabricId` |
+
+**Where a choice is lost (a v1.1 candidate, not built).** Five recipes offer alternatives for one role:
+`silk-scour` and `cellulose-scour` (soap or Synthrapol), `tannin-bath` (gallnut, myrobalan or oak),
+`cellulose-alum-soda-mordant` (PAS or AS), `dye-mordant-print-paste` (guar or cornflour). An action
+records `recipeId` only, so the summary says what the recipe says — „PAS/AS + Na₂CO₃", never „PAS".
+Two places already keep a choice and could feed it later: a chain's steps (`choices`, so a group
+action run through a chain knows its option), and a paste step's own `lines` (§13ee).
+
+### The card
+
+**Обобщение на обработката / Process summary**, only the rows the record can fill, in this order:
+Етап / Status (the studio badge) · Подготовка / Preparation · Техника / Technique (code with its name,
+„EP · Еко принт") · Паста / Paste (a paste recipe's code when it is not already the technique) · Одеяло
+(BLK) / Blanket (BLK) · Обработка на одеялото / Blanket treatment · Баня на одеялото / Blanket bath ·
+Багрило / Dye · Модификатор / Modifier („Fe · Желязо / железен сулфат") · Растения / Plants · Дата /
+Date — and „Отвори опита / Open Trial" when the colouring was part of a work. A raw piece shows its
+stage and nothing else.
+
+`deriveProcessSummary(fabric, { recipes, trials, plants }, lang)` in studio.js. Preparation is the
+trail's own stages before the colouring — „AA + CaCO₃", „TAN → PAS + COT" — so there is no second
+reading of the history. An eco print's plants are its placements; a bath's and a paste's are its
+dyestuff, shown as Dye. A plant is always named, never coded; cotton is never COT.
+
+### The trail
+
+D now carries a short, recorded rider: a bath's dyestuff (`D (DYE · madder)`, two names at most), an
+eco print's blanket (`D (EP · BLK памук)`, in its own words). No plant list, no treatment text: the trail
+stays one line. The summary carries the rest.
+
+### Data
+
+No field added to any store, no `DB_VERSION`, no backup change, no lifecycle change. `try-studio.mjs`
+holds that deriving writes nothing and that no module assigns a stored summary field;
+`try-studio-screens.mjs` holds that a piece's record in the database is byte for byte the same after its
+summary is drawn.
+
+### Checks
+
+- `try-studio.mjs`: the eco-print fixture (silk; AA, chalk; EP; a cotton blanket with Fe and a madder
+  bath written on it; two plants, one placed twice) gives exactly its fields — no Dye, no Modifier; its
+  trail `W → M (AA + CaCO₃) → D (EP · BLK памук)`; plants and technique in English; a madder bath
+  `DYE · Потапящо багрене` with Dye брош and trail `D (DYE · madder)`; an iron afterbath recorded → Fe,
+  none recorded → none; a mordant print; `TAN → PAS + COT`; `PAS/AS + Na₂CO₃` not narrowed; a washed
+  piece with only its status and date; a raw piece with its status alone.
+- `try-studio-screens.mjs` (Chromium): the card's rows and their order for a real eco-print work with a
+  blanket and two library plants; each value; Open Trial opens the work; English labels and plant
+  names; a raw piece's single row; the stored record unchanged.

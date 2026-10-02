@@ -12,6 +12,16 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc129 — 2 October 2026
+
+Studio Process Summary v1 (§13ge). A piece's record shows what was done to it, row by row, to copy onto
+a tag: stage, preparation (`AA + CaCO₃`, `TAN → PAS + COT`), technique with its name (`EP · Еко
+принт`), the eco print's blanket in its own words, the dyestuff, a recorded modifier, the plants by name,
+the date, and Open Trial — only the rows the record can fill. Derived from the actions, recipes and work,
+never stored. The trail's D carries a short recorded rider (`D (EP · BLK памук)`, `D (DYE · madder)`). A
+recipe that offers alternatives is shown as it is (`PAS/AS + Na₂CO₃`); five such recipes are listed as a
+v1.1 candidate.
+
 ## 1.0.0-rc128 — 2 October 2026
 
 The sappanwood record kept from rc77 has its photograph again (§13gd). rc122 stopped shipping

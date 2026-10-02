@@ -266,7 +266,7 @@ export function deriveProcessTrail(fabric, ctx = {}, lang = 'bg') {
     if (c === 'wash') push('W', '');
     else if (c === 'tannin') push('T', actionCode(a, ctx, lang));
     else if (c === 'mordant') push('M', actionCode(a, ctx, lang));
-    else if (c === 'dye') push('D', techniqueOf(a, ctx));
+    else if (c === 'dye') push('D', [techniqueOf(a, ctx), workRider(a, ctx, lang)].filter(Boolean).join(' · '));
     else if (c === 'finish') finished = true;
     else if (c && c !== 'other' && steps.length) {
       // A treatment that moves no box belongs to the stage it followed.
@@ -276,4 +276,107 @@ export function deriveProcessTrail(fabric, ctx = {}, lang = 'bg') {
   }
   const text = steps.map(s => s.detail ? `${s.code} (${s.detail})` : s.code).join(' → ');
   return { steps, text, finished };
+}
+
+// ---- the process summary (§13ge) ------------------------------------------------
+//
+// What was done to one piece, laid out so it can be copied onto a tag by hand.
+// Everything comes from what is already recorded — the actions, the recipes
+// they name, the work the colouring was part of — and nothing is stored. What
+// the record does not know is not said: a recipe that offers PAS or AS stays
+// „PAS/AS", and a blanket is described in the words written for it.
+
+const plantName = (id, ctx, lang) => {
+  const p = id && ctx.plants ? ctx.plants.get(id) : null;
+  const n = p && p.nameCommon;
+  return n ? (typeof n === 'string' ? n : (n[lang] || n.bg || n.en || '')) : '';
+};
+const workOf = (a, ctx) => (a && a.trialId && ctx.trials ? ctx.trials.get(a.trialId) : null);
+const plantsOf = (tr, ctx, lang) => [...new Set((tr?.placements || []).map(p => plantName(p.plantId, ctx, lang)).filter(Boolean))];
+const blanketOf = (tr) => (tr?.bundle?.layers || []).find(l => l && l.kind === 'carrier_blanket') || null;
+const words = (v) => String(v || '').trim();
+
+// The short addition to D in the trail: only what is recorded and short.
+function workRider(a, ctx, lang) {
+  const tr = workOf(a, ctx);
+  if (!tr) return '';
+  const p = String(tr.processCode || '');
+  if (p.startsWith('ecoprint')) {
+    const b = blanketOf(tr);
+    return b ? ['BLK', words(b.what)].filter(Boolean).join(' ') : '';
+  }
+  const plants = plantsOf(tr, ctx, lang);
+  return plants.length > 2 ? plants.slice(0, 2).join(', ') + '…' : plants.join(', ');
+}
+
+// A modifier the work names as one: an iron afterbath is Fe; a modifier bath is
+// its recipe's code, or the words written on the step.
+function modifiersOf(tr, ctx, lang) {
+  const out = [];
+  for (const st of tr?.steps || []) {
+    if (st.typeCode === 'post_iron') out.push('Fe');
+    else if (st.typeCode === 'post_modifier') out.push(recipeCode(st.recipeId, ctx, lang) || words(st.what));
+  }
+  return [...new Set(out.filter(Boolean))];
+}
+
+/** The human name of a dictionary code, in the language shown: „EP · Eco-print". */
+export function codeWithName(code, lang = 'bg') {
+  const c = codeByName.get(code);
+  return c ? `${code} · ${lang === 'en' ? c.en : c.bg}` : code;
+}
+
+/**
+ * The process summary of a piece (§13ge) — a projection, never stored.
+ *
+ * Fields are present only when the record says them:
+ *   status       — deriveStudioStatus
+ *   preparation  — every treatment before the colouring, from the trail's own
+ *                  stages: „AA + CaCO₃", „TAN → PAS + COT"
+ *   technique    — the colouring's technique, a code with its name
+ *   pasteCode    — a paste work's paste recipe, when it has a code
+ *   dye          — a bath's or a paste's dyestuff (the work's placements)
+ *   plants       — an eco print's plants (the work's placements)
+ *   blanket      — an eco print's carrier blanket: { material, treatment, bath },
+ *                  each in the words written on the layer
+ *   modifiers    — the work's iron or modifier baths
+ *   date, trialId
+ */
+export function deriveProcessSummary(fabric, ctx = {}, lang = 'bg') {
+  const s = deriveStudioStatus(fabric);
+  const out = { status: s };
+  const trail = deriveProcessTrail(fabric, ctx, lang);
+  const prep = trail.steps.filter(x => x.code !== 'D' && x.detail).map(x => x.detail);
+  if (prep.length) out.preparation = prep.join(' → ');
+
+  const hist = actionHistory(fabric).filter(a => a.actionCode === 'dye');
+  const dye = hist.length ? hist[hist.length - 1] : null;
+  if (dye) {
+    const code = techniqueOf(dye, ctx);
+    out.technique = { code, label: codeWithName(code, lang) };
+    const tr = workOf(dye, ctx);
+    if (tr) {
+      out.trialId = tr.id;
+      const plants = plantsOf(tr, ctx, lang);
+      if (code === 'EP') {
+        if (plants.length) out.plants = plants;
+        const b = blanketOf(tr);
+        if (b) {
+          const blanket = { material: words(b.what), treatment: words(b.prep?.treatment), bath: words(b.prep?.bath) };
+          if (blanket.material || blanket.treatment || blanket.bath) out.blanket = blanket;
+        }
+      } else if (plants.length) out.dye = plants;
+      if (code === 'MP' || code === 'DMP') {
+        const paste = (tr.steps || []).map(st => ctx.recipes?.get(st.recipeId)).find(r => r && r.shortCode && /MP$/.test(r.shortCode));
+        if (paste && paste.shortCode !== code) out.pasteCode = paste.shortCode;
+      }
+      const mods = modifiersOf(tr, ctx, lang);
+      if (mods.length) out.modifiers = mods;
+    }
+    if (dye.date) out.date = dye.date;
+  } else {
+    const sum = deriveStudioTreatmentSummary(fabric, ctx, lang);
+    if (sum.date) out.date = sum.date;
+  }
+  return out;
 }

@@ -26,6 +26,7 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
+- **rc129:** Studio Process Summary v1 — derived, never stored (§13ge). v1.1 candidate: keep a recipe's chosen alternative.
 - **rc128:** kept sappanwood record shows its photograph again — repointed by hash; plant-photos table checked against the release (§13gd).
 - **rc127:** Studio System v1 — stage colours, working label, process trail, code dictionary (§13gc).
 - **rc126:** Bagra in English; Plans v1.1 (read view, source, one picture); pigment colour in the list (§13gb).
