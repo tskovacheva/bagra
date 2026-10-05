@@ -284,28 +284,46 @@ export async function importBackup(payload, mode = 'merge') {
     return report;
   }
 
-  // MERGE — what is already here wins, and the file never overwrites.
+  // MERGE — a record of hers on both sides: the NEWER version wins (§13gg).
   //
-  // That policy is unchanged. What changed at §13ft is that it is no longer
-  // silent: a record of HERS that exists on both sides and differs was reported
-  // as „skipped", in one number with every record that was simply identical,
-  // so the version in the file — an edit made on the other device — was left
-  // out without anything saying so. It is counted apart now, as `differ`, and
-  // the screen says how many. Library records she never edited are not
-  // counted: the pack decides those, not the file.
-  const report = { added: 0, replaced: 0, skipped: 0, differ: 0, removed: 0, byStore: {} };
+  // Until rc131 what was here always won and the file never overwrote. That
+  // reads safely and was wrong for the use merge actually has: a person keeping
+  // a laptop and a phone in step by backup. A plan copied to the phone earlier,
+  // then given a source and a picture on the laptop, came back from the
+  // laptop's backup as „skipped" — the phone kept the OLDER plan, the file's
+  // newer one was dropped, and the only trace was a count at the end of the
+  // message. Nothing was lost from the file; it was lost from the merge.
+  //
+  // Now, for a record of hers (`isWork`) present on both sides and different,
+  // the version with the later `updatedAt` wins: the file's replaces this one
+  // when it is newer (`updated`), this one stays when it is newer or the times
+  // cannot be compared (`differ`, as before). Every edit stamps `updatedAt`
+  // (db.put), so newer means edited later. Library records she never edited
+  // and settings are decided as before — the pack decides those, not the file.
+  // Both counts are on the screen.
+  const report = { added: 0, replaced: 0, skipped: 0, differ: 0, updated: 0, removed: 0, byStore: {} };
   let addedWork = 0;
+  const when = (r) => { const t = Date.parse(r && r.updatedAt); return Number.isFinite(t) ? t : null; };
 
   for (const name of stores) {
     const keyPath = STORES[name].keyPath;
     const existing = new Map((await all(name)).map(r => [r[keyPath], r]));
-    let added = 0, skipped = 0, differ = 0;
+    let added = 0, skipped = 0, differ = 0, updated = 0;
 
     for (const row of data[name]) {
       const here = existing.get(row[keyPath]);
       if (here) {
+        if (name !== 'settings' && isWork(row) && stable(here) !== stable(row)) {
+          const [mine, theirs] = [when(here), when(row)];
+          if (mine !== null && theirs !== null && theirs > mine) {
+            await putRaw(name, row);
+            updated++;
+            addedWork++;
+            continue;
+          }
+          differ++;
+        }
         skipped++;
-        if (name !== 'settings' && isWork(row) && stable(here) !== stable(row)) differ++;
         continue;
       }
       await putRaw(name, row);
@@ -313,10 +331,11 @@ export async function importBackup(payload, mode = 'merge') {
       if (name !== 'settings') addedWork++;
     }
 
-    report.byStore[name] = { added, skipped, differ };
+    report.byStore[name] = { added, skipped, differ, updated };
     report.added += added;
     report.skipped += skipped;
     report.differ += differ;
+    report.updated += updated;
   }
 
   // Records came in from a file; the repairs they may still need are reopened.

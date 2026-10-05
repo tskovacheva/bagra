@@ -209,9 +209,9 @@ data, and on an iPhone Safari may still remove storage for a site not used for a
 it to the home screen is safer (DOCUMENTATION_DECISIONS_NEEDED §39).
 
 **Restoring.** *Return the database to the file* is a snapshot: it asks first, naming the file's date
-and how many of your records will go, and either restores everything or nothing. *Add only what is
-missing* never overwrites; it says how many of your records differed in the file and were kept as
-they are here. A file from a newer version of the app is refused — update first (§13ft).
+and how many of your records will go, and either restores everything or nothing. *Add only what is missing* adds what this device lacks; where a record of yours is on both
+sides it keeps the newer one — the file's when it was edited later, this device's otherwise — and says how
+many of each (§13gg). A file from a newer version of the app is refused — update first (§13ft).
 
 ## Running it locally
 

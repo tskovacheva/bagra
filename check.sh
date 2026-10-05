@@ -472,6 +472,10 @@ if [ "$HAVE_SHIM" = 1 ]; then
        # filters, the record's label and trail, Print alone in colour and in
        # ink at 70 × 40 mm, the Library tab in both languages.
        node scripts/try-studio-screens.mjs $REL || exit 1
+       # A plan with a source and a picture across a backup (§13gg), each device
+       # its own empty browser profile: replace and merge onto a clean phone,
+       # and merge onto a phone holding an older copy — the case that lost them.
+       node scripts/try-plan-backup.mjs $REL || exit 1
        # Backups WRITTEN BY rc6, rc45 and rc56, restored by this build and
        # started, every screen and every record of hers opened (§11.5, §13ft).
        # In the tree since rc67 and never in the gate; the fault it was waiting

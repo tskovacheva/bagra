@@ -14504,3 +14504,44 @@ and white. One Print; the colour-paper variant, its string and its style are gon
   counts it, and its header, label and summary say D; its trail starts from the work; the stored record
   unchanged. The label linen, the edge and dot in the chip's token, the icon present; exactly one Print;
   printed black on white at 70 × 40 mm with the stage in code and words; the colour-paper string gone.
+
+---
+
+## 13gg. Merge keeps the newer version of a record of hers (1.0.0-rc131)
+
+**Reported:** a plan made on the laptop with a source, a label and a picture came back on the phone, after
+a backup and a restore, without any of them — in the read view and in the editor — while a new plan on the
+phone had the fields. Data safety, not layout.
+
+**Root cause — the merge policy, not the backup.** The picture is a JPEG data URL inside the plan record
+(`referenceImage`, §13gb); `sourceLabel` and `sourceUrl` are fields of the same record. The export
+carries every store whole, so the file holds all three byte for byte; replace writes the file's records
+as they are; merge onto a device without the plan adds it whole. All of that was right and is now proved
+end to end. What was wrong: merge onto a device that ALREADY held the plan — from an earlier backup,
+before the source and the picture were added — applied the rule of §13ft, „what is already here wins,
+the file never overwrites". The phone kept its older copy, the file's newer plan was dropped, and the
+only sign was „differ: 1" at the end of the message. Nothing was lost from the file; it was lost from the
+merge.
+
+**The rule now.** For a record of hers (`isWork`) present on both sides and different, the later
+`updatedAt` wins: the file's replaces this one when it is newer (`updated`), this one stays when it is
+newer, as new, or when either time cannot be read (`differ`). Every edit stamps `updatedAt` (`db.put`),
+so newer means edited later. Library records she never edited and settings are decided as before. The
+message says both counts: „Обновени от файла, защото там са по-нови: N" and the kept ones.
+Replaced records count as added for the migration reopening of §13ft.
+
+**Backups made before rc131 are whole.** The defect was in the merge, never in the export: a file
+written by any version since Plans v1.1 holds the source, the label and the picture. Merging it again
+with rc131 updates the older copy; a replace restores it too.
+
+**Checks.**
+- `scripts/try-plan-backup.mjs` (new, release gate; Chromium, each device its own empty browser
+  profile): a plan with title, notes, checklist, source, label and a 640-px picture, exported; the file
+  holds all of it byte for byte; onto a clean phone by replace, onto a clean phone by merge, and onto a
+  phone holding an older copy by merge — each reloaded, the plan opened, its source and link shown, its
+  picture DECODED at 640 px, its id, checklist, picture and `updatedAt` the same. Seen failing on rc130's
+  backup.js in exactly the older-copy case, and passing in the clean ones — which is why the round trips
+  of §13ft did not catch it: they restored onto devices that did not hold the plan.
+- `try-data-safety.mjs` gains `mergeOverOlder`: the file's newer plan replaces an older copy with its
+  source, label and picture, and the merge reports it; a trial edited on the device after the backup is
+  kept and reported; work only on the device untouched; every other record of hers identical.

@@ -12,6 +12,15 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc131 — 2 October 2026
+
+Data safety (§13gg). A plan's source, label and picture vanished on the phone after a backup and a
+restore. The backup held them; the MERGE dropped them: the phone already had an older copy of the plan,
+and merge kept what was there. Merge now keeps the newer version of a record of hers by `updatedAt` —
+the file's when it was edited later, this device's otherwise — and says how many of each. Backups made
+before are whole: merging them again restores what was missing. New release check try-plan-backup.mjs:
+a plan with a picture across clean and older-copy devices, the picture decoded on screen.
+
 ## 1.0.0-rc130 — 2 October 2026
 
 Legacy finished pieces read their work (§13gf). A piece finished before the action model was whole
