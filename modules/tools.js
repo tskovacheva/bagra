@@ -516,7 +516,9 @@ export default {
             ? t('backup.restored', report)
             // A merge keeps what is here; when that meant leaving out a
             // different version of one of her records, it says so (§13ft).
-            : t('backup.imported', report) + (report.differ ? ' ' + t('backup.importedDiffer', report) : ''));
+            : t('backup.imported', report)
+              + (report.updated ? ' ' + t('backup.importedUpdated', report) : '')
+              + (report.differ ? ' ' + t('backup.importedDiffer', report) : ''));
           location.reload();
         } catch (err) {
           alert(t('backup.badFile') + ' ' + (err?.message || ''));
