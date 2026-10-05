@@ -302,6 +302,30 @@ const PHASES = {
     is(await db.getSetting('fabricLabelCounter'), 2, 'replace: the label counter came back with the work');
   },
 
+  // §13gg — the phone already holds an OLDER copy of a plan the file holds
+  // newer (the source and the picture added since). A merge used to keep the
+  // older one and report it as skipped.
+  async mergeOverOlder() {
+    const db = await import('../db.js');
+    const { importBackup } = await import('../backup.js');
+    await start();
+    const A = JSON.parse(fs.readFileSync(file('A-dump.json'), 'utf8'));
+    const backup = JSON.parse(fs.readFileSync(file('A.json'), 'utf8'));
+    const newer = A.plans.find(p => p.id === 'plan-1');
+    await db.putRaw('plans', { ...newer, sourceLabel: '', sourceUrl: '', referenceImage: '', title: 'по-стар', updatedAt: '2025-01-01T00:00:00.000Z' });
+    const mine = { id: 'local-newer', origin: 'user', title: 'тук е по-ново', steps: [], placements: [], createdAt: OLDER, updatedAt: '2026-09-30T00:00:00.000Z' };
+    await db.putRaw('trials', { ...A.trials.find(t => t.id === 'trial-eco'), title: 'редактирано тук', updatedAt: '2026-09-30T00:00:00.000Z' });
+    await db.putRaw('trials', mine);
+    const report = await importBackup(backup, 'merge');
+    await start();
+    is(stable(await db.get('plans', 'plan-1')), stable(newer), 'the file\'s newer plan replaces the older copy — source, label and picture with it');
+    is([report.updated >= 1, report.byStore.plans.updated], [true, 1], 'and the merge says it updated it');
+    is((await db.get('trials', 'trial-eco')).title, 'редактирано тук', 'a record edited HERE after the backup is kept');
+    is(report.byStore.trials.differ, 1, 'and reported as kept');
+    is(stable(await db.get('trials', 'local-newer')), stable(mine), 'work only on this device is untouched');
+    await compareWork(A, 'merge over older', { skipIds: ['trial-eco', 'seed:madder-dye', A.plants.find(p => p.photoData).id] });
+  },
+
   // A new installation with work of its own, the file merged in.
   async merge() {
     const db = await import('../db.js');
@@ -510,6 +534,7 @@ console.log('DB A — an installation that has lived, upgraded, and exported');
 try { await buildA(); } catch (e) { fail('building A stopped: ' + (e?.stack || e)); }
 run('replace');
 run('merge');
+run('mergeOverOlder');
 run('beforeApply', { BAGRA_MODE: 'replace' });
 run('beforeApply', { BAGRA_MODE: 'merge' });
 run('olderMerge');
