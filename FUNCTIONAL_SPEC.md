@@ -14545,3 +14545,30 @@ with rc131 updates the older copy; a replace restores it too.
 - `try-data-safety.mjs` gains `mergeOverOlder`: the file's newer plan replaces an older copy with its
   source, label and picture, and the merge reports it; a trial edited on the device after the backup is
   kept and reported; work only on the device untouched; every other record of hers identical.
+
+---
+
+## 13gh. Recipe cards keep their words inside (1.0.0-rc132)
+
+**Reported:** on a phone, Reference → Recipes, „Акварелна боя от пигмент" — ТИП „бои, пасти и свързващи
+вещества" ran past the card and was cut off at the edge.
+
+**Root cause, two things together.** `.typecell` and `.cond` are `inline-flex` with `white-space:nowrap`,
+which is right for the desktop table — the type sits on one line in its column — and was left in force in
+the phone's cards. And below 640 px a cell is a flex row, label beside value, where a flex item's minimum
+width is its content's: an unbreakable line of 31 characters could not shrink below its length, so it
+widened past the card — 114 px at 320 px, 89 at 360, 71 at 390. `dye-mordant-print-paste`, of the same
+type, did the same. **Why no check saw it:** the panel is `overflow:hidden`, so the page never scrolled
+sideways, and the nowrap check compares an element with itself — a span exactly as wide as its words.
+
+**The change, phone only (`max-width:640px`).** A card cell's children may shrink (`min-width:0`), the
+type and the conditions wrap (`white-space:normal`), and a cell breaks a string that has no break in it
+(`overflow-wrap:anywhere`) rather than widen the card. Two columns stay — the label beside the value is
+still readable at 320 px; the value simply takes two or three lines. No truncation, no ellipsis, no
+smaller type. The desktop table is unchanged.
+
+**Check.** `scripts/try-recipe-cards.mjs` (release gate, Chromium) measures every run of text in every
+card against the card, and every card against the window, at 320, 360, 390 and 412 px in Bulgarian and
+English, with the seeded recipes and one of hers made awkward (a name with no spaces, every fibre class);
+names the watercolour card's type in both languages; and at 1280 px holds that the table keeps its header
+row, its cells and the type on one line. Seen failing on rc131's stylesheet at every phone width.

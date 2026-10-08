@@ -476,6 +476,10 @@ if [ "$HAVE_SHIM" = 1 ]; then
        # its own empty browser profile: replace and merge onto a clean phone,
        # and merge onto a phone holding an older copy — the case that lost them.
        node scripts/try-plan-backup.mjs $REL || exit 1
+       # Recipe cards on a phone (§13gh): every run of text inside its card, every
+       # card inside the window, at 320–412 px in both languages; the desktop
+       # table unchanged.
+       node scripts/try-recipe-cards.mjs $REL || exit 1
        # Backups WRITTEN BY rc6, rc45 and rc56, restored by this build and
        # started, every screen and every record of hers opened (§11.5, §13ft).
        # In the tree since rc67 and never in the gate; the fault it was waiting

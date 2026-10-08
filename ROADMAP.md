@@ -26,6 +26,7 @@ audit; completed items are not repeated here. For the reasoning behind any decis
   fibre.
 - **rc105:** the pigment batch simplified to a journal entry (§13fg) — the pigments' own model,
   which the design packages never covered, is done for 1.0.
+- **rc132:** recipe cards on a phone keep long values inside the card (§13gh).
 - **rc131:** merge keeps the newer version of her records — a plan's source and picture no longer lost to an older copy (§13gg).
 - **rc130:** legacy finished pieces show the stage their work proves; neutral studio label, one Print (§13gf).
 - **rc129:** Studio Process Summary v1 — derived, never stored (§13ge). v1.1 candidate: keep a recipe's chosen alternative.

@@ -12,6 +12,14 @@ numbered by section and every entry from §13bq onward cites the version it ship
 
 ---
 
+## 1.0.0-rc132 — 2 October 2026
+
+Recipe cards on a phone keep their words inside (§13gh). A long type — „бои, пасти и свързващи вещества"
+— ran up to 114 px past its card: the desktop's one-line rule for the type stayed on in the cards, and a
+flex item cannot shrink below its content. Below 640 px the values now shrink and wrap, and an unbroken
+string breaks rather than widen the card; the desktop table is unchanged. New release check
+try-recipe-cards.mjs measures text against its card at 320–412 px in both languages.
+
 ## 1.0.0-rc131 — 2 October 2026
 
 Data safety (§13gg). A plan's source, label and picture vanished on the phone after a backup and a

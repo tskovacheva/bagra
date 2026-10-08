@@ -2065,6 +2065,17 @@ a,.sourcenote{overflow-wrap:anywhere}
   }
   .grid td.clip::before,.grid td.longcell::before{width:auto;display:block}
   .grid .num{text-align:left}
+  /* A value in a card wraps inside the card (§13gh). The cell is a flex row, and
+     a flex item's minimum width is its content's: with `.typecell` and `.cond`
+     kept on one line for the desktop table (nowrap), „бои, пасти и свързващи
+     вещества" could not shrink below its full length and ran past the card.
+     In a card the value takes the room beside its label and wraps there; a
+     string with no break in it — a name typed as one word — breaks rather than
+     widen the card. The desktop table is untouched. */
+  .grid td > *{min-width:0}
+  .grid td{overflow-wrap:anywhere}
+  .grid td .typecell,.grid td .cond{white-space:normal;display:inline-flex;align-items:baseline}
+  .grid td .typecell svg,.grid td .cond svg{align-self:center}
   /* The panel no longer holds anything wider than itself, so the sideways
      scroll put there as a stopgap in §13o is removed with the cause. */
   .panel.flush{overflow-x:visible}
